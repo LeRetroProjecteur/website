@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Up Close | Cinéma à Paris</title>
+    <link rel="stylesheet" href="main.css">
+
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+
+    <script>
+        $(function() {
+
+       var movies = [];
+
+       $.getJSON('classic_movies.json', function(data) {
+          $.ajaxSetup({cache:false});
+          $.each(data.movies, function(i, f) {
+            var sd = new Date()
+            sd.setDate(sd.getDate());
+            
+            var movie = f.date ;
+            var md = new Date(movie[0], movie[1]-1, movie[2])
+            var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
+            var todayStr = String(sd.getFullYear()).concat('-', String(sd.getMonth()+1), '-', String(sd.getDate()))
+            
+            if (mdStr==todayStr){
+              var tblRow = "<tr>" +
+                "<td>" + f.title + "</td>" +
+                "<td>" + f.directors + "</td>" +
+                "<td>" + f.year + "</td>" +
+                "<td>" + f.showtimes + "</td>" +
+                "</tr>"
+                $(tblRow).appendTo("#userdata tbody");
+              }
+         });
+
+       });
+
+    });
+    </script>
+  </head>
+
+  <!-- <button onclick="read_json()">Try it</button> -->
+
+  <body class="light-theme">
+
+    <h1>Que voir à Paris aujourd'hui ?</h1>
+
+    <h2>
+      <p id="date_of_today"></p>
+    </h2>
+
+    <script>
+      var d = new Date();
+      var days = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+      var months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];      
+      var dayName = days[d.getDay()];
+      var monthName = months[d.getMonth()];
+      var day = d.getUTCDate();
+      document.getElementById("date_of_today").innerHTML = dayName.concat(' ', String(d.getDate()), 
+        ' ', monthName, ' ', String(d.getFullYear()));
+    </script>
+
+    <div class="wrapper">
+    <div class="profile">
+      <table id= "userdata" border="2">
+      <thead>
+        <th>Title</th>
+        <th>Directors</th>
+        <th>Year</th>
+        <th>Showtimes</th>
+      </thead>
+      <tbody>
+      </tbody>
+      </table>
+    </div>
+    </div>
+
+    <div>
+      <button class="btn">Dark</button>
+    </div>
+    <script src="app.js"></script>
+    <noscript>You need to enable JavaScript to view the full site.</noscript>
+  </body>
+</html>
