@@ -44,15 +44,31 @@
 
   <body class="light-theme">
 
-    <img src="up_close.png" alt="Up Close Cinéma" class="center">
+    <br>
+    <center>
+      Vous souhaitez recevoir des recommandations cinéma toutes les semaines ?
+      <br>
+      <a href="https://list-manage.us6.list-manage.com/subscribe?u=00a9245e71d3375ef4542a588&id=3270cdb251">Abonnez-vous à notre newsletter !</a>
+    </center>
 
-    <h1>Que voir à Paris aujourd'hui ?</h1>
+    <br>
 
+    <a href="index.html">
+      <img src="up_close.png" alt="Up Close Cinéma" class="center" style="max-width: 250px;">
+    </a>
+
+    <hr>
+    <h1>Que voir à Paris ?</h1>
+    <h2><i>Séances spéciales et ressorties</i></h2>
+    <hr>
+
+    <br>
     <h2>
-      <input type="button" name="backward_button" value= "<" onclick="move_date_backward()">
+      <input type="button" class="button" name="backward_button" value= "◀" onclick="move_date_backward()">
       <span id="date_of_today"></span>
-      <input type="button" name="forward_button" value= ">" onclick="move_date_forward()">
+      <input type="button" class="button" name="forward_button" value= "▶" onclick="move_date_forward()">
     </h2>
+    <br>
 
     <script>
       var selected_date = new Date();
@@ -157,8 +173,8 @@
     <div class="profile">
       <table id= "userdata" border="2" class="center">
       <thead>
-        <th style="width:50%">Film</th>
-        <th style="width:50%">Séances</th>
+        <th style="width:50%;background-color:var(--red);color:var(--white)">Film</th>
+        <th style="width:50%;background-color:var(--red);color:var(--white)">Séances</th>
       </thead>
       <tbody>
       </tbody>
@@ -166,9 +182,18 @@
     </div>
     </div>
 
-    <div>
+    <br>
+    <br>
+    <br>
+
+    <footer>
+      ©  L'éclaireur des Salles Obscures 2021.
+    </footer>
+
+    <br>
+    <!-- <div>
       <button class="btn">Dark Mode!</button>
-    </div>
+    </div> -->
     <script src="app.js"></script>
     <noscript>You need to enable JavaScript to view the full site.</noscript>
   </body>
