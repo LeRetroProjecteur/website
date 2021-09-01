@@ -10,67 +10,155 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
 
     <script>
-        $(function() {
+      $(function() {
 
-       var movies = [];
+      document.getElementById("date_of_today").innerHTML = dayName.concat(
+        ' ', String(selected_date.getDate()),
+        ' ', monthName,
+        ', ', String(selected_date.getFullYear())
+      );
+      var movies = [];
 
        $.getJSON('classic_movies.json', function(data) {
           $.ajaxSetup({cache:false});
           $.each(data.movies, function(i, f) {
-            var sd = new Date()
-            sd.setDate(sd.getDate());
-            
+            var sd = selected_date
             var movie = f.date ;
             var md = new Date(movie[0], movie[1]-1, movie[2])
             var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
             var todayStr = String(sd.getFullYear()).concat('-', String(sd.getMonth()+1), '-', String(sd.getDate()))
-            
+
             if (mdStr==todayStr){
               var tblRow = "<tr>" +
-                "<td>" + f.title + "</td>" +
-                "<td>" + f.directors + "</td>" +
-                "<td>" + f.year + "</td>" +
+                "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
                 "<td>" + f.showtimes + "</td>" +
                 "</tr>"
                 $(tblRow).appendTo("#userdata tbody");
               }
          });
-
        });
 
     });
     </script>
   </head>
 
-  <!-- <button onclick="read_json()">Try it</button> -->
-
   <body class="light-theme">
+
+    <img src="up_close.png" alt="Up Close Cinéma" class="center">
 
     <h1>Que voir à Paris aujourd'hui ?</h1>
 
     <h2>
-      <p id="date_of_today"></p>
+      <input type="button" name="backward_button" value= "<" onclick="move_date_backward()">
+      <span id="date_of_today"></span>
+      <input type="button" name="forward_button" value= ">" onclick="move_date_forward()">
     </h2>
 
     <script>
-      var d = new Date();
-      var days = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
-      var months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];      
-      var dayName = days[d.getDay()];
-      var monthName = months[d.getMonth()];
-      var day = d.getUTCDate();
-      document.getElementById("date_of_today").innerHTML = dayName.concat(' ', String(d.getDate()), 
-        ' ', monthName, ' ', String(d.getFullYear()));
+      var selected_date = new Date();
+      var forward_date = selected_date.setDate(selected_date.getDate()+1);
+      var behind_date = selected_date.setDate(selected_date.getDate()-1);
+
+      var days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+      var months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+      dayName = days[selected_date.getDay()];
+      monthName = months[selected_date.getMonth()];
+      var day = selected_date.getUTCDate();
+      // document.getElementById("date_of_today").innerHTML = dayName.concat(' ', String(selected_date.getDate()),
+      //   ' ', monthName, ' ', String(selected_date.getFullYear()));
     </script>
+
+    <script>
+      dayName = days[forward_date.getDay()];
+      monthName = months[forward_date.getMonth()];
+      var forward_date_str = dayName.concat(' ', String(forward_date.getDate()),
+         ' ', monthName, ' ', String(forward_date.getFullYear()));
+      document.getElementById("forward_button").value = forward_date_str;
+
+      dayName = days[backward_date.getDay()];
+      monthName = months[backward_date.getMonth()];
+      var backward_date_str = dayName.concat(' ', String(backward_date.getDate()),
+         ' ', monthName, ' ', String(backward_date.getFullYear()));
+      document.getElementById("backward_button").value = backward_date_str;
+    </script>
+
+    <script>
+      function move_date_forward() {
+        selected_date.setDate(selected_date.getDate()+1);
+        dayName = days[selected_date.getDay()];
+        monthName = months[selected_date.getMonth()];
+        document.getElementById("date_of_today").innerHTML = dayName.concat(
+          ' ', String(selected_date.getDate()),
+          ' ', monthName,
+          ', ', String(selected_date.getFullYear())
+        );
+
+         $('#userdata tbody').empty();
+         $.getJSON('classic_movies.json', function(data) {
+          $.ajaxSetup({cache:false});
+          $.each(data.movies, function(i, f) {
+
+            var movie = f.date ;
+            var md = new Date(movie[0], movie[1]-1, movie[2])
+            var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
+            var todayStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-',
+             String(selected_date.getDate()))
+
+            if (mdStr==todayStr){
+              var tblRow = "<tr>" +
+                "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+                "<td>" + f.showtimes + "</td>" +
+                "</tr>"
+                $(tblRow).appendTo("#userdata tbody");
+              }
+         });
+       });
+
+      }
+    </script>
+
+    <script>
+      function move_date_backward() {
+        selected_date.setDate(selected_date.getDate()-1);
+        dayName = days[selected_date.getDay()];
+        monthName = months[selected_date.getMonth()];
+        document.getElementById("date_of_today").innerHTML = dayName.concat(
+          ' ', String(selected_date.getDate()),
+          ' ', monthName,
+          ', ', String(selected_date.getFullYear())
+        );
+
+        $('#userdata tbody').empty();
+        $.getJSON('classic_movies.json', function(data) {
+          $.ajaxSetup({cache:false});
+          $.each(data.movies, function(i, f) {
+
+            var movie = f.date ;
+            var md = new Date(movie[0], movie[1]-1, movie[2])
+            var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
+            var todayStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-',
+             String(selected_date.getDate()))
+
+            if (mdStr==todayStr){
+              var tblRow = "<tr>" +
+                "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+                "<td>" + f.showtimes + "</td>" +
+                "</tr>"
+                $(tblRow).appendTo("#userdata tbody");
+              }
+         });
+       });
+
+      }
+    </script>
+
 
     <div class="wrapper">
     <div class="profile">
-      <table id= "userdata" border="2">
+      <table id= "userdata" border="2" class="center">
       <thead>
-        <th>Title</th>
-        <th>Directors</th>
-        <th>Year</th>
-        <th>Showtimes</th>
+        <th style="width:50%">Film</th>
+        <th style="width:50%">Séances</th>
       </thead>
       <tbody>
       </tbody>
@@ -79,7 +167,7 @@
     </div>
 
     <div>
-      <button class="btn">Dark</button>
+      <button class="btn">Dark Mode!</button>
     </div>
     <script src="app.js"></script>
     <noscript>You need to enable JavaScript to view the full site.</noscript>

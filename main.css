@@ -2,41 +2,41 @@
   --green: #00FF00;
   --white: #ffffff;
   --black: #000000;
-}
-body {
-    font-family: monospace;
-}
-ul {
-    font-family: helvetica;
-}
-li {
-  list-style: circle;
-}
-.list {
-  list-style: square;
-}
-#msg {
-  font-family: monospace;
-}
-.light-theme {
-  --bg: var(--green);
-  --fontColor: var(--black);
-}
-.dark-theme {
-  --bg: var(--black);
-  --fontColor: var(--green);
+  --lightred: #fff2f2;
 }
 * {
   color: var(--fontColor);
-  font-family: helvetica;
+  font-family: lora,georgia,times new roman,serif;
 }
 body {
     background: var(--bg);
 }
+h1{
+  text-align: center;
+}
+h2{
+  text-align: center;
+}
+table{
+  width:75%;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 15px;
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  /* width: 50%; */
+}
 .btn {
   position: absolute;
-  top: 20px;
-  left: 500px;
+  top: 50px;
+  left: 50px;
   height: 50px;
   width: 50px;
   border-radius: 50%;
@@ -46,12 +46,11 @@ body {
 }
 .btn:focus { outline-style: none; }
 .light-theme {
-  --bg: var(--green);
+  --bg: var(--lightred);
   --fontColor: var(--black);
   --btnBg: var(--black);
   --btnFontColor: var(--white);
 }
-
 .dark-theme {
   --bg: var(--black);
   --fontColor: var(--green);
