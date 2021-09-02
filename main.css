@@ -5,6 +5,7 @@
   --lightred: #fff2f2;
   --red: #ff4d4d;
   --max_width: 1000px;
+  --date_font_size: min(5vw, 28px);
 }
 * {
   color: var(--fontColor);
@@ -13,8 +14,11 @@
 body {
     background: var(--bg);
 }
-h1, h2, footer{
+h1, h2, h3, footer{
   text-align: center;
+}
+h3 {
+  font-size: min(3vw, 36px);
 }
 table{
   border: 1px solid black;
@@ -41,11 +45,14 @@ hr{
   /* margin: 4px 2px; */
   text-align: center;
   text-decoration: none;
-  font-size: 20px;
   cursor: pointer;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+}
+#logo-wrap {
+    max-width: 350px;
+    display:block;
 }
 .center {
   /* display: inline; */
@@ -53,6 +60,7 @@ hr{
   margin-right: auto;
   width: 100%;
   max-width: var(--max_width);
+  margin:auto;
 }
 /* .btn {
   position: absolute;

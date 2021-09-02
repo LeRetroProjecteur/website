@@ -53,9 +53,11 @@
 
     <br>
 
-    <a href="index.html">
-      <img src="up_close.png" alt="Up Close Cinéma" class="center" style="max-width: 350px;display:block">
-    </a>
+    <div id="logo-wrap" class="center">
+      <a href="index.html">
+        <img src="up_close.png" alt="Up Close Cinéma" class="center">
+      </a>
+    </div>
 
     <hr>
     <h1>Que voir à Paris ?</h1>
@@ -63,11 +65,11 @@
     <hr>
 
     <br>
-    <h2>
-      <input type="button" class="button" name="backward_button" value= "◀" onclick="move_date_backward()">
-      <span id="date_of_today"></span>
-      <input type="button" class="button" name="forward_button" value= "▶" onclick="move_date_forward()">
-    </h2>
+    <center>
+    <input type="button" class="button" name="backward_button" value= "◀" onclick="move_date_backward()" style="font-size: var(--date_font_size);">
+    <span id="date_of_today" class="center" style="font-size: var(--date_font_size);"></span>
+    <input type="button" class="button" name="forward_button" value= "▶" onclick="move_date_forward()" style="font-size: var(--date_font_size);">
+    </center>
     <br>
 
     <script>
@@ -87,22 +89,20 @@
         selected_date.setDate(selected_date.getDate()+1);
         dayName = days[selected_date.getDay()];
         monthName = months[selected_date.getMonth()];
-
         document.getElementById("date_of_today").innerHTML = dayName.concat(
           ' ', String(selected_date.getDate()),
           ' ', monthName,
           ', ', String(selected_date.getFullYear())
         );
-        var movies = [];
 
+        $('#userdata tbody').empty();
         $.getJSON('classic_movies.json', function(data) {
           $.ajaxSetup({cache:false});
           $.each(data.movies, function(i, f) {
-            var sd = selected_date
             var movie = f.date ;
             var md = new Date(movie[0], movie[1]-1, movie[2])
             var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
-            var todayStr = String(sd.getFullYear()).concat('-', String(sd.getMonth()+1), '-', String(sd.getDate()))
+            var todayStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
 
             if (mdStr==todayStr){
               var tblRow = "<tr>" +
@@ -135,19 +135,17 @@
             var movie = f.date ;
             var md = new Date(movie[0], movie[1]-1, movie[2])
             var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
-            var todayStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-',
-             String(selected_date.getDate()))
+            var todayStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
 
             if (mdStr==todayStr){
               var tblRow = "<tr>" +
                 "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
                 "<td>" + f.showtimes + "</td>" +
                 "</tr>"
-                $(tblRow).appendTo("#userdata tbody");
-              }
-         });
-       });
-
+              $(tblRow).appendTo("#userdata tbody");
+            }
+          });
+        });
       }
     </script>
 
