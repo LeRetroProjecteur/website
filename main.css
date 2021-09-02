@@ -4,6 +4,7 @@
   --black: #000000;
   --lightred: #fff2f2;
   --red: #ff4d4d;
+  --max_width: 1000px;
 }
 * {
   color: var(--fontColor);
@@ -27,7 +28,7 @@ th, td {
 }
 tr:nth-child(even) {background-color: var(--lightred);}
 hr{
-  max-width: 1000px;
+  max-width: var(--max_width);
   border-width:0;
   background-color:red;
   height:4px;
@@ -42,15 +43,18 @@ hr{
   text-decoration: none;
   font-size: 20px;
   cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 .center {
-  display: block;
+  /* display: inline; */
   margin-left: auto;
   margin-right: auto;
   width: 100%;
-  max-width: 1000px;
+  max-width: var(--max_width);
 }
-.btn {
+/* .btn {
   position: absolute;
   top: 50px;
   left: 50px;
@@ -73,4 +77,4 @@ hr{
   --fontColor: var(--green);
   --btnBg: var(--white);
   --btnFontColor: var(--black);
-}
+} */

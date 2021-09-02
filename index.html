@@ -12,14 +12,14 @@
     <script>
       $(function() {
 
-      document.getElementById("date_of_today").innerHTML = dayName.concat(
-        ' ', String(selected_date.getDate()),
-        ' ', monthName,
-        ', ', String(selected_date.getFullYear())
-      );
-      var movies = [];
+        document.getElementById("date_of_today").innerHTML = dayName.concat(
+          ' ', String(selected_date.getDate()),
+          ' ', monthName,
+          ', ', String(selected_date.getFullYear())
+        );
+        var movies = [];
 
-       $.getJSON('classic_movies.json', function(data) {
+        $.getJSON('classic_movies.json', function(data) {
           $.ajaxSetup({cache:false});
           $.each(data.movies, function(i, f) {
             var sd = selected_date
@@ -33,13 +33,13 @@
                 "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
                 "<td>" + f.showtimes + "</td>" +
                 "</tr>"
-                $(tblRow).appendTo("#userdata tbody");
-              }
-         });
-       });
-
-    });
+              $(tblRow).appendTo("#userdata tbody");
+            }
+          });
+        });
+      });
     </script>
+
   </head>
 
   <body class="light-theme">
@@ -48,13 +48,13 @@
     <center>
       Vous souhaitez recevoir des recommandations cinéma toutes les semaines ?
       <br>
-      <a href="https://list-manage.us6.list-manage.com/subscribe?u=00a9245e71d3375ef4542a588&id=3270cdb251">Abonnez-vous à notre newsletter !</a>
+      <a href="https://list-manage.us6.list-manage.com/subscribe?u=00a9245e71d3375ef4542a588&id=3270cdb251" target="_blank">Abonnez-vous à notre newsletter !</a>
     </center>
 
     <br>
 
     <a href="index.html">
-      <img src="up_close.png" alt="Up Close Cinéma" class="center" style="max-width: 250px;">
+      <img src="up_close.png" alt="Up Close Cinéma" class="center" style="max-width: 350px;display:block">
     </a>
 
     <hr>
@@ -80,22 +80,6 @@
       dayName = days[selected_date.getDay()];
       monthName = months[selected_date.getMonth()];
       var day = selected_date.getUTCDate();
-      // document.getElementById("date_of_today").innerHTML = dayName.concat(' ', String(selected_date.getDate()),
-      //   ' ', monthName, ' ', String(selected_date.getFullYear()));
-    </script>
-
-    <script>
-      dayName = days[forward_date.getDay()];
-      monthName = months[forward_date.getMonth()];
-      var forward_date_str = dayName.concat(' ', String(forward_date.getDate()),
-         ' ', monthName, ' ', String(forward_date.getFullYear()));
-      document.getElementById("forward_button").value = forward_date_str;
-
-      dayName = days[backward_date.getDay()];
-      monthName = months[backward_date.getMonth()];
-      var backward_date_str = dayName.concat(' ', String(backward_date.getDate()),
-         ' ', monthName, ' ', String(backward_date.getFullYear()));
-      document.getElementById("backward_button").value = backward_date_str;
     </script>
 
     <script>
@@ -103,33 +87,32 @@
         selected_date.setDate(selected_date.getDate()+1);
         dayName = days[selected_date.getDay()];
         monthName = months[selected_date.getMonth()];
+
         document.getElementById("date_of_today").innerHTML = dayName.concat(
           ' ', String(selected_date.getDate()),
           ' ', monthName,
           ', ', String(selected_date.getFullYear())
         );
+        var movies = [];
 
-         $('#userdata tbody').empty();
-         $.getJSON('classic_movies.json', function(data) {
+        $.getJSON('classic_movies.json', function(data) {
           $.ajaxSetup({cache:false});
           $.each(data.movies, function(i, f) {
-
+            var sd = selected_date
             var movie = f.date ;
             var md = new Date(movie[0], movie[1]-1, movie[2])
             var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
-            var todayStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-',
-             String(selected_date.getDate()))
+            var todayStr = String(sd.getFullYear()).concat('-', String(sd.getMonth()+1), '-', String(sd.getDate()))
 
             if (mdStr==todayStr){
               var tblRow = "<tr>" +
                 "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
                 "<td>" + f.showtimes + "</td>" +
                 "</tr>"
-                $(tblRow).appendTo("#userdata tbody");
-              }
-         });
-       });
-
+              $(tblRow).appendTo("#userdata tbody");
+            }
+          });
+        });
       }
     </script>
 
@@ -173,8 +156,8 @@
     <div class="profile">
       <table id= "userdata" border="2" class="center">
       <thead>
-        <th style="width:50%;background-color:var(--red);color:var(--white)">Film</th>
-        <th style="width:50%;background-color:var(--red);color:var(--white)">Séances</th>
+        <th style="width:50%;background-color:var(--red);color:var(--white);">Film</th>
+        <th style="width:50%;background-color:var(--red);color:var(--white);">Séances</th>
       </thead>
       <tbody>
       </tbody>
