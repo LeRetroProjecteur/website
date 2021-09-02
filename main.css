@@ -5,7 +5,7 @@
   --lightred: #fff2f2;
   --red: #ff4d4d;
   --max_width: 1000px;
-  --date_font_size: min(5vw, 28px);
+  --date_font_size: min(4vw, 24px);
 }
 * {
   color: var(--fontColor);
@@ -26,7 +26,7 @@ table{
   width:75%;
 }
 th, td {
-  padding: 15px;
+  padding: 10px;
   border: 1px solid black;
   border-collapse: collapse;
 }
