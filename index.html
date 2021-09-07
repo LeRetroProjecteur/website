@@ -42,10 +42,10 @@
         var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
         var todayStr = String(sd.getFullYear()).concat('-', String(sd.getMonth()+1), '-', String(sd.getDate()))
         
-        var showtime_splits = f.showtimes.split(":")
-        var last_show_time = parseInt(showtime_splits[showtime_splits.length - 1].substring(0,3));
-        
-        if (mdStr==todayStr && last_show_time>=sd.getHours()){
+        //var showtime_splits = f.showtimes.split(":")
+        //var last_show_time = parseInt(showtime_splits[showtime_splits.length - 1].substring(0,3));
+        // && last_show_time>=sd.getHours()
+        if (mdStr==todayStr){
           var tblRow = "<tr>" +
             "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
             "<td>" + f.showtimes + "</td>" +
