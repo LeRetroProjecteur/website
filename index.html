@@ -8,42 +8,56 @@
     <link rel="stylesheet" href="main.css">
 
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
-
-    <script>
-      $(function() {
-
-        document.getElementById("date_of_today").innerHTML = dayName.concat(
-          ' ', String(selected_date.getDate()),
-          ' ', monthName,
-          ', ', String(selected_date.getFullYear())
-        );
-        var movies = [];
-
-        $.getJSON('classic_movies.json', function(data) {
-          $.ajaxSetup({cache:false});
-          $.each(data.movies, function(i, f) {
-            var sd = selected_date
-            var movie = f.date ;
-            var md = new Date(movie[0], movie[1]-1, movie[2])
-            var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
-            var todayStr = String(sd.getFullYear()).concat('-', String(sd.getMonth()+1), '-', String(sd.getDate()))
-
-            if (mdStr==todayStr){
-              var tblRow = "<tr>" +
-                "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
-                "<td>" + f.showtimes + "</td>" +
-                "</tr>"
-              $(tblRow).appendTo("#userdata tbody");
-            }
-          });
-        });
-      });
-    </script>
-
+    <script type="text/javascript" src="app.js"></script>
   </head>
+          
+  <script>
+            var selected_date = new Date();
+            var forward_date = selected_date.setDate(selected_date.getDate()+1);
+            var behind_date = selected_date.setDate(selected_date.getDate()-1);
+
+            var days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+            var months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+            dayName = days[selected_date.getDay()];
+            monthName = months[selected_date.getMonth()];
+            var day = selected_date.getUTCDate();      
+  </script>
+  
+
+  <script>
+    $(function() {
+    document.getElementById("date_of_today").innerHTML = dayName.concat(
+      ' ', String(selected_date.getDate()),
+      ' ', monthName,
+      ', ', String(selected_date.getFullYear())
+    );
+    var movies = [];
+    
+    $.getJSON('classic_movies.json', function(data) {
+      $.ajaxSetup({cache:false});
+      $.each(data.movies, function(i, f) {
+        var sd = selected_date
+        var movie = f.date ;
+        var md = new Date(movie[0], movie[1]-1, movie[2])
+        var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
+        var todayStr = String(sd.getFullYear()).concat('-', String(sd.getMonth()+1), '-', String(sd.getDate()))
+        
+        var showtime_splits = f.showtimes.split(":")
+        var last_show_time = parseInt(showtime_splits[showtime_splits.length - 1].substring(0,3));
+        
+        if (mdStr==todayStr && last_show_time>=sd.getHours()){
+          var tblRow = "<tr>" +
+            "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+            "<td>" + f.showtimes + "</td>" +
+            "</tr>"
+          $(tblRow).appendTo("#userdata tbody");
+        }
+      });
+    });
+    });
+  </script>
 
   <body class="light-theme">
-
     <br>
     <center>
       Vous souhaitez recevoir des recommandations cinéma toutes les semaines ?
@@ -55,7 +69,7 @@
 
     <div id="logo-wrap" class="center">
       <a href="index.html">
-        <img src="up_close.png" alt="Up Close Cinéma" class="center">
+        <img src="up_close.png" alt="Up Close Cinéma" class="center" height="175">
       </a>
     </div>
 
@@ -73,19 +87,49 @@
     <br>
 
     <script>
-      var selected_date = new Date();
-      var forward_date = selected_date.setDate(selected_date.getDate()+1);
-      var behind_date = selected_date.setDate(selected_date.getDate()-1);
+      async function movies_after_6pm() {
+        var tempScrollTop = $(window).scrollTop();
+        await $('#userdata tbody').empty();
+        $.getJSON('classic_movies.json', function(data) {
+          $.ajaxSetup({cache:false});
+          $.each(data.movies, function(i, f) {
+            var movie = f.date ;
+            var md = new Date(movie[0], movie[1]-1, movie[2])
+            var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
+            var todayStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
+            
+            if (mdStr==todayStr){
+              var showtime_splits = f.showtimes.split("<br>")
+              var last_show_time = parseInt(showtime_splits[showtime_splits.length - 1].substring(0,3));
+              //var cine = showtime_splits.first()
+              //let showtime_hours = showtime_splits.map(function(s) {
+              //  elem = s.split(":")
+              //  elem.shift()
+              //  return elem
+                //showtime_hour = parseInt(s.substring(0,3));
+                //if (showtime_hour>=18){
+                //    return s;
+                //}
+              //});
 
-      var days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
-      var months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
-      dayName = days[selected_date.getDay()];
-      monthName = months[selected_date.getMonth()];
-      var day = selected_date.getUTCDate();
+              alert(f.title + showtime_splits)
+              if (last_show_time>=18){
+                var tblRow = "<tr>" +
+                  "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+                  "<td>" + f.showtimes + "</td>" +
+                  "</tr>"
+                $(tblRow).appendTo("#userdata tbody");
+              }
+            }
+          });
+        });
+        $(window).scrollTop(tempScrollTop);
+      }
     </script>
 
     <script>
-      function move_date_forward() {
+      async function move_date_forward() {
+        var tempScrollTop = $(window).scrollTop();
         selected_date.setDate(selected_date.getDate()+1);
         dayName = days[selected_date.getDay()];
         monthName = months[selected_date.getMonth()];
@@ -95,7 +139,7 @@
           ', ', String(selected_date.getFullYear())
         );
 
-        $('#userdata tbody').empty();
+        await $('#userdata tbody').empty();
         $.getJSON('classic_movies.json', function(data) {
           $.ajaxSetup({cache:false});
           $.each(data.movies, function(i, f) {
@@ -113,42 +157,69 @@
             }
           });
         });
+        $(window).scrollTop(tempScrollTop);
       }
     </script>
+
+<script>
+  function create_link1(film_name, film_id){
+      // Create anchor element.
+      var a = document.createElement('a');   
+      // Create the text node for anchor element.
+      var link = document.createTextNode(film_name);
+      // Append the text node to anchor element.
+      a.appendChild(link); 
+      // Set the title.
+      a.title = film_name; 
+      // Set the href property.
+      a.href = "https://www.allocine.fr/film/fichefilm_gen_cfilm=" + film_id + ".html"; 
+      // Append the anchor element to the body.
+      document.body.appendChild(a); 
+  }
+  function create_link(film_name, film_id) {
+  var str = film_name; 
+  var result = str.link("https://www.allocine.fr/film/fichefilm_gen_cfilm=" + film_id + ".html");
+  document.getElementById(film_name).innerHTML = result;
+}
+</script>
 
     <script>
       function move_date_backward() {
-        selected_date.setDate(selected_date.getDate()-1);
-        dayName = days[selected_date.getDay()];
-        monthName = months[selected_date.getMonth()];
-        document.getElementById("date_of_today").innerHTML = dayName.concat(
-          ' ', String(selected_date.getDate()),
-          ' ', monthName,
-          ', ', String(selected_date.getFullYear())
-        );
+        var nd = new Date()
+        if (selected_date.getDate() > nd.getDate()){
+            var tempScrollTop = $(window).scrollTop();
+            selected_date.setDate(selected_date.getDate()-1);
+            dayName = days[selected_date.getDay()];
+            monthName = months[selected_date.getMonth()];
+            document.getElementById("date_of_today").innerHTML = dayName.concat(
+              ' ', String(selected_date.getDate()),
+              ' ', monthName,
+              ', ', String(selected_date.getFullYear())
+            );
 
-        $('#userdata tbody').empty();
-        $.getJSON('classic_movies.json', function(data) {
-          $.ajaxSetup({cache:false});
-          $.each(data.movies, function(i, f) {
+            $('#userdata tbody').empty();
+            $.getJSON('classic_movies.json', function(data) {
+              $.ajaxSetup({cache:false});
+              $.each(data.movies, function(i, f) {
 
-            var movie = f.date ;
-            var md = new Date(movie[0], movie[1]-1, movie[2])
-            var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
-            var todayStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
+                var movie = f.date ;
+                var md = new Date(movie[0], movie[1]-1, movie[2])
+                var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
+                var todayStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
 
-            if (mdStr==todayStr){
-              var tblRow = "<tr>" +
-                "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
-                "<td>" + f.showtimes + "</td>" +
-                "</tr>"
-              $(tblRow).appendTo("#userdata tbody");
-            }
-          });
-        });
+                if (mdStr==todayStr){
+                  var tblRow = "<tr>" +
+                    "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+                    "<td>" + f.showtimes + "</td>" +
+                    "</tr>"
+                  $(tblRow).appendTo("#userdata tbody");
+                }
+              });
+            });
+            $(window).scrollTop(tempScrollTop);
+        }
       }
     </script>
-
 
     <div class="wrapper">
     <div class="profile">
@@ -172,10 +243,6 @@
     </footer>
 
     <br>
-    <!-- <div>
-      <button class="btn">Dark Mode!</button>
-    </div> -->
-    <script src="app.js"></script>
     <noscript>You need to enable JavaScript to view the full site.</noscript>
   </body>
 </html>
