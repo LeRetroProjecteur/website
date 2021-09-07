@@ -12,17 +12,57 @@
   </head>
           
   <script>
-            var selected_date = new Date();
-            var forward_date = selected_date.setDate(selected_date.getDate()+1);
-            var behind_date = selected_date.setDate(selected_date.getDate()-1);
+    var selected_date = new Date();
+    var forward_date = selected_date.setDate(selected_date.getDate()+1);
+    var behind_date = selected_date.setDate(selected_date.getDate()-1);
 
-            var days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
-            var months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
-            dayName = days[selected_date.getDay()];
-            monthName = months[selected_date.getMonth()];
-            var day = selected_date.getUTCDate();      
+    var days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+    var months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
+    dayName = days[selected_date.getDay()];
+    monthName = months[selected_date.getMonth()];
+    var day = selected_date.getUTCDate();      
   </script>
   
+  <script>
+    function display_real_dict(dictionnary, specified_hour){
+          new_dict = {}; 
+          max_hour = 0;
+          for (const [key, value] of Object.entries(dictionnary)){
+            for (var i = 0; i < value.length; i++){
+              hour = value[i]
+              max_hour = Math.max(max_hour, hour)
+              if (hour>=specified_hour){
+                if (key in new_dict){
+                  new_dict[key].push(hour) 
+                } else {
+                  new_dict[key] = [hour]
+                }
+              }
+            }
+          }
+          return max_hour, new_dict
+        }
+    
+        function display_showtimes(dictionnary){
+          showtime = []
+          for (const [key, value] of Object.entries(dictionnary)){
+            text_row = [];
+            for (var i = 0; i < value.length; i++){
+              hour = value[i]
+              minute = parseFloat((60*(hour - Math.floor(hour))).toPrecision(3))
+              if (minute<10){
+                minute = "0"+minute
+              } else {
+                minute = minute.toString()
+              }
+              text_row.push(Math.floor(hour).toString() + "h" + minute);
+            }
+            showtime.push(key + ": " + text_row.join(', '))
+          }
+          showtime = showtime.join("<br>")
+          return showtime
+        }
+  </script>
 
   <script>
     $(function() {
@@ -37,18 +77,20 @@
       $.ajaxSetup({cache:false});
       $.each(data.movies, function(i, f) {
         var sd = selected_date
+        var sd_hour = sd.getHours()
         var movie = f.date ;
         var md = new Date(movie[0], movie[1]-1, movie[2])
         var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
         var todayStr = String(sd.getFullYear()).concat('-', String(sd.getMonth()+1), '-', String(sd.getDate()))
+
+        max_hour = 0
+        max_hour, new_dict = display_real_dict(f.showtimes_theater, sd_hour-1)
+        real_showtime = display_showtimes(new_dict)
         
-        //var showtime_splits = f.showtimes.split(":")
-        //var last_show_time = parseInt(showtime_splits[showtime_splits.length - 1].substring(0,3));
-        // && last_show_time>=sd.getHours()
-        if (mdStr==todayStr){
+        if (mdStr==todayStr && max_hour>=sd_hour-1){
           var tblRow = "<tr>" +
             "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
-            "<td>" + f.showtimes + "</td>" +
+            "<td>" + real_showtime + "</td>" +
             "</tr>"
           $(tblRow).appendTo("#userdata tbody");
         }
@@ -60,16 +102,14 @@
   <body class="light-theme">
     <br>
     <center>
-      Vous souhaitez recevoir des recommandations cinéma toutes les semaines ?
-      <br>
-      <a href="https://list-manage.us6.list-manage.com/subscribe?u=00a9245e71d3375ef4542a588&id=3270cdb251" target="_blank">Abonnez-vous à notre newsletter !</a>
+      Pour nos recommandations cinéma toutes les semaines,
+      <!-- <br> -->
+      <a href="https://list-manage.us6.list-manage.com/subscribe?u=00a9245e71d3375ef4542a588&id=3270cdb251" target="_blank">abonnez-vous à notre newsletter !</a>
     </center>
-
-    <br>
 
     <div id="logo-wrap" class="center">
       <a href="index.html">
-        <img src="up_close.png" alt="Up Close Cinéma" class="center" height="175">
+        <img src="up_close.png" alt="Up Close Cinéma" class="center">
       </a>
     </div>
 
@@ -83,6 +123,7 @@
     <input type="button" class="button" name="backward_button" value= "◀" onclick="move_date_backward()" style="font-size: var(--date_font_size);">
     <b><span id="date_of_today" class="center" style="font-size: var(--date_font_size);"></span></b>
     <input type="button" class="button" name="forward_button" value= "▶" onclick="move_date_forward()" style="font-size: var(--date_font_size);">
+    <input type="button" class="button" name="6pm_movies" value= "☐ after 6pm?" onclick="movies_after_6pm()" style="font-size: var(--date_font_size);">
     </center>
     <br>
 
@@ -98,28 +139,17 @@
             var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
             var todayStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
             
-            if (mdStr==todayStr){
-              var showtime_splits = f.showtimes.split("<br>")
-              var last_show_time = parseInt(showtime_splits[showtime_splits.length - 1].substring(0,3));
-              //var cine = showtime_splits.first()
-              //let showtime_hours = showtime_splits.map(function(s) {
-              //  elem = s.split(":")
-              //  elem.shift()
-              //  return elem
-                //showtime_hour = parseInt(s.substring(0,3));
-                //if (showtime_hour>=18){
-                //    return s;
-                //}
-              //});
-
-              alert(f.title + showtime_splits)
-              if (last_show_time>=18){
-                var tblRow = "<tr>" +
-                  "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
-                  "<td>" + f.showtimes + "</td>" +
-                  "</tr>"
-                $(tblRow).appendTo("#userdata tbody");
-              }
+            specified_hour = 18
+            max_hour = 0
+            max_hour, new_dict = display_real_dict(f.showtimes_theater, 18)
+            real_showtime = display_showtimes(new_dict)
+            
+            if (mdStr==todayStr && max_hour>=specified_hour){              
+              var tblRow = "<tr>" +
+                "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+                "<td>" + real_showtime + "</td>" +
+                "</tr>"
+              $(tblRow).appendTo("#userdata tbody");
             }
           });
         });
