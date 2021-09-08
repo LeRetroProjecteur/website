@@ -1,6 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F5QY5F8S5L"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-F5QY5F8S5L');
+    </script>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,7 +20,7 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
     <script type="text/javascript" src="app.js"></script>
   </head>
-          
+
   <script>
     var selected_date = new Date();
     var forward_date = selected_date.setDate(selected_date.getDate()+1);
@@ -22,10 +32,10 @@
     monthName = months[selected_date.getMonth()];
     var day = selected_date.getUTCDate();
   </script>
-  
+
   <script>
     function display_real_dict(dictionnary, specified_hour){
-          new_dict = {}; 
+          new_dict = {};
           max_hour = 0;
           for (const [key, value] of Object.entries(dictionnary)){
             for (var i = 0; i < value.length; i++){
@@ -33,7 +43,7 @@
               max_hour = Math.max(max_hour, hour)
               if (hour>=specified_hour){
                 if (key in new_dict){
-                  new_dict[key].push(hour) 
+                  new_dict[key].push(hour)
                 } else {
                   new_dict[key] = [hour]
                 }
@@ -42,7 +52,7 @@
           }
           return max_hour, new_dict
         }
-    
+
         function display_showtimes(dictionnary){
           showtime = []
           for (const [key, value] of Object.entries(dictionnary)){
@@ -72,7 +82,7 @@
       ', ', String(selected_date.getFullYear())
     );
     var movies = [];
-    
+
     $.getJSON('classic_movies.json', function(data) {
       $.ajaxSetup({cache:false});
       $.each(data.movies, function(i, f) {
@@ -86,7 +96,7 @@
         max_hour = 0
         max_hour, new_dict = display_real_dict(f.showtimes_theater, sd_hour-1)
         real_showtime = display_showtimes(new_dict)
-        
+
         if (mdStr==todayStr && max_hour>=sd_hour-1){
           var tblRow = "<tr>" +
             "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
@@ -138,13 +148,13 @@
             var md = new Date(movie[0], movie[1]-1, movie[2])
             var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
             var todayStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
-            
+
             specified_hour = 18
             max_hour = 0
             max_hour, new_dict = display_real_dict(f.showtimes_theater, 18)
             real_showtime = display_showtimes(new_dict)
-            
-            if (mdStr==todayStr && max_hour>=specified_hour){              
+
+            if (mdStr==todayStr && max_hour>=specified_hour){
               var tblRow = "<tr>" +
                 "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
                 "<td>" + real_showtime + "</td>" +
@@ -194,20 +204,20 @@
 <script>
   function create_link1(film_name, film_id){
       // Create anchor element.
-      var a = document.createElement('a');   
+      var a = document.createElement('a');
       // Create the text node for anchor element.
       var link = document.createTextNode(film_name);
       // Append the text node to anchor element.
-      a.appendChild(link); 
+      a.appendChild(link);
       // Set the title.
-      a.title = film_name; 
+      a.title = film_name;
       // Set the href property.
-      a.href = "https://www.allocine.fr/film/fichefilm_gen_cfilm=" + film_id + ".html"; 
+      a.href = "https://www.allocine.fr/film/fichefilm_gen_cfilm=" + film_id + ".html";
       // Append the anchor element to the body.
-      document.body.appendChild(a); 
+      document.body.appendChild(a);
   }
   function create_link(film_name, film_id) {
-  var str = film_name; 
+  var str = film_name;
   var result = str.link("https://www.allocine.fr/film/fichefilm_gen_cfilm=" + film_id + ".html");
   document.getElementById(film_name).innerHTML = result;
 }
