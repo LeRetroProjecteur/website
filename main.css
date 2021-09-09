@@ -6,6 +6,7 @@
   --red: #ff4d4d;
   --max_width: 1000px;
   --date_font_size: min(4vw, 24px);
+  --button_font_size: min(3vw, 15px);
 }
 * {
   color: var(--fontColor);
@@ -51,7 +52,7 @@ hr{
   appearance: none;
 }
 #logo-wrap {
-    max-width: 350px;
+    max-width: 300px;
     display:block;
 }
 .center {

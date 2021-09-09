@@ -13,7 +13,7 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=0.9">
     <title>Up Close | Cinéma à Paris</title>
     <link rel="stylesheet" href="main.css">
 
@@ -23,6 +23,7 @@
 
   <script>
     var selected_date = new Date();
+    var allocine_base = 'https://www.allocine.fr/film/fichefilm_gen_cfilm=';
     var forward_date = selected_date.setDate(selected_date.getDate()+1);
     var behind_date = selected_date.setDate(selected_date.getDate()-1);
 
@@ -91,15 +92,17 @@
         var movie = f.date ;
         var md = new Date(movie[0], movie[1]-1, movie[2])
         var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
-        var todayStr = String(sd.getFullYear()).concat('-', String(sd.getMonth()+1), '-', String(sd.getDate()))
+        var sdStr = String(sd.getFullYear()).concat('-', String(sd.getMonth()+1), '-', String(sd.getDate()))
 
         max_hour = 0
         max_hour, new_dict = display_real_dict(f.showtimes_theater, sd_hour-1)
         real_showtime = display_showtimes(new_dict)
 
-        if (mdStr==todayStr && max_hour>=sd_hour-1){
+        if (mdStr==sdStr && max_hour>=sd_hour-1){
+          //movie_page = "<a href=" + allocine_base + f.id + '.html' + ">" + f.title + "</a>"
+          movie_page = f.title
           var tblRow = "<tr>" +
-            "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+            "<td><b>" + movie_page + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
             "<td>" + real_showtime + "</td>" +
             "</tr>"
           $(tblRow).appendTo("#userdata tbody");
@@ -116,8 +119,8 @@
       <!-- <br> -->
       <a href="https://list-manage.us6.list-manage.com/subscribe?u=00a9245e71d3375ef4542a588&id=3270cdb251" target="_blank">abonnez-vous à notre newsletter !</a>
     </center>
-
     <br>
+
     <div id="logo-wrap" class="center">
       <a href="index.html">
         <img src="up_close.png" alt="Up Close Cinéma" class="center">
@@ -125,7 +128,7 @@
     </div>
 
     <hr>
-    <h1>Que voir à Paris ?</h1>
+    <h1>Cinéma à Paris </h1>
     <h2><i>Séances spéciales et ressorties</i></h2>
     <hr>
 
@@ -137,8 +140,26 @@
     </center>
     <br>
 
+    <center>
+    <input type="checkbox" name="19_movies" id= "19_movies" name="19_movies" style="font-size: var(--button_font_size);">
+    <label for="subscribeNews">Séances après 19h</label>
+    </center>
+    <br>
+
     <script>
-      async function movies_after_6pm() {
+      var Checkbox19 = document.querySelector('input[name="19_movies"]');
+      Checkbox19.onchange = function() {
+        if(Checkbox19.checked) {
+          movies_after(19)
+        } else {
+          movies_after(0)
+        }
+      };
+
+    </script>
+
+    <script>
+      async function movies_after(specified_hour) {
         var tempScrollTop = $(window).scrollTop();
         await $('#userdata tbody').empty();
         $.getJSON('classic_movies.json', function(data) {
@@ -147,16 +168,17 @@
             var movie = f.date ;
             var md = new Date(movie[0], movie[1]-1, movie[2])
             var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
-            var todayStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
+            var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
 
-            specified_hour = 18
             max_hour = 0
-            max_hour, new_dict = display_real_dict(f.showtimes_theater, 18)
+            max_hour, new_dict = display_real_dict(f.showtimes_theater, specified_hour)
             real_showtime = display_showtimes(new_dict)
 
-            if (mdStr==todayStr && max_hour>=specified_hour){
+            if (mdStr==sdStr && max_hour>=specified_hour){
+              //movie_page = "<a href=" + allocine_base + f.id + '.html' + ">" + f.title + "</a>"
+              movie_page = f.title
               var tblRow = "<tr>" +
-                "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+                "<td><b>" + movie_page + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
                 "<td>" + real_showtime + "</td>" +
                 "</tr>"
               $(tblRow).appendTo("#userdata tbody");
@@ -169,6 +191,7 @@
 
     <script>
       async function move_date_forward() {
+        Checkbox19.checked = 0
         var tempScrollTop = $(window).scrollTop();
         selected_date.setDate(selected_date.getDate()+1);
         dayName = days[selected_date.getDay()];
@@ -186,11 +209,13 @@
             var movie = f.date ;
             var md = new Date(movie[0], movie[1]-1, movie[2])
             var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
-            var todayStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
+            var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
 
-            if (mdStr==todayStr){
+            if (mdStr==sdStr){
+              //movie_page = "<a href=" + allocine_base + f.id + '.html' + ">" + f.title + "</a>"
+              movie_page = f.title
               var tblRow = "<tr>" +
-                "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+                "<td><b>" + movie_page + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
                 "<td>" + f.showtimes + "</td>" +
                 "</tr>"
               $(tblRow).appendTo("#userdata tbody");
@@ -201,30 +226,9 @@
       }
     </script>
 
-<script>
-  function create_link1(film_name, film_id){
-      // Create anchor element.
-      var a = document.createElement('a');
-      // Create the text node for anchor element.
-      var link = document.createTextNode(film_name);
-      // Append the text node to anchor element.
-      a.appendChild(link);
-      // Set the title.
-      a.title = film_name;
-      // Set the href property.
-      a.href = "https://www.allocine.fr/film/fichefilm_gen_cfilm=" + film_id + ".html";
-      // Append the anchor element to the body.
-      document.body.appendChild(a);
-  }
-  function create_link(film_name, film_id) {
-  var str = film_name;
-  var result = str.link("https://www.allocine.fr/film/fichefilm_gen_cfilm=" + film_id + ".html");
-  document.getElementById(film_name).innerHTML = result;
-}
-</script>
-
     <script>
       function move_date_backward() {
+        Checkbox19.checked = 0
         var nd = new Date()
         if (selected_date.getDate() > nd.getDate()){
             var tempScrollTop = $(window).scrollTop();
@@ -245,14 +249,29 @@
                 var movie = f.date ;
                 var md = new Date(movie[0], movie[1]-1, movie[2])
                 var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
-                var todayStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
+                var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
 
-                if (mdStr==todayStr){
-                  var tblRow = "<tr>" +
-                    "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
-                    "<td>" + f.showtimes + "</td>" +
-                    "</tr>"
-                  $(tblRow).appendTo("#userdata tbody");
+                today = new Date();
+                var todayStr = String(today.getFullYear()).concat('-', String(today.getMonth()+1), '-', String(today.getDate()))
+                max_hour = 0
+                if (todayStr==sdStr){
+                  specified_hour = today.getHours()-1
+                  max_hour, new_dict = display_real_dict(f.showtimes_theater, specified_hour)
+                  real_showtime = display_showtimes(new_dict)
+                }
+                else {
+                  specified_hour = 0
+                  max_hour, new_dict = display_real_dict(f.showtimes_theater, specified_hour)
+                  real_showtime = display_showtimes(new_dict)
+                }
+                if (mdStr==sdStr && max_hour>=specified_hour){
+                    //movie_page = "<a href=" + allocine_base + f.id + '.html' + ">" + f.title + "</a>"
+                    movie_page = f.title
+                    var tblRow = "<tr>" +
+                      "<td><b>" + movie_page + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+                      "<td>" + real_showtime + "</td>" +
+                      "</tr>"
+                    $(tblRow).appendTo("#userdata tbody");
                 }
               });
             });
