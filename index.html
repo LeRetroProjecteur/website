@@ -13,7 +13,7 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=0.9">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Up Close | Cinéma à Paris</title>
     <link rel="stylesheet" href="main.css">
 
@@ -134,15 +134,15 @@
 
     <br>
     <center>
-    <input type="button" class="button" name="backward_button" value= "◀" onclick="move_date_backward()" style="font-size: var(--date_font_size);">
-    <b><span id="date_of_today" class="center" style="font-size: var(--date_font_size);"></span></b>
-    <input type="button" class="button" name="forward_button" value= "▶" onclick="move_date_forward()" style="font-size: var(--date_font_size);">
+      <input type="button" id="backward_button" class="button" name="backward_button" value= "◀&#xFE0E;" onclick="move_date_backward()" style="font-size: var(--date_font_size); color: var(--lightgrey);">
+      <b><span id="date_of_today" class="center" style="font-size: var(--date_font_size);"></span></b>
+      <input type="button" class="button" name="forward_button" value= "▶&#xFE0E;" onclick="move_date_forward()" style="font-size: var(--date_font_size); color: var(--red);">
     </center>
     <br>
 
     <center>
-    <input type="checkbox" name="19_movies" id= "19_movies" name="19_movies" style="font-size: var(--button_font_size);">
-    <label for="subscribeNews">Séances après 19h</label>
+      <input type="checkbox" name="19_movies" id= "19_movies" name="19_movies" style="font-size: var(--button_font_size);">
+      <label for="subscribeNews">Séances après 19h</label>
     </center>
     <br>
 
@@ -155,7 +155,6 @@
           movies_after(0)
         }
       };
-
     </script>
 
     <script>
@@ -191,6 +190,7 @@
 
     <script>
       async function move_date_forward() {
+        document.getElementById("backward_button").style.color = "var(--red)";
         Checkbox19.checked = 0
         var tempScrollTop = $(window).scrollTop();
         selected_date.setDate(selected_date.getDate()+1);
@@ -228,8 +228,14 @@
 
     <script>
       function move_date_backward() {
-        Checkbox19.checked = 0
+        Checkbox19.checked = 0;
         var nd = new Date()
+        if (selected_date.getDate()-1 <= nd.getDate()){
+          document.getElementById("backward_button").style.color = "var(--lightgrey)";
+        }
+        else{
+          document.getElementById("backward_button").style.color = "var(--red)";
+        }
         if (selected_date.getDate() > nd.getDate()){
             var tempScrollTop = $(window).scrollTop();
             selected_date.setDate(selected_date.getDate()-1);
