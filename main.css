@@ -13,14 +13,21 @@
   color: var(--fontColor);
   font-family: lora,georgia,times new roman,serif;
 }
+html {
+  padding: 5pt;
+}
 body {
     background: var(--bg);
+    max-width: var(--max_width);
+    margin-left: auto;
+    margin-right: auto;
+    float: none;
 }
-h1, h2, h3, footer{
+h1, h2, footer{
   text-align: center;
 }
 h3 {
-  font-size: min(3vw, 36px);
+  margin:0;
 }
 table{
   border: 1px solid black;
