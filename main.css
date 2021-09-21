@@ -17,11 +17,11 @@ html {
   padding: 5pt;
 }
 body {
-    background: var(--bg);
-    max-width: var(--max_width);
-    margin-left: auto;
-    margin-right: auto;
-    float: none;
+  background: var(--bg);
+  max-width: var(--max_width);
+  margin-left: auto;
+  margin-right: auto;
+  float: none;
 }
 h1, h2, footer{
   text-align: center;
@@ -43,7 +43,7 @@ tr:nth-child(even) {background-color: var(--lightred);}
 hr{
   max-width: var(--max_width);
   border-width:0;
-  background-color:red;
+  background-color:var(--red);
   height:4px;
 }
 .button{
@@ -78,4 +78,17 @@ hr{
   text-decoration: none;
   margin: auto;
   color: var(--black);
+}
+.cdc{
+  width:100%;
+  max-width:600px;
+  border: none;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: var(--lightred);
+  padding: 10px;
+}
+.cdc img{
+  width:100%;
+  object-fit: cover;
 }

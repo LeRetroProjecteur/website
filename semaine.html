@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <link rel="icon" href="logo_square.png">
+<html lang="fr">
 
+  <head>
+
+    <link rel="icon" href="img/logo_square.png">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
-
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+    <script type="text/javascript" src="app.js"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F5QY5F8S5L"></script>
@@ -19,123 +20,109 @@
       gtag('config', 'G-F5QY5F8S5L');
     </script>
 
+    <script>
+    $(function(){
+      $("#header").load("includes/header.html");
+      $("#footer").load("includes/footer.html");
+    });
+    </script>
+
     <title>La semaine prochaine</title>
+
   </head>
 
   <body class="light-theme">
 
-    <br>
-    <center>
-      Pour nos recommandations cinéma toutes les semaines,
-      <!-- <br> -->
-      <a href="https://list-manage.us6.list-manage.com/subscribe?u=00a9245e71d3375ef4542a588&id=3270cdb251" target="_blank">abonnez-vous à notre newsletter !</a>
-    </center>
-    <br>
-
-    <div id="logo-wrap" class="center">
-      <a href="/">
-        <img src="up_close.png" alt="Up Close Cinéma" class="center">
-      </a>
-    </div>
-
-    <hr>
-    <h1>Cinéma à Paris </h1>
-    <h2><i>Séances spéciales et ressorties</i></h2>
-    <hr>
-    <br>
+    <div id="header"></div>
 
     <script>
 
-    var days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
-    var days_short = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
-    var months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
-    var months_short = ['jan', 'fév', 'mars', 'avr', 'mai', 'juin', 'juil', 'août', 'sept', 'oct', 'nov', 'déc'];
+      var days_short = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+      var months_short = ['jan', 'fév', 'mars', 'avr', 'mai', 'juin', 'juil', 'août', 'sept', 'oct', 'nov', 'déc'];
 
-    var start_date = new Date();
-    start_date.setDate(start_date.getDate() + ((10-start_date.getDay())%7))
-    start_monthName = months_short[start_date.getMonth()];
+      var start_date = new Date();
+      start_date.setDate(start_date.getDate() + ((10-start_date.getDay())%7))
+      start_monthName = months_short[start_date.getMonth()];
 
-    var end_date = new Date();
-    end_date.setDate(end_date.getDate() + ((10-end_date.getDay())%7) + 7);
-    end_monthName = months_short[end_date.getMonth()];
+      var end_date = new Date();
+      end_date.setDate(end_date.getDate() + ((10-end_date.getDay())%7) + 7);
+      end_monthName = months_short[end_date.getMonth()];
 
-    function display_real_dict(dictionnary, specified_hour=0){
-      new_dict = {};
-      max_hour = 0;
-      for (const [key, value] of Object.entries(dictionnary)){
-        for (var i = 0; i < value.length; i++){
-          hour = value[i]
-          max_hour = Math.max(max_hour, hour)
-          if (hour>=specified_hour){
-            if (key in new_dict){
-              new_dict[key].push(hour)
+      function display_real_dict(dictionnary, specified_hour=0){
+        new_dict = {};
+        max_hour = 0;
+        for (const [key, value] of Object.entries(dictionnary)){
+          for (var i = 0; i < value.length; i++){
+            hour = value[i]
+            max_hour = Math.max(max_hour, hour)
+            if (hour>=specified_hour){
+              if (key in new_dict){
+                new_dict[key].push(hour)
+              } else {
+                new_dict[key] = [hour]
+              }
+            }
+          }
+        }
+        return max_hour, new_dict
+      }
+
+      function display_showtimes(dictionnary, sep="<br>"){
+        showtime = []
+        for (const [key, value] of Object.entries(dictionnary)){
+          text_row = [];
+          for (var i = 0; i < value.length; i++){
+            hour = value[i]
+            minute = parseFloat((60*(hour - Math.floor(hour))).toPrecision(3))
+            if (minute<10){
+              minute = "0"+minute
             } else {
-              new_dict[key] = [hour]
+              minute = minute.toString()
             }
+            text_row.push(Math.floor(hour).toString() + "h" + minute);
           }
+          showtime.push(key + ": " + text_row.join(', '))
         }
+        showtime = showtime.join(sep)
+        return showtime
       }
-      return max_hour, new_dict
-    }
 
-    function display_showtimes(dictionnary, sep="<br>"){
-      showtime = []
-      for (const [key, value] of Object.entries(dictionnary)){
-        text_row = [];
-        for (var i = 0; i < value.length; i++){
-          hour = value[i]
-          minute = parseFloat((60*(hour - Math.floor(hour))).toPrecision(3))
-          if (minute<10){
-            minute = "0"+minute
-          } else {
-            minute = minute.toString()
-          }
-          text_row.push(Math.floor(hour).toString() + "h" + minute);
-        }
-        showtime.push(key + ": " + text_row.join(', '))
-      }
-      showtime = showtime.join(sep)
-      return showtime
-    }
+      $(function() {
+        document.getElementById("next_week").innerHTML = 'Semaine du '.concat(
+          ' ', String(start_date.getDate()), ' ', start_monthName,
+          ' au ',
+          ' ', String(end_date.getDate()), ' ', end_monthName
+        );
 
-    $(function() {
-      document.getElementById("next_week").innerHTML = 'Semaine du '.concat(
-        ' ', String(start_date.getDate()), ' ', start_monthName,
-        ' au ',
-        ' ', String(end_date.getDate()), ' ', end_monthName
-      );
-      var movies = [];
+        $.getJSON('data/classic_movies.json', function(data) {
+          $.ajaxSetup({cache:false});
+          var prev_movie = "";
+          var string = ""
+          $.each(data.movies, function(i, f) {
+            sd_hour = 1;
+            var movie = f.date ;
+            var md = new Date(movie[0], movie[1]-1, movie[2], 0, 0, 0, 0)
 
-      $.getJSON('classic_movies.json', function(data) {
-        $.ajaxSetup({cache:false});
-        var prev_movie = "";
-        var string = ""
-        $.each(data.movies, function(i, f) {
-          sd_hour = 1;
-          var movie = f.date ;
-          var md = new Date(movie[0], movie[1]-1, movie[2], 0, 0, 0, 0)
+            max_hour = 0
+            max_hour, new_dict = display_real_dict(f.showtimes_theater)
+            real_showtime = display_showtimes(new_dict, sep="; ")
 
-          max_hour = 0
-          max_hour, new_dict = display_real_dict(f.showtimes_theater)
-          real_showtime = display_showtimes(new_dict, sep="; ")
-
-          if (md>=start_date & md<=end_date){
-            if (f.title != prev_movie){
+            if (md>=start_date & md<=end_date){
+              if (f.title != prev_movie){
+                string = string.concat(
+                  "<br><h3><i>" + f.title + "</i>, " + f.directors + " (" + f.year + ")</h3>"
+                )
+              }
               string = string.concat(
-                "<br><h3><i>" + f.title + "</i>, " + f.directors + " (" + f.year + ")</h3>"
+                "<b>" + days_short[md.getDay()] + " " + md.getDate() + " " + months_short[md.getMonth()] +
+                "</b> " + real_showtime + "<br>"
               )
+              prev_movie = f.title;
             }
-            string = string.concat(
-              "<b>" + days_short[md.getDay()] + " " + md.getDate() + " " + months_short[md.getMonth()] +
-              "</b> " + real_showtime + "<br>"
-            )
-            prev_movie = f.title;
-            // $(row).appendTo("#userdata tbody");
-          }
+          });
+          document.getElementById("week_films").innerHTML = string
         });
-        document.getElementById("week_films").innerHTML = string
       });
-    });
 
     </script>
 
@@ -145,27 +132,7 @@
     <span id="week_films"></span>
     <br>
 
-    <br>
-    <hr>
-    <br>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-    <!-- <center> -->
-      <!-- <a href="#" class="fa fa-facebook"></a> -->
-      <!-- <a href="#" class="fa fa-github"></a> -->
-      <!-- <a href="#" class="fa fa-twitter"></a>
-      <a href="#" class="fa fa-instagram"></a> -->
-    <!-- </center> -->
-
-    <br>
-
-    <footer>
-      ©  L'éclaireur des Salles Obscures 2021.
-    </footer>
-    <br>
-    <script src='app.js'></script>
-    <noscript>You need to enable JavaScript to view the full site.</noscript>
-
+    <div id="footer"></div>
 
   </body>
 </html>

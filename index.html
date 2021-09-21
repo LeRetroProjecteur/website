@@ -1,6 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
+
   <head>
+
+    <link rel="icon" href="img/logo_square.png">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+    <script type="text/javascript" src="app.js"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F5QY5F8S5L"></script>
@@ -11,14 +20,15 @@
       gtag('config', 'G-F5QY5F8S5L');
     </script>
 
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Up Close | Cinéma à Paris</title>
-    <link rel="stylesheet" href="main.css">
+    <script>
+    $(function(){
+      $("#header").load("includes/header.html");
+      $("#footer").load("includes/footer.html");
+    });
+    </script>
 
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
-    <script type="text/javascript" src="app.js"></script>
+    <title>Up Close | Cinéma à Paris</title>
+
   </head>
 
   <script>
@@ -84,7 +94,7 @@
     );
     var movies = [];
 
-    $.getJSON('classic_movies.json', function(data) {
+    $.getJSON('data/classic_movies.json', function(data) {
       $.ajaxSetup({cache:false});
       $.each(data.movies, function(i, f) {
         var sd = selected_date
@@ -113,26 +123,9 @@
   </script>
 
   <body class="light-theme">
-    <br>
-    <center>
-      Pour nos recommandations cinéma toutes les semaines,
-      <!-- <br> -->
-      <a href="https://list-manage.us6.list-manage.com/subscribe?u=00a9245e71d3375ef4542a588&id=3270cdb251" target="_blank">abonnez-vous à notre newsletter !</a>
-    </center>
-    <br>
 
-    <div id="logo-wrap" class="center">
-      <a href="index.html">
-        <img src="up_close.png" alt="Up Close Cinéma" class="center">
-      </a>
-    </div>
+    <div id="header"></div>
 
-    <hr>
-    <h1>Cinéma à Paris </h1>
-    <h2><i>Séances spéciales et ressorties</i></h2>
-    <hr>
-
-    <br>
     <center>
       <input type="button" id="backward_button" class="button" name="backward_button" value= "◀&#xFE0E;" onclick="move_date_backward()" style="font-size: var(--date_font_size); color: var(--lightgrey);">
       <b><span id="date_of_today" class="center" style="font-size: var(--date_font_size);"></span></b>
@@ -299,15 +292,6 @@
     </div>
     </div>
 
-    <br>
-    <br>
-    <br>
-
-    <footer>
-      ©  L'éclaireur des Salles Obscures 2021.
-    </footer>
-
-    <br>
-    <noscript>You need to enable JavaScript to view the full site.</noscript>
+    <div id="footer"></div>
   </body>
 </html>

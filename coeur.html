@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+  <head>
+
+    <link rel="icon" href="img/logo_square.png">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+    <script type="text/javascript" src="app.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F5QY5F8S5L"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-F5QY5F8S5L');
+    </script>
+
+    <script>
+    $(function(){
+      $("#header").load("includes/header.html");
+      $("#footer").load("includes/footer.html");
+    });
+    </script>
+
+    <title>Nos coups de coeur</title>
+
+  </head>
+
+  <body class="light-theme">
+
+    <div id="header"></div>
+
+    <h2>Archives: Nos Coups de Coeur</h2>
+
+    <script>
+      $(function() {
+        $.getJSON('data/coups_de_coeur.json', function(data) {
+          $.ajaxSetup({cache:false});
+          var string = ""
+          $.each(data.cdc, function(i, f) {
+            string = string.concat(
+              "<div class='cdc'>" +
+                "<img src='img/" + f.id  + ".png'/>" +
+                "<center>" +
+                  f.date +
+                  "<h2><i>" + f.movie_name + "</i>, " + f.movie_directors + " (" + f.movie_year + ")</h2>" +
+                "</center>" +
+                f.comment +
+              "</div><br>"
+            )
+          });
+          document.getElementById("cdc").innerHTML = string
+        });
+      });
+    </script>
+
+    <span id="cdc"></span>
+
+    <div id="footer"></div>
+
+  </body>
+</html>
