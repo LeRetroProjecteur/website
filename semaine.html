@@ -42,10 +42,12 @@
 
       var start_date = new Date();
       start_date.setDate(start_date.getDate() + ((10-start_date.getDay())%7))
+      var start_date = new Date(start_date.toDateString());
       start_monthName = months_short[start_date.getMonth()];
 
       var end_date = new Date();
-      end_date.setDate(end_date.getDate() + ((10-end_date.getDay())%7) + 7);
+      end_date.setDate(end_date.getDate() + ((10-end_date.getDay())%7) + 6);
+      var end_date = new Date(end_date.toDateString());
       end_monthName = months_short[end_date.getMonth()];
 
       function display_real_dict(dictionnary, specified_hour=0){
@@ -99,8 +101,7 @@
           var prev_movie = "";
           var string = ""
           $.each(data.movies, function(i, f) {
-            sd_hour = 1;
-            var movie = f.date ;
+            var movie = f.date;
             var md = new Date(movie[0], movie[1]-1, movie[2], 0, 0, 0, 0)
 
             max_hour = 0
