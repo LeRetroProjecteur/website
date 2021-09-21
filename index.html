@@ -154,7 +154,7 @@
       async function movies_after(specified_hour) {
         var tempScrollTop = $(window).scrollTop();
         await $('#userdata tbody').empty();
-        $.getJSON('classic_movies.json', function(data) {
+        $.getJSON('data/classic_movies.json', function(data) {
           $.ajaxSetup({cache:false});
           $.each(data.movies, function(i, f) {
             var movie = f.date ;
@@ -196,7 +196,7 @@
         );
 
         await $('#userdata tbody').empty();
-        $.getJSON('classic_movies.json', function(data) {
+        $.getJSON('data/classic_movies.json', function(data) {
           $.ajaxSetup({cache:false});
           $.each(data.movies, function(i, f) {
             var movie = f.date ;
@@ -241,7 +241,7 @@
             );
 
             $('#userdata tbody').empty();
-            $.getJSON('classic_movies.json', function(data) {
+            $.getJSON('data/classic_movies.json', function(data) {
               $.ajaxSetup({cache:false});
               $.each(data.movies, function(i, f) {
 
