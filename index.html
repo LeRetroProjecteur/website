@@ -222,14 +222,18 @@
     <script>
       function move_date_backward() {
         Checkbox19.checked = 0;
-        var nd = new Date()
-        if (selected_date.getDate()-1 <= nd.getDate()){
+        var nd = new Date();
+        var start = new Date(nd.getFullYear(), 0, 0);
+        var num_day_today = Math.floor((nd - start) / (1000 * 60 * 60 * 24));
+        var num_day_selected = Math.floor((selected_date-1 - start) / (1000 * 60 * 60 * 24));
+        
+        if (num_day_selected-1 <= num_day_today){
           document.getElementById("backward_button").style.color = "var(--lightgrey)";
         }
         else{
           document.getElementById("backward_button").style.color = "var(--red)";
         }
-        if (selected_date.getDate() > nd.getDate()){
+        if (num_day_selected > num_day_today){
             var tempScrollTop = $(window).scrollTop();
             selected_date.setDate(selected_date.getDate()-1);
             dayName = days[selected_date.getDay()];
