@@ -33,6 +33,7 @@
 
   <script>
     var selected_date = new Date();
+    var sd_hour = selected_date.getHours()
     var allocine_base = 'https://www.allocine.fr/film/fichefilm_gen_cfilm=';
     var forward_date = selected_date.setDate(selected_date.getDate()+1);
     var behind_date = selected_date.setDate(selected_date.getDate()-1);
@@ -163,7 +164,7 @@
             var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
 
             max_hour = 0
-            max_hour, new_dict = display_real_dict(f.showtimes_theater, specified_hour)
+            max_hour, new_dict = display_real_dict(f.showtimes_theater, Math.max(specified_hour, sd_hour-1))
             real_showtime = display_showtimes(new_dict)
 
             if (mdStr==sdStr && max_hour>=specified_hour){
@@ -204,12 +205,14 @@
             var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
             var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
 
+            specified_hour = 0
+            max_hour, new_dict = display_real_dict(f.showtimes_theater, specified_hour)
+            real_showtime = display_showtimes(new_dict)
             if (mdStr==sdStr){
               //movie_page = "<a href=" + allocine_base + f.id + '.html' + ">" + f.title + "</a>"
-              movie_page = f.title
               var tblRow = "<tr>" +
-                "<td><b>" + movie_page + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
-                "<td>" + f.showtimes + "</td>" +
+                "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+                "<td>" + real_showtime + "</td>" +
                 "</tr>"
               $(tblRow).appendTo("#userdata tbody");
             }
@@ -269,9 +272,8 @@
                 }
                 if (mdStr==sdStr && max_hour>=specified_hour){
                     //movie_page = "<a href=" + allocine_base + f.id + '.html' + ">" + f.title + "</a>"
-                    movie_page = f.title
                     var tblRow = "<tr>" +
-                      "<td><b>" + movie_page + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+                      "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
                       "<td>" + real_showtime + "</td>" +
                       "</tr>"
                     $(tblRow).appendTo("#userdata tbody");
