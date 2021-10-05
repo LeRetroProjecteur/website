@@ -162,23 +162,23 @@
             var md = new Date(movie[0], movie[1]-1, movie[2])
             var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
             var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
-
-            max_hour, new_dict = display_real_dict(f.showtimes_theater, specified_hour)
-            real_showtime = display_showtimes(new_dict)
             
             var nd = new Date();
             var start = new Date(nd.getFullYear(), 0, 0);
             var num_day_today = Math.floor((nd - start) / (1000 * 60 * 60 * 24));
-            var num_day_selected = Math.floor((selected_date-1 - start) / (1000 * 60 * 60 * 24));
+            var num_day_selected = Math.floor((selected_date - start) / (1000 * 60 * 60 * 24));
             
-            if (num_day_selected-1 <= num_day_today){
+            if (num_day_selected == num_day_today){
               var day_hour = sd_hour-1;
             }
             else{
               var day_hour = 0;
             }
+            hour_constraint = Math.max(specified_hour, day_hour);
+            max_hour, new_dict = display_real_dict(f.showtimes_theater, hour_constraint)
+            real_showtime = display_showtimes(new_dict)
 
-            if (mdStr==sdStr && max_hour>=Math.max(specified_hour, day_hour)){
+            if (mdStr==sdStr && max_hour>=hour_constraint){
               movie_page = f.title
               var tblRow = "<tr>" +
               "<td><b>" + movie_page + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
