@@ -163,17 +163,27 @@
             var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
             var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
 
-            max_hour = 0
-            max_hour, new_dict = display_real_dict(f.showtimes_theater, Math.max(specified_hour, sd_hour-1))
+            max_hour, new_dict = display_real_dict(f.showtimes_theater, specified_hour)
             real_showtime = display_showtimes(new_dict)
+            
+            var nd = new Date();
+            var start = new Date(nd.getFullYear(), 0, 0);
+            var num_day_today = Math.floor((nd - start) / (1000 * 60 * 60 * 24));
+            var num_day_selected = Math.floor((selected_date-1 - start) / (1000 * 60 * 60 * 24));
+            
+            if (num_day_selected-1 <= num_day_today){
+              var day_hour = sd_hour-1;
+            }
+            else{
+              var day_hour = 0;
+            }
 
-            if (mdStr==sdStr && max_hour>=specified_hour){
-              //movie_page = "<a href=" + allocine_base + f.id + '.html' + ">" + f.title + "</a>"
+            if (mdStr==sdStr && max_hour>=Math.max(specified_hour, day_hour)){
               movie_page = f.title
               var tblRow = "<tr>" +
-                "<td><b>" + movie_page + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
-                "<td>" + real_showtime + "</td>" +
-                "</tr>"
+              "<td><b>" + movie_page + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+              "<td>" + real_showtime + "</td>" +
+              "</tr>"
               $(tblRow).appendTo("#userdata tbody");
             }
           });
