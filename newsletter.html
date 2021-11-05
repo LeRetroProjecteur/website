@@ -21,13 +21,13 @@
     </script>
 
     <script>
-    $(function(){
-      $("#header").load("includes/header.html");
-      $("#footer").load("includes/footer.html");
-    });
+      $(function(){
+        $("#header").load("includes/header.html");
+        $("#footer").load("includes/footer.html");
+      });
     </script>
 
-    <title>Nos coups de coeur</title>
+    <title>Up Close | Cinéma à Paris</title>
 
   </head>
 
@@ -35,21 +35,31 @@
 
     <div id="header"></div>
 
-    <h2>Archives&nbsp;: Nos Coups de Coeur</h2>
+    <h2>Que voir à Paris cette semaine&nbsp;?</h2>
+
+    <script>
+      $(function(){
+        document.getElementById("current_week").innerHTML = week_string(get_current_week()[0], get_current_week()[1]);
+      });
+    </script>
+    <h3><span id="current_week"></span></h3>
+    <br>
 
     <script>
       $(function() {
         $.getJSON('data/reviews.json', function(data) {
           $.ajaxSetup({cache:false});
           var string = ""
+          console.log(get_current_week()[0])
           $.each(data.review, function(i, f) {
-            if(f.display == 'yes'){
+            if(f.date == get_current_week()[0].toISOString().split("T")[0]){
               string = string.concat(
                 "<div class='moviebox'>" +
                   "<img src='img/reviews/" + f.id  + ".png'/>" +
-                  "<h3 style='color:grey; font-weight:normal;'>" + week_string(string_to_date(f.date)) + "&nbsp;: " + f.category + "</h3>" +
+                  "<h3 style='color:grey;'>" + f.category + "</h3>" +
                   "<h3><i>" + f.movie_name + "</i>, " + f.movie_directors + " (" + f.movie_year + ")</h3>" +
                   f.review +
+                  "<center><b>" + f.showtime + "</b></center>" +
                 "</div><br>"
               )
             }
@@ -59,9 +69,31 @@
       });
     </script>
 
+    <script>
+      $(function() {
+        $.getJSON('data/weeks.json', function(data) {
+          $.ajaxSetup({cache:false});
+          var string = ""
+          $.each(data.week, function(i, f) {
+            if(f.date == get_current_week()[0].toISOString().split("T")[0]){
+              string = string.concat(
+                "<div class='moviebox'>" +
+                  "<h3 style='color:grey;'>" + f.name + "</h3><br>" +
+                  f.week +
+                "</div><br>"
+              )
+            }
+          });
+          document.getElementById("week").innerHTML = string
+        });
+      });
+    </script>
+
     <span id="cdc"></span>
+    <span id="week"></span>
 
     <div id="footer"></div>
 
   </body>
+
 </html>

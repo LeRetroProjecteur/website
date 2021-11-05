@@ -31,107 +31,56 @@
 
   </head>
 
+  <script>
+    $(function() {
+      start_date = get_next_week()[0];
+      end_date = get_next_week()[1];
+      start_monthName = months_short[start_date.getMonth()];
+      end_monthName = months_short[end_date.getMonth()];
+
+      $.getJSON('data/classic_movies.json', function(data) {
+        $.ajaxSetup({cache:false});
+        var prev_movie = "";
+        var string = "";
+        $.each(data.movies, function(i, f) {
+          var movie = f.date;
+          var md = new Date(movie[0], movie[1]-1, movie[2], 0, 0, 0, 0)
+
+          max_hour = display_real_dict(f.showtimes_theater)[0];
+          new_dict = display_real_dict(f.showtimes_theater)[1];
+          real_showtime = display_showtimes(new_dict, sep="; ");
+
+          if (md>=start_date & md<=end_date){
+            if (f.title != prev_movie){
+              string = string.concat(
+                "<br><h3 style='text-align:left'><i>" + f.title + "</i>, " + f.directors + " (" + f.year + ")</h3>"
+              )
+            }
+            string = string.concat(
+              "<b>" + days_short[md.getDay()] + " " + md.getDate() + " " + months_short[md.getMonth()] + "</b> " +
+              real_showtime + "<br>"
+            )
+            prev_movie = f.title;
+          }
+        });
+        document.getElementById("week_films").innerHTML = string
+      });
+    });
+
+  </script>
+
+  <script>
+    $(function(){
+      document.getElementById("next_week").innerHTML = week_string(get_next_week()[0]);
+    });
+  </script>
+
   <body class="light-theme">
 
     <div id="header"></div>
 
-    <script>
-
-      var days_short = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
-      var months_short = ['jan', 'fév', 'mars', 'avr', 'mai', 'juin', 'juil', 'août', 'sept', 'oct', 'nov', 'déc'];
-
-      var start_date = new Date();
-      start_date.setDate(start_date.getDate() + ((10-start_date.getDay())%7))
-      var start_date = new Date(start_date.toDateString());
-      start_monthName = months_short[start_date.getMonth()];
-
-      var end_date = new Date();
-      end_date.setDate(end_date.getDate() + ((10-end_date.getDay())%7) + 6);
-      var end_date = new Date(end_date.toDateString());
-      end_monthName = months_short[end_date.getMonth()];
-
-      function display_real_dict(dictionnary, specified_hour=0){
-        new_dict = {};
-        max_hour = 0;
-        for (const [key, value] of Object.entries(dictionnary)){
-          for (var i = 0; i < value.length; i++){
-            hour = value[i]
-            max_hour = Math.max(max_hour, hour)
-            if (hour>=specified_hour){
-              if (key in new_dict){
-                new_dict[key].push(hour)
-              } else {
-                new_dict[key] = [hour]
-              }
-            }
-          }
-        }
-        return max_hour, new_dict
-      }
-
-      function display_showtimes(dictionnary, sep="<br>"){
-        showtime = []
-        for (const [key, value] of Object.entries(dictionnary)){
-          text_row = [];
-          for (var i = 0; i < value.length; i++){
-            hour = value[i]
-            minute = parseFloat((60*(hour - Math.floor(hour))).toPrecision(3))
-            if (minute<10){
-              minute = "0"+minute
-            } else {
-              minute = minute.toString()
-            }
-            text_row.push(Math.floor(hour).toString() + "h" + minute);
-          }
-          showtime.push(key + ": " + text_row.join(', '))
-        }
-        showtime = showtime.join(sep)
-        return showtime
-      }
-
-      $(function() {
-        document.getElementById("next_week").innerHTML = 'Semaine du '.concat(
-          ' ', String(start_date.getDate()), ' ', start_monthName,
-          ' au ',
-          ' ', String(end_date.getDate()), ' ', end_monthName
-        );
-
-        $.getJSON('data/classic_movies.json', function(data) {
-          $.ajaxSetup({cache:false});
-          var prev_movie = "";
-          var string = ""
-          $.each(data.movies, function(i, f) {
-            var movie = f.date;
-            var md = new Date(movie[0], movie[1]-1, movie[2], 0, 0, 0, 0)
-
-            max_hour = 0
-            max_hour, new_dict = display_real_dict(f.showtimes_theater)
-            real_showtime = display_showtimes(new_dict, sep="; ")
-
-            if (md>=start_date & md<=end_date){
-              if (f.title != prev_movie){
-                string = string.concat(
-                  "<br><h3><i>" + f.title + "</i>, " + f.directors + " (" + f.year + ")</h3>"
-                )
-              }
-              string = string.concat(
-                "<b>" + days_short[md.getDay()] + " " + md.getDate() + " " + months_short[md.getMonth()] +
-                "</b> " + real_showtime + "<br>"
-              )
-              prev_movie = f.title;
-            }
-          });
-          document.getElementById("week_films").innerHTML = string
-        });
-      });
-
-    </script>
-
-    <center>
-      <b><span id="next_week" class="center" style="font-size: var(--date_font_size);"></span></b>
-    </center>
+    <h2><span id="next_week"></span></h2>
     <span id="week_films"></span>
-    <br>
 
     <div id="footer"></div>
 

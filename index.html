@@ -33,106 +33,177 @@
 
   <script>
     var selected_date = new Date();
-    var sd_hour = selected_date.getHours()
-    var allocine_base = 'https://www.allocine.fr/film/fichefilm_gen_cfilm=';
-    var forward_date = selected_date.setDate(selected_date.getDate()+1);
-    var behind_date = selected_date.setDate(selected_date.getDate()-1);
-
-    var days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
-    var months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
-    dayName = days[selected_date.getDay()];
-    monthName = months[selected_date.getMonth()];
     var day = selected_date.getUTCDate();
-  </script>
 
-  <script>
-    function display_real_dict(dictionnary, specified_hour){
-          new_dict = {};
-          max_hour = 0;
-          for (const [key, value] of Object.entries(dictionnary)){
-            for (var i = 0; i < value.length; i++){
-              hour = value[i]
-              max_hour = Math.max(max_hour, hour)
-              if (hour>=specified_hour){
-                if (key in new_dict){
-                  new_dict[key].push(hour)
-                } else {
-                  new_dict[key] = [hour]
-                }
-              }
-            }
-          }
-          return max_hour, new_dict
-        }
-
-        function display_showtimes(dictionnary){
-          showtime = []
-          for (const [key, value] of Object.entries(dictionnary)){
-            text_row = [];
-            for (var i = 0; i < value.length; i++){
-              hour = value[i]
-              minute = parseFloat((60*(hour - Math.floor(hour))).toPrecision(3))
-              if (minute<10){
-                minute = "0"+minute
-              } else {
-                minute = minute.toString()
-              }
-              text_row.push(Math.floor(hour).toString() + "h" + minute);
-            }
-            showtime.push(key + "&nbsp;: " + text_row.join(', '))
-          }
-          showtime = showtime.join("<br>")
-          return showtime
-        }
-  </script>
-
-  <script>
     $(function() {
-    document.getElementById("date_of_today").innerHTML = dayName.concat(
-      ' ', String(selected_date.getDate()),
-      ' ', monthName,
-      ', ', String(selected_date.getFullYear())
-    );
-    var movies = [];
+      document.getElementById("date_of_today").innerHTML = day_string(selected_date);
 
-    $.getJSON('data/classic_movies.json', function(data) {
-      $.ajaxSetup({cache:false});
-      $.each(data.movies, function(i, f) {
-        var sd = selected_date
-        var sd_hour = sd.getHours()
-        var movie = f.date ;
-        var md = new Date(movie[0], movie[1]-1, movie[2])
-        var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
-        var sdStr = String(sd.getFullYear()).concat('-', String(sd.getMonth()+1), '-', String(sd.getDate()))
+      $.getJSON('data/classic_movies.json', function(data) {
+        $.ajaxSetup({cache:false});
+        $.each(data.movies, function(i, f) {
+          var movie = f.date;
+          var md = new Date(movie[0], movie[1]-1, movie[2]);
+          var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()));
+          var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()));
+          var specified_hour = selected_date.getHours()-1;
 
-        max_hour = 0
-        max_hour, new_dict = display_real_dict(f.showtimes_theater, sd_hour-1)
-        real_showtime = display_showtimes(new_dict)
+          max_hour = display_real_dict(f.showtimes_theater, specified_hour)[0];
+          new_dict = display_real_dict(f.showtimes_theater, specified_hour)[1];
+          real_showtime = display_showtimes(new_dict);
 
-        if (mdStr==sdStr && max_hour>=sd_hour-1){
-          //movie_page = "<a href=" + allocine_base + f.id + '.html' + ">" + f.title + "</a>"
-          movie_page = f.title
-          var tblRow = "<tr>" +
-            "<td><b>" + movie_page + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
-            "<td>" + real_showtime + "</td>" +
-            "</tr>"
-          $(tblRow).appendTo("#userdata tbody");
-        }
+          if (mdStr==sdStr && max_hour>=specified_hour){
+            movie_page = f.title
+            var tblRow = "<tr>" +
+              "<td><b>" + movie_page + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+              "<td>" + real_showtime + "</td>" +
+              "</tr>"
+            $(tblRow).appendTo("#userdata tbody");
+          }
+        });
       });
     });
-    });
+  </script>
+
+  <script>
+    async function movies_after(specified_hour) {
+      var tempScrollTop = $(window).scrollTop();
+      await $('#userdata tbody').empty();
+      $.getJSON('data/classic_movies.json', function(data) {
+        $.ajaxSetup({cache:false});
+        $.each(data.movies, function(i, f) {
+          var movie = f.date ;
+          var md = new Date(movie[0], movie[1]-1, movie[2])
+          var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
+          var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
+
+          var nd = new Date();
+          var start = new Date(nd.getFullYear(), 0, 0);
+          var num_day_today = Math.floor((nd - start) / (1000 * 60 * 60 * 24));
+          var num_day_selected = Math.floor((selected_date - start) / (1000 * 60 * 60 * 24));
+
+          if (num_day_selected == num_day_today){
+            var day_hour = nd.getHours()-1;
+          }
+          else{
+            var day_hour = 0;
+          }
+          hour_constraint = Math.max(specified_hour, day_hour);
+          console.log(hour_constraint)
+          max_hour = display_real_dict(f.showtimes_theater, hour_constraint)[0];
+          new_dict = display_real_dict(f.showtimes_theater, hour_constraint)[1];
+          real_showtime = display_showtimes(new_dict);
+
+          if (mdStr==sdStr && max_hour>=hour_constraint){
+            var tblRow = "<tr>" +
+              "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+              "<td>" + real_showtime + "</td>" +
+              "</tr>"
+            $(tblRow).appendTo("#userdata tbody");
+          }
+        });
+      });
+      $(window).scrollTop(tempScrollTop);
+    }
+  </script>
+
+  <script>
+    async function move_date_forward() {
+      document.getElementById("backward_button").style.color = "var(--red)";
+      Checkbox19.checked = 0
+      var tempScrollTop = $(window).scrollTop();
+      selected_date.setDate(selected_date.getDate()+1);
+      document.getElementById("date_of_today").innerHTML = day_string(selected_date);
+
+      await $('#userdata tbody').empty();
+      $.getJSON('data/classic_movies.json', function(data) {
+        $.ajaxSetup({cache:false});
+        $.each(data.movies, function(i, f) {
+          var movie = f.date;
+          var md = new Date(movie[0], movie[1]-1, movie[2]);
+          var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()));
+          var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()));
+          var specified_hour = 0;
+
+          max_hour = display_real_dict(f.showtimes_theater, specified_hour)[0];
+          new_dict = display_real_dict(f.showtimes_theater, specified_hour)[1];
+          real_showtime = display_showtimes(new_dict);
+
+          if (mdStr==sdStr && max_hour>=specified_hour){
+            var tblRow = "<tr>" +
+              "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+              "<td>" + real_showtime + "</td>" +
+              "</tr>"
+            $(tblRow).appendTo("#userdata tbody");
+          }
+        });
+      });
+      $(window).scrollTop(tempScrollTop);
+    }
+  </script>
+
+  <script>
+    function move_date_backward() {
+      Checkbox19.checked = 0;
+      var nd = new Date();
+      var start = new Date(nd.getFullYear(), 0, 0);
+      var num_day_today = Math.floor((nd - start) / (1000 * 60 * 60 * 24));
+      var num_day_selected = Math.floor((selected_date-1 - start) / (1000 * 60 * 60 * 24));
+
+      if (num_day_selected-1 <= num_day_today){
+        document.getElementById("backward_button").style.color = "var(--lightgrey)";
+      }
+      else{
+        document.getElementById("backward_button").style.color = "var(--red)";
+      }
+      if (num_day_selected > num_day_today){
+          var tempScrollTop = $(window).scrollTop();
+          selected_date.setDate(selected_date.getDate()-1);
+          document.getElementById("date_of_today").innerHTML = day_string(selected_date);
+
+          $('#userdata tbody').empty();
+          $.getJSON('data/classic_movies.json', function(data) {
+            $.ajaxSetup({cache:false});
+            $.each(data.movies, function(i, f) {
+
+              var movie = f.date;
+              var md = new Date(movie[0], movie[1]-1, movie[2]);
+              var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()));
+              var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()));
+              var today = new Date();
+              var todayStr = String(today.getFullYear()).concat('-', String(today.getMonth()+1), '-', String(today.getDate()));
+
+              if (todayStr==sdStr){
+                var specified_hour = today.getHours()-1;
+              }
+              else {
+                var specified_hour = 0;
+              }
+              max_hour = display_real_dict(f.showtimes_theater, specified_hour)[0];
+              new_dict = display_real_dict(f.showtimes_theater, specified_hour)[1];
+              real_showtime = display_showtimes(new_dict);
+              if (mdStr==sdStr && max_hour>=specified_hour){
+                  var tblRow = "<tr>" +
+                    "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+                    "<td>" + real_showtime + "</td>" +
+                    "</tr>"
+                  $(tblRow).appendTo("#userdata tbody");
+              }
+            });
+          });
+          $(window).scrollTop(tempScrollTop);
+      }
+    }
   </script>
 
   <body class="light-theme">
 
     <div id="header"></div>
 
-    <center>
-      <input type="button" id="backward_button" class="button" name="backward_button" value= "◀&#xFE0E;" onclick="move_date_backward()" style="font-size: var(--date_font_size); color: var(--lightgrey);">
-      <b><span id="date_of_today" class="center" style="font-size: var(--date_font_size);"></span></b>
-      <input type="button" class="button" name="forward_button" value= "▶&#xFE0E;" onclick="move_date_forward()" style="font-size: var(--date_font_size); color: var(--red);">
-    </center>
-    <br>
+    <h2>
+      <input type="button" id="backward_button" class="button" value= "◀&#xFE0E;" onclick="move_date_backward()" style="color: var(--lightgrey);">
+      <b><span id="date_of_today" class="center"></span></b>
+      <input type="button" class="button" value= "▶&#xFE0E;" onclick="move_date_forward()" style="color: var(--red);">
+    </h2>
 
     <center>
       <input type="checkbox" name="19_movies" id= "19_movies" name="19_movies" style="font-size: var(--button_font_size);">
@@ -149,150 +220,6 @@
           movies_after(0)
         }
       };
-    </script>
-
-    <script>
-      async function movies_after(specified_hour) {
-        var tempScrollTop = $(window).scrollTop();
-        await $('#userdata tbody').empty();
-        $.getJSON('data/classic_movies.json', function(data) {
-          $.ajaxSetup({cache:false});
-          $.each(data.movies, function(i, f) {
-            var movie = f.date ;
-            var md = new Date(movie[0], movie[1]-1, movie[2])
-            var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
-            var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
-            
-            var nd = new Date();
-            var start = new Date(nd.getFullYear(), 0, 0);
-            var num_day_today = Math.floor((nd - start) / (1000 * 60 * 60 * 24));
-            var num_day_selected = Math.floor((selected_date - start) / (1000 * 60 * 60 * 24));
-            
-            if (num_day_selected == num_day_today){
-              var day_hour = sd_hour-1;
-            }
-            else{
-              var day_hour = 0;
-            }
-            hour_constraint = Math.max(specified_hour, day_hour);
-            max_hour, new_dict = display_real_dict(f.showtimes_theater, hour_constraint)
-            real_showtime = display_showtimes(new_dict)
-
-            if (mdStr==sdStr && max_hour>=hour_constraint){
-              movie_page = f.title
-              var tblRow = "<tr>" +
-              "<td><b>" + movie_page + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
-              "<td>" + real_showtime + "</td>" +
-              "</tr>"
-              $(tblRow).appendTo("#userdata tbody");
-            }
-          });
-        });
-        $(window).scrollTop(tempScrollTop);
-      }
-    </script>
-
-    <script>
-      async function move_date_forward() {
-        document.getElementById("backward_button").style.color = "var(--red)";
-        Checkbox19.checked = 0
-        var tempScrollTop = $(window).scrollTop();
-        selected_date.setDate(selected_date.getDate()+1);
-        dayName = days[selected_date.getDay()];
-        monthName = months[selected_date.getMonth()];
-        document.getElementById("date_of_today").innerHTML = dayName.concat(
-          ' ', String(selected_date.getDate()),
-          ' ', monthName,
-          ', ', String(selected_date.getFullYear())
-        );
-
-        await $('#userdata tbody').empty();
-        $.getJSON('data/classic_movies.json', function(data) {
-          $.ajaxSetup({cache:false});
-          $.each(data.movies, function(i, f) {
-            var movie = f.date ;
-            var md = new Date(movie[0], movie[1]-1, movie[2])
-            var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
-            var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
-
-            specified_hour = 0
-            max_hour, new_dict = display_real_dict(f.showtimes_theater, specified_hour)
-            real_showtime = display_showtimes(new_dict)
-            if (mdStr==sdStr){
-              //movie_page = "<a href=" + allocine_base + f.id + '.html' + ">" + f.title + "</a>"
-              var tblRow = "<tr>" +
-                "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
-                "<td>" + real_showtime + "</td>" +
-                "</tr>"
-              $(tblRow).appendTo("#userdata tbody");
-            }
-          });
-        });
-        $(window).scrollTop(tempScrollTop);
-      }
-    </script>
-
-    <script>
-      function move_date_backward() {
-        Checkbox19.checked = 0;
-        var nd = new Date();
-        var start = new Date(nd.getFullYear(), 0, 0);
-        var num_day_today = Math.floor((nd - start) / (1000 * 60 * 60 * 24));
-        var num_day_selected = Math.floor((selected_date-1 - start) / (1000 * 60 * 60 * 24));
-        
-        if (num_day_selected-1 <= num_day_today){
-          document.getElementById("backward_button").style.color = "var(--lightgrey)";
-        }
-        else{
-          document.getElementById("backward_button").style.color = "var(--red)";
-        }
-        if (num_day_selected > num_day_today){
-            var tempScrollTop = $(window).scrollTop();
-            selected_date.setDate(selected_date.getDate()-1);
-            dayName = days[selected_date.getDay()];
-            monthName = months[selected_date.getMonth()];
-            document.getElementById("date_of_today").innerHTML = dayName.concat(
-              ' ', String(selected_date.getDate()),
-              ' ', monthName,
-              ', ', String(selected_date.getFullYear())
-            );
-
-            $('#userdata tbody').empty();
-            $.getJSON('data/classic_movies.json', function(data) {
-              $.ajaxSetup({cache:false});
-              $.each(data.movies, function(i, f) {
-
-                var movie = f.date ;
-                var md = new Date(movie[0], movie[1]-1, movie[2])
-                var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
-                var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
-
-                today = new Date();
-                var todayStr = String(today.getFullYear()).concat('-', String(today.getMonth()+1), '-', String(today.getDate()))
-                max_hour = 0
-                if (todayStr==sdStr){
-                  specified_hour = today.getHours()-1
-                  max_hour, new_dict = display_real_dict(f.showtimes_theater, specified_hour)
-                  real_showtime = display_showtimes(new_dict)
-                }
-                else {
-                  specified_hour = 0
-                  max_hour, new_dict = display_real_dict(f.showtimes_theater, specified_hour)
-                  real_showtime = display_showtimes(new_dict)
-                }
-                if (mdStr==sdStr && max_hour>=specified_hour){
-                    //movie_page = "<a href=" + allocine_base + f.id + '.html' + ">" + f.title + "</a>"
-                    var tblRow = "<tr>" +
-                      "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
-                      "<td>" + real_showtime + "</td>" +
-                      "</tr>"
-                    $(tblRow).appendTo("#userdata tbody");
-                }
-              });
-            });
-            $(window).scrollTop(tempScrollTop);
-        }
-      }
     </script>
 
     <div class="wrapper">

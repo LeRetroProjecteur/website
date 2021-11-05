@@ -11,10 +11,12 @@
 }
 * {
   color: var(--fontColor);
-  font-family: lora,georgia,times new roman,serif;
+  font-family: Futura, Trebuchet MS, Arial, sans-serif;
+  /* font-family: lora,georgia,times new roman,serif; */
 }
 html {
   padding: 5pt;
+  line-height: 1.6;
 }
 body {
   background: var(--bg);
@@ -23,11 +25,15 @@ body {
   margin-right: auto;
   float: none;
 }
-h1, h2, footer{
+h1, h2, h3, footer{
   text-align: center;
 }
 h3 {
   margin:0;
+}
+blockquote {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 table{
   border: 1px solid black;
@@ -45,6 +51,9 @@ hr{
   border-width:0;
   background-color:var(--red);
   height:4px;
+}
+input{
+  font-size:inherit;
 }
 .button{
   background-color: var(--white);
@@ -71,24 +80,30 @@ hr{
   max-width: var(--max_width);
   margin:auto;
 }
-.fa {
-  width: 30px;
-  height: 20px;
-  text-align: center;
-  text-decoration: none;
-  margin: auto;
-  color: var(--black);
-}
-.cdc{
-  width:100%;
+.moviebox{
+  width:95%;
   max-width:600px;
   border: none;
   margin-left: auto;
   margin-right: auto;
   background-color: var(--lightred);
   padding: 10px;
+  text-align: justify;
 }
-.cdc img{
+.moviebox img{
   width:100%;
   object-fit: cover;
+}
+a:hover {
+  color: var(--red);
+}
+.fa {
+  padding: 0px;
+  font-size:50px;
+  width: 40px;
+  text-decoration: none;
+  border-radius: 50%;
+}
+#slider-range{
+  width: 250px;
 }
