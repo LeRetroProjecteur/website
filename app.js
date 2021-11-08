@@ -16,9 +16,13 @@ function one_week_later(start_date){
   return end_date;
 }
 
-function get_current_week(){
-  var start_date = new Date(new Date().toDateString());
-  start_date.setDate(start_date.getDate() - ((start_date.getDay() - 3)%7))
+function get_current_week(date=null){
+  if (date==null){
+    var start_date = new Date(new Date().toDateString());
+  } else {
+    var start_date = new Date(date.toDateString());
+  }
+  start_date.setDate(start_date.getDate() - ((start_date.getDay()+4)%7))
 
   var end_date = one_week_later(start_date);
 
@@ -27,7 +31,7 @@ function get_current_week(){
 
 function get_next_week(){
   var start_date = new Date(new Date().toDateString());
-  start_date.setDate(start_date.getDate() - ((start_date.getDay()-3)%7) + 7)
+  start_date.setDate(start_date.getDate() - ((start_date.getDay()+4)%7) + 7)
   var end_date = one_week_later(start_date);
 
   return [start_date, end_date];
