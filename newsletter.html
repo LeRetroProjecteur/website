@@ -39,18 +39,13 @@
 
     <script>
       $(function(){
-        document.getElementById("current_week").innerHTML = week_string(get_current_week()[0], get_current_week()[1]);
+        document.getElementById("current_week").innerHTML = week_string(get_current_week()[0]);
       });
-    </script>
-    <h3><span id="current_week"></span></h3>
-    <br>
 
-    <script>
       $(function() {
         $.getJSON('data/reviews.json', function(data) {
           $.ajaxSetup({cache:false});
           var string = ""
-          console.log(get_current_week()[0])
           $.each(data.review, function(i, f) {
             if(f.date == get_current_week()[0].toISOString().split("T")[0]){
               string = string.concat(
@@ -67,9 +62,7 @@
           document.getElementById("cdc").innerHTML = string
         });
       });
-    </script>
 
-    <script>
       $(function() {
         $.getJSON('data/weeks.json', function(data) {
           $.ajaxSetup({cache:false});
@@ -89,6 +82,8 @@
       });
     </script>
 
+    <h3><span id="current_week"></span></h3>
+    <br>
     <span id="cdc"></span>
     <span id="week"></span>
 
