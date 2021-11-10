@@ -107,3 +107,12 @@ a:hover {
 #slider-range{
   width: 250px;
 }
+#outer
+{
+    width:100%;
+    text-align: center;
+}
+.inner
+{
+    display: inline-block;
+}
