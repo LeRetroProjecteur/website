@@ -59,8 +59,8 @@ input{
   background-color: var(--white);
   border: none;
   color: var(--red);
-  /* padding: 15px 32px; */
-  /* margin: 4px 2px; */
+  margin: 2px; /*example margin*/
+  padding: 2px;/*example padding */
   text-align: center;
   text-decoration: none;
   cursor: pointer;
