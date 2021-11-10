@@ -112,7 +112,13 @@ a:hover {
     width:100%;
     text-align: center;
 }
-.inner
+.menu-item
 {
-    display: inline-block;
+  font-size:18px;
+  display: inline-block;
+}
+
+brsmall {
+  display: block;
+  margin: 7px 0;
 }

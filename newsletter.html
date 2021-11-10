@@ -37,16 +37,20 @@
     <h2>Que voir à Paris cette semaine&nbsp;?</h2>
 
     <script>
-      $(function(){
-        document.getElementById("current_week").innerHTML = week_string(get_current_week()[0]);
-      });
-
+      var date_newsletter = "";
+      
       $(function() {
         $.getJSON('data/reviews.json', function(data) {
           $.ajaxSetup({cache:false});
           var string = ""
           $.each(data.review, function(i, f) {
-            if(f.date == get_current_week()[0].toISOString().split("T")[0]){
+            if (i == 0)  {
+              date_newsletter = f.date
+              document.getElementById("current_week").innerHTML = week_string(get_current_week(string_to_date(date_newsletter))[0]);
+            }
+          });
+          $.each(data.review, function(i, f) {
+            if (f.date == date_newsletter){
               string = string.concat(
                 "<div class='moviebox'>" +
                   "<img src='img/reviews/" + f.id  + ".png'/>" +
@@ -67,7 +71,7 @@
           $.ajaxSetup({cache:false});
           var string = ""
           $.each(data.week, function(i, f) {
-            if(f.date == get_current_week()[0].toISOString().split("T")[0]){
+            if(f.date == date_newsletter){
               string = string.concat(
                 "<div class='moviebox'>" +
                   "<h3 style='color:grey;'>" + f.name + "</h3><br>" +
