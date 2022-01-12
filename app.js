@@ -39,7 +39,6 @@ function get_next_week(date=null){
 }
 
 function week_string(start_date, end_date=null){
-
   if (end_date==null){
     var end_date = one_week_later(start_date);
   }

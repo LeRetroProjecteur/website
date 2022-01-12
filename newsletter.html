@@ -45,8 +45,17 @@
           var string = ""
           $.each(data.review, function(i, f) {
             if (i == 0)  {
-              date_newsletter = f.date
-              document.getElementById("current_week").innerHTML = week_string(get_current_week(string_to_date(date_newsletter))[0]);
+              date_newsletter = f.date;
+              Date_Newsletter = string_to_date(date_newsletter)
+              console.log(date_newsletter);
+              if (Date_Newsletter.getDay()<3){
+                // When we do the newsletter on a monday or a tuesday, it means we are early => get_next_week
+                document.getElementById("current_week").innerHTML = week_string(get_next_week(string_to_date(date_newsletter))[0]);
+              }
+              else {
+                // When we do the newsletter on a wednesday or thursday, it means we are late => get_current_week
+                document.getElementById("current_week").innerHTML = week_string(get_current_week(string_to_date(date_newsletter))[0]);
+              }
             }
           });
           $.each(data.review, function(i, f) {
