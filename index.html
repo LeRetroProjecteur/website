@@ -26,59 +26,46 @@
     });
     </script>
 
-    <title>Up Close | Cinéma à Paris</title>
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
+      import { getFirestore, collection, doc, getDoc, getDocs  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
+      // TODO: Add SDKs for Firebase products that you want to use
+      // https://firebase.google.com/docs/web/setup#available-libraries
 
-  </head>
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyCjvHHSqWGZhh2pcoHF_8ZeKqxT0wRvXuc",
+        authDomain: "website-cine.firebaseapp.com",
+        projectId: "website-cine",
+        storageBucket: "website-cine.appspot.com",
+        messagingSenderId: "1060388636946",
+        appId: "1:1060388636946:web:ea3752ae94d0ab56e68bcb"
+      };
 
-  <script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
-    import { getFirestore, collection, doc, getDoc, getDocs  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore();
 
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCjvHHSqWGZhh2pcoHF_8ZeKqxT0wRvXuc",
-      authDomain: "website-cine.firebaseapp.com",
-      projectId: "website-cine",
-      storageBucket: "website-cine.appspot.com",
-      messagingSenderId: "1060388636946",
-      appId: "1:1060388636946:web:ea3752ae94d0ab56e68bcb"
-    };
+      var selected_date = new Date();
+      var selected_hour = selected_date.getHours()-1;
+      var day = selected_date.getUTCDate();
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-
-    const db = getFirestore();
-    const querySnapshot = await getDocs(collection(db, "allocine_movies_2022_1_12"));
-    //querySnapshot.forEach((doc) => {
-    //  console.log(doc.id, doc.data());
-    //});
-  </script>
-    
-  <script>
-    var selected_date = new Date();
-    var day = selected_date.getUTCDate();
-
-    $(function() {
-      document.getElementById("date_of_today").innerHTML = day_string(selected_date);
-
-      $.getJSON('data/classic_movies.json', function(data) {
-        $.ajaxSetup({cache:false});
-        $.each(data.movies, function(i, f) {
-          var movie = f.date;
-          var md = new Date(movie[0], movie[1]-1, movie[2]);
+      async function populate_movies(db, date, hour) {
+        var todayString = String(date.getFullYear()).concat('_', String(date.getMonth()+1), '_', String(date.getDate()));
+        var querySnapshot = await getDocs(collection(db, "allocine_movies_"+todayString));
+        querySnapshot.forEach((doc) => {
+          var f = doc.data();
+          var date = f.date;
+          var md = new Date(date[0], date[1]-1, date[2]);
           var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()));
           var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()));
-          var specified_hour = selected_date.getHours()-1;
-
-          max_hour = display_real_dict(f.showtimes_theater, specified_hour)[0];
-          new_dict = display_real_dict(f.showtimes_theater, specified_hour)[1];
-          real_showtime = display_showtimes(new_dict);
-
-          if (mdStr==sdStr && max_hour>=specified_hour){
-            movie_page = f.title
+          var max_hour = display_real_dict(f.showtimes_theater, hour)[0];
+          var new_dict = display_real_dict(f.showtimes_theater, hour)[1];
+          var real_showtime = display_showtimes(new_dict);
+          
+          if (mdStr==sdStr && max_hour>=hour) {
+            var movie_page = f.title
             var tblRow = "<tr>" +
               "<td><b>" + movie_page + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
               "<td>" + real_showtime + "</td>" +
@@ -86,146 +73,114 @@
             $(tblRow).appendTo("#userdata tbody");
           }
         });
-      });
-    });
-  </script>
-
-  <script>
-    async function movies_after(specified_hour) {
-      var tempScrollTop = $(window).scrollTop();
-      await $('#userdata tbody').empty();
-      $.getJSON('data/classic_movies.json', function(data) {
-        $.ajaxSetup({cache:false});
-        $.each(data.movies, function(i, f) {
-          var movie = f.date ;
-          var md = new Date(movie[0], movie[1]-1, movie[2])
-          var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()))
-          var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()))
-
-          var nd = new Date();
-          var start = new Date(nd.getFullYear(), 0, 0);
-          var num_day_today = Math.floor((nd - start) / (1000 * 60 * 60 * 24));
-          var num_day_selected = Math.floor((selected_date - start) / (1000 * 60 * 60 * 24));
-
-          if (num_day_selected == num_day_today){
-            var day_hour = nd.getHours()-1;
-          }
-          else{
-            var day_hour = 0;
-          }
-          hour_constraint = Math.max(specified_hour, day_hour);
-          console.log(hour_constraint)
-          max_hour = display_real_dict(f.showtimes_theater, hour_constraint)[0];
-          new_dict = display_real_dict(f.showtimes_theater, hour_constraint)[1];
-          real_showtime = display_showtimes(new_dict);
-
-          if (mdStr==sdStr && max_hour>=hour_constraint){
-            var tblRow = "<tr>" +
-              "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
-              "<td>" + real_showtime + "</td>" +
-              "</tr>"
-            $(tblRow).appendTo("#userdata tbody");
-          }
-        });
-      });
-      $(window).scrollTop(tempScrollTop);
-    }
-  </script>
-
-  <script>
-    async function move_date_forward() {
-      document.getElementById("backward_button").style.color = "var(--red)";
-      Checkbox19.checked = 0
-      var tempScrollTop = $(window).scrollTop();
-      selected_date.setDate(selected_date.getDate()+1);
-      document.getElementById("date_of_today").innerHTML = day_string(selected_date);
-
-      await $('#userdata tbody').empty();
-      $.getJSON('data/classic_movies.json', function(data) {
-        $.ajaxSetup({cache:false});
-        $.each(data.movies, function(i, f) {
-          var movie = f.date;
-          var md = new Date(movie[0], movie[1]-1, movie[2]);
-          var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()));
-          var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()));
-          var specified_hour = 0;
-
-          max_hour = display_real_dict(f.showtimes_theater, specified_hour)[0];
-          new_dict = display_real_dict(f.showtimes_theater, specified_hour)[1];
-          real_showtime = display_showtimes(new_dict);
-
-          if (mdStr==sdStr && max_hour>=specified_hour){
-            var tblRow = "<tr>" +
-              "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
-              "<td>" + real_showtime + "</td>" +
-              "</tr>"
-            $(tblRow).appendTo("#userdata tbody");
-          }
-        });
-      });
-      $(window).scrollTop(tempScrollTop);
-    }
-  </script>
-
-  <script>
-    function move_date_backward() {
-      Checkbox19.checked = 0;
-      var nd = new Date();
-      var start = new Date(nd.getFullYear(), 0, 0);
-      var num_day_today = Math.floor((nd - start) / (1000 * 60 * 60 * 24));
-      var num_day_selected = Math.floor((selected_date-1 - start) / (1000 * 60 * 60 * 24));
-
-      if (num_day_selected-1 <= num_day_today){
-        document.getElementById("backward_button").style.color = "var(--lightgrey)";
       }
-      else{
-        document.getElementById("backward_button").style.color = "var(--red)";
+
+      async function refresh_data() {
+        populate_movies(db, selected_date, selected_hour)
       }
-      if (num_day_selected > num_day_today){
-          var tempScrollTop = $(window).scrollTop();
-          selected_date.setDate(selected_date.getDate()-1);
+
+      async function movies_after(date, specified_hour) {
+        var tempScrollTop = $(window).scrollTop();
+        await $('#userdata tbody').empty();
+        var nd = new Date();
+        var start = new Date(nd.getFullYear(), 0, 0);
+        var num_day_today = Math.floor((nd - start) / (1000 * 60 * 60 * 24));
+        var num_day_selected = Math.floor((date - start) / (1000 * 60 * 60 * 24));
+
+        if (num_day_selected == num_day_today){
+          var day_hour = nd.getHours()-1;
+        }
+        else{
+          var day_hour = 0;
+        }
+        var hour_constraint = Math.max(specified_hour, day_hour);
+        populate_movies(db, selected_date, hour_constraint)
+        $(window).scrollTop(tempScrollTop);
+      }
+
+      async function move_date_forward() {
+        document.getElementById("move_date_backward").style.color = "var(--red)";
+        Checkbox19.checked = 0
+        var tempScrollTop = $(window).scrollTop();
+        selected_date.setDate(selected_date.getDate()+1);
+        selected_hour = 0
+        document.getElementById("date_of_today").innerHTML = day_string(selected_date);
+        await $('#userdata tbody').empty();
+        refresh_data()
+        $(window).scrollTop(tempScrollTop);
+      }
+
+      function move_date_backward() {
+        Checkbox19.checked = 0;
+        var nd = new Date();
+        var start = new Date(nd.getFullYear(), 0, 0);
+        var num_day_today = Math.floor((nd - start) / (1000 * 60 * 60 * 24));
+        var num_day_selected = Math.floor((selected_date-1 - start) / (1000 * 60 * 60 * 24));
+
+        if (num_day_selected-1 <= num_day_today){
+          document.getElementById("move_date_backward").style.color = "var(--lightgrey)";
+        }
+        else{
+          document.getElementById("move_date_backward").style.color = "var(--red)";
+        }
+        if (num_day_selected > num_day_today){
+            var tempScrollTop = $(window).scrollTop();
+            selected_date.setDate(selected_date.getDate()-1);
+            document.getElementById("date_of_today").innerHTML = day_string(selected_date);
+
+            $('#userdata tbody').empty();
+            var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()));
+            var today = new Date();
+            var todayStr = String(today.getFullYear()).concat('-', String(today.getMonth()+1), '-', String(today.getDate()));
+
+            var specified_hour = 0;
+            if (todayStr==sdStr){
+              specified_hour = today.getHours()-1;
+            }
+            populate_movies(db, selected_date, specified_hour)
+            $(window).scrollTop(tempScrollTop);
+        }
+      }
+
+      var Checkbox19 = document.querySelector('input[name="19_movies"]');
+      Checkbox19.onchange = function() {
+        if(Checkbox19.checked) {
+          movies_after(selected_date, 19)
+        } else {
+          movies_after(selected_date, 0)
+        }
+      };
+
+      var moveForwardButton = document.querySelector('#move_date_forward');
+      moveForwardButton.onclick = function() {
+        move_date_forward()
+      };
+
+      var moveBackwardButton = document.querySelector('#move_date_backward');
+      moveBackwardButton.onclick = function() {
+        move_date_backward()
+      };
+
+      (async () => {
+        $(function() {
+          console.log(document, selected_date)
           document.getElementById("date_of_today").innerHTML = day_string(selected_date);
+          refresh_data()
+        });
+      })();  
+    </script>
 
-          $('#userdata tbody').empty();
-          $.getJSON('data/classic_movies.json', function(data) {
-            $.ajaxSetup({cache:false});
-            $.each(data.movies, function(i, f) {
 
-              var movie = f.date;
-              var md = new Date(movie[0], movie[1]-1, movie[2]);
-              var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()));
-              var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()));
-              var today = new Date();
-              var todayStr = String(today.getFullYear()).concat('-', String(today.getMonth()+1), '-', String(today.getDate()));
+    <title>Up Close | Cinéma à Paris</title>
 
-              if (todayStr==sdStr){
-                var specified_hour = today.getHours()-1;
-              }
-              else {
-                var specified_hour = 0;
-              }
-              max_hour = display_real_dict(f.showtimes_theater, specified_hour)[0];
-              new_dict = display_real_dict(f.showtimes_theater, specified_hour)[1];
-              real_showtime = display_showtimes(new_dict);
-              if (mdStr==sdStr && max_hour>=specified_hour){
-                  var tblRow = "<tr>" +
-                    "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
-                    "<td>" + real_showtime + "</td>" +
-                    "</tr>"
-                  $(tblRow).appendTo("#userdata tbody");
-              }
-            });
-          });
-          $(window).scrollTop(tempScrollTop);
-      }
-    }
-  </script>
+  </head>
 
-  
   <body class="light-theme">
     <div id="header"></div>
     <h3>
-      <input type="button" id="backward_button" class="button" value= "◀&#xFE0E;" onclick="move_date_backward()" style="color: var(--lightgrey);"><b><span id="date_of_today" class="center"></span></b><input type="button" class="button" value= "▶&#xFE0E;" onclick="move_date_forward()" style="color: var(--red);">
+      <input type="button" id="move_date_backward" class="button" value= "◀&#xFE0E;" style="color: var(--lightgrey);">
+      <b><span id="date_of_today" class="center"></span></b>
+      <input type="button" id="move_date_forward" class="button" value= "▶&#xFE0E;" style="color: var(--red);">
     </h3>
     <brsmall>
     <center>
@@ -233,18 +188,7 @@
       <label for="subscribeNews">Séances après 19h</label>
     </center>
     <brsmall>
-
-    <script>
-      var Checkbox19 = document.querySelector('input[name="19_movies"]');
-      Checkbox19.onchange = function() {
-        if(Checkbox19.checked) {
-          movies_after(19)
-        } else {
-          movies_after(0)
-        }
-      };
-    </script>
-
+    
     <div class="wrapper">
     <div class="profile">
       <table id= "userdata" border="2" class="center">
