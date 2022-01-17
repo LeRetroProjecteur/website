@@ -54,8 +54,13 @@
       async function populate_movies(db, date, hour) {
         var todayString = String(date.getFullYear()).concat('_', String(date.getMonth()+1), '_', String(date.getDate()));
         var querySnapshot = await getDocs(collection(db, "allocine_movies_"+todayString));
+        var data = [];
         querySnapshot.forEach((doc) => {
-          var f = doc.data();
+          data.push(doc.data());
+        });
+
+        data.sort((a, b) => $(a).attr('year') - $(b).attr('year')).forEach(f => {
+          console.log(Object.values(f.showtimes_theater))
           var date = f.date;
           var md = new Date(date[0], date[1]-1, date[2]);
           var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()));
@@ -163,7 +168,6 @@
 
       (async () => {
         $(function() {
-          console.log(document, selected_date)
           document.getElementById("date_of_today").innerHTML = day_string(selected_date);
           refresh_data()
         });

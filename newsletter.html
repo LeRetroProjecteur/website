@@ -47,7 +47,6 @@
             if (i == 0)  {
               date_newsletter = f.date;
               Date_Newsletter = string_to_date(date_newsletter)
-              console.log(date_newsletter);
               if (Date_Newsletter.getDay()<3){
                 // When we do the newsletter on a monday or a tuesday, it means we are early => get_next_week
                 document.getElementById("current_week").innerHTML = week_string(get_next_week(string_to_date(date_newsletter))[0]);
