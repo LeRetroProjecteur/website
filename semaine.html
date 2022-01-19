@@ -54,14 +54,21 @@
 
     async function populate_movies_week() {
       var date = new Date();
-      var day_of_week = date.getDate();
+      var delta = date.getDay()-3;
+      if (delta>=0){
+        date.setDate(date.getDate() - delta);
+      }
+      else {
+        date.setDate(date.getDate() + delta);
+      }
+      document.getElementById("current_week").innerHTML = week_string(get_current_week(date)[0]);
       var todayString = String(date.getFullYear()).concat('_', String(date.getMonth()+1), '_', String(date.getDate()));
       var querySnapshot = await getDocs(collection(db, "allocine_movies_week_"+todayString));
-      console.log("allocine_movies_week_"+todayString);
       var data = [];
       querySnapshot.forEach((doc) => {
         data.push(doc.data());
       });
+
       var prev_movie = "";
       var string = "";
       data.sort((a, b) => $(a).attr('year') - $(b).attr('year')).forEach(f => {
@@ -96,7 +103,7 @@
   <body class="light-theme">
 
     <div id="header"></div>
-
+    <h3><span id="current_week"></span></h3>
     <h2><span id="next_week"></span></h2>
     <span id="week_films"></span>
 
