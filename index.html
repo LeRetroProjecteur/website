@@ -104,7 +104,7 @@
       }
 
       async function move_date_forward() {
-        document.getElementById("move_date_backward").style.color = "var(--red)";
+        document.getElementById("move_date_forward").style.color = "var(--red)";
         Checkbox19.checked = 0
         var tempScrollTop = $(window).scrollTop();
         selected_date.setDate(selected_date.getDate()+1);
@@ -115,7 +115,7 @@
         $(window).scrollTop(tempScrollTop);
       }
 
-      function move_date_backward() {
+      async function move_date_backward() {
         Checkbox19.checked = 0;
         var nd = new Date();
         var start = new Date(nd.getFullYear(), 0, 0);
