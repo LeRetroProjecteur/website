@@ -90,7 +90,7 @@
           if (f.date == dateNewsletter){
             string = string.concat(
             "<div class='moviebox'>" +
-              "<img src='img/reviews/" + f.id  + ".png'/>" +
+              "<img src='data:image/png;base64," + f.image_file + "'/>" +
               "<h3 style='color:grey;'>" + f.category + "</h3>" +
               "<h3><i>" + f.movie_name + "</i>, " + f.movie_directors + " (" + f.movie_year + ")</h3>" +
               f.review +

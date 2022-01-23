@@ -76,9 +76,10 @@
         var string = ""
         data.reverse((a, b) => $(a).attr('date') - $(b).attr('date')).forEach(f => {
           if(f.category == 'COUP DE C\u0152UR'){
+            //console.log(f.image_file)
             string = string.concat(
               "<div class='moviebox'>" +
-                "<img src='img/reviews/" + f.id  + ".png'/>" +
+                "<img src='data:image/png;base64," + f.image_file + "'/>" +
                 "<h3 style='color:grey; font-weight:normal;'>" + week_string(string_to_date(f.date)) + "&nbsp;: " + f.category + "</h3>" +
                 "<h3><i>" + f.movie_name + "</i>, " + f.movie_directors + " (" + f.movie_year + ")</h3>" +
                 f.review +
