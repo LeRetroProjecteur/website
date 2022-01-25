@@ -59,10 +59,11 @@
         date.setDate(date.getDate() - delta);
       }
       else {
-        date.setDate(date.getDate() + delta);
+        date.setDate(date.getDate() - delta);
       }
       document.getElementById("current_week").innerHTML = week_string(get_current_week(date)[0]);
       var todayString = String(date.getFullYear()).concat('_', String(date.getMonth()+1), '_', String(date.getDate()));
+      console.log(todayString);
       var querySnapshot = await getDocs(collection(db, "allocine_movies_week_"+todayString));
       var data = [];
       querySnapshot.forEach((doc) => {
