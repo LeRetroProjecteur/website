@@ -55,12 +55,7 @@
     async function populate_movies_week() {
       var date = new Date();
       var delta = date.getDay()-3;
-      if (delta>=0){
-        date.setDate(date.getDate() - delta);
-      }
-      else {
-        date.setDate(date.getDate() - delta);
-      }
+      date.setDate(date.getDate() - delta);
       document.getElementById("current_week").innerHTML = week_string(get_current_week(date)[0]);
       var todayString = String(date.getFullYear()).concat('_', String(date.getMonth()+1), '_', String(date.getDate()));
       var querySnapshot = await getDocs(collection(db, "allocine_movies_week_"+todayString));
