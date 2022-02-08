@@ -10,6 +10,11 @@ function string_to_date(string){
   return date;
 }
 
+function date_to_string(date){
+  var string = String(date.getFullYear()).concat('_', String(date.getMonth()+1).padStart(2, '0'), '_', String(date.getDate()).padStart(2, '0'));
+  return string;
+}
+
 function one_week_later(start_date){
   var end_date = new Date(start_date.getFullYear(), start_date.getMonth(), start_date.getDate());
   end_date.setDate(end_date.getDate() + 6);
