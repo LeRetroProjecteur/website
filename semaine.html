@@ -34,7 +34,7 @@
   <script type="module">
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
-    import { getFirestore, collection, doc, getDoc, getDocs  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
+    import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
     // TODO: Add SDKs for Firebase products that you want to use
     // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -52,18 +52,42 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore();
 
-    async function populate_movies_week() {
-      var date = new Date();
-      var delta = date.getDay()-3;
-      date.setDate(date.getDate() - delta);
-      document.getElementById("current_week").innerHTML = week_string(get_current_week(date)[0]);
-      var todayString = String(date.getFullYear()).concat('_', String(date.getMonth()+1), '_', String(date.getDate()));
-      var querySnapshot = await getDocs(collection(db, "allocine_movies_week_"+todayString));
-      var data = [];
+    var date = new Date();
+    var delta = date.getDay()-3;
+    date.setDate(date.getDate() - delta);
+    document.getElementById("current_week").innerHTML = week_string(get_current_week(date)[0]);
+    //var todayString = String(date.getFullYear()).concat('_', String(date.getMonth()+1), '_', String(date.getDate()));
+    //console.log(todayString)
+    
+    async function populate_movies_week(date) {
+        var todayString = date_to_string(date);
+        var data = [];
+        for (let i = 0; i < 7; i++) {
+          var string_date = date_to_string(date);
+          await populate_movies_day(data, string_date);
+          date.setDate(date.getDate() + 1);
+        }
+        const data_flat = data.flat(1);
+        create_string(data_flat);
+    }
+    
+    async function populate_movies_day(data, date) {
+      const q = query(collection(db, "movies"), where("date", "==", date));
+      var querySnapshot = await getDocs(q);
+      var data_day = [];
       querySnapshot.forEach((doc) => {
-        data.push(doc.data());
+        data_day = doc.data().movies;
       });
-
+      data.push(data_day);
+    }
+    
+    (async () => {
+        $(function() {
+          populate_movies_week(date);
+        });
+      })();
+    
+    function create_string(data){
       var prev_movie = "";
       var string = "";
       data.sort((a, b) => $(a).attr('year') - $(b).attr('year')).forEach(f => {
@@ -84,14 +108,8 @@
         )
         prev_movie = f.title;
       });
-      document.getElementById("week_films").innerHTML = string
+      document.getElementById("week_films").innerHTML = string;
     }
-
-  (async () => {
-        $(function() {
-          populate_movies_week()
-        });
-      })();
 
   </script>
 
