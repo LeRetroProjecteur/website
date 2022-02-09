@@ -90,23 +90,25 @@
     function create_string(data){
       var prev_movie = "";
       var string = "";
-      data.sort((a, b) => $(a).attr('original_title').localeCompare($(b).attr('original_title'))).forEach(f => {
-        var movie = f.date;
-        var md = new Date(movie[0], movie[1]-1, movie[2], 0, 0, 0, 0)
-        var max_hour = display_real_dict(f.showtimes_theater)[0];
-        var new_dict = display_real_dict(f.showtimes_theater)[1];
-        var real_showtime = display_showtimes(new_dict, "; ");
-        
-        if (f.title != prev_movie){
+      //data.sort((a, b) => $(a).attr('directors').localeCompare($(b).attr('directors'))).forEach(f => {
+      data.sort((a, b) => $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('original_title').localeCompare($(b).attr('original_title')) ).forEach(f => {
+          console.log(f);
+          var movie = f.date;
+          var md = new Date(movie[0], movie[1]-1, movie[2], 0, 0, 0, 0)
+          var max_hour = display_real_dict(f.showtimes_theater)[0];
+          var new_dict = display_real_dict(f.showtimes_theater)[1];
+          var real_showtime = display_showtimes(new_dict, "; ");
+          
+          if (f.title != prev_movie){
+            string = string.concat(
+              "<br><h3 style='text-align:left'><i>" + f.title + "</i>, " + f.directors + " (" + f.year + ")</h3>"
+            )
+          }
           string = string.concat(
-            "<br><h3 style='text-align:left'><i>" + f.title + "</i>, " + f.directors + " (" + f.year + ")</h3>"
+            "<b>" + days_short[md.getDay()] + " " + md.getDate() + " " + months_short[md.getMonth()] + "</b> " +
+            real_showtime + "<br>"
           )
-        }
-        string = string.concat(
-          "<b>" + days_short[md.getDay()] + " " + md.getDate() + " " + months_short[md.getMonth()] + "</b> " +
-          real_showtime + "<br>"
-        )
-        prev_movie = f.title;
+          prev_movie = f.title;
       });
       document.getElementById("week_films").innerHTML = string;
     }
