@@ -90,7 +90,7 @@
     function create_string(data){
       var prev_movie = "";
       var string = "";
-      data.sort((a, b) => $(a).attr('year') - $(b).attr('year')).forEach(f => {
+      data.sort((a, b) => $(a).attr('original_title').localeCompare($(b).attr('original_title'))).forEach(f => {
         var movie = f.date;
         var md = new Date(movie[0], movie[1]-1, movie[2], 0, 0, 0, 0)
         var max_hour = display_real_dict(f.showtimes_theater)[0];
