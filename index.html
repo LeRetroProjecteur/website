@@ -53,8 +53,6 @@
 
       async function populate_movies(db, date, hour) {
         var todayString = date_to_string(date);
-        console.log(todayString)
-
         const q = query(collection(db, "movies"), where("date", "==", todayString));
         var querySnapshot = await getDocs(q);
         var data = [];
