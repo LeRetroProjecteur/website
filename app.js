@@ -110,3 +110,13 @@ function display_real_dict(dictionnary, specified_hour=0){
   }
   return [max_hour, new_dict]
 }
+
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCjvHHSqWGZhh2pcoHF_8ZeKqxT0wRvXuc",
+  authDomain: "website-cine.firebaseapp.com",
+  projectId: "website-cine",
+  storageBucket: "website-cine.appspot.com",
+  messagingSenderId: "1060388636946",
+  appId: "1:1060388636946:web:ea3752ae94d0ab56e68bcb"
+};

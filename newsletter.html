@@ -40,25 +40,16 @@
       // Import the functions you need from the SDKs you need
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
       import { getFirestore, collection, doc, getDoc, getDocs  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
-      // TODO: Add SDKs for Firebase products that you want to use
+      // TO DO: Add SDKs for Firebase products that you want to use
       // https://firebase.google.com/docs/web/setup#available-libraries
 
-      // Your web app's Firebase configuration
-      const firebaseConfig = {
-        apiKey: "AIzaSyCjvHHSqWGZhh2pcoHF_8ZeKqxT0wRvXuc",
-        authDomain: "website-cine.firebaseapp.com",
-        projectId: "website-cine",
-        storageBucket: "website-cine.appspot.com",
-        messagingSenderId: "1060388636946",
-        appId: "1:1060388636946:web:ea3752ae94d0ab56e68bcb"
-      };
-
       // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore();
+
       var selected_date = new Date();
       var selected_year = selected_date.getFullYear();
       var dateNewsletter = new Date();
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore();
 
       async function populate_review(db, year) {
         var todayYear = String(year);
@@ -67,7 +58,7 @@
         querySnapshot.forEach((doc) => {
           data.push(doc.data());
         });
-        
+
         var i=0;
         data.reverse((a, b) => $(a).attr('date') - $(b).attr('date')).forEach(f => {
           if(i==0){
@@ -85,7 +76,7 @@
           }
         });
 
-        var string = "";    
+        var string = "";
         data.reverse((a, b) => $(a).attr('date') - $(b).attr('date')).forEach(f => {
           if (f.date == dateNewsletter){
             string = string.concat(
@@ -116,9 +107,9 @@
           }
           document.getElementById("week").innerHTML = string;
         });
-        
+
       }
-    
+
       (async () => {
         $(function() {
           populate_review(db, selected_year);

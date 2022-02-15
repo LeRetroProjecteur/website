@@ -35,18 +35,8 @@
     // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
     import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
-    // TODO: Add SDKs for Firebase products that you want to use
+    // TO DO: Add SDKs for Firebase products that you want to use
     // https://firebase.google.com/docs/web/setup#available-libraries
-
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyCjvHHSqWGZhh2pcoHF_8ZeKqxT0wRvXuc",
-      authDomain: "website-cine.firebaseapp.com",
-      projectId: "website-cine",
-      storageBucket: "website-cine.appspot.com",
-      messagingSenderId: "1060388636946",
-      appId: "1:1060388636946:web:ea3752ae94d0ab56e68bcb"
-    };
 
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
@@ -58,7 +48,7 @@
     document.getElementById("current_week").innerHTML = week_string(get_current_week(date)[0]);
     //var todayString = String(date.getFullYear()).concat('_', String(date.getMonth()+1), '_', String(date.getDate()));
     //console.log(todayString)
-    
+
     async function populate_movies_week(date) {
         var todayString = date_to_string(date);
         var data = [];
@@ -70,7 +60,7 @@
         const data_flat = data.flat(1);
         create_string(data_flat);
     }
-    
+
     async function populate_movies_day(data, date) {
       const q = query(collection(db, "movies"), where("date", "==", date));
       var querySnapshot = await getDocs(q);
@@ -80,13 +70,13 @@
       });
       data.push(data_day);
     }
-    
+
     (async () => {
         $(function() {
           populate_movies_week(date);
         });
       })();
-    
+
     function create_string(data){
       var prev_movie = "";
       var string = "";
@@ -98,7 +88,7 @@
           var max_hour = display_real_dict(f.showtimes_theater)[0];
           var new_dict = display_real_dict(f.showtimes_theater)[1];
           var real_showtime = display_showtimes(new_dict, "; ");
-          
+
           if (f.title != prev_movie){
             string = string.concat(
               "<br><h3 style='text-align:left'><i>" + f.title + "</i>, " + f.directors + " (" + f.year + ")</h3>"
