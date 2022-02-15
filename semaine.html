@@ -57,28 +57,12 @@
       data.push(data_day);
     }
 
-    async function populate_movies_week(start_date) {
-      var data = [];
-      for (let i = 0; i < 7; i++) {
-        var date = new Date();
-        date.setDate(start_date.getDate() + i);
-        var string_date = date_to_string(date);
-        await populate_movies_day(data, string_date);
-      }
-      const data_flat = data.flat(1);
-      create_string(data_flat);
-    }
-
-    (async () => {
-      $(function() {
-        populate_movies_week(start_date);
-      });
-    })();
-
-    function create_string(data){
+    function create_week_films_string(data){
       var prev_movie = "";
       var string = "";
-      data.sort((a, b) => $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('year') - $(b).attr('year') ).forEach(f => {
+      data.sort(
+        (a, b) => $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('year') - $(b).attr('year') || $(a).attr('title').localeCompare($(b).attr('title'))
+      ).forEach(f => {
         var movie = f.date;
         var md = new Date(movie[0], movie[1]-1, movie[2], 0, 0, 0, 0)
         var max_hour = display_real_dict(f.showtimes_theater)[0];
@@ -99,14 +83,78 @@
       document.getElementById("week_films").innerHTML = string;
     }
 
+    function create_retrospectives_string(data){
+
+      var prev_movie = "";
+      var prev_movie_dir = "";
+      var string = "";
+      var nb_movies = 0;
+      var dir_string = "";
+
+      data.sort(
+        (a, b) => $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('year') - $(b).attr('year') || $(a).attr('title').localeCompare($(b).attr('title'))
+      ).forEach(f => {
+
+        if (f.directors != prev_movie_dir){
+          if (nb_movies > 3){
+            dir_string = dir_string.concat("<br>")
+            string = string.concat(dir_string)
+          }
+          dir_string = "<br><h3 style='text-align:left'>" + f.directors + "</h3>"
+          dir_string = dir_string.concat(
+            "<i>" + f.title + "</i>" + " (" + f.year + ")"
+          )
+          nb_movies = 1;
+        }
+
+        if (f.directors == prev_movie_dir){
+          if (f.title != prev_movie){
+            nb_movies = nb_movies + 1;
+            dir_string = dir_string.concat(
+              ", <i>" + f.title + "</i>" + " (" + f.year + ")"
+            )
+          }
+        }
+
+        prev_movie = f.title;
+        prev_movie_dir = f.directors;
+
+      });
+      document.getElementById("retrospectives").innerHTML = string;
+    }
+
+    async function populate_movies_week(start_date) {
+      var data = [];
+      for (let i = 0; i < 7; i++) {
+        var date = new Date();
+        date.setDate(start_date.getDate() + i);
+        var string_date = date_to_string(date);
+        await populate_movies_day(data, string_date);
+      }
+      const data_flat = data.flat(1);
+      create_week_films_string(data_flat);
+      create_retrospectives_string(data_flat);
+    }
+
+    (async () => {
+      $(function() {
+        populate_movies_week(start_date);
+      });
+    })();
+
   </script>
 
   <body class="light-theme">
 
     <div id="header"></div>
 
-    <h3><span id="next_week"></span></h3>
+    <h2><span id="next_week"></span></h2>
     <span id="week_films"></span>
+
+    <br>
+    <br>
+    <h2>Retrospectives:</h2>
+    <span id="retrospectives"></span>
 
     <div id="footer"></div>
 
