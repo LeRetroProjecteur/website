@@ -61,7 +61,6 @@
         querySnapshot.forEach((doc) => {
           data.push(doc.data());
         });
-        console.log(data);
         
         var i=0;
         data.sort((a, b) => $(b).attr('time') - $(a).attr('time')).forEach(f => {
@@ -103,7 +102,7 @@
         });
 
         var string = "";
-        data.reverse((a, b) => $(a).attr('date') - $(b).attr('date')).forEach(f => {
+        data.sort((a, b) => $(a).attr('date') - $(b).attr('date')).forEach(f => {
           if (f.date == dateNewsletter){
             string = string.concat(
                 "<div class='moviebox'>" + "<h3 style='color:grey;'>" + f.name + "</h3><br>" +
@@ -126,7 +125,6 @@
     <br>
     <span id="cdc"></span>
     <span id="week"></span>
-
     <div id="footer"></div>
 
   </body>
