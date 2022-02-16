@@ -38,10 +38,11 @@
       const db = getFirestore();
 
       var selected_date = new Date();
-      var selected_hour = selected_date.getHours()-1;
+      var selected_start_hour = selected_date.getHours()-1;
+      var selected_end_hour = 24;
       var day = selected_date.getUTCDate();
 
-      async function populate_movies(db, date, hour) {
+      async function populate_movies(db, date, start_hour, end_hour) {
         var todayString = date_to_string(date);
         const q = query(collection(db, "movies"), where("date", "==", todayString));
         var querySnapshot = await getDocs(q);
@@ -50,16 +51,17 @@
             data = doc.data().movies;
         });
 
-        data.sort((a, b) => $(a).attr('year') - $(b).attr('year')).forEach(f => {
+        data.sort(
+          (a, b) => $(a).attr('year') - $(b).attr('year') || $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('title').localeCompare($(b).attr('title'))
+        ).forEach(f => {
           var date = f.date;
           var md = new Date(date[0], date[1]-1, date[2]);
           var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()));
           var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()));
-          var max_hour = display_real_dict(f.showtimes_theater, hour)[0];
-          var new_dict = display_real_dict(f.showtimes_theater, hour)[1];
-          var real_showtime = display_showtimes(new_dict);
+          var new_dict = display_real_dict(f.showtimes_theater, start_hour, end_hour);
 
-          if (mdStr==sdStr && max_hour>=hour) {
+          if (mdStr==sdStr && Object.keys(new_dict).length > 0) {
+            var real_showtime = display_showtimes(new_dict);
             var movie_page = f.title
             var tblRow = "<tr>" +
               "<td><b>" + movie_page + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
@@ -71,10 +73,10 @@
       }
 
       async function refresh_data() {
-        populate_movies(db, selected_date, selected_hour)
+        populate_movies(db, selected_date, selected_start_hour, selected_end_hour)
       }
 
-      async function movies_after(date, specified_hour) {
+      async function movies_between(date, start_hour=0, end_hour=24) {
         var tempScrollTop = $(window).scrollTop();
         await $('#userdata tbody').empty();
         var nd = new Date();
@@ -88,20 +90,20 @@
         else{
           var day_hour = 0;
         }
-        var hour_constraint = Math.max(specified_hour, day_hour);
-        populate_movies(db, selected_date, hour_constraint)
+        var start_hour = Math.max(start_hour, day_hour);
+        populate_movies(db, date, start_hour, end_hour)
         $(window).scrollTop(tempScrollTop);
       }
 
       async function move_date_forward() {
-        document.getElementById("move_date_backward").style.color = "var(--red)";
         Checkbox19.checked = 0
+
+        document.getElementById("move_date_backward").style.color = "var(--red)";
         var tempScrollTop = $(window).scrollTop();
         selected_date.setDate(selected_date.getDate()+1);
-        selected_hour = 0
         document.getElementById("date_of_today").innerHTML = day_string(selected_date);
         await $('#userdata tbody').empty();
-        refresh_data()
+        refresh_data();
         $(window).scrollTop(tempScrollTop);
       }
 
@@ -140,9 +142,9 @@
       var Checkbox19 = document.querySelector('input[name="19_movies"]');
       Checkbox19.onchange = function() {
         if(Checkbox19.checked) {
-          movies_after(selected_date, 19)
+          movies_between(selected_date, 19, 24)
         } else {
-          movies_after(selected_date, 0)
+          movies_between(selected_date, 0, 24)
         }
       };
 

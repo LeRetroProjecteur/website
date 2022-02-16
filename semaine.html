@@ -65,8 +65,7 @@
       ).forEach(f => {
         var movie = f.date;
         var md = new Date(movie[0], movie[1]-1, movie[2], 0, 0, 0, 0)
-        var max_hour = display_real_dict(f.showtimes_theater)[0];
-        var new_dict = display_real_dict(f.showtimes_theater)[1];
+        var new_dict = display_real_dict(f.showtimes_theater);
         var real_showtime = display_showtimes(new_dict, "; ");
 
         if (f.title != prev_movie){

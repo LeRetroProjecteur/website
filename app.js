@@ -92,23 +92,23 @@ function display_showtimes(dictionnary, sep="<br>"){
   return showtime
 }
 
-function display_real_dict(dictionnary, specified_hour=0){
+function display_real_dict(dictionnary, start_hour=0, end_hour=24){
   var new_dict = {};
-  var max_hour = 0;
   for (const [key, value] of Object.entries(dictionnary)){
     for (var i = 0; i < value.length; i++){
       var hour = value[i];
-      max_hour = Math.max(max_hour, hour);
-      if (hour>=specified_hour){
-        if (key in new_dict){
-          new_dict[key].push(hour);
-        } else {
-          new_dict[key] = [hour];
+      if (hour >= start_hour){
+        if (hour <= end_hour){
+          if (key in new_dict){
+            new_dict[key].push(hour);
+          } else {
+            new_dict[key] = [hour];
+          }
         }
       }
     }
   }
-  return [max_hour, new_dict]
+  return new_dict
 }
 
 // Your web app's Firebase configuration
