@@ -42,7 +42,18 @@
       var selected_end_hour = 24;
       var day = selected_date.getUTCDate();
 
-      async function populate_movies(db, date, start_hour, end_hour) {
+      async function populate_movies(db, date, start, end) {
+        var tempScrollTop = $(window).scrollTop();
+
+        await $('#userdata tbody').empty();
+        var nd = new Date();
+        if (datesAreOnSameDay(date, nd)){
+          var day_hour = nd.getHours()-1;
+        } else {
+          var day_hour = 0;
+        }
+        start = Math.max(start, day_hour);
+
         var todayString = date_to_string(date);
         const q = query(collection(db, "movies"), where("date", "==", todayString));
         var querySnapshot = await getDocs(q);
@@ -50,16 +61,15 @@
         querySnapshot.forEach((doc) => {
             data = doc.data().movies;
         });
-        
+
         data.sort(
           (a, b) => $(a).attr('year') - $(b).attr('year') || $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('title').localeCompare($(b).attr('title'))
         ).forEach(f => {
-          var date = f.date;
-          var md = new Date(date[0], date[1]-1, date[2]);
+          var md = new Date(f.date[0], f.date[1]-1, f.date[2]);
           var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()));
           var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()));
-          var new_dict = display_real_dict(f.showtimes_theater, start_hour, end_hour);
-          
+          var new_dict = display_real_dict(f.showtimes_theater, start, end);
+
           if (mdStr==sdStr && Object.keys(new_dict).length > 0) {
             var real_showtime = display_showtimes(new_dict);
             var movie_page = f.title
@@ -70,79 +80,46 @@
             $(tblRow).appendTo("#userdata tbody");
           }
         });
+        $(window).scrollTop(tempScrollTop);
       }
 
       async function refresh_data() {
-        populate_movies(db, selected_date, selected_start_hour, selected_end_hour)
-      }
-
-      async function movies_between(date, start_hour, end_hour) {
-        var tempScrollTop = $(window).scrollTop();
-        await $('#userdata tbody').empty();
-        var nd = new Date();
-        if (datesAreOnSameDay(date, nd)){
-          var day_hour = nd.getHours()-1;
-        }
-        else{
-          var day_hour = 0;
-        }
-        console.log(1, day_hour, start_hour);
-        var start_hour = Math.max(start_hour, day_hour);
-        console.log(2, day_hour, start_hour);
-        populate_movies(db, date, start_hour, end_hour)
-        $(window).scrollTop(tempScrollTop);
+        populate_movies(db, selected_date, selected_start_hour, selected_end_hour);
       }
 
       async function move_date_forward() {
-        Checkbox19.checked = 0
-
-        document.getElementById("move_date_backward").style.color = "var(--red)";
-        var tempScrollTop = $(window).scrollTop();
+        Checkbox19.checked = 0;
+        selected_start_hour = 0;
+        selected_end_hour = 24;
         selected_date.setDate(selected_date.getDate()+1);
         document.getElementById("date_of_today").innerHTML = day_string(selected_date);
-        await $('#userdata tbody').empty();
+        document.getElementById("move_date_backward").style.color = "var(--red)";
         refresh_data();
-        $(window).scrollTop(tempScrollTop);
       }
 
       async function move_date_backward() {
         Checkbox19.checked = 0;
+        selected_start_hour = 0;
+        selected_end_hour = 24;
         var nd = new Date();
-        var start = new Date(nd.getFullYear(), 0, 0);
-        var num_day_today = Math.floor((nd - start) / (1000 * 60 * 60 * 24));
-        var num_day_selected = Math.floor((selected_date-1 - start) / (1000 * 60 * 60 * 24));
-
-        if (num_day_selected-1 <= num_day_today){
-          document.getElementById("move_date_backward").style.color = "var(--lightgrey)";
-        }
-        else{
-          document.getElementById("move_date_backward").style.color = "var(--red)";
-        }
-        if (num_day_selected > num_day_today){
-            var tempScrollTop = $(window).scrollTop();
-            selected_date.setDate(selected_date.getDate()-1);
-            document.getElementById("date_of_today").innerHTML = day_string(selected_date);
-
-            $('#userdata tbody').empty();
-            var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()));
-            var today = new Date();
-            var todayStr = String(today.getFullYear()).concat('-', String(today.getMonth()+1), '-', String(today.getDate()));
-
-            var specified_hour = 0;
-            if (todayStr==sdStr){
-              specified_hour = today.getHours()-1;
-            }
-            populate_movies(db, selected_date, specified_hour)
-            $(window).scrollTop(tempScrollTop);
+        if (!datesAreOnSameDay(nd, selected_date)){
+          selected_date.setDate(selected_date.getDate()-1);
+          document.getElementById("date_of_today").innerHTML = day_string(selected_date);
+          if (datesAreOnSameDay(nd, selected_date)) {
+            document.getElementById("move_date_backward").style.color = "var(--lightgrey)";
+          } else {
+            document.getElementById("move_date_backward").style.color = "var(--red)";
+          }
+          refresh_data();
         }
       }
 
       var Checkbox19 = document.querySelector('input[name="19_movies"]');
       Checkbox19.onchange = function() {
         if(Checkbox19.checked) {
-          movies_between(selected_date, 19, 24)
+          populate_movies(db, selected_date, 19, 24)
         } else {
-          movies_between(selected_date, 0, 24)
+          populate_movies(db, selected_date, 0, 24)
         }
       };
 

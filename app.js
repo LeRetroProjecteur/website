@@ -118,7 +118,7 @@ function display_real_dict(dictionnary, start_hour, end_hour){
 }
 
 // Your web app's Firebase configuration
-const firebaseConfig = {
+var firebaseConfig = {
   apiKey: "AIzaSyCjvHHSqWGZhh2pcoHF_8ZeKqxT0wRvXuc",
   authDomain: "website-cine.firebaseapp.com",
   projectId: "website-cine",
