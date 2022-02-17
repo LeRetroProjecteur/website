@@ -76,7 +76,7 @@
         populate_movies(db, selected_date, selected_start_hour, selected_end_hour)
       }
 
-      async function movies_between(date, start_hour=0, end_hour=24) {
+      async function movies_between(date, start_hour, end_hour) {
         var tempScrollTop = $(window).scrollTop();
         await $('#userdata tbody').empty();
         var nd = new Date();
@@ -86,8 +86,9 @@
         else{
           var day_hour = 0;
         }
+        console.log(1, day_hour, start_hour);
         var start_hour = Math.max(start_hour, day_hour);
-        console.log(day_hour, start_hour)
+        console.log(2, day_hour, start_hour);
         populate_movies(db, date, start_hour, end_hour)
         $(window).scrollTop(tempScrollTop);
       }
