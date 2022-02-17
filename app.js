@@ -92,7 +92,7 @@ function display_showtimes(dictionnary, sep="<br>"){
   return showtime
 }
 
-function display_real_dict(dictionnary, start_hour=0, end_hour=24){
+function display_real_dict(dictionnary, start_hour, end_hour){
   var new_dict = {};
   for (const [key, value] of Object.entries(dictionnary)){
     for (var i = 0; i < value.length; i++){

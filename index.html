@@ -50,6 +50,7 @@
         querySnapshot.forEach((doc) => {
             data = doc.data().movies;
         });
+        console.log("data", data);
 
         data.sort(
           (a, b) => $(a).attr('year') - $(b).attr('year') || $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('title').localeCompare($(b).attr('title'))
@@ -59,6 +60,7 @@
           var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()));
           var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()));
           var new_dict = display_real_dict(f.showtimes_theater, start_hour, end_hour);
+          console.log("new dict", new_dict);
 
           if (mdStr==sdStr && Object.keys(new_dict).length > 0) {
             var real_showtime = display_showtimes(new_dict);
