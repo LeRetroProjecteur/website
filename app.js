@@ -97,8 +97,11 @@ function display_real_dict(dictionnary, start_hour, end_hour){
   for (const [key, value] of Object.entries(dictionnary)){
     for (var i = 0; i < value.length; i++){
       var hour = value[i];
+      console.log(1, hour, start_hour, end_hour);
       if (hour >= start_hour){
+        console.log(2, hour, start_hour, end_hour);
         if (hour <= end_hour){
+          console.log(3, hour, start_hour, end_hour);
           if (key in new_dict){
             new_dict[key].push(hour);
           } else {
