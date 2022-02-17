@@ -80,17 +80,14 @@
         var tempScrollTop = $(window).scrollTop();
         await $('#userdata tbody').empty();
         var nd = new Date();
-        var start = new Date(nd.getFullYear(), 0, 0);
-        var num_day_today = Math.floor((nd - start) / (1000 * 60 * 60 * 24));
-        var num_day_selected = Math.floor((date - start) / (1000 * 60 * 60 * 24));
-
-        if (num_day_selected == num_day_today){
+        if (datesAreOnSameDay(date, nd)){
           var day_hour = nd.getHours()-1;
         }
         else{
           var day_hour = 0;
         }
         var start_hour = Math.max(start_hour, day_hour);
+        console.log(day_hour, start_hour)
         populate_movies(db, date, start_hour, end_hour)
         $(window).scrollTop(tempScrollTop);
       }
