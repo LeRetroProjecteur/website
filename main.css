@@ -109,8 +109,8 @@ a:hover {
 }
 #outer
 {
-    width:100%;
-    text-align: center;
+  width:100%;
+  text-align: center;
 }
 .menu-item
 {
@@ -121,4 +121,14 @@ a:hover {
 brsmall {
   display: block;
   margin: 7px 0;
+}
+
+.ui-state-default {
+  outline: none;
+}
+.ui-state-active, .ui-widget-content .ui-state-active {
+  border: 1px solid var(--red);
+  background: var(--red);
+  font-weight: normal;
+  color: #454545;
 }
