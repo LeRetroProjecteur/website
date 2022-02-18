@@ -6,8 +6,11 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="main.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
     <script type="text/javascript" src="app.js"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -42,7 +45,7 @@
       var selected_end_hour = 24;
       var day = selected_date.getUTCDate();
       var promise_data = [];
-      
+
       async function get_data(db, date){
         var todayString = date_to_string(date);
         const q = query(collection(db, "movies"), where("date", "==", todayString));
@@ -93,9 +96,14 @@
       }
 
       async function move_date_forward() {
-        Checkbox19.checked = 0;
         selected_start_hour = 0;
         selected_end_hour = 24;
+        $("#slider-range").slider('values',0, 0);
+        $("#slider-range").slider('values',1, 24);
+        document.getElementById("time-span").innerHTML = (
+          "Séances entre <b style='color:var(--red); font-weight:bold;'>" +
+          $("#slider-range").slider("values", 0) + "h et " + $("#slider-range").slider("values", 1) + "h </b>"
+        )
         selected_date.setDate(selected_date.getDate()+1);
         document.getElementById("date_of_today").innerHTML = day_string(selected_date);
         document.getElementById("move_date_backward").style.color = "var(--red)";
@@ -104,9 +112,14 @@
       }
 
       async function move_date_backward() {
-        Checkbox19.checked = 0;
         selected_start_hour = 0;
         selected_end_hour = 24;
+        $("#slider-range").slider('values',0, 0);
+        $("#slider-range").slider('values',1, 24);
+        document.getElementById("time-span").innerHTML = (
+          "Séances entre <b style='color:var(--red); font-weight:bold;'>" +
+          $("#slider-range").slider("values", 0) + "h et " + $("#slider-range").slider("values", 1) + "h </b>"
+        )
         var nd = new Date();
         if (!datesAreOnSameDay(nd, selected_date)){
           selected_date.setDate(selected_date.getDate()-1);
@@ -121,14 +134,21 @@
         }
       }
 
-      var Checkbox19 = document.querySelector('input[name="19_movies"]');
-      Checkbox19.onchange = function() {
-        if(Checkbox19.checked) {
-          populate_movies(promise_data, selected_date, 19, 24)
-        } else {
-          populate_movies(promise_data, selected_date, 0, 24)
-        }
-      };
+      $( function() {
+        $("#slider-range").slider({
+          range: true,
+          min: 0,
+          max: 24,
+          values: [0, 24],
+          slide: function(event, ui) {
+            document.getElementById("time-span").innerHTML = (
+              "Séances entre <b style='color:var(--red); font-weight:bold;'>" +
+              ui.values[0] + "h et " + ui.values[1] + "h </b>"
+            )
+            populate_movies(promise_data, selected_date, ui.values[0], ui.values[1]);
+          }
+        });
+      });
 
       var moveForwardButton = document.querySelector('#move_date_forward');
       moveForwardButton.onclick = function() {
@@ -143,6 +163,10 @@
       (async () => {
         $(function() {
           document.getElementById("date_of_today").innerHTML = day_string(selected_date);
+          document.getElementById("time-span").innerHTML = (
+            "Séances entre <b style='color:var(--red); font-weight:bold;'>" +
+            $("#slider-range").slider("values", 0) + "h et " + $("#slider-range").slider("values", 1) + "h </b>"
+          )
           promise_data = get_data(db, selected_date);
           refresh_data();
         });
@@ -163,8 +187,11 @@
     </h3>
     <brsmall>
     <center>
-      <input type="checkbox" name="19_movies" id= "19_movies" name="19_movies" style="font-size: var(--button_font_size);">
-      <label for="subscribeNews">Séances après 19h</label>
+
+      <span id="time-span" class="center"></span>
+      <div id="slider-range"></div>
+      <br>
+
     </center>
     <brsmall>
 
