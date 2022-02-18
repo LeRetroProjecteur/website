@@ -104,14 +104,13 @@
       async function move_date_backward() {
         var selected_year = selected_date.getFullYear();
         var selected_month = selected_date.getMonth()+1;
-        var sept2021 = new Date(2021, 9, 1);
         var aug2021 = new Date(2021, 8, 1);
 
         if (!datesAreOnSameMonth(aug2021, selected_date)){
           selected_date.setMonth(selected_date.getMonth() - 1);
           var tempScrollTop = $(window).scrollTop();
           document.getElementById("move_date_forward").style.color = "var(--red)";
-          if (datesAreOnSameMonth(sept2021, selected_date)){
+          if (datesAreOnSameMonth(aug2021, selected_date)){
             document.getElementById("move_date_backward").style.color = "var(--lightgrey)";  
           }
           else{
