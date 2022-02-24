@@ -88,7 +88,6 @@ input{
   margin-right: auto;
   background-color: var(--lightred);
   padding: 10px;
-  text-align: justify;
 }
 .moviebox img{
   width:100%;
