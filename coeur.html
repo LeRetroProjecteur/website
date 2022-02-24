@@ -82,11 +82,9 @@
 
       async function move_date_forward() {
         var nd = new Date()
-        selected_date.setMonth(selected_date.getMonth() + 1);
-        var selected_year = selected_date.getFullYear();
-        var selected_month = selected_date.getMonth()+1;
         
-        if ((selected_month<=nd.getMonth()+1) || (selected_year<=nd.getFullYear())){
+        if (!datesAreOnSameMonth(nd, selected_date)){
+          selected_date.setMonth(selected_date.getMonth() + 1);
           var tempScrollTop = $(window).scrollTop();
           document.getElementById("date_of_today").innerHTML = 
               months_short_cap[selected_date.getMonth()] + " " + String(selected_date.getFullYear());
@@ -94,31 +92,25 @@
           populate_review(db, selected_date)
           $(window).scrollTop(tempScrollTop);
           document.getElementById("move_date_backward").style.color = "var(--red)";
-          if ((selected_month>=nd.getMonth()+1) && (selected_year>=nd.getFullYear())){
-            //no more moving forward
+          if (datesAreOnSameMonth(nd, selected_date)){
             document.getElementById("move_date_forward").style.color = "var(--lightgrey)";  
           }
           else{
             document.getElementById("move_date_forward").style.color = "var(--red)";
           }
         }
-        else {
-          selected_date.setMonth(selected_date.getMonth() - 1);  
-        }
       }
 
       async function move_date_backward() {
-        selected_date.setMonth(selected_date.getMonth() - 1);
         var selected_year = selected_date.getFullYear();
         var selected_month = selected_date.getMonth()+1;
-        var limit_year = 2021;
-        var limit_month = 9;
+        var aug2021 = new Date(2021, 8, 1);
 
-        if ((selected_year>limit_year) || (selected_month>=limit_month)){
-          var nd = new Date();
+        if (!datesAreOnSameMonth(aug2021, selected_date)){
+          selected_date.setMonth(selected_date.getMonth() - 1);
           var tempScrollTop = $(window).scrollTop();
           document.getElementById("move_date_forward").style.color = "var(--red)";
-          if ((selected_month <= 9) && (selected_year<=2021)) {
+          if (datesAreOnSameMonth(aug2021, selected_date)){
             document.getElementById("move_date_backward").style.color = "var(--lightgrey)";  
           }
           else{
@@ -129,9 +121,6 @@
           await $('#userdata tbody').empty();
           populate_review(db, selected_date)
           $(window).scrollTop(tempScrollTop);
-        }
-        else {
-          selected_date.setMonth(selected_date.getMonth() + 1);
         }
       }
 

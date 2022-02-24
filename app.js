@@ -98,6 +98,11 @@ function datesAreOnSameDay(first, second) {
   first.getDate() === second.getDate();
 }
 
+function datesAreOnSameMonth(first, second) {
+  return first.getFullYear() === second.getFullYear() &&
+  first.getMonth() === second.getMonth();
+}
+
 function display_real_dict(dictionnary, start_hour, end_hour){
   var new_dict = {};
   for (const [key, value] of Object.entries(dictionnary)){
