@@ -7,15 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="main.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-    <!-- <script src="jquery.ui.touch-punch.min.js"></script> -->
     <script type="text/javascript" src="app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/11.1.0/nouislider.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/11.1.0/nouislider.min.css" />
-
+    <link rel="stylesheet" href="main.css">
+    
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F5QY5F8S5L"></script>
     <script>
@@ -48,6 +47,8 @@
       var selected_end_hour = 24;
       var day = selected_date.getUTCDate();
       var promise_data = [];
+      var slider = document.getElementById('slider-range');
+      var slider_value_element = document.getElementById('slider-range-value');
 
       async function get_data(db, date){
         var todayString = date_to_string(date);
@@ -98,15 +99,35 @@
         populate_movies(promise_data, selected_date, selected_start_hour, selected_end_hour);
       }
 
+      (async () => {
+        $(function() {
+          document.getElementById("date_of_today").innerHTML = day_string(selected_date);
+          promise_data = get_data(db, selected_date);
+        });
+      })();
+
+      $( function() {
+      noUiSlider.create(slider, {
+          start: [0, 24],
+          connect: true,
+          step:1,
+          range: {
+              'min': 0,
+              'max': 24
+          }
+      });
+        
+        slider.noUiSlider.on('update', function (values) {
+          selected_start_hour = Math.round(values[0]);
+          selected_end_hour = Math.round(values[1]);
+          slider_value_element.innerHTML = "Séances entre <b style='color:var(--red); font-weight:bold;'>" +
+              selected_start_hour + "h et " + selected_end_hour + "h </b>";
+          refresh_data();
+        });
+      });
+
       async function move_date_forward() {
-        selected_start_hour = 0;
-        selected_end_hour = 24;
-        $("#slider-range").slider('values',0, 0);
-        $("#slider-range").slider('values',1, 24);
-        document.getElementById("time-span").innerHTML = (
-          "Séances entre <b style='color:var(--red); font-weight:bold;'>" +
-          $("#slider-range").slider("values", 0) + "h et " + $("#slider-range").slider("values", 1) + "h </b>"
-        )
+        slider.noUiSlider.set([0, 24]);
         selected_date.setDate(selected_date.getDate()+1);
         document.getElementById("date_of_today").innerHTML = day_string(selected_date);
         document.getElementById("move_date_backward").style.color = "var(--red)";
@@ -115,14 +136,7 @@
       }
 
       async function move_date_backward() {
-        selected_start_hour = 0;
-        selected_end_hour = 24;
-        $("#slider-range").slider('values',0, 0);
-        $("#slider-range").slider('values',1, 24);
-        document.getElementById("time-span").innerHTML = (
-          "Séances entre <b style='color:var(--red); font-weight:bold;'>" +
-          $("#slider-range").slider("values", 0) + "h et " + $("#slider-range").slider("values", 1) + "h </b>"
-        )
+        slider.noUiSlider.set([0, 24]);
         var nd = new Date();
         if (!datesAreOnSameDay(nd, selected_date)){
           selected_date.setDate(selected_date.getDate()-1);
@@ -137,32 +151,6 @@
         }
       }
 
-      // $( function() {
-      //   $("#slider-range").slider({
-      //     range: true,
-      //     min: 0,
-      //     max: 24,
-      //     values: [0, 24],
-      //     slide: function(event, ui) {
-      //       document.getElementById("time-span").innerHTML = (
-      //         "Séances entre <b style='color:var(--red); font-weight:bold;'>" +
-      //         ui.values[0] + "h et " + ui.values[1] + "h </b>"
-      //       )
-      //       populate_movies(promise_data, selected_date, ui.values[0], ui.values[1]);
-      //     }
-      //   });
-      // });
-
-      var slider = document.getElementById('slider-range');
-      noUiSlider.create(slider, {
-          start: [0, 24],
-          connect: true,
-          range: {
-              'min': 0,
-              'max': 24
-          }
-      });
-
       var moveForwardButton = document.querySelector('#move_date_forward');
       moveForwardButton.onclick = function() {
         move_date_forward()
@@ -172,18 +160,6 @@
       moveBackwardButton.onclick = function() {
         move_date_backward()
       };
-
-      (async () => {
-        $(function() {
-          document.getElementById("date_of_today").innerHTML = day_string(selected_date);
-          document.getElementById("time-span").innerHTML = (
-            "Séances entre <b style='color:var(--red); font-weight:bold;'>" +
-            $("#slider-range").slider("values", 0) + "h et " + $("#slider-range").slider("values", 1) + "h </b>"
-          )
-          promise_data = get_data(db, selected_date);
-          refresh_data();
-        });
-      })();
     </script>
 
 
@@ -202,6 +178,7 @@
     <center>
 
       <span id="time-span" class="center"></span>
+      <div id="slider-range-value"></div>
       <div id="slider-range"></div>
       <br>
 
