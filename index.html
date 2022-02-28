@@ -11,9 +11,10 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-    <script src="jquery.ui.touch-punch.min.js"></script>
+    <!-- <script src="jquery.ui.touch-punch.min.js"></script> -->
     <script type="text/javascript" src="app.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/11.1.0/nouislider.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/11.1.0/nouislider.min.css" />
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F5QY5F8S5L"></script>
@@ -136,20 +137,30 @@
         }
       }
 
-      $( function() {
-        $("#slider-range").slider({
-          range: true,
-          min: 0,
-          max: 24,
-          values: [0, 24],
-          slide: function(event, ui) {
-            document.getElementById("time-span").innerHTML = (
-              "Séances entre <b style='color:var(--red); font-weight:bold;'>" +
-              ui.values[0] + "h et " + ui.values[1] + "h </b>"
-            )
-            populate_movies(promise_data, selected_date, ui.values[0], ui.values[1]);
+      // $( function() {
+      //   $("#slider-range").slider({
+      //     range: true,
+      //     min: 0,
+      //     max: 24,
+      //     values: [0, 24],
+      //     slide: function(event, ui) {
+      //       document.getElementById("time-span").innerHTML = (
+      //         "Séances entre <b style='color:var(--red); font-weight:bold;'>" +
+      //         ui.values[0] + "h et " + ui.values[1] + "h </b>"
+      //       )
+      //       populate_movies(promise_data, selected_date, ui.values[0], ui.values[1]);
+      //     }
+      //   });
+      // });
+
+      var slider = document.getElementById('slider-range');
+      noUiSlider.create(slider, {
+          start: [0, 24],
+          connect: true,
+          range: {
+              'min': 0,
+              'max': 24
           }
-        });
       });
 
       var moveForwardButton = document.querySelector('#move_date_forward');
