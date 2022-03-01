@@ -47,9 +47,8 @@
       var selected_end_hour = 24;
       var day = selected_date.getUTCDate();
       var promise_data = [];
-      var slider = document.getElementById('slider-range');
-      var slider_value_element = document.getElementById('slider-range-value');
-
+      var promise_list_movies = [];
+      
       async function get_data(db, date){
         var todayString = date_to_string(date);
         const q = query(collection(db, "movies"), where("date", "==", todayString));
@@ -59,6 +58,12 @@
           data_aux = doc.data().movies;
         });
         return data_aux;
+      }
+
+      async function get_list_movies(db) {
+        const am = doc(db, "reviews", "all_movies");
+        var querySnapshot = await getDoc(am);
+        return querySnapshot.data();
       }
 
       async function populate_movies(promise_data, date, start, end) {
@@ -76,6 +81,7 @@
           data.sort(
             (a, b) => $(a).attr('year') - $(b).attr('year') || $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('title').localeCompare($(b).attr('title'))
           ).forEach(f => {
+            //check if movie "f" in list_promise...
             var md = new Date(f.date[0], f.date[1]-1, f.date[2]);
             var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()));
             var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()));
@@ -161,6 +167,16 @@
       moveBackwardButton.onclick = function() {
         move_date_backward()
       };
+
+      (async () => {
+        $(function() {
+          document.getElementById("date_of_today").innerHTML = day_string(selected_date);
+          promise_data = get_data(db, selected_date);
+          promise_list_movies = get_list_movies(db);
+          console.log(promise_list_movies);
+          refresh_data();
+        });
+      })();
     </script>
 
 
