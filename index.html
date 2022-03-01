@@ -49,6 +49,7 @@
       var promise_data = [];
       var slider = document.getElementById('slider-range');
       var slider_value_element = document.getElementById('slider-range-value');
+      var neighborhood_checkList = document.getElementById('neighborhood-list');
 
       async function get_data(db, date){
         var todayString = date_to_string(date);
@@ -127,6 +128,13 @@
         });
       });
 
+      neighborhood_checkList.getElementsByClassName('anchor')[0].onclick = function(evt) {
+        if (neighborhood_checkList.classList.contains('visible'))
+          neighborhood_checkList.classList.remove('visible');
+        else
+          neighborhood_checkList.classList.add('visible');
+      }
+
       async function move_date_forward() {
         slider.noUiSlider.set([0, 24]);
         selected_date.setDate(selected_date.getDate()+1);
@@ -181,7 +189,20 @@
       <span id="time-span" class="center"></span>
       <div id="slider-range-value"></div>
       <div class="slider-styled" id="slider-range"></div>
-      <br>
+      <brsmall>
+      <brsmall>
+      <div id="neighborhood-list" class="dropdown-check-list" tabindex="100">
+        <span class="anchor">Filtrer par quartier</span>
+        <ul class="items">
+          <li><input type="checkbox" />Paris 1er</li>
+          <li><input type="checkbox" />Paris 2e</li>
+          <li><input type="checkbox" />Paris 3e</li>
+          <li><input type="checkbox" />Paris 4e</li>
+          <li><input type="checkbox" />Paris 5e</li>
+          <li><input type="checkbox" />Paris 6e</li>
+          <li><input type="checkbox" />Extramuros</li>
+        </ul>
+      </div>
 
     </center>
     <brsmall>
