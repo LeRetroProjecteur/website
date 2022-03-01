@@ -103,27 +103,9 @@ a:hover {
   text-decoration: none;
   border-radius: 50%;
 }
-.noUi-connect {
-  background: var(--lightgrey);
-}
 #slider-range{
-  width: 320px;
-  height: 10px;
-  background-color: var(--white);
-  box-shadow: 0 0 0px;
+  width: 250px;
 }
-.noUi-handle::before, .noUi-handle::after {
-    display: none;
-}
-.noUi-handle{
-  box-shadow: none;
-  position: absolute;
-  height:20px;
-}
-.noUi-active{
-  background: var(--red);
-}
-
 #outer
 {
   width:100%;
@@ -134,7 +116,18 @@ a:hover {
   font-size:18px;
   display: inline-block;
 }
+
 brsmall {
   display: block;
   margin: 7px 0;
+}
+
+.ui-state-default {
+  outline: none;
+}
+.ui-state-active, .ui-widget-content .ui-state-active {
+  border: 1px solid var(--red);
+  background: var(--red);
+  font-weight: normal;
+  color: #454545;
 }
