@@ -47,15 +47,14 @@
     start_date.setDate(start_date.getDate() - delta);
     document.getElementById("next_week").innerHTML = week_string(get_current_week(start_date)[0]);
 
-    async function get_data(db, date, data) {
-      var date = date_to_string(date);
+    async function populate_movies_day(data, date) {
       const q = query(collection(db, "movies"), where("date", "==", date));
       var querySnapshot = await getDocs(q);
-      var data_aux = [];
+      var data_day = [];
       querySnapshot.forEach((doc) => {
-        data_aux = doc.data().movies;
+        data_day = doc.data().movies;
       });
-      data.push(data_aux);
+      data.push(data_day);
     }
 
     function create_week_films_string(data){
@@ -126,9 +125,10 @@
     async function populate_movies_week(start_date) {
       var data = [];
       for (let i = 0; i < 7; i++) {
-        var date = new Date(start_date);
+        var date = new Date();
         date.setDate(start_date.getDate() + i);
-        await get_data(db, date, data);
+        var string_date = date_to_string(date);
+        await populate_movies_day(data, string_date);
       }
       const data_flat = data.flat(1);
       create_week_films_string(data_flat);
