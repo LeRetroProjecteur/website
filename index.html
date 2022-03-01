@@ -7,14 +7,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/11.1.0/nouislider.min.css" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
     <script type="text/javascript" src="app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/11.1.0/nouislider.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/11.1.0/nouislider.min.css" />
     <link rel="stylesheet" href="main.css">
-
+    
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F5QY5F8S5L"></script>
     <script>
@@ -107,22 +107,21 @@
       })();
 
       $( function() {
-        noUiSlider.create(slider, {
+      noUiSlider.create(slider, {
           start: [0, 24],
           connect: true,
           step:1,
-          margin: 1,
           range: {
               'min': 0,
               'max': 24
           }
-        });
+      });
+        
         slider.noUiSlider.on('update', function (values) {
           selected_start_hour = Math.round(values[0]);
           selected_end_hour = Math.round(values[1]);
-          slider_value_element.innerHTML = (
-            "Séances entre <b style='color:var(--red); font-weight:bold;'>" + selected_start_hour + "h et " + selected_end_hour + "h </b>"
-          );
+          slider_value_element.innerHTML = "Séances entre <b style='color:var(--red); font-weight:bold;'>" +
+              selected_start_hour + "h et " + selected_end_hour + "h </b>";
           refresh_data();
         });
       });
@@ -180,7 +179,7 @@
 
       <span id="time-span" class="center"></span>
       <div id="slider-range-value"></div>
-      <div class="slider-styled" id="slider-range"></div>
+      <div id="slider-range"></div>
       <br>
 
     </center>
