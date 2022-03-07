@@ -51,21 +51,17 @@
       const db = getFirestore();
       var months_short_cap = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
       var selected_date = new Date();          
-      await get_first_date(selected_date);
+      await check_if_isempty_and_change_date();
       var first_date = new Date(selected_date);
-      populate_month(db, selected_date);
+      populate_month(db);
       
-      async function get_first_date(first_date){
-        await check_if_isempty_and_change_date(db, first_date);
-      }
-
-      async function populate_month(db, date){
+      async function populate_month(db){
         document.getElementById("date_of_today").innerHTML = 
-              months_short_cap[date.getMonth()] + " " + String(date.getFullYear());
-        populate_review(db, date);
+              months_short_cap[selected_date.getMonth()] + " " + String(selected_date.getFullYear());
+        populate_review(db);
       }
 
-      async function populate_review(db, selected_date) {
+      async function populate_review(db) {
         var selected_year = selected_date.getFullYear();
         var selected_month = selected_date.getMonth()+1;
         var year = selected_year.toString();
@@ -100,7 +96,7 @@
           document.getElementById("date_of_today").innerHTML = 
               months_short_cap[selected_date.getMonth()] + " " + String(selected_date.getFullYear());
           await $('#userdata tbody').empty();
-          populate_review(db, selected_date)
+          populate_review(db)
           $(window).scrollTop(tempScrollTop);
           document.getElementById("move_date_backward").style.color = "var(--red)";
           if (datesAreOnSameMonth(first_date, selected_date)){
@@ -112,7 +108,7 @@
         }
       }
 
-      async function check_if_isempty_and_change_date(db) {
+      async function check_if_isempty_and_change_date() {
         const q = query(collection(db, "reviews"), where("year", "==",  selected_date.getFullYear().toString()), 
             where("month", "==", (selected_date.getMonth()+1).toString().padStart(2, '0')));
         var querySnapshot = await getDocs(q);
@@ -143,7 +139,7 @@
           document.getElementById("date_of_today").innerHTML = 
               months_short_cap[selected_date.getMonth()] + " " + String(selected_date.getFullYear());
           await $('#userdata tbody').empty();
-          populate_review(db, selected_date)
+          populate_review(db)
           $(window).scrollTop(tempScrollTop);
         }
       }
