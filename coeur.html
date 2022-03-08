@@ -52,7 +52,7 @@
       var months_short_cap = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
       var selected_date = new Date();
       await check_if_isempty_and_change_date(selected_date);
-      console.log(selected_date);
+      selected_date = parseDate(String(selected_date.getFullYear()).concat('/', String(selected_date.getMonth()+1).padStart(2, '0'), '/', String(selected_date.getDate()).padStart(2, '0')));
       var first_date = new Date(selected_date.getFullYear(), selected_date.getMonth(), selected_date.getDate());
       populate_month(db, selected_date);
       
@@ -120,7 +120,6 @@
         if (data.length==0) {
           date.setMonth(date.getMonth() - 1);
         }
-        date = parseDate(String(date.getFullYear()).concat('/', String(date.getMonth()+1).padStart(2, '0'), '/', String(date.getDate()).padStart(2, '0')));
       }
 
       async function move_date_backward() {
