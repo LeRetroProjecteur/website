@@ -52,9 +52,10 @@
       var months_short_cap = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
       var selected_date = new Date();
       await check_if_isempty_and_change_date(selected_date);
-      selected_date = parseDate(String(selected_date.getFullYear()).concat('/', String(selected_date.getMonth()+1).padStart(2, '0'), '/', String(selected_date.getDate()).padStart(2, '0')));
-      var first_date = new Date(selected_date.getFullYear(), selected_date.getMonth(), selected_date.getDate());
+      selected_date = new Date(String(selected_date.getFullYear()).concat('/', String(selected_date.getMonth()+1).padStart(2, '0'), '/', String(selected_date.getDate()).padStart(2, '0')));
+      console.log(selected_date);
       populate_month(db, selected_date);
+      var first_date = new Date(selected_date);
       
       async function populate_month(db, selected_date){
         document.getElementById("date_of_today").innerHTML = 
@@ -129,7 +130,6 @@
 
         if (!datesAreOnSameMonth(aug2021, selected_date)){
           selected_date.setMonth(selected_date.getMonth() - 1);
-          console.log(selected_date);
           var tempScrollTop = $(window).scrollTop();
           document.getElementById("move_date_forward").style.color = "var(--red)";
           if (datesAreOnSameMonth(aug2021, selected_date)){
