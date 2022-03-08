@@ -97,7 +97,7 @@
           document.getElementById("date_of_today").innerHTML = 
               months_short_cap[selected_date.getMonth()] + " " + String(selected_date.getFullYear());
           await $('#userdata tbody').empty();
-          populate_review(db)
+          populate_review(db, selected_date)
           $(window).scrollTop(tempScrollTop);
           document.getElementById("move_date_backward").style.color = "var(--red)";
           if (datesAreOnSameMonth(first_date, selected_date)){
@@ -130,6 +130,7 @@
 
         if (!datesAreOnSameMonth(aug2021, selected_date)){
           selected_date.setMonth(selected_date.getMonth() - 1);
+          console.log(selected_date);
           var tempScrollTop = $(window).scrollTop();
           document.getElementById("move_date_forward").style.color = "var(--red)";
           if (datesAreOnSameMonth(aug2021, selected_date)){
@@ -141,7 +142,7 @@
           document.getElementById("date_of_today").innerHTML = 
               months_short_cap[selected_date.getMonth()] + " " + String(selected_date.getFullYear());
           await $('#userdata tbody').empty();
-          populate_review(db)
+          populate_review(db, selected_date)
           $(window).scrollTop(tempScrollTop);
         }
       }
