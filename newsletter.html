@@ -48,11 +48,8 @@
       const db = getFirestore();
 
       var selected_date = new Date();
-      //var selected_date = new Date();
-      await get_first_date(selected_date);
       //await get_first_date(selected_date);
       populate_month(db, selected_date);
-      
 
       async function get_first_date(first_date){
         await check_if_isempty_and_change_date(db, first_date);
