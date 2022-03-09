@@ -82,12 +82,9 @@
           data.sort(
             (a, b) => $(a).attr('year') - $(b).attr('year') || $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('title').localeCompare($(b).attr('title'))
           ).forEach(f => {
-            var md = new Date(f.date[0], f.date[1]-1, f.date[2]);
-            var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()));
-            var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()));
             var new_dict = display_real_dict(f.showtimes_theater, start, end);
 
-            if (mdStr==sdStr && Object.keys(new_dict).length > 0) {
+            if (Object.keys(new_dict).length > 0) {
               var real_showtime = display_showtimes(new_dict);
               var movie_page = f.title
               var tblRow = "<tr>" +
@@ -185,9 +182,9 @@
     <center>
 
       <span id="time-span" class="center"></span>
-      <div id="slider-range-value"></div>
+      <!-- <div id="slider-range-value"></div>
       <div class="slider-styled" id="slider-range"></div>
-      <br>
+      <br> -->
 
     </center>
     <brsmall>
