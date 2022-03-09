@@ -109,6 +109,7 @@
         $(function() {
           document.getElementById("date_of_today").innerHTML = day_string(selected_date);
           promise_data = get_data(db, selected_date);
+          refresh_data();
         });
       })();
 
@@ -129,7 +130,6 @@
           slider_value_element.innerHTML = (
             "Séances entre <b style='color:var(--red); font-weight:bold;'>" + selected_start_hour + "h et " + selected_end_hour + "h </b>"
           );
-          refresh_data();
         });
       });
 
