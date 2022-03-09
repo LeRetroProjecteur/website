@@ -49,9 +49,9 @@
 
       var selected_date = new Date();
       selected_date.setMonth(3);
-      console.log(selected_date);
+      window.alert(selected_date);
       await get_first_date(selected_date);
-      console.log(selected_date);
+      window.alert(selected_date);
       populate_month(db, selected_date);
 
       async function get_first_date(first_date){
@@ -63,6 +63,7 @@
       }
 
       async function check_if_isempty_and_change_date(db, date) {
+        window.alert(date);
         var selected_year = date.getFullYear();
         var selected_month = date.getMonth()+1;
         var year = selected_year.toString();
@@ -76,6 +77,7 @@
         if (data.length==0) {
           date.setMonth(date.getMonth() - 1);
         }
+        window.alert(date);
       }
             
 
