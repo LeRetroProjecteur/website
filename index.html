@@ -47,8 +47,8 @@
       var selected_end_hour = 24;
       var day = selected_date.getUTCDate();
       var promise_data = [];
-      var slider = document.getElementById('slider-range');
-      var slider_value_element = document.getElementById('slider-range-value');
+      // var slider = document.getElementById('slider-range');
+      // var slider_value_element = document.getElementById('slider-range-value');
 
       async function get_data(db, date){
         var todayString = date_to_string(date);
@@ -110,28 +110,28 @@
         });
       })();
 
-      $( function() {
-        noUiSlider.create(slider, {
-          start: [0, 24],
-          connect: true,
-          step:1,
-          margin: 1,
-          range: {
-              'min': 0,
-              'max': 24
-          }
-        });
-        slider.noUiSlider.on('update', function (values) {
-          selected_start_hour = Math.round(values[0]);
-          selected_end_hour = Math.round(values[1]);
-          slider_value_element.innerHTML = (
-            "Séances entre <b style='color:var(--red); font-weight:bold;'>" + selected_start_hour + "h et " + selected_end_hour + "h </b>"
-          );
-        });
-      });
+      // $( function() {
+      //   noUiSlider.create(slider, {
+      //     start: [0, 24],
+      //     connect: true,
+      //     step:1,
+      //     margin: 1,
+      //     range: {
+      //         'min': 0,
+      //         'max': 24
+      //     }
+      //   });
+      //   slider.noUiSlider.on('update', function (values) {
+      //     selected_start_hour = Math.round(values[0]);
+      //     selected_end_hour = Math.round(values[1]);
+      //     slider_value_element.innerHTML = (
+      //       "Séances entre <b style='color:var(--red); font-weight:bold;'>" + selected_start_hour + "h et " + selected_end_hour + "h </b>"
+      //     );
+      //   });
+      // });
 
       async function move_date_forward() {
-        slider.noUiSlider.set([0, 24]);
+        // slider.noUiSlider.set([0, 24]);
         selected_date.setDate(selected_date.getDate()+1);
         document.getElementById("date_of_today").innerHTML = day_string(selected_date);
         document.getElementById("move_date_backward").style.color = "var(--red)";
@@ -140,7 +140,7 @@
       }
 
       async function move_date_backward() {
-        slider.noUiSlider.set([0, 24]);
+        // slider.noUiSlider.set([0, 24]);
         var nd = new Date();
         if (!datesAreOnSameDay(nd, selected_date)){
           selected_date.setDate(selected_date.getDate()-1);
