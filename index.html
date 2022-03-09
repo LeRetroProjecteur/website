@@ -49,7 +49,7 @@
       var promise_data = [];
       var slider = document.getElementById('slider-range');
       var slider_value_element = document.getElementById('slider-range-value');
-      var neighborhood_checkList = document.getElementById('neighborhood-list');
+      var neighborhood_dropdown = document.getElementById('neighborhood-list');
 
       async function get_data(db, date){
         var todayString = date_to_string(date);
@@ -82,7 +82,7 @@
             var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()));
             var new_dict = display_real_dict(f.showtimes_theater, start, end);
 
-            if (mdStr==sdStr && Object.keys(new_dict).length > 0) {
+            if (mdStr==sdStr && Object.keys(new_dict).length > 0) { // REMOVE mdStr and sdStr????
               var real_showtime = display_showtimes(new_dict);
               var movie_page = f.title
               var tblRow = "<tr>" +
@@ -128,11 +128,11 @@
         });
       });
 
-      neighborhood_checkList.getElementsByClassName('anchor')[0].onclick = function(evt) {
-        if (neighborhood_checkList.classList.contains('visible'))
-          neighborhood_checkList.classList.remove('visible');
+      neighborhood_dropdown.getElementsByClassName('anchor')[0].onclick = function(evt) {
+        if (neighborhood_dropdown.classList.contains('visible'))
+          neighborhood_dropdown.classList.remove('visible');
         else
-          neighborhood_checkList.classList.add('visible');
+          neighborhood_dropdown.classList.add('visible');
       }
 
       async function move_date_forward() {
@@ -194,13 +194,10 @@
       <div id="neighborhood-list" class="dropdown-check-list" tabindex="100">
         <span class="anchor">Filtrer par quartier</span>
         <ul class="items">
-          <li><input type="checkbox" />Paris 1er</li>
-          <li><input type="checkbox" />Paris 2e</li>
-          <li><input type="checkbox" />Paris 3e</li>
-          <li><input type="checkbox" />Paris 4e</li>
-          <li><input type="checkbox" />Paris 5e</li>
-          <li><input type="checkbox" />Paris 6e</li>
-          <li><input type="checkbox" />Extramuros</li>
+          <input type="checkbox" name="foo" value="bar1"> Bar 1<br/>
+          <input type="checkbox" name="foo" value="bar2"> Bar 2<br/>
+          <input type="checkbox" name="foo" value="bar3"> Bar 3<br/>
+          <input type="checkbox" name="foo" value="bar4"> Bar 4<br/>
         </ul>
       </div>
 
