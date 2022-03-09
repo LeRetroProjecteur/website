@@ -48,9 +48,9 @@
       const db = getFirestore();
 
       var selected_date = new Date();
-      var dateNewsletter = new Date();
+      //var selected_date = new Date();
       await get_first_date(selected_date);
-      await get_first_date(dateNewsletter);
+      //await get_first_date(selected_date);
       populate_month(db, selected_date);
       
 
@@ -94,15 +94,15 @@
         var i=0;
         data.sort((a, b) => $(b).attr('time') - $(a).attr('time')).forEach(f => {
           if(i==0){
-            dateNewsletter = f.date;
-            var Date_Newsletter = string_to_date(dateNewsletter);
+            selected_date = f.date;
+            var Date_Newsletter = string_to_date(selected_date);
             if (Date_Newsletter.getDay()<3){
               // When we do the newsletter on a monday or a tuesday, it means we are early => get_next_week
-              document.getElementById("current_week").innerHTML = week_string(get_next_week(string_to_date(dateNewsletter))[0]);
+              document.getElementById("current_week").innerHTML = week_string(get_next_week(string_to_date(selected_date))[0]);
             }
             else {
               // When we do the newsletter on a wednesday or thursday, it means we are late => get_current_week
-              document.getElementById("current_week").innerHTML = week_string(get_current_week(string_to_date(dateNewsletter))[0]);
+              document.getElementById("current_week").innerHTML = week_string(get_current_week(string_to_date(selected_date))[0]);
             }
             i = i + 1
           }
@@ -110,7 +110,7 @@
 
         var string = "";
         data.sort((a, b) => $(b).attr('time') - $(a).attr('time')).forEach(f => {
-          if (f.date == dateNewsletter){
+          if (f.date == selected_date){
             string = string.concat(
             "<div class='moviebox'>" +
               "<img src='data:image/png;base64," + f.image_file + "'/>" +
@@ -132,7 +132,7 @@
 
         var string = "";
         data.sort((a, b) => $(a).attr('date') - $(b).attr('date')).forEach(f => {
-          if (f.date == dateNewsletter){
+          if (f.date == selected_date){
             string = string.concat(
                 "<div class='moviebox'>" + "<h3 style='color:grey;'>" + f.name + "</h3><br>" +
                   f.week + "</div><br>"
