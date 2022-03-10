@@ -49,6 +49,8 @@
 
       var dates = await get_list_dates(db);
       var last_date = dates[Object.keys(dates)[Object.keys(dates).length - 1]]
+      last_date = last_date.replace(/-/g, "/");
+      console.log(last_date);
       var selected_date = new Date(last_date);
       console.log(selected_date);
       populate_review(db, selected_date);
