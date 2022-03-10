@@ -48,8 +48,8 @@
       const db = getFirestore();
 
       var dates = await get_list_dates(db);
-      var last_date = dates[Object.keys(dates)[Object.keys(dates).length - 1]]
-      document.getElementById("current_week").innerHTML = week_string(get_next_week(string_to_date(last_date))[0]);
+      var last_date = dates[Object.keys(dates)[Object.keys(dates).length - 1]];
+      //document.getElementById("current_week").innerHTML = week_string(get_next_week(string_to_date(last_date))[0]);
       populate_review(db, last_date);
       
       async function get_list_dates(db) {
@@ -57,7 +57,7 @@
         var querySnapshot = await getDoc(am);
         return querySnapshot.data();
       }
-            
+
       async function populate_review(db, date) {
         const q = query(collection(db, "reviews"), where("date", "==", date));
         var querySnapshot = await getDocs(q);
@@ -69,8 +69,7 @@
         var i=0;
         var string = "";
         data.sort((a, b) => $(b).attr('time') - $(a).attr('time')).forEach(f => {
-          if (f.date == date){
-            string = string.concat(
+          string = string.concat(
             "<div class='moviebox'>" +
               "<img src='data:image/png;base64," + f.image_file + "'/>" +
               "<h3 style='color:grey;'>" + f.category + "</h3>" +
@@ -78,7 +77,6 @@
               f.review +
               "<center><b>" + f.showtime + "</b></center>" +
             "</div><br>")
-          }
           document.getElementById("cdc").innerHTML = string ;
         });
 
@@ -91,12 +89,10 @@
 
         var string = "";
         data.sort((a, b) => $(a).attr('date') - $(b).attr('date')).forEach(f => {
-          if (f.date == date){
-            string = string.concat(
+          string = string.concat(
                 "<div class='moviebox'>" + "<h3 style='color:grey;'>" + f.name + "</h3><br>" +
                   f.week + "</div><br>"
               )
-          }
           document.getElementById("week").innerHTML = string;
         });
 
