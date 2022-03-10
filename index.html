@@ -50,7 +50,7 @@
       var increment = 0;
       var slider = document.getElementById('slider-range');
       var slider_value_element = document.getElementById('slider-range-value');
-      
+
 
       async function get_data(db, date){
         var todayString = date_to_string(date);
@@ -111,8 +111,8 @@
           step:1,
           margin: 1,
           range: {
-              'min': 0,
-              'max': 24
+            'min': 0,
+            'max': 24
           }
         });
 
@@ -123,13 +123,21 @@
           "Séances entre <b style='color:var(--red); font-weight:bold;'>" + selected_start_hour + "h et " + selected_end_hour + "h </b>"
         );
         refresh_data();
-      
+
+        slider.noUiSlider.on('update', function (values) {
+          selected_start_hour = Math.round(values[0]);
+          selected_end_hour = Math.round(values[1]);
+          slider_value_element.innerHTML = (
+            "Séances entre <b style='color:var(--red); font-weight:bold;'>" + selected_start_hour + "h et " + selected_end_hour + "h </b>"
+          );
+        });
+
         function update(values, handle) {
           if (handle==0) {
-              selected_start_hour = Math.round(values[handle]);
+            selected_start_hour = Math.round(values[handle]);
           }
           else {
-              selected_end_hour = Math.round(values[handle]);
+            selected_end_hour = Math.round(values[handle]);
           }
           slider_value_element.innerHTML = (
             "Séances entre <b style='color:var(--red); font-weight:bold;'>" + selected_start_hour + "h et " + selected_end_hour + "h </b>"
