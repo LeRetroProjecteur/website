@@ -132,19 +132,7 @@
           );
         });
 
-        function update(values, handle) {
-          if (handle==0) {
-            selected_start_hour = Math.round(values[handle]);
-          }
-          else {
-            selected_end_hour = Math.round(values[handle]);
-          }
-          slider_value_element.innerHTML = (
-            "Séances entre <b style='color:var(--red); font-weight:bold;'>" + selected_start_hour + "h et " + selected_end_hour + "h </b>"
-          );
-          refresh_data();
-        }
-        slider.noUiSlider.on('change', update);
+        slider.noUiSlider.on('change', refresh_data);
       });
 
       async function move_date_forward() {
