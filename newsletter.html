@@ -49,10 +49,13 @@
 
       var dates = await get_list_dates(db);
       var last_date = dates[Object.keys(dates)[Object.keys(dates).length - 1]]
-      last_date = last_date.replace(/-/g, "/");
-      console.log(last_date);
-      var selected_date = new Date(last_date);
-      console.log(selected_date);
+      var ints_date = last_date.split('-').map(function(item) {
+        return parseInt(item, 10);
+      });
+      var selected_date = new Date();
+      selected_date.setFullYear(ints_date[0]);
+      selected_date.setMonth(ints_date[1]-1);
+      //console.log(selected_date);
       populate_review(db, selected_date);
 
       async function get_list_dates(db) {
