@@ -47,10 +47,10 @@
       const app = initializeApp(firebaseConfig);
       const db = getFirestore();
       
-      var dates = await get_list_dates(db);
-      var last_date = dates[38]; 
-      //var last_date = dates[Object.keys(dates)[Object.keys(dates).length - 1]];
-      console.log(dates[38]);
+      const dates = await get_list_dates(db);
+      //var last_date = dates[38];
+      const last_date = dates[Object.keys(dates)[Object.keys(dates).length - 1]];
+      console.log(last_date);
       document.getElementById("current_week").innerHTML = week_string(get_next_week(string_to_date(last_date))[0]);
       populate_review(db, last_date);
       
