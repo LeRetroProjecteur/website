@@ -40,10 +40,6 @@
       var selected_date = new Date();
       populate_review(db, selected_date);
 
-      async function populate_month(db, date){
-        populate_review(db, date);
-      }
-
       async function populate_review(db, date) {
         var year = date.getFullYear();
         var month = date.getMonth()+1;
