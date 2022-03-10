@@ -46,12 +46,18 @@
       // Initialize Firebase
       const app = initializeApp(firebaseConfig);
       const db = getFirestore();
-      var dates = [];
-      dates = await get_list_dates(db);
-      const last_date = dates[Object.keys(dates)[Object.keys(dates).length - 1]];
-      document.getElementById("current_week").innerHTML = week_string(get_next_week(string_to_date(last_date))[0]);
-      populate_review(db, last_date);
-      
+      var promise_dates = get_list_dates(db);
+      show_newsletter(promise_dates);
+            
+      function show_newsletter(promise_dates){
+        promise_dates.then((data) => 
+        {
+          var last_date = data[Object.keys(data)[Object.keys(data).length - 1]];
+          document.getElementById("current_week").innerHTML = week_string(get_next_week(string_to_date(last_date))[0]);
+          populate_review(db, last_date);
+        })
+      }
+
       async function get_list_dates(db) {
         const am = doc(db, "reviews", "all_dates");
         var querySnapshot = await getDoc(am);
