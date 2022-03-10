@@ -47,9 +47,17 @@
       const app = initializeApp(firebaseConfig);
       const db = getFirestore();
 
-      var selected_date = new Date();
-      //await get_first_date(selected_date);
+      var dates = await get_list_dates(db);
+      var last_date = dates[Object.keys(dates)[Object.keys(dates).length - 1]]
+      var selected_date = new Date(last_date);
+      console.log(selected_date);
       populate_review(db, selected_date);
+
+      async function get_list_dates(db) {
+        const am = doc(db, "reviews", "all_dates");
+        var querySnapshot = await getDoc(am);
+        return querySnapshot.data();
+      }
 
       async function get_first_date(first_date){
         await check_if_isempty_and_change_date(db, first_date);
