@@ -46,11 +46,9 @@
       // Initialize Firebase
       const app = initializeApp(firebaseConfig);
       const db = getFirestore();
-      
-      const dates = await get_list_dates(db);
-      //var last_date = dates[38];
+      var dates = [];
+      dates = await get_list_dates(db);
       const last_date = dates[Object.keys(dates)[Object.keys(dates).length - 1]];
-      console.log(last_date);
       document.getElementById("current_week").innerHTML = week_string(get_next_week(string_to_date(last_date))[0]);
       populate_review(db, last_date);
       
@@ -58,7 +56,7 @@
         const am = doc(db, "reviews", "all_dates");
         var querySnapshot = await getDoc(am);
         return querySnapshot.data();
-      }
+      };
 
       async function populate_review(db, date) {
         const q = query(collection(db, "reviews"), where("date", "==", date));
