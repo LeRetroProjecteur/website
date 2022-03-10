@@ -7,12 +7,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/11.1.0/nouislider.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
     <script type="text/javascript" src="app.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/11.1.0/nouislider.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.js"></script>
     <link rel="stylesheet" href="main.css">
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
@@ -47,9 +47,11 @@
       var selected_end_hour = 24;
       var day = selected_date.getUTCDate();
       var promise_data = [];
+      var increment = 0;
       var slider = document.getElementById('slider-range');
       var slider_value_element = document.getElementById('slider-range-value');
       var neighborhood_dropdown = document.getElementById('neighborhood-list');
+
 
       async function get_data(db, date){
         var todayString = date_to_string(date);
@@ -60,6 +62,12 @@
           data_aux = doc.data().movies;
         });
         return data_aux;
+      }
+
+      async function get_list_movies(db) {
+        const am = doc(db, "reviews", "all_movies");
+        var querySnapshot = await getDoc(am);
+        return querySnapshot.data();
       }
 
       async function populate_movies(promise_data, date, start, end) {
@@ -77,12 +85,8 @@
           data.sort(
             (a, b) => $(a).attr('year') - $(b).attr('year') || $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('title').localeCompare($(b).attr('title'))
           ).forEach(f => {
-            var md = new Date(f.date[0], f.date[1]-1, f.date[2]);
-            var mdStr = String(md.getFullYear()).concat('-', String(md.getMonth()+1), '-', String(md.getDate()));
-            var sdStr = String(selected_date.getFullYear()).concat('-', String(selected_date.getMonth()+1), '-', String(selected_date.getDate()));
             var new_dict = display_real_dict(f.showtimes_theater, start, end);
-
-            if (mdStr==sdStr && Object.keys(new_dict).length > 0) { // REMOVE mdStr and sdStr????
+            if (Object.keys(new_dict).length > 0) {
               var real_showtime = display_showtimes(new_dict);
               var movie_page = f.title
               var tblRow = "<tr>" +
@@ -97,35 +101,38 @@
       }
 
       async function refresh_data() {
-        populate_movies(promise_data, selected_date, selected_start_hour, selected_end_hour);
+        await populate_movies(promise_data, selected_date, selected_start_hour, selected_end_hour);
       }
 
-      (async () => {
-        $(function() {
-          document.getElementById("date_of_today").innerHTML = day_string(selected_date);
-          promise_data = get_data(db, selected_date);
-        });
-      })();
-
-      $( function() {
+      $(function() {
         noUiSlider.create(slider, {
           start: [0, 24],
           connect: true,
           step:1,
           margin: 1,
           range: {
-              'min': 0,
-              'max': 24
+            'min': 0,
+            'max': 24
           }
         });
+
+        document.getElementById("date_of_today").innerHTML = day_string(selected_date);
+        promise_data = get_data(db, selected_date);
+        selected_start_hour = 0
+        slider_value_element.innerHTML = (
+          "Séances entre <b style='color:var(--red); font-weight:bold;'>" + selected_start_hour + "h et " + selected_end_hour + "h </b>"
+        );
+        refresh_data();
+
         slider.noUiSlider.on('update', function (values) {
           selected_start_hour = Math.round(values[0]);
           selected_end_hour = Math.round(values[1]);
           slider_value_element.innerHTML = (
             "Séances entre <b style='color:var(--red); font-weight:bold;'>" + selected_start_hour + "h et " + selected_end_hour + "h </b>"
           );
-          refresh_data();
         });
+
+        slider.noUiSlider.on('change', refresh_data);
       });
 
       neighborhood_dropdown.getElementsByClassName('anchor')[0].onclick = function(evt) {
