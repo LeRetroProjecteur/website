@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="fr">
-
   <head>
     <link rel="icon" href="img/logo_square.png">
     <meta charset="utf-8">
@@ -9,7 +8,6 @@
     <link rel="stylesheet" href="main.css">
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
     <script type="text/javascript" src="app.js"></script>
-
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F5QY5F8S5L"></script>
     <script>
@@ -18,82 +16,40 @@
       gtag('js', new Date());
       gtag('config', 'G-F5QY5F8S5L');
     </script>
-
     <script>
       $(function(){
         $("#header").load("includes/header.html");
         $("#footer").load("includes/footer.html");
       });
     </script>
-
     <title>Up Close | Cinéma à Paris</title>
-
   </head>
-
   <body class="light-theme">
-
     <div id="header"></div>
-
     <h2>Que voir à Paris cette semaine&nbsp;?</h2>
-
     <script type="module">
       // Import the functions you need from the SDKs you need
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
       import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
       // TO DO: Add SDKs for Firebase products that you want to use
       // https://firebase.google.com/docs/web/setup#available-libraries
-
       // Initialize Firebase
       const app = initializeApp(firebaseConfig);
       const db = getFirestore();
 
-      var dates = await get_list_dates(db);
-      var last_date = dates[Object.keys(dates)[Object.keys(dates).length - 1]]
-      // var ints_date = last_date.split('-').map(function(item) {
-      //   return parseInt(item, 10);
-      // });
-      // var selected_date = new Date();
-      // selected_date.setFullYear(ints_date[0]);
-      // selected_date.setMonth(ints_date[1]-1);
-      // selected_date.setUTCDate(ints_date[2]);
-      //console.log(selected_date);
-      //document.getElementById("current_week").innerHTML = week_string(get_next_week(string_to_date(last_date))[0]);
-      populate_review(db, last_date);
+      var selected_date = new Date();
+      populate_review(db, selected_date);
 
-      async function get_list_dates(db) {
-        const am = doc(db, "reviews", "all_dates");
-        var querySnapshot = await getDoc(am);
-        return querySnapshot.data();
+      async function populate_month(db, date){
+        populate_review(db, date);
       }
-
-      async function get_first_date(first_date){
-        await check_if_isempty_and_change_date(db, first_date);
-      }
-
-      async function check_if_isempty_and_change_date(db, date) {
-        var selected_year = date.getFullYear();
-        var selected_month = date.getMonth()+1;
-        var year = selected_year.toString();
-        var month = selected_month.toString().padStart(2, '0');
-        const q = query(collection(db, "reviews"), where("year", "==", year), where("month", "==", month));
-        var querySnapshot = await getDocs(q);
-        var data = [];
-        querySnapshot.forEach((doc) => {
-          data.push(doc.data());
-        });
-        if (data.length==0) {
-          date.setMonth(date.getMonth() - 1);
-        }
-      }
-            
 
       async function populate_review(db, date) {
-        //var year = date.getFullYear();
-        //var month = date.getMonth()+1;
-        //var selected_date_string = String(date.getFullYear()).concat('-', String(date.getMonth()+1).padStart(2, '0'), '-', String(date.getDate()).padStart(2, '0'));
-        //year = year.toString();
-        //month = month.toString().padStart(2, '0');
-        const q = query(collection(db, "reviews"), where("date", "==", date));
+        var year = date.getFullYear();
+        var month = date.getMonth()+1;
+        year = year.toString();
+        month = month.toString().padStart(2, '0');
+        const q = query(collection(db, "reviews"), where("year", "==", year), where("month", "==", month));
         var querySnapshot = await getDocs(q);
         var data = [];
         querySnapshot.forEach((doc) => {
@@ -101,25 +57,24 @@
         });
         
         var i=0;
-        // data.sort((a, b) => $(b).attr('time') - $(a).attr('time')).forEach(f => {
-        //   if(i==0){
-        //     selected_date = f.date;
-        //     var Date_Newsletter = string_to_date(selected_date);
-        //     if (Date_Newsletter.getDay()<3){
-        //       // When we do the newsletter on a monday or a tuesday, it means we are early => get_next_week
-        //       document.getElementById("current_week").innerHTML = week_string(get_next_week(string_to_date(selected_date))[0]);
-        //     }
-        //     else {
-        //       // When we do the newsletter on a wednesday or thursday, it means we are late => get_current_week
-        //       document.getElementById("current_week").innerHTML = week_string(get_current_week(string_to_date(selected_date))[0]);
-        //     }
-        //     i = i + 1
-        //   }
-        // });
-
+        data.sort((a, b) => $(b).attr('time') - $(a).attr('time')).forEach(f => {
+          if(i==0){
+            selected_date = f.date;
+            var Date_Newsletter = string_to_date(selected_date);
+            if (Date_Newsletter.getDay()<3){
+              // When we do the newsletter on a monday or a tuesday, it means we are early => get_next_week
+              document.getElementById("current_week").innerHTML = week_string(get_next_week(string_to_date(selected_date))[0]);
+            }
+            else {
+              // When we do the newsletter on a wednesday or thursday, it means we are late => get_current_week
+              document.getElementById("current_week").innerHTML = week_string(get_current_week(string_to_date(selected_date))[0]);
+            }
+            i = i + 1
+          }
+        });
         var string = "";
         data.sort((a, b) => $(b).attr('time') - $(a).attr('time')).forEach(f => {
-          if (f.date == date){
+          if (f.date == selected_date){
             string = string.concat(
             "<div class='moviebox'>" +
               "<img src='data:image/png;base64," + f.image_file + "'/>" +
@@ -131,17 +86,15 @@
           }
           document.getElementById("cdc").innerHTML = string ;
         });
-
-        const q2 = query(collection(db, "weeks"), where("date", "==", date));
+        const q2 = query(collection(db, "weeks"), where("year", "==", year), where("month", "==", month));
         var querySnapshot = await getDocs(q2);
         var data = [];
         querySnapshot.forEach((doc) => {
           data.push(doc.data());
         });
-
         var string = "";
         data.sort((a, b) => $(a).attr('date') - $(b).attr('date')).forEach(f => {
-          if (f.date == date){
+          if (f.date == selected_date){
             string = string.concat(
                 "<div class='moviebox'>" + "<h3 style='color:grey;'>" + f.name + "</h3><br>" +
                   f.week + "</div><br>"
@@ -149,22 +102,13 @@
           }
           document.getElementById("week").innerHTML = string;
         });
-
       }
-
-    // (async () => {
-    //     $(function() {
-    //       populate_review(db, selected_year, selected_month);
-    //     });
-    //   })();
-    // </script>
-
+    
+    </script>
     <h3><span id="current_week"></span></h3>
     <br>
     <span id="cdc"></span>
     <span id="week"></span>
     <div id="footer"></div>
-
   </body>
-
 </html>
