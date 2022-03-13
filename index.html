@@ -54,6 +54,7 @@
 
 
       async function get_data(db, date){
+        console.log("Fetching data")
         var todayString = date_to_string(date);
         const q = query(collection(db, "movies"), where("date", "==", todayString));
         var querySnapshot = await getDocs(q);
@@ -71,6 +72,7 @@
       }
 
       async function populate_movies(promise_data, date, start, end) {
+        console.log("Populating table")
         var tempScrollTop = $(window).scrollTop();
         await $('#userdata tbody').empty();
         var nd = new Date();
@@ -85,15 +87,17 @@
           data.sort(
             (a, b) => $(a).attr('year') - $(b).attr('year') || $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('title').localeCompare($(b).attr('title'))
           ).forEach(f => {
-            var new_dict = display_real_dict(f.showtimes_theater, start, end);
-            if (Object.keys(new_dict).length > 0) {
-              var real_showtime = display_showtimes(new_dict);
-              var movie_page = f.title
-              var tblRow = "<tr>" +
-                "<td><b>" + movie_page + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
-                "<td>" + real_showtime + "</td>" +
-                "</tr>"
-              $(tblRow).appendTo("#userdata tbody");
+            if (document.getElementById("rd").checked){
+              var new_dict = display_real_dict(f.showtimes_theater, start, end);
+              if (Object.keys(new_dict).length > 0) {
+                var real_showtime = display_showtimes(new_dict);
+                var movie_page = f.title
+                var tblRow = "<tr>" +
+                  "<td><b>" + movie_page + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+                  "<td>" + real_showtime + "</td>" +
+                  "</tr>"
+                $(tblRow).appendTo("#userdata tbody");
+              }
             }
           });
         $(window).scrollTop(tempScrollTop);
@@ -136,11 +140,16 @@
       });
 
       neighborhood_dropdown.getElementsByClassName('anchor')[0].onclick = function(evt) {
-        if (neighborhood_dropdown.classList.contains('visible'))
+        if (neighborhood_dropdown.classList.contains('visible')) {
           neighborhood_dropdown.classList.remove('visible');
-        else
+        }
+        else {
           neighborhood_dropdown.classList.add('visible');
+        }
       }
+      $(':checkbox').click(function(){
+        refresh_data();
+      });
 
       async function move_date_forward() {
         slider.noUiSlider.set([0, 24]);
@@ -201,10 +210,16 @@
       <div id="neighborhood-list" class="dropdown-check-list" tabindex="100">
         <span class="anchor">Filtrer par quartier</span>
         <ul class="items">
-          <input type="checkbox" name="foo" value="bar1"> Bar 1<br/>
-          <input type="checkbox" name="foo" value="bar2"> Bar 2<br/>
-          <input type="checkbox" name="foo" value="bar3"> Bar 3<br/>
-          <input type="checkbox" name="foo" value="bar4"> Bar 4<br/>
+          <input type="checkbox" id="rg" checked> Rive Gauche<br/>
+          <input type="checkbox" id="rd" checked> Rive Droite<br/>
+          <input type="checkbox" id="em" checked> Extramuros<br/>
+        </ul>
+      </div>
+      <div id="sort-list" class="dropdown-check-list" tabindex="100">
+        <span class="anchor">Trier par</span>
+        <ul class="items">
+          <input> Année de sortie<br/>
+          <input> Metteur en Scène<br/>
         </ul>
       </div>
 
