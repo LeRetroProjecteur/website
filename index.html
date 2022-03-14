@@ -63,12 +63,6 @@
         return data_aux;
       }
 
-      async function get_list_movies(db) {
-        const am = doc(db, "reviews", "all_movies");
-        var querySnapshot = await getDoc(am);
-        return querySnapshot.data();
-      }
-
       async function populate_movies(promise_data, date, start, end) {
         var tempScrollTop = $(window).scrollTop();
         await $('#userdata tbody').empty();
