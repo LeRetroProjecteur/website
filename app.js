@@ -4,11 +4,17 @@ var days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Same
 var days_short = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
 var months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 var months_short = ['jan', 'fév', 'mars', 'avr', 'mai', 'juin', 'juil', 'août', 'sept', 'oct', 'nov', 'déc'];
- 
+
+function pad(num, size) {
+    num = num.toString();
+    while (num.length < size) num = "0" + num;
+    return num;
+}
+
 
 function parseDate(input, format) {
   format = format || 'yyyy-mm-dd'; // default format
-  var parts = input.match(/(\d+)/g), 
+  var parts = input.match(/(\d+)/g),
       i = 0, fmt = {};
   // extract date-part indexes from the format
   format.replace(/(yyyy|dd|mm)/g, function(part) { fmt[part] = i++; });
@@ -83,26 +89,6 @@ function day_string(date){
   );
 }
 
-function display_showtimes(dictionnary, sep="<br>"){
-  var showtime = [];
-  for (const [key, value] of Object.entries(dictionnary)){
-    var text_row = [];
-    for (var i = 0; i < value.length; i++){
-      var hour = value[i];
-      var minute = parseFloat((60*(hour - Math.floor(hour))).toPrecision(3));
-      if (minute<10){
-        minute = "0"+minute
-      } else {
-        minute = minute.toString()
-      }
-      text_row.push(Math.floor(hour).toString() + "h" + minute);
-    }
-    showtime.push(key + "&nbsp;: " + text_row.join(', '))
-  }
-  showtime = showtime.join(sep)
-  return showtime
-}
-
 function datesAreOnSameDay(first, second) {
   return first.getFullYear() === second.getFullYear() &&
   first.getMonth() === second.getMonth() &&
@@ -112,25 +98,29 @@ function datesAreOnSameDay(first, second) {
 function datesAreOnSameMonth(first, second) {
   return first.getFullYear() === second.getFullYear() &&
   first.getMonth() === second.getMonth();
-}
+};
 
-function display_real_dict(dictionnary, start_hour, end_hour){
-  var new_dict = {};
-  for (const [key, value] of Object.entries(dictionnary)){
-    for (var i = 0; i < value.length; i++){
-      var hour = value[i];
-      if (hour >= start_hour){
-        if (hour <= end_hour){
-          if (key in new_dict){
-            new_dict[key].push(hour);
-          } else {
-            new_dict[key] = [hour];
-          }
-        }
-      }
+function display_showtimes(showtimes, sep="<br>", date=false){
+
+  var showtime_list = [];
+  for (const [key, value] of Object.entries(showtimes)){
+
+    var theater_name = value.clean_name + " (" + value.zipcode_clean + ")";
+
+    var text_row = [];
+    value.showtimes = value.showtimes.sort();
+    for (var i = 0; i < value.showtimes.length; i++){
+      var hour = value.showtimes[i];
+      var minute = pad(parseFloat((60*(hour - Math.floor(hour))).toPrecision(3)), 2);
+      text_row.push(Math.floor(hour).toString() + "h" + minute);
     }
+    showtime_list.push(theater_name + "&nbsp;: " + text_row.join(', '))
   }
-  return new_dict
+
+  var showtime_string = showtime_list.join(sep);
+
+  return showtime_string;
+
 }
 
 // Your web app's Firebase configuration
