@@ -53,9 +53,9 @@
       var selected_date = new Date();
       var first_date = new Date(selected_date);
       var promise_dates = get_list_dates(db);      
-      await show_review_first_month(promise_dates);
+      show_review_first_month(promise_dates);
 
-      async function show_review_first_month(promise_dates){
+      function show_review_first_month(promise_dates){
         promise_dates.then((data) => 
         {
           var last_date_string = data[Object.keys(data)[Object.keys(data).length - 1]];
