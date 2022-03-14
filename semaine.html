@@ -49,11 +49,14 @@
 
     async function get_data(db, date, data) {
       var date = date_to_string(date);
-      const q = query(collection(db, "movies"), where("date", "==", date));
+      const q = query(collection(db, "data_per_date"), where("date", "==", date));
       var querySnapshot = await getDocs(q);
       var data_aux = [];
       querySnapshot.forEach((doc) => {
         data_aux = doc.data().movies;
+        for (var i = 0; i < data_aux.length; i++){
+          data_aux[i].date = date
+        }
       });
       data.push(data_aux);
     }
@@ -65,9 +68,7 @@
         (a, b) => $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('year') - $(b).attr('year') || $(a).attr('title').localeCompare($(b).attr('title'))
       ).forEach(f => {
         var movie = f.date;
-        var md = new Date(movie[0], movie[1]-1, movie[2], 0, 0, 0, 0)
-        var new_dict = display_real_dict(f.showtimes_theater, 0, 24);
-        var real_showtime = display_showtimes(new_dict, "; ");
+        var md = new Date(movie.substring(0, 4), movie.substring(5, 7)-1, movie.substring(8), 0, 0, 0, 0);
 
         if (f.title != prev_movie){
           string = string.concat(
@@ -76,7 +77,7 @@
         }
         string = string.concat(
           "<b>" + days_short[md.getDay()] + " " + md.getDate() + " " + months_short[md.getMonth()] + "</b> " +
-          real_showtime + "<br>"
+          display_showtimes(f.showtimes_theater, "&nbsp;; ") + "<br>"
         )
         prev_movie = f.title;
       });

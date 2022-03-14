@@ -56,7 +56,7 @@
       async function get_data(db, date){
         console.log("Fetching data")
         var todayString = date_to_string(date);
-        const q = query(collection(db, "movies"), where("date", "==", todayString));
+        const q = query(collection(db, "data_per_date"), where("date", "==", todayString));
         var querySnapshot = await getDocs(q);
         var data_aux = [];
         querySnapshot.forEach((doc) => {
@@ -87,17 +87,31 @@
           data.sort(
             (a, b) => $(a).attr('year') - $(b).attr('year') || $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('title').localeCompare($(b).attr('title'))
           ).forEach(f => {
-            if (document.getElementById("rd").checked){
-              var new_dict = display_real_dict(f.showtimes_theater, start, end);
-              if (Object.keys(new_dict).length > 0) {
-                var real_showtime = display_showtimes(new_dict);
-                var movie_page = f.title
-                var tblRow = "<tr>" +
-                  "<td><b>" + movie_page + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
-                  "<td>" + real_showtime + "</td>" +
-                  "</tr>"
-                $(tblRow).appendTo("#userdata tbody");
+            var showtimes = {};
+            for (const [key, value] of Object.entries(f.showtimes_theater)){
+              for (var i = 0; i < value.showtimes.length; i++){
+                if (document.getElementById(value.location_2).checked){
+                  var hour = value.showtimes[i];
+                  if (hour >= start){
+                    if (hour <= end){
+                      if (key in showtimes){
+                        showtimes[key]['showtimes'].push(hour);
+                      } else {
+                        showtimes[key] = value;
+                        showtimes[key]['showtimes'] = [hour];
+                      }
+                    }
+                  }
+                }
               }
+            }
+
+            if (Object.keys(showtimes).length > 0) {
+              var tblRow = "<tr>" +
+                "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+                "<td>" + display_showtimes(showtimes) + "</td>" +
+                "</tr>"
+              $(tblRow).appendTo("#userdata tbody");
             }
           });
         $(window).scrollTop(tempScrollTop);
