@@ -163,8 +163,10 @@ brsmall {
   margin: 7px 0;
 }
 
+/* Checkbox */
 .dropdown-check-list {
   display: inline-block;
+  text-align: left;
 }
 .dropdown-check-list .anchor {
   position: relative;
@@ -202,8 +204,11 @@ brsmall {
   list-style: none;
 }
 .dropdown-check-list.visible .anchor {
-  color: #0094ff;
+  color: var(--red);
 }
 .dropdown-check-list.visible .items {
   display: block;
+}
+input[type="checkbox"] { /* change "blue" browser chrome to yellow */
+  accent-color: var(--red);
 }

@@ -51,6 +51,7 @@
       var slider = document.getElementById('slider-range');
       var slider_value_element = document.getElementById('slider-range-value');
       var neighborhood_dropdown = document.getElementById('neighborhood-list');
+      var sort_dropdown = document.getElementById('sort-list');
 
 
       async function get_data(db, date){
@@ -71,6 +72,35 @@
         return querySnapshot.data();
       }
 
+      function generate_data_table(f, start, end){
+        var showtimes = {};
+        for (const [key, value] of Object.entries(f.showtimes_theater)){
+          for (var i = 0; i < value.showtimes.length; i++){
+            if (document.getElementById(value.location_2).checked){
+              var hour = value.showtimes[i];
+              if (hour >= start){
+                if (hour <= end){
+                  if (key in showtimes){
+                    showtimes[key]['showtimes'].push(hour);
+                  } else {
+                    showtimes[key] = value;
+                    showtimes[key]['showtimes'] = [hour];
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        if (Object.keys(showtimes).length > 0) {
+          var tblRow = "<tr>" +
+            "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+            "<td>" + display_showtimes(showtimes) + "</td>" +
+            "</tr>"
+          $(tblRow).appendTo("#userdata tbody");
+        }
+      }
+
       async function populate_movies(promise_data, date, start, end) {
         console.log("Populating table")
         var tempScrollTop = $(window).scrollTop();
@@ -83,39 +113,35 @@
         }
         start = Math.max(start, day_hour);
 
-        promise_data.then((data) => {
-          data.sort(
-            (a, b) => $(a).attr('year') - $(b).attr('year') || $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('title').localeCompare($(b).attr('title'))
-          ).forEach(f => {
-            var showtimes = {};
-            for (const [key, value] of Object.entries(f.showtimes_theater)){
-              for (var i = 0; i < value.showtimes.length; i++){
-                if (document.getElementById(value.location_2).checked){
-                  var hour = value.showtimes[i];
-                  if (hour >= start){
-                    if (hour <= end){
-                      if (key in showtimes){
-                        showtimes[key]['showtimes'].push(hour);
-                      } else {
-                        showtimes[key] = value;
-                        showtimes[key]['showtimes'] = [hour];
-                      }
-                    }
-                  }
-                }
-              }
-            }
+        if (document.getElementById("year").checked) {
+          promise_data.then((data) => {
+            data.sort(
+              (a, b) => $(a).attr('year')-$(b).attr('year') || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name')) || $(a).attr('title').localeCompare($(b).attr('title'))
+            ).forEach(f => {
+              generate_data_table(f, start, end);
+            });
+          })
+        }
+        else if (document.getElementById("dir").checked) {
+          promise_data.then((data) => {
+            data.sort(
+              (a, b) => $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name')) || $(a).attr('year')-$(b).attr('year') || $(a).attr('title').localeCompare($(b).attr('title'))
+            ).forEach(f => {
+              generate_data_table(f, start, end);
+            });
+          })
+        }
+        else if (document.getElementById("film").checked) {
+          promise_data.then((data) => {
+            data.sort(
+              (a, b) => $(a).attr('title').localeCompare($(b).attr('title')) || $(a).attr('year')-$(b).attr('year') || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name'))
+            ).forEach(f => {
+              generate_data_table(f, start, end);
+            });
+          })
+        }
 
-            if (Object.keys(showtimes).length > 0) {
-              var tblRow = "<tr>" +
-                "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
-                "<td>" + display_showtimes(showtimes) + "</td>" +
-                "</tr>"
-              $(tblRow).appendTo("#userdata tbody");
-            }
-          });
         $(window).scrollTop(tempScrollTop);
-        })
       }
 
       async function refresh_data() {
@@ -153,6 +179,26 @@
         slider.noUiSlider.on('change', refresh_data);
       });
 
+      $(':checkbox').click(function(){
+        refresh_data();
+      });
+
+      $("input:checkbox").on('click', function() {
+        // in the handler, 'this' refers to the box clicked on
+        var $box = $(this);
+        if ($box.is(":checked")) {
+          // the name of the box is retrieved using the .attr() method
+          // as it is assumed and expected to be immutable
+          var group = "input:checkbox[name='" + $box.attr("name") + "']";
+          // the checked state of the group/box on the other hand will change
+          // and the current value is retrieved using .prop() method
+          $(group).prop("checked", false);
+          $box.prop("checked", true);
+        } else {
+          $box.prop("checked", false);
+        }
+      });
+
       neighborhood_dropdown.getElementsByClassName('anchor')[0].onclick = function(evt) {
         if (neighborhood_dropdown.classList.contains('visible')) {
           neighborhood_dropdown.classList.remove('visible');
@@ -161,9 +207,15 @@
           neighborhood_dropdown.classList.add('visible');
         }
       }
-      $(':checkbox').click(function(){
-        refresh_data();
-      });
+
+      sort_dropdown.getElementsByClassName('anchor')[0].onclick = function(evt) {
+        if (sort_dropdown.classList.contains('visible')) {
+          sort_dropdown.classList.remove('visible');
+        }
+        else {
+          sort_dropdown.classList.add('visible');
+        }
+      }
 
       async function move_date_forward() {
         slider.noUiSlider.set([0, 24]);
@@ -232,8 +284,9 @@
       <div id="sort-list" class="dropdown-check-list" tabindex="100">
         <span class="anchor">Trier par</span>
         <ul class="items">
-          <input> Année de sortie<br/>
-          <input> Metteur en Scène<br/>
+          <input type="checkbox" id="year" name="sort[1][]" checked> Année<br/>
+          <input type="checkbox" id="dir" name="sort[1][]" unchecked> Réalisateur<br/>
+          <input type="checkbox" id="film" name="sort[1][]" unchecked> Titre<br/>
         </ul>
       </div>
 
