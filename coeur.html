@@ -51,15 +51,27 @@
       const db = getFirestore();
       var months_short_cap = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
       var selected_date = new Date();
-      //await check_if_isempty_and_change_date(selected_date);
-      populate_month(db, selected_date);
       var first_date = new Date(selected_date);
-      
-      async function populate_month(db, selected_date){
-        document.getElementById("date_of_today").innerHTML = 
+      var promise_dates = get_list_dates(db);      
+      show_review_first_month(promise_dates);
+
+      function show_review_first_month(promise_dates){
+        promise_dates.then((data) => 
+        {
+          var last_date_string = data[Object.keys(data)[Object.keys(data).length - 1]];
+          selected_date = new Date(last_date_string.replace(/-/g, "/"));
+          first_date = new Date(selected_date);
+          document.getElementById("date_of_today").innerHTML = 
               months_short_cap[selected_date.getMonth()] + " " + String(selected_date.getFullYear());
-        populate_review(db, selected_date);
+          populate_review(db, selected_date);
+        })
       }
+
+      async function get_list_dates(db) {
+        const am = doc(db, "reviews", "all_dates");
+        var querySnapshot = await getDoc(am);
+        return querySnapshot.data();
+      };
 
       async function populate_review(db, selected_date) {
         var selected_year = selected_date.getFullYear();
@@ -105,19 +117,6 @@
           else{
             document.getElementById("move_date_forward").style.color = "var(--red)";
           }
-        }
-      }
-
-      async function check_if_isempty_and_change_date(selected_date) {
-        const q = query(collection(db, "reviews"), where("year", "==",  selected_date.getFullYear().toString()), 
-            where("month", "==", (selected_date.getMonth()+1).toString().padStart(2, '0')));
-        var querySnapshot = await getDocs(q);
-        var data = [];
-        querySnapshot.forEach((doc) => {
-          data.push(doc.data());
-        });
-        if (data.length==0) {
-          selected_date.setMonth(selected_date.getMonth() - 1);
         }
       }
 

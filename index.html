@@ -66,12 +66,6 @@
         return data_aux;
       }
 
-      async function get_list_movies(db) {
-        const am = doc(db, "reviews", "all_movies");
-        var querySnapshot = await getDoc(am);
-        return querySnapshot.data();
-      }
-
       function generate_data_table(f, start, end){
         var showtimes = {};
         for (const [key, value] of Object.entries(f.showtimes_theater)){
@@ -91,7 +85,6 @@
             }
           }
         }
-
         if (Object.keys(showtimes).length > 0) {
           var tblRow = "<tr>" +
             "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
@@ -140,7 +133,6 @@
             });
           })
         }
-
         $(window).scrollTop(tempScrollTop);
       }
 
