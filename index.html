@@ -175,6 +175,7 @@
         refresh_data();
       });
 
+      // For sort, only allow 1 box to be checked:
       $("input:checkbox").on('click', function() {
         // in the handler, 'this' refers to the box clicked on
         var $box = $(this);
@@ -186,8 +187,9 @@
           // and the current value is retrieved using .prop() method
           $(group).prop("checked", false);
           $box.prop("checked", true);
-        } else {
-          $box.prop("checked", false);
+        }
+        else {
+          $box.prop("checked", true);
         }
       });
 
@@ -208,6 +210,13 @@
           sort_dropdown.classList.add('visible');
         }
       }
+
+      $('*').click(function(evt){
+        if (!$(evt.target).hasClass('anchor') & !$(evt.target).hasClass('checkbox') & !$(evt.target).hasClass('items')) {
+          sort_dropdown.classList.remove('visible');
+          neighborhood_dropdown.classList.remove('visible');
+        }
+      });
 
       async function move_date_forward() {
         slider.noUiSlider.set([0, 24]);
@@ -268,17 +277,17 @@
       <div id="neighborhood-list" class="dropdown-check-list" tabindex="100">
         <span class="anchor">Filtrer par quartier</span>
         <ul class="items">
-          <input type="checkbox" id="rg" checked> Rive Gauche<br/>
-          <input type="checkbox" id="rd" checked> Rive Droite<br/>
-          <input type="checkbox" id="em" checked> Extramuros<br/>
+          <label class="checkbox"><input class="checkbox" type="checkbox" id="rg" checked> Rive Gauche</label><br/>
+          <label class="checkbox"><input class="checkbox" type="checkbox" id="rd" checked> Rive Droite</label><br/>
+          <label class="checkbox"><input class="checkbox" type="checkbox" id="em" checked> Extramuros</label><br/>
         </ul>
       </div>
       <div id="sort-list" class="dropdown-check-list" tabindex="100">
         <span class="anchor">Trier par</span>
         <ul class="items">
-          <input type="checkbox" id="year" name="sort[1][]" checked> Année<br/>
-          <input type="checkbox" id="dir" name="sort[1][]" unchecked> Réalisateur<br/>
-          <input type="checkbox" id="film" name="sort[1][]" unchecked> Titre<br/>
+          <label class="checkbox"><input class="checkbox" type="checkbox" id="year" name="sort[1][]" checked> Année</label><br/>
+          <label class="checkbox"><input class="checkbox" type="checkbox" id="dir" name="sort[1][]" unchecked> Réalisateur</label><br/>
+          <label class="checkbox"><input class="checkbox" type="checkbox" id="film" name="sort[1][]" unchecked> Titre</label><br/>
         </ul>
       </div>
 
