@@ -69,7 +69,8 @@ input{
   appearance: none;
 }
 #logo-wrap {
-    max-width: 400px;
+    max-width: 300px;
+    height: auto;
     display:block;
 }
 .center {
