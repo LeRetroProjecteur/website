@@ -2,13 +2,19 @@
 <html lang="fr">
 
   <head>
+
     <link rel="icon" href="img/logo_square.png">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
     <script type="text/javascript" src="app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.js"></script>
+    <link rel="stylesheet" href="main.css">
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F5QY5F8S5L"></script>
@@ -25,8 +31,6 @@
         $("#footer").load("includes/footer.html");
       });
     </script>
-
-    <title>Up Close | Cinéma à Paris</title>
 
   </head>
 
@@ -48,9 +52,9 @@
       const db = getFirestore();
       var promise_dates = get_list_dates(db);
       show_newsletter(promise_dates);
-            
+
       function show_newsletter(promise_dates){
-        promise_dates.then((data) => 
+        promise_dates.then((data) =>
         {
           var last_date = data[Object.keys(data)[Object.keys(data).length - 1]];
           document.getElementById("current_week").innerHTML = week_string(get_next_week(string_to_date(last_date))[0]);
@@ -71,7 +75,7 @@
         querySnapshot.forEach((doc) => {
           data.push(doc.data());
         });
-        
+
         var i=0;
         var string = "";
         data.sort((a, b) => $(b).attr('time') - $(a).attr('time')).forEach(f => {
