@@ -91,7 +91,7 @@
             string = string.concat(
               "<div class='moviebox'>" +
                 "<img src='data:image/png;base64," + f.image_file + "'/>" +
-                "<h3 style='color:grey; font-weight:normal;'>" + week_string(string_to_date(f.date)) + "&nbsp;: " + f.category + "</h3>" +
+                "<h3 style='color:grey; font-weight:normal;'>" + week_string(get_next_week(string_to_date(f.date))[0]) + "&nbsp;: " + f.category + "</h3>" +
                 "<h3><i>" + f.movie_name + "</i>, " + f.movie_directors + " (" + f.movie_year + ")</h3>" +
                 f.review +
               "</div><br>"
