@@ -2,6 +2,7 @@
 <html lang="fr">
 
   <head>
+
     <link rel="icon" href="img/logo_square.png">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -25,10 +26,10 @@
     </script>
 
     <script>
-    $(function(){
-      $("#header").load("includes/header.html");
-      $("#footer").load("includes/footer.html");
-    });
+      $(function(){
+        $("#header").load("includes/header.html");
+        $("#footer").load("includes/footer.html");
+      });
     </script>
 
     <script type="module">
@@ -151,24 +152,40 @@
             'max': 24
           }
         });
+      $(window).scrollTop(tempScrollTop);
+      })
+    }
 
-        document.getElementById("date_of_today").innerHTML = day_string(selected_date);
-        promise_data = get_data(db, selected_date);
-        selected_start_hour = 0
+    async function refresh_data() {
+      await populate_movies(promise_data, selected_date, selected_start_hour, selected_end_hour);
+    }
+
+    $(function() {
+      noUiSlider.create(slider, {
+        start: [0, 24],
+        connect: true,
+        step:1,
+        margin: 1,
+        range: {
+          'min': 0,
+          'max': 24
+        }
+      });
+
+      document.getElementById("date_of_today").innerHTML = day_string(selected_date);
+      promise_data = get_data(db, selected_date);
+      selected_start_hour = 0
+      slider_value_element.innerHTML = (
+        "Séances entre <b style='color:var(--red); font-weight:bold;'>" + selected_start_hour + "h et " + selected_end_hour + "h </b>"
+      );
+      refresh_data();
+
+      slider.noUiSlider.on('update', function (values) {
+        selected_start_hour = Math.round(values[0]);
+        selected_end_hour = Math.round(values[1]);
         slider_value_element.innerHTML = (
           "Séances entre <b style='color:var(--red); font-weight:bold;'>" + selected_start_hour + "h et " + selected_end_hour + "h </b>"
         );
-        refresh_data();
-
-        slider.noUiSlider.on('update', function (values) {
-          selected_start_hour = Math.round(values[0]);
-          selected_end_hour = Math.round(values[1]);
-          slider_value_element.innerHTML = (
-            "Séances entre <b style='color:var(--red); font-weight:bold;'>" + selected_start_hour + "h et " + selected_end_hour + "h </b>"
-          );
-        });
-
-        slider.noUiSlider.on('change', refresh_data);
       });
 
       $(':checkbox').click(function(){
@@ -222,42 +239,26 @@
         slider.noUiSlider.set([0, 24]);
         selected_date.setDate(selected_date.getDate()+1);
         document.getElementById("date_of_today").innerHTML = day_string(selected_date);
-        document.getElementById("move_date_backward").style.color = "var(--red)";
+        if (datesAreOnSameDay(nd, selected_date)) {
+          document.getElementById("move_date_backward").style.color = "var(--lightgrey)";
+        } else {
+          document.getElementById("move_date_backward").style.color = "var(--red)";
+        }
         promise_data = get_data(db, selected_date);
         refresh_data();
       }
+    }
 
-      async function move_date_backward() {
-        slider.noUiSlider.set([0, 24]);
-        var nd = new Date();
-        if (!datesAreOnSameDay(nd, selected_date)){
-          selected_date.setDate(selected_date.getDate()-1);
-          document.getElementById("date_of_today").innerHTML = day_string(selected_date);
-          if (datesAreOnSameDay(nd, selected_date)) {
-            document.getElementById("move_date_backward").style.color = "var(--lightgrey)";
-          } else {
-            document.getElementById("move_date_backward").style.color = "var(--red)";
-          }
-          promise_data = get_data(db, selected_date);
-          refresh_data();
-        }
-      }
+    var moveForwardButton = document.querySelector('#move_date_forward');
+    moveForwardButton.onclick = function() {
+      move_date_forward()
+    };
 
-      var moveForwardButton = document.querySelector('#move_date_forward');
-      moveForwardButton.onclick = function() {
-        move_date_forward()
-      };
-
-      var moveBackwardButton = document.querySelector('#move_date_backward');
-      moveBackwardButton.onclick = function() {
-        move_date_backward()
-      };
-    </script>
-
-
-    <title>Up Close | Cinéma à Paris</title>
-
-  </head>
+    var moveBackwardButton = document.querySelector('#move_date_backward');
+    moveBackwardButton.onclick = function() {
+      move_date_backward()
+    };
+  </script>
 
   <body class="light-theme">
     <div id="header"></div>
