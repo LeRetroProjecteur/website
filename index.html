@@ -102,7 +102,6 @@
 
     async function populate_movies(promise_data, date, start, end) {
       console.log("Populating table")
-      var tempScrollTop = $(window).scrollTop();
       await $('#userdata tbody').empty();
       var nd = new Date();
       if (datesAreOnSameDay(date, nd)){
@@ -139,7 +138,6 @@
           });
         })
       }
-      $(window).scrollTop(tempScrollTop);
     }
 
     async function refresh_data() {
@@ -271,7 +269,6 @@
     <brsmall>
     <center>
 
-      <!-- <span id="time-span" class="center"></span> -->
       <div id="slider-range-value"></div>
       <div class="slider-styled" id="slider-range"></div>
       <brsmall>
