@@ -140,8 +140,8 @@
       }
     }
 
-    async function refresh_data() {
-      await populate_movies(promise_data, selected_date, selected_start_hour, selected_end_hour);
+    function refresh_data() {
+      populate_movies(promise_data, selected_date, selected_start_hour, selected_end_hour);
     }
 
     $(function() {
@@ -222,7 +222,7 @@
       }
     });
 
-    async function move_date_forward() {
+    function move_date_forward() {
       slider.noUiSlider.set([0, 24]);
       selected_date.setDate(selected_date.getDate()+1);
       document.getElementById("date_of_today").innerHTML = day_string(selected_date);
@@ -231,7 +231,7 @@
       refresh_data();
     }
 
-    async function move_date_backward() {
+    function move_date_backward() {
       slider.noUiSlider.set([0, 24]);
       var nd = new Date();
       if (!datesAreOnSameDay(nd, selected_date)){
