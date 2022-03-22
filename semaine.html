@@ -45,14 +45,17 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore();
 
+    var data = [];
+
     var start_date = new Date();
     var delta = start_date.getDay()-3;
     start_date.setDate(start_date.getDate() - delta);
+    var date = new Date();
     document.getElementById("next_week").innerHTML = week_string(get_current_week(start_date)[0]);
 
-    async function get_data(db, date, data) {
-      var date = date_to_string(date);
-      const q = query(collection(db, "data_per_date"), where("date", "==", date));
+    async function get_data(db, date){
+      console.log("Fetching data")
+      const q = query(collection(db, "data_per_date"), where("date", "==", date_to_string(date)));
       var querySnapshot = await getDocs(q);
       var data_aux = [];
       querySnapshot.forEach((doc) => {
@@ -67,10 +70,11 @@
     function create_week_films_string(data){
       var prev_movie = "";
       var string = "";
+
       data.sort(
         (a, b) => $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('year') - $(b).attr('year') || $(a).attr('title').localeCompare($(b).attr('title'))
       ).forEach(f => {
-        var movie = f.date;
+        var movie = date_to_string(f.date);
         var md = new Date(movie.substring(0, 4), movie.substring(5, 7)-1, movie.substring(8), 0, 0, 0, 0);
 
         if (f.title != prev_movie){
@@ -127,23 +131,18 @@
       document.getElementById("retrospectives").innerHTML = string;
     }
 
-    async function populate_movies_week(start_date) {
-      var data = [];
+    var date = Date();
+
+    $(async function() {
       for (let i = 0; i < 7; i++) {
         var date = new Date(start_date);
         date.setDate(start_date.getDate() + i);
-        await get_data(db, date, data);
+        await get_data(db, date);
       }
       const data_flat = data.flat(1);
       create_week_films_string(data_flat);
       create_retrospectives_string(data_flat);
-    }
-
-    (async () => {
-      $(function() {
-        populate_movies_week(start_date);
-      });
-    })();
+    });
 
   </script>
 
