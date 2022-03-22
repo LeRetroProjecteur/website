@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+  <head>
+
+    <link rel="icon" href="img/logo_square.png">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+    <script type="text/javascript" src="app.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F5QY5F8S5L"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-F5QY5F8S5L');
+    </script>
+
+    <script>
+    $(function(){
+      $("#header").load("includes/header.html");
+      $("#footer").load("includes/footer.html");
+    });
+    </script>
+
+    <title>Nos coups de coeur</title>
+
+  </head>
+
+  <body class="light-theme">
+
+    <div id="header"></div>
+
+    <h2>Archives&nbsp;: Nos Coups de Coeur</h2>
+    <h2>
+      <table id= "userdata" border="2" class="center">
+        <thead>
+          <th style="width:80%;background-color:var(--red);color:var(--white);">Review</th>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+
+    </h2>
+
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
+      import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
+      
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore();
+      var months_short_cap = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+      var selected_date = new Date();
+      
+      var promise_reviews = get_list_reviews(db);
+      show_reviews(promise_reviews);
+
+      async function show_reviews(promise_reviews){
+        await $('#userdata tbody').empty();
+        promise_reviews.then((data) => 
+        { 
+          const keys = Object.keys(data);
+          keys.sort(
+            (a, b) => b.localeCompare(a)
+          ).forEach(f => {
+            var review = data[f];
+            var tblRow = "<tr>" +
+                "<td> Revue du " + review.date + ":" + review.movie_name + "(" + review.movie_directors + ", " + review.movie_year + ")" + "</td>" +
+                "</tr>"
+              $(tblRow).appendTo("#userdata tbody");
+          })
+        })
+      }
+
+      async function get_list_reviews(db) {
+        const am = doc(db, "reviews", "all_reviews");
+        var querySnapshot = await getDoc(am);
+        return querySnapshot.data();
+      };
+
+
+    </script>
+    <span id="cdc"></span>
+    <div id="footer"></div>
+  </body>
+</html>
