@@ -129,6 +129,7 @@ a:hover {
 #slider-range {
     height: 10px;
     width: 300px;
+    max-width: 90%;
     background-color: var(--white);
     box-shadow: none;
     border-color: var(--black);
