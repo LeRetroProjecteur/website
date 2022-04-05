@@ -70,6 +70,7 @@ input{
 }
 #logo-wrap {
     max-width: 300px;
+    height: auto;
     display:block;
 }
 .center {
@@ -117,10 +118,10 @@ a:hover {
 .slider-styled .noUi-handle .noUi-touch-area {
     border: 1px solid transparent;
     position: absolute;
-    top: -10px;
-    left: -10px;
-    right: -10px;
-    bottom: -10px;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
     width: auto;
     height: auto;
 }
@@ -128,6 +129,7 @@ a:hover {
 #slider-range {
     height: 10px;
     width: 300px;
+    max-width: 90%;
     background-color: var(--white);
     box-shadow: none;
     border-color: var(--black);
@@ -162,3 +164,57 @@ brsmall {
   display: block;
   margin: 7px 0;
 }
+
+/* Checkbox */
+.dropdown-check-list {
+  display: inline-block;
+  text-align: left;
+}
+.dropdown-check-list .anchor {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px 50px 5px 10px;
+  border: 1px solid #ccc;
+}
+.dropdown-check-list .anchor:after {
+  position: absolute;
+  content: "";
+  border-left: 2px solid black;
+  border-top: 2px solid black;
+  padding: 5px;
+  right: 10px;
+  top: 20%;
+  -moz-transform: rotate(-135deg);
+  -ms-transform: rotate(-135deg);
+  -o-transform: rotate(-135deg);
+  -webkit-transform: rotate(-135deg);
+  transform: rotate(-135deg);
+}
+.dropdown-check-list .anchor:active:after {
+  right: 8px;
+  top: 21%;
+}
+.dropdown-check-list ul.items {
+  padding: 2px;
+  display: none;
+  margin: 0;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+.dropdown-check-list ul.items li {
+  list-style: none;
+}
+.dropdown-check-list.visible .anchor {
+  color: var(--red);
+}
+.dropdown-check-list.visible .items {
+  display: block;
+}
+input[type="checkbox"] { /* change "blue" browser chrome to yellow */
+  accent-color: var(--red);
+}
+
+/* .search-container { width: 240px; margin-left:auto; padding: 10px; border: 3px solid #fff;} */
+/* .search-input { height: 15px; width: 200px; padding: 5px; margin: 0; background: white; border: 1px solid black; border-right: none; }  */
+/* .search-button { cursor: pointer; height: 27px; width: 30px; border: 1px solid black; border-left: none; margin-left: -5px; background: white; } */

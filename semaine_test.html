@@ -7,14 +7,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css" />
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-    <script type="text/javascript" src="app.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.js"></script>
     <link rel="stylesheet" href="main.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+    <script type="text/javascript" src="app.js"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F5QY5F8S5L"></script>
@@ -26,11 +21,13 @@
     </script>
 
     <script>
-      $(function(){
-        $("#header").load("includes/header.html");
-        $("#footer").load("includes/footer.html");
-      });
+    $(function(){
+      $("#header").load("includes/header.html");
+      $("#footer").load("includes/footer.html");
+    });
     </script>
+
+    <title>La semaine prochaine</title>
 
   </head>
 
@@ -64,25 +61,27 @@
       data.push(data_aux);
     }
 
-    function create_week_films_string(data){
+    function create_week_films_string(data, movie_constraint=null){
       var prev_movie = "";
       var string = "";
       data.sort(
         (a, b) => $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('year') - $(b).attr('year') || $(a).attr('title').localeCompare($(b).attr('title'))
       ).forEach(f => {
-        var movie = f.date;
-        var md = new Date(movie.substring(0, 4), movie.substring(5, 7)-1, movie.substring(8), 0, 0, 0, 0);
+        if ((movie_constraint == null) || (f.title.toLowerCase().includes(movie_constraint.toLowerCase()))){
+          var movie = f.date;
+          var md = new Date(movie.substring(0, 4), movie.substring(5, 7)-1, movie.substring(8), 0, 0, 0, 0);
 
-        if (f.title != prev_movie){
+          if (f.title != prev_movie){
+            string = string.concat(
+              "<br><h3 style='text-align:left'><i>" + f.title + "</i>, " + f.directors + " (" + f.year + ")</h3>"
+            )
+          }
           string = string.concat(
-            "<br><h3 style='text-align:left'><i>" + f.title + "</i>, " + f.directors + " (" + f.year + ")</h3>"
+            "<b>" + days_short[md.getDay()] + " " + md.getDate() + " " + months_short[md.getMonth()] + "</b> " +
+            display_showtimes(f.showtimes_theater, "&nbsp;; ") + "<br>"
           )
+          prev_movie = f.title;
         }
-        string = string.concat(
-          "<b>" + days_short[md.getDay()] + " " + md.getDate() + " " + months_short[md.getMonth()] + "</b> " +
-          display_showtimes(f.showtimes_theater, "&nbsp;; ") + "<br>"
-        )
-        prev_movie = f.title;
       });
       document.getElementById("week_films").innerHTML = string;
     }
@@ -145,15 +144,39 @@
       });
     })();
 
+    async function search_movie(movie_name) {
+      var data = [];
+      for (let i = 0; i < 7; i++) {
+        var date = new Date(start_date);
+        date.setDate(start_date.getDate() + i);
+        await get_data(db, date, data);
+      }
+      const data_flat = data.flat(1);
+      create_week_films_string(data_flat, movie_name);
+    }
+
+    var input = document.getElementById("myInput");
+    input.addEventListener("keyup", function(event) {
+      if (event.keyCode === 13) {
+      event.preventDefault();
+      document.getElementById("myBtn").click();
+      }
+    });
+    var search_button = document.getElementById("myBtn");
+    search_button.onclick = function() {
+        search_movie(input.value)
+    };
+
   </script>
 
   <body class="light-theme">
-
+    
     <div id="header"></div>
+    <input id="myInput" form="form1" value="">
+    <button id="myBtn" form="form1">Recherche</button>  
 
     <h2><span id="next_week"></span></h2>
     <span id="week_films"></span>
-
     <br>
     <br>
     <h2>Retrospectives:</h2>

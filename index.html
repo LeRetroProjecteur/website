@@ -2,10 +2,13 @@
 <html lang="fr">
 
   <head>
-    <link rel="icon" href="img/logo_square.png">
+
+    <link rel="icon" href="img/logo_square.png" , alt="Cinéma à Paris">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" CONTENT="Venez découvrir toutes les ressorties de films dans les salles parisiennes.">
+    <meta name="robots" content="noindex,nofollow">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
@@ -25,164 +28,285 @@
     </script>
 
     <script>
-    $(function(){
-      $("#header").load("includes/header.html");
-      $("#footer").load("includes/footer.html");
-    });
+      $(function(){
+        $("#header").load("includes/header.html");
+        $("#footer").load("includes/footer.html");
+      });
     </script>
 
-    <script type="module">
-      // Import the functions you need from the SDKs you need
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
-      import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
-      // TO DO: Add SDKs for Firebase products that you want to use
-      // https://firebase.google.com/docs/web/setup#available-libraries
+  </head>
 
-      // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore();
+  <script type="module">
 
-      var selected_date = new Date();
-      var selected_start_hour = selected_date.getHours()-1;
-      var selected_end_hour = 24;
-      var day = selected_date.getUTCDate();
-      var promise_data = [];
-      var increment = 0;
-      var slider = document.getElementById('slider-range');
-      var slider_value_element = document.getElementById('slider-range-value');
-      
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
+    import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
+    // TO DO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
 
-      async function get_data(db, date){
-        var todayString = date_to_string(date);
-        const q = query(collection(db, "movies"), where("date", "==", todayString));
-        var querySnapshot = await getDocs(q);
-        var data_aux = [];
-        querySnapshot.forEach((doc) => {
-          data_aux = doc.data().movies;
-        });
-        return data_aux;
-      }
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore();
 
-      async function get_list_movies(db) {
-        const am = doc(db, "reviews", "all_movies");
-        var querySnapshot = await getDoc(am);
-        return querySnapshot.data();
-      }
+    var selected_date = new Date();
+    var selected_start_hour = selected_date.getHours()-1;
+    var selected_end_hour = 24;
+    var constraint = "";
+    var day = selected_date.getUTCDate();
+    var promise_data = [];
+    var increment = 0;
+    var slider = document.getElementById('slider-range');
+    var slider_value_element = document.getElementById('slider-range-value');
+    var neighborhood_dropdown = document.getElementById('neighborhood-list');
+    var sort_dropdown = document.getElementById('sort-list');
 
-      async function populate_movies(promise_data, date, start, end) {
-        var tempScrollTop = $(window).scrollTop();
-        await $('#userdata tbody').empty();
-        var nd = new Date();
-        if (datesAreOnSameDay(date, nd)){
-          var day_hour = nd.getHours()-1;
-        } else {
-          var day_hour = 0;
+
+    async function get_data(db, date){
+      console.log("Fetching data")
+      var todayString = date_to_string(date);
+      const q = query(collection(db, "data_per_date"), where("date", "==", todayString));
+      var querySnapshot = await getDocs(q);
+      var data_aux = [];
+      querySnapshot.forEach((doc) => {
+        data_aux = doc.data().movies;
+      });
+      return data_aux;
+    }
+
+
+    function get_string_from_dict(f, string_total){
+      for (var i = 0; i < Object.values(f).length; i++) {
+        if (typeof(Object.values(f)[i])=="object"){
+          string_total += get_string_from_dict(Object.values(Object.values(f)[i]), string_total)  
         }
-        start = Math.max(start, day_hour);
+        else {
+          string_total += Object.values(f)[i].toString();
+        }
+      }
+      return string_total;
+    }
 
+    function generate_data_table(f, start, end, constraint){
+      var string_total = "";
+      string_total = get_string_from_dict(f, string_total);
+      
+      if ((constraint == "") || (string_total.toLowerCase().includes(constraint.toLowerCase()))){
+        
+        var showtimes = {};
+        for (const [key, value] of Object.entries(f.showtimes_theater)){
+          for (var i = 0; i < value.showtimes.length; i++){
+            if (document.getElementById(value.location_2).checked){
+              var hour = value.showtimes[i];
+              if (hour >= start){
+                if (hour <= end){
+                  if (key in showtimes){
+                    showtimes[key]['showtimes'].push(hour);
+                  } else {
+                    showtimes[key] = value;
+                    showtimes[key]['showtimes'] = [hour];
+                  }
+                }
+              }
+            }
+          }
+        }
+        if (Object.keys(showtimes).length > 0) {
+          var tblRow = "<tr>" +
+            "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+            "<td>" + display_showtimes(showtimes) + "</td>" +
+            "</tr>"
+          $(tblRow).appendTo("#userdata tbody");
+        }
+      }
+    }
+
+    async function populate_movies(promise_data, date, start, end, constraint) {
+      console.log("Populating table")
+      await $('#userdata tbody').empty();
+      var nd = new Date();
+      if (datesAreOnSameDay(date, nd)){
+        var day_hour = nd.getHours()-1;
+      } else {
+        var day_hour = 0;
+      }
+      start = Math.max(start, day_hour);
+
+      if (document.getElementById("year").checked) {
         promise_data.then((data) => {
           data.sort(
-            (a, b) => $(a).attr('year') - $(b).attr('year') || $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('title').localeCompare($(b).attr('title'))
+            (a, b) => $(a).attr('year')-$(b).attr('year') || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name')) || $(a).attr('title').localeCompare($(b).attr('title'))
           ).forEach(f => {
-            var new_dict = display_real_dict(f.showtimes_theater, start, end);
-
-            if (Object.keys(new_dict).length > 0) {
-              var real_showtime = display_showtimes(new_dict);
-              var movie_page = f.title
-              var tblRow = "<tr>" +
-                "<td><b>" + movie_page + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
-                "<td>" + real_showtime + "</td>" +
-                "</tr>"
-              $(tblRow).appendTo("#userdata tbody");
-            }
+            generate_data_table(f, start, end, constraint);
           });
-        $(window).scrollTop(tempScrollTop);
         })
       }
-
-      async function refresh_data() {
-        await populate_movies(promise_data, selected_date, selected_start_hour, selected_end_hour);
+      else if (document.getElementById("dir").checked) {
+        promise_data.then((data) => {
+          data.sort(
+            (a, b) => $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name')) || $(a).attr('year')-$(b).attr('year') || $(a).attr('title').localeCompare($(b).attr('title'))
+          ).forEach(f => {
+            generate_data_table(f, start, end, constraint);
+          });
+        })
       }
+      else if (document.getElementById("film").checked) {
+        promise_data.then((data) => {
+          data.sort(
+            (a, b) => $(a).attr('title').localeCompare($(b).attr('title')) || $(a).attr('year')-$(b).attr('year') || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name'))
+          ).forEach(f => {
+            generate_data_table(f, start, end, constraint);
+          });
+        })
+      }
+    }
 
-      $(function() {
-        noUiSlider.create(slider, {
-          start: [0, 24],
-          connect: true,
-          step:1,
-          margin: 1,
-          range: {
-              'min': 0,
-              'max': 24
-          }
-        });
+    function refresh_data() {
+      populate_movies(promise_data, selected_date, selected_start_hour, selected_end_hour, constraint);
+    }
 
-        document.getElementById("date_of_today").innerHTML = day_string(selected_date);
-        promise_data = get_data(db, selected_date);
-        selected_start_hour = 0
+    $(function() {
+      noUiSlider.create(slider, {
+        start: [0, 24],
+        connect: true,
+        step:1,
+        margin: 1,
+        range: {
+          'min': 0,
+          'max': 24
+        }
+      });
+
+      document.getElementById("date_of_today").innerHTML = day_string(selected_date);
+      promise_data = get_data(db, selected_date);
+      selected_start_hour = 0
+      slider_value_element.innerHTML = (
+        "Séances entre <b style='color:var(--red); font-weight:bold;'>" + selected_start_hour + "h et " + selected_end_hour + "h </b>"
+      );
+      refresh_data();
+
+      slider.noUiSlider.on('update', function (values) {
+        selected_start_hour = Math.round(values[0]);
+        selected_end_hour = Math.round(values[1]);
         slider_value_element.innerHTML = (
           "Séances entre <b style='color:var(--red); font-weight:bold;'>" + selected_start_hour + "h et " + selected_end_hour + "h </b>"
         );
-        refresh_data();
-      
-        function update(values, handle) {
-          if (handle==0) {
-              selected_start_hour = Math.round(values[handle]);
-          }
-          else {
-              selected_end_hour = Math.round(values[handle]);
-          }
-          slider_value_element.innerHTML = (
-            "Séances entre <b style='color:var(--red); font-weight:bold;'>" + selected_start_hour + "h et " + selected_end_hour + "h </b>"
-          );
-          refresh_data();
-        }
-        slider.noUiSlider.on('change', update);
       });
 
-      async function move_date_forward() {
-        slider.noUiSlider.set([0, 24]);
-        selected_date.setDate(selected_date.getDate()+1);
+      slider.noUiSlider.on('change', refresh_data);
+    });
+
+    $(':checkbox').click(function(){
+      refresh_data();
+    });
+
+    // For sort, only allow 1 box to be checked:
+    $("input:checkbox").on('click', function() {
+      // in the handler, 'this' refers to the box clicked on
+      var $box = $(this);
+      if ($box.is(":checked")) {
+        // the name of the box is retrieved using the .attr() method
+        // as it is assumed and expected to be immutable
+        var group = "input:checkbox[name='" + $box.attr("name") + "']";
+        // the checked state of the group/box on the other hand will change
+        // and the current value is retrieved using .prop() method
+        $(group).prop("checked", false);
+        $box.prop("checked", true);
+      }
+      else {
+        $box.prop("checked", false);
+      }
+    });
+
+    neighborhood_dropdown.getElementsByClassName('anchor')[0].onclick = function(evt) {
+      if (neighborhood_dropdown.classList.contains('visible')) {
+        neighborhood_dropdown.classList.remove('visible');
+      }
+      else {
+        neighborhood_dropdown.classList.add('visible');
+      }
+    }
+
+    sort_dropdown.getElementsByClassName('anchor')[0].onclick = function(evt) {
+      if (sort_dropdown.classList.contains('visible')) {
+        sort_dropdown.classList.remove('visible');
+      }
+      else {
+        sort_dropdown.classList.add('visible');
+      }
+    }
+
+    $('*').click(function(evt){
+      if (!$(evt.target).hasClass('anchor') & !$(evt.target).hasClass('checkbox') & !$(evt.target).hasClass('items')) {
+        sort_dropdown.classList.remove('visible');
+        neighborhood_dropdown.classList.remove('visible');
+      }
+    });
+
+    function move_date_forward() {
+      slider.noUiSlider.set([0, 24]);
+      selected_date.setDate(selected_date.getDate()+1);
+      document.getElementById("date_of_today").innerHTML = day_string(selected_date);
+      document.getElementById("move_date_backward").style.color = "var(--red)";
+      promise_data = get_data(db, selected_date);
+      refresh_data();
+    }
+
+    function move_date_backward() {
+      slider.noUiSlider.set([0, 24]);
+      var nd = new Date();
+      if (!datesAreOnSameDay(nd, selected_date)){
+        selected_date.setDate(selected_date.getDate()-1);
         document.getElementById("date_of_today").innerHTML = day_string(selected_date);
-        document.getElementById("move_date_backward").style.color = "var(--red)";
+        if (datesAreOnSameDay(nd, selected_date)) {
+          document.getElementById("move_date_backward").style.color = "var(--lightgrey)";
+        } else {
+          document.getElementById("move_date_backward").style.color = "var(--red)";
+        }
         promise_data = get_data(db, selected_date);
         refresh_data();
       }
+    }
 
-      async function move_date_backward() {
-        slider.noUiSlider.set([0, 24]);
-        var nd = new Date();
-        if (!datesAreOnSameDay(nd, selected_date)){
-          selected_date.setDate(selected_date.getDate()-1);
-          document.getElementById("date_of_today").innerHTML = day_string(selected_date);
-          if (datesAreOnSameDay(nd, selected_date)) {
-            document.getElementById("move_date_backward").style.color = "var(--lightgrey)";
-          } else {
-            document.getElementById("move_date_backward").style.color = "var(--red)";
-          }
-          promise_data = get_data(db, selected_date);
-          refresh_data();
-        }
+    var moveForwardButton = document.querySelector('#move_date_forward');
+    moveForwardButton.onclick = function() {
+      move_date_forward()
+    };
+
+    var moveBackwardButton = document.querySelector('#move_date_backward');
+    moveBackwardButton.onclick = function() {
+      move_date_backward()
+    };
+
+
+    // Create search bar 
+    async function search_movie(movie_constraint) {
+      constraint = movie_constraint;
+      console.log(constraint);
+      refresh_data()
+    }
+
+    var input = document.getElementById("myInput");
+    input.addEventListener("keyup", function(event) {
+      if (event.keyCode === 13) {
+      event.preventDefault();
+      document.getElementById("myBtn").click();
       }
+    });
+    var search_button = document.getElementById("myBtn");
+    search_button.onclick = function() {
+        search_movie(input.value)
+    };
 
-      var moveForwardButton = document.querySelector('#move_date_forward');
-      moveForwardButton.onclick = function() {
-        move_date_forward()
-      };
-
-      var moveBackwardButton = document.querySelector('#move_date_backward');
-      moveBackwardButton.onclick = function() {
-        move_date_backward()
-      };
-    </script>
-
-
-    <title>Up Close | Cinéma à Paris</title>
-
-  </head>
+  </script>
 
   <body class="light-theme">
     <div id="header"></div>
     <h3>
+      <div class="search-container">
+      <div class="search-input"><input id="myInput" style="float: left;" form="form1" value="Movie, Country ..."></div>
+      <div class="search-button"><button id="myBtn" style="float: left;" form="form1">Recherche</button></div>
+      </div>
+
       <input type="button" id="move_date_backward" class="button" value= "◀&#xFE0E;" style="color: var(--lightgrey);">
       <b><span id="date_of_today" class="center"></span></b>
       <input type="button" id="move_date_forward" class="button" value= "▶&#xFE0E;" style="color: var(--red);">
@@ -190,10 +314,26 @@
     <brsmall>
     <center>
 
-      <span id="time-span" class="center"></span>
       <div id="slider-range-value"></div>
       <div class="slider-styled" id="slider-range"></div>
-      <br>
+      <brsmall>
+      <brsmall>
+      <div id="neighborhood-list" class="dropdown-check-list" tabindex="100">
+        <span class="anchor">Filtrer par quartier</span>
+        <ul class="items">
+          <label class="checkbox"><input class="checkbox" type="checkbox" id="rg" checked> Rive Gauche</label><br/>
+          <label class="checkbox"><input class="checkbox" type="checkbox" id="rd" checked> Rive Droite</label><br/>
+          <label class="checkbox"><input class="checkbox" type="checkbox" id="em" checked> Extramuros</label><br/>
+        </ul>
+      </div>
+      <div id="sort-list" class="dropdown-check-list" tabindex="100">
+        <span class="anchor">Trier par</span>
+        <ul class="items">
+          <label class="checkbox"><input class="checkbox" type="checkbox" id="year" name="sort[1][]" checked> Année</label><br/>
+          <label class="checkbox"><input class="checkbox" type="checkbox" id="dir" name="sort[1][]" unchecked> Réalisateur</label><br/>
+          <label class="checkbox"><input class="checkbox" type="checkbox" id="film" name="sort[1][]" unchecked> Titre</label><br/>
+        </ul>
+      </div>
 
     </center>
     <brsmall>
@@ -202,8 +342,8 @@
     <div class="profile">
       <table id= "userdata" border="2" class="center">
       <thead>
-        <th style="width:50%;background-color:var(--red);color:var(--white);">Film</th>
-        <th style="width:50%;background-color:var(--red);color:var(--white);">Séances</th>
+        <th style="width:50%;background-color:var(--red);color:var(--white);"> <strong>Film</strong></th>
+        <th style="width:50%;background-color:var(--red);color:var(--white);"><strong>Séances</strong></th>
       </thead>
       <tbody>
       </tbody>

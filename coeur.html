@@ -3,13 +3,19 @@
 
   <head>
 
-    <link rel="icon" href="img/logo_square.png">
+    <link rel="icon" href="img/logo_square.png" , alt="Cinéma à Paris">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="main.css">
+    <meta name="Description" CONTENT="Venez découvrir tous nos films Coups de Coeur.">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
     <script type="text/javascript" src="app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.js"></script>
+    <link rel="stylesheet" href="main.css">
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F5QY5F8S5L"></script>
@@ -21,13 +27,11 @@
     </script>
 
     <script>
-    $(function(){
-      $("#header").load("includes/header.html");
-      $("#footer").load("includes/footer.html");
-    });
+      $(function(){
+        $("#header").load("includes/header.html");
+        $("#footer").load("includes/footer.html");
+      });
     </script>
-
-    <title>Nos coups de coeur</title>
 
   </head>
 
@@ -51,15 +55,27 @@
       const db = getFirestore();
       var months_short_cap = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
       var selected_date = new Date();
-      //await check_if_isempty_and_change_date(selected_date);
-      populate_month(db, selected_date);
       var first_date = new Date(selected_date);
+      var promise_dates = get_list_dates(db);
+      show_review_first_month(promise_dates);
 
-      async function populate_month(db, selected_date){
-        document.getElementById("date_of_today").innerHTML =
+      function show_review_first_month(promise_dates){
+        promise_dates.then((data) =>
+        {
+          var last_date_string = data[Object.keys(data)[Object.keys(data).length - 1]];
+          selected_date = new Date(last_date_string.replace(/-/g, "/"));
+          first_date = new Date(selected_date);
+          document.getElementById("date_of_today").innerHTML =
               months_short_cap[selected_date.getMonth()] + " " + String(selected_date.getFullYear());
-        populate_review(db, selected_date);
+          populate_review(db, selected_date);
+        })
       }
+
+      async function get_list_dates(db) {
+        const am = doc(db, "reviews", "all_dates");
+        var querySnapshot = await getDoc(am);
+        return querySnapshot.data();
+      };
 
       async function populate_review(db, selected_date) {
         var selected_year = selected_date.getFullYear();
@@ -79,7 +95,7 @@
             string = string.concat(
               "<div class='moviebox'>" +
                 "<img src='data:image/png;base64," + f.image_file + "'/>" +
-                "<h3 style='color:grey; font-weight:normal;'>" + week_string(string_to_date(f.date)) + "&nbsp;: " + f.category + "</h3>" +
+                "<h3 style='color:grey; font-weight:normal;'>" + week_string(get_next_week(string_to_date(f.date))[0]) + "&nbsp;: " + f.category + "</h3>" +
                 "<h3><i>" + f.movie_name + "</i>, " + f.movie_directors + " (" + f.movie_year + ")</h3>" +
                 f.review +
               "</div><br>"
@@ -105,19 +121,6 @@
           else{
             document.getElementById("move_date_forward").style.color = "var(--red)";
           }
-        }
-      }
-
-      async function check_if_isempty_and_change_date(selected_date) {
-        const q = query(collection(db, "reviews"), where("year", "==",  selected_date.getFullYear().toString()),
-            where("month", "==", (selected_date.getMonth()+1).toString().padStart(2, '0')));
-        var querySnapshot = await getDocs(q);
-        var data = [];
-        querySnapshot.forEach((doc) => {
-          data.push(doc.data());
-        });
-        if (data.length==0) {
-          selected_date.setMonth(selected_date.getMonth() - 1);
         }
       }
 
