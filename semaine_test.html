@@ -67,7 +67,6 @@
       data.sort(
         (a, b) => $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('year') - $(b).attr('year') || $(a).attr('title').localeCompare($(b).attr('title'))
       ).forEach(f => {
-        console.log(movie_constraint, f.title)
         if ((movie_constraint == null) || (f.title.toLowerCase().includes(movie_constraint.toLowerCase()))){
           var movie = f.date;
           var md = new Date(movie.substring(0, 4), movie.substring(5, 7)-1, movie.substring(8), 0, 0, 0, 0);
@@ -173,13 +172,8 @@
   <body class="light-theme">
     
     <div id="header"></div>
-
-    <!-- <form class="example" style="margin:auto;max-width:300px"> -->
-      <input id="myInput" value="">
-      <button id="myBtn">Recherche</button>  
-    <!-- </form> -->
-    
-
+    <input id="myInput" form="form1" value="">
+    <button id="myBtn" form="form1">Recherche</button>  
 
     <h2><span id="next_week"></span></h2>
     <span id="week_films"></span>

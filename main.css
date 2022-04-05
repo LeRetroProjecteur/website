@@ -214,3 +214,7 @@ brsmall {
 input[type="checkbox"] { /* change "blue" browser chrome to yellow */
   accent-color: var(--red);
 }
+
+/* .search-container { width: 240px; margin-left:auto; padding: 10px; border: 3px solid #fff;} */
+/* .search-input { height: 15px; width: 200px; padding: 5px; margin: 0; background: white; border: 1px solid black; border-right: none; }  */
+/* .search-button { cursor: pointer; height: 27px; width: 30px; border: 1px solid black; border-left: none; margin-left: -5px; background: white; } */
