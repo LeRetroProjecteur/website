@@ -49,13 +49,8 @@
     const db = getFirestore();
 
     var selected_date = new Date();
-    var selected_start_hour = selected_date.getHours()-1;
-    var selected_end_hour = 24;
-    var day = selected_date.getUTCDate();
     var promise_data = [];
-    var increment = 0;
     var slider = document.getElementById('slider-range');
-    var slider_value_element = document.getElementById('slider-range-value');
     var neighborhood_dropdown = document.getElementById('neighborhood-list');
     var sort_dropdown = document.getElementById('sort-list');
 
@@ -72,7 +67,19 @@
       return data_aux;
     }
 
-    function generate_data_table(f, start, end){
+    function generate_data_table(f, date){
+
+      var start = document.getElementsByClassName("noUi-handle-lower")[0].getAttribute("aria-valuenow");
+      var end = document.getElementsByClassName("noUi-handle-upper")[0].getAttribute("aria-valuenow");
+
+      var nd = new Date();
+      if (datesAreOnSameDay(date, nd)){
+        var day_hour = nd.getHours()-1;
+      } else {
+        var day_hour = 0;
+      }
+      start = Math.max(start, day_hour);
+
       var showtimes = {};
       for (const [key, value] of Object.entries(f.showtimes_theater)){
         for (var i = 0; i < value.showtimes.length; i++){
@@ -100,23 +107,16 @@
       }
     }
 
-    async function populate_movies(promise_data, date, start, end) {
+    async function populate_movies(promise_data, date) {
       console.log("Populating table")
       await $('#userdata tbody').empty();
-      var nd = new Date();
-      if (datesAreOnSameDay(date, nd)){
-        var day_hour = nd.getHours()-1;
-      } else {
-        var day_hour = 0;
-      }
-      start = Math.max(start, day_hour);
 
       if (document.getElementById("year").checked) {
         promise_data.then((data) => {
           data.sort(
             (a, b) => $(a).attr('year')-$(b).attr('year') || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name')) || $(a).attr('title').localeCompare($(b).attr('title'))
           ).forEach(f => {
-            generate_data_table(f, start, end);
+            generate_data_table(f, date);
           });
         })
       }
@@ -125,7 +125,7 @@
           data.sort(
             (a, b) => $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name')) || $(a).attr('year')-$(b).attr('year') || $(a).attr('title').localeCompare($(b).attr('title'))
           ).forEach(f => {
-            generate_data_table(f, start, end);
+            generate_data_table(f, date);
           });
         })
       }
@@ -134,14 +134,14 @@
           data.sort(
             (a, b) => $(a).attr('title').localeCompare($(b).attr('title')) || $(a).attr('year')-$(b).attr('year') || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name'))
           ).forEach(f => {
-            generate_data_table(f, start, end);
+            generate_data_table(f, date);
           });
         })
       }
     }
 
     function refresh_data() {
-      populate_movies(promise_data, selected_date, selected_start_hour, selected_end_hour);
+      populate_movies(promise_data, selected_date);
     }
 
     $(function() {
@@ -158,17 +158,13 @@
 
       document.getElementById("date_of_today").innerHTML = day_string(selected_date);
       promise_data = get_data(db, selected_date);
-      selected_start_hour = 0
-      slider_value_element.innerHTML = (
-        "Séances entre <b style='color:var(--red); font-weight:bold;'>" + selected_start_hour + "h et " + selected_end_hour + "h </b>"
-      );
       refresh_data();
 
-      slider.noUiSlider.on('update', function (values) {
-        selected_start_hour = Math.round(values[0]);
-        selected_end_hour = Math.round(values[1]);
-        slider_value_element.innerHTML = (
-          "Séances entre <b style='color:var(--red); font-weight:bold;'>" + selected_start_hour + "h et " + selected_end_hour + "h </b>"
+      slider.noUiSlider.on('update', function() {
+        document.getElementById('slider-range-value').innerHTML = (
+          "Séances entre <b style='color:var(--red); font-weight:bold;'>" +
+          Math.round(document.getElementsByClassName("noUi-handle-lower")[0].getAttribute("aria-valuenow")) + "h et " +
+          Math.round(document.getElementsByClassName("noUi-handle-upper")[0].getAttribute("aria-valuenow")) + "h </b>"
         );
       });
 
