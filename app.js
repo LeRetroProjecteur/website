@@ -123,6 +123,51 @@ function display_showtimes(showtimes, sep="<br>", date=false){
 
 }
 
+function get_table_row(f, showtimes) {
+  var row = "<tr>" + "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+    "<td>" + showtimes + "</td>" +
+    "</tr>";
+  return row
+}
+
+function generate_data_table(f, date){
+
+  var start = document.getElementsByClassName("noUi-handle-lower")[0].getAttribute("aria-valuenow");
+  var end = document.getElementsByClassName("noUi-handle-upper")[0].getAttribute("aria-valuenow");
+
+  var nd = new Date();
+  if (datesAreOnSameDay(date, nd)){
+    var day_hour = nd.getHours()-1;
+  } else {
+    var day_hour = 0;
+  }
+  start = Math.max(start, day_hour);
+
+  var showtimes = {};
+  for (const [key, value] of Object.entries(f.showtimes_theater)){
+    for (var i = 0; i < value.showtimes.length; i++){
+      if (document.getElementById(value.location_2).checked){
+        var hour = value.showtimes[i];
+        if (hour >= start){
+          if (hour <= end){
+            if (key in showtimes){
+              showtimes[key]['showtimes'].push(hour);
+            } else {
+              showtimes[key] = value;
+              showtimes[key]['showtimes'] = [hour];
+            }
+          }
+        }
+      }
+    }
+  }
+  if (Object.keys(showtimes).length > 0) {
+    var tblRow = get_table_row(f, display_showtimes(showtimes))
+    $(tblRow).appendTo("#userdata tbody");
+  }
+}
+
+
 // Your web app's Firebase configuration
 var firebaseConfig = {
   apiKey: "AIzaSyCjvHHSqWGZhh2pcoHF_8ZeKqxT0wRvXuc",

@@ -54,7 +54,6 @@
     var neighborhood_dropdown = document.getElementById('neighborhood-list');
     var sort_dropdown = document.getElementById('sort-list');
 
-
     async function get_data(db, date){
       console.log("Fetching data")
       var todayString = date_to_string(date);
@@ -65,46 +64,6 @@
         data_aux = doc.data().movies;
       });
       return data_aux;
-    }
-
-    function generate_data_table(f, date){
-
-      var start = document.getElementsByClassName("noUi-handle-lower")[0].getAttribute("aria-valuenow");
-      var end = document.getElementsByClassName("noUi-handle-upper")[0].getAttribute("aria-valuenow");
-
-      var nd = new Date();
-      if (datesAreOnSameDay(date, nd)){
-        var day_hour = nd.getHours()-1;
-      } else {
-        var day_hour = 0;
-      }
-      start = Math.max(start, day_hour);
-
-      var showtimes = {};
-      for (const [key, value] of Object.entries(f.showtimes_theater)){
-        for (var i = 0; i < value.showtimes.length; i++){
-          if (document.getElementById(value.location_2).checked){
-            var hour = value.showtimes[i];
-            if (hour >= start){
-              if (hour <= end){
-                if (key in showtimes){
-                  showtimes[key]['showtimes'].push(hour);
-                } else {
-                  showtimes[key] = value;
-                  showtimes[key]['showtimes'] = [hour];
-                }
-              }
-            }
-          }
-        }
-      }
-      if (Object.keys(showtimes).length > 0) {
-        var tblRow = "<tr>" +
-          "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
-          "<td>" + display_showtimes(showtimes) + "</td>" +
-          "</tr>"
-        $(tblRow).appendTo("#userdata tbody");
-      }
     }
 
     async function populate_movies(promise_data, date) {

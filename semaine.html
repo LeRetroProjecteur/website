@@ -72,7 +72,7 @@
       var string = "";
 
       data.sort(
-        (a, b) => $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('year') - $(b).attr('year') || $(a).attr('title').localeCompare($(b).attr('title'))
+        (a, b) => $(a).attr('year') - $(b).attr('year') || $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('title').localeCompare($(b).attr('title'))
       ).forEach(f => {
         var movie = date_to_string(f.date);
         var md = new Date(movie.substring(0, 4), movie.substring(5, 7)-1, movie.substring(8), 0, 0, 0, 0);
