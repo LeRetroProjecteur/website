@@ -68,31 +68,28 @@
     }
 
     async function create_week_films_string(data){
+
       await $('#userdata tbody').empty();
 
       var prev_movie = "";
       var showtimes_string = "";
       var tblRow = "";
+
       data.sort(
         (a, b) => $(a).attr('year') - $(b).attr('year') || $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('title').localeCompare($(b).attr('title'))
       ).forEach(f => {
-
-        var md = date_to_string(f.date);
-        md = new Date(md.substring(0, 4), md.substring(5, 7)-1, md.substring(8), 0, 0, 0, 0);
-
         if (f.title != prev_movie & showtimes_string != ""){
           $(tblRow).appendTo("#userdata tbody");
           showtimes_string = "";
         }
         showtimes_string = showtimes_string.concat(
-          "<b>" + days_short[md.getDay()] + " " + md.getDate() + " " + months_short[md.getMonth()] + "</b> " +
+          "<b>" + days_short[f.date.getDay()] + " " + f.date.getDate() + " " + months_short[f.date.getMonth()] + "</b> " +
           display_showtimes(f.showtimes_theater, "&nbsp;; ") + "<br>"
         )
         tblRow = get_table_row(f, showtimes_string);
-        console.log(tblRow)
         prev_movie = f.title;
-
       });
+      
     }
 
     function create_retrospectives_string(data){
