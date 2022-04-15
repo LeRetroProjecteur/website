@@ -11,7 +11,6 @@ function pad(num, size) {
     return num;
 }
 
-
 function parseDate(input, format) {
   format = format || 'yyyy-mm-dd'; // default format
   var parts = input.match(/(\d+)/g),
@@ -161,10 +160,7 @@ function generate_data_table(f, date){
       }
     }
   }
-  if (Object.keys(showtimes).length > 0) {
-    var tblRow = get_table_row(f, display_showtimes(showtimes))
-    $(tblRow).appendTo("#userdata tbody");
-  }
+  return showtimes
 }
 
 

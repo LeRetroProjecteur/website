@@ -67,28 +67,32 @@
       data.push(data_aux);
     }
 
-    function create_week_films_string(data){
-      var prev_movie = "";
-      var string = "";
+    async function create_week_films_string(data){
+      await $('#userdata tbody').empty();
 
+      var prev_movie = "";
+      var showtimes_string = "";
+      var tblRow = "";
       data.sort(
         (a, b) => $(a).attr('year') - $(b).attr('year') || $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('title').localeCompare($(b).attr('title'))
       ).forEach(f => {
-        var movie = date_to_string(f.date);
-        var md = new Date(movie.substring(0, 4), movie.substring(5, 7)-1, movie.substring(8), 0, 0, 0, 0);
 
-        if (f.title != prev_movie){
-          string = string.concat(
-            "<br><h3 style='text-align:left'><i>" + f.title + "</i>, " + f.directors + " (" + f.year + ")</h3>"
-          )
+        var md = date_to_string(f.date);
+        md = new Date(md.substring(0, 4), md.substring(5, 7)-1, md.substring(8), 0, 0, 0, 0);
+
+        if (f.title != prev_movie & showtimes_string != ""){
+          $(tblRow).appendTo("#userdata tbody");
+          showtimes_string = "";
         }
-        string = string.concat(
+        showtimes_string = showtimes_string.concat(
           "<b>" + days_short[md.getDay()] + " " + md.getDate() + " " + months_short[md.getMonth()] + "</b> " +
           display_showtimes(f.showtimes_theater, "&nbsp;; ") + "<br>"
         )
+        tblRow = get_table_row(f, showtimes_string);
+        console.log(tblRow)
         prev_movie = f.title;
+
       });
-      document.getElementById("week_films").innerHTML = string;
     }
 
     function create_retrospectives_string(data){
@@ -151,7 +155,21 @@
     <div id="header"></div>
 
     <h2><span id="next_week"></span></h2>
-    <span id="week_films"></span>
+
+    <div class="wrapper">
+    <div class="profile">
+      <table id= "userdata" border="2" class="center">
+      <thead>
+        <th style="width:50%;background-color:var(--red);color:var(--white);"> <strong>Film</strong></th>
+        <th style="width:50%;background-color:var(--red);color:var(--white);"><strong>Séances</strong></th>
+      </thead>
+      <tbody>
+      </tbody>
+      </table>
+    </div>
+    </div>
+
+    <!-- <span id="week_films"></span> -->
 
     <br>
     <br>

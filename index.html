@@ -75,7 +75,11 @@
           data.sort(
             (a, b) => $(a).attr('year')-$(b).attr('year') || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name')) || $(a).attr('title').localeCompare($(b).attr('title'))
           ).forEach(f => {
-            generate_data_table(f, date);
+            var showtimes = generate_data_table(f, date);
+            if (Object.keys(showtimes).length > 0) {
+              var tblRow = get_table_row(f, display_showtimes(showtimes))
+              $(tblRow).appendTo("#userdata tbody");
+            }
           });
         })
       }
@@ -84,7 +88,11 @@
           data.sort(
             (a, b) => $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name')) || $(a).attr('year')-$(b).attr('year') || $(a).attr('title').localeCompare($(b).attr('title'))
           ).forEach(f => {
-            generate_data_table(f, date);
+            var showtimes = generate_data_table(f, date);
+            if (Object.keys(showtimes).length > 0) {
+              var tblRow = get_table_row(f, display_showtimes(showtimes))
+              $(tblRow).appendTo("#userdata tbody");
+            }
           });
         })
       }
@@ -93,7 +101,11 @@
           data.sort(
             (a, b) => $(a).attr('title').localeCompare($(b).attr('title')) || $(a).attr('year')-$(b).attr('year') || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name'))
           ).forEach(f => {
-            generate_data_table(f, date);
+            var showtimes = generate_data_table(f, date);
+            if (Object.keys(showtimes).length > 0) {
+              var tblRow = get_table_row(f, display_showtimes(showtimes))
+              $(tblRow).appendTo("#userdata tbody");
+            }
           });
         })
       }
