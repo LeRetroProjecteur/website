@@ -58,8 +58,6 @@
     var slider = document.getElementById('slider-range');
     var slider_value_element = document.getElementById('slider-range-value');
     var neighborhood_dropdown = document.getElementById('neighborhood-list');
-    var sort_dropdown = document.getElementById('sort-list');
-
 
     async function get_data(db, date){
       console.log("Fetching data")
@@ -130,34 +128,13 @@
         var day_hour = 0;
       }
       start = Math.max(start, day_hour);
-
-      if (document.getElementById("year").checked) {
-        promise_data.then((data) => {
-          data.sort(
-            (a, b) => $(a).attr('year')-$(b).attr('year') || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name')) || $(a).attr('title').localeCompare($(b).attr('title'))
-          ).forEach(f => {
-            generate_data_table(f, start, end, constraint);
-          });
-        })
-      }
-      else if (document.getElementById("dir").checked) {
-        promise_data.then((data) => {
-          data.sort(
-            (a, b) => $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name')) || $(a).attr('year')-$(b).attr('year') || $(a).attr('title').localeCompare($(b).attr('title'))
-          ).forEach(f => {
-            generate_data_table(f, start, end, constraint);
-          });
-        })
-      }
-      else if (document.getElementById("film").checked) {
-        promise_data.then((data) => {
-          data.sort(
-            (a, b) => $(a).attr('title').localeCompare($(b).attr('title')) || $(a).attr('year')-$(b).attr('year') || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name'))
-          ).forEach(f => {
-            generate_data_table(f, start, end, constraint);
-          });
-        })
-      }
+      promise_data.then((data) => {
+        data.sort(
+          (a, b) => $(a).attr('year')-$(b).attr('year') || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name')) || $(a).attr('title').localeCompare($(b).attr('title'))
+        ).forEach(f => {
+          generate_data_table(f, start, end, constraint);
+        });
+      })
     }
 
     function refresh_data() {
@@ -226,22 +203,6 @@
       }
     }
 
-    sort_dropdown.getElementsByClassName('anchor')[0].onclick = function(evt) {
-      if (sort_dropdown.classList.contains('visible')) {
-        sort_dropdown.classList.remove('visible');
-      }
-      else {
-        sort_dropdown.classList.add('visible');
-      }
-    }
-
-    $('*').click(function(evt){
-      if (!$(evt.target).hasClass('anchor') & !$(evt.target).hasClass('checkbox') & !$(evt.target).hasClass('items')) {
-        sort_dropdown.classList.remove('visible');
-        neighborhood_dropdown.classList.remove('visible');
-      }
-    });
-
     function move_date_forward() {
       slider.noUiSlider.set([0, 24]);
       selected_date.setDate(selected_date.getDate()+1);
@@ -284,29 +245,23 @@
       console.log(constraint);
       refresh_data()
     }
-
     var input = document.getElementById("myInput");
-    input.addEventListener("keyup", function(event) {
-      if (event.keyCode === 13) {
-      event.preventDefault();
-      document.getElementById("myBtn").click();
+    input.addEventListener('keyup', (e) => {
+      search_movie(input.value);
+    });
+
+
+    $('*').click(function(evt){
+      if (!$(evt.target).hasClass('anchor') & !$(evt.target).hasClass('checkbox') & !$(evt.target).hasClass('items')) {
+        neighborhood_dropdown.classList.remove('visible');
       }
     });
-    var search_button = document.getElementById("myBtn");
-    search_button.onclick = function() {
-        search_movie(input.value)
-    };
 
   </script>
 
   <body class="light-theme">
     <div id="header"></div>
-    <h3>
-      <div class="search-container">
-      <div class="search-input"><input id="myInput" style="float: left;" form="form1" value="Movie, Country ..."></div>
-      <div class="search-button"><button id="myBtn" style="float: left;" form="form1">Recherche</button></div>
-      </div>
-
+    <h3>      
       <input type="button" id="move_date_backward" class="button" value= "◀&#xFE0E;" style="color: var(--lightgrey);">
       <b><span id="date_of_today" class="center"></span></b>
       <input type="button" id="move_date_forward" class="button" value= "▶&#xFE0E;" style="color: var(--red);">
@@ -318,23 +273,20 @@
       <div class="slider-styled" id="slider-range"></div>
       <brsmall>
       <brsmall>
-      <div id="neighborhood-list" class="dropdown-check-list" tabindex="100">
-        <span class="anchor">Filtrer par quartier</span>
-        <ul class="items">
-          <label class="checkbox"><input class="checkbox" type="checkbox" id="rg" checked> Rive Gauche</label><br/>
-          <label class="checkbox"><input class="checkbox" type="checkbox" id="rd" checked> Rive Droite</label><br/>
-          <label class="checkbox"><input class="checkbox" type="checkbox" id="em" checked> Extramuros</label><br/>
-        </ul>
+      
+      <div id="wrap">
+        <div id="neighborhood-list" class="dropdown-check-list" tabindex="100">
+          <span class="anchor">Quartiers</span>
+          <ul class="items">
+            <label class="checkbox"><input class="checkbox" type="checkbox" id="rg" checked> Rive Gauche</label><br/>
+            <label class="checkbox"><input class="checkbox" type="checkbox" id="rd" checked> Rive Droite</label><br/>
+            <label class="checkbox"><input class="checkbox" type="checkbox" id="em" checked> Extramuros</label><br/>
+          </ul>
+        </div>
+        <div class="search">
+          <input type="text" class="searchTerm" input id="myInput" placeholder="Films, Pays, etc...">
+        </div>
       </div>
-      <div id="sort-list" class="dropdown-check-list" tabindex="100">
-        <span class="anchor">Trier par</span>
-        <ul class="items">
-          <label class="checkbox"><input class="checkbox" type="checkbox" id="year" name="sort[1][]" checked> Année</label><br/>
-          <label class="checkbox"><input class="checkbox" type="checkbox" id="dir" name="sort[1][]" unchecked> Réalisateur</label><br/>
-          <label class="checkbox"><input class="checkbox" type="checkbox" id="film" name="sort[1][]" unchecked> Titre</label><br/>
-        </ul>
-      </div>
-
     </center>
     <brsmall>
 
