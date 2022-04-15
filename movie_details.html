@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+  <head>
+
+    <link rel="icon" href="img/logo_square.png">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="main.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+    <script type="text/javascript" src="app.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F5QY5F8S5L"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-F5QY5F8S5L');
+    </script>
+
+    <body class="light-theme">
+        <div id="header"></div>
+            <h2>Have you seen this movie ?</h2>
+            <b><span id="movie_name" class="center"></span></b>
+        <div id="footer"></div>
+  </body>
+
+    <script>
+    $(function(){
+      $("#header").load("includes/header.html");
+      $("#footer").load("includes/footer.html");
+    });
+    // let params = new URLSearchParams(url.search);
+    const queryString = window.location.search;
+    console.log(typeof(queryString))
+    document.getElementById("movie_name").innerHTML = queryString;
+    </script>
+  </head>
+</html>
