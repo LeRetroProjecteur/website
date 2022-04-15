@@ -50,12 +50,8 @@ function get_current_week(date=null){
 }
 
 function get_next_week(date=null){
-  if (date==null){
-    var start_date = new Date(new Date().toDateString());
-  } else {
-    var start_date = new Date(date.toDateString());
-  }
-  start_date.setDate(start_date.getDate() - ((start_date.getDay()+4)%7) + 7)
+  var start_date = new Date(date.toDateString());
+  start_date.setDate(start_date.getDate() - ((start_date.getDay()+4)%7))
   var end_date = one_week_later(start_date);
   return [start_date, end_date];
 }
@@ -147,13 +143,13 @@ function generate_data_table(f, date, constraint){
   var start = document.getElementsByClassName("noUi-handle-lower")[0].getAttribute("aria-valuenow");
   var end = document.getElementsByClassName("noUi-handle-upper")[0].getAttribute("aria-valuenow");
   var nd = new Date();
-  
+
   if (datesAreOnSameDay(date, nd)){
     var day_hour = nd.getHours()-1;
   } else {
     var day_hour = 0;
   }
-  start = Math.max(start, day_hour);  
+  start = Math.max(start, day_hour);
   var string_total = get_full_movie_string(f);
 
   if ((constraint == "") || (string_total.toLowerCase().includes(constraint.toLowerCase()))){
