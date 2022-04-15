@@ -218,18 +218,15 @@ input[type="checkbox"] { /* change "blue" browser chrome to yellow */
 
 .search {
   display: inline-block;
-  position: relative;
   margin: 0 auto;
   width: min(90%, 150px);
 }
 
 .searchTerm {
-  width: 100%;
   border: 1px solid var(--lightgrey);
   padding: 5px 20px 5px 10px;
-  width: min(90%, 150px);
+  width: min(90%, 118px);
   line-height: 1.6;
-  outline: none;
   color: #9DBFAF;
 }
 
