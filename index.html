@@ -50,10 +50,10 @@
 
     var selected_date = new Date();
     var promise_data = [];
+    var constraint = "";
     var slider = document.getElementById('slider-range');
     var neighborhood_dropdown = document.getElementById('neighborhood-list');
-    var sort_dropdown = document.getElementById('sort-list');
-
+    
     async function get_data(db, date){
       console.log("Fetching data")
       var todayString = date_to_string(date);
@@ -66,53 +66,20 @@
       return data_aux;
     }
 
-    async function populate_movies(promise_data, date) {
+    async function populate_movies(promise_data, date, constraint) {
       console.log("Populating table")
       await $('#userdata tbody').empty();
-
-      if (document.getElementById("year").checked) {
-        promise_data.then((data) => {
+      promise_data.then((data) => {
           data.sort(
             (a, b) => $(a).attr('year')-$(b).attr('year') || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name')) || $(a).attr('title').localeCompare($(b).attr('title'))
           ).forEach(f => {
-            var showtimes = generate_data_table(f, date);
-            if (Object.keys(showtimes).length > 0) {
-              var tblRow = get_table_row(f, display_showtimes(showtimes))
-              $(tblRow).appendTo("#userdata tbody");
-            }
+            generate_data_table(f, date, constraint);
           });
-        })
-      }
-      else if (document.getElementById("dir").checked) {
-        promise_data.then((data) => {
-          data.sort(
-            (a, b) => $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name')) || $(a).attr('year')-$(b).attr('year') || $(a).attr('title').localeCompare($(b).attr('title'))
-          ).forEach(f => {
-            var showtimes = generate_data_table(f, date);
-            if (Object.keys(showtimes).length > 0) {
-              var tblRow = get_table_row(f, display_showtimes(showtimes))
-              $(tblRow).appendTo("#userdata tbody");
-            }
-          });
-        })
-      }
-      else if (document.getElementById("film").checked) {
-        promise_data.then((data) => {
-          data.sort(
-            (a, b) => $(a).attr('title').localeCompare($(b).attr('title')) || $(a).attr('year')-$(b).attr('year') || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name'))
-          ).forEach(f => {
-            var showtimes = generate_data_table(f, date);
-            if (Object.keys(showtimes).length > 0) {
-              var tblRow = get_table_row(f, display_showtimes(showtimes))
-              $(tblRow).appendTo("#userdata tbody");
-            }
-          });
-        })
-      }
+      })
     }
 
     function refresh_data() {
-      populate_movies(promise_data, selected_date);
+      populate_movies(promise_data, selected_date, constraint);
     }
 
     $(function() {
@@ -146,24 +113,6 @@
       refresh_data();
     });
 
-    // For sort, only allow 1 box to be checked:
-    $("input:checkbox").on('click', function() {
-      // in the handler, 'this' refers to the box clicked on
-      var $box = $(this);
-      if ($box.is(":checked")) {
-        // the name of the box is retrieved using the .attr() method
-        // as it is assumed and expected to be immutable
-        var group = "input:checkbox[name='" + $box.attr("name") + "']";
-        // the checked state of the group/box on the other hand will change
-        // and the current value is retrieved using .prop() method
-        $(group).prop("checked", false);
-        $box.prop("checked", true);
-      }
-      else {
-        $box.prop("checked", false);
-      }
-    });
-
     neighborhood_dropdown.getElementsByClassName('anchor')[0].onclick = function(evt) {
       if (neighborhood_dropdown.classList.contains('visible')) {
         neighborhood_dropdown.classList.remove('visible');
@@ -173,18 +122,8 @@
       }
     }
 
-    sort_dropdown.getElementsByClassName('anchor')[0].onclick = function(evt) {
-      if (sort_dropdown.classList.contains('visible')) {
-        sort_dropdown.classList.remove('visible');
-      }
-      else {
-        sort_dropdown.classList.add('visible');
-      }
-    }
-
     $('*').click(function(evt){
       if (!$(evt.target).hasClass('anchor') & !$(evt.target).hasClass('checkbox') & !$(evt.target).hasClass('items')) {
-        sort_dropdown.classList.remove('visible');
         neighborhood_dropdown.classList.remove('visible');
       }
     });
@@ -224,6 +163,22 @@
       move_date_backward()
     };
 
+    // Create search function  
+    async function search_movie(movie_constraint) {
+      constraint = movie_constraint;
+      refresh_data()
+    }
+    var input = document.getElementById("myInput");
+    input.addEventListener('keyup', (e) => {
+      search_movie(input.value);
+    });
+    // Declare the events when you touch the keyboard
+    $('*').click(function(evt){
+      if (!$(evt.target).hasClass('anchor') & !$(evt.target).hasClass('checkbox') & !$(evt.target).hasClass('items')) {
+        neighborhood_dropdown.classList.remove('visible');
+      }
+    });
+
   </script>
 
   <body class="light-theme">
@@ -240,21 +195,19 @@
       <div class="slider-styled" id="slider-range"></div>
       <brsmall>
       <brsmall>
-      <div id="neighborhood-list" class="dropdown-check-list" tabindex="100">
-        <span class="anchor">Filtrer par quartier</span>
-        <ul class="items">
-          <label class="checkbox"><input class="checkbox" type="checkbox" id="rg" checked> Rive Gauche</label><br/>
-          <label class="checkbox"><input class="checkbox" type="checkbox" id="rd" checked> Rive Droite</label><br/>
-          <label class="checkbox"><input class="checkbox" type="checkbox" id="em" checked> Extramuros</label><br/>
-        </ul>
-      </div>
-      <div id="sort-list" class="dropdown-check-list" tabindex="100">
-        <span class="anchor">Trier par</span>
-        <ul class="items">
-          <label class="checkbox"><input class="checkbox" type="checkbox" id="year" name="sort[1][]" checked> Année</label><br/>
-          <label class="checkbox"><input class="checkbox" type="checkbox" id="dir" name="sort[1][]" unchecked> Réalisateur</label><br/>
-          <label class="checkbox"><input class="checkbox" type="checkbox" id="film" name="sort[1][]" unchecked> Titre</label><br/>
-        </ul>
+
+      <div id="wrap">
+        <div id="neighborhood-list" class="dropdown-check-list" tabindex="100">
+          <span class="anchor">Quartiers</span>
+          <ul class="items">
+            <label class="checkbox"><input class="checkbox" type="checkbox" id="rg" checked> Rive Gauche</label><br/>
+            <label class="checkbox"><input class="checkbox" type="checkbox" id="rd" checked> Rive Droite</label><br/>
+            <label class="checkbox"><input class="checkbox" type="checkbox" id="em" checked> Extramuros</label><br/>
+          </ul>
+        </div>
+        <div class="search">
+          <input type="text" class="searchTerm" id="myInput" placeholder="Films, Pays, etc...">
+        </div>
       </div>
 
     </center>

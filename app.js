@@ -11,6 +11,7 @@ function pad(num, size) {
     return num;
 }
 
+
 function parseDate(input, format) {
   format = format || 'yyyy-mm-dd'; // default format
   var parts = input.match(/(\d+)/g),
@@ -129,40 +130,57 @@ function get_table_row(f, showtimes) {
   return row
 }
 
-function generate_data_table(f, date){
+function get_full_movie_string(f){
+  var string_total = ""
+  string_total += f['language'] + " "
+  string_total += f['title'] + " "
+  string_total += f['original_title'] + " "
+  string_total += f['directors'] + " "
+  string_total += f['countries'] + " "
+  // for (const [key, value] of Object.entries(f["showtimes_theater"])) {
+  //   string_total += f["showtimes_theater"][key]["name"]
+  // }
+  return string_total;
+}
 
+function generate_data_table(f, date, constraint){
   var start = document.getElementsByClassName("noUi-handle-lower")[0].getAttribute("aria-valuenow");
   var end = document.getElementsByClassName("noUi-handle-upper")[0].getAttribute("aria-valuenow");
-
   var nd = new Date();
+  
   if (datesAreOnSameDay(date, nd)){
     var day_hour = nd.getHours()-1;
   } else {
     var day_hour = 0;
   }
-  start = Math.max(start, day_hour);
+  start = Math.max(start, day_hour);  
+  var string_total = get_full_movie_string(f);
 
-  var showtimes = {};
-  for (const [key, value] of Object.entries(f.showtimes_theater)){
-    for (var i = 0; i < value.showtimes.length; i++){
-      if (document.getElementById(value.location_2).checked){
-        var hour = value.showtimes[i];
-        if (hour >= start){
-          if (hour <= end){
-            if (key in showtimes){
-              showtimes[key]['showtimes'].push(hour);
-            } else {
-              showtimes[key] = value;
-              showtimes[key]['showtimes'] = [hour];
+  if ((constraint == "") || (string_total.toLowerCase().includes(constraint.toLowerCase()))){
+    var showtimes = {};
+    for (const [key, value] of Object.entries(f.showtimes_theater)){
+      for (var i = 0; i < value.showtimes.length; i++){
+        if (document.getElementById(value.location_2).checked){
+          var hour = value.showtimes[i];
+          if (hour >= start){
+            if (hour <= end){
+              if (key in showtimes){
+                showtimes[key]['showtimes'].push(hour);
+              } else {
+                showtimes[key] = value;
+                showtimes[key]['showtimes'] = [hour];
+              }
             }
           }
         }
       }
     }
+    if (Object.keys(showtimes).length > 0) {
+      var tblRow = get_table_row(f, display_showtimes(showtimes))
+      $(tblRow).appendTo("#userdata tbody");
+    }
   }
-  return showtimes
 }
-
 
 // Your web app's Firebase configuration
 var firebaseConfig = {
