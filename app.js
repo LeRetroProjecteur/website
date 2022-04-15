@@ -133,10 +133,17 @@ function get_full_movie_string(f){
   string_total += f['original_title'] + " "
   string_total += f['directors'] + " "
   string_total += f['countries'] + " "
-  // for (const [key, value] of Object.entries(f["showtimes_theater"])) {
-  //   string_total += f["showtimes_theater"][key]["name"]
-  // }
+  for (const [key, value] of Object.entries(f["showtimes_theater"])) {
+    string_total += f["showtimes_theater"][key]["name"]
+  }
   return string_total;
+}
+
+function clean_string(string){
+  string = string.replaceAll('.', '');
+  string = string.replaceAll('-', '');
+  string = string.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+  return string
 }
 
 function generate_data_table(f, date, constraint){
@@ -151,6 +158,8 @@ function generate_data_table(f, date, constraint){
   }
   start = Math.max(start, day_hour);
   var string_total = get_full_movie_string(f);
+  constraint = clean_string(constraint);
+  string_total = clean_string(string_total);
 
   if ((constraint == "") || (string_total.toLowerCase().includes(constraint.toLowerCase()))){
     var showtimes = {};
