@@ -53,7 +53,7 @@
     var constraint = "";
     var slider = document.getElementById('slider-range');
     var neighborhood_dropdown = document.getElementById('neighborhood-list');
-    
+
     async function get_data(db, date){
       console.log("Fetching data")
       var todayString = date_to_string(date);
@@ -163,7 +163,7 @@
       move_date_backward()
     };
 
-    // Create search function  
+    // Create search function
     async function search_movie(movie_constraint) {
       constraint = movie_constraint;
       refresh_data()
