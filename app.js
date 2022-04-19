@@ -174,8 +174,10 @@ function generate_data_table(f, date, constraint){
           }
         }
       }
-      showtimes[key] = value;
-      showtimes[key]['showtimes'] = hours;
+      if (hours.length>0){
+        showtimes[key] = value;
+        showtimes[key]['showtimes'] = hours;
+      }
     }
     if (Object.keys(showtimes).length > 0) {
       var tblRow = get_table_row(f, display_showtimes(showtimes))
