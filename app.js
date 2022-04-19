@@ -164,21 +164,18 @@ function generate_data_table(f, date, constraint){
   if ((constraint == "") || (string_total.toLowerCase().includes(constraint.toLowerCase()))){
     var showtimes = {};
     for (const [key, value] of Object.entries(f.showtimes_theater)){
-      for (var i = 0; i < value.showtimes.length; i++){
+      var hours = []
+      value.showtimes = value.showtimes.sort()
+      for (let m = 0; m < value.showtimes.length; m++){
+        var hour = value.showtimes[m];
         if (document.getElementById(value.location_2).checked){
-          var hour = value.showtimes[i];
-          if (hour >= start){
-            if (hour <= end){
-              if (key in showtimes){
-                showtimes[key]['showtimes'].push(hour);
-              } else {
-                showtimes[key] = value;
-                showtimes[key]['showtimes'] = [hour];
-              }
-            }
+          if (hour >= start && hour <= end) {
+            hours.push(hour)
           }
         }
       }
+      showtimes[key] = value;
+      showtimes[key]['showtimes'] = hours;
     }
     if (Object.keys(showtimes).length > 0) {
       var tblRow = get_table_row(f, display_showtimes(showtimes))
