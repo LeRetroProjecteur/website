@@ -133,6 +133,7 @@ function get_full_movie_string(f){
   string_total += f['original_title'] + " "
   string_total += f['directors'] + " "
   string_total += f['countries'] + " "
+  string_total += f['year'] + " "
   for (const [key, value] of Object.entries(f["showtimes_theater"])) {
     string_total += f["showtimes_theater"][key]["name"]
   }
@@ -144,6 +145,14 @@ function clean_string(string){
   string = string.replaceAll('-', '');
   string = string.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
   return string
+}
+
+function contains_list_of_strings(string_total, constraints){
+  var output = true;
+  for (const constraint of constraints) {
+    output = output && string_total.toLowerCase().includes(constraint.toLowerCase())
+  }
+  return output
 }
 
 function generate_data_table(f, date, constraint){
@@ -158,14 +167,16 @@ function generate_data_table(f, date, constraint){
   }
   start = Math.max(start, day_hour);
   var string_total = get_full_movie_string(f);
-  constraint = clean_string(constraint);
+  var constraints = clean_string(constraint).split(',');
   string_total = clean_string(string_total);
+  var contains_constraints = contains_list_of_strings(string_total, constraints);
 
-  if ((constraint == "") || (string_total.toLowerCase().includes(constraint.toLowerCase()))){
+  if (constraint == "" || contains_constraints){
     var showtimes = {};
     for (const [key, value] of Object.entries(f.showtimes_theater)){
       var hours = []
       value.showtimes = value.showtimes.sort()
+      // console.log(f.title, value.showtimes)
       for (let m = 0; m < value.showtimes.length; m++){
         var hour = value.showtimes[m];
         if (document.getElementById(value.location_2).checked){
@@ -175,7 +186,7 @@ function generate_data_table(f, date, constraint){
         }
       }
       if (hours.length>0){
-        showtimes[key] = value;
+        showtimes[key] = Object.assign({}, value);
         showtimes[key]['showtimes'] = hours;
       }
     }
