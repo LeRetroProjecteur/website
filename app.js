@@ -24,8 +24,7 @@ function parseDate(input, format) {
 
 function week_review(date_string){
   var date = date_string.split('-');
-  var month_review = months[parseInt(date[1])];
-  console.log(month_review);
+  var month_review = months[parseInt(date[1])-1];
   return date[2] + " " + month_review + " " + date[0]
 }
 
