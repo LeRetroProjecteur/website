@@ -20,22 +20,65 @@
       gtag('config', 'G-F5QY5F8S5L');
     </script>
 
-    <body class="light-theme">
-        <div id="header"></div>
-            <h2>Have you seen this movie ?</h2>
-            <b><span id="movie_name" class="center"></span></b>
-        <div id="footer"></div>
+    <script>
+      $(function(){
+        $("#header").load("includes/header.html");
+        $("#footer").load("includes/footer.html");
+      });
+    </script>
+
+  </head>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
+    import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore();
+
+    // let params = new URLSearchParams(url.search);
+    var id = window.location.search;
+    id = id.substring(7, id.length);
+    console.log(id)
+    // document.getElementById("movie_id").innerHTML = id;
+
+    async function get_review(db, id){
+      console.log("Fetching data")
+      const q = query(collection(db, "reviews"), where("id", "==", id));
+      var querySnapshot = await getDocs(q);
+      var data_aux = [];
+      querySnapshot.forEach((doc) => {
+        data_aux = doc.data();
+      });
+      return data_aux;
+    }
+
+    async function show_review(promise_review){
+      promise_review.then((data) => {
+        document.getElementById("title").innerHTML = (
+          "<b><i>" + data.movie_name + "</b></i>, " +
+          data.movie_directors +
+          " (" + data.movie_year + ")"
+        );
+        document.getElementById("review_box").innerHTML = (
+          "<div class='moviebox'>" +
+            "<img src='data:image/png;base64," + data.image_file + "'/>" +
+            data.review +
+          "</div><br>"
+        );
+      })
+    }
+
+    var promise_review = get_review(db, id);
+    show_review(promise_review)
+    
+  </script>
+
+  <body class="light-theme">
+    <div id="header"></div>
+      <h2><span id="title"></h2>
+      <span id="review_box"></span>
+    <div id="footer"></div>
   </body>
 
-    <script>
-    $(function(){
-      $("#header").load("includes/header.html");
-      $("#footer").load("includes/footer.html");
-    });
-    // let params = new URLSearchParams(url.search);
-    const queryString = window.location.search;
-    console.log(typeof(queryString))
-    document.getElementById("movie_name").innerHTML = queryString;
-    </script>
-  </head>
 </html>

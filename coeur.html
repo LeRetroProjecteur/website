@@ -3,19 +3,13 @@
 
   <head>
 
-    <link rel="icon" href="img/logo_square.png" , alt="Cinéma à Paris">
+    <link rel="icon" href="img/logo_square.png">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="Description" CONTENT="Venez découvrir tous nos films Coups de Coeur.">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css" />
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
-    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-    <script type="text/javascript" src="app.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.js"></script>
     <link rel="stylesheet" href="main.css">
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+    <script type="text/javascript" src="app.js"></script>
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F5QY5F8S5L"></script>
@@ -27,138 +21,63 @@
     </script>
 
     <script>
-      $(function(){
-        $("#header").load("includes/header.html");
-        $("#footer").load("includes/footer.html");
-      });
+    $(function(){
+      $("#header").load("includes/header.html");
+      $("#footer").load("includes/footer.html");
+    });
     </script>
 
   </head>
+
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
+    import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore();
+
+    async function get_list_reviews(db) {
+      const q = doc(db, "reviews", "all_coup_de_coeur");
+      var querySnapshot = await getDoc(q);
+      return querySnapshot.data();
+    };
+
+    async function show_review_name(promise_reviews){
+      await $('#userdata tbody').empty();
+      promise_reviews.then((data) => {
+        const keys = Object.keys(data);
+        keys.sort(
+          (a, b) => b.localeCompare(a)
+        ).forEach(f => {
+          var review = data[f];
+          var tblRow =
+            "<tr><td><h3 style='text-align:left'>" +
+              "Revue du " + review.date + "&nbsp;: " +
+              "<a href='/movie_details.html?movie=" + review.id + "'>" +
+                "<b><i>" + review.movie_name + "</b></i>, " + review.movie_directors + " (" + review.movie_year + ")" +
+              "</a>" +
+            "</h3></td></tr>"
+          $(tblRow).appendTo("#userdata tbody");
+        })
+      })
+    }
+
+    var promise_reviews = get_list_reviews(db);
+    show_review_name(promise_reviews);
+
+  </script>
 
   <body class="light-theme">
 
     <div id="header"></div>
 
     <h2>Archives&nbsp;: Nos Coups de Coeur</h2>
-    <h2>
-      <input type="button" id="move_date_backward" class="button" value= "◀&#xFE0E;" style="color: var(--red);">
-      <b><span id="date_of_today" class="center"></span></b>
-      <input type="button" id="move_date_forward" class="button" value= "▶&#xFE0E;" style="color: var(--lightgrey);">
-    </h2>
+    <table id= "userdata" border="3" class="center">
+      <tbody>
+      </tbody>
+    </table>
 
-    <script type="module">
-      // Import the functions you need from the SDKs you need
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
-      import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
-
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore();
-      var months_short_cap = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
-      var selected_date = new Date();
-      var first_date = new Date(selected_date);
-      var promise_dates = get_list_dates(db);
-      show_review_first_month(promise_dates);
-
-      function show_review_first_month(promise_dates){
-        promise_dates.then((data) =>
-        {
-          var last_date_string = data[Object.keys(data)[Object.keys(data).length - 1]];
-          selected_date = new Date(last_date_string.replace(/-/g, "/"));
-          first_date = new Date(selected_date);
-          document.getElementById("date_of_today").innerHTML =
-              months_short_cap[selected_date.getMonth()] + " " + String(selected_date.getFullYear());
-          populate_review(db, selected_date);
-        })
-      }
-
-      async function get_list_dates(db) {
-        const am = doc(db, "reviews", "all_dates");
-        var querySnapshot = await getDoc(am);
-        return querySnapshot.data();
-      };
-
-      async function populate_review(db, selected_date) {
-        var selected_year = selected_date.getFullYear();
-        var selected_month = selected_date.getMonth()+1;
-        var year = selected_year.toString();
-        var month = selected_month.toString().padStart(2, '0');
-        const q = query(collection(db, "reviews"), where("year", "==", year), where("month", "==", month));
-        var querySnapshot = await getDocs(q);
-        var data = [];
-        querySnapshot.forEach((doc) => {
-          data.push(doc.data());
-        });
-
-        var string = ""
-        data.sort((a, b) => $(b).attr('time') - $(a).attr('time')).forEach(f => {
-          if(f.category == 'COUP DE C\u0152UR'){
-            string = string.concat(
-              "<div class='moviebox'>" +
-                "<img src='data:image/png;base64," + f.image_file + "'/>" +
-                "<h3 style='color:grey; font-weight:normal;'>" + week_string(get_next_week(string_to_date(f.date))[0]) + "&nbsp;: " + f.category + "</h3>" +
-                "<h3><i>" + f.movie_name + "</i>, " + f.movie_directors + " (" + f.movie_year + ")</h3>" +
-                f.review +
-              "</div><br>"
-            )
-          }
-          document.getElementById("cdc").innerHTML = string
-        });
-      }
-
-      async function move_date_forward() {
-        if (!datesAreOnSameMonth(first_date, selected_date)){
-          selected_date.setMonth(selected_date.getMonth() + 1);
-          var tempScrollTop = $(window).scrollTop();
-          document.getElementById("date_of_today").innerHTML =
-              months_short_cap[selected_date.getMonth()] + " " + String(selected_date.getFullYear());
-          await $('#userdata tbody').empty();
-          populate_review(db, selected_date)
-          $(window).scrollTop(tempScrollTop);
-          document.getElementById("move_date_backward").style.color = "var(--red)";
-          if (datesAreOnSameMonth(first_date, selected_date)){
-            document.getElementById("move_date_forward").style.color = "var(--lightgrey)";
-          }
-          else{
-            document.getElementById("move_date_forward").style.color = "var(--red)";
-          }
-        }
-      }
-
-      async function move_date_backward() {
-        var selected_year = selected_date.getFullYear();
-        var selected_month = selected_date.getMonth()+1;
-        var aug2021 = new Date(2021, 8, 1);
-
-        if (!datesAreOnSameMonth(aug2021, selected_date)){
-          selected_date.setMonth(selected_date.getMonth() - 1);
-          var tempScrollTop = $(window).scrollTop();
-          document.getElementById("move_date_forward").style.color = "var(--red)";
-          if (datesAreOnSameMonth(aug2021, selected_date)){
-            document.getElementById("move_date_backward").style.color = "var(--lightgrey)";
-          }
-          else{
-            document.getElementById("move_date_backward").style.color = "var(--red)";
-          }
-          document.getElementById("date_of_today").innerHTML =
-              months_short_cap[selected_date.getMonth()] + " " + String(selected_date.getFullYear());
-          await $('#userdata tbody').empty();
-          populate_review(db, selected_date)
-          $(window).scrollTop(tempScrollTop);
-        }
-      }
-
-      var moveForwardButton = document.querySelector('#move_date_forward');
-      moveForwardButton.onclick = function() {
-        move_date_forward()
-      };
-
-      var moveBackwardButton = document.querySelector('#move_date_backward');
-      moveBackwardButton.onclick = function() {
-        move_date_backward()
-      };
-
-
-    </script>
     <span id="cdc"></span>
     <div id="footer"></div>
   </body>
