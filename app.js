@@ -120,7 +120,7 @@ function display_showtimes(showtimes, sep="<br>", date=false){
 }
 
 function get_table_row(f, showtimes) {
-  var row = "<tr>" + "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
+  var row = "<tr>" + "<td><b><i>" + f.title + "</i></b>, " + f.directors + " (" + f.year + ")" + "</td>" +
     "<td>" + showtimes + "</td>" +
     "</tr>";
   return row
