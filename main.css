@@ -169,13 +169,14 @@ brsmall {
 .dropdown-check-list {
   display: inline-block;
   text-align: left;
+  width: min(90%, 148px);
+  border: 1px solid var(--lightgrey);
 }
 .dropdown-check-list .anchor {
   position: relative;
   cursor: pointer;
   display: inline-block;
-  padding: 5px 20px 5px 20px;
-  border: 1px solid var(--lightgrey);
+  padding: 5px 60px 5px 10px;
 }
 .dropdown-check-list .anchor:after {
   position: absolute;
@@ -217,17 +218,16 @@ input[type="checkbox"] { /* change "blue" browser chrome to yellow */
 
 .search {
   display: inline-block;
-  position: relative;
   margin: 0 auto;
   width: min(90%, 150px);
 }
 
 .searchTerm {
-  width: 100%;
   border: 1px solid var(--lightgrey);
-  padding: 5px 20px 5px 20px;
+  border-radius: 0px;
+  padding: 5px 20px 5px 10px;
+  width: min(90%, 118px);
   line-height: 1.6;
-  outline: none;
   color: #9DBFAF;
 }
 
@@ -236,7 +236,5 @@ input[type="checkbox"] { /* change "blue" browser chrome to yellow */
 }
 
 .wrap{
-  text-align: center;
-  width:80%;
   display: flex;
 }

@@ -49,14 +49,9 @@
     const db = getFirestore();
 
     var selected_date = new Date();
-    var selected_start_hour = selected_date.getHours()-1;
-    var selected_end_hour = 24;
-    var constraint = "";
-    var day = selected_date.getUTCDate();
     var promise_data = [];
-    var increment = 0;
+    var constraint = "";
     var slider = document.getElementById('slider-range');
-    var slider_value_element = document.getElementById('slider-range-value');
     var neighborhood_dropdown = document.getElementById('neighborhood-list');
 
     async function get_data(db, date){
@@ -71,74 +66,20 @@
       return data_aux;
     }
 
-
-    function get_string_from_dict(f, string_total){
-      for (var i = 0; i < Object.values(f).length; i++) {
-        if (typeof(Object.values(f)[i])=="object"){
-          string_total += get_string_from_dict(Object.values(Object.values(f)[i]), string_total)  
-        }
-        else {
-          string_total += Object.values(f)[i].toString();
-        }
-      }
-      return string_total;
-    }
-
-    function generate_data_table(f, start, end, constraint){
-      var string_total = "";
-      string_total = get_string_from_dict(f, string_total);
-      
-      if ((constraint == "") || (string_total.toLowerCase().includes(constraint.toLowerCase()))){
-        
-        var showtimes = {};
-        for (const [key, value] of Object.entries(f.showtimes_theater)){
-          for (var i = 0; i < value.showtimes.length; i++){
-            if (document.getElementById(value.location_2).checked){
-              var hour = value.showtimes[i];
-              if (hour >= start){
-                if (hour <= end){
-                  if (key in showtimes){
-                    showtimes[key]['showtimes'].push(hour);
-                  } else {
-                    showtimes[key] = value;
-                    showtimes[key]['showtimes'] = [hour];
-                  }
-                }
-              }
-            }
-          }
-        }
-        if (Object.keys(showtimes).length > 0) {
-          var tblRow = "<tr>" +
-            "<td><b>" + f.title + "</b> (" + f.directors + ", " + f.year + ")" + "</td>" +
-            "<td>" + display_showtimes(showtimes) + "</td>" +
-            "</tr>"
-          $(tblRow).appendTo("#userdata tbody");
-        }
-      }
-    }
-
-    async function populate_movies(promise_data, date, start, end, constraint) {
+    async function populate_movies(promise_data, date, constraint) {
       console.log("Populating table")
       await $('#userdata tbody').empty();
-      var nd = new Date();
-      if (datesAreOnSameDay(date, nd)){
-        var day_hour = nd.getHours()-1;
-      } else {
-        var day_hour = 0;
-      }
-      start = Math.max(start, day_hour);
       promise_data.then((data) => {
-        data.sort(
-          (a, b) => $(a).attr('year')-$(b).attr('year') || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name')) || $(a).attr('title').localeCompare($(b).attr('title'))
-        ).forEach(f => {
-          generate_data_table(f, start, end, constraint);
-        });
+          data.sort(
+            (a, b) => $(a).attr('year')-$(b).attr('year') || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name')) || $(a).attr('title').localeCompare($(b).attr('title'))
+          ).forEach(f => {
+            generate_data_table(f, date, constraint);
+          });
       })
     }
 
     function refresh_data() {
-      populate_movies(promise_data, selected_date, selected_start_hour, selected_end_hour, constraint);
+      populate_movies(promise_data, selected_date, constraint);
     }
 
     $(function() {
@@ -155,17 +96,13 @@
 
       document.getElementById("date_of_today").innerHTML = day_string(selected_date);
       promise_data = get_data(db, selected_date);
-      selected_start_hour = 0
-      slider_value_element.innerHTML = (
-        "Séances entre <b style='color:var(--red); font-weight:bold;'>" + selected_start_hour + "h et " + selected_end_hour + "h </b>"
-      );
       refresh_data();
 
-      slider.noUiSlider.on('update', function (values) {
-        selected_start_hour = Math.round(values[0]);
-        selected_end_hour = Math.round(values[1]);
-        slider_value_element.innerHTML = (
-          "Séances entre <b style='color:var(--red); font-weight:bold;'>" + selected_start_hour + "h et " + selected_end_hour + "h </b>"
+      slider.noUiSlider.on('update', function() {
+        document.getElementById('slider-range-value').innerHTML = (
+          "Séances entre <b style='color:var(--red); font-weight:bold;'>" +
+          Math.round(document.getElementsByClassName("noUi-handle-lower")[0].getAttribute("aria-valuenow")) + "h et " +
+          Math.round(document.getElementsByClassName("noUi-handle-upper")[0].getAttribute("aria-valuenow")) + "h </b>"
         );
       });
 
@@ -176,24 +113,6 @@
       refresh_data();
     });
 
-    // For sort, only allow 1 box to be checked:
-    $("input:checkbox").on('click', function() {
-      // in the handler, 'this' refers to the box clicked on
-      var $box = $(this);
-      if ($box.is(":checked")) {
-        // the name of the box is retrieved using the .attr() method
-        // as it is assumed and expected to be immutable
-        var group = "input:checkbox[name='" + $box.attr("name") + "']";
-        // the checked state of the group/box on the other hand will change
-        // and the current value is retrieved using .prop() method
-        $(group).prop("checked", false);
-        $box.prop("checked", true);
-      }
-      else {
-        $box.prop("checked", false);
-      }
-    });
-
     neighborhood_dropdown.getElementsByClassName('anchor')[0].onclick = function(evt) {
       if (neighborhood_dropdown.classList.contains('visible')) {
         neighborhood_dropdown.classList.remove('visible');
@@ -202,6 +121,12 @@
         neighborhood_dropdown.classList.add('visible');
       }
     }
+
+    $('*').click(function(evt){
+      if (!$(evt.target).hasClass('anchor') & !$(evt.target).hasClass('checkbox') & !$(evt.target).hasClass('items')) {
+        neighborhood_dropdown.classList.remove('visible');
+      }
+    });
 
     function move_date_forward() {
       slider.noUiSlider.set([0, 24]);
@@ -238,19 +163,16 @@
       move_date_backward()
     };
 
-
-    // Create search bar 
+    // Create search function
     async function search_movie(movie_constraint) {
       constraint = movie_constraint;
-      console.log(constraint);
       refresh_data()
     }
     var input = document.getElementById("myInput");
     input.addEventListener('keyup', (e) => {
       search_movie(input.value);
     });
-
-
+    // Declare the events when you touch the keyboard
     $('*').click(function(evt){
       if (!$(evt.target).hasClass('anchor') & !$(evt.target).hasClass('checkbox') & !$(evt.target).hasClass('items')) {
         neighborhood_dropdown.classList.remove('visible');
@@ -261,7 +183,7 @@
 
   <body class="light-theme">
     <div id="header"></div>
-    <h3>      
+    <h3>
       <input type="button" id="move_date_backward" class="button" value= "◀&#xFE0E;" style="color: var(--lightgrey);">
       <b><span id="date_of_today" class="center"></span></b>
       <input type="button" id="move_date_forward" class="button" value= "▶&#xFE0E;" style="color: var(--red);">
@@ -273,7 +195,7 @@
       <div class="slider-styled" id="slider-range"></div>
       <brsmall>
       <brsmall>
-      
+
       <div id="wrap">
         <div id="neighborhood-list" class="dropdown-check-list" tabindex="100">
           <span class="anchor">Quartiers</span>
@@ -284,9 +206,10 @@
           </ul>
         </div>
         <div class="search">
-          <input type="text" class="searchTerm" input id="myInput" placeholder="Films, Pays, etc...">
+          <input type="text" class="searchTerm" id="myInput" placeholder="Film, pays, etc...">
         </div>
       </div>
+
     </center>
     <brsmall>
 

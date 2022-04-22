@@ -50,12 +50,8 @@ function get_current_week(date=null){
 }
 
 function get_next_week(date=null){
-  if (date==null){
-    var start_date = new Date(new Date().toDateString());
-  } else {
-    var start_date = new Date(date.toDateString());
-  }
-  start_date.setDate(start_date.getDate() - ((start_date.getDay()+4)%7) + 7)
+  var start_date = new Date(date.toDateString());
+  start_date.setDate(start_date.getDate() - ((start_date.getDay()+4)%7))
   var end_date = one_week_later(start_date);
   return [start_date, end_date];
 }
@@ -121,6 +117,84 @@ function display_showtimes(showtimes, sep="<br>", date=false){
 
   return showtime_string;
 
+}
+
+function get_table_row(f, showtimes) {
+  var row = "<tr>" + "<td><b><i>" + f.title + "</i></b>, " + f.directors + " (" + f.year + ")" + "</td>" +
+    "<td>" + showtimes + "</td>" +
+    "</tr>";
+  return row
+}
+
+function get_full_movie_string(f){
+  var string_total = ""
+  string_total += f['language'] + " "
+  string_total += f['title'] + " "
+  string_total += f['original_title'] + " "
+  string_total += f['directors'] + " "
+  string_total += f['countries'] + " "
+  string_total += f['year'] + " "
+  for (const [key, value] of Object.entries(f["showtimes_theater"])) {
+    string_total += f["showtimes_theater"][key]["name"]
+  }
+  return string_total;
+}
+
+function clean_string(string){
+  string = string.replaceAll('.', '');
+  string = string.replaceAll('-', '');
+  string = string.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+  return string
+}
+
+function contains_list_of_strings(string_total, constraints){
+  var output = true;
+  for (const constraint of constraints) {
+    output = output && string_total.toLowerCase().includes(constraint.toLowerCase())
+  }
+  return output
+}
+
+function generate_data_table(f, date, constraint){
+  var start = document.getElementsByClassName("noUi-handle-lower")[0].getAttribute("aria-valuenow");
+  var end = document.getElementsByClassName("noUi-handle-upper")[0].getAttribute("aria-valuenow");
+  var nd = new Date();
+
+  if (datesAreOnSameDay(date, nd)){
+    var day_hour = nd.getHours()-1;
+  } else {
+    var day_hour = 0;
+  }
+  start = Math.max(start, day_hour);
+  var string_total = get_full_movie_string(f);
+  var constraints = clean_string(constraint).split(',');
+  string_total = clean_string(string_total);
+  var contains_constraints = contains_list_of_strings(string_total, constraints);
+
+  if (constraint == "" || contains_constraints){
+    var showtimes = {};
+    for (const [key, value] of Object.entries(f.showtimes_theater)){
+      var hours = []
+      value.showtimes = value.showtimes.sort()
+      // console.log(f.title, value.showtimes)
+      for (let m = 0; m < value.showtimes.length; m++){
+        var hour = value.showtimes[m];
+        if (document.getElementById(value.location_2).checked){
+          if (hour >= start && hour <= end) {
+            hours.push(hour)
+          }
+        }
+      }
+      if (hours.length>0){
+        showtimes[key] = Object.assign({}, value);
+        showtimes[key]['showtimes'] = hours;
+      }
+    }
+    if (Object.keys(showtimes).length > 0) {
+      var tblRow = get_table_row(f, display_showtimes(showtimes))
+      $(tblRow).appendTo("#userdata tbody");
+    }
+  }
 }
 
 // Your web app's Firebase configuration
