@@ -69,12 +69,18 @@
     async function populate_movies(promise_data, date, constraint) {
       console.log("Populating table")
       await $('#userdata tbody').empty();
+      var one_movie_shown = false;
       promise_data.then((data) => {
           data.sort(
             (a, b) => $(a).attr('year')-$(b).attr('year') || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name')) || $(a).attr('title').localeCompare($(b).attr('title'))
           ).forEach(f => {
-            generate_data_table(f, date, constraint);
+            var movie_shown = generate_data_table(f, date, constraint);
+            one_movie_shown = (one_movie_shown || movie_shown);
           });
+          if (one_movie_shown==false){
+            var tblRow = get_empty_table_row();
+            $(tblRow).appendTo("#userdata tbody");
+          }
       })
     }
 
@@ -217,7 +223,7 @@
     <div class="profile">
       <table id= "userdata" border="2" class="center">
       <thead>
-        <th style="width:50%;background-color:var(--red);color:var(--white);"> <strong>Film</strong></th>
+        <th style="width:50%;background-color:var(--red);color:var(--white);"><strong>Film</strong></th>
         <th style="width:50%;background-color:var(--red);color:var(--white);"><strong>Séances</strong></th>
       </thead>
       <tbody>

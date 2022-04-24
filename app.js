@@ -120,9 +120,14 @@ function display_showtimes(showtimes, sep="<br>", date=false){
 }
 
 function get_table_row(f, showtimes) {
-  var row = "<tr>" + "<td><b><i>" + f.title + "</i></b>, " + f.directors + " (" + f.year + ")" + "</td>" +
+  var row = "<tr>" + "<td><b>" + f.title + "</b>, " + f.directors + " (" + f.year + ")" + "</td>" +
     "<td>" + showtimes + "</td>" +
     "</tr>";
+  return row
+}
+
+function get_empty_table_row() {
+  var row = "<b> Aucun film ne correspond à cette recherche aujourd'hui.</b>";
   return row
 }
 
@@ -156,6 +161,7 @@ function contains_list_of_strings(string_total, constraints){
 }
 
 function generate_data_table(f, date, constraint){
+  var movie_shown = false;
   var start = document.getElementsByClassName("noUi-handle-lower")[0].getAttribute("aria-valuenow");
   var end = document.getElementsByClassName("noUi-handle-upper")[0].getAttribute("aria-valuenow");
   var nd = new Date();
@@ -193,8 +199,10 @@ function generate_data_table(f, date, constraint){
     if (Object.keys(showtimes).length > 0) {
       var tblRow = get_table_row(f, display_showtimes(showtimes))
       $(tblRow).appendTo("#userdata tbody");
+      movie_shown = true;
     }
   }
+  return movie_shown
 }
 
 // Your web app's Firebase configuration
