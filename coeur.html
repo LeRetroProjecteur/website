@@ -51,13 +51,14 @@
           (a, b) => b.localeCompare(a)
         ).forEach(f => {
           var review = data[f];
-          var tblRow =
+          var tblRow = (
             "<tr><td><h3 style='text-align:left'>" +
-              "Revue du " + review.date + "&nbsp;: " +
+              "Critique du " + review.date + "&nbsp;: " +
               "<a href='/movie_details.html?movie=" + review.id + "'>" +
                 "<b><i>" + review.movie_name + "</b></i>, " + review.movie_directors + " (" + review.movie_year + ")" +
               "</a>" +
             "</h3></td></tr>"
+          );
           $(tblRow).appendTo("#userdata tbody");
         })
       })
@@ -69,16 +70,14 @@
   </script>
 
   <body class="light-theme">
-
     <div id="header"></div>
-
     <h2>Archives&nbsp;: Nos Coups de Coeur</h2>
     <table id= "userdata" border="3" class="center">
       <tbody>
       </tbody>
     </table>
-
     <span id="cdc"></span>
     <div id="footer"></div>
   </body>
+
 </html>

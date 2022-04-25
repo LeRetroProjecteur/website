@@ -36,14 +36,10 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore();
 
-    // let params = new URLSearchParams(url.search);
     var id = window.location.search;
     id = id.substring(7, id.length);
-    console.log(id)
-    // document.getElementById("movie_id").innerHTML = id;
 
     async function get_review(db, id){
-      console.log("Fetching data")
       const q = query(collection(db, "reviews"), where("id", "==", id));
       var querySnapshot = await getDocs(q);
       var data_aux = [];
@@ -71,13 +67,13 @@
 
     var promise_review = get_review(db, id);
     show_review(promise_review)
-    
+
   </script>
 
   <body class="light-theme">
     <div id="header"></div>
-      <h2><span id="title"></h2>
-      <span id="review_box"></span>
+    <h2><span id="title"></h2>
+    <span id="review_box"></span>
     <div id="footer"></div>
   </body>
 
