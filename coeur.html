@@ -53,9 +53,9 @@
           var review = data[f];
           var tblRow = (
             "<tr><td><h3 style='text-align:left'>" +
-              "Critique du " + review.date + "&nbsp;: " +
+              "Critique du " + day_string(string_to_date(review.date), false) + "&nbsp;: " +
               "<a href='/movie_details.html?movie=" + review.id + "'>" +
-                "<b><i>" + review.movie_name + "</b></i>, " + review.movie_directors + " (" + review.movie_year + ")" +
+                "<b>" + review.movie_name + "</i>, " + review.movie_directors + " (" + review.movie_year + ")" +
               "</a>" +
             "</h3></td></tr>"
           );

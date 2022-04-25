@@ -11,23 +11,6 @@ function pad(num, size) {
     return num;
 }
 
-
-function parseDate(input, format) {
-  format = format || 'yyyy-mm-dd'; // default format
-  var parts = input.match(/(\d+)/g),
-      i = 0, fmt = {};
-  // extract date-part indexes from the format
-  format.replace(/(yyyy|dd|mm)/g, function(part) { fmt[part] = i++; });
-
-  return new Date(parts[fmt['yyyy']], parts[fmt['mm']]-1, parts[fmt['dd']]);
-}
-
-function week_review(date_string){
-  var date = date_string.split('-');
-  var month_review = months[parseInt(date[1])-1];
-  return date[2] + " " + month_review + " " + date[0]
-}
-
 function string_to_date(string){
   var date = new Date(string.substring(0, 4), parseInt(string.substring(5, 7))-1, string.substring(8, 10));
   return date;
@@ -45,7 +28,7 @@ function one_week_later(start_date){
 }
 
 function get_current_week(date=null){
-  if (date==null){
+  if (date==null) {
     var start_date = new Date(new Date().toDateString());
   } else {
     var start_date = new Date(date.toDateString());
@@ -55,52 +38,42 @@ function get_current_week(date=null){
   return [start_date, end_date];
 }
 
-function get_next_week(date=null){
-  var start_date = new Date(date.toDateString());
-  start_date.setDate(start_date.getDate() - ((start_date.getDay()+4)%7))
-  var end_date = one_week_later(start_date);
-  return [start_date, end_date];
-}
-
-function week_string(start_date, end_date=null){
-  if (end_date==null){
-    var end_date = one_week_later(start_date);
-  }
-
-  if (months[start_date.getMonth()]==months[end_date.getMonth()]){
-    return 'Semaine du '.concat(
-      ' ', String(start_date.getDate()),
-      ' au ',
-      ' ', String(end_date.getDate()), ' ', months[end_date.getMonth()]
-    );
-  }
-  else{
-    return 'Semaine du '.concat(
-      ' ', String(start_date.getDate()), ' ', months[start_date.getMonth()],
-      ' au ',
-      ' ', String(end_date.getDate()), ' ', months[end_date.getMonth()]
-    );
-  }
-}
-
-function day_string(date){
-  return days[date.getDay()].concat(
-    ' ', String(date.getDate()),
-    ' ', months[date.getMonth()],
-    ' ', String(date.getFullYear())
-  );
-}
-
-function datesAreOnSameDay(first, second) {
-  return first.getFullYear() === second.getFullYear() &&
-  first.getMonth() === second.getMonth() &&
-  first.getDate() === second.getDate();
+function datesAreOnSameDay(date1, date2) {
+  return (
+    date1.getFullYear() === date2.getFullYear() &&
+    date1.getMonth() === date2.getMonth() &&
+    date1.getDate() === date2.getDate()
+  )
 }
 
 function datesAreOnSameMonth(first, second) {
   return first.getFullYear() === second.getFullYear() &&
   first.getMonth() === second.getMonth();
 };
+
+function day_string(date, weekday = true){
+  var string = "";
+  if (weekday) {
+    string = string.concat(days[date.getDay()], " ")
+  }
+  string = string.concat(String(date.getDate()), ' ', months[date.getMonth()], ' ', String(date.getFullYear()))
+  return string;
+}
+
+function week_string(start_date, end_date=null){
+  if (end_date==null) {
+    var end_date = one_week_later(start_date);
+  }
+  var string = 'Semaine du ';
+  if (months[start_date.getMonth()]==months[end_date.getMonth()]){
+    string = string.concat(' ', String(start_date.getDate()));
+  }
+  else{
+    string = string.concat(String(start_date.getDate()), ' ', months[start_date.getMonth()]);
+  }
+  string = string.concat(' au ', String(end_date.getDate()), ' ', months[end_date.getMonth()])
+  return string
+}
 
 function display_showtimes(showtimes, sep="<br>", date=false){
 
@@ -137,39 +110,41 @@ function get_empty_table_row() {
   return row
 }
 
-function get_full_movie_string(f){
-  var string_total = ""
-  string_total += f['language'] + " "
-  string_total += f['title'] + " "
-  string_total += f['original_title'] + " "
-  string_total += f['directors'] + " "
-  string_total += f['countries'] + " "
-  string_total += f['year'] + " "
-  for (const [key, value] of Object.entries(f["showtimes_theater"])) {
-    string_total += f["showtimes_theater"][key]["name"]
-  }
-  return string_total;
-}
-
 function clean_string(string){
   string = string.replaceAll('.', '');
   string = string.replaceAll('-', '');
   string = string.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+  string = string.toLowerCase();
   return string
 }
 
-function contains_list_of_strings(string_total, constraints){
+function contains_list_of_strings(search_string, search_terms){
   var output = true;
-  for (const constraint of constraints) {
-    output = output && string_total.toLowerCase().includes(constraint.toLowerCase())
+  for (const search_term of search_terms) {
+    output = output && search_string.includes(search_term)
   }
   return output
 }
 
-function generate_data_table(f, date, constraint){
+function get_movie_info_string(f, theaters=true) {
+  var movie_info_string = (
+    f['language'] + " " +
+    f['title'] + " " +
+    f['original_title'] + " " +
+    f['directors'] + " " +
+    f['countries'] + " " +
+    f['year'] + " "
+  );
+  if (theaters) {
+    for (const [key, value] of Object.entries(f["showtimes_theater"])) {
+      movie_info_string += f["showtimes_theater"][key]["name"] + " "
+    }
+  }
+  return movie_info_string
+}
+
+function generate_data_table(f, date, start, end, search_term){
   var movie_shown = false;
-  var start = document.getElementsByClassName("noUi-handle-lower")[0].getAttribute("aria-valuenow");
-  var end = document.getElementsByClassName("noUi-handle-upper")[0].getAttribute("aria-valuenow");
   var nd = new Date();
 
   if (datesAreOnSameDay(date, nd)){
@@ -178,17 +153,15 @@ function generate_data_table(f, date, constraint){
     var day_hour = 0;
   }
   start = Math.max(start, day_hour);
-  var string_total = get_full_movie_string(f);
-  var constraints = clean_string(constraint).split(',');
-  string_total = clean_string(string_total);
-  var contains_constraints = contains_list_of_strings(string_total, constraints);
+  var search_string = clean_string(get_movie_info_string(f));
+  var search_terms = clean_string(search_term).split(',');
+  var contains_search_terms = contains_list_of_strings(search_string, search_terms);
 
-  if (constraint == "" || contains_constraints){
+  if (contains_search_terms) {
     var showtimes = {};
     for (const [key, value] of Object.entries(f.showtimes_theater)){
       var hours = []
       value.showtimes = value.showtimes.sort()
-      // console.log(f.title, value.showtimes)
       for (let m = 0; m < value.showtimes.length; m++){
         var hour = value.showtimes[m];
         if (document.getElementById(value.location_2).checked){

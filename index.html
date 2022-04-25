@@ -50,9 +50,16 @@
 
     var selected_date = new Date();
     var promise_data = [];
-    var constraint = "";
+    var search_term = "";
+    var start_time = 0;
+    var end_time = 24;
     var slider = document.getElementById('slider-range');
     var neighborhood_dropdown = document.getElementById('neighborhood-list');
+    var search_box = document.getElementById("search-box");
+
+    document.getElementById("date_of_today").innerHTML = day_string(selected_date);
+    promise_data = get_data(db, selected_date);
+    refresh_data();
 
     async function get_data(db, date){
       console.log("Fetching data")
@@ -66,7 +73,7 @@
       return data_aux;
     }
 
-    async function populate_movies(promise_data, date, constraint) {
+    async function populate_movies(promise_data, date, start_time, end_time, search_term) {
       console.log("Populating table")
       await $('#userdata tbody').empty();
       var one_movie_shown = false;
@@ -74,7 +81,7 @@
           data.sort(
             (a, b) => $(a).attr('year')-$(b).attr('year') || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name')) || $(a).attr('title').localeCompare($(b).attr('title'))
           ).forEach(f => {
-            var movie_shown = generate_data_table(f, date, constraint);
+            var movie_shown = generate_data_table(f, date, start_time, end_time, search_term);
             one_movie_shown = (one_movie_shown || movie_shown);
           });
           if (one_movie_shown==false){
@@ -85,40 +92,30 @@
     }
 
     function refresh_data() {
-      populate_movies(promise_data, selected_date, constraint);
+      populate_movies(promise_data, selected_date, start_time, end_time, search_term);
     }
 
-    $(function() {
-      noUiSlider.create(slider, {
-        start: [0, 24],
-        connect: true,
-        step:1,
-        margin: 1,
-        range: {
-          'min': 0,
-          'max': 24
-        }
-      });
-
-      document.getElementById("date_of_today").innerHTML = day_string(selected_date);
-      promise_data = get_data(db, selected_date);
-      refresh_data();
-
-      slider.noUiSlider.on('update', function() {
-        document.getElementById('slider-range-value').innerHTML = (
-          "Séances entre <b style='color:var(--red); font-weight:bold;'>" +
-          Math.round(document.getElementsByClassName("noUi-handle-lower")[0].getAttribute("aria-valuenow")) + "h et " +
-          Math.round(document.getElementsByClassName("noUi-handle-upper")[0].getAttribute("aria-valuenow")) + "h </b>"
-        );
-      });
-
-      slider.noUiSlider.on('change', refresh_data);
+    // Slider
+    noUiSlider.create(slider, {
+      start: [0, 24],
+      connect: true,
+      step: 1,
+      margin: 1,
+      range: {'min': 0, 'max': 24}
     });
-
-    $(':checkbox').click(function(){
+    slider.noUiSlider.on('update', function() {
+      start_time = Math.round(document.getElementsByClassName("noUi-handle-lower")[0].getAttribute("aria-valuenow"));
+      end_time = Math.round(document.getElementsByClassName("noUi-handle-upper")[0].getAttribute("aria-valuenow"));
+      document.getElementById('slider-range-value').innerHTML = (
+        "Séances entre <b style='color:var(--red); font-weight:bold;'>" +
+        start_time + "h et " + end_time + "h </b>"
+      );
+    });
+    slider.noUiSlider.on('change', function() {
       refresh_data();
     });
 
+    // Dropdown menu
     neighborhood_dropdown.getElementsByClassName('anchor')[0].onclick = function(evt) {
       if (neighborhood_dropdown.classList.contains('visible')) {
         neighborhood_dropdown.classList.remove('visible');
@@ -127,7 +124,21 @@
         neighborhood_dropdown.classList.add('visible');
       }
     }
+    $('*').click(function(evt){
+      if (!$(evt.target).hasClass('anchor') & !$(evt.target).hasClass('checkbox') & !$(evt.target).hasClass('items')) {
+        neighborhood_dropdown.classList.remove('visible');
+      }
+    });
+    $(':checkbox').click(function(){
+      refresh_data();
+    });
 
+    // Search function
+    search_box.addEventListener('keyup', (e) => {
+      search_term = search_box.value;
+      refresh_data();
+    });
+    // Declare the events when you touch the keyboard
     $('*').click(function(evt){
       if (!$(evt.target).hasClass('anchor') & !$(evt.target).hasClass('checkbox') & !$(evt.target).hasClass('items')) {
         neighborhood_dropdown.classList.remove('visible');
@@ -169,22 +180,6 @@
       move_date_backward()
     };
 
-    // Create search function
-    async function search_movie(movie_constraint) {
-      constraint = movie_constraint;
-      refresh_data()
-    }
-    var input = document.getElementById("myInput");
-    input.addEventListener('keyup', (e) => {
-      search_movie(input.value);
-    });
-    // Declare the events when you touch the keyboard
-    $('*').click(function(evt){
-      if (!$(evt.target).hasClass('anchor') & !$(evt.target).hasClass('checkbox') & !$(evt.target).hasClass('items')) {
-        neighborhood_dropdown.classList.remove('visible');
-      }
-    });
-
   </script>
 
   <body class="light-theme">
@@ -212,7 +207,7 @@
           </ul>
         </div>
         <div class="search">
-          <input type="text" class="searchTerm" id="myInput" placeholder="Film, pays, etc...">
+          <input type="text" class="searchTerm" id="search-box" placeholder="Film, pays, etc...">
         </div>
       </div>
 

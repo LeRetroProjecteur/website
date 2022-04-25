@@ -25,7 +25,7 @@ body {
   margin-right: auto;
   float: none;
 }
-h1, h2, h3, footer{
+h1, h2, h3, footer {
   text-align: center;
 }
 h3 {
@@ -35,7 +35,7 @@ blockquote {
   margin-top: 0;
   margin-bottom: 0;
 }
-table{
+table {
   border: 1px solid black;
   border-collapse: collapse;
   width:75%;
@@ -45,17 +45,19 @@ th, td {
   border: 1px solid black;
   border-collapse: collapse;
 }
-tr:nth-child(even) {background-color: var(--lightred);}
-hr{
+tr:nth-child(even) {
+  background-color: var(--lightred);
+}
+hr {
   max-width: var(--max_width);
   border-width:0;
   background-color:var(--red);
   height:4px;
 }
-input{
+input {
   font-size:inherit;
 }
-.button{
+.button {
   background-color: var(--white);
   border: none;
   color: var(--red);
@@ -81,7 +83,7 @@ input{
   max-width: var(--max_width);
   margin:auto;
 }
-.moviebox{
+.moviebox {
   width:95%;
   max-width:600px;
   border: none;
@@ -90,7 +92,7 @@ input{
   background-color: var(--lightred);
   padding: 10px;
 }
-.moviebox img{
+.moviebox img {
   width:100%;
   object-fit: cover;
 }
@@ -104,13 +106,24 @@ a:hover {
   text-decoration: none;
   border-radius: 50%;
 }
+brsmall {
+  display: block;
+  margin: 7px 0;
+}
+.menu-item {
+  font-size:18px;
+  display: inline-block;
+}
+#outer {
+  width:100%;
+  text-align: center;
+}
 
+/* Slider */
 .slider-styled,
 .slider-styled .noUi-handle {
     box-shadow: none;
 }
-
-/* Hide markers on slider handles */
 .slider-styled .noUi-handle::before,
 .slider-styled .noUi-handle::after {
     display: none;
@@ -125,7 +138,6 @@ a:hover {
     width: auto;
     height: auto;
 }
-
 #slider-range {
     height: 10px;
     width: 300px;
@@ -146,26 +158,11 @@ a:hover {
     border-radius: 9px;
     border-color: var(--black);
 }
-.noUi-active{
+.noUi-active {
   background: var(--red);
 }
 
-#outer
-{
-  width:100%;
-  text-align: center;
-}
-.menu-item
-{
-  font-size:18px;
-  display: inline-block;
-}
-brsmall {
-  display: block;
-  margin: 7px 0;
-}
-
-/* Checkbox */
+/* Dropdown checkbox  */
 .dropdown-check-list {
   display: inline-block;
   text-align: left;
@@ -216,12 +213,12 @@ input[type="checkbox"] { /* change "blue" browser chrome to yellow */
   accent-color: var(--red);
 }
 
+/* Search box */
 .search {
   display: inline-block;
   margin: 0 auto;
   width: min(90%, 150px);
 }
-
 .searchTerm {
   border: 1px solid var(--lightgrey);
   border-radius: 0px;
@@ -230,11 +227,10 @@ input[type="checkbox"] { /* change "blue" browser chrome to yellow */
   line-height: 1.6;
   color: #9DBFAF;
 }
-
-.searchTerm:focus{
+.searchTerm:focus {
   color: var(--black);
 }
 
-.wrap{
+.wrap {
   display: flex;
 }
