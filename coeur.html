@@ -52,12 +52,13 @@
         ).forEach(f => {
           var review = data[f];
           var tblRow = (
-            "<tr><td><h3 style='text-align:left'>" +
+            "<tr><td>" +
               "Critique du " + day_string(string_to_date(review.date), false) + "&nbsp;: " +
               "<a href='/movie_details.html?movie=" + review.id + "'>" +
-                "<b>" + review.movie_name + "</i>, " + review.movie_directors + " (" + review.movie_year + ")" +
+                "<b><i>" + review.movie_name + "</i></b>, " +
+                  review.movie_directors + " (" + review.movie_year + ")" +
               "</a>" +
-            "</h3></td></tr>"
+            "</td></tr>"
           );
           $(tblRow).appendTo("#userdata tbody");
         })
