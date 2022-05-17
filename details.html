@@ -41,7 +41,7 @@
     console.log(id)
 
     async function get_review(db, id) {
-      const q = query(collection(db, "reviews"), where("movie_id", "==", id));
+      const q = query(collection(db, "reviews"), where("id", "==", id));
       var querySnapshot = await getDocs(q);
       var data_aux = [];
       querySnapshot.forEach((doc) => {
