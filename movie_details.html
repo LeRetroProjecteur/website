@@ -39,8 +39,8 @@
     var id = window.location.search;
     id = id.substring(7, id.length);
 
-    async function get_review(db, id){
-      const q = query(collection(db, "reviews"), where("id", "==", id));
+    async function get_review(db, id) {
+      const q = query(collection(db, "reviews"), where("movie_id", "==", id));
       var querySnapshot = await getDocs(q);
       var data_aux = [];
       querySnapshot.forEach((doc) => {
@@ -49,7 +49,17 @@
       return data_aux;
     }
 
-    async function show_review(promise_review){
+    async function get_data(db, id) {
+      const q = query(collection(db, "per_movie"), where("id", "==", id));
+      var querySnapshot = await getDocs(q);
+      var data_aux = [];
+      querySnapshot.forEach((doc) => {
+        data_aux = doc.data();
+      });
+      return data_aux;
+    }
+
+    function show_review(promise_review) {
       promise_review.then((data) => {
         document.getElementById("title").innerHTML = (
           "<b><i>" + data.movie_name + "</b></i>, " +
@@ -59,14 +69,34 @@
         document.getElementById("review_box").innerHTML = (
           "<div class='moviebox'>" +
             "<img src='data:image/png;base64," + data.image_file + "'/>" +
-            data.review +
+            data.review + "<br><br>" +
+            "<div style='text-align:right'>Critique du " + day_string(string_to_date(data.date), false) + "</div>" +
           "</div><br>"
         );
       })
     }
 
+    function show_next_sessions(db, id) {
+      promise_data.then((data) => {
+        document.getElementById("next-screenings-title").innerHTML = "Prochaines séances à Paris&nbsp;:"
+        var next_screenings = "<div class='moviebox'>"
+        const keys = Object.keys(data.screenings);
+        keys.sort(
+          (a, b) => a.localeCompare(b)
+        ).forEach(f => {
+          next_screenings += "<h3>" + day_string(string_to_date(f)) + "</h3>"
+          next_screenings += display_showtimes(data.screenings[f], "<br>") + "<br><br>";
+        })
+        next_screenings += "</div>"
+        document.getElementById("next-screenings").innerHTML = next_screenings;
+      })
+    }
+
     var promise_review = get_review(db, id);
-    show_review(promise_review)
+    show_review(promise_review);
+    var promise_data = get_data(db, id);
+    console.log(promise_data)
+    show_next_sessions(promise_data);
 
   </script>
 
@@ -74,6 +104,10 @@
     <div id="header"></div>
     <h2><span id="title"></h2>
     <span id="review_box"></span>
+
+    <h2><span id="next-screenings-title"></h2>
+    <span id="next-screenings"></span>
+
     <div id="footer"></div>
   </body>
 

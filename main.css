@@ -96,6 +96,10 @@ input {
   width:100%;
   object-fit: cover;
 }
+.screeningsbox {
+  width:95%;
+  max-width:600px;
+}
 a:hover {
   color: var(--red);
 }
