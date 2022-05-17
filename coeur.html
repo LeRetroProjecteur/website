@@ -55,8 +55,8 @@
             "<tr><td>" +
               "Critique du " + day_string(string_to_date(review.date), false) + "&nbsp;: " +
               "<a href='/movie_details.html?movie=" + review.id + "'>" +
-                "<b>" + review.movie_name + "</b>, " +
-                  review.movie_directors + " (" + review.movie_year + ")" +
+                "<b>" + review.title + "</b>, " +
+                  review.directors + " (" + review.year + ")" +
               "</a>" +
             "</td></tr>"
           );

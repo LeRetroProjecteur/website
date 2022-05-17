@@ -52,9 +52,9 @@
     async function show_review(promise_review){
       promise_review.then((data) => {
         document.getElementById("title").innerHTML = (
-          "<b><i>" + data.movie_name + "</b></i>, " +
-          data.movie_directors +
-          " (" + data.movie_year + ")"
+          "<b><i>" + data.title + "</b></i>, " +
+          data.directors +
+          " (" + data.year + ")"
         );
         document.getElementById("review_box").innerHTML = (
           "<div class='moviebox'>" +
