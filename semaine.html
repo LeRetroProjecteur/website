@@ -55,7 +55,7 @@
 
     async function get_data(db, date){
       console.log("Fetching data")
-      const q = query(collection(db, "data_per_date"), where("date", "==", date_to_string(date)));
+      const q = query(collection(db, "per_date"), where("date", "==", date_to_string(date)));
       var querySnapshot = await getDocs(q);
       var data_aux = [];
       querySnapshot.forEach((doc) => {
@@ -89,7 +89,7 @@
         tblRow = get_table_row(f, showtimes_string);
         prev_movie = f.title;
       });
-      
+
     }
 
     function create_retrospectives_string(data){
