@@ -64,7 +64,7 @@
     async function get_data(db, date){
       console.log("Fetching data")
       var todayString = date_to_string(date);
-      const q = query(collection(db, "data_per_date"), where("date", "==", todayString));
+      const q = query(collection(db, "per_date"), where("date", "==", todayString));
       var querySnapshot = await getDocs(q);
       var data_aux = [];
       querySnapshot.forEach((doc) => {
