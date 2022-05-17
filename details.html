@@ -37,7 +37,8 @@
     const db = getFirestore();
 
     var id = window.location.search;
-    id = id.substring(7, id.length);
+    id = id.substring(4, id.length);
+    console.log(id)
 
     async function get_review(db, id) {
       const q = query(collection(db, "reviews"), where("movie_id", "==", id));
