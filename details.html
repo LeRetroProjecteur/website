@@ -38,7 +38,6 @@
 
     var id = window.location.search;
     id = id.substring(4, id.length);
-    console.log(id)
 
     async function get_review(db, id) {
       const q = query(collection(db, "reviews"), where("id", "==", id));
