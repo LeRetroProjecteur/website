@@ -98,17 +98,23 @@ function display_showtimes(showtimes, sep="<br>", date=false){
 
 }
 
-function get_table_row(f, showtimes) {
-  var row = "<tr>" + "<td><b>" + f.title + "</b>, " + f.directors + " (" + f.year + ")" + "</td>" +
-    "<td>" + showtimes + "</td>" +
-    "</tr>";
+function row_text(f, showtimes) {
+  var row = (
+    "<tr>" +
+      "<td>" +
+        "<a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" +
+          "<b>" + f.title + "</b>, " + f.directors + " (" + f.year + ")" +
+        "</a>" +
+      "</td>" +
+      "<td>" +
+        showtimes +
+      "</td>" +
+    "</tr>"
+  );
   return row
 }
 
-function get_empty_table_row() {
-  var row = "<b> Aucun film ne correspond à cette recherche aujourd'hui.</b>";
-  return row
-}
+var empty_row_text = "<b>Aucun film ne correspond à cette recherche aujourd'hui.</b>";
 
 function clean_string(string){
   string = string.replaceAll('.', '');
@@ -143,7 +149,7 @@ function get_movie_info_string(f, theaters=true) {
   return movie_info_string
 }
 
-function generate_data_table(f, date, start, end, search_term){
+function generate_data_row(f, date, start, end, search_term) {
   var movie_shown = false;
   var nd = new Date();
 
@@ -176,7 +182,7 @@ function generate_data_table(f, date, start, end, search_term){
       }
     }
     if (Object.keys(showtimes).length > 0) {
-      var tblRow = get_table_row(f, display_showtimes(showtimes))
+      var tblRow = row_text(f, display_showtimes(showtimes))
       $(tblRow).appendTo("#userdata tbody");
       movie_shown = true;
     }

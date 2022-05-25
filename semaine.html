@@ -86,7 +86,7 @@
           "<b>" + days_short[f.date.getDay()] + " " + f.date.getDate() + " " + months_short[f.date.getMonth()] + "</b> " +
           display_showtimes(f.showtimes_theater, "&nbsp;; ") + "<br>"
         )
-        tblRow = get_table_row(f, showtimes_string);
+        tblRow = row_text(f, showtimes_string);
         prev_movie = f.title;
       });
 

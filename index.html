@@ -81,11 +81,11 @@
           data.sort(
             (a, b) => $(a).attr('year')-$(b).attr('year') || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name')) || $(a).attr('title').localeCompare($(b).attr('title'))
           ).forEach(f => {
-            var movie_shown = generate_data_table(f, date, start_time, end_time, search_term);
+            var movie_shown = generate_data_row(f, date, start_time, end_time, search_term);
             one_movie_shown = (one_movie_shown || movie_shown);
           });
           if (one_movie_shown==false){
-            var tblRow = get_empty_table_row();
+            var tblRow = "<tr><td colspan='100%'>" + empty_row_text + "</td></tr>";
             $(tblRow).appendTo("#userdata tbody");
           }
       })
