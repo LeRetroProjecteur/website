@@ -96,7 +96,8 @@
       promise_screenings.then((data) => {
         document.getElementById("next-screenings-title").innerHTML = "Prochaines séances à Paris&nbsp;:"
         var next_screenings = "<div class='moviebox'><br>"
-        if (data.screenings.length != 0) {
+        if (typeof(data.screenings) != "undefined"){
+          if (data.screenings.length != 0) {
           const keys = Object.keys(data.screenings);
           keys.sort(
             (a, b) => a.localeCompare(b)
@@ -106,6 +107,7 @@
               next_screenings += display_showtimes(data.screenings[f], "<br>") + "<br><br>";
             }
           })
+          }
         }
         if (next_screenings == "<div class='moviebox'><br>") {
           next_screenings += "<b>Pas de séances prévues pour le moment.<b><br><br>"
