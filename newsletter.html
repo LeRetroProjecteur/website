@@ -84,8 +84,11 @@
             "<div class='moviebox'>" +
               "<img src='data:image/png;base64," + f.image_file + "'/>" +
               "<h3 style='color:grey;'>" + f.category + "</h3>" +
-              "<h3><i>" + f.title + "</i>, " + f.directors + " (" + f.year + ")</h3>" +
-              f.review +
+              "<h3><a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" +
+                "<b>" + f.title + "</b>, " +
+                  f.directors + " (" + f.year + ")" +
+              "</a></h3>"
+              + f.review +
               "<center><b>" + f.showtime + "</b></center>" +
             "</div><br>")
           document.getElementById("cdc").innerHTML = string ;
