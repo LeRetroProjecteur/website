@@ -11,6 +11,10 @@ function pad(num, size) {
     return num;
 }
 
+function compare_numbers(a, b){
+    return a - b;
+}
+
 function string_to_date(string){
   var date = new Date(string.substring(0, 4), parseInt(string.substring(5, 7))-1, string.substring(8, 10));
   return date;
@@ -83,7 +87,6 @@ function display_showtimes(showtimes, sep="<br>", date=false){
     var theater_name = value.clean_name + " (" + value.zipcode_clean + ")";
 
     var text_row = [];
-    value.showtimes = value.showtimes.sort();
     for (var i = 0; i < value.showtimes.length; i++){
       var hour = value.showtimes[i];
       var minute = pad(parseFloat((60*(hour - Math.floor(hour))).toPrecision(3)), 2);
@@ -161,7 +164,7 @@ function generate_data_table(f, date, start, end, search_term){
     var showtimes = {};
     for (const [key, value] of Object.entries(f.showtimes_theater)){
       var hours = []
-      value.showtimes = value.showtimes.sort()
+      value.showtimes = value.showtimes.sort(compare_numbers)
       for (let m = 0; m < value.showtimes.length; m++){
         var hour = value.showtimes[m];
         if (document.getElementById(value.location_2).checked){
