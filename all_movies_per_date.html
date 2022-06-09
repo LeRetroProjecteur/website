@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+  <head>
+
+    <link rel="icon" href="img/logo_square.png" , alt="Cinéma à Paris">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" CONTENT="Venez découvrir toutes les ressorties de films dans les salles parisiennes.">
+    <meta name="robots" content="noindex,nofollow">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.js"></script>
+    <link rel="stylesheet" href="main.css">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F5QY5F8S5L"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-F5QY5F8S5L');
+    </script>
+
+    <script>
+      $(function(){
+        // $("#header").load("includes/header.html");
+        $("#footer").load("includes/footer.html");
+      });
+    </script>
+
+  </head>
+
+  <script type="module">
+
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
+    import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
+    // TO DO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore();
+
+    var selected_date = new Date();
+    var promise_data = [];
+    var search_term = "";
+    var start_time = 0;
+    var end_time = 24;
+    var slider = document.getElementById('slider-range');
+    var neighborhood_dropdown = document.getElementById('neighborhood-list');
+    var search_box = document.getElementById("search-box");
+
+    document.getElementById("date_of_today").innerHTML = day_string(selected_date);
+    promise_data = get_data(db, selected_date);
+    refresh_data();
+
+    async function get_data(db, date){
+      console.log("Fetching data")
+      var todayString = date_to_string(date);
+      const q = query(collection(db, "all_movies_per_date"), where("date", "==", todayString));
+      var querySnapshot = await getDocs(q);
+      var data_aux = [];
+      querySnapshot.forEach((doc) => {
+        data_aux = doc.data().movies;
+      });
+      return data_aux;
+    }
+
+    async function populate_movies(promise_data, date, start_time, end_time, search_term) {
+      console.log("Populating table")
+      await $('#userdata tbody').empty();
+      var one_movie_shown = false;
+      promise_data.then((data) => {
+          data.sort(
+            (a, b) => $(a).attr('year')-$(b).attr('year') || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name')) || $(a).attr('title').localeCompare($(b).attr('title'))
+          ).forEach(f => {
+            var movie_shown = generate_data_row(f, date, start_time, end_time, search_term);
+            one_movie_shown = (one_movie_shown || movie_shown);
+          });
+          if (one_movie_shown==false){
+            var tblRow = "<tr><td colspan='100%'>" + empty_row_text + "</td></tr>";
+            $(tblRow).appendTo("#userdata tbody");
+          }
+      })
+    }
+
+    function refresh_data() {
+      populate_movies(promise_data, selected_date, start_time, end_time, search_term);
+    }
+
+    // Slider
+    noUiSlider.create(slider, {
+      start: [0, 24],
+      connect: true,
+      step: 1,
+      margin: 1,
+      range: {'min': 0, 'max': 24}
+    });
+    slider.noUiSlider.on('update', function() {
+      start_time = Math.round(document.getElementsByClassName("noUi-handle-lower")[0].getAttribute("aria-valuenow"));
+      end_time = Math.round(document.getElementsByClassName("noUi-handle-upper")[0].getAttribute("aria-valuenow"));
+      document.getElementById('slider-range-value').innerHTML = (
+        "Séances entre <b style='color:var(--red); font-weight:bold;'>" +
+        start_time + "h et " + end_time + "h </b>"
+      );
+    });
+    slider.noUiSlider.on('change', function() {
+      refresh_data();
+    });
+
+    // Dropdown menu
+    neighborhood_dropdown.getElementsByClassName('anchor')[0].onclick = function(evt) {
+      if (neighborhood_dropdown.classList.contains('visible')) {
+        neighborhood_dropdown.classList.remove('visible');
+      }
+      else {
+        neighborhood_dropdown.classList.add('visible');
+      }
+    }
+    $('*').click(function(evt){
+      if (!$(evt.target).hasClass('anchor') & !$(evt.target).hasClass('checkbox') & !$(evt.target).hasClass('items')) {
+        neighborhood_dropdown.classList.remove('visible');
+      }
+    });
+    $(':checkbox').click(function(){
+      refresh_data();
+    });
+
+    // Search function
+    search_box.addEventListener('keyup', (e) => {
+      search_term = search_box.value;
+      refresh_data();
+    });
+    // Declare the events when you touch the keyboard
+    $('*').click(function(evt){
+      if (!$(evt.target).hasClass('anchor') & !$(evt.target).hasClass('checkbox') & !$(evt.target).hasClass('items')) {
+        neighborhood_dropdown.classList.remove('visible');
+      }
+    });
+
+    function move_date_forward() {
+      slider.noUiSlider.set([0, 24]);
+      selected_date.setDate(selected_date.getDate()+1);
+      document.getElementById("date_of_today").innerHTML = day_string(selected_date);
+      document.getElementById("move_date_backward").style.color = "var(--red)";
+      promise_data = get_data(db, selected_date);
+      refresh_data();
+    }
+
+    function move_date_backward() {
+      slider.noUiSlider.set([0, 24]);
+      var nd = new Date();
+      if (!datesAreOnSameDay(nd, selected_date)){
+        selected_date.setDate(selected_date.getDate()-1);
+        document.getElementById("date_of_today").innerHTML = day_string(selected_date);
+        if (datesAreOnSameDay(nd, selected_date)) {
+          document.getElementById("move_date_backward").style.color = "var(--lightgrey)";
+        } else {
+          document.getElementById("move_date_backward").style.color = "var(--red)";
+        }
+        promise_data = get_data(db, selected_date);
+        refresh_data();
+      }
+    }
+
+    var moveForwardButton = document.querySelector('#move_date_forward');
+    moveForwardButton.onclick = function() {
+      move_date_forward()
+    };
+
+    var moveBackwardButton = document.querySelector('#move_date_backward');
+    moveBackwardButton.onclick = function() {
+      move_date_backward()
+    };
+
+  </script>
+
+  <body class="light-theme">
+    <div id="header"></div>
+    <h3>
+      <input type="button" id="move_date_backward" class="button" value= "◀&#xFE0E;" style="color: var(--lightgrey);">
+      <b><span id="date_of_today" class="center"></span></b>
+      <input type="button" id="move_date_forward" class="button" value= "▶&#xFE0E;" style="color: var(--red);">
+    </h3>
+    <brsmall>
+    <center>
+
+      <div id="slider-range-value"></div>
+      <div class="slider-styled" id="slider-range"></div>
+      <brsmall>
+      <brsmall>
+
+      <div id="wrap">
+        <div id="neighborhood-list" class="dropdown-check-list" tabindex="100">
+          <span class="anchor">Quartiers</span>
+          <ul class="items">
+            <label class="checkbox"><input class="checkbox" type="checkbox" id="rg" checked> Rive Gauche</label><br/>
+            <label class="checkbox"><input class="checkbox" type="checkbox" id="rd" checked> Rive Droite</label><br/>
+            <label class="checkbox"><input class="checkbox" type="checkbox" id="em" checked> Extramuros</label><br/>
+          </ul>
+        </div>
+        <div class="search">
+          <input type="text" class="searchTerm" id="search-box" placeholder="Film, pays, etc...">
+        </div>
+      </div>
+
+    </center>
+    <brsmall>
+
+    <div class="wrapper">
+    <div class="profile">
+      <table id= "userdata" border="2" class="center">
+      <thead>
+        <th style="width:50%;background-color:var(--red);color:var(--white);"><strong>Film</strong></th>
+        <th style="width:50%;background-color:var(--red);color:var(--white);"><strong>Séances</strong></th>
+      </thead>
+      <tbody>
+      </tbody>
+      </table>
+    </div>
+    </div>
+
+    <div id="footer"></div>
+  </body>
+</html>
