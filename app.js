@@ -83,7 +83,7 @@ function display_showtimes(showtimes, sep="<br>", date=false){
 
   var showtime_list = [];
   for (const [key, value] of Object.entries(showtimes)){
-
+    value.showtimes = value.showtimes.sort(compare_numbers)
     var theater_name = value.clean_name + " (" + value.zipcode_clean + ")";
 
     var text_row = [];
