@@ -49,7 +49,7 @@
 
     async function get_data(db, date, data) {
       var date = date_to_string(date);
-      const q = query(collection(db, "data_per_date"), where("date", "==", date));
+      const q = query(collection(db, "per_date"), where("date", "==", date));
       var querySnapshot = await getDocs(q);
       var data_aux = [];
       querySnapshot.forEach((doc) => {
