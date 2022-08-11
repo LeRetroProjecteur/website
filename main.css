@@ -122,6 +122,10 @@ brsmall {
   width:100%;
   text-align: center;
 }
+.secret-link a {
+    color: var(--black);
+    text-decoration: none;
+}
 
 /* Slider */
 .slider-styled,
