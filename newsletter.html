@@ -51,73 +51,56 @@
       // Initialize Firebase
       const app = initializeApp(firebaseConfig);
       const db = getFirestore();
-      var promise_dates = get_list_dates(db);
-      show_newsletter(promise_dates);
 
-      function show_newsletter(promise_dates){
-        promise_dates.then((data) =>
-        {
-          var last_date = data[Object.keys(data)[Object.keys(data).length - 1]];
-          document.getElementById("current_week").innerHTML = week_string(get_current_week(string_to_date(last_date))[0]);
-          populate_review(db, last_date);
-        })
-      }
-
-      async function get_list_dates(db) {
-        const am = doc(db, "reviews", "all_dates");
+      async function get_newsletter_dates_list(db) {
+        const am = doc(db, "newsletters", "all_dates");
         var querySnapshot = await getDoc(am);
         return querySnapshot.data();
       };
-
-      async function populate_review(db, date) {
-        const q = query(collection(db, "reviews"), where("date", "==", date));
+      function show_newsletter(db, promise_dates){
+        promise_dates.then((data) => {
+          var date = data[Object.keys(data)[Object.keys(data).length - 1]];
+          document.getElementById("week").innerHTML = newsletter_week(date);
+          show_newsletter_content(db, date);
+        })
+      };
+      async function show_newsletter_content(db, date) {
+        const q = query(collection(db, "newsletters"), where("date", "==", date));
         var querySnapshot = await getDocs(q);
-        var data = [];
+        var cinema_weeks = "";
+        var intro = "";
         querySnapshot.forEach((doc) => {
-          data.push(doc.data());
+          var f = doc.data()
+          intro = format_intro(f)
+          cinema_weeks = cinema_weeks.concat(format_cinema_week(f))
+          show_review(db, f.cdc, 'cdc', f.cdc_showtimes)
+          show_review(db, f.curio, 'curio', f.curio_showtimes)
         });
-
-        var i=0;
-        var string = "";
-        data.sort((a, b) => $(b).attr('time') - $(a).attr('time')).forEach(f => {
-          string = string.concat(
-            "<div class='moviebox'>" +
-              "<img src='data:image/png;base64," + f.image_file + "'/>" +
-              "<h3 style='color:grey;'>" + f.category + "</h3>" +
-              "<h3><a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" +
-                "<b>" + f.title + "</b>, " +
-                  f.directors + " (" + f.year + ")" +
-              "</a></h3>"
-              + f.review +
-              "<center><b>" + f.showtime + "</b></center>" +
-            "</div><br>")
-          document.getElementById("cdc").innerHTML = string ;
-        });
-
-        const q2 = query(collection(db, "weeks"), where("date", "==", date));
-        var querySnapshot = await getDocs(q2);
-        var data = [];
+        document.getElementById("intro").innerHTML = intro;
+        document.getElementById("cinema-weeks").innerHTML = cinema_weeks;
+      };
+      async function show_review(db, id, type, showtimes){
+        const q = query(collection(db, "reviews"), where("id", "==", id))
+        var querySnapshot = await getDocs(q);
+        var review = "";
         querySnapshot.forEach((doc) => {
-          data.push(doc.data());
+          var f = doc.data();
+          review = format_review(f, showtimes);
         });
-
-        var string = "";
-        data.sort((a, b) => $(a).attr('date') - $(b).attr('date')).forEach(f => {
-          string = string.concat(
-                "<div class='moviebox'>" + "<h3 style='color:grey;'>" + f.name + "</h3><br>" +
-                  f.week + "</div><br>"
-              )
-          document.getElementById("week").innerHTML = string;
-        });
-
+        document.getElementById(type).innerHTML = review;
       }
+
+      var promise_dates = get_newsletter_dates_list(db);
+      show_newsletter(db, promise_dates);
 
     </script>
 
-    <h3><span id="current_week"></span></h3>
+    <h3><span id="week"></span></h3>
     <br>
+    <span id="intro"></span>
     <span id="cdc"></span>
-    <span id="week"></span>
+    <span id="curio"></span>
+    <span id="cinema-weeks"></span>
     <div id="footer"></div>
 
   </body>

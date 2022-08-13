@@ -1,5 +1,14 @@
 'use strict'
 
+var firebaseConfig = {
+  apiKey: "AIzaSyCjvHHSqWGZhh2pcoHF_8ZeKqxT0wRvXuc",
+  authDomain: "website-cine.firebaseapp.com",
+  projectId: "website-cine",
+  storageBucket: "website-cine.appspot.com",
+  messagingSenderId: "1060388636946",
+  appId: "1:1060388636946:web:ea3752ae94d0ab56e68bcb"
+};
+
 var days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
 var days_short = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
 var months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
@@ -193,12 +202,25 @@ function generate_data_row(f, date, start, end, search_term) {
   return movie_shown
 }
 
-// Your web app's Firebase configuration
-var firebaseConfig = {
-  apiKey: "AIzaSyCjvHHSqWGZhh2pcoHF_8ZeKqxT0wRvXuc",
-  authDomain: "website-cine.firebaseapp.com",
-  projectId: "website-cine",
-  storageBucket: "website-cine.appspot.com",
-  messagingSenderId: "1060388636946",
-  appId: "1:1060388636946:web:ea3752ae94d0ab56e68bcb"
+function format_cinema_week(f) {
+  return "<div class='moviebox'>" + "<h3 style='color:grey;'>" + f.week_1_name + "</h3><br>" + f.week_1_text + "</div><br>"
+}
+function format_intro(f) {
+  return "<div class='moviebox'>" + f.intro + "</div><br>"
+}
+function newsletter_week(date) {
+  return week_string(get_current_week(string_to_date(date))[0])
 };
+function format_review(f, showtimes=null) {
+  var string = (
+    "<div class='moviebox'><img src='data:image/png;base64," + f.image_file + "'/>" +
+    "<h3 style='color:grey;'>" + f.category + "</h3>" +
+    "<h3><a href='/details.html?id=" + f.id + "' style='text-decoration:none'><b>" + f.title + "</b>, " + f.directors + " (" + f.year + ")</a></h3>" +
+    f.review
+  )
+  if (showtimes !== null) {
+    string = string + "<center><b>" + showtimes + "</b></center>"
+  }
+  string = string + "</div><br>"
+  return string
+}
