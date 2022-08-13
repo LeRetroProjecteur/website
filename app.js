@@ -202,3 +202,46 @@ var firebaseConfig = {
   messagingSenderId: "1060388636946",
   appId: "1:1060388636946:web:ea3752ae94d0ab56e68bcb"
 };
+
+
+
+// Close the dropdown if the user clicks outside of it
+window.onclick = function(event) {
+  if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+function moviesearch() {
+  if (document.getElementById("myDropdown").classList.contains('show')==false) {
+    document.getElementById("myDropdown").classList.toggle("show");
+  }
+
+  var a, i, txtValue;
+  var filter = document.getElementById("moviesearch").value.toUpperCase();
+  console.log(filter)
+  var list = document.getElementById("myDropdown").getElementsByTagName("a");
+  var count = 0;
+  for (i = 0; i < list.length; i++) {
+    if (filter=="") {
+      list[i].style.display = "none";
+    }
+    else{
+      a = list[i];
+      console.log(a)
+      txtValue = a.textContent || a.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1 && count < 5) {
+        list[i].style.display = "";
+        count += 1
+      } else {
+        list[i].style.display = "none";
+      }
+    }
+  }
+}
