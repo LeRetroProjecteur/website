@@ -207,40 +207,36 @@ var firebaseConfig = {
 
 // Close the dropdown if the user clicks outside of it
 window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
-    var dropdowns = document.getElementsByClassName("dropdown-content");
-    var i;
-    for (i = 0; i < dropdowns.length; i++) {
-      var openDropdown = dropdowns[i];
-      if (openDropdown.classList.contains('show')) {
-        openDropdown.classList.remove('show');
+  if (!event.target.matches('.moviesearch')) {
+    var search_dropdown = document.getElementsByClassName("dropdown-content");
+    console.log(search_dropdown)
+    for (const elem of search_dropdown) {
+      if (elem.classList.contains('show')) {
+        elem.classList.remove('show');
       }
     }
+    document.getElementById("moviesearch").value = ""
   }
 }
 function moviesearch() {
   if (document.getElementById("myDropdown").classList.contains('show')==false) {
     document.getElementById("myDropdown").classList.toggle("show");
   }
-
-  var a, i, txtValue;
   var filter = document.getElementById("moviesearch").value.toUpperCase();
-  console.log(filter)
   var list = document.getElementById("myDropdown").getElementsByTagName("a");
   var count = 0;
-  for (i = 0; i < list.length; i++) {
+  for (const elem of list) {
     if (filter=="") {
-      list[i].style.display = "none";
+      elem.style.display = "none";
     }
     else{
-      a = list[i];
-      console.log(a)
-      txtValue = a.textContent || a.innerText;
+      // a = list[i];
+      var txtValue = elem.textContent || elem.innerText;
       if (txtValue.toUpperCase().indexOf(filter) > -1 && count < 5) {
-        list[i].style.display = "";
+        elem.style.display = "";
         count += 1
       } else {
-        list[i].style.display = "none";
+        elem.style.display = "none";
       }
     }
   }
