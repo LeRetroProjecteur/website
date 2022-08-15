@@ -1,3 +1,27 @@
+<script type="module">
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
+  import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore();
+
+  async function get_search_options() {
+    const q = query(collection(db, "per_movie"))
+    var querySnapshot = await getDocs(q);
+    var data = [];
+    querySnapshot.forEach((doc) => {
+      data.push(doc.data());
+    });
+    var string = ""
+    data.forEach(f => {
+      string = string.concat("<a href='/details.html?id=" + f.id + "'>" + f.title + ", "+ f.directors + " (" + f.year + ")" + "</a>")
+    })
+    document.getElementById("search_options").innerHTML = string;
+  }
+  get_search_options()
+
+</script>
+
 <center>
   <!-- Pour nos recommandations cinéma toutes les semaines, -->
   <a href="https://list-manage.us6.list-manage.com/subscribe?u=00a9245e71d3375ef4542a588&id=3270cdb251"
@@ -9,22 +33,7 @@
 <div class="dropdown">
   <input type="text" id="moviesearch" class="moviesearch" onkeyup="moviesearch()" placeholder="Recherchez un film..." >
   <div id="myDropdown" class="dropdown-content">
-    <a href='#'>L'Homme qui aimait les femmes, François Truffaut (1977)</a>
-    <a href='#'>L'une chante, l'autre pas, Agnès Varda (1977)</a>
-    <a href='#'>Voyage au bout de l'enfer, Michael Cimino (1978)</a>
-    <a href='#'>Piranhas, Joe Dante (1978)</a>
-    <a href='#'>La Chambre verte, François Truffaut (1978)</a>
-    <a href='#'>Le Mariage de Maria Braun, Rainer Werner Fassbinder (1979)</a>
-    <a href='#'>Pulsions, Brian De Palma (1980)</a>
-    <a href='#'>La Terrasse, Ettore Scola (1980)</a>
-    <a href='#'>Simone Barbès ou la Vertu, Marie-Claude Treilhou (1980)</a>
-    <a href='#'>Hurlements, Joe Dante (1981)</a>
-    <a href='#'>Poltergeist, Tobe Hooper (1982)</a>
-    <a href='#'>Variety, Bette Gordon (1983)</a>
-    <a href='#'>Dangereusement vôtre, John Glen (1985)</a>
-    <a href='#'>Nos années sauvages, Wong Kar-Wai (1990)</a>
-    <a href='#'>Qiu Ju, une femme chinoise, Yimou Zhang (1992)</a>
-    <a href='#'>Un jour sans fin, Harold Ramis (1993)</a>
+    <span id="search_options"></span>
   </div>
 </div>
 </center>

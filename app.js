@@ -209,7 +209,6 @@ var firebaseConfig = {
 window.onclick = function(event) {
   if (!event.target.matches('.moviesearch')) {
     var search_dropdown = document.getElementsByClassName("dropdown-content");
-    console.log(search_dropdown)
     for (const elem of search_dropdown) {
       if (elem.classList.contains('show')) {
         elem.classList.remove('show');

@@ -254,22 +254,25 @@ input[type="checkbox"] { /* change "blue" browser chrome to yellow */
   position: relative;
   display: inline-block;
   margin: 0 auto;
-  width: min(90%, 500px);
+  width: min(90%, 400px);
 }
 .dropdown-content {
   display: none;
   position: absolute;
   background-color: #f1f1f1;
-  min-width: min(90%, 160px);
+  width:100%;
+  /* min-width: min(90%, 160px); */
   overflow: auto;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
 }
 .dropdown-content a {
   color: black;
-  padding: 12px 16px;
+  padding: 4px 6px;
   text-decoration: none;
   display: block;
+  text-align: left;
+  position:relative;
 }
 .dropdown a:hover {
   background-color: var(--red);
