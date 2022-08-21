@@ -203,7 +203,11 @@ function generate_data_row(f, date, start, end, search_term) {
 }
 
 function format_cinema_week(f) {
-  return "<div class='moviebox'>" + "<h3 style='color:grey;'>" + f.week_name_1 + "</h3><br>" + f.week_text_1 + "</div><br>"
+  var string = "<div class='moviebox'>" + "<h3 style='color:grey;'>" + f.week_name_1 + "</h3><br>" + f.week_text_1 + "</div><br>"
+  if (f.week_name_2 != null ) {
+    string += "<div class='moviebox'>" + "<h3 style='color:grey;'>" + f.week_name_2 + "</h3><br>" + f.week_text_2 + "</div><br>"
+  }
+  return string
 }
 function format_intro(f) {
   return "<div class='moviebox'>" + f.intro + "</div><br>"
