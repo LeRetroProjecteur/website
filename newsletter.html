@@ -73,8 +73,8 @@
           var f = doc.data()
           intro = format_intro(f)
           cinema_weeks = cinema_weeks.concat(format_cinema_week(f))
-          show_review(db, f.cdc, 'cdc', f.cdc_showtimes)
-          show_review(db, f.curio, 'curio', f.curio_showtimes)
+          show_review(db, f.cdc_id, 'cdc', f.cdc_showtimes)
+          show_review(db, f.curio_id, 'curio', f.curio_showtimes)
         });
         document.getElementById("intro").innerHTML = intro;
         document.getElementById("cinema-weeks").innerHTML = cinema_weeks;
@@ -85,6 +85,7 @@
         var review = "";
         querySnapshot.forEach((doc) => {
           var f = doc.data();
+          console.log(f);
           review = format_review(f, showtimes);
         });
         document.getElementById(type).innerHTML = review;
