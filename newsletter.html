@@ -33,18 +33,10 @@
       });
     </script>
 
-  </head>
-
-  <body class="light-theme">
-
-    <div id="header"></div>
-
-    <h2>Que voir à Paris cette semaine&nbsp;?</h2>
-
     <script type="module">
       // Import the functions you need from the SDKs you need
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
-      import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
+      import { getFirestore, collection, doc, getDoc, getDocs, query, where, orderBy, limit } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
       // TO DO: Add SDKs for Firebase products that you want to use
       // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -52,25 +44,16 @@
       const app = initializeApp(firebaseConfig);
       const db = getFirestore();
 
-      async function get_newsletter_dates_list(db) {
-        const am = doc(db, "newsletters", "all_dates");
-        var querySnapshot = await getDoc(am);
-        return querySnapshot.data();
-      };
-      function show_newsletter(db, promise_dates){
-        promise_dates.then((data) => {
-          var date = data[Object.keys(data)[Object.keys(data).length - 1]];
-          document.getElementById("week").innerHTML = newsletter_week(date);
-          show_newsletter_content(db, date);
-        })
-      };
-      async function show_newsletter_content(db, date) {
-        const q = query(collection(db, "newsletters"), where("date", "==", date));
+      async function show_newsletter(db) {
+        const q = query(collection(db, "newsletters"),
+          orderBy("date", "desc"),
+          limit(1));
         var querySnapshot = await getDocs(q);
         var cinema_weeks = "";
         var intro = "";
         querySnapshot.forEach((doc) => {
           var f = doc.data()
+          document.getElementById("week").innerHTML = newsletter_week(f.date);
           intro = format_intro(f)
           cinema_weeks = cinema_weeks.concat(format_cinema_week(f))
           show_review(db, f.cdc_id, 'cdc', f.cdc_showtimes)
@@ -85,17 +68,20 @@
         var review = "";
         querySnapshot.forEach((doc) => {
           var f = doc.data();
-          console.log(f);
           review = format_review(f, showtimes);
         });
         document.getElementById(type).innerHTML = review;
       }
 
-      var promise_dates = get_newsletter_dates_list(db);
-      show_newsletter(db, promise_dates);
+      show_newsletter(db);
 
     </script>
 
+  </head>
+
+  <body class="light-theme">
+    <div id="header"></div>
+    <h2>Que voir à Paris cette semaine&nbsp;?</h2>
     <h3><span id="week"></span></h3>
     <br>
     <span id="intro"></span>
