@@ -34,105 +34,90 @@
       });
     </script>
 
-  </head>
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
+      import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
-    import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore();
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore();
+      var id = window.location.search;
+      id = id.substring(4, id.length);
 
-    var id = window.location.search;
-    id = id.substring(4, id.length);
+      async function get_review(db, id) {
+        const q = query(collection(db, "reviews"), where("id", "==", id));
+        var querySnapshot = await getDocs(q);
+        var data_aux = [];
+        querySnapshot.forEach((doc) => {
+          data_aux = doc.data();
+        });
+        return data_aux;
+      }
+      async function get_screenings(db, id) {
+        const q = query(collection(db, "per_movie"), where("id", "==", id));
+        var querySnapshot = await getDocs(q);
+        var data_aux = [];
+        querySnapshot.forEach((doc) => {
+          data_aux = doc.data();
+        });
+        return data_aux;
+      }
 
-    async function get_review(db, id) {
-      const q = query(collection(db, "reviews"), where("id", "==", id));
-      var querySnapshot = await getDocs(q);
-      var data_aux = [];
-      querySnapshot.forEach((doc) => {
-        data_aux = doc.data();
-      });
-      return data_aux;
-    }
-
-    async function get_screenings(db, id) {
-      const q = query(collection(db, "per_movie"), where("id", "==", id));
-      var querySnapshot = await getDocs(q);
-      var data_aux = [];
-      querySnapshot.forEach((doc) => {
-        data_aux = doc.data();
-      });
-      return data_aux;
-    }
-
-    function show_title(promise_screenings) {
-      promise_screenings.then((data) => {
-        document.getElementById("title").innerHTML = (
-          "<b><i>" + data.title + "</b></i>, " +
-          data.directors +
-          " (" + data.year + ")"
-        );
-      })
-    }
-
-    function show_review(promise_review) {
-      promise_review.then((data) => {
-        if (data.length != 0) {
-          document.getElementById("review_box").innerHTML = (
-            "<div class='moviebox'>" +
-              "<img src='data:image/png;base64," + data.image_file + "'/>" +
-              data.review + "<br><br>" +
-              "<div style='text-align:right'>Critique du " + day_string(string_to_date(data.date), false) + "</div>" +
-            "</div><br>"
-          );
-        }
-      })
-    }
-
-    function show_next_sessions(promise_screenings) {
-
-      var today = new Date();
-      promise_screenings.then((data) => {
-        document.getElementById("next-screenings-title").innerHTML = "Prochaines séances à Paris&nbsp;:"
-        var next_screenings = "<div class='moviebox'><br>"
-        if (typeof(data.screenings) != "undefined"){
-          if (data.screenings.length != 0) {
-          const keys = Object.keys(data.screenings);
-          keys.sort(
-            (a, b) => a.localeCompare(b)
-          ).forEach(f => {
-            if (date_to_string(today) <= f) {
-              next_screenings += "<h3>" + day_string(string_to_date(f)) + "</h3>"
-              next_screenings += display_showtimes(data.screenings[f], "<br>") + "<br><br>";
-            }
-          })
+      function show_title(promise_screenings) {
+        promise_screenings.then((data) => {
+          document.getElementById("title").innerHTML = format_movie_title(data, true);
+        })
+      }
+      function show_review(promise_review) {
+        promise_review.then((data) => {
+          if (data.length != 0) {
+            document.getElementById("review_box").innerHTML = format_review(data, false, null);
           }
-        }
-        if (next_screenings == "<div class='moviebox'><br>") {
-          next_screenings += "<b>Pas de séances prévues pour le moment.<b><br><br>"
-        }
-        next_screenings += "</div>"
-        document.getElementById("next-screenings").innerHTML = next_screenings;
-      })
-    }
+        })
+      }
 
-    var promise_screenings = get_screenings(db, id);
-    var promise_review = get_review(db, id);
-    show_title(promise_screenings);
-    show_review(promise_review);
-    show_next_sessions(promise_screenings);
+      function show_next_sessions(promise_screenings) {
+        var today = new Date();
+        promise_screenings.then((data) => {
+          document.getElementById("next-screenings-title").innerHTML = "Prochaines séances à Paris&nbsp;:"
+          var next_screenings = "<div class='moviebox'><br>"
+          if (typeof(data.screenings) != "undefined"){
+            if (data.screenings.length != 0) {
+            const keys = Object.keys(data.screenings);
+            keys.sort(
+              (a, b) => a.localeCompare(b)
+            ).forEach(f => {
+              if (date_to_string(today) <= f) {
+                next_screenings += "<h3>" + day_string(string_to_date(f)) + "</h3>"
+                next_screenings += display_showtimes(data.screenings[f], "<br>") + "<br><br>";
+              }
+            })
+            }
+          }
+          if (next_screenings == "<div class='moviebox'><br>") {
+            next_screenings += "<b>Pas de séances prévues pour le moment.<b><br><br>"
+          }
+          next_screenings += "</div>"
+          document.getElementById("next-screenings").innerHTML = next_screenings;
+        })
+      }
 
-  </script>
+      var promise_screenings = get_screenings(db, id);
+      var promise_review = get_review(db, id);
+      show_title(promise_screenings);
+      show_review(promise_review);
+      show_next_sessions(promise_screenings);
+
+    </script>
+
+  </head>
 
   <body class="light-theme">
     <div id="header"></div>
     <h2><span id="title"></h2>
     <span id="review_box"></span>
-
     <h2><span id="next-screenings-title"></h2>
     <span id="next-screenings"></span>
-
     <div id="footer"></div>
   </body>
 

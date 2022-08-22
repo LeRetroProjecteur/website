@@ -68,7 +68,7 @@
         var review = "";
         querySnapshot.forEach((doc) => {
           var f = doc.data();
-          review = format_review(f, showtimes);
+          review = format_review(f, true, showtimes);
         });
         document.getElementById(type).innerHTML = review;
       }

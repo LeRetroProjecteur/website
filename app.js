@@ -107,20 +107,24 @@ function display_showtimes(showtimes, sep="<br>", date=false){
   var showtime_string = showtime_list.join(sep);
 
   return showtime_string;
+}
 
+function format_movie_title(f, italic=false) {
+  if (italic){
+    var sym = 'i';
+  } else {
+    var sym = 'b';
+  }
+  return "<" + sym + ">" + f.title + "</" + sym + ">, " + f.directors + " (" + f.year + ")"
 }
 
 function row_text(f, showtimes) {
   var row = (
     "<tr>" +
       "<td>" +
-        "<a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" +
-          "<b>" + f.title + "</b>, " + f.directors + " (" + f.year + ")" +
-        "</a>" +
+        "<a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" + format_movie_title(f) + "</a>" +
       "</td>" +
-      "<td>" +
-        showtimes +
-      "</td>" +
+      "<td>" + showtimes + "</td>" +
     "</tr>"
   );
   return row
@@ -215,15 +219,19 @@ function format_intro(f) {
 function newsletter_week(date) {
   return week_string(get_current_week(string_to_date(date))[0])
 };
-function format_review(f, showtimes=null) {
+function format_review(f, title=true, showtimes=null) {
   var string = (
     "<div class='moviebox'><img src='data:image/png;base64," + f.image_file + "'/>" +
-    "<h3 style='color:grey;'>" + f.category + "</h3>" +
-    "<h3><a href='/details.html?id=" + f.id + "' style='text-decoration:none'><b>" + f.title + "</b>, " + f.directors + " (" + f.year + ")</a></h3>" +
-    f.review
+    "<h3 style='color:grey;'>" + f.category + "</h3>"
   )
+  if (title){
+    string += "<h3><a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" + format_movie_title(f, true) + "</a></h3>"
+  }
+  string += f.review + "<p></p>"
   if (showtimes !== null) {
-    string = string + "<center><b>" + showtimes + "</b></center>"
+    string += "<center><b>" + showtimes + "</b></center>"
+  } else {
+    string += "<div style='text-align:right'>Critique du " + day_string(string_to_date(f.date), false) + "</div>"
   }
   string = string + "</div><br>"
   return string
