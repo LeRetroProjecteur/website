@@ -38,7 +38,7 @@
     const db = getFirestore();
 
     async function get_list_reviews(db) {
-      const q = doc(db, "reviews", "all_coup_de_coeur");
+      const q = doc(db, "website_offline", "all_cdc");
       var querySnapshot = await getDoc(q);
       return querySnapshot.data();
     };
