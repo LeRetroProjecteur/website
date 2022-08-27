@@ -63,22 +63,19 @@
         return data_aux;
       }
 
-      function show_title(promise_screenings) {
-        promise_screenings.then((data) => {
-          document.getElementById("title").innerHTML = format_movie_title(data, true);
-        })
-      }
       function show_review(promise_review) {
         promise_review.then((data) => {
           if (data.length != 0) {
-            document.getElementById("review_box").innerHTML = format_review(data, false, null);
+            document.getElementById("review_box").innerHTML = "<br>" + format_review(data, false, null) + "<br>";
           }
         })
       }
 
-      function show_next_sessions(promise_screenings) {
+      function show_info_and_screenings(promise_screenings) {
         var today = new Date();
         promise_screenings.then((data) => {
+          document.getElementById("title").innerHTML = format_movie_title(data, true);
+          document.getElementById("duration").innerHTML = "Durée&nbsp;: " + convert_duration(data.duration)
           document.getElementById("next-screenings-title").innerHTML = "Prochaines séances à Paris&nbsp;:"
           var next_screenings = "<div class='moviebox'><br>"
           if (typeof(data.screenings) != "undefined"){
@@ -104,9 +101,8 @@
 
       var promise_screenings = get_screenings(db, id);
       var promise_review = get_review(db, id);
-      show_title(promise_screenings);
+      show_info_and_screenings(promise_screenings);
       show_review(promise_review);
-      show_next_sessions(promise_screenings);
 
     </script>
 
@@ -115,6 +111,9 @@
   <body class="light-theme">
     <div id="header"></div>
     <h2><span id="title"></h2>
+    <center>
+        <span id="duration"></span>
+    </center>
     <span id="review_box"></span>
     <h2><span id="next-screenings-title"></h2>
     <span id="next-screenings"></span>
