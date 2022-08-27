@@ -1,5 +1,14 @@
 'use strict'
 
+var firebaseConfig = {
+  apiKey: "AIzaSyCjvHHSqWGZhh2pcoHF_8ZeKqxT0wRvXuc",
+  authDomain: "website-cine.firebaseapp.com",
+  projectId: "website-cine",
+  storageBucket: "website-cine.appspot.com",
+  messagingSenderId: "1060388636946",
+  appId: "1:1060388636946:web:ea3752ae94d0ab56e68bcb"
+};
+
 var days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
 var days_short = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
 var months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
@@ -98,20 +107,24 @@ function display_showtimes(showtimes, sep="<br>", date=false){
   var showtime_string = showtime_list.join(sep);
 
   return showtime_string;
+}
 
+function format_movie_title(f, italic=false) {
+  if (italic){
+    var sym = 'i';
+  } else {
+    var sym = 'b';
+  }
+  return "<" + sym + ">" + f.title + "</" + sym + ">, " + f.directors + " (" + f.year + ")"
 }
 
 function row_text(f, showtimes) {
   var row = (
     "<tr>" +
       "<td>" +
-        "<a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" +
-          "<b>" + f.title + "</b>, " + f.directors + " (" + f.year + ")" +
-        "</a>" +
+        "<a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" + format_movie_title(f) + "</a>" +
       "</td>" +
-      "<td>" +
-        showtimes +
-      "</td>" +
+      "<td>" + showtimes + "</td>" +
     "</tr>"
   );
   return row
@@ -193,17 +206,36 @@ function generate_data_row(f, date, start, end, search_term) {
   return movie_shown
 }
 
-// Your web app's Firebase configuration
-var firebaseConfig = {
-  apiKey: "AIzaSyCjvHHSqWGZhh2pcoHF_8ZeKqxT0wRvXuc",
-  authDomain: "website-cine.firebaseapp.com",
-  projectId: "website-cine",
-  storageBucket: "website-cine.appspot.com",
-  messagingSenderId: "1060388636946",
-  appId: "1:1060388636946:web:ea3752ae94d0ab56e68bcb"
+function format_cinema_week(f) {
+  var string = "<div class='moviebox'>" + "<h3 style='color:grey;'>" + f.week_name_1 + "</h3><br>" + f.week_text_1 + "</div><br>"
+  if (f.week_name_2 != null ) {
+    string += "<div class='moviebox'>" + "<h3 style='color:grey;'>" + f.week_name_2 + "</h3><br>" + f.week_text_2 + "</div><br>"
+  }
+  return string
+}
+function format_intro(f) {
+  return "<div class='moviebox'>" + f.intro + "</div><br>"
+}
+function newsletter_week(date) {
+  return week_string(get_current_week(string_to_date(date))[0])
 };
-
-
+function format_review(f, title=true, showtimes=null) {
+  var string = (
+    "<div class='moviebox'><img src='data:image/png;base64," + f.image_file + "'/>" +
+    "<h3 style='color:grey;'>" + f.category + "</h3>"
+  )
+  if (title){
+    string += "<h3><a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" + format_movie_title(f, true) + "</a></h3>"
+  }
+  string += f.review + "<p></p>"
+  if (showtimes !== null) {
+    string += "<center><b>" + showtimes + "</b></center>"
+  } else {
+    string += "<div style='text-align:right'>Critique du " + day_string(string_to_date(f.date), false) + "</div>"
+  }
+  string = string + "</div><br>"
+  return string
+}
 
 // Close the dropdown if the user clicks outside of it
 window.onclick = function(event) {
