@@ -15,13 +15,18 @@ var months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 
 var months_short = ['jan', 'fév', 'mars', 'avr', 'mai', 'juin', 'juil', 'août', 'sept', 'oct', 'nov', 'déc'];
 
 function pad(num, size) {
-    num = num.toString();
-    while (num.length < size) num = "0" + num;
-    return num;
+  num = num.toString();
+  while (num.length < size) num = "0" + num;
+  return num;
 }
 
 function compare_numbers(a, b){
-    return a - b;
+  return a - b;
+}
+
+function convert_duration(duration) {
+  var mins = Math.floor(duration/60)
+  return mins.toString() + " minutes"
 }
 
 function string_to_date(string){
@@ -233,6 +238,6 @@ function format_review(f, title=true, showtimes=null) {
   } else {
     string += "<div style='text-align:right'>Critique du " + day_string(string_to_date(f.date), false) + "</div>"
   }
-  string = string + "</div><br>"
+  string = string + "</div>"
   return string
 }
