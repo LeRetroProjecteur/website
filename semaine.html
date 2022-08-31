@@ -55,7 +55,7 @@
 
     async function get_data(db, date){
       console.log("Fetching data")
-      const q = query(collection(db, "per_date"), where("date", "==", date_to_string(date)));
+      const q = query(collection(db, "website-by-date-screenings"), where("date", "==", date_to_string(date)));
       var querySnapshot = await getDocs(q);
       var data_aux = [];
       querySnapshot.forEach((doc) => {
