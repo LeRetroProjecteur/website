@@ -164,7 +164,7 @@ function get_movie_info_string(f, theaters=true) {
   );
   if (theaters) {
     for (const [key, value] of Object.entries(f["showtimes_theater"])) {
-      movie_info_string += f["showtimes_theater"][key]["name"] + " "
+      movie_info_string += f["showtimes_theater"][key]["clean_name"] + " "
     }
   }
   return movie_info_string
