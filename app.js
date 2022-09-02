@@ -236,7 +236,7 @@ function format_review(f, title=true, showtimes=null) {
   if (showtimes !== null) {
     string += "<center><b>" + showtimes + "</b></center>"
   } else {
-    string += "<div style='text-align:right'>Critique du " + day_string(string_to_date(f.date), false) + "</div>"
+    string += "<div style='text-align:right'>Critique du " + day_string(string_to_date(f.review_date), false) + "</div>"
   }
   string = string + "</div>"
   return string
