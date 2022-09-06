@@ -60,7 +60,9 @@
           document.getElementById("title").innerHTML = format_movie_title(data, true);
           document.getElementById("duration").innerHTML = "Durée&nbsp;: " + convert_duration(data.duration)
           document.getElementById("next-screenings-title").innerHTML = "Prochaines séances à Paris&nbsp;:"
-          document.getElementById("review_box").innerHTML = "<br>" + format_review(data, false, null) + "<br>";
+          if (typeof data.review !== 'undefined') {
+            document.getElementById("review_box").innerHTML = "<br>" + format_review(data, false, null) + "<br>";
+          }
           var next_screenings = "<div class='moviebox'><br>"
           if (typeof(data.screenings) != "undefined"){
             if (data.screenings.length != 0) {
