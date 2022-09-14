@@ -54,7 +54,7 @@
           var tblRow = (
             "<tr><td>" +
               "Critique du " + day_string(string_to_date(review.review_date), false) + "&nbsp;: " +
-              "<a href='/details.html?id=" + review.id + "'>" + format_movie_title(review) +
+              "<a href='/details.html?id=" + review.id + "'>" + format_movie_title(review, 'bold') +
               "</a>" +
             "</td></tr>"
           );

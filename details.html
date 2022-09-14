@@ -3,8 +3,6 @@
 
   <head>
 
-    <title>Détails de film | Le Rétro Projecteur – Cinéma de patrimoine à Paris</title>
-
     <link rel="icon" href="img/logo_square.png" , alt="Cinéma à Paris">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -59,7 +57,8 @@
       function show_info_and_screenings(promise_screenings) {
         var today = new Date();
         promise_screenings.then((data) => {
-          document.getElementById("title").innerHTML = format_movie_title(data, true);
+          document.getElementById("title").innerHTML = format_movie_title(data, 'italic');
+          document.title = format_movie_title(data, null) + " | Le Rétro Projecteur – Cinéma de patrimoine à Paris";
           document.getElementById("duration").innerHTML = "Durée&nbsp;: " + convert_duration(data.duration)
           document.getElementById("next-screenings-title").innerHTML = "Prochaines séances à Paris&nbsp;:"
           if (typeof data.review !== 'undefined') {

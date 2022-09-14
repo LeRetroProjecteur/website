@@ -114,20 +114,25 @@ function display_showtimes(showtimes, sep="<br>", date=false){
   return showtime_string;
 }
 
-function format_movie_title(f, italic=false) {
-  if (italic){
-    var sym = 'i';
+function format_movie_title(f, style='italic') {
+  if (style=='italic'){
+    var start_tag = "<i>";
+    var end_tag = "</i>";
+  } else if (style=='bold'){
+    var start_tag = "<b>";
+    var end_tag = "</b>";
   } else {
-    var sym = 'b';
+    var start_tag = "";
+    var end_tag = "";
   }
-  return "<" + sym + ">" + f.title + "</" + sym + ">, " + f.directors + " (" + f.year + ")"
+  return start_tag + f.title + end_tag + ", " + f.directors + " (" + f.year + ")"
 }
 
 function row_text(f, showtimes) {
   var row = (
     "<tr>" +
       "<td>" +
-        "<a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" + format_movie_title(f) + "</a>" +
+        "<a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" + format_movie_title(f, 'bold') + "</a>" +
       "</td>" +
       "<td>" + showtimes + "</td>" +
     "</tr>"
@@ -230,7 +235,7 @@ function format_review(f, title=true, showtimes=null) {
     "<h3 style='color:grey;'>" + f.category + "</h3>"
   )
   if (title){
-    string += "<h3><a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" + format_movie_title(f, true) + "</a></h3>"
+    string += "<h3><a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" + format_movie_title(f, 'italic') + "</a></h3>"
   }
   string += f.review + "<p></p>"
   if (showtimes !== null) {
