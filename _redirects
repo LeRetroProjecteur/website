@@ -1,0 +1,6 @@
+[[redirects]]
+  from = "/leretro.org"
+  to = "/leretroprojecteur.com"
+  status = 301
+  force = false
+  conditions = {Language = ["en"], Country = ["US"]}
