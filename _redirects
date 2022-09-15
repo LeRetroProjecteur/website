@@ -1,6 +1,6 @@
 [[redirects]]
-  from = "https://www.leretro.org/"
-  to = "https://www.leretroprojecteur.com"
+  from = https://www.leretro.org
+  to = https://www.leretroprojecteur.com
   status = 301
   force = false
   conditions = {Language = ["en"], Country = ["US"]}
