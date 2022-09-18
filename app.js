@@ -150,10 +150,13 @@ function clean_string(string){
   return string
 }
 
-function contains_list_of_strings(search_string, search_terms){
+function movie_info_contains_search_term(f, search_term){
+  var search_string = clean_string(get_movie_info_string(f));
+  var search_terms = clean_string(search_term).split(',');
+
   var output = true;
-  for (const search_term of search_terms) {
-    output = output && search_string.includes(search_term)
+  for (const st of search_terms) {
+    output = output && search_string.includes(st)
   }
   return output
 }
@@ -185,11 +188,9 @@ function generate_data_row(f, date, start, end, search_term) {
     var day_hour = 0;
   }
   start = Math.max(start, day_hour);
-  var search_string = clean_string(get_movie_info_string(f));
-  var search_terms = clean_string(search_term).split(',');
-  var contains_search_terms = contains_list_of_strings(search_string, search_terms);
+  var movie_contains_search_term = movie_info_contains_search_term(f, search_term);
 
-  if (contains_search_terms) {
+  if (movie_contains_search_term) {
     var showtimes = {};
     for (const [key, value] of Object.entries(f.showtimes_theater)){
       var hours = []
