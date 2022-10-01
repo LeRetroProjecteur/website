@@ -152,13 +152,18 @@ function clean_string(string){
 
 function movie_info_contains_search_term(f, search_term){
   var search_string = clean_string(get_movie_info_string(f));
-  var search_terms = clean_string(search_term).split(',');
+  var search_terms = clean_string(search_term).split('|');
 
-  var output = true;
+  var GLOBALoutput = false;
   for (const st of search_terms) {
-    output = output && search_string.includes(st)
+    var sub_search_terms = clean_string(st).split(' ');
+    var LOCALoutput = true;
+    for (const stt of sub_search_terms) {
+      LOCALoutput = LOCALoutput && search_string.includes(stt);
+    }
+    GLOBALoutput = GLOBALoutput || LOCALoutput;
   }
-  return output
+  return GLOBALoutput
 }
 
 function get_movie_info_string(f, theaters=true) {
