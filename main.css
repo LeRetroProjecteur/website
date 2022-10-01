@@ -243,6 +243,7 @@ input[type="checkbox"] { /* change "blue" browser chrome to yellow */
   display: flex;
 }
 
+/* Sign up form */
 #mc_embed_signup{
   width:min(400px, 100%);
 }
