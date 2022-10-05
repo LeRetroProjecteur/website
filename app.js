@@ -150,8 +150,20 @@ function clean_string(string){
   return string
 }
 
+function at_least_one_word_starts_with_substring(list, substring){
+  var output = false;
+  for (const word of list) {
+    output = output || word.startsWith(substring);
+  }
+  return output
+}
+
 function movie_info_contains_search_term(f, search_term){
-  var search_string = clean_string(get_movie_info_string(f));
+  if (search_term.slice(-1)=="|"){
+    search_term = search_term.slice(0, -1);
+  }
+
+  var movie_details_list = clean_string(get_movie_info_string(f)).split(" ");
   var search_terms = clean_string(search_term).split('|');
 
   var GLOBALoutput = false;
@@ -159,7 +171,7 @@ function movie_info_contains_search_term(f, search_term){
     var sub_search_terms = clean_string(st).split(' ');
     var LOCALoutput = true;
     for (const stt of sub_search_terms) {
-      LOCALoutput = LOCALoutput && search_string.includes(stt);
+      LOCALoutput = LOCALoutput && at_least_one_word_starts_with_substring(movie_details_list, stt);
     }
     GLOBALoutput = GLOBALoutput || LOCALoutput;
   }
