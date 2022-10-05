@@ -140,7 +140,7 @@ function row_text(f, showtimes) {
   return row
 }
 
-var none_movie_playing_at_this_hour = "<b>Aucun film ne joue à cette heure-ci aujourd'hui, regardez demain ?</b>";
+var no_movie_playing_at_this_hour = "<b>Aucun film ne joue à cette heure-ci aujourd'hui, regardez demain ?</b>";
 var no_movie_for_given_search_term = "<b>Aucun film ne correspond à cette recherche aujourd'hui.</b>";
 
 function clean_string(string){
