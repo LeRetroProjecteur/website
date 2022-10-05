@@ -140,7 +140,8 @@ function row_text(f, showtimes) {
   return row
 }
 
-var empty_row_text = "<b>Aucun film ne correspond à cette recherche aujourd'hui.</b>";
+var none_movie_playing_at_this_hour = "<b>Aucun film ne joue à cette heure-ci aujourd'hui, regardez demain ?</b>";
+var no_movie_for_given_search_term = "<b>Aucun film ne correspond à cette recherche aujourd'hui.</b>";
 
 function clean_string(string){
   string = string.replaceAll('.', '');
@@ -205,33 +206,32 @@ function generate_data_row(f, date, start, end, search_term) {
     var day_hour = 0;
   }
   start = Math.max(start, day_hour);
-  var movie_contains_search_term = movie_info_contains_search_term(f, search_term);
-
-  if (movie_contains_search_term) {
-    var showtimes = {};
-    for (const [key, value] of Object.entries(f.showtimes_theater)){
-      var hours = []
-      value.showtimes = value.showtimes.sort(compare_numbers)
-      for (let m = 0; m < value.showtimes.length; m++){
-        var hour = value.showtimes[m];
-        if (document.getElementById(value.location_2).checked){
-          if (hour >= start && hour <= end) {
-            hours.push(hour)
-          }
+  var showtimes = {};
+  for (const [key, value] of Object.entries(f.showtimes_theater)){
+    var hours = []
+    value.showtimes = value.showtimes.sort(compare_numbers)
+    for (let m = 0; m < value.showtimes.length; m++){
+      var hour = value.showtimes[m];
+      if (document.getElementById(value.location_2).checked){
+        if (hour >= start && hour <= end) {
+          hours.push(hour)
         }
       }
-      if (hours.length>0){
-        showtimes[key] = Object.assign({}, value);
-        showtimes[key]['showtimes'] = hours;
-      }
     }
-    if (Object.keys(showtimes).length > 0) {
-      var tblRow = row_text(f, display_showtimes(showtimes))
-      $(tblRow).appendTo("#userdata tbody");
-      movie_shown = true;
+    if (hours.length>0){
+      showtimes[key] = Object.assign({}, value);
+      showtimes[key]['showtimes'] = hours;
     }
   }
-  return movie_shown
+
+  var movie_still_playing = (Object.keys(showtimes).length > 0)
+  var movie_contains_search_term = movie_info_contains_search_term(f, search_term);
+  if (movie_still_playing && movie_contains_search_term) {
+    var tblRow = row_text(f, display_showtimes(showtimes))
+    $(tblRow).appendTo("#userdata tbody");
+    movie_shown = true;
+  }
+  return [movie_shown, movie_still_playing, movie_contains_search_term]
 }
 
 function format_cinema_week(f) {

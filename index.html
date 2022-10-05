@@ -76,17 +76,25 @@
       async function populate_movies(promise_data, date, start_time, end_time, search_term) {
         console.log("Populating table")
         await $('#userdata tbody').empty();
-        var one_movie_shown = false;
+        var [one_movie_shown, one_movie_still_playing, one_movie_contains_search_term] = [false, false, false];
         promise_data.then((data) => {
             data.sort(
               (a, b) => $(a).attr('year')-$(b).attr('year') || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name')) || $(a).attr('title').localeCompare($(b).attr('title'))
             ).forEach(f => {
-              var movie_shown = generate_data_row(f, date, start_time, end_time, search_term);
+              var [movie_shown, movie_still_playing, movie_contains_search_term] = generate_data_row(f, date, start_time, end_time, search_term);
               one_movie_shown = (one_movie_shown || movie_shown);
+              one_movie_still_playing = (one_movie_still_playing || movie_still_playing);
+              one_movie_contains_search_term = (one_movie_contains_search_term || movie_contains_search_term);
             });
+            console.log(one_movie_shown, one_movie_still_playing, one_movie_contains_search_term)
             if (one_movie_shown==false){
-              var tblRow = "<tr><td colspan='100%'>" + empty_row_text + "</td></tr>";
-              $(tblRow).appendTo("#userdata tbody");
+              if (one_movie_still_playing==false){
+                var tblRow = "<tr><td colspan='100%'>" + none_movie_playing_at_this_hour + "</td></tr>";
+                $(tblRow).appendTo("#userdata tbody");
+              } else {
+                var tblRow = "<tr><td colspan='100%'>" + no_movie_for_given_search_term + "</td></tr>";
+                $(tblRow).appendTo("#userdata tbody");
+              }
             }
         })
       }
