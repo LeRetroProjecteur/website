@@ -48,11 +48,10 @@
     var search_box = document.getElementById("search-box");
     var data = [];
 
-    var start_date = new Date();
-    var delta = start_date.getDay()-3;
-    start_date.setDate(start_date.getDate() - delta);
-    var date = new Date();
-    document.getElementById("next_week").innerHTML = week_string(get_current_week(start_date)[0]);
+    var week_date = new Date();
+    week_date.setDate(week_date.getDate() + 5);
+    var start_date = get_current_week(week_date)[0]
+    document.getElementById("next_week").innerHTML = week_string(start_date);
 
     async function get_data(db, date){
       console.log("Fetching data")
@@ -137,12 +136,10 @@
       document.getElementById("retrospectives").innerHTML = string;
     }
 
-    var date = Date();
-
     $(async function() {
       for (let i = 0; i < 7; i++) {
         var date = new Date(start_date);
-        date.setDate(start_date.getDate() + i);
+        date.setDate(date.getDate() + i);
         await get_data(db, date);
       }
       const data_flat = data.flat(1);
