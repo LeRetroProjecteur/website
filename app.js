@@ -196,16 +196,8 @@ function get_movie_info_string(f, theaters=true) {
   return movie_info_string
 }
 
-function generate_data_row(f, date, start, end, search_term) {
+function generate_data_row(f, start, end, search_term) {
   var movie_shown = false;
-  var nd = new Date();
-
-  if (datesAreOnSameDay(date, nd)){
-    var day_hour = nd.getHours()+nd.getMinutes()/60 - 0.34;
-  } else {
-    var day_hour = 0;
-  }
-  start = Math.max(start, day_hour);
   var showtimes = {};
   for (const [key, value] of Object.entries(f.showtimes_theater)){
     var hours = []
