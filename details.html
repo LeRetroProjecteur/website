@@ -44,39 +44,26 @@
       var id = window.location.search;
       id = id.substring(4, id.length);
 
-      async function get_review(db, id) {
-        const q = query(collection(db, "reviews"), where("id", "==", id));
-        var querySnapshot = await getDocs(q);
-        var data_aux = [];
-        querySnapshot.forEach((doc) => {
-          data_aux = doc.data();
-        });
-        return data_aux;
-      }
       async function get_screenings(db, id) {
-        const q = query(collection(db, "per_movie"), where("id", "==", id));
+        const q = query(collection(db, "website-by-movie-screenings"), where("id", "==", id));
         var querySnapshot = await getDocs(q);
         var data_aux = [];
         querySnapshot.forEach((doc) => {
           data_aux = doc.data();
         });
         return data_aux;
-      }
-
-      function show_review(promise_review) {
-        promise_review.then((data) => {
-          if (data.length != 0) {
-            document.getElementById("review_box").innerHTML = "<br>" + format_review(data, false, null) + "<br>";
-          }
-        })
       }
 
       function show_info_and_screenings(promise_screenings) {
         var today = new Date();
         promise_screenings.then((data) => {
-          document.getElementById("title").innerHTML = format_movie_title(data, true);
+          document.getElementById("title").innerHTML = format_movie_title(data, 'italic');
+          document.title = format_movie_title(data, null) + " | Le Rétro Projecteur – Cinéma de patrimoine à Paris";
           document.getElementById("duration").innerHTML = "Durée&nbsp;: " + convert_duration(data.duration)
           document.getElementById("next-screenings-title").innerHTML = "Prochaines séances à Paris&nbsp;:"
+          if (typeof data.review !== 'undefined') {
+            document.getElementById("review_box").innerHTML = "<br>" + format_review(data, false, null) + "<br>";
+          }
           var next_screenings = "<div class='moviebox'><br>"
           if (typeof(data.screenings) != "undefined"){
             if (data.screenings.length != 0) {
@@ -100,9 +87,7 @@
       }
 
       var promise_screenings = get_screenings(db, id);
-      var promise_review = get_review(db, id);
       show_info_and_screenings(promise_screenings);
-      show_review(promise_review);
 
     </script>
 

@@ -44,14 +44,14 @@
     // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore();
-
+    var search_term = "";
+    var search_box = document.getElementById("search-box");
     var data = [];
 
-    var start_date = new Date();
-    var delta = start_date.getDay()-3;
-    start_date.setDate(start_date.getDate() - delta);
-    var date = new Date();
-    document.getElementById("next_week").innerHTML = week_string(get_current_week(start_date)[0]);
+    var week_date = new Date();
+    week_date.setDate(week_date.getDate() + 5);
+    var start_date = get_current_week(week_date)[0]
+    document.getElementById("next_week").innerHTML = week_string(start_date);
 
     async function get_data(db, date){
       console.log("Fetching data")
@@ -67,8 +67,7 @@
       data.push(data_aux);
     }
 
-    async function create_week_films_string(data){
-
+    async function create_week_films_string(data, search_term){
       await $('#userdata tbody').empty();
 
       var prev_movie = "";
@@ -78,18 +77,23 @@
       data.sort(
         (a, b) => $(a).attr('year') - $(b).attr('year') || $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('title').localeCompare($(b).attr('title'))
       ).forEach(f => {
-        if (f.title != prev_movie & showtimes_string != ""){
-          $(tblRow).appendTo("#userdata tbody");
-          showtimes_string = "";
+        const movie_contains_search_term = movie_info_contains_search_term(f, search_term)
+        if (movie_contains_search_term) {
+          if (f.title != prev_movie & showtimes_string != ""){
+            $(tblRow).appendTo("#userdata tbody");
+            showtimes_string = "";
+          }
+          showtimes_string = showtimes_string.concat(
+            "<b>" + days_short[f.date.getDay()] + " " + f.date.getDate() + " " + months_short[f.date.getMonth()] + "</b> " +
+            display_showtimes(f.showtimes_theater, "&nbsp;; ") + "<br>"
+          )
+          tblRow = row_text(f, showtimes_string);
+          prev_movie = f.title;
+        } else {
+          prev_movie = f.title;
         }
-        showtimes_string = showtimes_string.concat(
-          "<b>" + days_short[f.date.getDay()] + " " + f.date.getDate() + " " + months_short[f.date.getMonth()] + "</b> " +
-          display_showtimes(f.showtimes_theater, "&nbsp;; ") + "<br>"
-        )
-        tblRow = row_text(f, showtimes_string);
-        prev_movie = f.title;
       });
-
+    $(tblRow).appendTo("#userdata tbody");
     }
 
     function create_retrospectives_string(data){
@@ -132,18 +136,23 @@
       document.getElementById("retrospectives").innerHTML = string;
     }
 
-    var date = Date();
-
     $(async function() {
       for (let i = 0; i < 7; i++) {
         var date = new Date(start_date);
-        date.setDate(start_date.getDate() + i);
+        date.setDate(date.getDate() + i);
         await get_data(db, date);
       }
       const data_flat = data.flat(1);
-      create_week_films_string(data_flat);
+      create_week_films_string(data_flat, search_term);
       create_retrospectives_string(data_flat);
     });
+
+    // Search function
+    search_box.addEventListener('keyup', (e) => {
+        search_term = search_box.value;
+        const data_flat = data.flat(1);
+        create_week_films_string(data_flat, search_term);
+      });
 
   </script>
 
@@ -152,6 +161,10 @@
     <div id="header"></div>
 
     <h2><span id="next_week"></span></h2>
+
+    <div class="search">
+      <input type="text" class="searchTerm" id="search-box" placeholder="Film, pays, etc...">
+    </div>
 
     <div class="wrapper">
     <div class="profile">

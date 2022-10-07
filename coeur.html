@@ -3,6 +3,8 @@
 
   <head>
 
+    <title>Nos Coups de Cœur | Le Rétro Projecteur – Cinéma de patrimoine à Paris</title>
+
     <link rel="icon" href="img/logo_square.png">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -38,7 +40,7 @@
     const db = getFirestore();
 
     async function get_list_reviews(db) {
-      const q = doc(db, "website_offline", "all_cdc");
+      const q = doc(db, "website-extra-docs", "all_cdc");
       var querySnapshot = await getDoc(q);
       return querySnapshot.data();
     };
@@ -47,16 +49,12 @@
       await $('#userdata tbody').empty();
       promise_reviews.then((data) => {
         const keys = Object.keys(data);
-        keys.sort(
-          (a, b) => b.localeCompare(a)
-        ).forEach(f => {
+        keys.sort((a, b) => b.localeCompare(a)).forEach(f => {
           var review = data[f];
           var tblRow = (
             "<tr><td>" +
-              "Critique du " + day_string(string_to_date(review.date), false) + "&nbsp;: " +
-              "<a href='/details.html?id=" + review.id + "'>" +
-                "<b>" + review.title + "</b>, " +
-                  review.directors + " (" + review.year + ")" +
+              "Critique du " + day_string(string_to_date(review.review_date), false) + "&nbsp;: " +
+              "<a href='/details.html?id=" + review.id + "'>" + format_movie_title(review, 'bold') +
               "</a>" +
             "</td></tr>"
           );
@@ -72,7 +70,7 @@
 
   <body class="light-theme">
     <div id="header"></div>
-    <h2>Archives&nbsp;: Nos Coups de Coeur</h2>
+    <h2>Archives&nbsp;: Nos Coups de Cœur</h2>
     <table id= "userdata" border="3" class="center">
       <tbody>
       </tbody>

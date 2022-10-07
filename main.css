@@ -71,7 +71,7 @@ input {
   appearance: none;
 }
 #logo-wrap {
-    max-width: 300px;
+    max-width: 400px;
     height: auto;
     display:block;
 }
@@ -243,9 +243,12 @@ input[type="checkbox"] { /* change "blue" browser chrome to yellow */
   display: flex;
 }
 
+/* Sign up form */
+#mc_embed_signup{
+  width:min(400px, 100%);
+}
 
-/* NEW STUFF */
-
+/* Searchbar */
 .moviesearch {
   color: var(--black);
   width: 100%;
@@ -280,4 +283,3 @@ input[type="checkbox"] { /* change "blue" browser chrome to yellow */
 }
 .show {
   display: block;
-}

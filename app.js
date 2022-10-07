@@ -114,20 +114,25 @@ function display_showtimes(showtimes, sep="<br>", date=false){
   return showtime_string;
 }
 
-function format_movie_title(f, italic=false) {
-  if (italic){
-    var sym = 'i';
+function format_movie_title(f, style='italic') {
+  if (style=='italic'){
+    var start_tag = "<i>";
+    var end_tag = "</i>";
+  } else if (style=='bold'){
+    var start_tag = "<b>";
+    var end_tag = "</b>";
   } else {
-    var sym = 'b';
+    var start_tag = "";
+    var end_tag = "";
   }
-  return "<" + sym + ">" + f.title + "</" + sym + ">, " + f.directors + " (" + f.year + ")"
+  return start_tag + f.title + end_tag + ", " + f.directors + " (" + f.year + ")"
 }
 
 function row_text(f, showtimes) {
   var row = (
     "<tr>" +
       "<td>" +
-        "<a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" + format_movie_title(f) + "</a>" +
+        "<a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" + format_movie_title(f, 'bold') + "</a>" +
       "</td>" +
       "<td>" + showtimes + "</td>" +
     "</tr>"
@@ -135,7 +140,8 @@ function row_text(f, showtimes) {
   return row
 }
 
-var empty_row_text = "<b>Aucun film ne correspond à cette recherche aujourd'hui.</b>";
+var no_movie_playing_at_this_hour = "<b>Aucun film ne joue à cette heure-ci aujourd'hui, regardez demain ?</b>";
+var no_movie_for_given_search_term = "<b>Aucun film ne correspond à cette recherche aujourd'hui.</b>";
 
 function clean_string(string){
   string = string.replaceAll('.', '');
@@ -145,12 +151,32 @@ function clean_string(string){
   return string
 }
 
-function contains_list_of_strings(search_string, search_terms){
-  var output = true;
-  for (const search_term of search_terms) {
-    output = output && search_string.includes(search_term)
+function at_least_one_word_starts_with_substring(list, substring){
+  var output = false;
+  for (const word of list) {
+    output = output || word.startsWith(substring);
   }
   return output
+}
+
+function movie_info_contains_search_term(f, search_term){
+  if (search_term.slice(-1)=="|"){
+    search_term = search_term.slice(0, -1);
+  }
+
+  var movie_details_list = clean_string(get_movie_info_string(f)).split(" ");
+  var search_terms = clean_string(search_term).split('|');
+
+  var GLOBALoutput = false;
+  for (const st of search_terms) {
+    var sub_search_terms = clean_string(st).split(' ');
+    var LOCALoutput = true;
+    for (const stt of sub_search_terms) {
+      LOCALoutput = LOCALoutput && at_least_one_word_starts_with_substring(movie_details_list, stt);
+    }
+    GLOBALoutput = GLOBALoutput || LOCALoutput;
+  }
+  return GLOBALoutput
 }
 
 function get_movie_info_string(f, theaters=true) {
@@ -164,51 +190,40 @@ function get_movie_info_string(f, theaters=true) {
   );
   if (theaters) {
     for (const [key, value] of Object.entries(f["showtimes_theater"])) {
-      movie_info_string += f["showtimes_theater"][key]["name"] + " "
+      movie_info_string += f["showtimes_theater"][key]["clean_name"] + " "
     }
   }
   return movie_info_string
 }
 
-function generate_data_row(f, date, start, end, search_term) {
+function generate_data_row(f, start, end, search_term) {
   var movie_shown = false;
-  var nd = new Date();
-
-  if (datesAreOnSameDay(date, nd)){
-    var day_hour = nd.getHours()-1;
-  } else {
-    var day_hour = 0;
-  }
-  start = Math.max(start, day_hour);
-  var search_string = clean_string(get_movie_info_string(f));
-  var search_terms = clean_string(search_term).split(',');
-  var contains_search_terms = contains_list_of_strings(search_string, search_terms);
-
-  if (contains_search_terms) {
-    var showtimes = {};
-    for (const [key, value] of Object.entries(f.showtimes_theater)){
-      var hours = []
-      value.showtimes = value.showtimes.sort(compare_numbers)
-      for (let m = 0; m < value.showtimes.length; m++){
-        var hour = value.showtimes[m];
-        if (document.getElementById(value.location_2).checked){
-          if (hour >= start && hour <= end) {
-            hours.push(hour)
-          }
+  var showtimes = {};
+  for (const [key, value] of Object.entries(f.showtimes_theater)){
+    var hours = []
+    value.showtimes = value.showtimes.sort(compare_numbers)
+    for (let m = 0; m < value.showtimes.length; m++){
+      var hour = value.showtimes[m];
+      if (document.getElementById(value.location_2).checked){
+        if (hour >= start && hour <= end) {
+          hours.push(hour)
         }
       }
-      if (hours.length>0){
-        showtimes[key] = Object.assign({}, value);
-        showtimes[key]['showtimes'] = hours;
-      }
     }
-    if (Object.keys(showtimes).length > 0) {
-      var tblRow = row_text(f, display_showtimes(showtimes))
-      $(tblRow).appendTo("#userdata tbody");
-      movie_shown = true;
+    if (hours.length>0){
+      showtimes[key] = Object.assign({}, value);
+      showtimes[key]['showtimes'] = hours;
     }
   }
-  return movie_shown
+
+  var movie_still_playing = (Object.keys(showtimes).length > 0)
+  var movie_contains_search_term = movie_info_contains_search_term(f, search_term);
+  if (movie_still_playing && movie_contains_search_term) {
+    var tblRow = row_text(f, display_showtimes(showtimes))
+    $(tblRow).appendTo("#userdata tbody");
+    movie_shown = true;
+  }
+  return [movie_shown, movie_still_playing, movie_contains_search_term]
 }
 
 function format_cinema_week(f) {
@@ -230,13 +245,13 @@ function format_review(f, title=true, showtimes=null) {
     "<h3 style='color:grey;'>" + f.category + "</h3>"
   )
   if (title){
-    string += "<h3><a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" + format_movie_title(f, true) + "</a></h3>"
+    string += "<h3><a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" + format_movie_title(f, 'italic') + "</a></h3>"
   }
   string += f.review + "<p></p>"
   if (showtimes !== null) {
     string += "<center><b>" + showtimes + "</b></center>"
   } else {
-    string += "<div style='text-align:right'>Critique du " + day_string(string_to_date(f.date), false) + "</div>"
+    string += "<div style='text-align:right'>Critique du " + day_string(string_to_date(f.review_date), false) + "</div>"
   }
   string = string + "</div>"
   return string
