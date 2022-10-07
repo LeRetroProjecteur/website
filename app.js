@@ -201,7 +201,7 @@ function generate_data_row(f, date, start, end, search_term) {
   var nd = new Date();
 
   if (datesAreOnSameDay(date, nd)){
-    var day_hour = nd.getHours()-1;
+    var day_hour = nd.getHours()+nd.getMinutes()/60 - 0.25;
   } else {
     var day_hour = 0;
   }
