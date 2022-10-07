@@ -5,20 +5,23 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore();
 
-  async function get_search_options() {
-    const q = query(collection(db, "website-by-movie-screenings"))
-    var querySnapshot = await getDocs(q);
-    var data = [];
-    querySnapshot.forEach((doc) => {
-      data.push(doc.data());
-    });
-    var string = ""
-    data.forEach(f => {
-      string = string.concat("<a href='/details.html?id=" + f.id + "'>" + f.title + ", "+ f.directors + " (" + f.year + ")" + "</a>")
+  async function get_search_options(db) {
+    const q = doc(db, "website-extra-docs", "all-movies");
+    var querySnapshot = await getDoc(q);
+    return querySnapshot.data();
+  };
+  async function show_search_options(promise_movies) {
+    promise_movies.then((data) => {
+      var string = "";
+      data.movies.sort().forEach(f => {
+        console.log(f)
+        string = string.concat("<a href='/details.html?id=" + f.id + "'>" + format_movie_title(f) + "</a>")
+      })
+      document.getElementById("search_options").innerHTML = string;
     })
-    document.getElementById("search_options").innerHTML = string;
   }
-  get_search_options()
+  var promise_movies = get_search_options(db);
+  show_search_options(promise_movies);
 
 </script>
 
