@@ -6,7 +6,7 @@
   const db = getFirestore();
 
   async function get_search_options() {
-    const q = query(collection(db, "per_movie"))
+    const q = query(collection(db, "website-by-movie-screenings"))
     var querySnapshot = await getDocs(q);
     var data = [];
     querySnapshot.forEach((doc) => {
