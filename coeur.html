@@ -40,7 +40,7 @@
     const db = getFirestore();
 
     async function get_list_reviews(db) {
-      const q = doc(db, "website-extra-docs", "all_cdc");
+      const q = doc(db, "website-extra-docs", "all-reviews");
       var querySnapshot = await getDoc(q);
       return querySnapshot.data();
     };
@@ -48,17 +48,17 @@
     async function show_review_name(promise_reviews){
       await $('#userdata tbody').empty();
       promise_reviews.then((data) => {
-        const keys = Object.keys(data);
-        keys.sort((a, b) => b.localeCompare(a)).forEach(f => {
-          var review = data[f];
-          var tblRow = (
-            "<tr><td>" +
-              "Critique du " + day_string(string_to_date(review.review_date), false) + "&nbsp;: " +
-              "<a href='/details.html?id=" + review.id + "'>" + format_movie_title(review, 'bold') +
-              "</a>" +
-            "</td></tr>"
-          );
-          $(tblRow).appendTo("#userdata tbody");
+        data.elements.sort((a, b) => $(b).attr('review_date').localeCompare($(a).attr('review_date'))).forEach(f => {
+          if (f.category == "COUP DE CŒUR") {
+            var tblRow = (
+              "<tr><td>" +
+                "Critique du " + day_string(string_to_date(f.review_date), false) + "&nbsp;: " +
+                "<a href='/details.html?id=" + f.id + "'>" + format_movie_title(f, 'bold') +
+                "</a>" +
+              "</td></tr>"
+            );
+            $(tblRow).appendTo("#userdata tbody");
+          }
         })
       })
     }
