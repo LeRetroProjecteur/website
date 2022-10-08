@@ -281,8 +281,7 @@ function moviesearch() {
       elem.style.display = "none";
     }
     else{
-      // a = list[i];
-      var txtValue = elem.textContent || elem.innerText;
+      var txtValue = elem.childNodes[2].value;
       if (txtValue.toUpperCase().indexOf(filter) > -1 && count < 5) {
         elem.style.display = "";
         count += 1

@@ -14,8 +14,12 @@
     promise_movies.then((data) => {
       var string = "";
       data.movies.sort().forEach(f => {
-        console.log(f)
-        string = string.concat("<a href='/details.html?id=" + f.id + "'>" + format_movie_title(f) + "</a>")
+        string = string.concat(
+          "<a href='/details.html?id=" + f.id + "'>" +
+          format_movie_title(f) +
+          "<input type='hidden' value='"+ f.search_field + "'></input>" +
+          "</a>"
+        )
       })
       document.getElementById("search_options").innerHTML = string;
     })
