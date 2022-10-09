@@ -13,7 +13,7 @@
   async function show_search_options(promise_movies) {
     promise_movies.then((data) => {
       var string = "";
-      data.movies.sort().forEach(f => {
+      data.elements.sort().forEach(f => {
         string = string.concat(
           "<a href='/details.html?id=" + f.id + "'>" +
           format_movie_title(f) +
