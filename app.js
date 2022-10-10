@@ -283,7 +283,6 @@ function moviesearch() {
     else{
       var search_field = elem.childNodes[2].value;
       if (search_field.toLowerCase().indexOf(search_term) > -1 && count < 5) {
-        console.log(search_field.toLowerCase())
         elem.style.display = "";
         count += 1
       } else {
