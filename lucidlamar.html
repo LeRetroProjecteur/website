@@ -38,13 +38,8 @@
 
   <script type="module">
 
-    // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
     import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
-    // TO DO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-
-    // Initialize Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore();
 
@@ -213,12 +208,10 @@
     </h3>
     <brsmall>
     <center>
-
       <div id="slider-range-value"></div>
       <div class="slider-styled" id="slider-range"></div>
       <brsmall>
       <brsmall>
-
       <div id="wrap">
         <div id="neighborhood-list" class="dropdown-check-list" tabindex="100">
           <span class="anchor">Quartiers</span>
@@ -232,23 +225,20 @@
           <input type="text" class="searchTerm" id="search-box" placeholder="Film, pays, etc...">
         </div>
       </div>
-
     </center>
     <brsmall>
-
     <div class="wrapper">
-    <div class="profile">
-      <table id= "userdata" border="2" class="center">
-      <thead>
-        <th style="width:50%;background-color:var(--red);color:var(--white);"><strong>Film</strong></th>
-        <th style="width:50%;background-color:var(--red);color:var(--white);"><strong>Séances</strong></th>
-      </thead>
-      <tbody>
-      </tbody>
-      </table>
+      <div class="profile">
+        <table id= "userdata" border="2" class="center">
+          <thead>
+            <th style="width:50%;background-color:var(--red);color:var(--white);"><strong>Film</strong></th>
+            <th style="width:50%;background-color:var(--red);color:var(--white);"><strong>Séances</strong></th>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
-    </div>
-
     <div id="footer"></div>
   </body>
+
 </html>

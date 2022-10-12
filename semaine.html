@@ -3,6 +3,8 @@
 
   <head>
 
+    <title>La semaine prochaine | Le Rétro Projecteur – Cinéma de patrimoine à Paris</title>
+
     <link rel="icon" href="img/logo_square.png">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -32,159 +34,150 @@
       });
     </script>
 
-  </head>
+    <script type="module">
 
-  <script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
-    import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
-    // TO DO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
+      import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore();
 
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore();
-    var search_term = "";
-    var search_box = document.getElementById("search-box");
-    var data = [];
+      var search_term = "";
+      var search_box = document.getElementById("search-box");
+      var data = [];
 
-    var week_date = new Date();
-    week_date.setDate(week_date.getDate() + 5);
-    var start_date = get_current_week(week_date)[0]
-    document.getElementById("next_week").innerHTML = week_string(start_date);
+      var week_date = new Date();
+      week_date.setDate(week_date.getDate() + 5);
+      var start_date = get_current_week(week_date)[0]
+      document.getElementById("next_week").innerHTML = week_string(start_date);
 
-    async function get_data(db, date){
-      console.log("Fetching data")
-      const q = query(collection(db, "website-by-date-screenings"), where("date", "==", date_to_string(date)));
-      var querySnapshot = await getDocs(q);
-      var data_aux = [];
-      querySnapshot.forEach((doc) => {
-        data_aux = doc.data().movies;
-        for (var i = 0; i < data_aux.length; i++){
-          data_aux[i].date = date
-        }
-      });
-      data.push(data_aux);
-    }
-
-    async function create_week_films_string(data, search_term){
-      await $('#userdata tbody').empty();
-
-      var prev_movie = "";
-      var showtimes_string = "";
-      var tblRow = "";
-
-      data.sort(
-        (a, b) => $(a).attr('year') - $(b).attr('year') || $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('title').localeCompare($(b).attr('title'))
-      ).forEach(f => {
-        const movie_contains_search_term = movie_info_contains_search_term(f, search_term)
-        if (movie_contains_search_term) {
-          if (f.title != prev_movie & showtimes_string != ""){
-            $(tblRow).appendTo("#userdata tbody");
-            showtimes_string = "";
+      async function get_data(db, date){
+        console.log("Fetching data")
+        const q = query(collection(db, "website-by-date-screenings"), where("date", "==", date_to_string(date)));
+        var querySnapshot = await getDocs(q);
+        var data_aux = [];
+        querySnapshot.forEach((doc) => {
+          data_aux = doc.data().movies;
+          for (var i = 0; i < data_aux.length; i++){
+            data_aux[i].date = date
           }
-          showtimes_string = showtimes_string.concat(
-            "<b>" + days_short[f.date.getDay()] + " " + f.date.getDate() + " " + months_short[f.date.getMonth()] + "</b> " +
-            display_showtimes(f.showtimes_theater, "&nbsp;; ") + "<br>"
-          )
-          tblRow = row_text(f, showtimes_string);
-          prev_movie = f.title;
-        } else {
-          prev_movie = f.title;
-        }
-      });
-    $(tblRow).appendTo("#userdata tbody");
-    }
-
-    function create_retrospectives_string(data){
-
-      var prev_movie = "";
-      var prev_movie_dir = "";
-      var string = "";
-      var nb_movies = 0;
-      var dir_string = "";
-
-      data.sort(
-        (a, b) => $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('year') - $(b).attr('year') || $(a).attr('title').localeCompare($(b).attr('title'))
-      ).forEach(f => {
-
-        if (f.directors != prev_movie_dir){
-          if (nb_movies > 3){
-            dir_string = dir_string.concat("<br>")
-            string = string.concat(dir_string)
-          }
-          dir_string = "<br><h3 style='text-align:left'>" + f.directors + "</h3>"
-          dir_string = dir_string.concat(
-            "<i>" + f.title + "</i>" + " (" + f.year + ")"
-          )
-          nb_movies = 1;
-        }
-
-        if (f.directors == prev_movie_dir){
-          if (f.title != prev_movie){
-            nb_movies = nb_movies + 1;
-            dir_string = dir_string.concat(
-              ", <i>" + f.title + "</i>" + " (" + f.year + ")"
-            )
-          }
-        }
-
-        prev_movie = f.title;
-        prev_movie_dir = f.directors;
-
-      });
-      document.getElementById("retrospectives").innerHTML = string;
-    }
-
-    $(async function() {
-      for (let i = 0; i < 7; i++) {
-        var date = new Date(start_date);
-        date.setDate(date.getDate() + i);
-        await get_data(db, date);
+        });
+        data.push(data_aux);
       }
-      const data_flat = data.flat(1);
-      create_week_films_string(data_flat, search_term);
-      create_retrospectives_string(data_flat);
-    });
 
-    // Search function
-    search_box.addEventListener('keyup', (e) => {
-        search_term = search_box.value;
+      async function create_week_films_string(data, search_term){
+        await $('#userdata tbody').empty();
+
+        var prev_movie = "";
+        var showtimes_string = "";
+        var tblRow = "";
+
+        data.sort(
+          (a, b) => $(a).attr('year') - $(b).attr('year') || $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('title').localeCompare($(b).attr('title'))
+        ).forEach(f => {
+          const movie_contains_search_term = movie_info_contains_search_term(f, search_term)
+          if (movie_contains_search_term) {
+            if (f.title != prev_movie & showtimes_string != ""){
+              $(tblRow).appendTo("#userdata tbody");
+              showtimes_string = "";
+            }
+            showtimes_string = showtimes_string.concat(
+              "<b>" + days_short[f.date.getDay()] + " " + f.date.getDate() + " " + months_short[f.date.getMonth()] + "</b> " +
+              display_showtimes(f.showtimes_theater, "&nbsp;; ") + "<br>"
+            )
+            tblRow = row_text(f, showtimes_string);
+            prev_movie = f.title;
+          } else {
+            prev_movie = f.title;
+          }
+        });
+      $(tblRow).appendTo("#userdata tbody");
+      }
+
+      function create_retrospectives_string(data){
+
+        var prev_movie = "";
+        var prev_movie_dir = "";
+        var string = "";
+        var nb_movies = 0;
+        var dir_string = "";
+
+        data.sort(
+          (a, b) => $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('year') - $(b).attr('year') || $(a).attr('title').localeCompare($(b).attr('title'))
+        ).forEach(f => {
+
+          if (f.directors != prev_movie_dir){
+            if (nb_movies > 3){
+              dir_string = dir_string.concat("<br>")
+              string = string.concat(dir_string)
+            }
+            dir_string = "<br><h3 style='text-align:left'>" + f.directors + "</h3>"
+            dir_string = dir_string.concat(
+              "<i>" + f.title + "</i>" + " (" + f.year + ")"
+            )
+            nb_movies = 1;
+          }
+
+          if (f.directors == prev_movie_dir){
+            if (f.title != prev_movie){
+              nb_movies = nb_movies + 1;
+              dir_string = dir_string.concat(
+                ", <i>" + f.title + "</i>" + " (" + f.year + ")"
+              )
+            }
+          }
+
+          prev_movie = f.title;
+          prev_movie_dir = f.directors;
+
+        });
+        document.getElementById("retrospectives").innerHTML = string;
+      }
+
+      $(async function() {
+        for (let i = 0; i < 7; i++) {
+          var date = new Date(start_date);
+          date.setDate(date.getDate() + i);
+          await get_data(db, date);
+        }
         const data_flat = data.flat(1);
         create_week_films_string(data_flat, search_term);
+        create_retrospectives_string(data_flat);
       });
 
-  </script>
+      // Search function
+      search_box.addEventListener('keyup', (e) => {
+          search_term = search_box.value;
+          const data_flat = data.flat(1);
+          create_week_films_string(data_flat, search_term);
+        });
+
+    </script>
+
+  </head>
 
   <body class="light-theme">
-
     <div id="header"></div>
-
     <h2><span id="next_week"></span></h2>
-
     <div class="search">
       <input type="text" class="searchTerm" id="search-box" placeholder="Film, pays, etc...">
     </div>
-
     <div class="wrapper">
-    <div class="profile">
-      <table id= "userdata" border="2" class="center">
-      <thead>
-        <th style="width:50%;background-color:var(--red);color:var(--white);"> <strong>Film</strong></th>
-        <th style="width:50%;background-color:var(--red);color:var(--white);"><strong>Séances</strong></th>
-      </thead>
-      <tbody>
-      </tbody>
-      </table>
+      <div class="profile">
+        <table id= "userdata" border="2" class="center">
+          <thead>
+            <th style="width:50%;background-color:var(--red);color:var(--white);"> <strong>Film</strong></th>
+            <th style="width:50%;background-color:var(--red);color:var(--white);"><strong>Séances</strong></th>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
     </div>
-    </div>
-
+    <!-- <span id="week_films"></span> -->
     <br>
     <br>
     <h2>Retrospectives:</h2>
     <span id="retrospectives"></span>
-
     <div id="footer"></div>
-
   </body>
+
 </html>
