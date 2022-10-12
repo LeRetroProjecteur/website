@@ -5,13 +5,19 @@
 
     <title>Nos Coups de Cœur | Le Rétro Projecteur – Cinéma de patrimoine à Paris</title>
 
-    <link rel="icon" href="img/logo_square.png">
+    <link rel="icon" href="img/logo_square.png" , alt="Cinéma à Paris">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="main.css">
+    <meta name="Description" CONTENT="Venez découvrir notre newsletter hebdomadaire contenant notre sélection de films.">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
     <script type="text/javascript" src="app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.js"></script>
+    <link rel="stylesheet" href="main.css">
 
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-F5QY5F8S5L"></script>
@@ -23,57 +29,55 @@
     </script>
 
     <script>
-    $(function(){
-      $("#header").load("includes/header.html");
-      $("#footer").load("includes/footer.html");
-    });
+      $(function(){
+        $("#header").load("includes/header.html");
+        $("#footer").load("includes/footer.html");
+      });
+    </script>
+
+    <script type="module">
+
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
+      import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
+      const app = initializeApp(firebaseConfig);
+      const db = getFirestore();
+
+      async function get_list_reviews(db) {
+        const q = doc(db, "website-extra-docs", "all-reviews");
+        var querySnapshot = await getDoc(q);
+        return querySnapshot.data();
+      };
+
+      async function show_review_name(promise_reviews){
+        await $('#userdata tbody').empty();
+        promise_reviews.then((data) => {
+          data.elements.sort((a, b) => $(b).attr('review_date').localeCompare($(a).attr('review_date'))).forEach(f => {
+            if (f.category == "COUP DE CŒUR") {
+              var tblRow = (
+                "<tr><td>" +
+                  "Critique du " + day_string(string_to_date(f.review_date), false) + "&nbsp;: " +
+                  "<a href='/details.html?id=" + f.id + "'>" + format_movie_title(f, 'bold') +
+                  "</a>" +
+                "</td></tr>"
+              );
+              $(tblRow).appendTo("#userdata tbody");
+            }
+          })
+        })
+      }
+
+      var promise_reviews = get_list_reviews(db);
+      show_review_name(promise_reviews);
+
     </script>
 
   </head>
-
-  <script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
-    import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore();
-
-    async function get_list_reviews(db) {
-      const q = doc(db, "website-extra-docs", "all-reviews");
-      var querySnapshot = await getDoc(q);
-      return querySnapshot.data();
-    };
-
-    async function show_review_name(promise_reviews){
-      await $('#userdata tbody').empty();
-      promise_reviews.then((data) => {
-        data.elements.sort((a, b) => $(b).attr('review_date').localeCompare($(a).attr('review_date'))).forEach(f => {
-          if (f.category == "COUP DE CŒUR") {
-            var tblRow = (
-              "<tr><td>" +
-                "Critique du " + day_string(string_to_date(f.review_date), false) + "&nbsp;: " +
-                "<a href='/details.html?id=" + f.id + "'>" + format_movie_title(f, 'bold') +
-                "</a>" +
-              "</td></tr>"
-            );
-            $(tblRow).appendTo("#userdata tbody");
-          }
-        })
-      })
-    }
-
-    var promise_reviews = get_list_reviews(db);
-    show_review_name(promise_reviews);
-
-  </script>
 
   <body class="light-theme">
     <div id="header"></div>
     <h2>Archives&nbsp;: Nos Coups de Cœur</h2>
     <table id= "userdata" border="3" class="center">
-      <tbody>
-      </tbody>
+      <tbody></tbody>
     </table>
     <span id="cdc"></span>
     <div id="footer"></div>
