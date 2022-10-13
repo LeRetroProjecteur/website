@@ -281,12 +281,12 @@ function moviesearch() {
   var list = document.getElementById("myDropdown").getElementsByTagName("a");
   var count = 0;
   for (const elem of list) {
-    if (search_term=="") {
+    if (search_term=="" || count >= 5) {
       elem.style.display = "none";
     }
     else{
       var search_field = elem.childNodes[2].value;
-      if (search_field.toLowerCase().indexOf(search_term) > -1 && count < 5) {
+      if (search_match(search_term, search_field)) {
         elem.style.display = "";
         count += 1
       } else {
