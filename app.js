@@ -159,21 +159,25 @@ function at_least_one_word_starts_with_substring(list, substring){
   return output
 }
 
+function search_match(search_term, search_field){
+  search_field = clean_string(search_field).split(" ")
+  var sub_search_terms = clean_string(search_term).split(' ');
+  var LOCALoutput = true;
+  for (const sub_search_term of sub_search_terms) {
+    LOCALoutput = LOCALoutput && at_least_one_word_starts_with_substring(search_field, sub_search_term);
+  }
+  return LOCALoutput
+}
+
 function movie_info_contains_search_term(f, search_term){
   if (search_term.slice(-1)=="|"){
     search_term = search_term.slice(0, -1);
   }
-
-  var movie_details_list = clean_string(get_movie_info_string(f)).split(" ");
+  var search_field = clean_string(get_movie_info_string(f));
   var search_terms = clean_string(search_term).split('|');
-
   var GLOBALoutput = false;
-  for (const st of search_terms) {
-    var sub_search_terms = clean_string(st).split(' ');
-    var LOCALoutput = true;
-    for (const stt of sub_search_terms) {
-      LOCALoutput = LOCALoutput && at_least_one_word_starts_with_substring(movie_details_list, stt);
-    }
+  for (const search_term of search_terms) {
+    var LOCALoutput = search_match(search_term, search_field)
     GLOBALoutput = GLOBALoutput || LOCALoutput;
   }
   return GLOBALoutput
