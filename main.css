@@ -251,7 +251,9 @@ input[type="checkbox"] { /* change "blue" browser chrome to yellow */
 /* Searchbar */
 .moviesearch {
   color: var(--black);
-  width: 100%;
+  box-sizing:border-box;
+  width: min(400px, 100%);
+  padding: 0.15em;
 }
 .dropdown {
   position: relative;
