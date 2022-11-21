@@ -272,7 +272,7 @@ input[type="checkbox"] { /* change "blue" browser chrome to yellow */
 }
 .dropdown-content a {
   color: black;
-  padding: 4px 6px;
+  padding: 6px 6px;
   text-decoration: none;
   display: block;
   text-align: left;
