@@ -146,6 +146,7 @@ var no_movie_for_given_search_term = "<b>Aucun film ne correspond à cette reche
 function clean_string(string){
   string = string.replaceAll('.', '');
   string = string.replaceAll('-', '');
+  string = string.replaceAll("'", ' ');
   string = string.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
   string = string.toLowerCase();
   return string
