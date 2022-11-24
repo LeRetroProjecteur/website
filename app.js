@@ -96,7 +96,18 @@ function week_string(start_date, end_date=null){
 function display_showtimes(showtimes, sep="<br>", date=false){
 
   var showtime_list = [];
-  for (const [key, value] of Object.entries(showtimes)){
+
+  // Create items array
+  var items = Object.keys(showtimes).map(function(key) {
+    return [key, showtimes[key]];
+  });
+
+  // Sort the array based on the second element
+  items.sort(function(first, second) {
+    return first[1]["clean_name"].localeCompare(second[1]["clean_name"]);
+  });
+
+  for (const [key, value] of items){
     value.showtimes = value.showtimes.sort(compare_numbers)
     var theater_name = value.clean_name + " (" + value.zipcode_clean + ")";
 
@@ -107,7 +118,7 @@ function display_showtimes(showtimes, sep="<br>", date=false){
       text_row.push(Math.floor(hour).toString() + "h" + minute);
     }
     showtime_list.push(theater_name + "&nbsp;: " + text_row.join(', '))
-  }
+  };
 
   var showtime_string = showtime_list.join(sep);
 
