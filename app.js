@@ -140,10 +140,17 @@ function format_movie_title(f, style='italic') {
 }
 
 function row_text(f, showtimes) {
+  var insert_image = ""
+  if (isCOUPdeCOEUR(f)) {
+    insert_image = "<div class='logo_cdc'> <img src='img/logo_square.png' width='20' alt='';' /> </div>"
+  }
+
   var row = (
     "<tr>" +
       "<td>" +
-        "<a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" + format_movie_title(f, 'bold') + "</a>" +
+        "<a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" +
+        insert_image +
+        format_movie_title(f, 'bold') + "</a>" +
       "</td>" +
       "<td>" + showtimes + "</td>" +
     "</tr>"

@@ -284,3 +284,11 @@ input[type="checkbox"] { /* change "blue" browser chrome to yellow */
 }
 .show {
   display: block;
+}
+
+.logo_cdc {
+  float: left;
+  position: relative;
+  left: -4px;
+  bottom: -3px;
+}
