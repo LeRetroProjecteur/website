@@ -196,13 +196,18 @@ function movie_info_contains_search_term(f, search_term){
 }
 
 function get_movie_info_string(f, theaters=true) {
+  var category = "";
+  if ('category' in f) {
+   category = f["category"]
+  }
   var movie_info_string = (
     f['language'] + " " +
     f['title'] + " " +
     f['original_title'] + " " +
     f['directors'] + " " +
     f['countries'] + " " +
-    f['year'] + " "
+    f['year'] + " " +
+    category
   );
   if (theaters) {
     for (const [key, value] of Object.entries(f["showtimes_theater"])) {
@@ -210,6 +215,16 @@ function get_movie_info_string(f, theaters=true) {
     }
   }
   return movie_info_string
+}
+
+function isCOUPdeCOEUR(f) {
+  if ("category" in f) {
+    if (f["category"]=="COUP DE CŒUR") {
+      return true
+    }
+  } else {
+    return false
+  }
 }
 
 function generate_data_row(f, start, end, search_term) {
