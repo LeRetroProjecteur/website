@@ -53,7 +53,7 @@
       };
       async function show_search_options(promise_movies, select) {
         promise_movies.then((data) => {
-          data.movies.sort().forEach(f => {
+          data.movies.sort((a, b) => $(a).attr('title').localeCompare($(b).attr('title'))).forEach(f => {
             var opt = document.createElement('option');
             opt.value = f.id;
             opt.innerHTML = format_movie_title(f);
