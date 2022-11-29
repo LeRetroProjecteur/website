@@ -80,7 +80,7 @@
             }
           })
           document.getElementById("week_html").innerHTML += html_string;
-          document.getElementById("week_html_code").innerHTML += html_string.replaceAll("<", "&lt;");
+          document.getElementById("week_html_code").innerHTML += html_string.replaceAll("&", "&amp;").replaceAll("<", "&lt;");
         })
       }
 
@@ -120,11 +120,11 @@
       intro_string += '</h3><br/>'
       intro_string += '<div style="text-align: center; font-family:lora,georgia,times new roman,serif; color:#444444;">'
       document.getElementById("intro_html").innerHTML = intro_string;
-      document.getElementById("intro_html_code").innerHTML = intro_string.replaceAll("<", "&lt;");
+      document.getElementById("intro_html_code").innerHTML = intro_string.replaceAll("&", "&amp;").replaceAll("<", "&lt;");
 
       var outro_string = '</div>';
       document.getElementById("outro_html").innerHTML = outro_string;
-      document.getElementById("outro_html_code").innerHTML = outro_string.replaceAll("<", "&lt;");
+      document.getElementById("outro_html_code").innerHTML = outro_string.replaceAll("&", "&amp;").replaceAll("<", "&lt;");
     </script>
 
   </head>
