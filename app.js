@@ -205,7 +205,8 @@ function movie_info_contains_search_term(f, search_term){
 function get_movie_info_string(f, theaters=true) {
   var category = "";
   if ('category' in f) {
-   category = f["category"]
+    if (f["category"] == 'COUP DE CŒUR') category="_cdc_"
+    if (f["category"] == 'CURIOSITE') category="_curio_"
   }
   var movie_info_string = (
     f['language'] + " " +
