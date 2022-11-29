@@ -79,7 +79,8 @@
               html_string = html_string.concat("<br /><br />")
             }
           })
-          document.getElementById("week_html").innerHTML += html_string.replaceAll("<", "&lt;");
+          document.getElementById("week_html").innerHTML += html_string;
+          document.getElementById("week_html_code").innerHTML += html_string.replaceAll("<", "&lt;");
         })
       }
 
@@ -94,13 +95,13 @@
       function print_week_html_module(e) {
         e.preventDefault();
         document.getElementById("week_html").innerHTML = "";
+        document.getElementById("week_html_code").innerHTML = "";
         var date = new Date(start_date);
         for (var i = 0; i < 7; i++){
           var day = days_short[date.getDay()].toLowerCase();
           var movie_id = document.getElementById(day).value;
           var promise_movies = get_search_options(db, date_to_string(date));
-          var date_string = day_string(date);
-          console.log(date_string)
+          var date_string = day_string(date, true, false);
           show_date_movie_info(promise_movies, movie_id, date_string);
           date.setDate(date.getDate() + 1);
         }
@@ -114,10 +115,12 @@
       intro_string += 'UNE SEMAINE DE CIN&Eacute;MA'       // <!-- du mercredi 2 au mardi 8 novembre 2022 -->
       intro_string += '</h3><br/>'
       intro_string += '<div style="text-align: center; font-family:lora,georgia,times new roman,serif; color:#444444;">'
-      document.getElementById("intro_html").innerHTML = intro_string.replaceAll("<", "&lt;");
+      document.getElementById("intro_html").innerHTML = intro_string;
+      document.getElementById("intro_html_code").innerHTML = intro_string.replaceAll("<", "&lt;");
 
       var outro_string = '</div>';
-      document.getElementById("outro_html").innerHTML = outro_string.replaceAll("<", "&lt;");
+      document.getElementById("outro_html").innerHTML = outro_string;
+      document.getElementById("outro_html_code").innerHTML = outro_string.replaceAll("<", "&lt;");
     </script>
 
   </head>
@@ -156,11 +159,19 @@
     <br>
     </center>
 
-    <h2>HTML</h2>
+    <h2>Week:</h2>
 
+    <center>
     <span id='intro_html'></span>
     <span id='week_html'></span>
     <span id='outro_html'></span>
+    </center>
+
+    <h2>HTML:</h2>
+
+    <span id='intro_html_code'></span>
+    <span id='week_html_code'></span>
+    <span id='outro_html_code'></span>
 
     <div id="footer"></div>
 

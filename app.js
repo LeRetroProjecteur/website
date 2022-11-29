@@ -69,12 +69,15 @@ function datesAreOnSameMonth(first, second) {
   first.getMonth() === second.getMonth();
 };
 
-function day_string(date, weekday = true){
+function day_string(date, weekday = true, year = true){
   var string = "";
   if (weekday) {
     string = string.concat(days[date.getDay()], " ")
   }
-  string = string.concat(String(date.getDate()), ' ', months[date.getMonth()], ' ', String(date.getFullYear()))
+  string = string.concat(String(date.getDate()), ' ', months[date.getMonth()])
+  if (year) {
+    string = string.concat(' ', String(date.getFullYear()))
+  }
   return string;
 }
 
