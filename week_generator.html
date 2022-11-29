@@ -87,6 +87,10 @@
       var date = new Date(start_date);
       for (var i = 0; i < 7; i++){
         var select = document.getElementById(days_short[date.getDay()].toLowerCase());
+        var opt = document.createElement('option');
+        opt.value = "";
+        opt.innerHTML = "-----";
+        select.appendChild(opt);
         var promise_movies = get_search_options(db, date_to_string(date));
         show_search_options(promise_movies, select);
         date.setDate(date.getDate() + 1);

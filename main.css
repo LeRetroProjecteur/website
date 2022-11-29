@@ -292,3 +292,8 @@ input[type="checkbox"] { /* change "blue" browser chrome to yellow */
   left: -4px;
   bottom: -3px;
 }
+
+/* Select dropdown */
+select {
+  width:300px;
+}
