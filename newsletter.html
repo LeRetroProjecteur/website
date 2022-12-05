@@ -61,7 +61,7 @@
         document.getElementById("cinema-weeks").innerHTML = cinema_weeks;
       };
       async function show_review(db, id, type, showtimes){
-        const q = query(collection(db, "reviews"), where("id", "==", id))
+        const q = query(collection(db, "movie-info"), where("id", "==", id))
         var querySnapshot = await getDocs(q);
         var review = "";
         querySnapshot.forEach((doc) => {
