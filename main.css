@@ -292,6 +292,12 @@ input[type="checkbox"] { /* change "blue" browser chrome to yellow */
   left: -4px;
   bottom: -3px;
 }
+.logo_sas {
+  float: left;
+  position: relative;
+  left: -4px;
+  bottom: 0px;
+}
 
 /* Select dropdown */
 select {

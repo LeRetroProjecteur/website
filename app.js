@@ -143,16 +143,20 @@ function format_movie_title(f, style='italic') {
 }
 
 function row_text(f, showtimes) {
-  var insert_image = ""
+  var cdc_image = ""
+  var sas_image = ""
   if (isCOUPdeCOEUR(f)) {
-    insert_image = "<div class='logo_cdc'> <img src='img/logo_square.png' width='20' alt='';' /> </div>"
+    cdc_image = "<div class='logo_cdc'> <img src='img/logo_square.png' width='20' alt='';' /> </div>"
+  }
+  if (isSightandSound(f)) {
+    sas_image = "<div class='logo_sas'> <img src='img/logo_sight_and_sound.png' width='27' alt='';' /> </div>"
   }
 
   var row = (
     "<tr>" +
       "<td>" +
         "<a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" +
-        insert_image +
+        cdc_image + sas_image +
         format_movie_title(f, 'bold') + "</a>" +
       "</td>" +
       "<td>" + showtimes + "</td>" +
@@ -207,6 +211,10 @@ function movie_info_contains_search_term(f, search_term){
 
 function get_movie_info_string(f, theaters=true) {
   var category = "";
+  var sight_and_sound = "";
+  if ('sight_and_sound' in f) {
+    sight_and_sound = "_s&s_"
+  }
   if ('category' in f) {
     if (f["category"] == 'COUP DE CŒUR') category="_cdc_"
     if (f["category"] == 'CURIOSITE') category="_curio_"
@@ -218,7 +226,7 @@ function get_movie_info_string(f, theaters=true) {
     f['directors'] + " " +
     f['countries'] + " " +
     f['year'] + " " +
-    category
+    category + sight_and_sound
   );
   if (theaters) {
     for (const [key, value] of Object.entries(f["showtimes_theater"])) {
@@ -233,6 +241,13 @@ function isCOUPdeCOEUR(f) {
     if (f["category"]=="COUP DE CŒUR") {
       return true
     }
+  } else {
+    return false
+  }
+}
+function isSightandSound(f) {
+  if ("sight_and_sound" in f) {
+    return true
   } else {
     return false
   }
