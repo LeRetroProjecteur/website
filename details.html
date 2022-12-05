@@ -41,8 +41,11 @@
       const app = initializeApp(firebaseConfig);
       const db = getFirestore();
 
-      var id = window.location.search;
-      id = id.substring(4, id.length);
+      var urlp = [];
+      var s = location.toString().split('?')[1].split('&');
+      for (var i = 0; i < s.length; i++) {
+        urlp[s[i].split('=')[0]] = s[i].split('=')[1];
+      }
 
       async function get_screenings(db, id) {
         const q = query(collection(db, "website-by-movie-screenings"), where("id", "==", id));
@@ -90,7 +93,7 @@
         })
       }
 
-      var promise_screenings = get_screenings(db, id);
+      var promise_screenings = get_screenings(db, urlp['id']);
       show_info_and_screenings(promise_screenings);
 
     </script>
