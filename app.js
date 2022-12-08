@@ -148,9 +148,6 @@ function row_text(f, showtimes) {
   if (isCOUPdeCOEUR(f)) {
     cdc_image = "<div class='logo_cdc'> <img src='img/logo_square.png' width='20' alt='';' /> </div>"
   }
-  if (isSightandSound(f)) {
-    sas_image = "<div class='logo_sas'> <img src='img/logo_sight_and_sound.png' width='27' alt='';' /> </div>"
-  }
 
   var row = (
     "<tr>" +
