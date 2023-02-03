@@ -214,7 +214,7 @@ function get_movie_info_string(f, theaters=true) {
   }
   if ('category' in f) {
     if (f["category"] == 'COUP DE CŒUR') category="_cdc_"
-    if (f["category"] == 'CURIOSITE') category="_curio_"
+    if (f["category"] == 'ON EST CURIEUX') category="_curio_"
   }
   var movie_info_string = (
     f['language'] + " " +
