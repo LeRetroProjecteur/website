@@ -307,5 +307,6 @@ select {
 .responsive {
   width: 21%;
   height: auto;
-  margin: 0px 8px 0px 8px
+  margin: 0px 5px 0px 5px;
+  display: inline-block;
 }
