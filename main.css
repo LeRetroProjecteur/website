@@ -303,3 +303,9 @@ input[type="checkbox"] { /* change "blue" browser chrome to yellow */
 select {
   width:300px;
 }
+
+.responsive {
+  width: 23%;
+  min-width: 20px;
+  height: auto;
+}

@@ -295,9 +295,14 @@ function newsletter_week(date) {
 };
 function format_review(f, title=true, showtimes=null) {
   var string = (
-    "<div class='moviebox'><img src='data:image/png;base64," + f.image_file + "'/>" +
+    "<div class='moviebox'>" +
+    "<img src=" + f.image + ">" +
     "<h3 style='color:grey;'>" + f.category + "</h3>"
   )
+  // var string = (
+  //   "<div class='moviebox'><img src='data:image/png;base64," + f.image_file + "'/>" +
+  //   "<h3 style='color:grey;'>" + f.category + "</h3>"
+  // )
   if (title){
     string += "<h3><a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" + format_movie_title(f, 'italic') + "</a></h3>"
   }

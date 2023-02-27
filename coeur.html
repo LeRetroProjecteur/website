@@ -43,24 +43,33 @@
       const db = getFirestore();
 
       async function get_list_reviews(db) {
-        const q = doc(db, "website-extra-docs", "all-reviews");
+        const q = doc(db, "website-extra-docs", "all-reviews-test");
         var querySnapshot = await getDoc(q);
         return querySnapshot.data();
       };
 
       async function show_review_name(promise_reviews){
         await $('#userdata tbody').empty();
+        var num_images_per_row = 4;
+        var i = 0;
+        var movie_string = ""
         promise_reviews.then((data) => {
           data.elements.sort((a, b) => $(b).attr('review_date').localeCompare($(a).attr('review_date'))).forEach(f => {
             if (f.category == "COUP DE CŒUR") {
-              var tblRow = (
-                "<tr><td>" +
-                  "Critique du " + day_string(string_to_date(f.review_date), false) + "&nbsp;: " +
-                  "<a href='/details.html?id=" + f.id + "'>" + format_movie_title(f, 'bold') +
-                  "</a>" +
-                "</td></tr>"
-              );
-              $(tblRow).appendTo("#userdata tbody");
+              i += 1
+              movie_string += "<a href='/details.html?id=" + f.id + "'>" +
+                        "<img src=" + f.image + " hspace='5' class='responsive' >" +
+                        "</a>"
+              if (i==num_images_per_row){
+                var tblRow = (
+                    "<tr><td align='center'>" +
+                      movie_string +
+                    "</td></tr>"
+                  );
+                $(tblRow).appendTo("#userdata tbody");
+                i = 0;
+                movie_string = "";
+              }
             }
           })
         })
