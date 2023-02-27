@@ -305,7 +305,7 @@ select {
 }
 
 .responsive {
-  width: 23%;
-  min-width: 20px;
+  width: 21%;
   height: auto;
+  margin: 0px 8px 0px 8px
 }
