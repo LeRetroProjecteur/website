@@ -9,6 +9,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" CONTENT="Venez découvrir toutes les ressorties de films dans les salles parisiennes.">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
@@ -17,15 +18,6 @@
     <script type="text/javascript" src="app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.js"></script>
     <link rel="stylesheet" href="main.css">
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F5QY5F8S5L"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-F5QY5F8S5L');
-    </script>
 
     <script>
       $(function(){
@@ -41,18 +33,18 @@
       const app = initializeApp(firebaseConfig);
       const db = getFirestore();
 
-      var search_term = "";
+      var promise_data = [];
       var search_box = document.getElementById("search-box");
-      var data = [];
+      var search_term = "";
+      var start_date_box = document.getElementById("start-date-box");
 
       var week_date = new Date();
       week_date.setDate(week_date.getDate() + 4);
       var start_date = get_current_week(week_date)[0]
-      var start_date_box = document.getElementById("start-date-box");
       var screen_date = new Date(start_date);
       document.getElementById("next_week").innerHTML = week_string(start_date);
 
-      async function get_data(db, date){
+      async function append_data(db, date, promise_data){
         console.log("Fetching data")
         const q = query(collection(db, "website-by-date-screenings"), where("date", "==", date_to_string(date)));
         var querySnapshot = await getDocs(q);
@@ -63,16 +55,21 @@
             data_aux[i].date = date
           }
         });
-        data.push(data_aux);
+        promise_data.push(data_aux)
       }
 
-      async function create_week_films_string(data, date, search_term){
+      async function populate_movies(promise_data, date, start_time, end_time, search_term){
+        console.log("Populating table")
         await $('#userdata tbody').empty();
+        var [one_movie_shown, one_movie_still_playing, one_movie_contains_search_term] = [false, false, false];
+
         var prev_movie = "";
         var showtimes_string = "";
         var tblRow = "";
-        data.sort(
-          (a, b) => $(a).attr('year') - $(b).attr('year') || $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('title').localeCompare($(b).attr('title'))
+        promise_data.flat(1).sort(
+          (a, b) => $(a).attr('year') - $(b).attr('year')
+          || $(a).attr('directors').localeCompare($(b).attr('directors'))
+          || $(a).attr('title').localeCompare($(b).attr('title'))
         ).forEach(f => {
           const movie_contains_search_term = movie_info_contains_search_term(f, search_term)
           if (f.date >=date) {
@@ -90,10 +87,10 @@
             prev_movie = f.title;
           }
         });
-      $(tblRow).appendTo("#userdata tbody");
+        $(tblRow).appendTo("#userdata tbody");
       }
 
-      function create_retrospectives_string(data){
+      function create_retrospectives_string(promise_data){
 
         var prev_movie = "";
         var prev_movie_dir = "";
@@ -101,8 +98,10 @@
         var nb_movies = 0;
         var dir_string = "";
 
-        data.sort(
-          (a, b) => $(a).attr('directors').localeCompare($(b).attr('directors')) || $(a).attr('year') - $(b).attr('year') || $(a).attr('title').localeCompare($(b).attr('title'))
+        promise_data.flat(1).sort(
+          (a, b) => $(a).attr('directors').localeCompare($(b).attr('directors'))
+          || $(a).attr('year') - $(b).attr('year')
+          || $(a).attr('title').localeCompare($(b).attr('title'))
         ).forEach(f => {
 
           if (f.directors != prev_movie_dir){
@@ -133,36 +132,38 @@
         document.getElementById("retrospectives").innerHTML = string;
       }
 
+      function refresh_data() {
+        populate_movies(promise_data, start_date, 0, 24, search_term);
+        create_retrospectives_string(promise_data);
+      }
+
       $(async function() {
+        promise_data = [];
         for (let i = 0; i < 7; i++) {
           var date = new Date(start_date);
           date.setDate(date.getDate() + i);
-          await get_data(db, date);
+          await append_data(db, date, promise_data);
         }
-        const data_flat = data.flat(1);
-        create_week_films_string(data_flat, start_date, search_term);
-        create_retrospectives_string(data_flat);
+        refresh_data();
       });
 
       // Search function
       search_box.addEventListener('keyup', (e) => {
-          search_term = search_box.value;
-          const data_flat = data.flat(1);
-          create_week_films_string(data_flat, start_date, search_term);
-        });
+        search_term = search_box.value;
+        refresh_data();
+      });
 
-      // Start date
+      // Start date change
       start_date_box.addEventListener('keyup', (e) => {
-          var string_length = start_date_box.value.length;
-          if (string_length != 10) {
-            screen_date = start_date;
-          }
-          else {
-            screen_date = string_to_date(start_date_box.value);
-          }
-          const data_flat = data.flat(1);
-          create_week_films_string(data_flat, screen_date, search_term);
-        });
+        var string_length = start_date_box.value.length;
+        if (string_length != 10) {
+          screen_date = start_date;
+        }
+        else {
+          screen_date = string_to_date(start_date_box.value);
+        }
+        refresh_data();
+      });
 
     </script>
 
@@ -188,7 +189,6 @@
         </table>
       </div>
     </div>
-    <!-- <span id="week_films"></span> -->
     <br>
     <br>
     <h2>Retrospectives:</h2>

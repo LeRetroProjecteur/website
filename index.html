@@ -33,29 +33,29 @@
       const app = initializeApp(firebaseConfig);
       const db = getFirestore();
 
-      var selected_date = new Date();
       var promise_data = [];
+      var search_box = document.getElementById("search-box");
       var search_term = "";
+      var slider = document.getElementById('slider-range');
       var start_time = 0;
       var end_time = 24;
-      var slider = document.getElementById('slider-range');
       var neighborhood_dropdown = document.getElementById('neighborhood-list');
-      var search_box = document.getElementById("search-box");
 
+      var selected_date = new Date();
       document.getElementById("date_of_today").innerHTML = day_string(selected_date);
-      promise_data = get_data(db, selected_date);
-      refresh_data();
 
-      async function get_data(db, date){
+      async function append_data(db, date, promise_data){
         console.log("Fetching data")
-        var todayString = date_to_string(date);
-        const q = query(collection(db, "website-by-date-screenings"), where("date", "==", todayString));
+        const q = query(collection(db, "website-by-date-screenings"), where("date", "==", date_to_string(date)));
         var querySnapshot = await getDocs(q);
         var data_aux = [];
         querySnapshot.forEach((doc) => {
           data_aux = doc.data().movies;
+          for (var i = 0; i < data_aux.length; i++){
+            data_aux[i].date = date
+          }
         });
-        return data_aux;
+        promise_data.push(data_aux)
       }
 
       async function populate_movies(promise_data, date, start_time, end_time, search_term) {
@@ -70,32 +70,36 @@
         }
         start_time = Math.max(start_time, current_time);
 
-        promise_data.then((data) => {
-            data.sort(
-              (a, b) => $(a).attr('year')-$(b).attr('year')
-              || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name'))
-              || $(a).attr('title').localeCompare($(b).attr('title'))
-            ).forEach(f => {
-              var [movie_shown, movie_still_playing, movie_contains_search_term] = generate_data_row(f, start_time, end_time, search_term);
-              one_movie_shown = (one_movie_shown || movie_shown);
-              one_movie_still_playing = (one_movie_still_playing || movie_still_playing);
-              one_movie_contains_search_term = (one_movie_contains_search_term || movie_contains_search_term);
-            });
-            if (one_movie_shown==false){
-              if (one_movie_still_playing==false){
-                var tblRow = "<tr><td colspan='100%'>" + no_movie_playing_at_this_hour + "</td></tr>";
-                $(tblRow).appendTo("#userdata tbody");
-              } else {
-                var tblRow = "<tr><td colspan='100%'>" + no_movie_for_given_search_term + "</td></tr>";
-                $(tblRow).appendTo("#userdata tbody");
-              }
-            }
-        })
+        promise_data.flat(1).sort(
+          (a, b) => $(a).attr('year')-$(b).attr('year')
+          || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name'))
+          || $(a).attr('title').localeCompare($(b).attr('title'))
+        ).forEach(f => {
+          var [movie_shown, movie_still_playing, movie_contains_search_term] = generate_data_row(f, start_time, end_time, search_term);
+          one_movie_shown = (one_movie_shown || movie_shown);
+          one_movie_still_playing = (one_movie_still_playing || movie_still_playing);
+          one_movie_contains_search_term = (one_movie_contains_search_term || movie_contains_search_term);
+        });
+        if (one_movie_shown==false){
+          if (one_movie_still_playing==false){
+            var tblRow = "<tr><td colspan='100%'>" + no_movie_playing_at_this_hour + "</td></tr>";
+            $(tblRow).appendTo("#userdata tbody");
+          } else {
+            var tblRow = "<tr><td colspan='100%'>" + no_movie_for_given_search_term + "</td></tr>";
+            $(tblRow).appendTo("#userdata tbody");
+          }
+        }
       }
 
       function refresh_data() {
         populate_movies(promise_data, selected_date, start_time, end_time, search_term);
       }
+
+      $(async function() {
+        promise_data = [];
+        await append_data(db, selected_date, promise_data);
+        refresh_data();
+      });
 
       // Slider
       noUiSlider.create(slider, {
@@ -117,7 +121,7 @@
         refresh_data();
       });
 
-      // Dropdown menu
+      // Neighborhood dropdown
       neighborhood_dropdown.getElementsByClassName('anchor')[0].onclick = function(evt) {
         if (neighborhood_dropdown.classList.contains('visible')) {
           neighborhood_dropdown.classList.remove('visible');
@@ -140,23 +144,18 @@
         search_term = search_box.value;
         refresh_data();
       });
-      // Declare the events when you touch the keyboard
-      $('*').click(function(evt){
-        if (!$(evt.target).hasClass('anchor') & !$(evt.target).hasClass('checkbox') & !$(evt.target).hasClass('items')) {
-          neighborhood_dropdown.classList.remove('visible');
-        }
-      });
 
-      function move_date_forward() {
+      // Date change
+      async function move_date_forward() {
         slider.noUiSlider.set([0, 24]);
         selected_date.setDate(selected_date.getDate()+1);
         document.getElementById("date_of_today").innerHTML = day_string(selected_date);
         document.getElementById("move_date_backward").style.color = "var(--red)";
-        promise_data = get_data(db, selected_date);
+        promise_data = [];
+        await append_data(db, selected_date, promise_data);
         refresh_data();
       }
-
-      function move_date_backward() {
+      async function move_date_backward() {
         slider.noUiSlider.set([0, 24]);
         var nd = new Date();
         if (!datesAreOnSameDay(nd, selected_date)){
@@ -167,16 +166,15 @@
           } else {
             document.getElementById("move_date_backward").style.color = "var(--red)";
           }
-          promise_data = get_data(db, selected_date);
+          promise_data = [];
+          await append_data(db, selected_date, promise_data);
           refresh_data();
         }
       }
-
       var moveForwardButton = document.querySelector('#move_date_forward');
       moveForwardButton.onclick = function() {
         move_date_forward()
       };
-
       var moveBackwardButton = document.querySelector('#move_date_backward');
       moveBackwardButton.onclick = function() {
         move_date_backward()
