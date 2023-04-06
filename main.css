@@ -221,13 +221,13 @@ input[type="checkbox"] { /* change "blue" browser chrome to yellow */
   accent-color: var(--red);
 }
 
-/* Search box */
-.search {
+/* Filtering box */
+.filtering {
   display: inline-block;
   margin: 0 auto;
   width: min(90%, 150px);
 }
-.searchTerm {
+.filteringTerm {
   border: 1px solid var(--lightgrey);
   border-radius: 0px;
   padding: 5px 20px 5px 10px;
@@ -235,7 +235,7 @@ input[type="checkbox"] { /* change "blue" browser chrome to yellow */
   line-height: 1.6;
   color: #9DBFAF;
 }
-.searchTerm:focus {
+.filteringTerm:focus {
   color: var(--black);
 }
 

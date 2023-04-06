@@ -34,8 +34,8 @@
       const db = getFirestore();
 
       var promise_data = [];
-      var search_box = document.getElementById("search-box");
-      var search_term = "";
+      var filtering_box = document.getElementById("filtering-box");
+      var filtering_term = "";
       var start_date_box = document.getElementById("start-date-box");
 
       var week_date = new Date();
@@ -58,10 +58,10 @@
         promise_data.push(data_aux)
       }
 
-      async function populate_movies(promise_data, date, start_time, end_time, search_term){
+      async function populate_movies(promise_data, date, start_time, end_time, filtering_term){
         console.log("Populating table")
         await $('#userdata tbody').empty();
-        var [one_movie_shown, one_movie_still_playing, one_movie_contains_search_term] = [false, false, false];
+        var [one_movie_shown, one_movie_still_playing, one_movie_contains_filtering_term] = [false, false, false];
 
         var prev_movie = "";
         var showtimes_string = "";
@@ -71,9 +71,9 @@
           || $(a).attr('directors').localeCompare($(b).attr('directors'))
           || $(a).attr('title').localeCompare($(b).attr('title'))
         ).forEach(f => {
-          const movie_contains_search_term = movie_info_contains_search_term(f, search_term)
+          const movie_contains_filtering_term = movie_info_contains_filtering_term(f, filtering_term)
           if (f.date >=date) {
-            if (movie_contains_search_term) {
+            if (movie_contains_filtering_term) {
               if (f.title != prev_movie & showtimes_string != ""){
                 $(tblRow).appendTo("#userdata tbody");
                 showtimes_string = "";
@@ -133,7 +133,7 @@
       }
 
       function refresh_data() {
-        populate_movies(promise_data, start_date, 0, 24, search_term);
+        populate_movies(promise_data, start_date, 0, 24, filtering_term);
         create_retrospectives_string(promise_data);
       }
 
@@ -147,9 +147,9 @@
         refresh_data();
       });
 
-      // Search function
-      search_box.addEventListener('keyup', (e) => {
-        search_term = search_box.value;
+      // Filtering function
+      filtering_box.addEventListener('keyup', (e) => {
+        filtering_term = filtering_box.value;
         refresh_data();
       });
 
@@ -172,11 +172,11 @@
   <body class="light-theme">
     <div id="header"></div>
     <h2><span id="next_week"></span></h2>
-    <div class="search">
-      <input type="text" class="searchTerm" id="search-box" placeholder="Film, pays, etc...">
+    <div class="filtering">
+      <input type="text" class="filteringTerm" id="filtering-box" placeholder="Film, pays, etc...">
     </div>
-    <div class="search">
-      <input type="text" class="searchTerm" id="start-date-box" placeholder="(e.g. 2023-06-24)">
+    <div class="filtering">
+      <input type="text" class="filteringTerm" id="start-date-box" placeholder="(e.g. 2023-06-24)">
     </div>
     <div class="wrapper">
       <div class="profile">

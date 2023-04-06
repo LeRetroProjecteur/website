@@ -163,7 +163,7 @@ function row_text(f, showtimes) {
 }
 
 var no_movie_playing_at_this_hour = "<b>Aucun film ne joue à cette heure-ci aujourd'hui, regardez demain ?</b>";
-var no_movie_for_given_search_term = "<b>Aucun film ne correspond à cette recherche aujourd'hui.</b>";
+var no_movie_for_given_filtering_term = "<b>Aucun film ne correspond à cette recherche aujourd'hui.</b>";
 
 function clean_string(string){
   string = string.replaceAll('.', '');
@@ -182,25 +182,25 @@ function at_least_one_word_starts_with_substring(list, substring){
   return output
 }
 
-function search_match(search_term, search_field){
-  search_field = clean_string(search_field).split(" ")
-  var sub_search_terms = clean_string(search_term).split(' ');
+function string_match(term, field){
+  field = clean_string(field).split(" ")
+  var sub_terms = clean_string(term).split(' ');
   var LOCALoutput = true;
-  for (const sub_search_term of sub_search_terms) {
-    LOCALoutput = LOCALoutput && at_least_one_word_starts_with_substring(search_field, sub_search_term);
+  for (const sub_term of sub_terms) {
+    LOCALoutput = LOCALoutput && at_least_one_word_starts_with_substring(field, sub_term);
   }
   return LOCALoutput
 }
 
-function movie_info_contains_search_term(f, search_term){
-  if (search_term.slice(-1)=="|"){
-    search_term = search_term.slice(0, -1);
+function movie_info_contains_filtering_term(f, filtering_term){
+  if (filtering_term.slice(-1)=="|"){
+    filtering_term = filtering_term.slice(0, -1);
   }
-  var search_field = clean_string(get_movie_info_string(f));
-  var search_terms = clean_string(search_term).split('|');
+  var filtering_field = clean_string(get_movie_info_string(f));
+  var filtering_terms = clean_string(filtering_term).split('|');
   var GLOBALoutput = false;
-  for (const search_term of search_terms) {
-    var LOCALoutput = search_match(search_term, search_field)
+  for (const filtering_term of filtering_terms) {
+    var LOCALoutput = string_match(filtering_term, filtering_field)
     GLOBALoutput = GLOBALoutput || LOCALoutput;
   }
   return GLOBALoutput
@@ -250,7 +250,7 @@ function isSightandSound(f) {
   }
 }
 
-function generate_data_row(f, start, end, search_term) {
+function generate_data_row(f, start, end, filtering_term) {
   var movie_shown = false;
   var showtimes = {};
   for (const [key, value] of Object.entries(f.showtimes_theater)){
@@ -271,13 +271,13 @@ function generate_data_row(f, start, end, search_term) {
   }
 
   var movie_still_playing = (Object.keys(showtimes).length > 0)
-  var movie_contains_search_term = movie_info_contains_search_term(f, search_term);
-  if (movie_still_playing && movie_contains_search_term) {
+  var movie_contains_filtering_term = movie_info_contains_filtering_term(f, filtering_term);
+  if (movie_still_playing && movie_contains_filtering_term) {
     var tblRow = row_text(f, display_showtimes(showtimes))
     $(tblRow).appendTo("#userdata tbody");
     movie_shown = true;
   }
-  return [movie_shown, movie_still_playing, movie_contains_search_term]
+  return [movie_shown, movie_still_playing, movie_contains_filtering_term]
 }
 
 function format_cinema_week(f) {
@@ -336,7 +336,7 @@ function moviesearch() {
     }
     else{
       var search_field = elem.childNodes[2].value;
-      if (search_match(search_term, search_field)) {
+      if (string_match(search_term, search_field)) {
         elem.style.display = "";
         count += 1
       } else {
