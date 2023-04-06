@@ -250,7 +250,7 @@ function isSightandSound(f) {
   }
 }
 
-function generate_data_row(f, start, end, filtering_term) {
+function generate_data_row(f, start, end, filtering_term, checkedNeighborhoods) {
   var movie_shown = false;
   var showtimes = {};
   for (const [key, value] of Object.entries(f.showtimes_theater)){
@@ -258,7 +258,7 @@ function generate_data_row(f, start, end, filtering_term) {
     value.showtimes = value.showtimes.sort(compare_numbers)
     for (let m = 0; m < value.showtimes.length; m++){
       var hour = value.showtimes[m];
-      if (document.getElementById(value.location_2).checked){
+      if (checkedNeighborhoods.includes(value.location_2)){
         if (hour >= start && hour <= end) {
           hours.push(hour)
         }

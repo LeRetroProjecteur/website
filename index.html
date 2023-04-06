@@ -40,6 +40,7 @@
       var start_time = 0;
       var end_time = 24;
       var neighborhood_dropdown = document.getElementById('neighborhood-list');
+      var checkedNeighborhoods = ['rg', 'rd', 'em']
 
       var selected_date = new Date();
       document.getElementById("date_of_today").innerHTML = day_string(selected_date);
@@ -58,7 +59,7 @@
         promise_data.push(data_aux)
       }
 
-      async function populate_movies(promise_data, date, start_time, end_time, filtering_term) {
+      async function populate_movies(promise_data, date, start_time, end_time, filtering_term, checkedNeighborhoods) {
         console.log("Populating table")
         await $('#userdata tbody').empty();
         var [one_movie_shown, one_movie_still_playing, one_movie_contains_filtering_term] = [false, false, false];
@@ -75,7 +76,7 @@
           || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name'))
           || $(a).attr('title').localeCompare($(b).attr('title'))
         ).forEach(f => {
-          var [movie_shown, movie_still_playing, movie_contains_filtering_term] = generate_data_row(f, start_time, end_time, filtering_term);
+          var [movie_shown, movie_still_playing, movie_contains_filtering_term] = generate_data_row(f, start_time, end_time, filtering_term, checkedNeighborhoods);
           one_movie_shown = (one_movie_shown || movie_shown);
           one_movie_still_playing = (one_movie_still_playing || movie_still_playing);
           one_movie_contains_filtering_term = (one_movie_contains_filtering_term || movie_contains_filtering_term);
@@ -92,7 +93,7 @@
       }
 
       function refresh_data() {
-        populate_movies(promise_data, selected_date, start_time, end_time, filtering_term);
+        populate_movies(promise_data, selected_date, start_time, end_time, filtering_term, checkedNeighborhoods);
       }
 
       $(async function() {
@@ -136,6 +137,10 @@
         }
       });
       $(':checkbox').click(function(){
+        checkedNeighborhoods = []
+        $("input:checkbox:checked").each(function(){
+          checkedNeighborhoods.push($(this)[0].id);
+        });
         refresh_data();
       });
 

@@ -58,7 +58,7 @@
         promise_data.push(data_aux)
       }
 
-      async function populate_movies(promise_data, date, start_time, end_time, filtering_term){
+      async function populate_movies(promise_data, date, start_time, end_time, filtering_term, checkedNeighborhoods){
         console.log("Populating table")
         await $('#userdata tbody').empty();
         var [one_movie_shown, one_movie_still_playing, one_movie_contains_filtering_term] = [false, false, false];
@@ -133,7 +133,7 @@
       }
 
       function refresh_data() {
-        populate_movies(promise_data, start_date, 0, 24, filtering_term);
+        populate_movies(promise_data, start_date, 0, 24, filtering_term, ['rg', 'rd', 'em']);
         create_retrospectives_string(promise_data);
       }
 
