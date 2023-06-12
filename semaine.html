@@ -36,7 +36,6 @@
       var promise_data = [];
       var filtering_box = document.getElementById("filtering-box");
       var filtering_term = "";
-      var start_date_box = document.getElementById("start-date-box");
 
       var week_date = new Date();
       week_date.setDate(week_date.getDate() + 4);
@@ -58,7 +57,7 @@
         promise_data.push(data_aux)
       }
 
-      async function populate_movies(promise_data, date, start_time, end_time, filtering_term, checkedNeighborhoods){
+      async function populate_movies(promise_data, start_time, end_time, filtering_term, checkedNeighborhoods){
         console.log("Populating table")
         await $('#userdata tbody').empty();
         var [one_movie_shown, one_movie_still_playing, one_movie_contains_filtering_term] = [false, false, false];
@@ -72,20 +71,18 @@
           || $(a).attr('title').localeCompare($(b).attr('title'))
         ).forEach(f => {
           const movie_contains_filtering_term = movie_info_contains_filtering_term(f, filtering_term)
-          if (f.date >=date) {
-            if (movie_contains_filtering_term) {
-              if (f.title != prev_movie & showtimes_string != ""){
-                $(tblRow).appendTo("#userdata tbody");
-                showtimes_string = "";
-              }
-              showtimes_string = showtimes_string.concat(
-                "<b>" + days_short[f.date.getDay()] + " " + f.date.getDate() + " " + months_short[f.date.getMonth()] + "</b> " +
-                display_showtimes(f.showtimes_theater, "&nbsp;; ") + "<br>"
-              )
-              tblRow = row_text(f, showtimes_string);
+          if (movie_contains_filtering_term) {
+            if (f.title != prev_movie & showtimes_string != ""){
+              $(tblRow).appendTo("#userdata tbody");
+              showtimes_string = "";
             }
-            prev_movie = f.title;
+            showtimes_string = showtimes_string.concat(
+              "<b>" + days_short[f.date.getDay()] + " " + f.date.getDate() + " " + months_short[f.date.getMonth()] + "</b> " +
+              display_showtimes(f.showtimes_theater, "&nbsp;; ") + "<br>"
+            )
+            tblRow = row_text(f, showtimes_string);
           }
+          prev_movie = f.title;
         });
         $(tblRow).appendTo("#userdata tbody");
       }
@@ -133,7 +130,7 @@
       }
 
       function refresh_data() {
-        populate_movies(promise_data, start_date, 0, 24, filtering_term, ['rg', 'rd', 'em']);
+        populate_movies(promise_data, 0, 24, filtering_term, ['rg', 'rd', 'em']);
         create_retrospectives_string(promise_data);
       }
 
@@ -153,18 +150,6 @@
         refresh_data();
       });
 
-      // Start date change
-      start_date_box.addEventListener('keyup', (e) => {
-        var string_length = start_date_box.value.length;
-        if (string_length != 10) {
-          screen_date = start_date;
-        }
-        else {
-          screen_date = string_to_date(start_date_box.value);
-        }
-        refresh_data();
-      });
-
     </script>
 
   </head>
@@ -174,9 +159,6 @@
     <h2><span id="next_week"></span></h2>
     <div class="filtering">
       <input type="text" class="filteringTerm" id="filtering-box" placeholder="Film, pays, etc...">
-    </div>
-    <div class="filtering">
-      <input type="text" class="filteringTerm" id="start-date-box" placeholder="(e.g. 2023-06-24)">
     </div>
     <div class="wrapper">
       <div class="profile">
