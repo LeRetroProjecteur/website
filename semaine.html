@@ -43,6 +43,16 @@
       var screen_date = new Date(start_date);
       document.getElementById("next_week").innerHTML = week_string(start_date);
 
+      function update_start_time(start_time, date){
+        var nd = new Date();
+        var current_time = 0;
+        if (datesAreOnSameDay(date, nd)){
+          current_time = nd.getHours()+nd.getMinutes()/60 - 0.34;
+        }
+        start_time = Math.max(start_time, current_time);
+        return start_time
+      }
+
       async function append_data(db, date, promise_data){
         console.log("Fetching data")
         const q = query(collection(db, "website-by-date-screenings"), where("date", "==", date_to_string(date)));
@@ -130,6 +140,7 @@
       }
 
       function refresh_data() {
+        start_time = update_start_time(start_time, selected_date)
         populate_movies(promise_data, 0, 24, filtering_term, ['rg', 'rd', 'em']);
         create_retrospectives_string(promise_data);
       }

@@ -45,6 +45,16 @@
       var selected_date = new Date();
       document.getElementById("date_of_today").innerHTML = day_string(selected_date);
 
+      function update_start_time(start_time, date){
+        var nd = new Date();
+        var current_time = 0;
+        if (datesAreOnSameDay(date, nd)){
+          current_time = nd.getHours()+nd.getMinutes()/60 - 0.34;
+        }
+        start_time = Math.max(start_time, current_time);
+        return start_time
+      }
+
       async function append_data(db, date, promise_data){
         console.log("Fetching data")
         const q = query(collection(db, "website-by-date-screenings"), where("date", "==", date_to_string(date)));
@@ -59,17 +69,10 @@
         promise_data.push(data_aux)
       }
 
-      async function populate_movies(promise_data, date, start_time, end_time, filtering_term, checkedNeighborhoods) {
+      async function populate_movies(promise_data, start_time, end_time, filtering_term, checkedNeighborhoods) {
         console.log("Populating table")
         await $('#userdata tbody').empty();
         var [one_movie_shown, one_movie_still_playing, one_movie_contains_filtering_term] = [false, false, false];
-
-        var nd = new Date();
-        var current_time = 0;
-        if (datesAreOnSameDay(date, nd)){
-          current_time = nd.getHours()+nd.getMinutes()/60 - 0.34;
-        }
-        start_time = Math.max(start_time, current_time);
 
         promise_data.flat(1).sort(
           (a, b) => $(a).attr('year')-$(b).attr('year')
@@ -93,7 +96,8 @@
       }
 
       function refresh_data() {
-        populate_movies(promise_data, selected_date, start_time, end_time, filtering_term, checkedNeighborhoods);
+        start_time = update_start_time(start_time, selected_date)
+        populate_movies(promise_data, start_time, end_time, filtering_term, checkedNeighborhoods);
       }
 
       $(async function() {
