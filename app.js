@@ -206,7 +206,7 @@ function movie_info_contains_filtering_term(f, filtering_term){
   return GLOBALoutput
 }
 
-function get_movie_info_string(f, theaters=true) {
+function get_movie_info_string(f) {
   var category = "";
   var sight_and_sound = "";
   if ('sight_and_sound' in f) {
@@ -225,11 +225,6 @@ function get_movie_info_string(f, theaters=true) {
     f['year'] + " " +
     category + sight_and_sound
   );
-  if (theaters) {
-    for (const [key, value] of Object.entries(f["showtimes_theater"])) {
-      movie_info_string += f["showtimes_theater"][key]["clean_name"] + " "
-    }
-  }
   return movie_info_string
 }
 
