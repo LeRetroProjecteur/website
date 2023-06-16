@@ -140,7 +140,6 @@
       }
 
       function refresh_data() {
-        start_time = update_start_time(start_time, selected_date)
         populate_movies(promise_data, 0, 24, filtering_term, ['rg', 'rd', 'em']);
         create_retrospectives_string(promise_data);
       }
