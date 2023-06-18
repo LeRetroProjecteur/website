@@ -55,18 +55,11 @@
         return start_time
       }
 
-      async function append_data(db, date, promise_data){
+      async function getData(db, date, promise_data){
         console.log("Fetching data")
         const q = query(collection(db, "website-by-date-screenings"), where("date", "==", date_to_string(date)));
         var querySnapshot = await getDocs(q);
-        var data_aux = [];
-        querySnapshot.forEach((doc) => {
-          data_aux = doc.data().movies;
-          for (var i = 0; i < data_aux.length; i++){
-            data_aux[i].date = date
-          }
-        });
-        promise_data.push(data_aux)
+        promise_data = append_data(promise_data, querySnapshot, date)
       }
 
       async function populate_movies(promise_data, start_time, end_time, filtering_term, checkedNeighborhoods) {
@@ -102,7 +95,7 @@
 
       $(async function() {
         promise_data = [];
-        await append_data(db, selected_date, promise_data);
+        await getData(db, selected_date, promise_data);
         refresh_data();
       });
 
@@ -161,7 +154,7 @@
         document.getElementById("date_of_today").innerHTML = day_string(selected_date);
         document.getElementById("move_date_backward").style.color = "var(--red)";
         promise_data = [];
-        await append_data(db, selected_date, promise_data);
+        await getData(db, selected_date, promise_data);
         refresh_data();
       }
       async function move_date_backward() {
@@ -176,7 +169,7 @@
             document.getElementById("move_date_backward").style.color = "var(--red)";
           }
           promise_data = [];
-          await append_data(db, selected_date, promise_data);
+          await getData(db, selected_date, promise_data);
           refresh_data();
         }
       }

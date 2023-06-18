@@ -53,18 +53,11 @@
         return start_time
       }
 
-      async function append_data(db, date, promise_data){
+      async function getData(db, date, promise_data){
         console.log("Fetching data")
         const q = query(collection(db, "website-by-date-screenings"), where("date", "==", date_to_string(date)));
         var querySnapshot = await getDocs(q);
-        var data_aux = [];
-        querySnapshot.forEach((doc) => {
-          data_aux = doc.data().movies;
-          for (var i = 0; i < data_aux.length; i++){
-            data_aux[i].date = date
-          }
-        });
-        promise_data.push(data_aux)
+        promise_data = append_data(promise_data, querySnapshot, date)
       }
 
       async function populate_movies(promise_data, start_time, end_time, filtering_term, checkedNeighborhoods){
@@ -72,29 +65,16 @@
         await $('#userdata tbody').empty();
         var [one_movie_shown, one_movie_still_playing, one_movie_contains_filtering_term] = [false, false, false];
 
-        var prev_movie = "";
-        var showtimes_string = "";
-        var tblRow = "";
-        promise_data.flat(1).sort(
+        promise_data.sort(
           (a, b) => $(a).attr('year') - $(b).attr('year')
           || $(a).attr('directors').localeCompare($(b).attr('directors'))
           || $(a).attr('title').localeCompare($(b).attr('title'))
         ).forEach(f => {
-          const movie_contains_filtering_term = movie_info_contains_filtering_term(f, filtering_term)
-          if (movie_contains_filtering_term) {
-            if (f.title != prev_movie & showtimes_string != ""){
-              $(tblRow).appendTo("#userdata tbody");
-              showtimes_string = "";
-            }
-            showtimes_string = showtimes_string.concat(
-              "<b>" + days_short[f.date.getDay()] + " " + f.date.getDate() + " " + months_short[f.date.getMonth()] + "</b> " +
-              display_showtimes(f.showtimes_theater, "&nbsp;; ") + "<br>"
-            )
-            tblRow = row_text(f, showtimes_string);
-          }
-          prev_movie = f.title;
+          var [movie_shown, movie_still_playing, movie_contains_filtering_term] = generate_data_row(f, start_time, end_time, filtering_term, checkedNeighborhoods, "&nbsp;; ", true, "<br>");
+          one_movie_shown = (one_movie_shown || movie_shown);
+          one_movie_still_playing = (one_movie_still_playing || movie_still_playing);
+          one_movie_contains_filtering_term = (one_movie_contains_filtering_term || movie_contains_filtering_term);
         });
-        $(tblRow).appendTo("#userdata tbody");
       }
 
       function create_retrospectives_string(promise_data){
@@ -140,7 +120,6 @@
       }
 
       function refresh_data() {
-        start_time = update_start_time(start_time, selected_date)
         populate_movies(promise_data, 0, 24, filtering_term, ['rg', 'rd', 'em']);
         create_retrospectives_string(promise_data);
       }
@@ -150,7 +129,7 @@
         for (let i = 0; i < 7; i++) {
           var date = new Date(start_date);
           date.setDate(date.getDate() + i);
-          await append_data(db, date, promise_data);
+          await getData(db, date, promise_data);
         }
         refresh_data();
       });

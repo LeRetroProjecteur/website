@@ -96,36 +96,49 @@ function week_string(start_date, end_date=null){
   return string
 }
 
-function display_showtimes(showtimes, sep="<br>", date=false){
+function display_showtimes(showtimes, theater_sep="<br>", show_date=false, date_sep="<br>"){
 
-  var showtime_list = [];
+  var date_list = []
 
-  // Create items array
-  var items = Object.keys(showtimes).map(function(key) {
-    return [key, showtimes[key]];
-  });
+  for (const date of Object.keys(showtimes)){
 
-  // Sort the array based on the second element
-  items.sort(function(first, second) {
-    return first[1]["clean_name"].localeCompare(second[1]["clean_name"]);
-  });
+    var values = showtimes[date]
+    var showtime_list = [];
 
-  for (const [key, value] of items){
-    value.showtimes = value.showtimes.sort(compare_numbers)
-    var theater_name = value.clean_name + " (" + value.zipcode_clean + ")";
+    // Create items array
+    var items = Object.keys(values).map(function(key) {
+      return [key, values[key]];
+    });
 
-    var text_row = [];
-    for (var i = 0; i < value.showtimes.length; i++){
-      var hour = value.showtimes[i];
-      var minute = pad(parseFloat((60*(hour - Math.floor(hour))).toPrecision(3)), 2);
-      text_row.push(Math.floor(hour).toString() + "h" + minute);
+    // Sort the array based on the second element
+    items.sort(function(first, second) {
+      return first[1]["clean_name"].localeCompare(second[1]["clean_name"]);
+    });
+
+    for (const [key, value] of items){
+
+      value.showtimes = value.showtimes.sort(compare_numbers)
+      var theater_name = value.clean_name + " (" + value.zipcode_clean + ")";
+
+      var text_row = [];
+      for (var i = 0; i < value.showtimes.length; i++){
+        var hour = value.showtimes[i];
+        var minute = pad(parseFloat((60*(hour - Math.floor(hour))).toPrecision(3)), 2);
+        text_row.push(Math.floor(hour).toString() + "h" + minute);
+      }
+      showtime_list.push(theater_name + "&nbsp;: " + text_row.join(', '))
+    };
+
+    var showtime_string = showtime_list.join(theater_sep);
+    if(show_date){
+      showtime_string = "<b>"+day_string(string_to_date(date), true, false)+"</b> "+showtime_string
     }
-    showtime_list.push(theater_name + "&nbsp;: " + text_row.join(', '))
-  };
+    date_list.push(showtime_string)
+  }
 
-  var showtime_string = showtime_list.join(sep);
+  var date_string = date_list.join(date_sep)
 
-  return showtime_string;
+  return date_string;
 }
 
 function format_movie_title(f, style='italic') {
@@ -206,7 +219,7 @@ function movie_info_contains_filtering_term(f, filtering_term){
   return GLOBALoutput
 }
 
-function get_movie_info_string(f, theaters=true) {
+function get_movie_info_string(f) {
   var category = "";
   var sight_and_sound = "";
   if ('sight_and_sound' in f) {
@@ -225,11 +238,6 @@ function get_movie_info_string(f, theaters=true) {
     f['year'] + " " +
     category + sight_and_sound
   );
-  if (theaters) {
-    for (const [key, value] of Object.entries(f["showtimes_theater"])) {
-      movie_info_string += f["showtimes_theater"][key]["clean_name"] + " "
-    }
-  }
   return movie_info_string
 }
 
@@ -250,30 +258,37 @@ function isSightandSound(f) {
   }
 }
 
-function generate_data_row(f, start, end, filtering_term, checkedNeighborhoods) {
+function generate_data_row(f, start, end, filtering_term, checkedNeighborhoods, theater_sep="<br>", show_date=false, date_sep="<br>") {
   var movie_shown = false;
   var showtimes = {};
-  for (const [key, value] of Object.entries(f.showtimes_theater)){
-    var hours = []
-    value.showtimes = value.showtimes.sort(compare_numbers)
-    for (let m = 0; m < value.showtimes.length; m++){
-      var hour = value.showtimes[m];
-      if (checkedNeighborhoods.includes(value.location_2)){
-        if (hour >= start && hour <= end) {
-          hours.push(hour)
+  for (const [date, values] of Object.entries(f.showtimes)){
+    var date_showtimes = {};
+    for (const [key, value] of Object.entries(values)){
+      var hours = []
+      value.showtimes = value.showtimes.sort(compare_numbers)
+      for (let m = 0; m < value.showtimes.length; m++){
+        var hour = value.showtimes[m];
+        if (checkedNeighborhoods.includes(value.location_2)){
+          if (hour >= start && hour <= end) {
+            hours.push(hour)
+          }
         }
       }
+      if (hours.length>0){
+        date_showtimes[key] = Object.assign({}, value);
+        date_showtimes[key]['showtimes'] = hours;
+      }
     }
-    if (hours.length>0){
-      showtimes[key] = Object.assign({}, value);
-      showtimes[key]['showtimes'] = hours;
+    if (Object.keys(date_showtimes).length > 0){
+      showtimes[date] = date_showtimes
     }
   }
 
   var movie_still_playing = (Object.keys(showtimes).length > 0)
   var movie_contains_filtering_term = movie_info_contains_filtering_term(f, filtering_term);
   if (movie_still_playing && movie_contains_filtering_term) {
-    var tblRow = row_text(f, display_showtimes(showtimes))
+    console.log(showtimes)
+    var tblRow = row_text(f, display_showtimes(showtimes, theater_sep, show_date, date_sep))
     $(tblRow).appendTo("#userdata tbody");
     movie_shown = true;
   }
@@ -344,4 +359,30 @@ function moviesearch() {
       }
     }
   }
+}
+
+function append_data(promise_data, querySnapshot, date){
+  var data_aux = [];
+  querySnapshot.forEach((doc) => {
+    data_aux = doc.data().movies;
+    for (var i = 0; i < data_aux.length; i++){
+      data_aux[i].showtimes = {}
+      data_aux[i].showtimes[date_to_string(date)] = data_aux[i].showtimes_theater
+      delete data_aux[i].showtimes_theater
+    }
+  });
+  for (var i = 0; i < data_aux.length; i++){
+    var found = false;
+    for (var j = 0; j < promise_data.length; j++){
+      if (data_aux[i]['id']==promise_data[j]['id']){
+        promise_data[j].showtimes[date_to_string(date)] = data_aux[i].showtimes[date_to_string(date)];
+        found = true;
+        break
+      }
+    }
+    if (found==false){
+      promise_data.push(data_aux[i])
+    }
+  }
+  return(promise_data)
 }

@@ -46,18 +46,30 @@
         urlp[s[i].split('=')[0]] = s[i].split('=')[1];
       }
 
-      async function get_screenings(db, id) {
+      async function getData(db, id) {
+        var today = new Date();
         const q = query(collection(db, "website-by-movie-screenings"), where("id", "==", id));
         var querySnapshot = await getDocs(q);
         var data_aux = [];
         querySnapshot.forEach((doc) => {
           data_aux = doc.data();
+          data_aux.showtimes = {}
+          for (const date of Object.keys(data_aux.screenings)){
+            if (date_to_string(today) <= date) {
+              data_aux.showtimes[date] = []
+              for (const theater_id of Object.keys(data_aux.screenings[date])){
+                data_aux.showtimes[date].push(data_aux.screenings[date][theater_id])
+              }
+            }
+          }
+          delete data_aux.screenings;
+          data_aux.screenings = data_aux.showtimes;
+          delete data_aux.showtimes;
         });
         return data_aux;
       }
 
       function show_info_and_screenings(promise_screenings) {
-        var today = new Date();
         promise_screenings.then((data) => {
           document.getElementById("title").innerHTML = format_movie_title(data, 'italic');
           document.title = format_movie_title(data, null) + " | Le Rétro Projecteur – Cinéma de patrimoine à Paris";
@@ -73,26 +85,18 @@
           var next_screenings = "<div class='moviebox'><br>"
           if (typeof(data.screenings) != "undefined"){
             if (data.screenings.length != 0) {
-            const keys = Object.keys(data.screenings);
-            keys.sort(
-              (a, b) => a.localeCompare(b)
-            ).forEach(f => {
-              if (date_to_string(today) <= f) {
-                next_screenings += "<h3>" + day_string(string_to_date(f)) + "</h3>"
-                next_screenings += display_showtimes(data.screenings[f], "<br>") + "<br><br>";
-              }
-            })
+              next_screenings += display_showtimes(data.screenings, "&nbsp;; ", true, "<br><br>")
             }
           }
           if (next_screenings == "<div class='moviebox'><br>") {
-            next_screenings += "<b>Pas de séances prévues pour le moment.<b><br><br>"
+            next_screenings += "<b>Pas de séances prévues pour le moment.<b>"
           }
-          next_screenings += "</div>"
+          next_screenings += "<br><br></div>"
           document.getElementById("next-screenings").innerHTML = next_screenings;
         })
       }
 
-      var promise_screenings = get_screenings(db, urlp['id']);
+      var promise_screenings = getData(db, urlp['id']);
       show_info_and_screenings(promise_screenings);
 
     </script>
