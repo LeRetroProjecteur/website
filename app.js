@@ -287,7 +287,6 @@ function generate_data_row(f, start, end, filtering_term, checkedNeighborhoods, 
   var movie_still_playing = (Object.keys(showtimes).length > 0)
   var movie_contains_filtering_term = movie_info_contains_filtering_term(f, filtering_term);
   if (movie_still_playing && movie_contains_filtering_term) {
-    console.log(showtimes)
     var tblRow = row_text(f, display_showtimes(showtimes, theater_sep, show_date, date_sep))
     $(tblRow).appendTo("#userdata tbody");
     movie_shown = true;
