@@ -1,1 +1,2 @@
+#https://docs.netlify.com/routing/redirects/redirect-options/
 https://leretro.org/* https://leretroprojecteur.com/:splat 301!
