@@ -99,6 +99,7 @@ function week_string(start_date, end_date=null){
 function display_showtimes(showtimes, theater_sep="<br>", show_date=false, date_sep="<br>"){
 
   var date_list = []
+  showtimes = Object.fromEntries(Object.entries(showtimes).sort());
 
   for (const date of Object.keys(showtimes)){
 
