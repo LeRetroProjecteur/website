@@ -40,6 +40,7 @@
       const app = initializeApp(firebaseConfig);
       const db = getFirestore();
 
+      var today = date_to_string(new Date());
       var urlp = [];
       var s = location.toString().split('?')[1].split('&');
       for (var i = 0; i < s.length; i++) {
@@ -59,6 +60,7 @@
 
       function show_info_and_screenings(promise_screenings) {
         promise_screenings.then((data) => {
+          data.screenings = Object.fromEntries(Object.entries(data.screenings).filter(([key, value]) => key>=today));
           document.getElementById("title").innerHTML = format_movie_title(data, 'italic');
           document.title = format_movie_title(data, null) + " | Le Rétro Projecteur – Cinéma de patrimoine à Paris";
           if ("duration" in data == false || data.duration == "None"){
