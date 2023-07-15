@@ -40,6 +40,7 @@
       const app = initializeApp(firebaseConfig);
       const db = getFirestore();
 
+      var today = date_to_string(new Date());
       var urlp = [];
       var s = location.toString().split('?')[1].split('&');
       for (var i = 0; i < s.length; i++) {
@@ -48,29 +49,18 @@
 
       async function getData(db, id) {
         var today = new Date();
-        const q = query(collection(db, "website-by-movie-screenings"), where("id", "==", id));
+        const q = query(collection(db, "website-by-movie-screenings-temp"), where("id", "==", id));
         var querySnapshot = await getDocs(q);
         var data_aux = [];
         querySnapshot.forEach((doc) => {
           data_aux = doc.data();
-          data_aux.showtimes = {}
-          for (const date of Object.keys(data_aux.screenings)){
-            if (date_to_string(today) <= date) {
-              data_aux.showtimes[date] = []
-              for (const theater_id of Object.keys(data_aux.screenings[date])){
-                data_aux.showtimes[date].push(data_aux.screenings[date][theater_id])
-              }
-            }
-          }
-          delete data_aux.screenings;
-          data_aux.screenings = data_aux.showtimes;
-          delete data_aux.showtimes;
         });
         return data_aux;
       }
 
       function show_info_and_screenings(promise_screenings) {
         promise_screenings.then((data) => {
+          data.screenings = Object.fromEntries(Object.entries(data.screenings).filter(([key, value]) => key>=today));
           document.getElementById("title").innerHTML = format_movie_title(data, 'italic');
           document.title = format_movie_title(data, null) + " | Le Rétro Projecteur – Cinéma de patrimoine à Paris";
           if ("duration" in data == false || data.duration == "None"){

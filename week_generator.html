@@ -5,10 +5,11 @@
 
     <title>El Generator | Le Rétro Projecteur – Cinéma de patrimoine à Paris</title>
 
-    <link rel="icon" href="img/logo_square.png">
+    <link rel="icon" href="img/logo_square.png" , alt="Cinéma à Paris">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="Description" CONTENT="Venez découvrir toutes les ressorties de films dans les salles parisiennes.">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
@@ -17,15 +18,6 @@
     <script type="text/javascript" src="app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.js"></script>
     <link rel="stylesheet" href="main.css">
-
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-F5QY5F8S5L"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-F5QY5F8S5L');
-    </script>
 
     <script>
       $(function(){
@@ -46,57 +38,50 @@
       var start_date = get_current_week(week_date)[0]
       document.getElementById("next_week").innerHTML = week_string(start_date);
 
-      async function get_search_options(db, date) {
-        const q = doc(db, "website-by-date-screenings", date);
-        var querySnapshot = await getDoc(q);
-        return querySnapshot.data();
-      };
-      async function show_search_options(promise_movies, select) {
-        promise_movies.then((data) => {
-          data.movies.sort((a, b) => $(a).attr('title').localeCompare($(b).attr('title'))).forEach(f => {
-            var opt = document.createElement('option');
-            opt.value = f.id;
-            opt.innerHTML = format_movie_title(f);
-            select.appendChild(opt);
-          })
-        })
+      async function getData(db, date, promise_data){
+        console.log("Fetching data")
+        const q = query(collection(db, "website-by-date-screenings"), where("date", "==", date_to_string(date)));
+        var querySnapshot = await getDocs(q);
+        promise_data = append_data(promise_data, querySnapshot, date)
       }
-      async function show_date_movie_info(promise_movies, movie_id, date_string) {
-        promise_movies.then((data) => {
-          var html_string = "";
-          data.movies.sort((a, b) => $(a).attr('title').localeCompare($(b).attr('title'))).forEach(f => {
-            if (f.id == movie_id) {
-              html_string = html_string.concat("<strong>")
-              html_string = html_string.concat("<u><span style='font-size:18px'>")
-              html_string = html_string.concat(date_string)
-              html_string = html_string.concat("</u></span>")
-              html_string = html_string.concat("<br />")
-              html_string = html_string.concat("<span style='font-size:16px'>")
-              html_string = html_string.concat(format_movie_title(f))
-              html_string = html_string.concat("</span>")
-              html_string = html_string.concat("</strong><br />")
-              html_string = html_string.concat(display_showtimes(f.showtimes_theater))
-              html_string = html_string.concat("<br /><br />")
-            }
-          })
-          document.getElementById("week_html").innerHTML += html_string;
-          document.getElementById("week_html_code").innerHTML += html_string.replaceAll("&", "&amp;").replaceAll("<", "&lt;");
+
+      function show_search_options(promise_data, select) {
+        promise_data.flat(1).sort(
+          (a, b) => $(a).attr('title').localeCompare($(b).attr('title'))
+        ).forEach(f => {
+          var opt = document.createElement('option');
+          opt.value = f.id;
+          opt.innerHTML = format_movie_title(f);
+          select.appendChild(opt);
         })
       }
 
-      var date = new Date(start_date);
-      for (var i = 0; i < 7; i++){
-        var select = document.getElementById(days_short[date.getDay()].toLowerCase());
-        var opt = document.createElement('option');
-        opt.value = "";
-        opt.innerHTML = "-----";
-        select.appendChild(opt);
-        var promise_movies = get_search_options(db, date_to_string(date));
-        show_search_options(promise_movies, select);
-        date.setDate(date.getDate() + 1);
+      function show_date_movie_info(promise_data, movie_id, date) {
+        var html_string = "";
+        var date_string = day_string(date, true, false);
+        promise_data.flat(1).sort(
+          (a, b) => $(a).attr('title').localeCompare($(b).attr('title'))
+        ).forEach(f => {
+          if (f.id == movie_id) {
+            var showtimes = {}
+            html_string = html_string.concat("<strong>")
+            html_string = html_string.concat("<u><span style='font-size:18px'>")
+            html_string = html_string.concat(date_string)
+            html_string = html_string.concat("</u></span>")
+            html_string = html_string.concat("<br />")
+            html_string = html_string.concat("<span style='font-size:16px'>")
+            html_string = html_string.concat(format_movie_title(f))
+            html_string = html_string.concat("</span>")
+            html_string = html_string.concat("</strong><br />")
+            html_string = html_string.concat(display_showtimes(f.showtimes))
+            html_string = html_string.concat("<br /><br />")
+          }
+        })
+        document.getElementById("week_html").innerHTML += html_string;
+        document.getElementById("week_html_code").innerHTML += html_string.replaceAll("&", "&amp;").replaceAll("<", "&lt;");
       }
 
-      function print_week_html_module(e) {
+      async function print_week_html_module(e) {
         e.preventDefault();
         document.getElementById("week_html").innerHTML = "";
         document.getElementById("week_html_code").innerHTML = "";
@@ -104,12 +89,27 @@
         for (var i = 0; i < 7; i++){
           var day = days_short[date.getDay()].toLowerCase();
           var movie_id = document.getElementById(day).value;
-          var promise_movies = get_search_options(db, date_to_string(date));
-          var date_string = day_string(date, true, false);
-          show_date_movie_info(promise_movies, movie_id, date_string);
+          var promise_data = [];
+          await getData(db, date, promise_data);
+          show_date_movie_info(promise_data, movie_id, date);
           date.setDate(date.getDate() + 1);
         }
       }
+
+      $(async function() {
+        var date = new Date(start_date);
+        for (var i = 0; i < 7; i++){
+          var select = document.getElementById(days_short[date.getDay()].toLowerCase());
+          var opt = document.createElement('option');
+          opt.value = "";
+          opt.innerHTML = "-----";
+          select.appendChild(opt);
+          var promise_data = [];
+          await getData(db, date, promise_data);
+          show_search_options(promise_data, select);
+          date.setDate(date.getDate() + 1);
+        }
+      });
 
       window.print_week_html = function print_week_html(e) {
         print_week_html_module(e)
@@ -131,54 +131,46 @@
 
   <body class="light-theme">
     <div id="header"></div>
-
     <h2><span id="next_week"></span></h2>
-
     <center>
-    <form id="myform">
-      <h3>Mercredi</h3>
-      <select name="mer" id="mer">
-      </select>
-      <h3>Jeudi</h3>
-      <select name="jeu" id="jeu">
-      </select>
-      <h3>Vendredi</h3>
-      <select name="ven" id="ven">
-      </select>
-      <h3>Samedi</h3>
-      <select name="sam" id="sam">
-      </select>
-      <h3>Dimanche</h3>
-      <select name="dim" id="dim">
-      </select>
-      <h3>Lundi</h3>
-      <select name="lun" id="lun">
-      </select>
-      <h3>Mardi</h3>
-      <select name="mar" id="mar">
-      </select>
-      <br><br>
-      <input type="submit" value="Submit" onclick="print_week_html(event)">
-    </form>
-    <br>
+      <form id="myform">
+        <h3>Mercredi</h3>
+        <select name="mer" id="mer">
+        </select>
+        <h3>Jeudi</h3>
+        <select name="jeu" id="jeu">
+        </select>
+        <h3>Vendredi</h3>
+        <select name="ven" id="ven">
+        </select>
+        <h3>Samedi</h3>
+        <select name="sam" id="sam">
+        </select>
+        <h3>Dimanche</h3>
+        <select name="dim" id="dim">
+        </select>
+        <h3>Lundi</h3>
+        <select name="lun" id="lun">
+        </select>
+        <h3>Mardi</h3>
+        <select name="mar" id="mar">
+        </select>
+        <br><br>
+        <input type="submit" value="Submit" onclick="print_week_html(event)">
+      </form>
+      <br>
     </center>
-
     <h2>Week:</h2>
-
     <center>
-    <span id='intro_html'></span>
-    <span id='week_html'></span>
-    <span id='outro_html'></span>
+      <span id='intro_html'></span>
+      <span id='week_html'></span>
+      <span id='outro_html'></span>
     </center>
-
     <h2>HTML:</h2>
-
     <span id='intro_html_code'></span>
     <span id='week_html_code'></span>
     <span id='outro_html_code'></span>
-
     <div id="footer"></div>
-
   </body>
 
 </html>
