@@ -51,14 +51,22 @@
         var intro = "";
         querySnapshot.forEach((doc) => {
           var f = doc.data()
-          document.getElementById("week").innerHTML = week_string(get_current_week(string_to_date(f.date))[0]);
-          intro = format_intro(f)
-          cinema_weeks = cinema_weeks.concat(format_cinema_week(f))
-          show_review(db, f.cdc_id, 'cdc', f.cdc_showtimes)
-          show_review(db, f.curio_id, 'curio', f.curio_showtimes)
+
+          // TEMP: REPLACING WEEK WITH MONTH
+          // document.getElementById("week").innerHTML = week_string(get_current_week(string_to_date(f.date))[0]);
+          document.getElementById("week").innerHTML = "Août 2023";
+
+          // TEMP: ADDING DATE TO EDITO
+          // intro = format_intro(f)
+          intro = format_intro(f, true)
+
+          // TEMP: removing CDC, Curio, Semaine
+          // cinema_weeks = cinema_weeks.concat(format_cinema_week(f))
+          // show_review(db, f.cdc_id, 'cdc', f.cdc_showtimes)
+          // show_review(db, f.curio_id, 'curio', f.curio_showtimes)
         });
         document.getElementById("intro").innerHTML = intro;
-        document.getElementById("cinema-weeks").innerHTML = cinema_weeks;
+        // document.getElementById("cinema-weeks").innerHTML = cinema_weeks;
       };
       async function show_review(db, id, type, showtimes){
         const q = query(collection(db, "movie-info"), where("id", "==", id))
@@ -84,6 +92,7 @@
     <br>
     <span id="intro"></span>
     <br>
+    <!--
     <span id="cdc"></span>
     <br>
     <span id="curio"></span>
@@ -92,6 +101,7 @@
     <span id="cinema-weeks"></span>
     </center>
     <br>
+    -->
     <div id="footer"></div>
   </body>
 
