@@ -302,13 +302,15 @@ function format_cinema_week(f) {
   }
   return string
 }
-function format_intro(f) {
-  return "<div class='moviebox'>" + f.intro + "</div>"
+function format_intro(f, date=false) {
+  var intro = "<div class='moviebox'>" + f.intro
+  if (date) {
+    intro += "<div style='text-align:right'>Édito du " + day_string(string_to_date(f.date), false) + "</div>"
+  }
+  intro +=  "</div>"
+  return intro
 }
-function newsletter_week(date) {
-  return week_string(get_current_week(string_to_date(date))[0])
-};
-function format_review(f, title=true, showtimes=null) {
+function format_review(f, title=true, date=false, showtimes=null) {
   var string = (
     "<div class='moviebox'><img src='data:image/png;base64," + f.image_file + "'/>" +
     "<h3 style='color:grey;'>" + f.category + "</h3>"
@@ -316,12 +318,13 @@ function format_review(f, title=true, showtimes=null) {
   if (title){
     string += "<h3><a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" + format_movie_title(f, 'italic') + "</a></h3>"
   }
-  string += f.review + "<p></p>"
-  if (showtimes !== null) {
-    string += "<center><b>" + showtimes + "</b></center>"
-  } else {
+  string += f.review
+  if (date) {
     string += "<div style='text-align:right'>Critique du " + day_string(string_to_date(f.review_date), false) + "</div>"
   }
+  if (showtimes !== null) {
+    string += "<center><b>" + showtimes + "</b></center>"
+  } 
   string = string + "</div>"
   return string
 }

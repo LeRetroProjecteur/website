@@ -70,7 +70,7 @@
           }
           document.getElementById("next-screenings-title").innerHTML = "Prochaines séances à Paris&nbsp;:"
           if (typeof data.review !== 'undefined') {
-            document.getElementById("review_box").innerHTML = "<br>" + format_review(data, false, null) + "<br>";
+            document.getElementById("review_box").innerHTML = "<br>" + format_review(data, false, true, null) + "<br>";
           }
           var next_screenings = "<div class='moviebox'><br>"
           if (typeof(data.screenings) != "undefined"){

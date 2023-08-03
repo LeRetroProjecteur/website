@@ -51,7 +51,7 @@
         var intro = "";
         querySnapshot.forEach((doc) => {
           var f = doc.data()
-          document.getElementById("week").innerHTML = newsletter_week(f.date);
+          document.getElementById("week").innerHTML = week_string(get_current_week(string_to_date(f.date))[0]);
           intro = format_intro(f)
           cinema_weeks = cinema_weeks.concat(format_cinema_week(f))
           show_review(db, f.cdc_id, 'cdc', f.cdc_showtimes)
@@ -66,7 +66,7 @@
         var review = "";
         querySnapshot.forEach((doc) => {
           var f = doc.data();
-          review = format_review(f, true, showtimes);
+          review = format_review(f, true, false, showtimes);
         });
         document.getElementById(type).innerHTML = review;
       }
