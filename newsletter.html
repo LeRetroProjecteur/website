@@ -66,7 +66,7 @@
         var review = "";
         querySnapshot.forEach((doc) => {
           var f = doc.data();
-          review = format_review(f, true, false, showtimes);
+          review = format_review(f, true, true, showtimes);
         });
         document.getElementById(type).innerHTML = review;
       }
@@ -79,7 +79,7 @@
 
   <body class="light-theme">
     <div id="header"></div>
-    <h2>Que voir à Paris cette semaine&nbsp;?</h2>
+    <h2>«&nbsp;Up Close&nbsp;»<br>Que voir à Paris cette semaine&nbsp;?</h2>
     <h3><span id="week"></span></h3>
     <br>
     <span id="intro"></span>
