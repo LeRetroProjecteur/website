@@ -48,6 +48,10 @@ th, td {
 tr:nth-child(even) {
   background-color: var(--lightred);
 }
+tr:hover {
+  background-color: var(--red); /* Change to the desired background color */
+  color: var(--white);
+}
 hr {
   max-width: var(--max_width);
   border-width:0;
