@@ -210,9 +210,8 @@ function movie_info_contains_filtering_term(f, filtering_term){
   if (filtering_term.slice(-1)=="|"){
     filtering_term = filtering_term.slice(0, -1);
   }
-  var movie_info = "";
-  var movie_tags = "";
-  movie_info, movie_tags = get_movie_info_string(f)
+  var movie_info = get_movie_info_string(f);
+  var movie_tags = get_movie_tags_string(f);
   var filtering_field = clean_string(movie_info) + " " + movie_tags;
   var filtering_terms = clean_string(filtering_term).split('|');
   var GLOBALoutput = false;
@@ -223,7 +222,19 @@ function movie_info_contains_filtering_term(f, filtering_term){
   return GLOBALoutput
 }
 
+
 function get_movie_info_string(f) {
+  var movie_info_string = (
+    f['language'] + " " +
+    f['title'] + " " +
+    f['original_title'] + " " +
+    f['directors'] + " " +
+    f['countries']
+  );
+  return movie_info_string
+}
+
+function get_movie_tags_string(f) {
   var category = "";
   var sight_and_sound = "";
   var tags = "";
@@ -237,19 +248,12 @@ function get_movie_info_string(f) {
     if (f["category"] == 'COUP DE CŒUR') category="#cdc"
     if (f["category"] == 'ON EST CURIEUX') category="#curio"
   }
-  var movie_info_string = (
-    f['language'] + " " +
-    f['title'] + " " +
-    f['original_title'] + " " +
-    f['directors'] + " " +
-    f['countries']
-  );
   var movie_tags = (
     sight_and_sound + " " +
     category  + " " +
     tags
   );
-  return movie_info_string, movie_tags
+  return movie_tags
 }
 
 function isCOUPdeCOEUR(f) {
