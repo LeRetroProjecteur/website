@@ -180,9 +180,9 @@ var no_movie_playing_at_this_hour = "<b>Aucun film ne joue à cette heure-ci auj
 var no_movie_for_given_filtering_term = "<b>Aucun film ne correspond à cette recherche aujourd'hui.</b>";
 
 function clean_string(string){
-  string = string.replaceAll('.', '');
   string = string.replaceAll('-', ' ');
-  string = string.replaceAll("'", ' ');
+  string = string.normalize("NFD").replace(/\p{Diacritic}/gu, "")
+  string = string.replaceAll(/[^a-zA-Z0-9 ]/g, '');
   string = string.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
   string = string.toLowerCase();
   return string
@@ -198,7 +198,7 @@ function at_least_one_word_starts_with_substring(list, substring){
 
 function string_match(term, field){
   field = clean_string(field).split(" ")
-  var sub_terms = clean_string(term).split(' ');
+  var sub_terms = clean_string(term).split(" ");
   var LOCALoutput = true;
   for (const sub_term of sub_terms) {
     LOCALoutput = LOCALoutput && at_least_one_word_starts_with_substring(field, sub_term);
@@ -210,7 +210,10 @@ function movie_info_contains_filtering_term(f, filtering_term){
   if (filtering_term.slice(-1)=="|"){
     filtering_term = filtering_term.slice(0, -1);
   }
-  var filtering_field = clean_string(get_movie_info_string(f));
+  var movie_info = "";
+  var movie_tags = "";
+  movie_info, movie_tags = get_movie_info_string(f)
+  var filtering_field = clean_string(movie_info) + " " + movie_tags;
   var filtering_terms = clean_string(filtering_term).split('|');
   var GLOBALoutput = false;
   for (const filtering_term of filtering_terms) {
@@ -223,23 +226,30 @@ function movie_info_contains_filtering_term(f, filtering_term){
 function get_movie_info_string(f) {
   var category = "";
   var sight_and_sound = "";
+  var tags = "";
+  if ('tags' in f) {
+    tags = f['tags']
+  }
   if ('sight_and_sound' in f) {
-    sight_and_sound = "_s&s_"
+    sight_and_sound = "#s&s"
   }
   if ('category' in f) {
-    if (f["category"] == 'COUP DE CŒUR') category="_cdc_"
-    if (f["category"] == 'ON EST CURIEUX') category="_curio_"
+    if (f["category"] == 'COUP DE CŒUR') category="#cdc"
+    if (f["category"] == 'ON EST CURIEUX') category="#curio"
   }
   var movie_info_string = (
     f['language'] + " " +
     f['title'] + " " +
     f['original_title'] + " " +
     f['directors'] + " " +
-    f['countries'] + " " +
-    f['year'] + " " +
-    category + sight_and_sound
+    f['countries']
   );
-  return movie_info_string
+  var movie_tags = (
+    sight_and_sound + " " +
+    category  + " " +
+    tags
+  );
+  return movie_info_string, movie_tags
 }
 
 function isCOUPdeCOEUR(f) {
