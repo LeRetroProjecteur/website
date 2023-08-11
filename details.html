@@ -49,7 +49,7 @@
 
       async function getData(db, id) {
         var today = new Date();
-        const q = query(collection(db, "website-by-movie-screenings-temp"), where("id", "==", id));
+        const q = query(collection(db, "website-by-movie-screenings"), where("id", "==", id));
         var querySnapshot = await getDocs(q);
         var data_aux = [];
         querySnapshot.forEach((doc) => {
