@@ -181,8 +181,11 @@ var no_movie_for_given_filtering_term = "<b>Aucun film ne correspond à cette re
 
 function clean_string(string){
   string = string.replaceAll('-', ' ');
+  string = string.replaceAll(/'|’/g, "'");
+  string = string.replaceAll("'", ' ');
+  string = string.replaceAll('&', 'and');
   string = string.normalize("NFD").replace(/\p{Diacritic}/gu, "")
-  string = string.replaceAll(/[^a-zA-Z0-9 ]/g, '');
+  string = string.replaceAll(/[^a-zA-Z0-9 #]/g, '');
   string = string.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
   string = string.toLowerCase();
   return string
@@ -210,10 +213,8 @@ function movie_info_contains_filtering_term(f, filtering_term){
   if (filtering_term.slice(-1)=="|"){
     filtering_term = filtering_term.slice(0, -1);
   }
-  var movie_info = get_movie_info_string(f);
-  var movie_tags = get_movie_tags_string(f);
-  var filtering_field = clean_string(movie_info) + " " + movie_tags;
-  var filtering_terms = clean_string(filtering_term).split('|');
+  var filtering_field = get_movie_info_string(f);
+  var filtering_terms = filtering_term.split('|');
   var GLOBALoutput = false;
   for (const filtering_term of filtering_terms) {
     var LOCALoutput = string_match(filtering_term, filtering_field)
@@ -229,31 +230,10 @@ function get_movie_info_string(f) {
     f['title'] + " " +
     f['original_title'] + " " +
     f['directors'] + " " +
-    f['countries']
+    f['countries'] + " " +
+    f['tags']
   );
   return movie_info_string
-}
-
-function get_movie_tags_string(f) {
-  var category = "";
-  var sight_and_sound = "";
-  var tags = "";
-  if ('tags' in f) {
-    tags = f['tags']
-  }
-  if ('sight_and_sound' in f) {
-    sight_and_sound = "#s&s"
-  }
-  if ('category' in f) {
-    if (f["category"] == 'COUP DE CŒUR') category="#cdc"
-    if (f["category"] == 'ON EST CURIEUX') category="#curio"
-  }
-  var movie_tags = (
-    sight_and_sound + " " +
-    category  + " " +
-    tags
-  );
-  return movie_tags
 }
 
 function isCOUPdeCOEUR(f) {
@@ -261,13 +241,6 @@ function isCOUPdeCOEUR(f) {
     if (f["category"]=="COUP DE CŒUR") {
       return true
     }
-  } else {
-    return false
-  }
-}
-function isSightandSound(f) {
-  if ("sight_and_sound" in f) {
-    return true
   } else {
     return false
   }
