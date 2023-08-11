@@ -11,7 +11,9 @@
   async function show_search_options(promise_movies) {
     promise_movies.then((data) => {
       var string = "";
-      data.elements.sort().forEach(f => {
+      data.elements.sort(
+        (a, b) => $(b).attr('relevance_score')-$(a).attr('relevance_score')
+      ).forEach(f => {
         string = string.concat(
           "<a href='/details.html?id=" + f.id + "'>" +
           format_movie_title(f) +
