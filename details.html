@@ -61,8 +61,13 @@
       function show_info_and_screenings(promise_screenings) {
         promise_screenings.then((data) => {
           data.screenings = Object.fromEntries(Object.entries(data.screenings).filter(([key, value]) => key>=today));
-          document.getElementById("title").innerHTML = format_movie_title(data, 'italic');
           document.title = format_movie_title(data, null) + " | Le Rétro Projecteur – Cinéma de patrimoine à Paris";
+          document.getElementById("title").innerHTML = format_movie_title(data, 'italic');
+          if (data.original_title != null){
+            if (data.original_title != data.title){
+              document.getElementById("original_title").innerHTML = "Titre original&nbsp;: <i>" + data.original_title +"</i>";
+            }
+          }
           if ("duration" in data == false || data.duration == "None"){
             document.getElementById("duration").innerHTML = "Durée inconnue"
           } else {
@@ -95,8 +100,8 @@
 
   <body class="light-theme">
     <div id="header"></div>
-    <h2><span id="title"></h2>
-    <center><span id="original_title"></span></center>
+    <h2><span id="title"></span></h2>
+    <h3><span id="original_title"></span></h2>
     <center><span id="duration"></span></center>
     <span id="review_box"></span>
     <h2><span id="next-screenings-title"></h2>
