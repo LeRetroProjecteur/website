@@ -70,7 +70,7 @@
 
         promise_data.flat(1).sort(
           (a, b) => $(a).attr('year')-$(b).attr('year')
-          || $(a).attr('director_sort_name').localeCompare($(b).attr('director_sort_name'))
+          || $(a).attr('directors').localeCompare($(b).attr('directors'))
           || $(a).attr('title').localeCompare($(b).attr('title'))
         ).forEach(f => {
           var [movie_shown, movie_still_playing, movie_contains_filtering_term] = generate_data_row(f, start_time, end_time, filtering_term, checkedNeighborhoods);
