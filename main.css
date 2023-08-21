@@ -75,7 +75,7 @@ input {
   appearance: none;
 }
 #logo-wrap {
-    max-width: 400px;
+    max-width: 375px;
     height: auto;
     display:block;
 }
@@ -117,6 +117,10 @@ a:hover {
 brsmall {
   display: block;
   margin: 7px 0;
+}
+brmedium {
+  display: block;
+  margin: 10px 0;
 }
 .menu-item {
   font-size:18px;
