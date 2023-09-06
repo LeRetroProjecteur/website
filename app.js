@@ -223,16 +223,13 @@ function movie_info_contains_filtering_term(f, filtering_term){
   return GLOBALoutput
 }
 
-
 function get_movie_info_string(f) {
-  var movie_info_string = (
-    f['language'] + " " +
-    f['title'] + " " +
-    f['original_title'] + " " +
-    f['directors'] + " " +
-    f['countries'] + " " +
-    f['tags']
-  );
+  var movie_info_string = ""
+  for (var elem of ['language', 'title', 'original_title', 'directors', 'countries', 'tags']){
+    if (elem in f) {
+      movie_info_string += f[elem] + " "
+    }
+  };
   return movie_info_string
 }
 
