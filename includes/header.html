@@ -1,30 +1,30 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
-  import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
+  import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
   const app = initializeApp(firebaseConfig);
   const db = getFirestore();
   async function get_search_options(db) {
     const q = doc(db, "website-extra-docs", "all-movies");
-    var querySnapshot = await getDoc(q);
+    const querySnapshot = await getDoc(q);
     return querySnapshot.data();
-  };
+  }
   async function show_search_options(promise_movies) {
     promise_movies.then((data) => {
-      var string = "";
+      let string = "";
       data.elements.sort(
         (a, b) => $(b).attr('relevance_score')-$(a).attr('relevance_score')
       ).forEach(f => {
         string = string.concat(
           "<a href='/details.html?id=" + f.id + "'>" +
           format_movie_title(f) +
-          "<input type='hidden' value='"+ f.search_field + "'></input>" +
+          "<input type='hidden' value='"+ f.search_field + "'>" +
           "</a>"
         )
       })
       document.getElementById("search_options").innerHTML = string;
     })
   }
-  var promise_movies = get_search_options(db);
+  const promise_movies = get_search_options(db);
   show_search_options(promise_movies);
 </script>
 
@@ -37,29 +37,29 @@
   gtag('config', 'G-F5QY5F8S5L');
 </script>
 
-<center>
+<div style="text-align: center">
   <!-- Pour nos recommandations cinéma toutes les semaines, -->
-  <a href="/subscribe.html">Abonnez-vous à notre newsletter hebdomadaire&nbsp;!</a>
-</center>
-<brsmall>
-<center>
+  <a href="../subscribe.html">Abonnez-vous à notre newsletter hebdomadaire&nbsp;!</a>
+</div>
+<brsmall/>
+<div style="text-align: center">
   <div class="dropdown">
-    <input type="text" id="moviesearch" class="moviesearch" onkeyup="moviesearch()" placeholder="Recherchez un film..." >
+    <label for="moviesearch"></label><input type="text" id="moviesearch" class="moviesearch" onkeyup="moviesearch()" placeholder="Recherchez un film...">
     <div id="myDropdown" class="dropdown-content">
       <span id="search_options"></span>
     </div>
+  </div>
 </div>
-</center>
-<brmedium>
+<brmedium/>
 <div id="logo-wrap" class="center">
   <a href="/">
-    <img src="/img/logo.png" alt="Le Rétro Projecteur – Cinéma de patrimoine à Paris" class="center" style="display: block">
+    <img src="../img/logo.png" alt="Le Rétro Projecteur – Cinéma de patrimoine à Paris" class="center" style="display: block">
   </a>
 </div>
-<brsmall>
+<brsmall/>
 <div id="outer">
   <div class="menu-item"><a href="/">Calendrier</a> • </div>
-  <div class="menu-item"><a href="/newsletter.html">Actualités</a> • </div>
-  <div class="menu-item"><a href="/coeur.html">Coups de cœur</a></div>
+  <div class="menu-item"><a href="../newsletter.html">Actualités</a> • </div>
+  <div class="menu-item"><a href="../coeur.html">Coups de cœur</a></div>
 </div>
 <hr>
