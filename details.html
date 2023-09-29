@@ -2,15 +2,15 @@
 <html lang="fr">
 
   <head>
-
-    <link rel="icon" href="img/logo_square.png" , alt="Cinéma à Paris">
+    <title>Détails du film | Le Rétro Projecteur – Cinéma de patrimoine à Paris</title>
+    <link rel="icon" href="img/logo_square.png">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="Description" CONTENT="Venez découvrir toutes les ressorties de films dans les salles parisiennes.">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css" />
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css"/>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
     <script type="text/javascript" src="app.js"></script>
@@ -36,22 +36,21 @@
     <script type="module">
 
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
-      import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
+      import { getFirestore, collection, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
       const app = initializeApp(firebaseConfig);
       const db = getFirestore();
 
-      var today = date_to_string(new Date());
-      var urlp = [];
-      var s = location.toString().split('?')[1].split('&');
-      for (var i = 0; i < s.length; i++) {
+      let today = date_to_string(new Date());
+      let urlp = [];
+      let s = location.toString().split('?')[1].split('&');
+      for (let i = 0; i < s.length; i++) {
         urlp[s[i].split('=')[0]] = s[i].split('=')[1];
       }
 
       async function getData(db, id) {
-        var today = new Date();
         const q = query(collection(db, "website-by-movie-screenings"), where("id", "==", id));
-        var querySnapshot = await getDocs(q);
-        var data_aux = [];
+        let querySnapshot = await getDocs(q);
+        let data_aux = [];
         querySnapshot.forEach((doc) => {
           data_aux = doc.data();
         });
@@ -60,33 +59,42 @@
 
       function show_info_and_screenings(promise_screenings) {
         promise_screenings.then((data) => {
-          data.screenings = Object.fromEntries(Object.entries(data.screenings).filter(([key, value]) => key>=today));
+
           document.title = format_movie_title(data, null) + " | Le Rétro Projecteur – Cinéma de patrimoine à Paris";
           document.getElementById("title").innerHTML = format_movie_title(data, 'italic');
-          if ("duration" in data == false || data.duration == "None"){
-            document.getElementById("duration").innerHTML = "Durée inconnue"
+
+          let fiche_technique = ""//"<div class='moviebox' style='max-width:300px'>"
+          if (data.original_title !== null){
+            fiche_technique += "Titre original&nbsp;: <i>" + data.original_title +"</i><br/>";
+          }
+          if (!("duration" in data) || data.duration === "None"){
+            fiche_technique += "Durée inconnue"
           } else {
-            document.getElementById("duration").innerHTML = "Durée&nbsp;: " + convert_duration(data.duration)
+            fiche_technique += "Durée&nbsp;: " + convert_duration(data.duration)
           }
-          document.getElementById("next-screenings-title").innerHTML = "Prochaines séances à Paris&nbsp;:"
+          document.getElementById("fiche-technique").innerHTML = fiche_technique
+
           if (typeof data.review !== 'undefined') {
-            document.getElementById("review_box").innerHTML = "<br>" + format_review(data, false, true, null) + "<br>";
+            document.getElementById("review_box").innerHTML = format_review(data, false, true, null)+"<br/>";
           }
-          var next_screenings = "<div class='moviebox'><br>"
-          if (typeof(data.screenings) != "undefined"){
-            if (data.screenings.length != 0) {
-              next_screenings += display_showtimes(data.screenings, "&nbsp;; ", true, "<br><br>")
-            }
+
+          let next_screenings = "<div class='moviebox'>"
+          next_screenings += "<h3>Prochaines séances à Paris&nbsp;:</h3><p style='line-height: 10px'></p>"
+          data.screenings = Object.fromEntries(Object.entries(data.screenings).filter(([key]) => key>=today));
+          let screenings = display_showtimes(data.screenings, "&nbsp;; ", true, "<p style='line-height: 10px'></p>")
+          if (screenings.length === 0) {
+            next_screenings += "<b>Pas de séance prévue pour le moment.<b>"
+          } else {
+            next_screenings += screenings
           }
-          if (next_screenings == "<div class='moviebox'><br>") {
-            next_screenings += "<b>Pas de séances prévues pour le moment.<b>"
-          }
-          next_screenings += "<br><br></div>"
+          next_screenings += "</div>"
+          console.log(next_screenings)
           document.getElementById("next-screenings").innerHTML = next_screenings;
+
         })
       }
 
-      var promise_screenings = getData(db, urlp['id']);
+      let promise_screenings = getData(db, urlp['id']);
       show_info_and_screenings(promise_screenings);
 
     </script>
@@ -96,10 +104,11 @@
   <body class="light-theme">
     <div id="header"></div>
     <h2><span id="title"></span></h2>
-    <center><span id="duration"></span></center>
+    <div style="text-align: center;"><span id="fiche-technique"></span></div>
+    <br/>
     <span id="review_box"></span>
-    <h2><span id="next-screenings-title"></h2>
     <span id="next-screenings"></span>
+    <br/>
     <div id="footer"></div>
   </body>
 
