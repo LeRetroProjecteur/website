@@ -150,6 +150,9 @@ brmedium {
     width: auto;
     height: auto;
 }
+.slider-styled {
+  margin: 0 auto;
+}
 #slider-range {
     height: 10px;
     width: 300px;
