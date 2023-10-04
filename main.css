@@ -18,6 +18,9 @@ html {
   padding: 5pt;
   line-height: 1.6;
 }
+a:hover {
+  color: var(--red);
+}
 body {
   background: var(--bg);
   max-width: var(--max_width);
@@ -48,9 +51,17 @@ th, td {
 tr:nth-child(even) {
   background-color: var(--lightred);
 }
-tr:hover {
-  background-color: var(--red); /* Change to the desired background color */
-  color: var(--white);
+@media only screen and (min-width: 768px) {
+  tr:nth-child(even) {
+    background-color: var(--white);
+  }
+  tr:hover {
+    background-color: var(--red);
+    color: var(--white);
+  }
+  tr a:hover{
+    color: var(--white);
+  }
 }
 hr {
   max-width: var(--max_width);
@@ -103,9 +114,6 @@ input {
 .screeningsbox {
   width:95%;
   max-width:600px;
-}
-a:hover {
-  color: var(--red);
 }
 .fa {
   padding: 0px;
