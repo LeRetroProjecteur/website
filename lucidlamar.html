@@ -5,14 +5,14 @@
 
     <title>Lucid Lamar | Le Rétro Projecteur – Cinéma de patrimoine à Paris</title>
 
-    <link rel="icon" href="img/logo_square.png" , alt="Cinéma à Paris">
+    <link rel="icon" href="img/logo_square.png">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="Description" CONTENT="Venez découvrir toutes les ressorties de films dans les salles parisiennes.">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css" />
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css"/>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
     <script type="text/javascript" src="app.js"></script>
@@ -29,25 +29,25 @@
     <script type="module">
 
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
-      import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
+      import { getFirestore, collection, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
       const app = initializeApp(firebaseConfig);
       const db = getFirestore();
 
-      var promise_data = [];
-      var filtering_box = document.getElementById("filtering-box");
-      var filtering_term = "";
-      var slider = document.getElementById('slider-range');
-      var start_time = 0;
-      var end_time = 24;
-      var neighborhood_dropdown = document.getElementById('neighborhood-list');
-      var checkedNeighborhoods = ['rg', 'rd', 'em']
+      let promise_data = [];
+      let filtering_box = document.getElementById("filtering-box");
+      let filtering_term = "";
+      let slider = document.getElementById('slider-range');
+      let start_time = 0;
+      let end_time = 24;
+      let neighborhood_dropdown = document.getElementById('neighborhood-list');
+      let checkedNeighborhoods = ['rg', 'rd', 'em']
 
-      var selected_date = new Date();
+      let selected_date = new Date();
       document.getElementById("date_of_today").innerHTML = day_string(selected_date);
 
       function update_start_time(start_time, date){
-        var nd = new Date();
-        var current_time = 0;
+        let nd = new Date();
+        let current_time = 0;
         if (datesAreOnSameDay(date, nd)){
           current_time = nd.getHours()+nd.getMinutes()/60 - 0.34;
         }
@@ -58,31 +58,33 @@
       async function getData(db, date, promise_data){
         console.log("Fetching data")
         const q = query(collection(db, "website-by-date-screenings-all"), where("date", "==", date_to_string(date)));
-        var querySnapshot = await getDocs(q);
+        let querySnapshot = await getDocs(q);
         promise_data = append_data(promise_data, querySnapshot, date)
       }
 
       async function populate_movies(promise_data, start_time, end_time, filtering_term, checkedNeighborhoods) {
         console.log("Populating table")
         await $('#userdata tbody').empty();
-        var [one_movie_shown, one_movie_still_playing, one_movie_contains_filtering_term] = [false, false, false];
+        let [one_shown, one_still_playing, one_contains_filtering_term] = [false, false, false];
 
         promise_data.flat(1).sort(
           (a, b) => $(a).attr('year')-$(b).attr('year')
           || $(a).attr('directors').localeCompare($(b).attr('directors'))
           || $(a).attr('title').localeCompare($(b).attr('title'))
         ).forEach(f => {
-          var [movie_shown, movie_still_playing, movie_contains_filtering_term] = generate_data_row(f, start_time, end_time, filtering_term, checkedNeighborhoods);
-          one_movie_shown = (one_movie_shown || movie_shown);
-          one_movie_still_playing = (one_movie_still_playing || movie_still_playing);
-          one_movie_contains_filtering_term = (one_movie_contains_filtering_term || movie_contains_filtering_term);
+          let [shown, still_playing, contains_filtering_term] = generate_data_row(
+                  f, start_time, end_time, filtering_term, checkedNeighborhoods
+          );
+          one_shown = (one_shown || shown);
+          one_still_playing = (one_still_playing || still_playing);
+          one_contains_filtering_term = (one_contains_filtering_term || contains_filtering_term);
         });
-        if (one_movie_shown==false){
-          if (one_movie_still_playing==false){
-            var tblRow = "<tr><td colspan='100%'>" + no_movie_playing_at_this_hour + "</td></tr>";
+        if (one_shown===false){
+          if (one_still_playing===false){
+            let tblRow = "<tr><td colspan='100%'>" + no_movie_playing_at_this_hour + "</td></tr>";
             $(tblRow).appendTo("#userdata tbody");
           } else {
-            var tblRow = "<tr><td colspan='100%'>" + no_movie_for_given_filtering_term + "</td></tr>";
+            let tblRow = "<tr><td colspan='100%'>" + no_movie_for_given_filtering_term + "</td></tr>";
             $(tblRow).appendTo("#userdata tbody");
           }
         }
@@ -111,8 +113,7 @@
         start_time = Math.round(document.getElementsByClassName("noUi-handle-lower")[0].getAttribute("aria-valuenow"));
         end_time = Math.round(document.getElementsByClassName("noUi-handle-upper")[0].getAttribute("aria-valuenow"));
         document.getElementById('slider-range-value').innerHTML = (
-          "Séances entre <b style='color:var(--red); font-weight:bold;'>" +
-          start_time + "h et " + end_time + "h </b>"
+          "Séances entre <b style='color:var(--red); font-weight:bold;'>" + start_time + "h et " + end_time + "h</b>"
         );
       });
       slider.noUiSlider.on('change', function() {
@@ -120,7 +121,7 @@
       });
 
       // Neighborhood dropdown
-      neighborhood_dropdown.getElementsByClassName('anchor')[0].onclick = function(evt) {
+      neighborhood_dropdown.getElementsByClassName('anchor')[0].onclick = function() {
         if (neighborhood_dropdown.classList.contains('visible')) {
           neighborhood_dropdown.classList.remove('visible');
         }
@@ -128,12 +129,12 @@
           neighborhood_dropdown.classList.add('visible');
         }
       }
-      $('*').click(function(evt){
-        if (!$(evt.target).hasClass('anchor') & !$(evt.target).hasClass('checkbox') & !$(evt.target).hasClass('items')) {
+      $('*').on("click", function(evt){
+        if (!$(evt.target).hasClass('anchor') & !$(evt.target).hasClass('checkbox') && !$(evt.target).hasClass('items')) {
           neighborhood_dropdown.classList.remove('visible');
         }
       });
-      $(':checkbox').click(function(){
+      $(':checkbox').on("click", function(){
         checkedNeighborhoods = []
         $("input:checkbox:checked").each(function(){
           checkedNeighborhoods.push($(this)[0].id);
@@ -142,7 +143,7 @@
       });
 
       // Filtering function
-      filtering_box.addEventListener('keyup', (e) => {
+      filtering_box.addEventListener('keyup', () => {
         filtering_term = filtering_box.value;
         refresh_data();
       });
@@ -159,7 +160,7 @@
       }
       async function move_date_backward() {
         slider.noUiSlider.set([0, 24]);
-        var nd = new Date();
+        let nd = new Date();
         if (!datesAreOnSameDay(nd, selected_date)){
           selected_date.setDate(selected_date.getDate()-1);
           document.getElementById("date_of_today").innerHTML = day_string(selected_date);
@@ -173,11 +174,11 @@
           refresh_data();
         }
       }
-      var moveForwardButton = document.querySelector('#move_date_forward');
+      let moveForwardButton = document.querySelector('#move_date_forward');
       moveForwardButton.onclick = function() {
         move_date_forward()
       };
-      var moveBackwardButton = document.querySelector('#move_date_backward');
+      let moveBackwardButton = document.querySelector('#move_date_backward');
       moveBackwardButton.onclick = function() {
         move_date_backward()
       };
@@ -198,33 +199,34 @@
       <b><span id="date_of_today" class="center"></span></b>
       <input type="button" id="move_date_forward" class="button" value= "▶&#xFE0E;" style="color: var(--red);">
     </h3>
-    <brsmall>
-    <center>
+    <p style="margin: 7px;"></p>
+    <div style="text-align: center;">
       <div id="slider-range-value"></div>
       <div class="slider-styled" id="slider-range"></div>
-      <brsmall>
-      <brsmall>
+      <p style="margin: 7px;"></p>
       <div id="wrap">
         <div id="neighborhood-list" class="dropdown-check-list" tabindex="100">
           <span class="anchor">Quartiers</span>
           <ul class="items">
-            <label class="checkbox"><input class="checkbox" type="checkbox" id="rg" checked> Rive Gauche</label><br/>
-            <label class="checkbox"><input class="checkbox" type="checkbox" id="rd" checked> Rive Droite</label><br/>
-            <label class="checkbox"><input class="checkbox" type="checkbox" id="em" checked> Extramuros</label><br/>
+            <label class="checkbox"><input class="checkbox" type="checkbox" id="rg" checked> Rive Gauche<br/></label>
+            <label class="checkbox"><input class="checkbox" type="checkbox" id="rd" checked> Rive Droite<br/></label>
+            <label class="checkbox"><input class="checkbox" type="checkbox" id="em" checked> Extramuros<br/></label>
           </ul>
         </div>
         <div class="filtering">
-          <input type="text" class="filteringTerm" id="filtering-box" placeholder="Pays, langue, ...">
+          <label for="filtering-box"></label><input type="text" class="filteringTerm" id="filtering-box" placeholder="Pays, langue, ...">
         </div>
       </div>
-    </center>
-    <brsmall>
+    </div>
+    <p style="margin: 7px;"></p>
     <div class="wrapper">
       <div class="profile">
-        <table id= "userdata" border="2" class="center">
+        <table id= "userdata" class="center">
           <thead>
+          <tr>
             <th style="width:50%;background-color:var(--red);color:var(--white);"><strong>Film</strong></th>
             <th style="width:50%;background-color:var(--red);color:var(--white);"><strong>Séances</strong></th>
+          </tr>
           </thead>
           <tbody></tbody>
         </table>

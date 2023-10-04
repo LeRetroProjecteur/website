@@ -12,12 +12,11 @@
     promise_movies.then((data) => {
       let string = "";
       data.elements.sort(
-        (a, b) => $(b).attr('relevance_score')-$(a).attr('relevance_score')
+        (a, b) => $(b).attr('relevance_score') - $(a).attr('relevance_score')
       ).forEach(f => {
         string = string.concat(
           "<a href='/details.html?id=" + f.id + "'>" +
-          format_movie_title(f) +
-          "<input type='hidden' value='"+ f.search_field + "'>" +
+            format_movie_title(f) + "<input type='hidden' value='" + f.search_field + "'>" +
           "</a>"
         )
       })
@@ -38,10 +37,9 @@
 </script>
 
 <div style="text-align: center">
-  <!-- Pour nos recommandations cinéma toutes les semaines, -->
   <a href="../subscribe.html">Abonnez-vous à notre newsletter hebdomadaire&nbsp;!</a>
 </div>
-<brsmall/>
+<p style="margin: 7px;"></p>
 <div style="text-align: center">
   <div class="dropdown">
     <label for="moviesearch"></label><input type="text" id="moviesearch" class="moviesearch" onkeyup="moviesearch()" placeholder="Recherchez un film...">
@@ -50,13 +48,13 @@
     </div>
   </div>
 </div>
-<brmedium/>
+<p style="margin: 10px;"></p>
 <div id="logo-wrap" class="center">
   <a href="/">
     <img src="../img/logo.png" alt="Le Rétro Projecteur – Cinéma de patrimoine à Paris" class="center" style="display: block">
   </a>
 </div>
-<brsmall/>
+<p style="margin: 7px;"></p>
 <div id="outer">
   <div class="menu-item"><a href="/">Calendrier</a> • </div>
   <div class="menu-item"><a href="../newsletter.html">Actualités</a> • </div>

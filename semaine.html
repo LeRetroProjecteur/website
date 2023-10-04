@@ -11,8 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="Description" CONTENT="Venez découvrir toutes les ressorties de films dans les salles parisiennes.">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css" />
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"> </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css"/>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
     <script type="text/javascript" src="app.js"></script>
@@ -29,61 +29,45 @@
     <script type="module">
 
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
-      import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
+      import { getFirestore, collection, getDocs, query, where } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
       const app = initializeApp(firebaseConfig);
       const db = getFirestore();
 
-      var promise_data = [];
-      var filtering_box = document.getElementById("filtering-box");
-      var filtering_term = "";
+      let promise_data = [];
+      let filtering_box = document.getElementById("filtering-box");
+      let filtering_term = "";
 
-      var week_date = new Date();
+      let week_date = new Date();
       week_date.setDate(week_date.getDate() + 4);
-      var start_date = get_current_week(week_date)[0]
-      var screen_date = new Date(start_date);
+      let start_date = get_current_week(week_date)[0]
       document.getElementById("next_week").innerHTML = week_string(start_date);
-
-      function update_start_time(start_time, date){
-        var nd = new Date();
-        var current_time = 0;
-        if (datesAreOnSameDay(date, nd)){
-          current_time = nd.getHours()+nd.getMinutes()/60 - 0.34;
-        }
-        start_time = Math.max(start_time, current_time);
-        return start_time
-      }
 
       async function getData(db, date, promise_data){
         console.log("Fetching data")
         const q = query(collection(db, "website-by-date-screenings"), where("date", "==", date_to_string(date)));
-        var querySnapshot = await getDocs(q);
+        let querySnapshot = await getDocs(q);
         promise_data = append_data(promise_data, querySnapshot, date)
       }
 
       async function populate_movies(promise_data, start_time, end_time, filtering_term, checkedNeighborhoods){
         console.log("Populating table")
         await $('#userdata tbody').empty();
-        var [one_movie_shown, one_movie_still_playing, one_movie_contains_filtering_term] = [false, false, false];
-
         promise_data.sort(
           (a, b) => $(a).attr('year') - $(b).attr('year')
           || $(a).attr('directors').localeCompare($(b).attr('directors'))
           || $(a).attr('title').localeCompare($(b).attr('title'))
         ).forEach(f => {
-          var [movie_shown, movie_still_playing, movie_contains_filtering_term] = generate_data_row(f, start_time, end_time, filtering_term, checkedNeighborhoods, "&nbsp;; ", true, "<br>");
-          one_movie_shown = (one_movie_shown || movie_shown);
-          one_movie_still_playing = (one_movie_still_playing || movie_still_playing);
-          one_movie_contains_filtering_term = (one_movie_contains_filtering_term || movie_contains_filtering_term);
+          generate_data_row(f, start_time, end_time, filtering_term, checkedNeighborhoods, "&nbsp;; ", true, "<br>");
         });
       }
 
       function create_retrospectives_string(promise_data){
 
-        var prev_movie = "";
-        var prev_movie_dir = "";
-        var string = "";
-        var nb_movies = 0;
-        var dir_string = "";
+        let prev_movie = "";
+        let prev_movie_dir = "";
+        let string = "";
+        let nb_movies = 0;
+        let dir_string = "";
 
         promise_data.flat(1).sort(
           (a, b) => $(a).attr('directors').localeCompare($(b).attr('directors'))
@@ -91,24 +75,20 @@
           || $(a).attr('title').localeCompare($(b).attr('title'))
         ).forEach(f => {
 
-          if (f.directors != prev_movie_dir){
+          if (f.directors !== prev_movie_dir){
             if (nb_movies > 3){
               dir_string = dir_string.concat("<br>")
               string = string.concat(dir_string)
             }
             dir_string = "<br><h3 style='text-align:left'>" + f.directors + "</h3>"
-            dir_string = dir_string.concat(
-              "<i>" + f.title + "</i>" + " (" + f.year + ")"
-            )
+            dir_string = dir_string.concat("<i>" + f.title + "</i>" + " (" + f.year + ")")
             nb_movies = 1;
           }
 
-          if (f.directors == prev_movie_dir){
-            if (f.title != prev_movie){
+          if (f.directors === prev_movie_dir){
+            if (f.title !== prev_movie){
               nb_movies = nb_movies + 1;
-              dir_string = dir_string.concat(
-                ", <i>" + f.title + "</i>" + " (" + f.year + ")"
-              )
+              dir_string = dir_string.concat(", <i>" + f.title + "</i>" + " (" + f.year + ")")
             }
           }
 
@@ -127,7 +107,7 @@
       $(async function() {
         promise_data = [];
         for (let i = 0; i < 7; i++) {
-          var date = new Date(start_date);
+          let date = new Date(start_date);
           date.setDate(date.getDate() + i);
           await getData(db, date, promise_data);
         }
@@ -135,7 +115,7 @@
       });
 
       // Filtering function
-      filtering_box.addEventListener('keyup', (e) => {
+      filtering_box.addEventListener('keyup', () => {
         filtering_term = filtering_box.value;
         refresh_data();
       });
@@ -148,14 +128,16 @@
     <div id="header"></div>
     <h2><span id="next_week"></span></h2>
     <div class="filtering">
-      <input type="text" class="filteringTerm" id="filtering-box" placeholder="Film, pays, etc...">
+      <label for="filtering-box"></label><input type="text" class="filteringTerm" id="filtering-box" placeholder="Pays, langue, ...">
     </div>
     <div class="wrapper">
       <div class="profile">
-        <table id= "userdata" border="2" class="center">
+        <table id= "userdata" class="center">
           <thead>
-            <th style="width:50%;background-color:var(--red);color:var(--white);"> <strong>Film</strong></th>
-            <th style="width:50%;background-color:var(--red);color:var(--white);"><strong>Séances</strong></th>
+            <tr>
+              <th style="width:50%;background-color:var(--red);color:var(--white);"><strong>Film</strong></th>
+              <th style="width:50%;background-color:var(--red);color:var(--white);"><strong>Séances</strong></th>
+            </tr>
           </thead>
           <tbody></tbody>
         </table>
@@ -163,7 +145,7 @@
     </div>
     <br>
     <br>
-    <h2>Retrospectives:</h2>
+    <h2>Retrospectives&nbsp;:</h2>
     <span id="retrospectives"></span>
     <div id="footer"></div>
   </body>

@@ -1,6 +1,6 @@
 'use strict'
 
-var firebaseConfig = {
+let firebaseConfig = {
   apiKey: "AIzaSyCjvHHSqWGZhh2pcoHF_8ZeKqxT0wRvXuc",
   authDomain: "website-cine.firebaseapp.com",
   projectId: "website-cine",
@@ -9,10 +9,9 @@ var firebaseConfig = {
   appId: "1:1060388636946:web:ea3752ae94d0ab56e68bcb"
 };
 
-var days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
-var days_short = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
-var months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
-var months_short = ['jan', 'fév', 'mars', 'avr', 'mai', 'juin', 'juil', 'août', 'sept', 'oct', 'nov', 'déc'];
+let days = ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'];
+let days_short = ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'];
+let months = ['janvier', 'février', 'mars', 'avril', 'mai', 'juin', 'juillet', 'août', 'septembre', 'octobre', 'novembre', 'décembre'];
 
 function pad(num, size) {
   num = num.toString();
@@ -25,34 +24,33 @@ function compare_numbers(a, b){
 }
 
 function convert_duration(duration) {
-  var mins = Math.floor(duration/60)
+  let mins = Math.floor(duration/60)
   return mins.toString() + " minutes"
 }
 
 function string_to_date(string){
-  var date = new Date(string.substring(0, 4), parseInt(string.substring(5, 7))-1, string.substring(8, 10));
-  return date;
+  return new Date(string.substring(0, 4), parseInt(string.substring(5, 7)) - 1, string.substring(8, 10));
 }
 
 function date_to_string(date){
-  var string = String(date.getFullYear()).concat('_', String(date.getMonth()+1).padStart(2, '0'), '_', String(date.getDate()).padStart(2, '0'));
-  return string;
+  return String(date.getFullYear()).concat('_', String(date.getMonth() + 1).padStart(2, '0'), '_', String(date.getDate()).padStart(2, '0'));
 }
 
 function one_week_later(start_date){
-  var end_date = new Date(start_date.getFullYear(), start_date.getMonth(), start_date.getDate());
+  let end_date = new Date(start_date.getFullYear(), start_date.getMonth(), start_date.getDate());
   end_date.setDate(end_date.getDate() + 6);
   return end_date;
 }
 
 function get_current_week(date=null){
+  let start_date
   if (date==null) {
-    var start_date = new Date(new Date().toDateString());
+    start_date = new Date(new Date().toDateString());
   } else {
-    var start_date = new Date(date.toDateString());
+    start_date = new Date(date.toDateString());
   }
   start_date.setDate(start_date.getDate() - ((start_date.getDay()+4)%7))
-  var end_date = one_week_later(start_date);
+  let end_date = one_week_later(start_date);
   return [start_date, end_date];
 }
 
@@ -64,13 +62,8 @@ function datesAreOnSameDay(date1, date2) {
   )
 }
 
-function datesAreOnSameMonth(first, second) {
-  return first.getFullYear() === second.getFullYear() &&
-  first.getMonth() === second.getMonth();
-};
-
 function day_string(date, weekday = true, year = true){
-  var string = "";
+  let string = "";
   if (weekday) {
     string = string.concat(days[date.getDay()], " ")
   }
@@ -83,105 +76,92 @@ function day_string(date, weekday = true, year = true){
 
 function week_string(start_date, end_date=null){
   if (end_date==null) {
-    var end_date = one_week_later(start_date);
+    end_date = one_week_later(start_date);
   }
-  var string = 'Semaine du ';
-  if (months[start_date.getMonth()]==months[end_date.getMonth()]){
+  let string = 'Semaine du ';
+  if (months[start_date.getMonth()] === months[end_date.getMonth()]){
     string = string.concat(' ', String(start_date.getDate()));
-  }
-  else{
+  } else {
     string = string.concat(String(start_date.getDate()), ' ', months[start_date.getMonth()]);
   }
   string = string.concat(' au ', String(end_date.getDate()), ' ', months[end_date.getMonth()])
   return string
 }
 
-function display_showtimes(showtimes, theater_sep="<br>", show_date=false, date_sep="<br>"){
+function display_showtimes(showtimes, theater_sep="<br>", show_date=false, date_sep="<br>") {
 
-  var date_list = []
+  let date_list = []
   showtimes = Object.fromEntries(Object.entries(showtimes).sort());
 
-  for (const date of Object.keys(showtimes)){
+  for (const date of Object.keys(showtimes)) {
 
-    var values = showtimes[date]
-    var showtime_list = [];
-
-    // Create items array
-    var items = Object.keys(values).map(function(key) {
-      return [key, values[key]];
+    let values = showtimes[date]
+    let items = Object.keys(values).map(function(key) {
+      return values[key];
     });
-
-    // Sort the array based on the second element
     items.sort(function(first, second) {
-      return first[1]["clean_name"].localeCompare(second[1]["clean_name"]);
+      return first["clean_name"].localeCompare(second["clean_name"]);
     });
 
-    for (const [key, value] of items){
-
+    let showtime_list = [];
+    for (let value of items) {
       value.showtimes = value.showtimes.sort(compare_numbers)
-      var theater_name = value.clean_name + " (" + value.zipcode_clean + ")";
-
-      var text_row = [];
-      for (var i = 0; i < value.showtimes.length; i++){
-        var hour = value.showtimes[i];
-        var minute = pad(parseFloat((60*(hour - Math.floor(hour))).toPrecision(3)), 2);
+      let theater_name = value.clean_name + " (" + value.zipcode_clean + ")";
+      let text_row = [];
+      for (let i = 0; i < value.showtimes.length; i++){
+        let hour = value.showtimes[i];
+        let minute = pad(parseFloat((60*(hour - Math.floor(hour))).toPrecision(3)), 2);
         text_row.push(Math.floor(hour).toString() + "h" + minute);
       }
       showtime_list.push(theater_name + "&nbsp;: " + text_row.join(', '))
-    };
+    }
 
-    var showtime_string = showtime_list.join(theater_sep);
-    if(show_date){
-      showtime_string = "<b>"+day_string(string_to_date(date), true, false)+"</b> "+showtime_string
+    let showtime_string = showtime_list.join(theater_sep);
+    if (show_date) {
+      showtime_string = "<b>" + day_string(string_to_date(date), true, false)+"</b> " + showtime_string
     }
     date_list.push(showtime_string)
   }
 
-  var date_string = date_list.join(date_sep)
-
-  return date_string;
+  return date_list.join(date_sep);
 }
 
 function format_movie_title(f, style='italic') {
-  if (style=='italic'){
-    var start_tag = "<i>";
-    var end_tag = "</i>";
-  } else if (style=='bold'){
-    var start_tag = "<b>";
-    var end_tag = "</b>";
+  let start_tag, end_tag
+  if (style === 'italic') {
+    start_tag = "<i>";
+    end_tag = "</i>";
+  } else if (style === 'bold') {
+    start_tag = "<b>";
+    end_tag = "</b>";
   } else {
-    var start_tag = "";
-    var end_tag = "";
+    start_tag = "";
+    end_tag = "";
   }
   return start_tag + f.title + end_tag + ", " + f.directors + " (" + f.year + ")"
 }
 
 function row_text(f, showtimes) {
-  var cdc_image = ""
-  var sas_image = ""
+  let cdc = ""
   if (isCOUPdeCOEUR(f)) {
-    cdc_image = "<div class='logo_cdc'> <img src='img/logo_square.png' width='20' alt='';' /> </div>"
+    cdc = "<div class='logo_cdc'><img src='img/logo_square.png' style='max-width: 20px' alt=''/></div>"
   }
-
-  var row = (
+  return (
     "<tr>" +
       "<td>" +
-        "<a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" +
-        cdc_image + sas_image +
-        format_movie_title(f, 'bold') + "</a>" +
+        "<a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" + cdc + format_movie_title(f, 'bold') + "</a>" +
       "</td>" +
       "<td>" + showtimes + "</td>" +
     "</tr>"
-  );
-  return row
+  )
 }
 
-var no_movie_playing_at_this_hour = "<b>Aucun film ne joue à cette heure-ci aujourd'hui, regardez demain ?</b>";
-var no_movie_for_given_filtering_term = "<b>Aucun film ne correspond à cette recherche aujourd'hui.</b>";
+let no_movie_playing_at_this_hour = "<b>Aucun film ne joue à cette heure-ci aujourd'hui, regardez demain ?</b>";
+let no_movie_for_given_filtering_term = "<b>Aucun film ne correspond à cette recherche aujourd'hui.</b>";
 
-function clean_string(string){
+function clean_string(string) {
   string = string.replaceAll('-', ' ');
-  string = string.replaceAll(/'|’/g, "'");
+  string = string.replaceAll(/['’]/g, "'");
   string = string.replaceAll("'", ' ');
   string = string.replaceAll('&', 'and');
   string = string.normalize("NFD").replace(/\p{Diacritic}/gu, "")
@@ -191,88 +171,87 @@ function clean_string(string){
   return string
 }
 
-function at_least_one_word_starts_with_substring(list, substring){
-  var output = false;
+function at_least_one_word_starts_with_substring(list, substring) {
+  let output = false;
   for (const word of list) {
     output = output || word.startsWith(substring);
   }
   return output
 }
 
-function string_match(term, field){
+function string_match(term, field) {
   field = clean_string(field).split(" ")
-  var sub_terms = clean_string(term).split(" ");
-  var LOCALoutput = true;
+  let sub_terms = clean_string(term).split(" ");
+  let localOutput = true;
   for (const sub_term of sub_terms) {
-    LOCALoutput = LOCALoutput && at_least_one_word_starts_with_substring(field, sub_term);
+    localOutput = localOutput && at_least_one_word_starts_with_substring(field, sub_term);
   }
-  return LOCALoutput
+  return localOutput
 }
 
-function movie_info_contains_filtering_term(f, filtering_term){
-  if (filtering_term.slice(-1)=="|"){
+function movie_info_contains_filtering_term(f, filtering_term) {
+  if (filtering_term.slice(-1) === "|"){
     filtering_term = filtering_term.slice(0, -1);
   }
-  var filtering_field = get_movie_info_string(f);
-  var filtering_terms = filtering_term.split('|');
-  var GLOBALoutput = false;
+  let filtering_field = get_movie_info_string(f);
+  let filtering_terms = filtering_term.split('|');
+  let globalOutput = false;
   for (const filtering_term of filtering_terms) {
-    var LOCALoutput = string_match(filtering_term, filtering_field)
-    GLOBALoutput = GLOBALoutput || LOCALoutput;
+    let localOutput = string_match(filtering_term, filtering_field)
+    globalOutput = globalOutput || localOutput;
   }
-  return GLOBALoutput
+  return globalOutput
 }
 
 function get_movie_info_string(f) {
-  var movie_info_string = ""
-  for (var elem of ['language', 'title', 'original_title', 'directors', 'countries', 'tags']){
+  let movie_info_string = ""
+  for (let elem of ['language', 'title', 'original_title', 'directors', 'countries', 'tags']){
     if (elem in f) {
       movie_info_string += f[elem] + " "
     }
-  };
+  }
   return movie_info_string
 }
 
 function isCOUPdeCOEUR(f) {
   if ("category" in f) {
-    if (f["category"]=="COUP DE CŒUR") {
+    if (f["category"] === "COUP DE CŒUR") {
       return true
     }
-  } else {
-    return false
   }
+  return false
 }
 
 function generate_data_row(f, start, end, filtering_term, checkedNeighborhoods, theater_sep="<br>", show_date=false, date_sep="<br>") {
-  var movie_shown = false;
-  var showtimes = {};
-  for (const [date, values] of Object.entries(f.showtimes)){
-    var date_showtimes = {};
-    for (const [key, value] of Object.entries(values)){
-      var hours = []
+  let movie_shown = false;
+  let showtimes = {};
+  for (const [date, values] of Object.entries(f.showtimes)) {
+    let date_showtimes = {};
+    for (const [key, value] of Object.entries(values)) {
+      let hours = []
       value.showtimes = value.showtimes.sort(compare_numbers)
-      for (let m = 0; m < value.showtimes.length; m++){
-        var hour = value.showtimes[m];
-        if (checkedNeighborhoods.includes(value.location_2)){
+      for (let m = 0; m < value.showtimes.length; m++) {
+        let hour = value.showtimes[m];
+        if (checkedNeighborhoods.includes(value.location_2)) {
           if (hour >= start && hour <= end) {
             hours.push(hour)
           }
         }
       }
-      if (hours.length>0){
+      if (hours.length>0) {
         date_showtimes[key] = Object.assign({}, value);
         date_showtimes[key]['showtimes'] = hours;
       }
     }
-    if (Object.keys(date_showtimes).length > 0){
+    if (Object.keys(date_showtimes).length > 0) {
       showtimes[date] = date_showtimes
     }
   }
 
-  var movie_still_playing = (Object.keys(showtimes).length > 0)
-  var movie_contains_filtering_term = movie_info_contains_filtering_term(f, filtering_term);
+  let movie_still_playing = (Object.keys(showtimes).length > 0)
+  let movie_contains_filtering_term = movie_info_contains_filtering_term(f, filtering_term);
   if (movie_still_playing && movie_contains_filtering_term) {
-    var tblRow = row_text(f, display_showtimes(showtimes, theater_sep, show_date, date_sep))
+    let tblRow = row_text(f, display_showtimes(showtimes, theater_sep, show_date, date_sep))
     $(tblRow).appendTo("#userdata tbody");
     movie_shown = true;
   }
@@ -280,14 +259,14 @@ function generate_data_row(f, start, end, filtering_term, checkedNeighborhoods, 
 }
 
 function format_cinema_week(f) {
-  var string = "<div class='moviebox'>" + "<h3 style='color:grey;'>" + f.week_name_1 + "</h3><br>" + f.week_text_1 + "</div>"
+  let string = "<div class='moviebox'>" + "<h3 style='color:grey;'>" + f.week_name_1 + "</h3><br>" + f.week_text_1 + "</div>"
   if (f.week_name_2 != null ) {
     string += "<br><div class='moviebox'>" + "<h3 style='color:grey;'>" + f.week_name_2 + "</h3><br>" + f.week_text_2 + "</div>"
   }
   return string
 }
 function format_intro(f, date=false) {
-  var intro = "<div class='moviebox'>" + f.intro
+  let intro = "<div class='moviebox'>" + f.intro
   if (date) {
     intro += "<div style='text-align:right'>Édito du " + day_string(string_to_date(f.date), false) + "</div>"
   }
@@ -295,11 +274,11 @@ function format_intro(f, date=false) {
   return intro
 }
 function format_review(f, title=true, date=false, showtimes=null) {
-  var string = (
-    "<div class='moviebox'><img src='data:image/png;base64," + f.image_file + "'/>" +
+  let string = (
+    "<div class='moviebox'><img src='data:image/png;base64," + f.image_file + "' alt=''/>" +
     "<h3 style='color:grey;'>" + f.category + "</h3>"
   )
-  if (title){
+  if (title) {
     string += "<h3><a href='/details.html?id=" + f.id + "' style='text-decoration:none'>" + format_movie_title(f, 'italic') + "</a></h3>"
   }
   string += f.review
@@ -307,8 +286,8 @@ function format_review(f, title=true, date=false, showtimes=null) {
     string += "<div style='text-align:right'>Critique du " + day_string(string_to_date(f.review_date), false) + "</div>"
   }
   if (showtimes !== null) {
-    string += "<center><b>" + showtimes + "</b></center>"
-  } 
+    string += "<div style=\"text-align: center;\"><b>" + showtimes + "</b></div>"
+  }
   string = string + "</div>"
   return string
 }
@@ -316,7 +295,7 @@ function format_review(f, title=true, date=false, showtimes=null) {
 // Close the dropdown if the user clicks outside of it
 window.onclick = function(event) {
   if (!event.target.matches('.moviesearch')) {
-    var search_dropdown = document.getElementsByClassName("dropdown-content");
+    let search_dropdown = document.getElementsByClassName("dropdown-content");
     for (const elem of search_dropdown) {
       if (elem.classList.contains('show')) {
         elem.classList.remove('show');
@@ -326,18 +305,18 @@ window.onclick = function(event) {
   }
 }
 function moviesearch() {
-  if (document.getElementById("myDropdown").classList.contains('show')==false) {
+  if (!document.getElementById("myDropdown").classList.contains('show')) {
     document.getElementById("myDropdown").classList.toggle("show");
   }
-  var search_term = document.getElementById("moviesearch").value.toLowerCase();
-  var list = document.getElementById("myDropdown").getElementsByTagName("a");
-  var count = 0;
+  let search_term = document.getElementById("moviesearch").value.toLowerCase();
+  let list = document.getElementById("myDropdown").getElementsByTagName("a");
+  let count = 0;
   for (const elem of list) {
-    if (search_term=="" || count >= 5) {
+    if (search_term === "" || count >= 5) {
       elem.style.display = "none";
     }
     else{
-      var search_field = elem.childNodes[2].value;
+      let search_field = elem.childNodes[2].value;
       if (string_match(search_term, search_field)) {
         elem.style.display = "";
         count += 1
@@ -348,26 +327,26 @@ function moviesearch() {
   }
 }
 
-function append_data(promise_data, querySnapshot, date){
-  var data_aux = [];
+function append_data(promise_data, querySnapshot, date) {
+  let data_aux = [];
   querySnapshot.forEach((doc) => {
     data_aux = doc.data().movies;
-    for (var i = 0; i < data_aux.length; i++){
+    for (let i = 0; i < data_aux.length; i++) {
       data_aux[i].showtimes = {}
       data_aux[i].showtimes[date_to_string(date)] = data_aux[i].showtimes_theater
       delete data_aux[i].showtimes_theater
     }
   });
-  for (var i = 0; i < data_aux.length; i++){
-    var found = false;
-    for (var j = 0; j < promise_data.length; j++){
-      if (data_aux[i]['id']==promise_data[j]['id']){
+  for (let i = 0; i < data_aux.length; i++) {
+    let found = false;
+    for (let j = 0; j < promise_data.length; j++) {
+      if (data_aux[i]['id'] === promise_data[j]['id']) {
         promise_data[j].showtimes[date_to_string(date)] = data_aux[i].showtimes[date_to_string(date)];
         found = true;
         break
       }
     }
-    if (found==false){
+    if (!found) {
       promise_data.push(data_aux[i])
     }
   }

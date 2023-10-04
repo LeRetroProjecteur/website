@@ -5,7 +5,7 @@
 
     <title>Actualités | Le Rétro Projecteur – Cinéma de patrimoine à Paris</title>
 
-    <link rel="icon" href="img/logo_square.png" , alt="Cinéma à Paris">
+    <link rel="icon" href="img/logo_square.png">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,16 +38,16 @@
     <script type="module">
 
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
-      import { getFirestore, collection, doc, getDoc, getDocs, query, where, orderBy, limit } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
+      import { getFirestore, collection, getDocs, query, where, orderBy, limit } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
       const app = initializeApp(firebaseConfig);
       const db = getFirestore();
 
       async function show_review(db, id, type, showtimes){
         const q = query(collection(db, "movie-info"), where("id", "==", id))
-        var querySnapshot = await getDocs(q);
-        var review = "";
+        let querySnapshot = await getDocs(q);
+        let review = "";
         querySnapshot.forEach((doc) => {
-          var f = doc.data();
+          let f = doc.data();
           review = format_review(f, true, false, showtimes);
         });
         document.getElementById(type).innerHTML = review;
@@ -56,11 +56,11 @@
         const q = query(collection(db, "newsletters"),
           orderBy("date", "desc"),
           limit(1));
-        var querySnapshot = await getDocs(q);
-        var cinema_weeks = "";
-        var intro = "";
+        let querySnapshot = await getDocs(q);
+        let cinema_weeks = "";
+        let intro = "";
         querySnapshot.forEach((doc) => {
-          var f = doc.data()
+          let f = doc.data()
           document.getElementById("week").innerHTML = week_string(get_current_week(string_to_date(f.date))[0]);
           intro = format_intro(f)
           cinema_weeks = cinema_weeks.concat(format_cinema_week(f))
@@ -69,7 +69,7 @@
         });
         document.getElementById("intro").innerHTML = intro;
         document.getElementById("cinema-weeks").innerHTML = cinema_weeks;
-      };
+      }
 
       show_newsletter(db);
 
@@ -88,9 +88,9 @@
     <br>
     <span id="curio"></span>
     <br>
-    <center>
+    <div style="text-align: center;">
     <span id="cinema-weeks"></span>
-    </center>
+    </div>
     <br>
     <div id="footer"></div>
   </body>

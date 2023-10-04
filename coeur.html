@@ -5,7 +5,7 @@
 
     <title>Nos Coups de Cœur | Le Rétro Projecteur – Cinéma de patrimoine à Paris</title>
 
-    <link rel="icon" href="img/logo_square.png" , alt="Cinéma à Paris">
+    <link rel="icon" href="img/logo_square.png">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,26 +38,25 @@
     <script type="module">
 
       import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.2/firebase-app.js";
-      import { getFirestore, collection, doc, getDoc, getDocs, query, where  } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
+      import { getFirestore, doc, getDoc } from 'https://www.gstatic.com/firebasejs/9.6.2/firebase-firestore.js'
       const app = initializeApp(firebaseConfig);
       const db = getFirestore();
 
       async function get_list_reviews(db) {
         const q = doc(db, "website-extra-docs", "all-reviews");
-        var querySnapshot = await getDoc(q);
+        let querySnapshot = await getDoc(q);
         return querySnapshot.data();
-      };
+      }
 
       async function show_review_name(promise_reviews){
         await $('#userdata tbody').empty();
         promise_reviews.then((data) => {
           data.elements.sort((a, b) => $(b).attr('review_date').localeCompare($(a).attr('review_date'))).forEach(f => {
-            if (f.category == "COUP DE CŒUR") {
-              var tblRow = (
+            if (f.category === "COUP DE CŒUR") {
+              let tblRow = (
                 "<tr><td>" +
                   "Critique du " + day_string(string_to_date(f.review_date), false) + "&nbsp;: " +
-                  "<a href='/details.html?id=" + f.id + "'>" + format_movie_title(f, 'bold') +
-                  "</a>" +
+                  "<a href='/details.html?id=" + f.id + "'>" + format_movie_title(f, 'bold') + "</a>" +
                 "</td></tr>"
               );
               $(tblRow).appendTo("#userdata tbody");
@@ -66,7 +65,7 @@
         })
       }
 
-      var promise_reviews = get_list_reviews(db);
+      let promise_reviews = get_list_reviews(db);
       show_review_name(promise_reviews);
 
     </script>
@@ -76,7 +75,7 @@
   <body class="light-theme">
     <div id="header"></div>
     <h2>Archives&nbsp;: Nos Coups de Cœur</h2>
-    <table id= "userdata" border="3" class="center">
+    <table id= "userdata" class="center">
       <tbody></tbody>
     </table>
     <span id="cdc"></span>

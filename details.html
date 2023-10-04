@@ -63,7 +63,7 @@
           document.title = format_movie_title(data, null) + " | Le Rétro Projecteur – Cinéma de patrimoine à Paris";
           document.getElementById("title").innerHTML = format_movie_title(data, 'italic');
 
-          let fiche_technique = ""//"<div class='moviebox' style='max-width:300px'>"
+          let fiche_technique = ""
           if (data.original_title !== null){
             fiche_technique += "Titre original&nbsp;: <i>" + data.original_title +"</i><br/>";
           }
@@ -88,7 +88,6 @@
             next_screenings += screenings
           }
           next_screenings += "</div>"
-          console.log(next_screenings)
           document.getElementById("next-screenings").innerHTML = next_screenings;
 
         })
