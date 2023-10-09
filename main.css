@@ -193,14 +193,15 @@ brmedium {
 .dropdown-check-list {
   display: inline-block;
   text-align: left;
-  width: min(90%, 148px);
+  width: min(49%, 160px);
   border: 1px solid var(--lightgrey);
 }
 .dropdown-check-list .anchor {
   position: relative;
   cursor: pointer;
   display: inline-block;
-  padding: 5px 60px 5px 10px;
+  padding: 5px 10px 5px 10px;
+  width: calc(100% - 21px);
 }
 .dropdown-check-list .anchor:after {
   position: absolute;
@@ -236,7 +237,7 @@ brmedium {
 .dropdown-check-list.visible .items {
   display: block;
 }
-input[type="checkbox"] { /* change "blue" browser chrome to yellow */
+input[type="checkbox"] {
   accent-color: var(--red);
 }
 
@@ -244,13 +245,13 @@ input[type="checkbox"] { /* change "blue" browser chrome to yellow */
 .filtering {
   display: inline-block;
   margin: 0 auto;
-  width: min(90%, 150px);
+  width: min(49%, 160px);
 }
 .filteringTerm {
   border: 1px solid var(--lightgrey);
-  border-radius: 0px;
-  padding: 5px 20px 5px 10px;
-  width: min(90%, 118px);
+  border-radius: 0;
+  padding: 5px 10px 5px 10px;
+  width: calc(100% - 21px);
   line-height: 1.6;
   color: #9DBFAF;
 }
