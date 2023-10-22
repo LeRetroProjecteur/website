@@ -52,8 +52,14 @@ tr:nth-child(even) {
   background-color: var(--lightred);
 }
 @media only screen and (min-width: 768px) {
+  th, td, table {
+    border-bottom: 2px solid black;
+    border-top: 2px solid black;
+    border-left: 0;
+    border-right: 0;
+  }
   tr:nth-child(even) {
-    background-color: var(--white);
+    background-color: var(--lightred);
   }
   tr:hover {
     background-color: var(--red);
