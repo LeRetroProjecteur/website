@@ -295,3 +295,26 @@ input[type="checkbox"] {
 select {
   width: 300px;
 }
+
+/* Articles */
+.post {
+  width: min(100%, 300px);
+  padding: 10px;
+  margin: 5px;
+  display: inline-block;
+  border: 3px solid black;
+  border-radius: 10px;
+}
+.post-grid {
+  text-align: center;
+}
+.post-grid::after {
+  content: "";
+  clear: both;
+  display: table;
+  margin: 10px;
+}
+.post-icon {
+  height: 150px;
+  max-width: 100%;
+}
