@@ -272,7 +272,7 @@ input[type="checkbox"] {
 }
 .dropdown a:hover {
   background-color: var(--red);
-  color: var(--white)
+  color: var(--white);
 }
 .show {
   display: block;
