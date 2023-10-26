@@ -51,24 +51,6 @@ th, td {
 tr:nth-child(even) {
   background-color: var(--lightred);
 }
-@media only screen and (min-width: 768px) {
-  th, td, table {
-    border-bottom: 2px solid black;
-    border-top: 2px solid black;
-    border-left: 0;
-    border-right: 0;
-  }
-  tr:nth-child(even) {
-    background-color: var(--lightred);
-  }
-  tr:hover {
-    background-color: var(--red);
-    color: var(--white);
-  }
-  tr a:hover{
-    color: var(--white);
-  }
-}
 hr {
   max-width: var(--max_width);
   border-width: 0;
@@ -82,8 +64,8 @@ input {
   background-color: var(--white);
   border: none;
   color: var(--red);
-  margin: 2px; /*example margin*/
-  padding: 2px;/*example padding */
+  margin: 2px;
+  padding: 2px;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
