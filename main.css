@@ -10,9 +10,9 @@
   --button_font_size: min(3vw, 15px);
 }
 * {
-  color: var(--fontColor);
-  /* font-family: Futura, Trebuchet MS, Arial, sans-serif; */
+  color: inherit;
   font-family: lora,georgia,times new roman,serif;
+  box-sizing: border-box;
 }
 html {
   padding: 5pt;
@@ -22,7 +22,7 @@ a:hover {
   color: var(--red);
 }
 body {
-  background: var(--bg);
+  background: inherit;
   max-width: var(--max_width);
   margin-left: auto;
   margin-right: auto;
@@ -32,7 +32,7 @@ h1, h2, h3, footer {
   text-align: center;
 }
 h3 {
-  margin:0;
+  margin: 0;
 }
 blockquote {
   margin-top: 0;
@@ -41,7 +41,7 @@ blockquote {
 table {
   border: 1px solid black;
   border-collapse: collapse;
-  width:75%;
+  width: 75%;
 }
 th, td {
   padding: 10px;
@@ -71,12 +71,12 @@ tr:nth-child(even) {
 }
 hr {
   max-width: var(--max_width);
-  border-width:0;
-  background-color:var(--red);
-  height:4px;
+  border-width: 0;
+  background-color: var(--red);
+  height: 4px;
 }
 input {
-  font-size:inherit;
+  font-size: inherit;
 }
 .button {
   background-color: var(--white);
@@ -94,19 +94,16 @@ input {
 #logo-wrap {
     max-width: 375px;
     height: auto;
-    display:block;
+    display: block;
 }
 .center {
-  /* display: inline; */
-  margin-left: auto;
-  margin-right: auto;
   width: 100%;
   max-width: var(--max_width);
-  margin:auto;
+  margin: auto;
 }
 .moviebox {
-  width:95%;
-  max-width:650px;
+  width: 95%;
+  max-width: 650px;
   border: none;
   margin-left: auto;
   margin-right: auto;
@@ -114,34 +111,26 @@ input {
   padding: 10px;
 }
 .moviebox img {
-  width:100%;
+  width: 100%;
   object-fit: cover;
 }
 .screeningsbox {
-  width:95%;
-  max-width:600px;
+  width: 95%;
+  max-width: 600px;
 }
 .fa {
-  padding: 0px;
-  font-size:50px;
+  padding: 0;
+  font-size: 50px;
   width: 40px;
   text-decoration: none;
   border-radius: 50%;
 }
-brsmall {
-  display: block;
-  margin: 7px 0;
-}
-brmedium {
-  display: block;
-  margin: 10px 0;
-}
 .menu-item {
-  font-size:18px;
+  font-size: 18px;
   display: inline-block;
 }
 #outer {
-  width:100%;
+  width: 100%;
   text-align: center;
 }
 .secret-link a {
@@ -199,7 +188,7 @@ brmedium {
 .dropdown-check-list {
   display: inline-block;
   text-align: left;
-  width: min(49%, 160px);
+  width: min(100%, 155px);
   border: 1px solid var(--lightgrey);
 }
 .dropdown-check-list .anchor {
@@ -207,7 +196,7 @@ brmedium {
   cursor: pointer;
   display: inline-block;
   padding: 5px 10px 5px 10px;
-  width: calc(100% - 21px);
+  width: 100%;
 }
 .dropdown-check-list .anchor:after {
   position: absolute;
@@ -217,10 +206,6 @@ brmedium {
   padding: 5px;
   right: 10px;
   top: 21%;
-  -moz-transform: rotate(-135deg);
-  -ms-transform: rotate(-135deg);
-  -o-transform: rotate(-135deg);
-  -webkit-transform: rotate(-135deg);
   transform: rotate(-135deg);
 }
 .dropdown-check-list .anchor:active:after {
@@ -251,13 +236,13 @@ input[type="checkbox"] {
 .filtering {
   display: inline-block;
   margin: 0 auto;
-  width: min(49%, 160px);
+  width: min(100%, 155px);
 }
 .filteringTerm {
   border: 1px solid var(--lightgrey);
   border-radius: 0;
   padding: 5px 10px 5px 10px;
-  width: calc(100% - 21px);
+  width: 100%;
   line-height: 1.6;
   color: #9DBFAF;
 }
@@ -271,13 +256,13 @@ input[type="checkbox"] {
 
 /* Sign up form */
 #mc_embed_signup {
-  width:min(400px, 100%);
+  width: min(400px, 100%);
 }
 
 /* Searchbar */
 .moviesearch {
   color: var(--black);
-  box-sizing:border-box;
+  box-sizing: border-box;
   width: min(400px, 100%);
   padding: 0.15em;
 }
@@ -291,9 +276,9 @@ input[type="checkbox"] {
   display: none;
   position: absolute;
   background-color: #f1f1f1;
-  width:100%;
+  width: 100%;
   overflow: auto;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
   z-index: 1;
 }
 .dropdown-content a {
@@ -302,11 +287,11 @@ input[type="checkbox"] {
   text-decoration: none;
   display: block;
   text-align: left;
-  position:relative;
+  position: relative;
 }
 .dropdown a:hover {
   background-color: var(--red);
-  color: var(--white)
+  color: var(--white);
 }
 .show {
   display: block;
@@ -322,10 +307,33 @@ input[type="checkbox"] {
   float: left;
   position: relative;
   left: -4px;
-  bottom: 0px;
+  bottom: 0;
 }
 
 /* Select dropdown */
 select {
-  width:300px;
+  width: 300px;
+}
+
+/* Articles */
+.post {
+  width: min(100%, 300px);
+  padding: 10px;
+  margin: 5px;
+  display: inline-block;
+  border: 3px solid black;
+  border-radius: 10px;
+}
+.post-grid {
+  text-align: center;
+}
+.post-grid::after {
+  content: "";
+  clear: both;
+  display: table;
+  margin: 10px;
+}
+.post-icon {
+  height: 150px;
+  max-width: 100%;
 }
