@@ -198,8 +198,6 @@ input {
   padding: 2px;
   display: none;
   margin: 0;
-  border: 1px solid var(--lightgrey);
-  border-top: none;
 }
 .dropdown-check-list ul.items li {
   list-style: none;
@@ -217,6 +215,7 @@ input[type="checkbox"] {
 /* Filtering box */
 .filtering {
   display: inline-block;
+  vertical-align: top;
   margin: 0 auto;
   width: min(100%, 155px);
 }
