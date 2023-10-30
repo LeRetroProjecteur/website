@@ -318,3 +318,9 @@ select {
   height: 150px;
   max-width: 100%;
 }
+.post-image {
+  max-width: min(100%, 700px);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
