@@ -5,6 +5,7 @@
   --lightred: #fff2f2;
   --red: #ff4d4d;
   --lightgrey: #d4d4d4;
+  --darkgrey: #656565;
   --max_width: 1000px;
   --date_font_size: min(4vw, 24px);
   --button_font_size: min(3vw, 15px);
@@ -323,4 +324,20 @@ select {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+.post-image::after {
+  max-width: min(100%, 700px);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.post-image-caption {
+  margin-block-start: 0;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  max-width: min(100%, 700px);
+  color: var(--darkgrey);
+  font-size: 14px;
 }
