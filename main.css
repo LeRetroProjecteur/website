@@ -18,6 +18,9 @@ html {
   padding: 5pt;
   line-height: 1.6;
 }
+a:hover {
+  color: var(--red);
+}
 body {
   background: inherit;
   max-width: var(--max_width);
@@ -61,8 +64,8 @@ input {
   background-color: var(--white);
   border: none;
   color: var(--red);
-  margin: 2px; /*example margin*/
-  padding: 2px;/*example padding */
+  margin: 2px;
+  padding: 2px;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
@@ -96,9 +99,6 @@ input {
 .screeningsbox {
   width: 95%;
   max-width: 600px;
-}
-a:hover {
-  color: var(--red);
 }
 .fa {
   padding: 0;
@@ -170,14 +170,15 @@ a:hover {
 .dropdown-check-list {
   display: inline-block;
   text-align: left;
-  width: min(100%, 150px);
+  width: min(100%, 155px);
   border: 1px solid var(--lightgrey);
 }
 .dropdown-check-list .anchor {
   position: relative;
   cursor: pointer;
   display: inline-block;
-  padding: 5px 60px 5px 10px;
+  padding: 5px 10px 5px 10px;
+  width: 100%;
 }
 .dropdown-check-list .anchor:after {
   position: absolute;
@@ -197,8 +198,6 @@ a:hover {
   padding: 2px;
   display: none;
   margin: 0;
-  border: 1px solid var(--lightgrey);
-  border-top: none;
 }
 .dropdown-check-list ul.items li {
   list-style: none;
@@ -216,14 +215,15 @@ input[type="checkbox"] {
 /* Filtering box */
 .filtering {
   display: inline-block;
+  vertical-align: top;
   margin: 0 auto;
-  width: min(100%, 150px);
+  width: min(100%, 155px);
 }
 .filteringTerm {
   border: 1px solid var(--lightgrey);
   border-radius: 0;
-  padding: 5px 20px 5px 10px;
-  width: inherit;
+  padding: 5px 10px 5px 10px;
+  width: 100%;
   line-height: 1.6;
   color: #9DBFAF;
 }
