@@ -122,36 +122,27 @@
       }
 
       function show_director_info_and_screenings(director_name, movies) {
-        console.log(director_name)
         document.title = director_name + " | Le Rétro Projecteur – Cinéma de patrimoine à Paris";
         document.getElementById("title").innerHTML = director_name;
-        let fiche_technique = ""
-        fiche_technique += "Né en <i>" + 1940 +"</i>";
-        document.getElementById("fiche-technique").innerHTML = fiche_technique
 
         const movieListItems = document.getElementById("movie-list-items");
-        console.log(movies)
         movies.forEach((movie) => {
             const listItem = document.createElement("li");
 
+            let next_screenings = "<div class='moviebox'>"
+            next_screenings += `<h3>${movie.original_title}</h3><p style='line-height: 10px'></p>`;
             movie.screenings = Object.fromEntries(Object.entries(movie.screenings).filter(([key]) => key>=today));
             let screenings = display_showtimes(movie.screenings, "&nbsp;; ", true, "<p style='line-height: 10px'></p>")
             if (screenings.length === 0) {
-              listItem.textContent = `${movie.title} (pas de séance prévue pour le moment)`;
+              next_screenings += "<b>Pas de séance prévue pour le moment.<b>"
+            } else {
+              next_screenings += screenings
             }
-            else {
-              listItem.textContent = `${movie.title} ${screenings}`;
-            }
+            next_screenings += "</div>"
+
+            listItem.innerHTML = next_screenings
             movieListItems.appendChild(listItem);
         });
-
-        // document.getElementById("fiche-technique").innerHTML = fiche_technique
-
-        // for (let i = 0; i < data.length; i++) {
-        //   if (typeof data[i].screenings !== {}) {
-        //     show_movie_info_and_screenings(data[i]);
-        //   }
-        // }
       }
 
       displayDetails(db, urlp['id']);
@@ -178,5 +169,11 @@
 
     <div id="footer"></div>
   </body>
+
+  <style>
+    #movie-list-items {
+      list-style: none;
+    }
+  </style>
 
 </html>
