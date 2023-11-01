@@ -47,7 +47,17 @@
         urlp[s[i].split('=')[0]] = s[i].split('=')[1];
       }
 
-      async function getData(db, id) {
+      async function isDirector(db, id){
+        const dirQ = query(collection(db, "director-info"), where("id", "==", id));
+        let dirQuerySnapshot = await getDocs(dirQ);
+        let data_dir = [];
+        dirQuerySnapshot.forEach((doc) => {
+          data_dir = doc.data();
+        });
+        return data_dir;
+      }
+
+      async function getMovieData(db, id){
         const q = query(collection(db, "website-by-movie-screenings"), where("id", "==", id));
         let querySnapshot = await getDocs(q);
         let data_aux = [];
@@ -57,8 +67,28 @@
         return data_aux;
       }
 
-      function show_info_and_screenings(promise_screenings) {
-        promise_screenings.then((data) => {
+      async function getDirectorData(db, data_for_director) {
+        let movies_from_director = data_for_director['movies']
+        let data_aux = [];
+        for (let i = 0; i < movies_from_director.length; i++) {
+          data_aux.push(await getMovieData(db, movies_from_director[i]));
+        }
+        return data_aux;
+      }
+
+      async function displayDetails(db, id) {
+        let data_dir = await isDirector(db, id);
+        if (data_dir.length === 0) {
+          let data_aux = await getMovieData(db, id);
+          show_movie_info_and_screenings(data_aux);
+        } else {
+          let director_name = data_dir['name'];
+          let data_aux = await getDirectorData(db, data_dir);
+          show_director_info_and_screenings(director_name, data_aux);
+        }
+      }
+
+      function show_movie_info_and_screenings(data) {
 
           document.title = format_movie_title(data, null) + " | Le Rétro Projecteur – Cinéma de patrimoine à Paris";
           document.getElementById("title").innerHTML = format_movie_title(data, 'italic');
@@ -89,13 +119,42 @@
           }
           next_screenings += "</div>"
           document.getElementById("next-screenings").innerHTML = next_screenings;
-
-        })
       }
 
-      let promise_screenings = getData(db, urlp['id']);
-      show_info_and_screenings(promise_screenings);
+      function show_director_info_and_screenings(director_name, movies) {
+        console.log(director_name)
+        document.title = director_name + " | Le Rétro Projecteur – Cinéma de patrimoine à Paris";
+        document.getElementById("title").innerHTML = director_name;
+        let fiche_technique = ""
+        fiche_technique += "Né en <i>" + 1940 +"</i>";
+        document.getElementById("fiche-technique").innerHTML = fiche_technique
 
+        const movieListItems = document.getElementById("movie-list-items");
+        console.log(movies)
+        movies.forEach((movie) => {
+            const listItem = document.createElement("li");
+
+            movie.screenings = Object.fromEntries(Object.entries(movie.screenings).filter(([key]) => key>=today));
+            let screenings = display_showtimes(movie.screenings, "&nbsp;; ", true, "<p style='line-height: 10px'></p>")
+            if (screenings.length === 0) {
+              listItem.textContent = `${movie.title} (pas de séance prévue pour le moment)`;
+            }
+            else {
+              listItem.textContent = `${movie.title} ${screenings}`;
+            }
+            movieListItems.appendChild(listItem);
+        });
+
+        // document.getElementById("fiche-technique").innerHTML = fiche_technique
+
+        // for (let i = 0; i < data.length; i++) {
+        //   if (typeof data[i].screenings !== {}) {
+        //     show_movie_info_and_screenings(data[i]);
+        //   }
+        // }
+      }
+
+      displayDetails(db, urlp['id']);
     </script>
 
   </head>
@@ -108,6 +167,15 @@
     <span id="review_box"></span>
     <span id="next-screenings"></span>
     <br/>
+
+    <!-- Movie List Section -->
+    <div id="movie-list">
+        <ul id="movie-list-items">
+            <!-- Individual movie list items will be added here dynamically using JavaScript -->
+        </ul>
+    </div>
+
+
     <div id="footer"></div>
   </body>
 
