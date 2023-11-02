@@ -322,13 +322,7 @@ select {
   max-width: 100%;
 }
 .post-image {
-  max-width: min(100%, 700px);
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-.post-image::after {
-  max-width: min(100%, 700px);
+  width: min(100%, 700px);
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -339,7 +333,7 @@ select {
   margin-left: auto;
   margin-right: auto;
   text-align: center;
-  max-width: min(100%, 700px);
+  width: min(100%, 700px);
   color: var(--darkgrey);
   font-size: 14px;
 }
