@@ -294,22 +294,22 @@ function format_review(f, title=true, date=false, showtimes=null) {
 
 // Close the dropdown if the user clicks outside of it
 window.onclick = function(event) {
-  if (!event.target.matches('.moviesearch')) {
+  if (!event.target.matches('.movie-search')) {
     let search_dropdown = document.getElementsByClassName("dropdown-content");
     for (const elem of search_dropdown) {
       if (elem.classList.contains('show')) {
         elem.classList.remove('show');
       }
     }
-    document.getElementById("moviesearch").value = ""
+    document.getElementById("movie-search").value = ""
   }
 }
-function moviesearch() {
-  if (!document.getElementById("myDropdown").classList.contains('show')) {
-    document.getElementById("myDropdown").classList.toggle("show");
+function searchMovies() {
+  if (!document.getElementById("my-dropdown").classList.contains('show')) {
+    document.getElementById("my-dropdown").classList.toggle("show");
   }
-  let search_term = document.getElementById("moviesearch").value.toLowerCase();
-  let list = document.getElementById("myDropdown").getElementsByTagName("a");
+  let search_term = document.getElementById("movie-search").value.toLowerCase();
+  let list = document.getElementById("my-dropdown").getElementsByTagName("a");
   let count = 0;
   for (const elem of list) {
     if (search_term === "" || count >= 5) {

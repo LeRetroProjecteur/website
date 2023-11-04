@@ -242,7 +242,7 @@ input[type="checkbox"] {
 }
 
 /* Searchbar */
-.moviesearch {
+.movie-search {
   color: var(--black);
   box-sizing: border-box;
   width: min(400px, 100%);
