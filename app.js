@@ -32,7 +32,7 @@ function string_to_date(string){
   return new Date(string.substring(0, 4), parseInt(string.substring(5, 7)) - 1, string.substring(8, 10));
 }
 
-function date_to_string(date){
+function dateToString(date){
   return String(date.getFullYear()).concat('_', String(date.getMonth() + 1).padStart(2, '0'), '_', String(date.getDate()).padStart(2, '0'));
 }
 
@@ -62,7 +62,7 @@ function datesAreOnSameDay(date1, date2) {
   )
 }
 
-function day_string(date, weekday = true, year = true){
+function dayString(date, weekday = true, year = true){
   let string = "";
   if (weekday) {
     string = string.concat(days[date.getDay()], " ")
@@ -118,7 +118,7 @@ function display_showtimes(showtimes, theater_sep="<br>", show_date=false, date_
 
     let showtime_string = showtime_list.join(theater_sep);
     if (show_date) {
-      showtime_string = "<b>" + day_string(string_to_date(date), true, false)+"</b> " + showtime_string
+      showtime_string = "<b>" + dayString(string_to_date(date), true, false)+"</b> " + showtime_string
     }
     date_list.push(showtime_string)
   }
@@ -156,8 +156,8 @@ function row_text(f, showtimes) {
   )
 }
 
-let no_movie_playing_at_this_hour = "<b>Aucun film ne joue à cette heure-ci aujourd'hui, regardez demain ?</b>";
-let no_movie_for_given_filtering_term = "<b>Aucun film ne correspond à cette recherche aujourd'hui.</b>";
+let noMoviePlayingAtThisHour = "<b>Aucun film ne joue à cette heure-ci aujourd'hui, regardez demain ?</b>";
+let noMovieForFilteringTerm = "<b>Aucun film ne correspond à cette recherche aujourd'hui.</b>";
 
 function clean_string(string) {
   string = string.replaceAll('-', ' ');
@@ -189,15 +189,15 @@ function string_match(term, field) {
   return localOutput
 }
 
-function movie_info_contains_filtering_term(f, filtering_term) {
-  if (filtering_term.slice(-1) === "|"){
-    filtering_term = filtering_term.slice(0, -1);
+function movie_info_containsFilteringTerm(f, filteringTerm) {
+  if (filteringTerm.slice(-1) === "|"){
+    filteringTerm = filteringTerm.slice(0, -1);
   }
   let filtering_field = get_movie_info_string(f);
-  let filtering_terms = filtering_term.split('|');
+  let filteringTerms = filteringTerm.split('|');
   let globalOutput = false;
-  for (const filtering_term of filtering_terms) {
-    let localOutput = string_match(filtering_term, filtering_field)
+  for (const filteringTerm of filteringTerms) {
+    let localOutput = string_match(filteringTerm, filtering_field)
     globalOutput = globalOutput || localOutput;
   }
   return globalOutput
@@ -222,7 +222,7 @@ function isCOUPdeCOEUR(f) {
   return false
 }
 
-function generate_data_row(f, start, end, filtering_term, checkedNeighborhoods, theater_sep="<br>", show_date=false, date_sep="<br>") {
+function generateDataRow(f, start, end, filteringTerm, checkedNeighborhoods, theater_sep="<br>", show_date=false, date_sep="<br>") {
   let movie_shown = false;
   let showtimes = {};
   for (const [date, values] of Object.entries(f.showtimes)) {
@@ -248,14 +248,14 @@ function generate_data_row(f, start, end, filtering_term, checkedNeighborhoods, 
     }
   }
 
-  let movie_still_playing = (Object.keys(showtimes).length > 0)
-  let movie_contains_filtering_term = movie_info_contains_filtering_term(f, filtering_term);
-  if (movie_still_playing && movie_contains_filtering_term) {
+  let movie_stillPlaying = (Object.keys(showtimes).length > 0)
+  let movie_containsFilteringTerm = movie_info_containsFilteringTerm(f, filteringTerm);
+  if (movie_stillPlaying && movie_containsFilteringTerm) {
     let tblRow = row_text(f, display_showtimes(showtimes, theater_sep, show_date, date_sep))
     $(tblRow).appendTo("#userdata tbody");
     movie_shown = true;
   }
-  return [movie_shown, movie_still_playing, movie_contains_filtering_term]
+  return [movie_shown, movie_stillPlaying, movie_containsFilteringTerm]
 }
 
 function format_cinema_week(f) {
@@ -268,7 +268,7 @@ function format_cinema_week(f) {
 function format_intro(f, date=false) {
   let intro = "<div class='moviebox'>" + f.intro
   if (date) {
-    intro += "<div style='text-align:right'>Édito du " + day_string(string_to_date(f.date), false) + "</div>"
+    intro += "<div style='text-align:right'>Édito du " + dayString(string_to_date(f.date), false) + "</div>"
   }
   intro +=  "</div>"
   return intro
@@ -283,7 +283,7 @@ function format_review(f, title=true, date=false, showtimes=null) {
   }
   string += f.review
   if (date) {
-    string += "<div style='text-align:right'>Critique du " + day_string(string_to_date(f.review_date), false) + "</div>"
+    string += "<div style='text-align:right'>Critique du " + dayString(string_to_date(f.review_date), false) + "</div>"
   }
   if (showtimes !== null) {
     string += "<div style=\"text-align: center;\"><b>" + showtimes + "</b></div>"
@@ -327,28 +327,78 @@ function searchMovies() {
   }
 }
 
-function append_data(promise_data, querySnapshot, date) {
+function appendData(promiseData, querySnapshot, date) {
   let data_aux = [];
   querySnapshot.forEach((doc) => {
     data_aux = doc.data().movies;
     for (let i = 0; i < data_aux.length; i++) {
       data_aux[i].showtimes = {}
-      data_aux[i].showtimes[date_to_string(date)] = data_aux[i].showtimes_theater
+      data_aux[i].showtimes[dateToString(date)] = data_aux[i].showtimes_theater
       delete data_aux[i].showtimes_theater
     }
   });
   for (let i = 0; i < data_aux.length; i++) {
     let found = false;
-    for (let j = 0; j < promise_data.length; j++) {
-      if (data_aux[i]['id'] === promise_data[j]['id']) {
-        promise_data[j].showtimes[date_to_string(date)] = data_aux[i].showtimes[date_to_string(date)];
+    for (let j = 0; j < promiseData.length; j++) {
+      if (data_aux[i]['id'] === promiseData[j]['id']) {
+        promiseData[j].showtimes[dateToString(date)] = data_aux[i].showtimes[dateToString(date)];
         found = true;
         break
       }
     }
     if (!found) {
-      promise_data.push(data_aux[i])
+      promiseData.push(data_aux[i])
     }
   }
-  return(promise_data)
+  return(promiseData)
+}
+
+function updateStartTime(startTime, date){
+  let nd = new Date();
+  let current_time = 0;
+  if (datesAreOnSameDay(date, nd)){
+    current_time = nd.getHours()+nd.getMinutes()/60 - 0.34;
+  }
+  startTime = Math.max(startTime, current_time);
+  return startTime
+}
+
+function moveDateForward(selectedDate, slider) {
+  slider.noUiSlider.set([0, 24]);
+  selectedDate.setDate(selectedDate.getDate()+1);
+  document.getElementById("date-of-today").innerHTML = dayString(selectedDate);
+  document.getElementById("date-backward").style.color = "var(--red)";
+  return selectedDate
+}
+function moveDateBackward(selectedDate, slider) {
+  slider.noUiSlider.set([0, 24]);
+  let nd = new Date();
+  if (!datesAreOnSameDay(nd, selectedDate)){
+    selectedDate.setDate(selectedDate.getDate()-1);
+    document.getElementById("date-of-today").innerHTML = dayString(selectedDate);
+    if (datesAreOnSameDay(nd, selectedDate)) {
+      document.getElementById("date-backward").style.color = "var(--lightgrey)";
+    } else {
+      document.getElementById("date-backward").style.color = "var(--red)";
+    }
+  }
+  return selectedDate
+}
+function formatSlider(slider) {
+  noUiSlider.create(slider, {
+    start: [0, 24],
+    connect: true,
+    step: 1,
+    margin: 1,
+    range: {'min': 0, 'max': 24}
+  });
+  return slider
+}
+function updateSlider(startTime, endTime) {
+  startTime = Math.round(document.getElementsByClassName("noUi-handle-lower")[0].getAttribute("aria-valuenow"));
+  endTime = Math.round(document.getElementsByClassName("noUi-handle-upper")[0].getAttribute("aria-valuenow"));
+  document.getElementById('slider-range-value').innerHTML = (
+      "Séances entre <b style='color:var(--red); font-weight:bold;'>" + startTime + "h et " + endTime + "h</b>"
+  );
+  return [startTime, endTime]
 }

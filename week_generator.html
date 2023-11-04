@@ -49,15 +49,15 @@
       document.getElementById("outro_html").innerHTML = outro_string;
       document.getElementById("outro_html_code").innerHTML = outro_string.replaceAll("&", "&amp;").replaceAll("<", "&lt;");
 
-      async function getData(db, date, promise_data){
+      async function getData(db, date, promiseData){
         console.log("Fetching data")
-        const q = query(collection(db, "website-by-date-screenings"), where("date", "==", date_to_string(date)));
+        const q = query(collection(db, "website-by-date-screenings"), where("date", "==", dateToString(date)));
         let querySnapshot = await getDocs(q);
-        promise_data = append_data(promise_data, querySnapshot, date)
+        promiseData = appendData(promiseData, querySnapshot, date)
       }
 
-      function show_search_options(promise_data, select) {
-        promise_data.flat(1).sort(
+      function show_search_options(promiseData, select) {
+        promiseData.flat(1).sort(
           (a, b) => $(a).attr('title').localeCompare($(b).attr('title'))
         ).forEach(f => {
           let opt = document.createElement('option');
@@ -67,10 +67,10 @@
         })
       }
 
-      function show_date_movie_info(promise_data, movie_id, date) {
+      function show_date_movie_info(promiseData, movie_id, date) {
         let html_string = "";
-        let date_string = day_string(date, true, false);
-        promise_data.flat(1).sort(
+        let date_string = dayString(date, true, false);
+        promiseData.flat(1).sort(
           (a, b) => $(a).attr('title').localeCompare($(b).attr('title'))
         ).forEach(f => {
           if (f.id === movie_id) {
@@ -99,9 +99,9 @@
           opt.value = "";
           opt.innerHTML = "-----";
           select.appendChild(opt);
-          let promise_data = [];
-          await getData(db, date, promise_data);
-          show_search_options(promise_data, select);
+          let promiseData = [];
+          await getData(db, date, promiseData);
+          show_search_options(promiseData, select);
           date.setDate(date.getDate() + 1);
         }
       });
@@ -113,9 +113,9 @@
         for (let i = 0; i < 7; i++){
           let day = days_short[date.getDay()].toLowerCase();
           let movie_id = document.getElementById(day).value;
-          let promise_data = [];
-          await getData(db, date, promise_data);
-          show_date_movie_info(promise_data, movie_id, date);
+          let promiseData = [];
+          await getData(db, date, promiseData);
+          show_date_movie_info(promiseData, movie_id, date);
           date.setDate(date.getDate() + 1);
         }
       }

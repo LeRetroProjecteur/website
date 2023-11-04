@@ -56,7 +56,7 @@
             if (f.category === "COUP DE CŒUR") {
               let tblRow = (
                 "<tr><td>" +
-                  "Critique du " + day_string(string_to_date(f.review_date), false) + "&nbsp;: " +
+                  "Critique du " + dayString(string_to_date(f.review_date), false) + "&nbsp;: " +
                   "<a href='/details.html?id=" + f.id + "'>" + format_movie_title(f, 'bold') + "</a>" +
                 "</td></tr>"
               );

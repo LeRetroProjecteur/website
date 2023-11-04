@@ -33,35 +33,35 @@
       const app = initializeApp(firebaseConfig);
       const db = getFirestore();
 
-      let promise_data = [];
-      let filtering_box = document.getElementById("filtering-box");
-      let filtering_term = "";
+      let promiseData = [];
+      let filteringBox = document.getElementById("filtering-box");
+      let filteringTerm = "";
 
       let week_date = new Date();
       week_date.setDate(week_date.getDate() + 4);
       let start_date = get_current_week(week_date)[0]
       document.getElementById("next_week").innerHTML = week_string(start_date);
 
-      async function getData(db, date, promise_data){
+      async function getData(db, date, promiseData){
         console.log("Fetching data")
-        const q = query(collection(db, "website-by-date-screenings"), where("date", "==", date_to_string(date)));
+        const q = query(collection(db, "website-by-date-screenings"), where("date", "==", dateToString(date)));
         let querySnapshot = await getDocs(q);
-        promise_data = append_data(promise_data, querySnapshot, date)
+        promiseData = appendData(promiseData, querySnapshot, date)
       }
 
-      async function populate_movies(promise_data, start_time, end_time, filtering_term, checkedNeighborhoods){
+      async function populateMovies(promiseData, startTime, endTime, filteringTerm, checkedNeighborhoods){
         console.log("Populating table")
         await $('#userdata tbody').empty();
-        promise_data.sort(
+        promiseData.sort(
           (a, b) => $(a).attr('year') - $(b).attr('year')
           || $(a).attr('directors').localeCompare($(b).attr('directors'))
           || $(a).attr('title').localeCompare($(b).attr('title'))
         ).forEach(f => {
-          generate_data_row(f, start_time, end_time, filtering_term, checkedNeighborhoods, "&nbsp;; ", true, "<br>");
+          generateDataRow(f, startTime, endTime, filteringTerm, checkedNeighborhoods, "&nbsp;; ", true, "<br>");
         });
       }
 
-      function create_retrospectives_string(promise_data){
+      function create_retrospectives_string(promiseData){
 
         let prev_movie = "";
         let prev_movie_dir = "";
@@ -69,7 +69,7 @@
         let nb_movies = 0;
         let dir_string = "";
 
-        promise_data.flat(1).sort(
+        promiseData.flat(1).sort(
           (a, b) => $(a).attr('directors').localeCompare($(b).attr('directors'))
           || $(a).attr('year') - $(b).attr('year')
           || $(a).attr('title').localeCompare($(b).attr('title'))
@@ -99,25 +99,25 @@
         document.getElementById("retrospectives").innerHTML = string;
       }
 
-      function refresh_data() {
-        populate_movies(promise_data, 0, 24, filtering_term, ['rg', 'rd', 'em']);
-        create_retrospectives_string(promise_data);
+      function refreshData() {
+        populateMovies(promiseData, 0, 24, filteringTerm, ['rg', 'rd', 'em']);
+        create_retrospectives_string(promiseData);
       }
 
       $(async function() {
-        promise_data = [];
+        promiseData = [];
         for (let i = 0; i < 7; i++) {
           let date = new Date(start_date);
           date.setDate(date.getDate() + i);
-          await getData(db, date, promise_data);
+          await getData(db, date, promiseData);
         }
-        refresh_data();
+        refreshData();
       });
 
       // Filtering function
-      filtering_box.addEventListener('keyup', () => {
-        filtering_term = filtering_box.value;
-        refresh_data();
+      filteringBox.addEventListener('keyup', () => {
+        filteringTerm = filteringBox.value;
+        refreshData();
       });
 
     </script>
@@ -128,7 +128,7 @@
     <div id="header"></div>
     <h2><span id="next_week"></span></h2>
     <div class="filtering">
-      <label for="filtering-box"></label><input type="text" class="filteringTerm" id="filtering-box" placeholder="Pays, langue, ...">
+      <label for="filtering-box"></label><input type="text" class="filtering-box" id="filtering-box" placeholder="Pays, langue, ...">
     </div>
     <div class="wrapper">
       <div class="profile">

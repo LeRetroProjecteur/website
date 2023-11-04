@@ -1,29 +1,28 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml">
 
   <head>
 
     <title>Calendrier | Le Rétro Projecteur – Cinéma de patrimoine à Paris</title>
+    <meta name="Description" CONTENT="Venez découvrir toutes les ressorties de films dans les salles parisiennes.">
+    <meta name="keywords" content="ressorties film paris cinema patrimoine salles parisiennes">
 
-    <link rel="icon" href="img/logo_square.png">
+    <link rel="icon" href="/img/logo_square.png">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="Description" CONTENT="Venez découvrir toutes les ressorties de films dans les salles parisiennes.">
-    <meta name="keywords" content="ressorties film paris cinema patrimoine salles parisiennes">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.css"/>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
     <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-    <script type="text/javascript" src="app.js"></script>
+    <script type="text/javascript" src="/app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.4.0/nouislider.min.js"></script>
-    <link rel="stylesheet" href="main.css">
-
+    <link rel="stylesheet" href="/main.css">
     <script>
-      $(function(){
-        $("#header").load("includes/header.html");
-        $("#footer").load("includes/footer.html");
+      $(function() {
+        $("#header").load("/includes/header.html");
+        $("#footer").load("/includes/footer.html");
       });
     </script>
 
@@ -34,154 +33,115 @@
       const app = initializeApp(firebaseConfig);
       const db = getFirestore();
 
-      let promise_data = [];
-      let filtering_box = document.getElementById("filtering-box");
-      let filtering_term = "";
+      let promiseData = [];
+      let filteringBox = document.getElementById("filtering-box");
+      let filteringTerm = "";
       let slider = document.getElementById('slider-range');
-      let start_time = 0;
-      let end_time = 24;
-      let neighborhood_dropdown = document.getElementById('neighborhood-list');
+      let startTime = 0;
+      let endTime = 24;
+      let neighborhoodDropdown = document.getElementById('neighborhood-list');
       let checkedNeighborhoods = ['rg', 'rd', 'em']
 
-      let selected_date = new Date();
-      document.getElementById("date_of_today").innerHTML = day_string(selected_date);
+      let selectedDate = new Date();
+      document.getElementById("date-of-today").innerHTML = dayString(selectedDate);
 
-      function update_start_time(start_time, date){
-        let nd = new Date();
-        let current_time = 0;
-        if (datesAreOnSameDay(date, nd)){
-          current_time = nd.getHours()+nd.getMinutes()/60 - 0.34;
-        }
-        start_time = Math.max(start_time, current_time);
-        return start_time
-      }
-
-      async function getData(db, date, promise_data){
+      async function getData(db, date, promiseData) {
         console.log("Fetching data")
-        const q = query(collection(db, "website-by-date-screenings"), where("date", "==", date_to_string(date)));
+        const q = query(collection(db, "website-by-date-screenings"), where("date", "==", dateToString(date)));
         let querySnapshot = await getDocs(q);
-        promise_data = append_data(promise_data, querySnapshot, date)
+        promiseData = appendData(promiseData, querySnapshot, date)
       }
 
-      async function populate_movies(promise_data, start_time, end_time, filtering_term, checkedNeighborhoods) {
+      async function populateMovies(promiseData, startTime, endTime, filteringTerm, checkedNeighborhoods) {
         console.log("Populating table")
         await $('#userdata tbody').empty();
-        let [one_shown, one_still_playing, one_contains_filtering_term] = [false, false, false];
+        let [oneShown, oneStillPlaying, oneContainsFilteringTerm] = [false, false, false];
 
-        promise_data.flat(1).sort(
+        promiseData.flat(1).sort(
           (a, b) => $(a).attr('year')-$(b).attr('year')
           || $(a).attr('directors').localeCompare($(b).attr('directors'))
           || $(a).attr('title').localeCompare($(b).attr('title'))
         ).forEach(f => {
-          let [shown, still_playing, contains_filtering_term] = generate_data_row(
-                  f, start_time, end_time, filtering_term, checkedNeighborhoods
+          let [shown, stillPlaying, containsFilteringTerm] = generateDataRow(
+            f, startTime, endTime, filteringTerm, checkedNeighborhoods
           );
-          one_shown = (one_shown || shown);
-          one_still_playing = (one_still_playing || still_playing);
-          one_contains_filtering_term = (one_contains_filtering_term || contains_filtering_term);
+          oneShown = (oneShown || shown);
+          oneStillPlaying = (oneStillPlaying || stillPlaying);
+          oneContainsFilteringTerm = (oneContainsFilteringTerm || containsFilteringTerm);
         });
-        if (one_shown===false){
-          if (one_still_playing===false){
-            let tblRow = "<tr><td colspan='100%'>" + no_movie_playing_at_this_hour + "</td></tr>";
+        if (oneShown===false) {
+          if (oneStillPlaying===false) {
+            let tblRow = "<tr><td colspan='100%'>" + noMoviePlayingAtThisHour + "</td></tr>";
             $(tblRow).appendTo("#userdata tbody");
           } else {
-            let tblRow = "<tr><td colspan='100%'>" + no_movie_for_given_filtering_term + "</td></tr>";
+            let tblRow = "<tr><td colspan='100%'>" + noMovieForFilteringTerm + "</td></tr>";
             $(tblRow).appendTo("#userdata tbody");
           }
         }
       }
 
-      function refresh_data() {
-        start_time = update_start_time(start_time, selected_date)
-        populate_movies(promise_data, start_time, end_time, filtering_term, checkedNeighborhoods);
+      function refreshData() {
+        startTime = updateStartTime(startTime, selectedDate)
+        populateMovies(promiseData, startTime, endTime, filteringTerm, checkedNeighborhoods);
       }
 
       $(async function() {
-        promise_data = [];
-        await getData(db, selected_date, promise_data);
-        refresh_data();
+        promiseData = [];
+        await getData(db, selectedDate, promiseData);
+        refreshData();
       });
 
       // Slider
-      noUiSlider.create(slider, {
-        start: [0, 24],
-        connect: true,
-        step: 1,
-        margin: 1,
-        range: {'min': 0, 'max': 24}
-      });
+      slider = formatSlider(slider);
       slider.noUiSlider.on('update', function() {
-        start_time = Math.round(document.getElementsByClassName("noUi-handle-lower")[0].getAttribute("aria-valuenow"));
-        end_time = Math.round(document.getElementsByClassName("noUi-handle-upper")[0].getAttribute("aria-valuenow"));
-        document.getElementById('slider-range-value').innerHTML = (
-          "Séances entre <b style='color:var(--red); font-weight:bold;'>" + start_time + "h et " + end_time + "h</b>"
-        );
+        [startTime, endTime] = updateSlider(startTime, endTime)
       });
       slider.noUiSlider.on('change', function() {
-        refresh_data();
+        refreshData();
       });
 
       // Neighborhood dropdown
-      neighborhood_dropdown.getElementsByClassName('anchor')[0].onclick = function() {
-        if (neighborhood_dropdown.classList.contains('visible')) {
-          neighborhood_dropdown.classList.remove('visible');
+      neighborhoodDropdown.getElementsByClassName('anchor')[0].onclick = function() {
+        if (neighborhoodDropdown.classList.contains('visible')) {
+          neighborhoodDropdown.classList.remove('visible');
         }
         else {
-          neighborhood_dropdown.classList.add('visible');
+          neighborhoodDropdown.classList.add('visible');
         }
       }
-      $('*').on("click", function(evt){
+      $('*').on("click", function(evt) {
         if (!$(evt.target).hasClass('anchor') & !$(evt.target).hasClass('checkbox') && !$(evt.target).hasClass('items')) {
-          neighborhood_dropdown.classList.remove('visible');
+          neighborhoodDropdown.classList.remove('visible');
         }
       });
-      $(':checkbox').on("click", function(){
+      $(':checkbox').on("click", function() {
         checkedNeighborhoods = []
-        $("input:checkbox:checked").each(function(){
+        $("input:checkbox:checked").each(function() {
           checkedNeighborhoods.push($(this)[0].id);
         });
-        refresh_data();
+        refreshData();
       });
 
       // Filtering function
-      filtering_box.addEventListener('keyup', () => {
-        filtering_term = filtering_box.value;
-        refresh_data();
+      filteringBox.addEventListener('keyup', () => {
+        filteringTerm = filteringBox.value;
+        refreshData();
       });
 
       // Date change
-      async function move_date_forward() {
-        slider.noUiSlider.set([0, 24]);
-        selected_date.setDate(selected_date.getDate()+1);
-        document.getElementById("date_of_today").innerHTML = day_string(selected_date);
-        document.getElementById("move_date_backward").style.color = "var(--red)";
-        promise_data = [];
-        await getData(db, selected_date, promise_data);
-        refresh_data();
-      }
-      async function move_date_backward() {
-        slider.noUiSlider.set([0, 24]);
-        let nd = new Date();
-        if (!datesAreOnSameDay(nd, selected_date)){
-          selected_date.setDate(selected_date.getDate()-1);
-          document.getElementById("date_of_today").innerHTML = day_string(selected_date);
-          if (datesAreOnSameDay(nd, selected_date)) {
-            document.getElementById("move_date_backward").style.color = "var(--lightgrey)";
-          } else {
-            document.getElementById("move_date_backward").style.color = "var(--red)";
-          }
-          promise_data = [];
-          await getData(db, selected_date, promise_data);
-          refresh_data();
-        }
-      }
-      let moveForwardButton = document.querySelector('#move_date_forward');
-      moveForwardButton.onclick = function() {
-        move_date_forward()
+      let dateBackwardButton = document.querySelector('#date-backward');
+      dateBackwardButton.onclick = async function() {
+        selectedDate = moveDateBackward(selectedDate, slider)
+        promiseData = [];
+        await getData(db, selectedDate, promiseData);
+        refreshData();
       };
-      let moveBackwardButton = document.querySelector('#move_date_backward');
-      moveBackwardButton.onclick = function() {
-        move_date_backward()
+      let dateForwardButton = document.querySelector('#date-forward');
+      dateForwardButton.onclick = async function() {
+        selectedDate = moveDateForward(selectedDate, slider)
+        promiseData = [];
+        await getData(db, selectedDate, promiseData);
+        refreshData();
       };
 
     </script>
@@ -191,9 +151,9 @@
   <body class="light-theme">
     <div id="header"></div>
     <h3>
-      <input type="button" id="move_date_backward" class="button" value= "◀&#xFE0E;" style="color: var(--lightgrey);">
-      <b><span id="date_of_today" class="center"></span></b>
-      <input type="button" id="move_date_forward" class="button" value= "▶&#xFE0E;" style="color: var(--red);">
+      <input type="button" id="date-backward" class="button" value= "◀&#xFE0E;" style="color: var(--lightgrey);">
+      <b><span id="date-of-today"></span></b>
+      <input type="button" id="date-forward" class="button" value= "▶&#xFE0E;" style="color: var(--red);">
     </h3>
     <p style="margin: 7px;"></p>
     <div style="text-align: center;">
@@ -202,15 +162,15 @@
       <p style="margin: 7px;"></p>
       <div id="wrap">
         <div id="neighborhood-list" class="dropdown-check-list" tabindex="100">
-          <span class="anchor">Quartiers</span>
+          <span class="anchor">Par quartiers</span>
           <ul class="items">
-            <label class="checkbox"><input class="checkbox" type="checkbox" id="rg" checked> Rive Gauche<br/></label>
-            <label class="checkbox"><input class="checkbox" type="checkbox" id="rd" checked> Rive Droite<br/></label>
-            <label class="checkbox"><input class="checkbox" type="checkbox" id="em" checked> Extramuros<br/></label>
+            <label class="checkbox"><input class="checkbox" type="checkbox" id="rg" checked> Rive gauche<br/></label>
+            <label class="checkbox"><input class="checkbox" type="checkbox" id="rd" checked> Rive droite<br/></label>
+            <label class="checkbox"><input class="checkbox" type="checkbox" id="em" checked> Extra-muros<br/></label>
           </ul>
         </div>
         <div class="filtering">
-          <label for="filtering-box"></label><input type="text" class="filteringTerm" id="filtering-box" placeholder="Réalisateur, pays...">
+          <label for="filtering-box"></label><input type="text" class="filtering-box" id="filtering-box" placeholder="Réalisateur, pays...">
         </div>
       </div>
     </div>
