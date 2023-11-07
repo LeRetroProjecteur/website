@@ -1,5 +1,5 @@
 :root {
-  --green: #00FF00;
+  --green: #00ff00;
   --white: #ffffff;
   --black: #000000;
   --lightred: #fff2f2;
@@ -12,7 +12,7 @@
 }
 * {
   color: inherit;
-  font-family: lora,georgia,times new roman,serif;
+  font-family: lora, georgia, times new roman, serif;
   box-sizing: border-box;
 }
 html {
@@ -29,7 +29,10 @@ body {
   margin-right: auto;
   float: none;
 }
-h1, h2, h3, footer {
+h1,
+h2,
+h3,
+footer {
   text-align: center;
 }
 h3 {
@@ -44,7 +47,8 @@ table {
   border-collapse: collapse;
   width: 75%;
 }
-th, td {
+th,
+td {
   padding: 10px;
   border: 1px solid black;
   border-collapse: collapse;
@@ -75,9 +79,9 @@ input {
   appearance: none;
 }
 #logo-wrap {
-    max-width: 375px;
-    height: auto;
-    display: block;
+  max-width: 375px;
+  height: auto;
+  display: block;
 }
 .center {
   width: 100%;
@@ -101,7 +105,7 @@ input {
   width: 95%;
   max-width: 600px;
 }
-.fa {
+.fa-icons {
   padding: 0;
   font-size: 50px;
   width: 40px;
@@ -226,7 +230,7 @@ input[type="checkbox"] {
   padding: 5px 10px 5px 10px;
   width: 100%;
   line-height: 1.6;
-  color: #9DBFAF;
+  color: #9dbfaf;
 }
 .filtering-box:focus {
   color: var(--black);
@@ -260,7 +264,7 @@ input[type="checkbox"] {
   background-color: #f1f1f1;
   width: 100%;
   overflow: auto;
-  box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 .dropdown-content a {
