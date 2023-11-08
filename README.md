@@ -1,1 +1,18 @@
-Preview: https://retroprojecteur.vercel.app/
+### Preview de la branch main
+https://retroprojecteur.vercel.app/
+
+### Développement local
+Dans le terminal: `$ npm run dev` puis http://localhost:3000/
+
+
+### Page principale
+- [x] Barre de recherche de films (header)
+- [x] Calendrier
+- [x] Filtres quartier / texte
+- [ ] Filtre heure
+- [ ] Coups de coeur
+
+### Autres pages
+- [ ] Chroniques
+- [ ] Page détails
+- [ ] Newsletter
