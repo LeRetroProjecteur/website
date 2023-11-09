@@ -2,7 +2,7 @@
 
 import { useClickAway } from "@uidotdev/usehooks";
 import classNames from "classnames";
-import { capitalize, intersection, padStart, sortBy, uniqBy } from "lodash-es";
+import { capitalize, intersection, sortBy, uniqBy } from "lodash-es";
 import Image from "next/image";
 import {
   ChangeEvent,
@@ -19,7 +19,7 @@ import {
   addDays,
   format,
   getHours,
-  isToday,
+  parse,
   startOfHour,
   subDays,
 } from "date-fns";
@@ -27,26 +27,26 @@ import { utcToZonedTime } from "date-fns-tz";
 import { fr } from "date-fns/locale";
 
 import { Movie } from "@/lib/types";
-import { checkNotNull, floatHourToString } from "@/lib/util";
+import { checkNotNull, floatHourToString, isTodayInParis } from "@/lib/util";
 
 import logo_square from "./logo_square.png";
 
 async function getApiMovies(date: Date) {
-  return (await fetch(`/get-movies/${format(date, "Y-MM-dd")}`)).json();
+  return (await fetch(`/get-movies/${format(date, "y-MM-dd")}`)).json();
 }
 
 export function MoviesByDay({
   date: initialDate,
   movies: initialMovies,
 }: {
-  date: Date;
+  date: string;
   movies: Promise<Movie[]>;
 }) {
-  const [date, setDate] = useState(initialDate);
+  const [date, setDate] = useState(parse(initialDate, "y-MM-dd", new Date()));
   const [movies, setMovies] = useState(initialMovies);
 
   const previousDate = useMemo(
-    () => (isToday(date) ? undefined : subDays(date, 1)),
+    () => (isTodayInParis(date) ? undefined : subDays(date, 1)),
     [date],
   );
   const nextDate = useMemo(() => addDays(date, 1), [date]);
@@ -88,7 +88,7 @@ export function MoviesByDay({
         />
       </h3>
       <p style={{ margin: "7px" }}></p>
-      <FilterableMovies isToday={isToday(date)} moviesPromise={movies} />
+      <FilterableMovies isToday={isTodayInParis(date)} moviesPromise={movies} />
     </>
   );
 }
