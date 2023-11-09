@@ -2,8 +2,10 @@
 https://retroprojecteur.vercel.app/
 
 ### Développement local
+* Installer [node.js](https://nodejs.org/en/) et [pnpm](https://pnpm.io/installation#using-corepack)
 * Créer un fichier .env.local et y insérer la clef Firebase au format suivant : `FIREBASE_API_KEY=<clef-firebase>`
-* Dans le terminal: `$ npm run dev`
+* `$ pnpm install`
+* `$ pnpm run dev`
 * http://localhost:3000/ dans Chrome / Firefox
 
 
