@@ -322,51 +322,64 @@ export function Movies({
 
   return (
     <>
-      {sortBy(filteredMovies, (movie) => [
-        movie.year,
-        movie.directors,
-        movie.title,
-      ]).map((movie) => (
-        <tr key={movie.id}>
-          <td>
-            <a
-              href={`/details?id=${movie.id}`}
-              style={{ textDecoration: "none" }}
-            >
-              {movie?.category === "COUP DE CŒUR" ? (
-                <div className="logo_cdc">
-                  <Image
-                    src={logo_square}
-                    width={20}
-                    height={17}
-                    alt="coup-de-coeur"
-                  />
-                </div>
-              ) : null}
-              <b>{movie.title}</b>, {movie.directors} ({movie.year})
-            </a>
-          </td>
-          <td>
-            {sortBy(
-              uniqBy(
-                movie.showtimes_theater,
+      {filteredMovies.length > 0 ? (
+        sortBy(filteredMovies, (movie) => [
+          movie.year,
+          movie.directors,
+          movie.title,
+        ]).map((movie) => (
+          <tr key={movie.id}>
+            <td>
+              <a
+                href={`/details?id=${movie.id}`}
+                style={{ textDecoration: "none" }}
+              >
+                {movie?.category === "COUP DE CŒUR" ? (
+                  <div className="logo_cdc">
+                    <Image
+                      src={logo_square}
+                      width={20}
+                      height={17}
+                      alt="coup-de-coeur"
+                    />
+                  </div>
+                ) : null}
+                <b>{movie.title}</b>, {movie.directors} ({movie.year})
+              </a>
+            </td>
+            <td>
+              {sortBy(
+                uniqBy(
+                  movie.showtimes_theater,
+                  (showtime_theater) => showtime_theater.clean_name,
+                ),
                 (showtime_theater) => showtime_theater.clean_name,
-              ),
-              (showtime_theater) => showtime_theater.clean_name,
-            ).map((showtime_theater) => (
-              <div key={showtime_theater.clean_name}>
-                {showtime_theater.clean_name} ({showtime_theater.zipcode_clean}
-                ):{" "}
-                {sortBy(showtime_theater.showtimes)
-                  .map((showtime) => {
-                    return floatHourToString(showtime);
-                  })
-                  .join(", ")}
-              </div>
-            ))}
+              ).map((showtime_theater) => (
+                <div key={showtime_theater.clean_name}>
+                  {showtime_theater.clean_name} (
+                  {showtime_theater.zipcode_clean}
+                  ):{" "}
+                  {sortBy(showtime_theater.showtimes)
+                    .map((showtime) => {
+                      return floatHourToString(showtime);
+                    })
+                    .join(", ")}
+                </div>
+              ))}
+            </td>
+          </tr>
+        ))
+      ) : (
+        <tr>
+          <td colSpan={2}>
+            <b>
+              {filter.length > 0
+                ? "Aucun film ne correspond à cette recherche aujourd'hui."
+                : "Aucun film ne joue à cette heure-ci aujourd'hui, regardez demain ?"}
+            </b>
           </td>
         </tr>
-      ))}
+      )}
     </>
   );
 }
