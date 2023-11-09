@@ -1,5 +1,6 @@
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
+import { GoogleTagManager } from "@next/third-parties/google";
 import type { Metadata } from "next";
 
 import Footer from "../components/footer";
@@ -26,6 +27,7 @@ export default function RootLayout({
         {children}
         <Footer />
       </body>
+      <GoogleTagManager gtmId="G-F5QY5F8S5L" />
     </html>
   );
 }

@@ -26,7 +26,7 @@ import {
 import { fr } from "date-fns/locale";
 
 import { Movie } from "@/lib/types";
-import { checkNotNull } from "@/lib/util";
+import { checkNotNull, floatHourToString } from "@/lib/util";
 
 import logo_square from "./logo_square.png";
 
@@ -355,13 +355,7 @@ export function Movies({
                 ):{" "}
                 {sortBy(showtime_theater.showtimes)
                   .map((showtime) => {
-                    return `${Math.floor(showtime)}h${padStart(
-                      parseInt(
-                        (60 * (showtime - Math.floor(showtime))).toPrecision(2),
-                      ).toString(),
-                      2,
-                      "0",
-                    )}`;
+                    return floatHourToString(showtime);
                   })
                   .join(", ")}
               </div>

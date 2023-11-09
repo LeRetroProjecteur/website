@@ -8,7 +8,7 @@ export default function Header() {
   return (
     <>
       <div style={{ textAlign: "center" }}>
-        <a href="/subscribe.html">
+        <a href="/subscribe">
           Abonnez-vous à notre newsletter hebdomadaire&nbsp;!
         </a>
       </div>

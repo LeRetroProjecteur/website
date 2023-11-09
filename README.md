@@ -13,6 +13,7 @@ Dans le terminal: `$ npm run dev` puis http://localhost:3000/
 - [x] Coups de coeur
 
 ### Autres pages
+- [x] Coups de coeur
 - [ ] Chroniques
-- [ ] Page détails
-- [ ] Newsletter
+- [x] Page détails
+- [x] Newsletter
