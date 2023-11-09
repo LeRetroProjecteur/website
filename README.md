@@ -2,7 +2,9 @@
 https://retroprojecteur.vercel.app/
 
 ### Développement local
-Dans le terminal: `$ npm run dev` puis http://localhost:3000/
+* Créer un fichier .env.local et y insérer la clef Firebase au format suivant : `FIREBASE_API_KEY=<clef-firebase>`
+* Dans le terminal: `$ npm run dev`
+* http://localhost:3000/ dans Chrome / Firefox
 
 
 ### Page principale

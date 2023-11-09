@@ -1,12 +1,18 @@
 import { capitalize, sortBy, toPairs } from "lodash-es";
+import { Metadata } from "next";
 
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 
+import SetTitle from "@/components/set-title";
 import { getMovie } from "@/lib/movies";
 import { checkNotNull, floatHourToString, safeDate } from "@/lib/util";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Détails du film | Le Rétro Projecteur – Cinéma de patrimoine à Paris",
+};
 
 export default async function Details({
   searchParams: { id },
@@ -80,6 +86,7 @@ export default async function Details({
         </div>
       </span>
       <br />
+      <SetTitle movie={movie} />
     </>
   );
 }

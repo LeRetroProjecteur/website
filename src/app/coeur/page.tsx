@@ -1,4 +1,5 @@
 import { sortBy } from "lodash-es";
+import { Metadata } from "next";
 import { Suspense } from "react";
 
 import { format } from "date-fns";
@@ -9,6 +10,11 @@ import { Movie, Review } from "@/lib/types";
 import { safeDate } from "@/lib/util";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title:
+    "Nos Coups de Cœur | Le Rétro Projecteur – Cinéma de patrimoine à Paris",
+};
 
 export default function Coeur() {
   const reviewedMovies = getReviewedMovies();

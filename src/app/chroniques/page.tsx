@@ -1,7 +1,12 @@
+import { Metadata } from "next";
 import Image from "next/image";
 
 import lumiereIcon from "./festival-lumiere-2023/img/icon.png";
 import top2022 from "./top-2022/img/icon.png";
+
+export const metadata: Metadata = {
+  title: "Chroniques | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+};
 
 export default function Chroniques() {
   return (
