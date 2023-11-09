@@ -1,9 +1,7 @@
 "use client";
 
-import { Movie, checkNotNull } from "@/lib/movies";
 import { useClickAway, useIsFirstRender } from "@uidotdev/usehooks";
 import classNames from "classnames";
-import { addDays, format, isToday, subDays } from "date-fns";
 import { intersection, pad, sortBy, uniqBy } from "lodash-es";
 import {
   ChangeEvent,
@@ -15,6 +13,11 @@ import {
   useMemo,
   useState,
 } from "react";
+
+import { addDays, format, isToday, subDays } from "date-fns";
+
+import { Movie } from "@/lib/types";
+import { checkNotNull } from "@/lib/util";
 
 async function getApiMovies(date: Date) {
   return (await fetch(`/get-movies/${format(date, "Y-MM-dd")}`)).json();

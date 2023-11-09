@@ -1,16 +1,17 @@
 "use client";
 
-import { Movie } from "@/lib/movies";
+import { useClickAway } from "@uidotdev/usehooks";
 import { take } from "lodash-es";
 import React, {
   ChangeEvent,
+  Suspense,
   use,
   useCallback,
   useMemo,
   useState,
-  Suspense,
 } from "react";
-import { useClickAway } from "@uidotdev/usehooks";
+
+import { Movie } from "@/lib/types";
 
 export default function MovieSearch({
   moviesPromise,

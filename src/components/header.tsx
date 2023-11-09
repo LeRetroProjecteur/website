@@ -1,6 +1,9 @@
+import Image from "next/image";
+
 import MovieSearch from "@/components/movie-search";
 import { getMovies } from "@/lib/movies";
-import Image from "next/image";
+
+import logo from "./logo.png";
 
 export default function Header() {
   const movies = getMovies();
@@ -20,7 +23,7 @@ export default function Header() {
           <Image
             height={168}
             width={375}
-            src="/logo.png"
+            src={logo}
             alt="Le Rétro Projecteur – Cinéma de patrimoine à Paris"
             className="center"
             style={{ display: "block" }}

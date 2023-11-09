@@ -1,12 +1,13 @@
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
-import { setDefaultOptions } from "date-fns";
-import { fr } from "date-fns/locale";
 import type { Metadata } from "next";
 
-import Footer from "./footer";
+import { setDefaultOptions } from "date-fns";
+import { fr } from "date-fns/locale";
+
+import Footer from "../components/footer";
+import Header from "../components/header";
 import "./globals.css";
-import Header from "./header";
 
 config.autoAddCss = false;
 
