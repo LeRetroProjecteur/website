@@ -1,5 +1,8 @@
 import { padStart } from "lodash-es";
 
+import { isSameDay } from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
+
 export function checkNotNull<T>(check: T | null | undefined): T {
   if (check == null) {
     throw new Error();
@@ -17,4 +20,8 @@ export function floatHourToString(hour: number) {
 
 export function safeDate(date: string) {
   return new Date(date.replaceAll("_", "-"));
+}
+
+export function isTodayInParis(date: Date) {
+  return isSameDay(utcToZonedTime(new Date(), "Europe/Paris"), date);
 }
