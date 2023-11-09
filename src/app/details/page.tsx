@@ -32,7 +32,11 @@ export default async function Details({
         <span id="fiche-technique">
           Titre original&nbsp;: <i>{movie.original_title}</i>
           <br />
-          Durée&nbsp;: {movie.duration} minutes
+          {movie.duration == null
+            ? "Durée inconnue"
+            : `Durée&nbsp;: ${Math.floor(
+                parseInt(movie.duration) / 60,
+              )} minutes`}
         </span>
       </div>
       <br />
