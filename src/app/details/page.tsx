@@ -1,4 +1,4 @@
-import { capitalize, sortBy, toPairs } from "lodash-es";
+import { capitalize, size, sortBy, toPairs } from "lodash-es";
 import { Metadata } from "next";
 
 import { format } from "date-fns";
@@ -34,9 +34,7 @@ export default async function Details({
           <br />
           {movie.duration == null
             ? "Durée inconnue"
-            : `Durée&nbsp;: ${Math.floor(
-                parseInt(movie.duration) / 60,
-              )} minutes`}
+            : `Durée : ${Math.floor(parseInt(movie.duration) / 60)} minutes`}
         </span>
       </div>
       <br />
@@ -65,27 +63,31 @@ export default async function Details({
       <span id="next-screenings">
         <div className="moviebox">
           <h3>Prochaines séances à Paris&nbsp;:</h3>
-          {sortBy(toPairs(movie.screenings), ([date]) => safeDate(date)).map(
-            ([date, screenings]) => (
-              <>
-                <p style={{ lineHeight: "10px" }}></p>
-                <b>
-                  {capitalize(
-                    format(safeDate(date), "EEEE d MMMM", { locale: fr }),
-                  )}
-                </b>{" "}
-                {sortBy(screenings, (theater) => theater.clean_name)
-                  .map(
-                    (theater) =>
-                      `${theater.clean_name} (${
-                        theater.zipcode_clean
-                      }) : ${sortBy(theater.showtimes)
-                        .map((showtime) => floatHourToString(showtime))
-                        .join(", ")}`,
-                  )
-                  .join(" ; ")}
-              </>
-            ),
+          {size(movie.screenings) > 0 ? (
+            sortBy(toPairs(movie.screenings), ([date]) => safeDate(date)).map(
+              ([date, screenings]) => (
+                <>
+                  <p style={{ lineHeight: "10px" }}></p>
+                  <b>
+                    {capitalize(
+                      format(safeDate(date), "EEEE d MMMM", { locale: fr }),
+                    )}
+                  </b>{" "}
+                  {sortBy(screenings, (theater) => theater.clean_name)
+                    .map(
+                      (theater) =>
+                        `${theater.clean_name} (${
+                          theater.zipcode_clean
+                        }) : ${sortBy(theater.showtimes)
+                          .map((showtime) => floatHourToString(showtime))
+                          .join(", ")}`,
+                    )
+                    .join(" ; ")}
+                </>
+              ),
+            )
+          ) : (
+            <b>Pas de séance prévue pour le moment.</b>
           )}
         </div>
       </span>

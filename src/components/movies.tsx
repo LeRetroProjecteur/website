@@ -23,6 +23,7 @@ import {
   startOfHour,
   subDays,
 } from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
 import { fr } from "date-fns/locale";
 
 import { Movie } from "@/lib/types";
@@ -131,7 +132,10 @@ export function FilterableMovies({
   );
 
   const todayMinHour = useMemo(
-    () => (isToday ? getHours(startOfHour(new Date())) : 0),
+    () =>
+      isToday
+        ? getHours(startOfHour(utcToZonedTime(new Date(), "Europe/Paris")))
+        : 0,
     [isToday],
   );
 
