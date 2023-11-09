@@ -8,6 +8,19 @@ https://retroprojecteur.vercel.app/
 * `$ pnpm run dev`
 * http://localhost:3000/ dans Chrome / Firefox
 
+### VSCode + extensions
+* Extensions eslint et prettier
+* Config pour auto-formattage :
+```
+{
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
+}
+```
+
 
 ### Page principale
 - [x] Barre de recherche de films (header)
