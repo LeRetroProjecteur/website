@@ -66,7 +66,7 @@ export default async function Details({
           {size(movie.screenings) > 0 ? (
             sortBy(toPairs(movie.screenings), ([date]) => safeDate(date)).map(
               ([date, screenings]) => (
-                <>
+                <div key={date}>
                   <p style={{ lineHeight: "10px" }}></p>
                   <b>
                     {capitalize(
@@ -83,7 +83,7 @@ export default async function Details({
                           .join(", ")}`,
                     )
                     .join(" ; ")}
-                </>
+                </div>
               ),
             )
           ) : (

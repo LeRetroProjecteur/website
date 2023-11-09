@@ -1,10 +1,13 @@
 import Image from "next/image";
 
 import MovieSearch from "@/components/movie-search";
+import { getMovies } from "@/lib/movies";
 
 import logo from "./logo.png";
 
 export default function Header() {
+  const movies = getMovies();
+
   return (
     <>
       <div style={{ textAlign: "center" }}>
@@ -13,7 +16,7 @@ export default function Header() {
         </a>
       </div>
       <p style={{ margin: "7px" }}></p>
-      <MovieSearch />
+      <MovieSearch moviesPromise={movies} />
       <p style={{ margin: "10px" }}></p>
       <div id="logo-wrap" className="center">
         <a href="/">
