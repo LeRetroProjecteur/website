@@ -1,11 +1,9 @@
 import { capitalize, sortBy, toPairs } from "lodash-es";
-import { Suspense } from "react";
 
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 
 import { getMovie } from "@/lib/movies";
-import { Movie, MovieDetail, Review } from "@/lib/types";
 import { checkNotNull, floatHourToString, safeDate } from "@/lib/util";
 
 export const dynamic = "force-dynamic";
@@ -43,7 +41,7 @@ export default async function Details({
               />
             ) : null}
             <h3 style={{ color: "grey" }}>COUP DE CŒUR</h3>
-            {movie.review}
+            <div dangerouslySetInnerHTML={{ __html: movie.review }}></div>
             <div style={{ textAlign: "right" }}>
               Critique du{" "}
               {format(safeDate(checkNotNull(movie.review_date)), "d MMMM y", {

@@ -14,6 +14,6 @@ Dans le terminal: `$ npm run dev` puis http://localhost:3000/
 
 ### Autres pages
 - [x] Coups de coeur
-- [ ] Chroniques
+- [x] Chroniques
 - [x] Page détails
 - [x] Newsletter
