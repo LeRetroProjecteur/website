@@ -6,5 +6,6 @@ export async function GET(
   _request: Request,
   { params }: { params: { slug: string } },
 ) {
-  return Response.json(await getDayMovies(startOfDay(new Date(params.slug))));
+  const dateRequested = startOfDay(new Date(params.slug));
+  return Response.json(await getDayMovies(dateRequested));
 }

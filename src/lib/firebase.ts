@@ -3,6 +3,7 @@ import { getFirestore } from "firebase/firestore";
 import { memoize } from "lodash-es";
 import "server-only";
 
+// TODO: move to environment variables
 const firebaseConfig = {
   apiKey: "AIzaSyCjvHHSqWGZhh2pcoHF_8ZeKqxT0wRvXuc",
   authDomain: "website-cine.firebaseapp.com",

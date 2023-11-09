@@ -9,8 +9,8 @@ Dans le terminal: `$ npm run dev` puis http://localhost:3000/
 - [x] Barre de recherche de films (header)
 - [x] Calendrier
 - [x] Filtres quartier / texte
-- [ ] Filtre heure
-- [ ] Coups de coeur
+- [x] Filtre heure
+- [x] Coups de coeur
 
 ### Autres pages
 - [ ] Chroniques

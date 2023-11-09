@@ -8,6 +8,7 @@ export interface Movie {
   id: string;
   language: string;
   showtimes_theater: ShowtimesTheater[];
+  category?: string;
 }
 
 export interface ShowtimesTheater {

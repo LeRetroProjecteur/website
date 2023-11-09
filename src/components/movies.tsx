@@ -1,23 +1,34 @@
 "use client";
 
-import { useClickAway, useIsFirstRender } from "@uidotdev/usehooks";
+import { useClickAway } from "@uidotdev/usehooks";
 import classNames from "classnames";
-import { intersection, pad, sortBy, uniqBy } from "lodash-es";
+import { capitalize, intersection, padStart, sortBy, uniqBy } from "lodash-es";
+import Image from "next/image";
 import {
   ChangeEvent,
   MutableRefObject,
   Suspense,
   use,
   useCallback,
-  useEffect,
   useMemo,
   useState,
 } from "react";
+import ReactSlider from "react-slider";
 
-import { addDays, format, isToday, subDays } from "date-fns";
+import {
+  addDays,
+  format,
+  getHours,
+  isToday,
+  startOfHour,
+  subDays,
+} from "date-fns";
+import { fr } from "date-fns/locale";
 
 import { Movie } from "@/lib/types";
 import { checkNotNull } from "@/lib/util";
+
+import logo_square from "./logo_square.png";
 
 async function getApiMovies(date: Date) {
   return (await fetch(`/get-movies/${format(date, "Y-MM-dd")}`)).json();
@@ -39,21 +50,14 @@ export function MoviesByDay({
   );
   const nextDate = useMemo(() => addDays(date, 1), [date]);
 
-  const onPrevious = useCallback(
-    () => setDate(checkNotNull(previousDate)),
-    [setDate, previousDate],
-  );
-  const onNext = useCallback(
-    () => setDate(checkNotNull(nextDate)),
-    [setDate, nextDate],
-  );
-
-  const isFirstRender = useIsFirstRender();
-  useEffect(() => {
-    if (!isFirstRender) {
-      setMovies(getApiMovies(date));
-    }
-  }, [date, isFirstRender]);
+  const onPrevious = useCallback(async () => {
+    setDate(checkNotNull(previousDate));
+    setMovies(getApiMovies(checkNotNull(previousDate)));
+  }, [setDate, previousDate]);
+  const onNext = useCallback(async () => {
+    setDate(checkNotNull(nextDate));
+    setMovies(getApiMovies(nextDate));
+  }, [setDate, nextDate]);
 
   return (
     <>
@@ -69,7 +73,9 @@ export function MoviesByDay({
           onClick={previousDate == null ? undefined : onPrevious}
         />
         <b>
-          <span id="date-of-today">{format(date, "EEEE d MMMM y")}</span>
+          <span id="date-of-today">
+            {capitalize(format(date, "EEEE d MMMM y", { locale: fr }))}
+          </span>
         </b>
         <input
           type="button"
@@ -81,15 +87,17 @@ export function MoviesByDay({
         />
       </h3>
       <p style={{ margin: "7px" }}></p>
-      <FilterableMovies moviesPromise={movies} />
+      <FilterableMovies isToday={isToday(date)} moviesPromise={movies} />
     </>
   );
 }
 
 export function FilterableMovies({
   moviesPromise,
+  isToday,
 }: {
   moviesPromise: Promise<Movie[]>;
+  isToday: boolean;
 }) {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const toggleDropdown = useCallback(
@@ -122,11 +130,27 @@ export function FilterableMovies({
     [setFilter],
   );
 
+  const todayMinHour = useMemo(
+    () => (isToday ? getHours(startOfHour(new Date())) : 0),
+    [isToday],
+  );
+
+  const [minHour, setMinHour] = useState(todayMinHour);
+  const [maxHour, setMaxHour] = useState(24);
+
+  const onSliderChange = useCallback(
+    (values: [min: number, max: number]) => {
+      const [min, max] = values;
+      setMinHour(min);
+      setMaxHour(max);
+    },
+    [setMinHour, setMaxHour],
+  );
+
   return (
     <>
       <div style={{ textAlign: "center" }}>
-        <div id="slider-range-value"></div>
-        <div className="slider-styled" id="slider-range"></div>
+        <Slider minHour={minHour} maxHour={maxHour} onChange={onSliderChange} />
         <p style={{ margin: "7px" }}></p>
         <div id="wrap">
           <div
@@ -226,6 +250,8 @@ export function FilterableMovies({
                 <Movies
                   moviesPromise={moviesPromise}
                   filter={filter}
+                  minHour={minHour}
+                  maxHour={maxHour}
                   quartiers={[
                     ...(rg ? ["rg"] : []),
                     ...(rd ? ["rd"] : []),
@@ -245,16 +271,38 @@ export function Movies({
   moviesPromise,
   quartiers,
   filter,
+  minHour,
+  maxHour,
 }: {
   moviesPromise: Promise<Movie[]>;
   quartiers: string[];
   filter: string;
+  minHour: number;
+  maxHour: number;
 }) {
   const movies = use(moviesPromise);
 
+  const moviesWithFilteredShowtimes = useMemo(
+    () =>
+      movies
+        .map((movie) => ({
+          ...movie,
+          showtimes_theater: movie.showtimes_theater
+            .map((theater) => ({
+              ...theater,
+              showtimes: theater.showtimes.filter(
+                (showtime) => showtime >= minHour && showtime <= maxHour,
+              ),
+            }))
+            .filter((theater) => theater.showtimes.length > 0),
+        }))
+        .filter((movie) => movie.showtimes_theater.length > 0),
+    [movies, minHour, maxHour],
+  );
+
   const filteredMovies = useMemo(
     () =>
-      movies.filter(
+      moviesWithFilteredShowtimes.filter(
         (movie) =>
           (filter == "" ||
             `${movie.directors} ${movie.title} ${movie.language} ${movie.original_title}`
@@ -265,18 +313,32 @@ export function Movies({
             movie.showtimes_theater.map((t) => t.location_2),
           ).length > 0,
       ),
-    [movies, filter, quartiers],
+    [moviesWithFilteredShowtimes, filter, quartiers],
   );
 
   return (
     <>
-      {sortBy(filteredMovies, (movie) => movie.year).map((movie) => (
+      {sortBy(filteredMovies, (movie) => [
+        movie.year,
+        movie.directors,
+        movie.title,
+      ]).map((movie) => (
         <tr key={movie.id}>
           <td>
             <a
               href={`/details?id=${movie.id}`}
               style={{ textDecoration: "none" }}
             >
+              {movie?.category === "COUP DE CŒUR" ? (
+                <div className="logo_cdc">
+                  <Image
+                    src={logo_square}
+                    width={20}
+                    height={17}
+                    alt="coup-de-coeur"
+                  />
+                </div>
+              ) : null}
               <b>{movie.title}</b>, {movie.directors} ({movie.year})
             </a>
           </td>
@@ -293,11 +355,12 @@ export function Movies({
                 ):{" "}
                 {sortBy(showtime_theater.showtimes)
                   .map((showtime) => {
-                    return `${Math.floor(showtime)}h${pad(
+                    return `${Math.floor(showtime)}h${padStart(
                       parseInt(
                         (60 * (showtime - Math.floor(showtime))).toPrecision(2),
                       ).toString(),
                       2,
+                      "0",
                     )}`;
                   })
                   .join(", ")}
@@ -306,6 +369,39 @@ export function Movies({
           </td>
         </tr>
       ))}
+    </>
+  );
+}
+
+function Slider({
+  minHour,
+  maxHour,
+  onChange,
+}: {
+  minHour: number;
+  maxHour: number;
+  onChange: (values: [min: number, max: number]) => void;
+}) {
+  return (
+    <>
+      <div>
+        Séances entre{" "}
+        <b style={{ color: "var(--red)", fontWeight: "bold" }}>
+          {minHour}h et {maxHour}h
+        </b>
+      </div>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <ReactSlider
+          className="slider-range"
+          value={[minHour, maxHour]}
+          max={24}
+          min={0}
+          minDistance={2}
+          onChange={onChange}
+          thumbClassName="noUi-handle"
+          trackClassName="slider-track"
+        />
+      </div>
     </>
   );
 }

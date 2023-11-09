@@ -1,36 +1,36 @@
 "use client";
 
 import { useClickAway } from "@uidotdev/usehooks";
-import { take } from "lodash-es";
-import React, {
-  ChangeEvent,
-  Suspense,
-  use,
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
+import { debounce } from "lodash-es";
+import React, { ChangeEvent, useCallback, useMemo, useState } from "react";
 
 import { Movie } from "@/lib/types";
 
-export default function MovieSearch({
-  moviesPromise,
-}: {
-  moviesPromise: Promise<Movie[]>;
-}) {
+export default function MovieSearch({}: {}) {
   const [searchTerm, setSearchTerm] = useState("");
+  const [movies, setMovies] = useState<Movie[]>([]);
   const inputRef: React.MutableRefObject<HTMLInputElement> = useClickAway(() =>
     setSearchTerm(""),
   );
 
-  const onChangeSearchTerm = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target?.value),
-    [setSearchTerm],
+  const debouncedSearch = useMemo(
+    () =>
+      debounce(async (searchTerm: string) => {
+        if (searchTerm.length > 0) {
+          setMovies(
+            await (await fetch(`/search-movies?query=${searchTerm}`)).json(),
+          );
+        }
+      }, 200),
+    [setMovies],
   );
 
-  const lowerCaseSearchTerm = useMemo(
-    () => searchTerm.toLowerCase(),
-    [searchTerm],
+  const onChangeSearchTerm = useCallback(
+    async (e: ChangeEvent<HTMLInputElement>) => {
+      setSearchTerm(e.target?.value);
+      debouncedSearch(e.target?.value);
+    },
+    [setSearchTerm, debouncedSearch],
   );
 
   return (
@@ -46,46 +46,19 @@ export default function MovieSearch({
             className="movie-search"
             placeholder="Recherchez un film..."
           />
-          <Suspense fallback={<></>}>
-            <Dropdown
-              lowerCaseSearchTerm={lowerCaseSearchTerm}
-              moviesPromise={moviesPromise}
-            />
-          </Suspense>
+          <Dropdown movies={movies} />
         </div>
       </div>
     </>
   );
 }
 
-function Dropdown({
-  lowerCaseSearchTerm,
-  moviesPromise,
-}: {
-  lowerCaseSearchTerm: string;
-  moviesPromise: Promise<Movie[]>;
-}) {
-  const movies = use(moviesPromise);
-  const matches = useMemo(
-    () =>
-      lowerCaseSearchTerm.length > 0
-        ? take(
-            movies.filter(
-              (movie) =>
-                movie.directors.toLowerCase().includes(lowerCaseSearchTerm) ||
-                movie.title.toLowerCase().includes(lowerCaseSearchTerm),
-            ),
-            5,
-          )
-        : [],
-    [movies, lowerCaseSearchTerm],
-  );
-
+function Dropdown({ movies }: { movies: Movie[] }) {
   return (
     <div id="my-dropdown" className="dropdown-content show">
-      {matches.map((match) => (
-        <a key={match.id} href={`/details?id=${match.id}`}>
-          <i>{match.title}</i>, {match.directors} ({match.year})
+      {movies.map((movie) => (
+        <a key={movie.id} href={`/details?id=${movie.id}`}>
+          <i>{movie.title}</i>, {movie.directors} ({movie.year})
         </a>
       ))}
     </div>
