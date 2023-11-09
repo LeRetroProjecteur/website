@@ -84,7 +84,7 @@ function Dropdown({
   return (
     <div id="my-dropdown" className="dropdown-content show">
       {matches.map((match) => (
-        <a key={match.id} href={`/details.html?id=${match.id}`}>
+        <a key={match.id} href={`/details?id=${match.id}`}>
           <i>{match.title}</i>, {match.directors} ({match.year})
         </a>
       ))}

@@ -56,9 +56,6 @@ export default function Footer() {
       </div>
       <br />
       <footer>
-        <div className="secret-link">
-          <a href="/lucidlamar.html">©</a> Le Rétro Projecteur 2021–2023
-        </div>
         <br />
         <i>
           «&nbsp;Pour le grand écran, pas la p&apos;tite lucarne&nbsp;!&nbsp;»

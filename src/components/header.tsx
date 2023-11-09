@@ -36,10 +36,10 @@ export default function Header() {
           <a href="/">Calendrier</a> •&nbsp;
         </div>
         <div className="menu-item">
-          <a href="/chroniques.html">Chroniques</a> •&nbsp;
+          <a href="/chroniques">Chroniques</a> •&nbsp;
         </div>
         <div className="menu-item">
-          <a href="/coeur.html">Coups de cœur</a>
+          <a href="/coeur">Coups de cœur</a>
         </div>
       </div>
       <hr />

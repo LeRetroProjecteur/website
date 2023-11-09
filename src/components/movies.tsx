@@ -23,7 +23,7 @@ async function getApiMovies(date: Date) {
   return (await fetch(`/get-movies/${format(date, "Y-MM-dd")}`)).json();
 }
 
-export function MoviesByDayClient({
+export function MoviesByDay({
   date: initialDate,
   movies: initialMovies,
 }: {
@@ -274,7 +274,7 @@ export function Movies({
         <tr key={movie.id}>
           <td>
             <a
-              href={`/details.html?id=${movie.id}`}
+              href={`/details?id=${movie.id}`}
               style={{ textDecoration: "none" }}
             >
               <b>{movie.title}</b>, {movie.directors} ({movie.year})
