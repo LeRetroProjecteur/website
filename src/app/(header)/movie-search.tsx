@@ -69,7 +69,7 @@ function Dropdown({ searchTerm }: { searchTerm: string }) {
               movies.filter((movie) =>
                 string_match(searchTerm, movie.search_field),
               ),
-              (movie) => movie.relevance_score,
+              (movie) => -movie.relevance_score,
             ),
             5,
           )
