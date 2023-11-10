@@ -2,22 +2,20 @@
 
 import { useClickAway } from "@uidotdev/usehooks";
 import { sortBy, take } from "lodash-es";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import React, {
   ChangeEvent,
   Suspense,
-  use,
   useCallback,
+  useEffect,
   useMemo,
   useState,
 } from "react";
 
 import { Movie } from "@/lib/types";
 
-export default function MovieSearch({
-  moviesPromise,
-}: {
-  moviesPromise: Promise<Movie[]>;
-}) {
+export default function MovieSearch() {
   const [searchTerm, setSearchTerm] = useState("");
   const inputRef: React.MutableRefObject<HTMLInputElement> = useClickAway(() =>
     setTimeout(() => setSearchTerm(""), 100),
@@ -44,7 +42,7 @@ export default function MovieSearch({
             placeholder="Recherchez un film..."
           />
           <Suspense fallback={<></>}>
-            <Dropdown searchTerm={searchTerm} moviesPromise={moviesPromise} />
+            <Dropdown searchTerm={searchTerm} />
           </Suspense>
         </div>
       </div>
@@ -52,14 +50,16 @@ export default function MovieSearch({
   );
 }
 
-function Dropdown({
-  moviesPromise,
-  searchTerm,
-}: {
-  moviesPromise: Promise<Movie[]>;
-  searchTerm: string;
-}) {
-  const movies = use(moviesPromise);
+function Dropdown({ searchTerm }: { searchTerm: string }) {
+  const _ = useSearchParams();
+  const [movies, setMovies] = useState<Movie[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      setMovies(await (await fetch("/api/all-movies")).json());
+    })();
+  }, []);
+
   const filtered = useMemo(
     () =>
       searchTerm.length > 0
@@ -81,9 +81,9 @@ function Dropdown({
   return (
     <div id="my-dropdown" className="dropdown-content show">
       {filtered.map((movie) => (
-        <a key={movie.id} href={`/details?id=${movie.id}`}>
+        <Link key={movie.id} href={`/details?id=${movie.id}`}>
           <i>{movie.title}</i>, {movie.directors} ({movie.year})
-        </a>
+        </Link>
       ))}
     </div>
   );

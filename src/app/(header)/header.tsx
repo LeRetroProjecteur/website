@@ -1,25 +1,23 @@
 import Image from "next/image";
+import Link from "next/link";
 
-import MovieSearch from "@/components/movie-search";
-import { getMovies } from "@/lib/movies";
+import MovieSearch from "@/app/(header)/movie-search";
 
 import logo from "./logo.png";
 
 export default function Header() {
-  const movies = getMovies();
-
   return (
     <>
       <div style={{ textAlign: "center" }}>
-        <a href="/subscribe">
+        <Link href="/subscribe">
           Abonnez-vous à notre newsletter hebdomadaire&nbsp;!
-        </a>
+        </Link>
       </div>
       <p style={{ margin: "7px" }}></p>
-      <MovieSearch moviesPromise={movies} />
+      <MovieSearch />
       <p style={{ margin: "10px" }}></p>
       <div id="logo-wrap" className="center">
-        <a href="/">
+        <Link href="/">
           <Image
             height={168}
             width={375}
@@ -28,18 +26,18 @@ export default function Header() {
             className="center"
             style={{ display: "block" }}
           />
-        </a>
+        </Link>
       </div>
       <p style={{ margin: "7px" }}></p>
       <div id="outer">
         <div className="menu-item">
-          <a href="/">Calendrier</a> •&nbsp;
+          <Link href="/">Calendrier</Link> •&nbsp;
         </div>
         <div className="menu-item">
-          <a href="/chroniques">Chroniques</a> •&nbsp;
+          <Link href="/chroniques">Chroniques</Link> •&nbsp;
         </div>
         <div className="menu-item">
-          <a href="/coeur">Coups de cœur</a>
+          <Link href="/coeur">Coups de cœur</Link>
         </div>
       </div>
       <hr />

@@ -3,8 +3,8 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { GoogleTagManager } from "@next/third-parties/google";
 import type { Metadata } from "next";
 
-import Footer from "../components/footer";
-import Header from "../components/header";
+import Footer from "./(footer)/footer";
+import Header from "./(header)/header";
 import "./globals.css";
 
 config.autoAddCss = false;
