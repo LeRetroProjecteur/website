@@ -13,7 +13,8 @@ import React, {
   useState,
 } from "react";
 
-import { Movie } from "@/lib/types";
+import { Movie, SearchMovie } from "@/lib/types";
+import { string_match } from "@/lib/util";
 
 export default function MovieSearch() {
   const [searchTerm, setSearchTerm] = useState("");
@@ -52,7 +53,7 @@ export default function MovieSearch() {
 
 function Dropdown({ searchTerm }: { searchTerm: string }) {
   const _ = useSearchParams();
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const [movies, setMovies] = useState<SearchMovie[]>([]);
 
   useEffect(() => {
     (async () => {
@@ -65,12 +66,10 @@ function Dropdown({ searchTerm }: { searchTerm: string }) {
       searchTerm.length > 0
         ? take(
             sortBy(
-              movies.filter(
-                (movie) =>
-                  movie.directors.toLowerCase().includes(searchTerm) ||
-                  movie.title.toLowerCase().includes(searchTerm),
+              movies.filter((movie) =>
+                string_match(searchTerm, movie.search_field),
               ),
-              (movie) => movie.title,
+              (movie) => movie.relevance_score,
             ),
             5,
           )

@@ -9,8 +9,6 @@ import { useSearchParams } from "next/navigation";
 import {
   ChangeEvent,
   MutableRefObject,
-  Suspense,
-  use,
   useCallback,
   useEffect,
   useMemo,
@@ -31,7 +29,12 @@ import { utcToZonedTime } from "date-fns-tz";
 import { fr } from "date-fns/locale";
 
 import { Movie } from "@/lib/types";
-import { checkNotNull, floatHourToString, isTodayInParis } from "@/lib/util";
+import {
+  checkNotNull,
+  floatHourToString,
+  isTodayInParis,
+  movie_info_containsFilteringTerm,
+} from "@/lib/util";
 
 import logo_square from "./logo_square.png";
 
@@ -216,6 +219,7 @@ export function FilterableMovies({
               </label>
             </ul>
           </div>
+          &nbsp;
           <div className="filtering">
             <label htmlFor="filtering-box"></label>
             <input
@@ -308,26 +312,23 @@ export function Movies({
                 (showtime) => showtime >= minHour && showtime <= maxHour,
               ),
             }))
-            .filter((theater) => theater.showtimes.length > 0),
+            .filter(
+              (theater) =>
+                theater.showtimes.length > 0 &&
+                quartiers.includes(theater.location_2),
+            ),
         }))
         .filter((movie) => movie.showtimes_theater.length > 0),
-    [movies, minHour, maxHour],
+    [movies, minHour, maxHour, quartiers],
   );
 
   const filteredMovies = useMemo(
     () =>
       moviesWithFilteredShowtimes.filter(
         (movie) =>
-          (filter == "" ||
-            `${movie.directors} ${movie.title} ${movie.language} ${movie.original_title}`
-              .toLowerCase()
-              .includes(filter.toLowerCase())) &&
-          intersection(
-            quartiers,
-            movie.showtimes_theater.map((t) => t.location_2),
-          ).length > 0,
+          filter == "" || movie_info_containsFilteringTerm(movie, filter),
       ),
-    [moviesWithFilteredShowtimes, filter, quartiers],
+    [moviesWithFilteredShowtimes, filter],
   );
 
   return (
@@ -417,7 +418,7 @@ function Slider({
           value={[minHour, maxHour]}
           max={24}
           min={0}
-          minDistance={2}
+          minDistance={1}
           onChange={onChange}
           thumbClassName="noUi-handle"
           trackClassName="slider-track"

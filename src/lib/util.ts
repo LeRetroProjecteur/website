@@ -1,7 +1,9 @@
-import { padStart } from "lodash-es";
+import { every, padStart, some } from "lodash-es";
 
 import { isSameDay } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
+
+import { Movie } from "./types";
 
 export function checkNotNull<T>(check: T | null | undefined): T {
   if (check == null) {
@@ -24,4 +26,62 @@ export function safeDate(date: string) {
 
 export function isTodayInParis(date: Date) {
   return isSameDay(utcToZonedTime(new Date(), "Europe/Paris"), date);
+}
+
+function clean_string(str: string) {
+  str = str.replaceAll("-", " ");
+  str = str.replaceAll(/['’]/g, "'");
+  str = str.replaceAll("'", " ");
+  str = str.replaceAll("&", "and");
+  str = str.normalize("NFD").replace(/\p{Diacritic}/gu, "");
+  str = str.replaceAll(/[^a-zA-Z0-9 #]/g, "");
+  str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+  str = str.toLowerCase();
+  return str;
+}
+
+function at_least_one_word_starts_with_substring(
+  list: string[],
+  substring: string,
+) {
+  return some(list, (word) => word.startsWith(substring));
+}
+
+export function string_match(term: string, search_field: string) {
+  const fields = clean_string(search_field).split(" ");
+  const keywords = clean_string(term).split(" ");
+  return every(keywords, (keyword) =>
+    at_least_one_word_starts_with_substring(fields, keyword),
+  );
+}
+
+export function movie_info_containsFilteringTerm(
+  f: Movie,
+  filteringTerm: string,
+) {
+  if (filteringTerm.slice(-1) === "|") {
+    filteringTerm = filteringTerm.slice(0, -1);
+  }
+  let filtering_field = get_movie_info_string(f);
+  let filteringTerms = filteringTerm.split("|");
+  return some(filteringTerms, (filteringTerm) =>
+    string_match(filteringTerm, filtering_field),
+  );
+}
+
+function get_movie_info_string(f: Movie) {
+  return (
+    [
+      "language",
+      "title",
+      "original_title",
+      "directors",
+      "countries",
+      "tags",
+    ] as Array<keyof Movie>
+  )
+    .map((key) => {
+      return f[key] == null ? "" : `${f[key]}`;
+    })
+    .join(" ");
 }

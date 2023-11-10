@@ -98,19 +98,6 @@ export default function Newsletter() {
                     style={{ display: "none", color: "var(--red)" }}
                   ></div>
                 </div>
-                <div
-                  aria-hidden="true"
-                  style={{ position: "absolute", left: "-5000px;" }}
-                >
-                  <label>
-                    <input
-                      type="text"
-                      name="b_00a9245e71d3375ef4542a588_3270cdb251"
-                      tabIndex={-1}
-                      value=""
-                    />
-                  </label>
-                </div>
                 <div className="clear">
                   <input
                     disabled={errorMessage != null}
