@@ -12,7 +12,7 @@ import "server-only";
 import { format, hoursToSeconds } from "date-fns";
 
 import { getFirebase } from "./firebase";
-import { Movie, MovieDetail, Review } from "./types";
+import { Movie, MovieDetail, Review, SearchMovie } from "./types";
 import { checkNotNull } from "./util";
 
 export const getDayMovies = unstable_cache(
@@ -35,7 +35,7 @@ export const getMovies = unstable_cache(
     const { db } = getFirebase();
     const q = doc(db, "website-extra-docs", "all-movies");
     const querySnapshot = await getDoc(q);
-    return checkNotNull(querySnapshot.data()).elements as Movie[];
+    return checkNotNull(querySnapshot.data()).elements as SearchMovie[];
   },
   ["all-movies"],
   { revalidate: hoursToSeconds(1) },

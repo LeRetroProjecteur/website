@@ -11,6 +11,15 @@ export interface Movie {
   category?: string;
 }
 
+export interface SearchMovie {
+  year: number;
+  relevance_score: number;
+  directors: string;
+  title: string;
+  id: string;
+  search_field: string;
+}
+
 export interface ShowtimesTheater {
   showtimes: number[];
   location_2: string;
