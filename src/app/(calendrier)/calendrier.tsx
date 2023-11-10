@@ -42,6 +42,12 @@ async function getApiMovies(date: Date): Promise<Movie[]> {
   return (await fetch(`api/${format(date, "y-MM-dd")}`)).json();
 }
 
+function getMinHour(date: Date) {
+  return isTodayInParis(date)
+    ? getHours(startOfHour(utcToZonedTime(new Date(), "Europe/Paris")))
+    : 0;
+}
+
 export default function Calendrier() {
   const _ = useSearchParams();
 
@@ -66,14 +72,21 @@ export default function Calendrier() {
   );
   const nextDate = useMemo(() => addDays(date, 1), [date]);
 
+  const [minHour, setMinHour] = useState(getMinHour(date));
+  const [maxHour, setMaxHour] = useState(24);
+
   const onPrevious = useCallback(async () => {
     setDate(checkNotNull(previousDate));
     setMovies(await getApiMovies(checkNotNull(previousDate)));
-  }, [setDate, previousDate]);
+    setMinHour(getMinHour(checkNotNull(previousDate)));
+    setMaxHour(24);
+  }, [setDate, previousDate, setMinHour, setMaxHour]);
   const onNext = useCallback(async () => {
     setDate(checkNotNull(nextDate));
     setMovies(await getApiMovies(nextDate));
-  }, [setDate, nextDate]);
+    setMinHour(getMinHour(nextDate));
+    setMaxHour(24);
+  }, [setDate, nextDate, setMaxHour, setMinHour]);
 
   return (
     <>
@@ -103,7 +116,14 @@ export default function Calendrier() {
         />
       </h3>
       <p style={{ margin: "7px" }}></p>
-      <FilterableMovies isToday={isTodayInParis(date)} movies={movies} />
+      <FilterableMovies
+        isToday={isTodayInParis(date)}
+        movies={movies}
+        minHour={minHour}
+        maxHour={maxHour}
+        setMinHour={setMinHour}
+        setMaxHour={setMaxHour}
+      />
     </>
   );
 }
@@ -111,9 +131,17 @@ export default function Calendrier() {
 export function FilterableMovies({
   movies,
   isToday,
+  maxHour,
+  minHour,
+  setMinHour,
+  setMaxHour,
 }: {
   movies: Movie[] | undefined;
   isToday: boolean;
+  maxHour: number;
+  minHour: number;
+  setMinHour: (h: number) => void;
+  setMaxHour: (h: number) => void;
 }) {
   const [dropdownVisible, setDropdownVisible] = useState(false);
   const toggleDropdown = useCallback(
@@ -153,9 +181,6 @@ export function FilterableMovies({
         : 0,
     [isToday],
   );
-
-  const [minHour, setMinHour] = useState(todayMinHour);
-  const [maxHour, setMaxHour] = useState(24);
 
   const onSliderChange = useCallback(
     (values: [min: number, max: number]) => {
