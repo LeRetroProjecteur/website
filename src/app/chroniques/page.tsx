@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 
 import lumiereIcon from "./festival-lumiere-2023/img/icon.png";
 import top2022 from "./top-2022/img/icon.png";
@@ -14,7 +15,7 @@ export default function Chroniques() {
       <h2>Chroniques</h2>
       <div className="post-grid">
         <div className="post">
-          <a href="chroniques/festival-lumiere-2023/">
+          <Link href="chroniques/festival-lumiere-2023/">
             <Image
               width={274}
               height={150}
@@ -22,12 +23,12 @@ export default function Chroniques() {
               src={lumiereIcon}
               alt="Festival Lumière"
             />
-          </a>
+          </Link>
           <p>
             <strong>
-              <a href="chroniques/festival-lumiere-2023/">
+              <Link href="chroniques/festival-lumiere-2023/">
                 Retour sur le Festival Lumière 2023
-              </a>
+              </Link>
             </strong>
           </p>
           <p style={{ textAlign: "right" }}>
@@ -35,7 +36,7 @@ export default function Chroniques() {
           </p>
         </div>
         <div className="post">
-          <a href="chroniques/top-2022/">
+          <Link href="chroniques/top-2022/">
             <Image
               width={274}
               height={150}
@@ -43,12 +44,12 @@ export default function Chroniques() {
               src={top2022}
               alt="Top 2022"
             />
-          </a>
+          </Link>
           <p>
             <strong>
-              <a href="chroniques/top-2022/">
+              <Link href="chroniques/top-2022/">
                 Rétrospective 2022 – Nos meilleures séances patrimoine
-              </a>
+              </Link>
             </strong>
           </p>
           <p style={{ textAlign: "right" }}>

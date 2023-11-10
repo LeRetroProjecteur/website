@@ -4,12 +4,15 @@ import { useClickAway } from "@uidotdev/usehooks";
 import classNames from "classnames";
 import { capitalize, intersection, sortBy, uniqBy } from "lodash-es";
 import Image from "next/image";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import {
   ChangeEvent,
   MutableRefObject,
   Suspense,
   use,
   useCallback,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -20,6 +23,7 @@ import {
   format,
   getHours,
   parse,
+  startOfDay,
   startOfHour,
   subDays,
 } from "date-fns";
@@ -31,19 +35,27 @@ import { checkNotNull, floatHourToString, isTodayInParis } from "@/lib/util";
 
 import logo_square from "./logo_square.png";
 
-async function getApiMovies(date: Date) {
-  return (await fetch(`/get-movies/${format(date, "y-MM-dd")}`)).json();
+async function getApiMovies(date: Date): Promise<Movie[]> {
+  return (await fetch(`api/${format(date, "y-MM-dd")}`)).json();
 }
 
-export function MoviesByDay({
-  date: initialDate,
-  movies: initialMovies,
-}: {
-  date: string;
-  movies: Promise<Movie[]>;
-}) {
-  const [date, setDate] = useState(parse(initialDate, "y-MM-dd", new Date()));
-  const [movies, setMovies] = useState(initialMovies);
+export default function Calendrier() {
+  const _ = useSearchParams();
+
+  const today = useMemo(
+    () => startOfDay(utcToZonedTime(new Date(), "Europe/Paris")),
+    [],
+  );
+
+  const [date, setDate] = useState(today);
+
+  const [movies, setMovies] = useState<Movie[] | undefined>(undefined);
+
+  useEffect(() => {
+    (async () => {
+      setMovies(await getApiMovies(today));
+    })();
+  }, [today]);
 
   const previousDate = useMemo(
     () => (isTodayInParis(date) ? undefined : subDays(date, 1)),
@@ -53,11 +65,11 @@ export function MoviesByDay({
 
   const onPrevious = useCallback(async () => {
     setDate(checkNotNull(previousDate));
-    setMovies(getApiMovies(checkNotNull(previousDate)));
+    setMovies(await getApiMovies(checkNotNull(previousDate)));
   }, [setDate, previousDate]);
   const onNext = useCallback(async () => {
     setDate(checkNotNull(nextDate));
-    setMovies(getApiMovies(nextDate));
+    setMovies(await getApiMovies(nextDate));
   }, [setDate, nextDate]);
 
   return (
@@ -88,16 +100,16 @@ export function MoviesByDay({
         />
       </h3>
       <p style={{ margin: "7px" }}></p>
-      <FilterableMovies isToday={isTodayInParis(date)} moviesPromise={movies} />
+      <FilterableMovies isToday={isTodayInParis(date)} movies={movies} />
     </>
   );
 }
 
 export function FilterableMovies({
-  moviesPromise,
+  movies,
   isToday,
 }: {
-  moviesPromise: Promise<Movie[]>;
+  movies: Movie[] | undefined;
   isToday: boolean;
 }) {
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -243,16 +255,16 @@ export function FilterableMovies({
               </tr>
             </thead>
             <tbody>
-              <Suspense
-                fallback={[...Array(20)].map((_, i) => (
+              {movies == null ? (
+                [...Array(20)].map((_, i) => (
                   <tr key={i}>
                     <td>&nbsp;</td>
                     <td>&nbsp;</td>
                   </tr>
-                ))}
-              >
+                ))
+              ) : (
                 <Movies
-                  moviesPromise={moviesPromise}
+                  movies={movies}
                   filter={filter}
                   minHour={minHour}
                   maxHour={maxHour}
@@ -262,7 +274,7 @@ export function FilterableMovies({
                     ...(em ? ["em"] : []),
                   ]}
                 />
-              </Suspense>
+              )}
             </tbody>
           </table>
         </div>
@@ -272,20 +284,18 @@ export function FilterableMovies({
 }
 
 export function Movies({
-  moviesPromise,
+  movies,
   quartiers,
   filter,
   minHour,
   maxHour,
 }: {
-  moviesPromise: Promise<Movie[]>;
+  movies: Movie[];
   quartiers: string[];
   filter: string;
   minHour: number;
   maxHour: number;
 }) {
-  const movies = use(moviesPromise);
-
   const moviesWithFilteredShowtimes = useMemo(
     () =>
       movies
@@ -330,7 +340,7 @@ export function Movies({
         ]).map((movie) => (
           <tr key={movie.id}>
             <td>
-              <a
+              <Link
                 href={`/details?id=${movie.id}`}
                 style={{ textDecoration: "none" }}
               >
@@ -345,7 +355,7 @@ export function Movies({
                   </div>
                 ) : null}
                 <b>{movie.title}</b>, {movie.directors} ({movie.year})
-              </a>
+              </Link>
             </td>
             <td>
               {sortBy(
