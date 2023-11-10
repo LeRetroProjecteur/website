@@ -13,7 +13,7 @@ import React, {
   useState,
 } from "react";
 
-import { Movie, SearchMovie } from "@/lib/types";
+import { SearchMovie } from "@/lib/types";
 import { string_match } from "@/lib/util";
 
 export default function MovieSearch() {
