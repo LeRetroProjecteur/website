@@ -1,3 +1,4 @@
+import { readdir } from "fs/promises";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,7 +25,16 @@ const chroniques = [
   },
 ];
 
-export default function Chroniques() {
+export default async function Chroniques() {
+  const numChroniques = (
+    await readdir("./src/app/chroniques", { withFileTypes: true })
+  ).filter((dirent) => dirent.isDirectory()).length;
+  if (chroniques.length !== numChroniques) {
+    throw new Error(
+      `Il y a ${numChroniques} chroniques, mais il y a ${chroniques.length} liens sur la page chroniques.`,
+    );
+  }
+
   return (
     <>
       <h2>Chroniques</h2>
