@@ -80,7 +80,7 @@ function Dropdown({ searchTerm }: { searchTerm: string }) {
   return (
     <div id="my-dropdown" className="dropdown-content show">
       {filtered.map((movie) => (
-        <Link key={movie.id} href={`/details?id=${movie.id}`}>
+        <Link key={movie.id} href={`/details/${movie.id}`}>
           <i>{movie.title}</i>, {movie.directors} ({movie.year})
         </Link>
       ))}

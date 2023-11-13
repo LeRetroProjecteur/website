@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: "Détails du film | Le Rétro Projecteur – Cinéma de patrimoine à Paris",
 };
 
-export default function DetailsPage() {
+export default function DetailsPage({}: {}) {
   return (
     <Suspense fallback={<></>}>
       <Details />

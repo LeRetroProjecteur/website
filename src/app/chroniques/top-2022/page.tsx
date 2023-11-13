@@ -11,7 +11,7 @@ import variety from "./img/variety.png";
 
 export const metadata: Metadata = {
   title:
-    "Rétrospective 2022 - Notre top | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+    "Rétrospective 2022 — Notre top | Le Rétro Projecteur — Cinéma de patrimoine à Paris",
 };
 
 export default function Top2022() {

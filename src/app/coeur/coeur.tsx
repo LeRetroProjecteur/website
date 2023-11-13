@@ -36,7 +36,7 @@ export default function Coeur() {
       <td>
         Critique du{" "}
         {format(safeDate(movie.review_date), "d MMMM y", { locale: fr })} :{" "}
-        <Link href={`/details?id=${movie.id}`}>
+        <Link href={`/details/${movie.id}`}>
           <b>{movie.title}</b>, {movie.directors} ({movie.year})
         </Link>
       </td>
