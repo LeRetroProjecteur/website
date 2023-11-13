@@ -1,11 +1,14 @@
-import { startOfDay } from "date-fns";
+import { createHash } from "crypto";
 
+import { handleIfNoneMatch } from "@/lib/etag";
 import { getDayMovies } from "@/lib/movies";
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: { slug: string } },
 ) {
   const dateRequested = new Date(params.slug);
-  return Response.json(await getDayMovies(dateRequested));
+  const dayMovies = await getDayMovies(dateRequested);
+
+  return handleIfNoneMatch(request, dayMovies);
 }
