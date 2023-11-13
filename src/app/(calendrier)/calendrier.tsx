@@ -117,7 +117,6 @@ export default function Calendrier() {
       </h3>
       <p style={{ margin: "7px" }}></p>
       <FilterableMovies
-        isToday={isTodayInParis(date)}
         movies={movies}
         minHour={minHour}
         maxHour={maxHour}
@@ -130,14 +129,12 @@ export default function Calendrier() {
 
 export function FilterableMovies({
   movies,
-  isToday,
   maxHour,
   minHour,
   setMinHour,
   setMaxHour,
 }: {
   movies: Movie[] | undefined;
-  isToday: boolean;
   maxHour: number;
   minHour: number;
   setMinHour: (h: number) => void;
@@ -172,14 +169,6 @@ export function FilterableMovies({
   const onChangeFilter = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => setFilter(e.target.value),
     [setFilter],
-  );
-
-  const todayMinHour = useMemo(
-    () =>
-      isToday
-        ? getHours(startOfHour(utcToZonedTime(new Date(), "Europe/Paris")))
-        : 0,
-    [isToday],
   );
 
   const onSliderChange = useCallback(
