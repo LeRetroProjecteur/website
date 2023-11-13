@@ -1,27 +1,25 @@
 "use client";
 
 import { capitalize, size, sortBy, toPairs } from "lodash-es";
-import { useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { format } from "date-fns";
 import { fr } from "date-fns/locale";
 
-import SetTitle from "@/app/details/set-title";
+import SetTitle from "@/app/details/[movieId]/set-title";
 import { MovieDetail } from "@/lib/types";
 import { checkNotNull, floatHourToString, safeDate } from "@/lib/util";
 
 export default function Details() {
-  const params = useSearchParams();
-  const id = params.get("id");
-
+  const { movieId } = useParams();
   const [movie, setMovie] = useState<MovieDetail | undefined>();
 
   useEffect(() => {
     (async () => {
-      setMovie(await (await fetch(`/details/api/${id}`)).json());
+      setMovie(await (await fetch(`/details/api/${movieId}`)).json());
     })();
-  }, [id]);
+  }, [movieId]);
 
   return movie == null ? (
     <></>

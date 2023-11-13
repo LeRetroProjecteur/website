@@ -367,7 +367,7 @@ export function Movies({
           <tr key={movie.id}>
             <td>
               <Link
-                href={`/details?id=${movie.id}`}
+                href={`/details/${movie.id}`}
                 style={{ textDecoration: "none" }}
               >
                 {movie?.category === "COUP DE CŒUR" ? (
