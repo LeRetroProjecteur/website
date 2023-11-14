@@ -4,7 +4,8 @@ import { capitalize, size, sortBy, toPairs } from "lodash-es";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
-import { format } from "date-fns";
+import { format, isAfter, startOfDay } from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
 import { fr } from "date-fns/locale";
 
 import SetTitle from "@/app/details/[movieId]/set-title";
@@ -66,8 +67,14 @@ export default function Details() {
         <div className="moviebox">
           <h3>Prochaines séances à Paris&nbsp;:</h3>
           {size(movie.screenings) > 0 ? (
-            sortBy(toPairs(movie.screenings), ([date]) => safeDate(date)).map(
-              ([date, screenings]) => (
+            sortBy(toPairs(movie.screenings), ([date]) => safeDate(date))
+              .filter(([date]) =>
+                isAfter(
+                  safeDate(date),
+                  startOfDay(utcToZonedTime(new Date(), "Europe/Paris")),
+                ),
+              )
+              .map(([date, screenings]) => (
                 <div key={date}>
                   <p style={{ lineHeight: "10px" }}></p>
                   <b>
@@ -86,8 +93,7 @@ export default function Details() {
                     )
                     .join(" ; ")}
                 </div>
-              ),
-            )
+              ))
           ) : (
             <b>Pas de séance prévue pour le moment.</b>
           )}
