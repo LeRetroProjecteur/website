@@ -36,7 +36,7 @@ import {
   movie_info_containsFilteringTerm,
 } from "@/lib/util";
 
-import logo_square from "./logo_square.png";
+import logo_square from "../assets/logo_square.png";
 
 async function getApiMovies(date: Date): Promise<Movie[]> {
   return (await fetch(`/api/${format(date, "y-MM-dd")}`)).json();
