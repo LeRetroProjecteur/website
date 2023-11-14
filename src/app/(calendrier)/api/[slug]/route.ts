@@ -1,5 +1,3 @@
-import { createHash } from "crypto";
-
 import { handleIfNoneMatch } from "@/lib/etag";
 import { getDayMovies } from "@/lib/movies";
 

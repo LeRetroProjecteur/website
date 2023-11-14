@@ -3,7 +3,7 @@ import { every, padStart, some } from "lodash-es";
 import { isSameDay } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 
-import { Movie, MovieWithNoShowtimes } from "./types";
+import { MovieWithNoShowtimes } from "./types";
 
 export function checkNotNull<T>(check: T | null | undefined): T {
   if (check == null) {
@@ -62,8 +62,8 @@ export function movie_info_containsFilteringTerm(
   if (filteringTerm.slice(-1) === "|") {
     filteringTerm = filteringTerm.slice(0, -1);
   }
-  let filtering_field = get_movie_info_string(f);
-  let filteringTerms = filteringTerm.split("|");
+  const filtering_field = get_movie_info_string(f);
+  const filteringTerms = filteringTerm.split("|");
   return some(filteringTerms, (filteringTerm) =>
     string_match(filteringTerm, filtering_field),
   );

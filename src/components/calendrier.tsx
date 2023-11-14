@@ -2,7 +2,7 @@
 
 import { useClickAway } from "@uidotdev/usehooks";
 import classNames from "classnames";
-import { capitalize, intersection, sortBy, uniqBy } from "lodash-es";
+import { capitalize, sortBy, uniqBy } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -20,7 +20,6 @@ import {
   addDays,
   format,
   getHours,
-  parse,
   startOfDay,
   startOfHour,
   subDays,

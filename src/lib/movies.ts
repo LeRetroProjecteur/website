@@ -16,7 +16,6 @@ import {
   format,
   hoursToSeconds,
   startOfISOWeek,
-  subWeeks,
 } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 
@@ -87,7 +86,7 @@ export const getDayMovies = unstable_cache(
       where("date", "==", format(date, "Y_MM_dd")),
     );
     const docs: Movie[] = [];
-    (await getDocs(q)).forEach((doc: any) => docs.push(...doc.data().movies));
+    (await getDocs(q)).forEach((doc) => docs.push(...doc.data().movies));
     return docs;
   },
   ["day-movies"],
@@ -109,7 +108,7 @@ export const getReviewedMovies = unstable_cache(
   async () => {
     const { db } = getFirebase();
     const q = doc(db, "website-extra-docs", "all-reviews");
-    let querySnapshot = await getDoc(q);
+    const querySnapshot = await getDoc(q);
     return checkNotNull(querySnapshot.data()).elements as Review[];
   },
   ["reviewed-movies"],
@@ -124,7 +123,7 @@ export const getMovie = unstable_cache(
       where("id", "==", id),
     );
     const querySnapshot = await getDocs(q);
-    let data_aux: MovieDetail[] = [];
+    const data_aux: MovieDetail[] = [];
     querySnapshot.forEach((doc) => {
       data_aux.push(doc.data() as MovieDetail);
     });

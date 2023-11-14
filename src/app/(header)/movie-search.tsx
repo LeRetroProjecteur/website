@@ -52,7 +52,7 @@ export default function MovieSearch() {
 }
 
 function Dropdown({ searchTerm }: { searchTerm: string }) {
-  const _ = useSearchParams();
+  useSearchParams();
   const [movies, setMovies] = useState<SearchMovie[]>([]);
 
   useEffect(() => {
