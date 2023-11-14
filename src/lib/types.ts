@@ -1,4 +1,4 @@
-export interface Movie {
+export interface MovieWithNoShowtimes {
   directors: string;
   tags: string;
   year: string;
@@ -7,8 +7,15 @@ export interface Movie {
   original_title: string;
   id: string;
   language: string;
-  showtimes_theater: ShowtimesTheater[];
   category?: string;
+}
+
+export interface Movie extends MovieWithNoShowtimes {
+  showtimes_theater: ShowtimesTheater[];
+}
+
+export interface MovieWithShowtimesByDay extends MovieWithNoShowtimes {
+  showtimes_by_day: { [day: string]: ShowtimesTheater[] };
 }
 
 export interface SearchMovie {

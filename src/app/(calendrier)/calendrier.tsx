@@ -39,7 +39,7 @@ import {
 import logo_square from "./logo_square.png";
 
 async function getApiMovies(date: Date): Promise<Movie[]> {
-  return (await fetch(`api/${format(date, "y-MM-dd")}`)).json();
+  return (await fetch(`/api/${format(date, "y-MM-dd")}`)).json();
 }
 
 function getMinHour(date: Date) {
