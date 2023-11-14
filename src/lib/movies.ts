@@ -6,14 +6,71 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import { keyBy, uniq } from "lodash-es";
 import { unstable_cache } from "next/cache";
 import "server-only";
 
-import { format, hoursToSeconds } from "date-fns";
+import {
+  addDays,
+  addWeeks,
+  format,
+  hoursToSeconds,
+  startOfISOWeek,
+} from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
 
 import { getFirebase } from "./firebase";
-import { Movie, MovieDetail, Review, SearchMovie } from "./types";
+import {
+  Movie,
+  MovieDetail,
+  MovieWithShowtimesByDay,
+  Review,
+  SearchMovie,
+} from "./types";
 import { checkNotNull } from "./util";
+
+export const getWeekMovies = unstable_cache(async () => {
+  const startOfNextWeek = addWeeks(
+    startOfISOWeek(utcToZonedTime(new Date(), "Europe/Paris")),
+    1,
+  );
+
+  const moviesByDay = await Promise.all(
+    [...Array(7)].map<
+      Promise<[date: Date, movies: { [index: string]: Movie }]>
+    >(async (_, i) => {
+      const day = addDays(startOfNextWeek, i);
+      return [day, keyBy(await getDayMovies(day), (movie) => movie.id)];
+    }),
+  );
+
+  const allMovieIds = uniq(
+    moviesByDay.flatMap(([_, dayMovies]) => Object.keys(dayMovies)),
+  );
+
+  return allMovieIds.map((movieId) => {
+    const daysShowing = moviesByDay.filter(
+      ([_, movies]) => movies[movieId] != null,
+    );
+
+    const movie: MovieWithShowtimesByDay = {
+      ...daysShowing[0][1][movieId],
+      showtimes_by_day: {},
+    };
+
+    return daysShowing.reduce<MovieWithShowtimesByDay>(
+      (movieWithAllDays, [day, movieOnDay]) => ({
+        ...movieWithAllDays,
+        showtimes_by_day: {
+          ...movieWithAllDays.showtimes_by_day,
+          [format(day, "y-MM-dd")]:
+            movieOnDay[movieWithAllDays.id].showtimes_theater,
+        },
+      }),
+      movie,
+    );
+  });
+});
 
 export const getDayMovies = unstable_cache(
   async (date: Date) => {
