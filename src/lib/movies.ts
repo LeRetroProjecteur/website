@@ -10,14 +10,7 @@ import { keyBy, uniq } from "lodash-es";
 import { unstable_cache } from "next/cache";
 import "server-only";
 
-import {
-  addDays,
-  addWeeks,
-  format,
-  hoursToSeconds,
-  startOfISOWeek,
-} from "date-fns";
-import { utcToZonedTime } from "date-fns-tz";
+import { format, hoursToSeconds } from "date-fns";
 
 import { getFirebase } from "./firebase";
 import {
@@ -27,20 +20,15 @@ import {
   Review,
   SearchMovie,
 } from "./types";
-import { checkNotNull } from "./util";
+import { checkNotNull, getNextMovieWeek } from "./util";
 
 export const getWeekMovies = async () => {
-  const today = utcToZonedTime(new Date(), "Europe/Paris");
-  const startOfNextWeek = addDays(
-    addWeeks(startOfISOWeek(today), [1, 2].includes(today.getDay()) ? 0 : 1),
-    2,
-  );
+  const nextMovieWeek = getNextMovieWeek();
 
   const moviesByDay = await Promise.all(
-    [...Array(7)].map<
+    nextMovieWeek.map<
       Promise<[date: Date, movies: { [index: string]: Movie }]>
-    >(async (_, i) => {
-      const day = addDays(startOfNextWeek, i);
+    >(async (day) => {
       return [day, keyBy(await getDayMovies(day), (movie) => movie.id)];
     }),
   );

@@ -4,16 +4,23 @@ import { capitalize, groupBy, sortBy, toPairs, uniqBy } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
-import React from "react";
+import {
+  ChangeEvent,
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
-import { format, parse } from "date-fns";
+import { format, isSameMonth, parse } from "date-fns";
 import { fr } from "date-fns/locale";
 
 import MovieTable from "@/components/movie-table";
 import { MovieWithShowtimesByDay } from "@/lib/types";
 import {
   floatHourToString,
+  getNextMovieWeek,
   movie_info_containsFilteringTerm,
 } from "@/lib/util";
 
@@ -36,8 +43,19 @@ export default function Semaine() {
     })();
   }, []);
 
+  const week = useMemo(() => getNextMovieWeek(), []);
+
   return (
     <>
+      <h2>
+        Semaine du{" "}
+        {format(
+          week[0],
+          isSameMonth(week[0], week[week.length - 1]) ? "d" : "d LLLL",
+          { locale: fr },
+        )}{" "}
+        au {format(week[week.length - 1], "d LLLL", { locale: fr })}
+      </h2>
       <p style={{ margin: "7px" }}></p>
       <FilterableMovies movies={movies} />
     </>
@@ -115,7 +133,7 @@ export function Retrospectives({
       <div id="retrospectives">
         <br />
         {retrospectives.map(([director, movies], i, directors) => (
-          <React.Fragment key={director}>
+          <Fragment key={director}>
             <h3 style={{ textAlign: "left" }}>{director}</h3>
             <>
               {sortBy(movies, (movie) => [
@@ -123,10 +141,10 @@ export function Retrospectives({
                 movie.directors,
                 movie.title,
               ]).map((movie, i, movies) => (
-                <React.Fragment key={movie.title}>
+                <Fragment key={movie.title}>
                   <i>{movie.title}</i> ({movie.year})
                   {i < movies.length - 1 ? ", " : ""}
-                </React.Fragment>
+                </Fragment>
               ))}
             </>
             {i < directors.length - 1 ? (
@@ -135,7 +153,7 @@ export function Retrospectives({
                 <br />
               </>
             ) : null}
-          </React.Fragment>
+          </Fragment>
         ))}
       </div>
     </>

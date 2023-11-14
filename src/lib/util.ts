@@ -1,9 +1,19 @@
 import { every, padStart, some } from "lodash-es";
 
-import { isSameDay } from "date-fns";
+import { addDays, addWeeks, isSameDay, startOfISOWeek } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 
 import { MovieWithNoShowtimes } from "./types";
+
+export function getNextMovieWeek() {
+  const today = utcToZonedTime(new Date(), "Europe/Paris");
+  const startOfNextWeek = addDays(
+    addWeeks(startOfISOWeek(today), [1, 2].includes(today.getDay()) ? 0 : 1),
+    2,
+  );
+
+  return [...Array(7)].map((_, i) => addDays(startOfNextWeek, i));
+}
 
 export function checkNotNull<T>(check: T | null | undefined): T {
   if (check == null) {
