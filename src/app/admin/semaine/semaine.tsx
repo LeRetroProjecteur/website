@@ -10,13 +10,14 @@ import React from "react";
 import { format, parse } from "date-fns";
 import { fr } from "date-fns/locale";
 
+import MovieTable from "@/components/movie-table";
 import { MovieWithShowtimesByDay } from "@/lib/types";
 import {
   floatHourToString,
   movie_info_containsFilteringTerm,
 } from "@/lib/util";
 
-import logo_square from "../../assets/logo_square.png";
+import logo_square from "../../../assets/logo_square.png";
 
 async function getApiMovies(): Promise<MovieWithShowtimesByDay[]> {
   return (await fetch("/admin/semaine/api")).json();
@@ -71,46 +72,18 @@ export function FilterableMovies({
         </div>
       </div>
       <p style={{ margin: "7px" }}></p>
-      <div className="wrapper">
-        <div className="profile">
-          <table id="userdata" className="center">
-            <thead>
-              <tr>
-                <th
-                  style={{
-                    width: "50%",
-                    backgroundColor: "var(--red)",
-                    color: "var(--white)",
-                  }}
-                >
-                  <strong>Film</strong>
-                </th>
-                <th
-                  style={{
-                    width: "50%",
-                    backgroundColor: "var(--red)",
-                    color: "var(--white)",
-                  }}
-                >
-                  <strong>Séances</strong>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {movies == null ? (
-                [...Array(20)].map((_, i) => (
-                  <tr key={i}>
-                    <td>&nbsp;</td>
-                    <td>&nbsp;</td>
-                  </tr>
-                ))
-              ) : (
-                <Movies movies={movies} filter={filter} />
-              )}
-            </tbody>
-          </table>
-        </div>
-      </div>
+      <MovieTable>
+        {movies == null ? (
+          [...Array(20)].map((_, i) => (
+            <tr key={i}>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+            </tr>
+          ))
+        ) : (
+          <Movies movies={movies} filter={filter} />
+        )}
+      </MovieTable>
       <br />
       <br />
       <Retrospectives movies={movies} />
