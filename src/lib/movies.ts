@@ -16,6 +16,7 @@ import {
   format,
   hoursToSeconds,
   startOfISOWeek,
+  subWeeks,
 } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 
@@ -30,9 +31,10 @@ import {
 import { checkNotNull } from "./util";
 
 export const getWeekMovies = async () => {
-  const startOfNextWeek = addWeeks(
-    addDays(startOfISOWeek(utcToZonedTime(new Date(), "Europe/Paris")), 2),
-    1,
+  const today = utcToZonedTime(new Date(), "Europe/Paris");
+  const startOfNextWeek = addDays(
+    addWeeks(startOfISOWeek(today), [1, 2].includes(today.getDay()) ? 0 : 1),
+    2,
   );
 
   const moviesByDay = await Promise.all(
