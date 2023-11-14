@@ -37,10 +37,16 @@ import {
   movie_info_containsFilteringTerm,
 } from "@/lib/util";
 
-import logo_square from "../../assets/logo_square.png";
+import logo_square from "../assets/logo_square.png";
 
 async function getApiMovies(date: Date): Promise<Movie[]> {
   return (await fetch(`/api/${format(date, "y-MM-dd")}`)).json();
+}
+
+async function getAllApiMovies(date: Date): Promise<Movie[]> {
+  return (
+    await fetch(`/admin/tous-les-films/api/${format(date, "y-MM-dd")}`)
+  ).json();
 }
 
 function getMinHour(date: Date) {
@@ -49,8 +55,13 @@ function getMinHour(date: Date) {
     : 0;
 }
 
-export default function Calendrier() {
+export default function Calendrier({ allMovies }: { allMovies: boolean }) {
   const _ = useSearchParams();
+
+  const getMovies = useMemo(
+    () => (allMovies ? getAllApiMovies : getApiMovies),
+    [allMovies],
+  );
 
   const today = useMemo(
     () => startOfDay(utcToZonedTime(new Date(), "Europe/Paris")),
@@ -63,9 +74,9 @@ export default function Calendrier() {
 
   useEffect(() => {
     (async () => {
-      setMovies(await getApiMovies(today));
+      setMovies(await getMovies(today));
     })();
-  }, [today]);
+  }, [today, getMovies]);
 
   const previousDate = useMemo(
     () => (isTodayInParis(date) ? undefined : subDays(date, 1)),
@@ -78,16 +89,16 @@ export default function Calendrier() {
 
   const onPrevious = useCallback(async () => {
     setDate(checkNotNull(previousDate));
-    setMovies(await getApiMovies(checkNotNull(previousDate)));
+    setMovies(await getMovies(checkNotNull(previousDate)));
     setMinHour(getMinHour(checkNotNull(previousDate)));
     setMaxHour(24);
-  }, [setDate, previousDate, setMinHour, setMaxHour]);
+  }, [setDate, previousDate, setMinHour, setMaxHour, getMovies]);
   const onNext = useCallback(async () => {
     setDate(checkNotNull(nextDate));
-    setMovies(await getApiMovies(nextDate));
+    setMovies(await getMovies(nextDate));
     setMinHour(getMinHour(nextDate));
     setMaxHour(24);
-  }, [setDate, nextDate, setMaxHour, setMinHour]);
+  }, [setDate, nextDate, setMaxHour, setMinHour, getMovies]);
 
   return (
     <>

@@ -29,9 +29,9 @@ import {
 } from "./types";
 import { checkNotNull } from "./util";
 
-export const getWeekMovies = unstable_cache(async () => {
+export const getWeekMovies = async () => {
   const startOfNextWeek = addWeeks(
-    startOfISOWeek(utcToZonedTime(new Date(), "Europe/Paris")),
+    addDays(startOfISOWeek(utcToZonedTime(new Date(), "Europe/Paris")), 2),
     1,
   );
 
@@ -70,13 +70,18 @@ export const getWeekMovies = unstable_cache(async () => {
       movie,
     );
   });
-});
+};
 
 export const getDayMovies = unstable_cache(
-  async (date: Date) => {
+  async (date: Date, options?: { allMovies?: boolean }) => {
     const { db } = getFirebase();
     const q = query(
-      collection(db, "website-by-date-screenings"),
+      collection(
+        db,
+        `website-by-date-screenings${
+          options?.allMovies ?? false ? "-all" : ""
+        }`,
+      ),
       where("date", "==", format(date, "Y_MM_dd")),
     );
     const docs: Movie[] = [];
