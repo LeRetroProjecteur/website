@@ -320,6 +320,7 @@ select {
 }
 .post-image {
   width: min(100%, 700px);
+  height: auto;
   display: block;
   margin-left: auto;
   margin-right: auto;
