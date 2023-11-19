@@ -1,7 +1,7 @@
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { GoogleTagManager } from "@next/third-parties/google";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 import Footer from "./(footer)/footer";
 import Header from "./(header)/header";
@@ -14,6 +14,20 @@ export const metadata: Metadata = {
   description:
     "Venez découvrir toutes les ressorties de films dans les salles parisiennes.",
   metadataBase: new URL("https://retroprojecteur.fly.dev/"),
+  applicationName: "Le Rétro Projecteur",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "Le Rétro Projecteur",
+  },
+  formatDetection: {
+    telephone: false,
+  },
+};
+
+export const viewport: Viewport = {
+  themeColor: "#fff2f2",
 };
 
 export default function RootLayout({
