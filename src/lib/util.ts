@@ -8,7 +8,7 @@ import { MovieWithNoShowtimes } from "./types";
 export function getNextMovieWeek() {
   const today = utcToZonedTime(new Date(), "Europe/Paris");
   const startOfNextWeek = addDays(
-    addWeeks(startOfISOWeek(today), [1, 2].includes(today.getDay()) ? 0 : 1),
+    addWeeks(startOfISOWeek(today), [0, 1, 2, 3, 4].includes(today.getDay()) ? 0 : 1),
     2,
   );
 
