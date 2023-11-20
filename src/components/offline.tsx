@@ -17,11 +17,12 @@ export default function Offline() {
     <div
       className={styles.offlineContainer}
       style={{
+        ...(backOnline ? { backgroundColor: "var(--green" } : {}),
         visibility: offline ? "visible" : "hidden",
       }}
     >
       <div className={styles.offlineBox}>
-        <div>Hors-ligne</div>
+        <div>{backOnline ? "De retour en ligne" : "Hors-ligne"}</div>
         {backOnline ? (
           <div>
             <a
