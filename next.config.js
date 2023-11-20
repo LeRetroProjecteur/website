@@ -6,9 +6,6 @@ const withPWA = require("@ducanh2912/next-pwa").default({
 });
 
 const nextConfig = {
-  pwa: {
-    reloadOnOnline: false,
-  },
   output: "standalone",
 };
 

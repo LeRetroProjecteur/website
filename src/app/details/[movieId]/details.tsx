@@ -19,7 +19,7 @@ export default function Details() {
 
   useEffect(() => {
     (async () => {
-      setMovie(await (await safeFetch(`/details/api/${movieId}`)).json());
+      setMovie(await (await safeFetch(null, `/details/api/${movieId}`)).json());
     })();
   }, [movieId]);
 

@@ -28,7 +28,7 @@ import {
 import logo_square from "../../../assets/logo_square.png";
 
 async function getApiMovies(): Promise<MovieWithShowtimesByDay[]> {
-  return (await safeFetch("/admin/semaine/api")).json();
+  return (await safeFetch([], "/admin/semaine/api")).json();
 }
 
 export default function Semaine() {

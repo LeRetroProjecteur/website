@@ -18,7 +18,7 @@ export default function Coeur() {
 
   useEffect(() => {
     (async () => {
-      setReviews(await (await safeFetch("/coeur/api")).json());
+      setReviews(await (await safeFetch([], "/coeur/api")).json());
     })();
   }, []);
 

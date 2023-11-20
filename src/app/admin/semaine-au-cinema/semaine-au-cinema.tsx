@@ -48,7 +48,7 @@ export default function SemaineAuCinema() {
           week.map(
             async (day) =>
               (await (
-                await safeFetch(`/api/${format(day, "y-MM-dd")}`)
+                await safeFetch([], `/api/${format(day, "y-MM-dd")}`)
               ).json()) as Movie[],
           ),
         ),

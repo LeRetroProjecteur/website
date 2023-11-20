@@ -5,28 +5,8 @@
   color: white;
   width: 100vw;
   display: flex;
-  align-items: center;
+  justify-content: center;
   z-index: 99;
-}
-
-.offlineBox {
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
-  gap: 10px;
   padding: 10px;
   background-color: var(--red);
-  opacity: 1;
-  align-items: center;
-}
-
-.refreshLink {
-  color: white;
-  text-decoration: underline;
-  cursor: pointer;
-}
-
-.refreshLink:hover {
-  text-decoration: underline;
-  color: white;
 }

@@ -40,12 +40,12 @@ import {
 import logo_square from "../assets/logo_square.png";
 
 async function getApiMovies(date: Date): Promise<Movie[]> {
-  return (await safeFetch(`/api/${format(date, "y-MM-dd")}`)).json();
+  return (await safeFetch([], `/api/${format(date, "y-MM-dd")}`)).json();
 }
 
 async function getAllApiMovies(date: Date): Promise<Movie[]> {
   return (
-    await safeFetch(`/admin/tous-les-films/api/${format(date, "y-MM-dd")}`)
+    await safeFetch([], `/admin/tous-les-films/api/${format(date, "y-MM-dd")}`)
   ).json();
 }
 

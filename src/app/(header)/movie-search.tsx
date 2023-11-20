@@ -58,7 +58,7 @@ function Dropdown({ searchTerm }: { searchTerm: string }) {
 
   useEffect(() => {
     (async () => {
-      setMovies(await (await safeFetch("/api/all-movies")).json());
+      setMovies(await (await safeFetch([], "/api/all-movies")).json());
     })();
   }, []);
 
