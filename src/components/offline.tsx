@@ -14,7 +14,10 @@ export default function Offline() {
         ...(offline ? {} : { visibility: "hidden" }),
       }}
     >
-      Hors-ligne
+      <div className={styles.centered}>
+        <p>Vous êtes hors-ligne.</p>
+        <p>Connectez-vous à internet pour utiliser Le Rétroprojecteur.</p>
+      </div>
     </div>
   );
 }
