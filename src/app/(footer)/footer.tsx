@@ -4,6 +4,7 @@ import {
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -56,7 +57,7 @@ export default function Footer() {
       </div>
       <br />
       <footer>
-        <div className="secret-link"><a href="/admin/tous-les-films">©</a> Le Rétro Projecteur 2021–2023</div>
+        <div className="secret-link"><Link href="/admin/tous-les-films">©</Link> Le Rétro Projecteur 2021–2023</div>
         <br />
         <i>
           «&nbsp;Pour le grand écran, pas la p&apos;tite lucarne&nbsp;!&nbsp;»
