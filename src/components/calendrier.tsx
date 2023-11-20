@@ -86,6 +86,15 @@ export default function Calendrier({ allMovies }: { allMovies: boolean }) {
   const [minHour, setMinHour] = useState(getMinHour(date));
   const [maxHour, setMaxHour] = useState(24);
 
+  const minHourFilteringTodaysMissedFilms = useMemo(() => {
+    if (!isTodayInParis(date)) {
+      return minHour;
+    }
+
+    const now = utcToZonedTime(new Date(), "Europe/Paris");
+    return now.getHours() + now.getMinutes() / 60;
+  }, [minHour, date]);
+
   const onPrevious = useCallback(async () => {
     setDate(checkNotNull(previousDate));
     setMovies(await getMovies(checkNotNull(previousDate)));
@@ -130,6 +139,7 @@ export default function Calendrier({ allMovies }: { allMovies: boolean }) {
       <FilterableMovies
         movies={movies}
         minHour={minHour}
+        minHourFilteringTodaysMissedFilms={minHourFilteringTodaysMissedFilms}
         maxHour={maxHour}
         setMinHour={setMinHour}
         setMaxHour={setMaxHour}
@@ -142,12 +152,14 @@ export function FilterableMovies({
   movies,
   maxHour,
   minHour,
+  minHourFilteringTodaysMissedFilms,
   setMinHour,
   setMaxHour,
 }: {
   movies: Movie[] | undefined;
   maxHour: number;
   minHour: number;
+  minHourFilteringTodaysMissedFilms: number;
   setMinHour: (h: number) => void;
   setMaxHour: (h: number) => void;
 }) {
@@ -270,7 +282,7 @@ export function FilterableMovies({
           <Movies
             movies={movies}
             filter={filter}
-            minHour={minHour}
+            minHour={minHourFilteringTodaysMissedFilms}
             maxHour={maxHour}
             quartiers={[
               ...(rg ? ["rg"] : []),
