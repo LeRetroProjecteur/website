@@ -17,8 +17,8 @@ const setOffline = () =>
   useOfflineStore.setState({ offline: true, backOnline: false });
 
 if (typeof window !== "undefined") {
-  addEventListener("online", () => setOnline);
-  addEventListener("offline", () => setOffline);
+  addEventListener("online", setOnline);
+  addEventListener("offline", setOffline);
 }
 
 export function safeFetch(
