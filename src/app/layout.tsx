@@ -3,6 +3,8 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { GoogleTagManager } from "@next/third-parties/google";
 import type { Metadata, Viewport } from "next";
 
+import Offline from "@/components/offline";
+
 import Footer from "./(footer)/footer";
 import Header from "./(header)/header";
 import "./globals.css";
@@ -38,6 +40,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body>
+        <Offline />
         <Header />
         {children}
         <Footer />
