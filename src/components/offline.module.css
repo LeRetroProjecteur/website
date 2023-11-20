@@ -1,32 +1,32 @@
 .offlineContainer {
-    top: 0;
-    left: 0;
-    position: fixed;
-    color: white;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-    z-index: 99;
+  top: 0;
+  left: 0;
+  position: fixed;
+  color: white;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  z-index: 99;
 }
 
 .offlineBox {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-    gap: 10px;
-    padding: 10px;
-    background-color: var(--red);
-    opacity: 1;
-    align-items: center;
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  background-color: var(--red);
+  opacity: 1;
+  align-items: center;
 }
 
 .refreshLink {
-    color: white;
-    text-decoration: underline;
-    cursor: pointer;
+  color: white;
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .refreshLink:hover {
-    text-decoration: underline;
-    color: white;
+  text-decoration: underline;
+  color: white;
 }

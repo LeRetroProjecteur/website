@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint && prettier -c \"**/*.{html,js,cjs,json,ts,tsx,css}\""
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^9.7.2",
