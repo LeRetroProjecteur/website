@@ -1,6 +1,6 @@
 # fly.toml file generated for retroprojecteur on 2023-11-10T19:05:02+02:00
 
-app = "retroprojecteur"
+app = "leretroprojecteur"
 kill_signal = "SIGINT"
 kill_timeout = 5
 mounts = []
