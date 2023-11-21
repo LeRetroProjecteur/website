@@ -2,7 +2,7 @@
 
 import { capitalize, size, sortBy, toPairs } from "lodash-es";
 import { useParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { format, isAfter, startOfDay } from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
@@ -21,6 +21,17 @@ export default function Details() {
       setMovie(await (await fetch(`/details/api/${movieId}`)).json());
     })();
   }, [movieId]);
+
+  const screenings = useMemo(
+    () =>
+      toPairs(movie?.screenings ?? []).filter(([date]) =>
+        isAfter(
+          safeDate(date),
+          startOfDay(utcToZonedTime(new Date(), "Europe/Paris")),
+        ),
+      ),
+    [movie],
+  );
 
   return movie == null ? (
     <></>
@@ -66,34 +77,27 @@ export default function Details() {
       <span id="next-screenings">
         <div className="moviebox">
           <h3>Prochaines séances à Paris&nbsp;:</h3>
-          {size(movie.screenings) > 0 ? (
-            sortBy(toPairs(movie.screenings), ([date]) => safeDate(date))
-              .filter(([date]) =>
-                isAfter(
-                  safeDate(date),
-                  startOfDay(utcToZonedTime(new Date(), "Europe/Paris")),
-                ),
-              )
-              .map(([date, screenings]) => (
-                <div key={date}>
-                  <p style={{ lineHeight: "10px" }}></p>
-                  <b>
-                    {capitalize(
-                      format(safeDate(date), "EEEE d MMMM", { locale: fr }),
-                    )}
-                  </b>{" "}
-                  {sortBy(screenings, (theater) => theater.clean_name)
-                    .map(
-                      (theater) =>
-                        `${theater.clean_name} (${
-                          theater.zipcode_clean
-                        }) : ${sortBy(theater.showtimes)
-                          .map((showtime) => floatHourToString(showtime))
-                          .join(", ")}`,
-                    )
-                    .join(" ; ")}
-                </div>
-              ))
+          {size(screenings) > 0 ? (
+            sortBy(screenings).map(([date, screenings]) => (
+              <div key={date}>
+                <p style={{ lineHeight: "10px" }}></p>
+                <b>
+                  {capitalize(
+                    format(safeDate(date), "EEEE d MMMM", { locale: fr }),
+                  )}
+                </b>{" "}
+                {sortBy(screenings, (theater) => theater.clean_name)
+                  .map(
+                    (theater) =>
+                      `${theater.clean_name} (${
+                        theater.zipcode_clean
+                      }) : ${sortBy(theater.showtimes)
+                        .map((showtime) => floatHourToString(showtime))
+                        .join(", ")}`,
+                  )
+                  .join(" ; ")}
+              </div>
+            ))
           ) : (
             <b>Pas de séance prévue pour le moment.</b>
           )}
