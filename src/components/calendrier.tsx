@@ -92,7 +92,7 @@ export default function Calendrier({ allMovies }: { allMovies: boolean }) {
     }
 
     const now = utcToZonedTime(new Date(), "Europe/Paris");
-    return now.getHours() + now.getMinutes() / 60;
+    return Math.max(minHour, now.getHours() + now.getMinutes() / 60);
   }, [minHour, date]);
 
   const onPrevious = useCallback(async () => {
