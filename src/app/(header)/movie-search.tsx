@@ -87,8 +87,8 @@ function Dropdown({
   return (
     <div id="my-dropdown" className="dropdown-content show">
       {filtered.map((movie) => (
-        <div key={movie.id} onClick={closeDropdown}>
-          <Link href={`/details/${movie.id}`}>
+        <div key={movie.id}>
+          <Link onClick={closeDropdown} href={`/details/${movie.id}`}>
             <i>{movie.title}</i>, {movie.directors} ({movie.year})
           </Link>
         </div>
