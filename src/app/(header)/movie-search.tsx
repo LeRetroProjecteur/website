@@ -19,7 +19,7 @@ import { string_match } from "@/lib/util";
 export default function MovieSearch() {
   const [searchTerm, setSearchTerm] = useState("");
   const inputRef: React.MutableRefObject<HTMLInputElement> = useClickAway(() =>
-    setTimeout(() => setSearchTerm(""), 100),
+    setSearchTerm(""),
   );
 
   const onChangeSearchTerm = useCallback(
@@ -31,11 +31,10 @@ export default function MovieSearch() {
 
   return (
     <>
-      <div style={{ textAlign: "center" }}>
+      <div style={{ textAlign: "center" }} ref={inputRef}>
         <div className="dropdown">
           <label htmlFor="movie-search"></label>
           <input
-            ref={inputRef}
             type="text"
             value={searchTerm}
             onChange={onChangeSearchTerm}
@@ -43,7 +42,7 @@ export default function MovieSearch() {
             placeholder="Recherchez un film..."
           />
           <Suspense fallback={<></>}>
-            <Dropdown searchTerm={searchTerm} />
+            <Dropdown searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           </Suspense>
         </div>
       </div>
@@ -51,7 +50,13 @@ export default function MovieSearch() {
   );
 }
 
-function Dropdown({ searchTerm }: { searchTerm: string }) {
+function Dropdown({
+  searchTerm,
+  setSearchTerm,
+}: {
+  searchTerm: string;
+  setSearchTerm: (searchTerm: string) => void;
+}) {
   useSearchParams();
   const [movies, setMovies] = useState<SearchMovie[]>([]);
 
@@ -60,6 +65,8 @@ function Dropdown({ searchTerm }: { searchTerm: string }) {
       setMovies(await (await fetch("/api/all-movies")).json());
     })();
   }, []);
+
+  const closeDropdown = useCallback(() => setSearchTerm(""), [setSearchTerm]);
 
   const filtered = useMemo(
     () =>
@@ -80,9 +87,11 @@ function Dropdown({ searchTerm }: { searchTerm: string }) {
   return (
     <div id="my-dropdown" className="dropdown-content show">
       {filtered.map((movie) => (
-        <Link key={movie.id} href={`/details/${movie.id}`}>
-          <i>{movie.title}</i>, {movie.directors} ({movie.year})
-        </Link>
+        <div key={movie.id} onClick={closeDropdown}>
+          <Link href={`/details/${movie.id}`}>
+            <i>{movie.title}</i>, {movie.directors} ({movie.year})
+          </Link>
+        </div>
       ))}
     </div>
   );
