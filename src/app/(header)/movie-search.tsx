@@ -18,11 +18,8 @@ import { string_match } from "@/lib/util";
 
 export default function MovieSearch() {
   const [searchTerm, setSearchTerm] = useState("");
-  const inputRef: React.MutableRefObject<HTMLInputElement> = useClickAway(
-    () => {
-      console.log("click away");
-      setSearchTerm("");
-    },
+  const inputRef: React.MutableRefObject<HTMLInputElement> = useClickAway(() =>
+    setSearchTerm(""),
   );
 
   const onChangeSearchTerm = useCallback(
@@ -69,10 +66,7 @@ function Dropdown({
     })();
   }, []);
 
-  const closeDropdown = useCallback(() => {
-    console.log("close dropdown");
-    setSearchTerm("");
-  }, [setSearchTerm]);
+  const closeDropdown = useCallback(() => setSearchTerm(""), [setSearchTerm]);
 
   const filtered = useMemo(
     () =>
