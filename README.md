@@ -1,3 +1,8 @@
+# Le Rétro Projecteur [website](https://leretroprojecteur.com/)
+
+## Introduction
+This is the source code of the website [Le Rétro Projecteur](https://leretroprojecteur.com/).
+
 ### Preview de la branch main
 [https://retroprojecteur.fly.dev](https://retroprojecteur.fly.dev/)
 
@@ -7,30 +12,3 @@
 * `$ pnpm install`
 * `$ pnpm run dev`
 * http://localhost:3000/ dans Chrome / Firefox
-
-### VSCode + extensions
-* Extensions eslint et prettier
-* Config pour auto-formattage :
-```
-{
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnSave": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  }
-}
-```
-
-
-### Page principale
-- [x] Barre de recherche de films (header)
-- [x] Calendrier
-- [x] Filtres quartier / texte
-- [x] Filtre heure
-- [x] Coups de coeur
-
-### Autres pages
-- [x] Coups de coeur
-- [x] Chroniques
-- [x] Page détails
-- [x] Newsletter
