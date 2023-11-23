@@ -83,7 +83,7 @@ export default function Calendrier({ allMovies }: { allMovies: boolean }) {
   );
   const nextDate = useMemo(() => addDays(date, 1), [date]);
 
-  const [minHour, setMinHour] = useState(getMinHour(date));
+  const [minHour, setMinHour] = useState(0);
   const [maxHour, setMaxHour] = useState(24);
 
   const minHourFilteringTodaysMissedFilms = useMemo(() => {
@@ -92,7 +92,7 @@ export default function Calendrier({ allMovies }: { allMovies: boolean }) {
     }
 
     const now = utcToZonedTime(new Date(), "Europe/Paris");
-    return Math.max(minHour, now.getHours() + now.getMinutes() / 60);
+    return Math.max(minHour, now.getHours() + now.getMinutes() / 60 - 0.3);
   }, [minHour, date]);
 
   const onPrevious = useCallback(async () => {
