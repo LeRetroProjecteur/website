@@ -38,7 +38,7 @@ export default function Footer() {
         </a>
         &nbsp;
         <a
-          href="https://github.com/LeRetroProjecteur-user"
+          href="https://github.com/LeRetroProjecteur/website"
           className="fa fa-github"
           style={{ fontSize: "30px" }}
           target="_blank"
