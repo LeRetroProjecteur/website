@@ -30,8 +30,8 @@ export default function Details() {
               startOfDay(utcToZonedTime(new Date(), "Europe/Paris")),
           ) ||
           isEqual(
-                startOfDay(utcToZonedTime(safeDate(date), "Europe/Paris")),
-                startOfDay(utcToZonedTime(new Date(), "Europe/Paris")),
+              startOfDay(utcToZonedTime(safeDate(date), "Europe/Paris")),
+              startOfDay(utcToZonedTime(new Date(), "Europe/Paris")),
           ),
       ),
     [movie],
