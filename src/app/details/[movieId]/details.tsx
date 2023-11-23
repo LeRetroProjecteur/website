@@ -4,7 +4,7 @@ import { capitalize, size, sortBy, toPairs } from "lodash-es";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
-import {format, isAfter, startOfDay} from "date-fns";
+import {format, isAfter, isEqual, startOfDay} from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 import { fr } from "date-fns/locale";
 
@@ -26,8 +26,12 @@ export default function Details() {
     () =>
       toPairs(movie?.screenings ?? []).filter(([date]) =>
           isAfter(
-              utcToZonedTime(safeDate(date), "Europe/Paris"),
+              startOfDay(utcToZonedTime(safeDate(date), "Europe/Paris")),
               startOfDay(utcToZonedTime(new Date(), "Europe/Paris")),
+          ) ||
+          isEqual(
+                startOfDay(utcToZonedTime(safeDate(date), "Europe/Paris")),
+                startOfDay(utcToZonedTime(new Date(), "Europe/Paris")),
           ),
       ),
     [movie],
