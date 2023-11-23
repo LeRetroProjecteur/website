@@ -4,7 +4,7 @@ import { capitalize, size, sortBy, toPairs } from "lodash-es";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
-import {addHours, format, isAfter, startOfDay} from "date-fns";
+import {format, isAfter, startOfDay} from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 import { fr } from "date-fns/locale";
 
