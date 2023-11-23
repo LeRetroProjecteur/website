@@ -4,13 +4,13 @@ import { capitalize, size, sortBy, toPairs } from "lodash-es";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 
-import { format, isAfter, startOfDay } from "date-fns";
+import {format, isAfter, isEqual, startOfDay} from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 import { fr } from "date-fns/locale";
 
 import SetTitle from "@/app/details/[movieId]/set-title";
 import { MovieDetail } from "@/lib/types";
-import { checkNotNull, floatHourToString, safeDate } from "@/lib/util";
+import {checkNotNull, floatHourToString, getStartOfDayInParis} from "@/lib/util";
 
 export default function Details() {
   const { movieId } = useParams();
@@ -25,10 +25,14 @@ export default function Details() {
   const screenings = useMemo(
     () =>
       toPairs(movie?.screenings ?? []).filter(([date]) =>
-        isAfter(
-          safeDate(date),
-          startOfDay(utcToZonedTime(new Date(), "Europe/Paris")),
-        ),
+          isAfter(
+              getStartOfDayInParis(date),
+              startOfDay(utcToZonedTime(new Date(), "Europe/Paris")),
+          ) ||
+          isEqual(
+              getStartOfDayInParis(date),
+              startOfDay(utcToZonedTime(new Date(), "Europe/Paris")),
+          ),
       ),
     [movie],
   );
@@ -66,7 +70,7 @@ export default function Details() {
             <div dangerouslySetInnerHTML={{ __html: movie.review }}></div>
             <div style={{ textAlign: "right" }}>
               Critique du{" "}
-              {format(safeDate(checkNotNull(movie.review_date)), "d MMMM y", {
+              {format(getStartOfDayInParis(checkNotNull(movie.review_date)), "d MMMM y", {
                 locale: fr,
               })}
             </div>
@@ -83,7 +87,7 @@ export default function Details() {
                 <p style={{ lineHeight: "10px" }}></p>
                 <b>
                   {capitalize(
-                    format(safeDate(date), "EEEE d MMMM", { locale: fr }),
+                    format(getStartOfDayInParis(date), "EEEE d MMMM", { locale: fr }),
                   )}
                 </b>{" "}
                 {sortBy(screenings, (theater) => theater.clean_name)

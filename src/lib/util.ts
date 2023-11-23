@@ -1,6 +1,6 @@
 import { every, padStart, some } from "lodash-es";
 
-import { addDays, addWeeks, isSameDay, startOfISOWeek } from "date-fns";
+import {addDays, addWeeks, isSameDay, startOfDay, startOfISOWeek} from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
 
 import { MovieWithNoShowtimes } from "./types";
@@ -32,6 +32,10 @@ export function floatHourToString(hour: number) {
 
 export function safeDate(date: string) {
   return new Date(date.replaceAll("_", "-"));
+}
+
+export function getStartOfDayInParis(date: string) {
+    return startOfDay(utcToZonedTime(safeDate(date), "Europe/Paris"));
 }
 
 export function isTodayInParis(date: Date) {
