@@ -1,8 +1,9 @@
 import { createHash } from "crypto";
+import stringify from "fast-json-stable-stringify";
 
 export function handleIfNoneMatch(request: Request, body: object) {
   const etag = createHash("md5")
-    .update(Buffer.from(JSON.stringify(body)))
+    .update(Buffer.from(stringify(body)))
     .digest()
     .toString("hex");
 
