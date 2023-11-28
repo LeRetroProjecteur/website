@@ -1,14 +1,25 @@
 import { every, padStart, some } from "lodash-es";
 
-import {addDays, addWeeks, isSameDay, startOfDay, startOfISOWeek} from "date-fns";
+import {
+  addDays,
+  addWeeks,
+  format,
+  isSameDay,
+  startOfDay,
+  startOfISOWeek,
+} from "date-fns";
 import { utcToZonedTime } from "date-fns-tz";
+import { fr } from "date-fns/locale";
 
 import { MovieWithNoShowtimes } from "./types";
 
 export function getNextMovieWeek() {
   const today = utcToZonedTime(new Date(), "Europe/Paris");
   const startOfNextWeek = addDays(
-    addWeeks(startOfISOWeek(today), [0, 1, 2, 3, 4].includes(today.getDay()) ? 0 : 1),
+    addWeeks(
+      startOfISOWeek(today),
+      [0, 1, 2, 3, 4].includes(today.getDay()) ? 0 : 1,
+    ),
     2,
   );
 
@@ -34,8 +45,12 @@ export function safeDate(date: string) {
   return new Date(date.replaceAll("_", "-"));
 }
 
+export function getStartOfTodayInParis() {
+  return startOfDay(utcToZonedTime(new Date(), "Europe/Paris"));
+}
+
 export function getStartOfDayInParis(date: string) {
-    return startOfDay(utcToZonedTime(safeDate(date), "Europe/Paris"));
+  return startOfDay(utcToZonedTime(safeDate(date), "Europe/Paris"));
 }
 
 export function isTodayInParis(date: Date) {
@@ -98,4 +113,8 @@ function get_movie_info_string(f: MovieWithNoShowtimes) {
       return f[key] == null ? "" : `${f[key]}`;
     })
     .join(" ");
+}
+
+export function formatLundi1Janvier(date: Date) {
+  return format(date, "EEEE d MMMM", { locale: fr });
 }
