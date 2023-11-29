@@ -14,7 +14,7 @@ import { fr } from "date-fns/locale";
 import { MovieWithNoShowtimes } from "./types";
 
 export function getNextMovieWeek() {
-  const today = utcToZonedTime(new Date(), "Europe/Paris");
+  const today = nowInParis();
   const startOfNextWeek = addDays(
     addWeeks(
       startOfISOWeek(today),
@@ -45,8 +45,12 @@ export function safeDate(date: string) {
   return new Date(date.replaceAll("_", "-"));
 }
 
+export function nowInParis() {
+  return utcToZonedTime(new Date(), "Europe/Paris");
+}
+
 export function getStartOfTodayInParis() {
-  return startOfDay(utcToZonedTime(new Date(), "Europe/Paris"));
+  return startOfDay(nowInParis());
 }
 
 export function getStartOfDayInParis(date: string) {
@@ -54,7 +58,7 @@ export function getStartOfDayInParis(date: string) {
 }
 
 export function isTodayInParis(date: Date) {
-  return isSameDay(utcToZonedTime(new Date(), "Europe/Paris"), date);
+  return isSameDay(nowInParis(), date);
 }
 
 function clean_string(str: string) {
@@ -117,4 +121,8 @@ function get_movie_info_string(f: MovieWithNoShowtimes) {
 
 export function formatLundi1Janvier(date: Date) {
   return format(date, "EEEE d MMMM", { locale: fr });
+}
+
+export function formatYYYYMMDD(date: Date) {
+  return format(date, "yyyy-MM-dd", { locale: fr });
 }

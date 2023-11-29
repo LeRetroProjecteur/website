@@ -1,14 +1,20 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
-import DateSelector from "@/components/date-selector";
-import PageHeader from "@/components/page-header";
-import TimeSlider from "@/components/time-slider";
+import DateSelector from "@/app/(calendrier)/date-selector";
+import QuartierSelector from "@/app/(calendrier)/quartier-selector";
+import TimeSlider from "@/app/(calendrier)/time-slider";
+import PageHeader from "@/components/layout/page-header";
 import { useUseCalendrierStore } from "@/lib/calendrier-store";
+
+import MovieTable from "./movie-table";
+import Search from "./search";
 
 export default function CalendrierPage() {
   const useCalendrierStore = useRef(useUseCalendrierStore());
+  const fetchMovies = useCalendrierStore.current((s) => s.fetchMovies);
+  useEffect(() => fetchMovies, [fetchMovies]);
 
   return (
     <div className="flex grow flex-col">
@@ -18,8 +24,17 @@ export default function CalendrierPage() {
       <div className="border-retro-gray flex border-b py-3">
         <DateSelector useCalendrierStore={useCalendrierStore.current} />
       </div>
-      <div className="flex pb-6 pt-12">
+      <div className="flex">
         <TimeSlider useCalendrierStore={useCalendrierStore.current} />
+      </div>
+      <div className="flex pb-4 pt-6">
+        <QuartierSelector useCalendrierStore={useCalendrierStore.current} />
+      </div>
+      <div className="flex pb-5">
+        <Search useCalendrierStore={useCalendrierStore.current} />
+      </div>
+      <div className="flex">
+        <MovieTable useCalendrierStore={useCalendrierStore.current} />
       </div>
     </div>
   );

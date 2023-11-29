@@ -7,7 +7,7 @@ import { ReactNode } from "react";
 
 import { closeMenu } from "@/lib/menu-store";
 
-import logoCarre from "../assets/logo-carre.png";
+import logoCarre from "../../assets/logo-carre.png";
 
 export default function Menu() {
   return (

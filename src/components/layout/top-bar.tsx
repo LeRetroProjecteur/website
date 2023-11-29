@@ -4,8 +4,8 @@ import Image from "next/image";
 
 import { openMenu } from "@/lib/menu-store";
 
-import logoAnime from "../assets/logo-anime.gif";
-import BurgerIcon from "./burger-icon";
+import logoAnime from "../../assets/logo-anime.gif";
+import BurgerIcon from "../menu/burger-icon";
 
 export default function TopBar() {
   return (

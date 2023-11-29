@@ -2,7 +2,7 @@
 
 import classnames from "classnames";
 
-import Menu from "@/components/menu";
+import Menu from "@/components/menu/menu";
 import { useMenuStore } from "@/lib/menu-store";
 
 export default function MenuWrapper({

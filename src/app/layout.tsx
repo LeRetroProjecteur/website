@@ -3,8 +3,8 @@ import classnames from "classnames";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
-import MenuWrapper from "@/components/menu-wrapper";
-import TopBar from "@/components/top-bar";
+import TopBar from "@/components/layout/top-bar";
+import MenuWrapper from "@/components/menu/menu-wrapper";
 
 import "./globals.css";
 
@@ -15,6 +15,11 @@ const degular = localFont({
 
 const suisse = localFont({
   src: [
+    {
+      path: "../assets/SuisseIntl-Regular.otf",
+      weight: "400",
+      style: "normal",
+    },
     {
       path: "../assets/SuisseIntl-Medium.otf",
       weight: "500",
