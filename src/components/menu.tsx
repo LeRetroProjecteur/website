@@ -11,8 +11,8 @@ import logoCarre from "../assets/logo-carre.png";
 
 export default function Menu() {
   return (
-    <div className="grow flex flex-col">
-      <div className="pt-10 flex justify-center pb-4">
+    <div className="flex grow flex-col">
+      <div className="flex justify-center pb-4 pt-10">
         <div className="cursor-pointer" onClick={closeMenu}>
           <CloseIcon />
         </div>
@@ -50,11 +50,11 @@ function MenuLink({ children, path }: { children: ReactNode; path?: string }) {
   return (
     <div
       className={classnames(
-        "flex justify-center border-b border-retro-gray py-5",
+        "border-retro-gray flex justify-center border-b py-5",
         { "bg-retro-green": path === route },
       )}
     >
-      <div className="whitespace-break-spaces font-extrabold grow text-center uppercase text-retro-gray text-5xl font-degular">
+      <div className="text-retro-gray font-degular grow whitespace-break-spaces text-center text-5xl font-extrabold uppercase">
         {children}
       </div>
     </div>
@@ -63,8 +63,8 @@ function MenuLink({ children, path }: { children: ReactNode; path?: string }) {
 
 function MenuFooterLink({ text }: { text: string }) {
   return (
-    <div className="flex justify-center border border-retro-gray py-5">
-      <div className="whitespace-break-spaces text-center font-medium grow uppercase text-sm">
+    <div className="border-retro-gray flex justify-center border py-5">
+      <div className="grow whitespace-break-spaces text-center text-sm font-medium uppercase">
         {text}
       </div>
     </div>

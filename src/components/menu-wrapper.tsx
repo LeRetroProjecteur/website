@@ -13,10 +13,10 @@ export default function MenuWrapper({
   const isMenuOpen = useMenuStore((s) => s.isOpen);
 
   return (
-    <div className="relative overflow-x-hidden w-full h-screen">
+    <div className="relative h-screen w-full overflow-x-hidden">
       <div
         className={classnames(
-          "absolute h-screen w-full grow flex transition-transform px-4",
+          "absolute flex h-screen w-full grow px-4 transition-transform",
           { "-translate-x-full": !isMenuOpen },
         )}
       >
@@ -24,7 +24,7 @@ export default function MenuWrapper({
       </div>
       <div
         className={classnames(
-          "absolute h-screen w-full grow flex transition-transform px-4",
+          "absolute flex h-screen w-full grow px-4 transition-transform",
           { "translate-x-full": isMenuOpen },
         )}
       >

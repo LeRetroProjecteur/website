@@ -1,5 +1,3 @@
-import { config } from "@fortawesome/fontawesome-svg-core";
-import "@fortawesome/fontawesome-svg-core/styles.css";
 import { GoogleTagManager } from "@next/third-parties/google";
 import classnames from "classnames";
 import type { Metadata } from "next";
@@ -25,13 +23,11 @@ const suisse = localFont({
     {
       path: "../assets/SuisseIntl-SemiBold.otf",
       weight: "600",
-      style: "norma.",
+      style: "normal",
     },
   ],
   variable: "--font-suisse",
 });
-
-config.autoAddCss = false;
 
 export const metadata: Metadata = {
   title: "Calendrier | Le Rétro Projecteur – Cinéma de patrimoine à Paris",
@@ -49,7 +45,7 @@ export default function RootLayout({
     <html lang="fr" className={classnames(degular.variable, suisse.variable)}>
       <body className="font-suisse text-retro-black">
         <MenuWrapper>
-          <div className="grow flex flex-col gap-6">
+          <div className="flex grow flex-col gap-6">
             <div className="flex">
               <TopBar />
             </div>

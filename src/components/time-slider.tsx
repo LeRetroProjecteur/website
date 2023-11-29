@@ -1,5 +1,5 @@
 import classnames from "classnames";
-import { padStart } from "lodash-es";
+import { omit, padStart } from "lodash-es";
 import ReactSlider from "react-slider";
 
 import { CalendrierStore } from "@/lib/calendrier-store";
@@ -21,28 +21,33 @@ export default function TimeSlider({
 
   return (
     <div className="flex grow">
-      <div className="border-t border-retro-gray w-10"></div>
+      <div className="border-retro-gray w-16 border-t"></div>
       <ReactSlider
-        className="grow h-[8px]"
-        renderThumb={(props, state) => (
-          <div {...props} className="bottom-[1px] outline-none">
+        className="h-[8px] grow"
+        renderThumb={(props) => (
+          <div
+            key={props.key}
+            {...omit(props, "key")}
+            className="bottom-[1px] outline-none"
+          >
             <Thumb />
           </div>
         )}
         renderTrack={(props, state) => (
           <div
-            {...props}
-            className={classnames("border-t border-retro-gray relative", {
+            key={props.key}
+            {...omit(props, "key")}
+            className={classnames("border-retro-gray relative border-t", {
               "border-dashed": state.index === 1,
               relative: state.index === 1,
             })}
           >
             {state.index === 1 ? (
-              <div className="absolute left-1/2 -translate-x-1/2 min-w-full flex justify-between px-[6.5px] bottom-2">
-                <div className="uppercase font-medium -translate-x-1/2 w-max whitespace-nowrap">
+              <div className="absolute bottom-2 left-1/2 flex min-w-full -translate-x-1/2 justify-between px-[6.5px]">
+                <div className="w-max -translate-x-1/2 whitespace-nowrap font-medium uppercase text-red-600">
                   de {padStart(String(minHour), 2, "0")} h
                 </div>
-                <div className="uppercase font-medium translate-x-1/2 w-max whitespace-nowrap">
+                <div className="w-max translate-x-1/2 whitespace-nowrap font-medium uppercase">
                   à {padStart(String(maxHour), 2, "0")} h
                 </div>
               </div>
@@ -55,7 +60,7 @@ export default function TimeSlider({
         minDistance={1}
         onChange={onChange}
       />
-      <div className="border-t border-retro-gray w-10"></div>
+      <div className="border-retro-gray w-16 border-t"></div>
     </div>
   );
 }

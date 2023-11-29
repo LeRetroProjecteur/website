@@ -14,7 +14,7 @@ export default function DateSelector({
 }) {
   const date = useCalendrierStore((s) => s.date);
   return (
-    <div className="flex grow justify-center items-center">
+    <div className="flex grow items-center justify-center">
       <LeftArrow useCalendrierStore={useCalendrierStore} />
       <div className="text-retro-gray px-2 text-xl font-semibold uppercase">
         {formatLundi1Janvier(date)}

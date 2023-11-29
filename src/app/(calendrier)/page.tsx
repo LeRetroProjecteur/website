@@ -11,14 +11,14 @@ export default function CalendrierPage() {
   const useCalendrierStore = useRef(useUseCalendrierStore());
 
   return (
-    <div className="grow flex flex-col">
+    <div className="flex grow flex-col">
       <div className="flex">
         <PageHeader text="calendrier" />
       </div>
-      <div className="flex border-b border-retro-gray py-3">
+      <div className="border-retro-gray flex border-b py-3">
         <DateSelector useCalendrierStore={useCalendrierStore.current} />
       </div>
-      <div className="flex pt-12 pb-6">
+      <div className="flex pb-6 pt-12">
         <TimeSlider useCalendrierStore={useCalendrierStore.current} />
       </div>
     </div>
