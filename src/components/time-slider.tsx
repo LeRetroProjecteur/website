@@ -44,7 +44,7 @@ export default function TimeSlider({
           >
             {state.index === 1 ? (
               <div className="absolute bottom-2 left-1/2 flex min-w-full -translate-x-1/2 justify-between px-[6.5px]">
-                <div className="w-max -translate-x-1/2 whitespace-nowrap font-medium uppercase text-red-600">
+                <div className="w-max -translate-x-1/2 whitespace-nowrap font-medium uppercase">
                   de {padStart(String(minHour), 2, "0")} h
                 </div>
                 <div className="w-max translate-x-1/2 whitespace-nowrap font-medium uppercase">
