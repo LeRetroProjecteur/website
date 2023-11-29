@@ -3,7 +3,7 @@ import { some, sortBy, take, uniqBy } from "lodash-es";
 import Image from "next/image";
 import { useCallback, useMemo, useState } from "react";
 
-import { CalendrierStore } from "@/lib/calendrier-store";
+import { CalendrierStore, Quartier } from "@/lib/calendrier-store";
 import { Movie } from "@/lib/types";
 import {
   floatHourToString,
@@ -24,49 +24,23 @@ export default function MovieTable({
   const maxHour = useCalendrierStore((s) => s.maxHour);
   const filter = useCalendrierStore((s) => s.filter);
   const quartiers = useCalendrierStore((s) => s.quartiers);
-
-  const minHourFilteringTodaysMissedFilms = useMemo(() => {
-    if (!isTodayInParis(date)) {
-      return minHour;
-    }
-
-    const now = nowInParis();
-    return Math.max(minHour, now.getHours() + now.getMinutes() / 60 - 0.3);
-  }, [minHour, date]);
-
   const movies = useCalendrierStore((s) => s.movies);
 
-  const moviesWithFilteredShowtimes = useMemo(
-    () =>
-      movies
-        .map((movie) => ({
-          ...movie,
-          showtimes_theater: movie.showtimes_theater
-            .map((theater) => ({
-              ...theater,
-              showtimes: theater.showtimes.filter(
-                (showtime) =>
-                  showtime >= minHourFilteringTodaysMissedFilms &&
-                  showtime <= maxHour,
-              ),
-            }))
-            .filter(
-              (theater) =>
-                theater.showtimes.length > 0 &&
-                some(quartiers, (quartier) => quartier === theater.location_2),
-            ),
-        }))
-        .filter((movie) => movie.showtimes_theater.length > 0),
-    [movies, minHourFilteringTodaysMissedFilms, maxHour, quartiers],
+  const minHourFilteringTodaysMissedFilms = useMemo(
+    () => getMinHourFilteringTodaysMissedFilms(date, minHour),
+    [minHour, date],
   );
 
-  const filteredMovies = useMemo(
+  const sortedFilteredMovies = useMemo(
     () =>
-      moviesWithFilteredShowtimes.filter(
-        (movie) =>
-          filter == "" || movie_info_containsFilteringTerm(movie, filter),
+      filterAndSortMovies(
+        movies,
+        minHourFilteringTodaysMissedFilms,
+        maxHour,
+        quartiers,
+        filter,
       ),
-    [moviesWithFilteredShowtimes, filter],
+    [movies, minHourFilteringTodaysMissedFilms, maxHour, quartiers, filter],
   );
 
   return (
@@ -83,7 +57,7 @@ export default function MovieTable({
           </div>
         </div>
       </div>
-      {filteredMovies.map((movie, i) => (
+      {sortedFilteredMovies.map((movie, i) => (
         <div key={movie.id} className="flex">
           <div className="border-retro-gray flex w-1/2 border-r pr-1">
             <div
@@ -167,4 +141,53 @@ function Seances({ movie }: { movie: Movie }) {
       ) : null}
     </div>
   );
+}
+
+function getMinHourFilteringTodaysMissedFilms(date: Date, minHour: number) {
+  if (!isTodayInParis(date)) {
+    return minHour;
+  }
+
+  const now = nowInParis();
+  return Math.max(minHour, now.getHours() + now.getMinutes() / 60 - 0.3);
+}
+
+function filterAndSortMovies(
+  movies: Movie[],
+  minHourFilteringTodaysMissedFilms: number,
+  maxHour: number,
+  quartiers: Quartier[],
+  filter: string,
+) {
+  const moviesWithFilteredShowtimes = movies
+    .map((movie) => ({
+      ...movie,
+      showtimes_theater: movie.showtimes_theater
+        .map((theater) => ({
+          ...theater,
+          showtimes: theater.showtimes.filter(
+            (showtime) =>
+              showtime >= minHourFilteringTodaysMissedFilms &&
+              showtime <= maxHour,
+          ),
+        }))
+        .filter(
+          (theater) =>
+            theater.showtimes.length > 0 &&
+            some(quartiers, (quartier) => quartier === theater.location_2),
+        ),
+    }))
+    .filter((movie) => movie.showtimes_theater.length > 0);
+
+  const filteredMovies = moviesWithFilteredShowtimes.filter(
+    (movie) => filter == "" || movie_info_containsFilteringTerm(movie, filter),
+  );
+
+  const sortedFilteredMovies = sortBy(filteredMovies, (movie) => [
+    movie.year,
+    movie.directors,
+    movie.title,
+  ]);
+
+  return sortedFilteredMovies;
 }
