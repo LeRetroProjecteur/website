@@ -1,4 +1,4 @@
-import { every, padStart, some } from "lodash-es";
+import { every, omit, padStart, some } from "lodash-es";
 
 import {
   addDays,
@@ -11,7 +11,11 @@ import {
 import { utcToZonedTime } from "date-fns-tz";
 import { fr } from "date-fns/locale";
 
-import { MovieWithNoShowtimes } from "./types";
+import { MovieWithNoShowtimes, Review } from "./types";
+
+export function isCoupDeCoeur({ category }: { category?: string }) {
+  return category === "COUP DE CŒUR";
+}
 
 export function getNextMovieWeek() {
   const today = nowInParis();
@@ -89,20 +93,20 @@ export function string_match(term: string, search_field: string) {
 }
 
 export function movie_info_containsFilteringTerm(
-  f: MovieWithNoShowtimes,
+  f: MovieWithNoShowtimes | Review,
   filteringTerm: string,
 ) {
   if (filteringTerm.slice(-1) === "|") {
     filteringTerm = filteringTerm.slice(0, -1);
   }
-  const filtering_field = get_movie_info_string(f);
+  const filtering_field = get_movie_info_string(omit(f, "year"));
   const filteringTerms = filteringTerm.split("|");
   return some(filteringTerms, (filteringTerm) =>
     string_match(filteringTerm, filtering_field),
   );
 }
 
-function get_movie_info_string(f: MovieWithNoShowtimes) {
+function get_movie_info_string(f: Record<string, string>) {
   return (
     [
       "language",
@@ -125,4 +129,8 @@ export function formatLundi1Janvier(date: Date) {
 
 export function formatYYYYMMDD(date: Date) {
   return format(date, "yyyy-MM-dd", { locale: fr });
+}
+
+export function formatDDMMYYWithDots(date: Date) {
+  return format(date, "dd.MM.yy", { locale: fr });
 }

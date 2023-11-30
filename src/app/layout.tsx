@@ -48,14 +48,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="fr" className={classNames(degular.variable, suisse.variable)}>
-      <body className="font-suisse text-retro-black">
+    <html lang="fr">
+      <body
+        className={classNames(
+          degular.variable,
+          suisse.variable,
+          "font-suisse text-retro-black",
+        )}
+      >
         <MenuWrapper>
           <div className="flex grow flex-col gap-6 pt-16">
             <div className="flex">
               <TopBar />
             </div>
-            <div className="flex flex-col gap-9">
+            <div className="flex flex-col">
               <div className="flex">{children}</div>
               <div className="flex pb-7">
                 <Footer />

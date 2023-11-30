@@ -1,12 +1,14 @@
 import classNames from "classnames";
 import { some, sortBy, take, uniqBy } from "lodash-es";
 import Image from "next/image";
+import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
 
 import { CalendrierStore, Quartier } from "@/lib/calendrier-store";
 import { Movie } from "@/lib/types";
 import {
   floatHourToString,
+  isCoupDeCoeur,
   isTodayInParis,
   movie_info_containsFilteringTerm,
   nowInParis,
@@ -44,7 +46,7 @@ export default function MovieTable({
   );
 
   return (
-    <div className="flex grow flex-col">
+    <div className="flex grow flex-col pb-4">
       <div className="flex">
         <div className="flex w-1/2 border-r border-retro-gray pr-1">
           <div className="grow border-y border-retro-gray bg-retro-green py-2 pl-1 text-xl font-semibold uppercase text-retro-gray">
@@ -67,10 +69,12 @@ export default function MovieTable({
               )}
             >
               <div className="grow">
-                <i className="italic">{movie.title}</i>, {movie.directors} (
-                {movie.year})
+                <Link href={`/archives/${movie.id}`} className="underline">
+                  {movie.title}
+                </Link>
+                , {movie.directors} ({movie.year})
               </div>
-              {movie?.category === "COUP DE CŒUR" ? (
+              {isCoupDeCoeur(movie) ? (
                 <div className="shrink-0">
                   <Image
                     className="w-[25px]"
