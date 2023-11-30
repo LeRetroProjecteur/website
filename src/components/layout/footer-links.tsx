@@ -34,7 +34,7 @@ function LinkBox({
   color: "gray" | "black";
 }) {
   return (
-    <div className="border-retro-gray flex justify-center border">
+    <div className="flex justify-center border border-retro-gray">
       <div
         className={classNames(
           "grow whitespace-break-spaces text-center text-xl font-medium uppercase  leading-10 lg:text-xl",

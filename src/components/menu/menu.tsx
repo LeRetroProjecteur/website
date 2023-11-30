@@ -24,7 +24,7 @@ export default function Menu() {
 
   return (
     <div className="flex grow flex-col gap-5 pb-7 lg:justify-between">
-      <div className="lg:border-retro-gray flex grow flex-col lg:h-[1000px] lg:grow-0 lg:border-r lg:pr-5">
+      <div className="flex grow flex-col lg:h-[1000px] lg:grow-0 lg:border-r lg:border-retro-gray lg:pr-5">
         <div className="flex justify-center pb-3 pt-12 lg:hidden">
           <div className="cursor-pointer" onClick={closeMenu}>
             <CloseIcon />
@@ -69,13 +69,13 @@ function MenuLink({
   const route = usePathname();
   return (
     <div
-      className={classNames("border-retro-gray flex justify-center border-b", {
+      className={classNames("flex justify-center border-b border-retro-gray", {
         "bg-retro-green": path === route,
         "py-4 lg:py-3": !(smallTopPadding ?? false),
         "py-2": smallTopPadding ?? false,
       })}
     >
-      <div className="font-degular text-retro-gray grow whitespace-break-spaces text-center text-5xl/8 font-extrabold uppercase lg:text-4xl/7">
+      <div className="grow whitespace-break-spaces text-center font-degular text-5xl/8 font-extrabold uppercase text-retro-gray lg:text-4xl/7">
         {children}
       </div>
     </div>

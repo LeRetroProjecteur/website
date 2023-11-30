@@ -49,23 +49,23 @@ export default function MovieTable({
   return (
     <div className="flex grow flex-col pb-9 lg:pb-6">
       <div className="flex">
-        <div className="border-retro-gray flex w-1/2 border-r pr-2">
-          <div className="border-retro-gray bg-retro-green text-retro-gray grow border-y pl-1 text-xl font-semibold uppercase leading-10 lg:py-3 lg:pl-5 lg:text-2xl">
+        <div className="flex w-1/2 border-r border-retro-gray pr-2">
+          <div className="grow border-y border-retro-gray bg-retro-green pl-1 text-xl font-semibold uppercase leading-10 text-retro-gray lg:py-3 lg:pl-5 lg:text-2xl">
             Films
           </div>
         </div>
-        <div className="border-retro-gray flex w-1/2 pl-2">
-          <div className="border-retro-gray bg-retro-green text-retro-gray grow border-y pl-1 text-xl font-semibold uppercase leading-10 lg:py-3 lg:pl-5 lg:text-2xl">
+        <div className="flex w-1/2 border-retro-gray pl-2">
+          <div className="grow border-y border-retro-gray bg-retro-green pl-1 text-xl font-semibold uppercase leading-10 text-retro-gray lg:py-3 lg:pl-5 lg:text-2xl">
             Séances
           </div>
         </div>
       </div>
       {sortedFilteredMovies.map((movie) => (
         <div key={movie.id} className="group flex">
-          <div className="border-retro-gray flex w-1/2 border-r pr-2">
+          <div className="flex w-1/2 border-r border-retro-gray pr-2">
             <div
               className={classNames(
-                "group-odd:bg-retro-green border-retro-gray text-retro-black flex grow items-center gap-1 border-b px-1 py-4 font-medium leading-4 lg:py-4 lg:pl-5 lg:leading-5 group-odd:lg:bg-white",
+                "flex grow items-center gap-1 border-b border-retro-gray px-1 py-4 font-medium leading-4 text-retro-black group-odd:bg-retro-green lg:py-4 lg:pl-5 lg:leading-5 group-odd:lg:bg-white",
               )}
             >
               <div className="grow">
@@ -88,10 +88,10 @@ export default function MovieTable({
               ) : null}
             </div>
           </div>
-          <div className="border-retro-gray flex w-1/2 pl-2">
+          <div className="flex w-1/2 border-retro-gray pl-2">
             <div
               className={classNames(
-                "group-odd:bg-retro-green border-retro-gray text-retro-black flex grow border-b px-1 py-4 font-medium leading-4 lg:py-4 lg:pl-5 lg:leading-5 group-odd:lg:bg-white",
+                "flex grow border-b border-retro-gray px-1 py-4 font-medium leading-4 text-retro-black group-odd:bg-retro-green lg:py-4 lg:pl-5 lg:leading-5 group-odd:lg:bg-white",
               )}
             >
               <Seances movie={movie} />
@@ -100,7 +100,7 @@ export default function MovieTable({
         </div>
       ))}
       <div className="flex h-40">
-        <div className="border-retro-gray w-1/2 border-r pr-2"></div>
+        <div className="w-1/2 border-r border-retro-gray pr-2"></div>
         <div className="w-1/2 pl-2"></div>
       </div>
     </div>

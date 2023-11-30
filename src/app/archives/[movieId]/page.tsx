@@ -45,7 +45,7 @@ export default function ArchivesPage() {
       {movie == null ? null : (
         <div className="flex flex-col">
           <div className="flex flex-col gap-4">
-            <div className="border-retro-gray text-retro-gray border-b py-3 text-center text-xl/6 font-semibold uppercase">
+            <div className="border-b border-retro-gray py-3 text-center text-xl/6 font-semibold uppercase text-retro-gray">
               <u className="underline">{movie.title}</u> ({movie.year}),{" "}
               {movie.directors}
             </div>
@@ -67,14 +67,14 @@ export default function ArchivesPage() {
                 dangerouslySetInnerHTML={{ __html: movie.review }}
               ></div>
             )}
-            <div className="text-retro-gray flex pb-4 text-xl/6 font-medium uppercase">
+            <div className="flex pb-4 text-xl/6 font-medium uppercase text-retro-gray">
               titre original : {movie.original_title}
               <br />
               {movie.duration == null
                 ? "Durée inconnue"
                 : `Durée ${Math.floor(parseInt(movie.duration) / 60)} minutes`}
             </div>
-            <div className="border-retro-gray bg-retro-green text-retro-gray flex justify-center border-y py-1 text-xl/10 font-semibold uppercase">
+            <div className="flex justify-center border-y border-retro-gray bg-retro-green py-1 text-xl/10 font-semibold uppercase text-retro-gray">
               prochaines scéances à paris
             </div>
           </div>
@@ -84,11 +84,11 @@ export default function ArchivesPage() {
                 <Screenings screenings={screenings} />
               </div>
             ) : (
-              <div className="border-retro-gray border-b py-4 font-medium leading-3">
+              <div className="border-b border-retro-gray py-4 font-medium leading-3">
                 Pas de séances prévues pour le moment
               </div>
             )}
-            <div className="border-retro-gray h-40 w-1/2 self-start border-r" />
+            <div className="h-40 w-1/2 self-start border-r border-retro-gray" />
           </div>
         </div>
       )}
@@ -118,7 +118,7 @@ function Screenings({
         <div
           key={date}
           className={classNames(
-            "border-retro-gray flex border-b py-4 font-medium leading-3",
+            "flex border-b border-retro-gray py-4 font-medium leading-3",
           )}
         >
           <div className="shrink-0 pr-3">
