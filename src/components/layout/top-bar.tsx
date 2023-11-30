@@ -9,7 +9,7 @@ import BurgerIcon from "../menu/burger-icon";
 
 export default function TopBar() {
   return (
-    <div className="relative flex grow items-center pt-16">
+    <div className="relative flex grow items-center">
       <div className="absolute cursor-pointer" onClick={openMenu}>
         <BurgerIcon />
       </div>

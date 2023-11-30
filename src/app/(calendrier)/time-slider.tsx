@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import { omit, padStart } from "lodash-es";
 import ReactSlider from "react-slider";
 
@@ -21,7 +21,7 @@ export default function TimeSlider({
 
   return (
     <div className="flex grow justify-between pt-3">
-      <div className="border-retro-gray border-b pb-2 pr-4 font-medium uppercase">
+      <div className="border-b border-retro-gray pb-2 pr-4 font-medium uppercase">
         Horaire :
       </div>
       <div className="relative flex grow">
@@ -50,8 +50,8 @@ export default function TimeSlider({
             <div
               key={props.key}
               {...omit(props, "key")}
-              className={classnames(
-                "border-retro-gray relative bottom-0 border-t",
+              className={classNames(
+                "relative bottom-0 border-t border-retro-gray",
                 {
                   "border-dashed": state.index === 1,
                   relative: state.index === 1,
@@ -66,7 +66,7 @@ export default function TimeSlider({
           onChange={onChange}
         />
       </div>
-      <div className="border-retro-gray w-2 border-b font-medium uppercase" />
+      <div className="w-2 border-b border-retro-gray font-medium uppercase" />
     </div>
   );
 }

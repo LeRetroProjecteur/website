@@ -1,6 +1,6 @@
 "use client";
 
-import classnames from "classnames";
+import classNames from "classnames";
 import { ChangeEvent, useCallback, useState } from "react";
 
 import "./mailchimp.css";
@@ -63,7 +63,7 @@ export default function Newsletter() {
                   <input
                     type="email"
                     name="EMAIL"
-                    className={classnames("required email", {
+                    className={classNames("required email", {
                       mce_inline_error: errorMessage != null,
                     })}
                     id="mce-EMAIL"

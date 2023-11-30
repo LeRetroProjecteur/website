@@ -17,7 +17,7 @@ export default function Search({
   return (
     <input
       type="text"
-      className="bg-retro-pale-green placeholder:text-retro-gray text-retro-black border-retro-gray focus:border-retro-gray grow uppercase placeholder:text-center focus:outline-0 focus:ring-0 focus:placeholder:opacity-0"
+      className="grow border-retro-gray bg-retro-pale-green uppercase text-retro-black placeholder:text-center placeholder:text-retro-gray focus:border-retro-gray focus:outline-0 focus:ring-0 focus:placeholder:opacity-0"
       onChange={onChange}
       value={filter}
       placeholder="recherche"
