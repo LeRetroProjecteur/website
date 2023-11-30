@@ -1,4 +1,3 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import classNames from "classnames";
@@ -17,16 +16,6 @@ import {
   getStartOfTodayInParis,
   safeDate,
 } from "@/lib/util";
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
-
-/* eslint-disable @next/next/no-img-element */
 
 export default function ArchivesPage() {
   const { movieId } = useParams();
@@ -62,11 +51,14 @@ export default function ArchivesPage() {
             </div>
             {movie.image_file == null ? null : (
               <div className="flex">
-                <img
-                  className="grow"
-                  src={`data:image/png;base64,${movie.image_file}`}
-                  alt="movie-screenshot"
-                />
+                {
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    className="grow"
+                    src={`data:image/png;base64,${movie.image_file}`}
+                    alt="movie-screenshot"
+                  />
+                }
               </div>
             )}
             {movie.review == null ? null : (
