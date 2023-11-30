@@ -1,6 +1,6 @@
 "use client";
 
-import classnames from "classnames";
+import classNames from "classnames";
 import { useCallback, useMemo, useState } from "react";
 
 import { CalendrierStore, Quartier } from "@/lib/calendrier-store";
@@ -67,7 +67,7 @@ function QuartierToggler({
   return (
     <div
       onClick={onClick}
-      className={classnames(
+      className={classNames(
         {
           "border-retro-gray": !present,
           "text-retro-gray": !present,

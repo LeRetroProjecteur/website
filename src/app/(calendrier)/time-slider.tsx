@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import { omit, padStart } from "lodash-es";
 import ReactSlider from "react-slider";
 
@@ -50,7 +50,7 @@ export default function TimeSlider({
             <div
               key={props.key}
               {...omit(props, "key")}
-              className={classnames(
+              className={classNames(
                 "border-retro-gray relative bottom-0 border-t",
                 {
                   "border-dashed": state.index === 1,

@@ -1,4 +1,4 @@
-import classnames from "classnames";
+import classNames from "classnames";
 import { some, sortBy, take, uniqBy } from "lodash-es";
 import Image from "next/image";
 import { useCallback, useMemo, useState } from "react";
@@ -61,7 +61,7 @@ export default function MovieTable({
         <div key={movie.id} className="flex">
           <div className="border-retro-gray flex w-1/2 border-r pr-1">
             <div
-              className={classnames(
+              className={classNames(
                 { "bg-retro-green": i % 2 == 1 },
                 "text-retro-black border-retro-gray flex grow items-center gap-1 border-b px-1 py-2 font-medium",
               )}
@@ -83,7 +83,7 @@ export default function MovieTable({
           </div>
           <div className="border-retro-gray flex w-1/2 pl-1">
             <div
-              className={classnames(
+              className={classNames(
                 { "bg-retro-green": i % 2 == 1 },
                 "text-retro-black border-retro-gray flex grow border-b px-1 py-2 font-medium",
               )}
@@ -93,6 +93,10 @@ export default function MovieTable({
           </div>
         </div>
       ))}
+      <div className="flex h-20">
+        <div className="border-retro-gray w-1/2 border-r pr-1"></div>
+        <div className="w-1/2 pl-1"></div>
+      </div>
     </div>
   );
 }
