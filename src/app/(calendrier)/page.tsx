@@ -41,7 +41,7 @@ export default function CalendrierPage() {
         </div>
         <div className="flex flex-col">
           <div className="flex flex-col pt-6 lg:flex-row lg:gap-4 lg:pt-0">
-            <div className="flex lg:pb-0">
+            <div className="flex">
               <QuartierSelectorToggler
                 toggleOpen={toggleQuartierSelectorOpen}
                 isOpen={isQuartierSelectorOpen}
