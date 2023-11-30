@@ -57,11 +57,11 @@ export default function RootLayout({
         )}
       >
         <MenuWrapper>
-          <div className="flex grow flex-col gap-6 pt-16">
-            <div className="flex">
+          <div className="flex grow flex-col gap-6 pt-16 lg:pt-0">
+            <div className="flex lg:hidden">
               <TopBar />
             </div>
-            <div className="flex flex-col">
+            <div className="flex grow flex-col justify-between">
               <div className="flex">{children}</div>
               <div className="flex pb-7">
                 <Footer />

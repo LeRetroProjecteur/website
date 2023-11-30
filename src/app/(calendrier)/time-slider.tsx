@@ -22,18 +22,20 @@ export default function TimeSlider({
   return (
     <div className="flex grow justify-between pt-3">
       <div className="border-b border-retro-gray pb-2 pr-4 font-medium uppercase">
-        Horaire :
+        Horaires :
       </div>
       <div className="relative flex grow">
         <div className="absolute flex w-full justify-between">
-          <div
-            className="relative font-medium uppercase"
-            style={{ left: `${(100 * minHour) / 48}%` }}
-          >{`de ${padStart(String(minHour), 2, "0")}h`}</div>
-          <div
-            className="relative font-medium uppercase"
-            style={{ right: `${(100 * (24 - maxHour)) / 48}%` }}
-          >{`à ${padStart(String(maxHour), 2, "0")}h`}</div>
+          <div className="relative left-0 font-medium uppercase">{`de ${padStart(
+            String(minHour),
+            2,
+            "0",
+          )}h`}</div>
+          <div className="relative right-0 font-medium uppercase">{`à ${padStart(
+            String(maxHour),
+            2,
+            "0",
+          )}h`}</div>
         </div>
         <ReactSlider
           className="grow"

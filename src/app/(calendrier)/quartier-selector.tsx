@@ -1,7 +1,7 @@
 "use client";
 
 import classNames from "classnames";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 
 import { CalendrierStore, Quartier } from "@/lib/calendrier-store";
 
@@ -13,35 +13,23 @@ const QUARTIERS: [string, Quartier][] = [
 
 export default function QuartierSelector({
   useCalendrierStore,
+  isOpen,
 }: {
   useCalendrierStore: CalendrierStore;
+  isOpen: boolean;
 }) {
-  const [isOpen, setOpen] = useState(false);
-
-  const toggleOpen = useCallback(() => setOpen(!isOpen), [setOpen, isOpen]);
-
-  return (
-    <div className="flex grow flex-col gap-2">
-      <div className="flex items-center justify-center gap-1 border border-retro-gray py-1">
-        <div className="font-medium uppercase">par quartiers</div>{" "}
-        <div className="flex cursor-pointer items-center" onClick={toggleOpen}>
-          {isOpen ? <ArrowUp /> : <ArrowDown />}
-        </div>
-      </div>
-      {isOpen ? (
-        <div className="flex flex-wrap gap-x-4 gap-y-2">
-          {QUARTIERS.map(([quartierName, quartier]) => (
-            <QuartierToggler
-              key={quartier}
-              quartierName={quartierName}
-              quartier={quartier}
-              useCalendrierStore={useCalendrierStore}
-            />
-          ))}
-        </div>
-      ) : null}
+  return isOpen ? (
+    <div className="flex flex-wrap gap-x-4 gap-y-2">
+      {QUARTIERS.map(([quartierName, quartier]) => (
+        <QuartierToggler
+          key={quartier}
+          quartierName={quartierName}
+          quartier={quartier}
+          useCalendrierStore={useCalendrierStore}
+        />
+      ))}
     </div>
-  );
+  ) : null;
 }
 
 function QuartierToggler({
@@ -76,68 +64,10 @@ function QuartierToggler({
           "border-retro-black": present,
           "text-retro-black": present,
         },
-        "cursor-pointer border px-7 py-1 font-medium uppercase uppercase",
+        "cursor-pointer border px-5 py-1 font-medium uppercase uppercase lg:px-16 lg:py-2 lg:text-xl",
       )}
     >
       {quartierName}
     </div>
-  );
-}
-
-function ArrowUp() {
-  return (
-    <svg
-      width="14"
-      height="10"
-      viewBox="0 0 14 10"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <line
-        y1="-0.75"
-        x2="10.6"
-        y2="-0.75"
-        transform="matrix(-0.642962 -0.765898 0.738864 -0.673855 13.8796 8.11853)"
-        stroke="black"
-        strokeWidth="1.5"
-      />
-      <line
-        y1="-0.75"
-        x2="10.6"
-        y2="-0.75"
-        transform="matrix(0.642962 -0.765898 -0.738864 -0.673855 0 8.11853)"
-        stroke="black"
-        strokeWidth="1.5"
-      />
-    </svg>
-  );
-}
-
-function ArrowDown() {
-  return (
-    <svg
-      width="14"
-      height="11"
-      viewBox="0 0 14 11"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
-      <line
-        y1="-0.75"
-        x2="10.6"
-        y2="-0.75"
-        transform="matrix(0.642962 0.765898 -0.738864 0.673855 0 2)"
-        stroke="black"
-        strokeWidth="1.5"
-      />
-      <line
-        y1="-0.75"
-        x2="10.6"
-        y2="-0.75"
-        transform="matrix(-0.642962 0.765898 0.738864 0.673855 13.8796 2)"
-        stroke="black"
-        strokeWidth="1.5"
-      />
-    </svg>
   );
 }

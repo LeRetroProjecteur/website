@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 
 export default function FooterLinks({ color }: { color: "gray" | "black" }) {
   return (
-    <div className="flex flex-col gap-y-3">
+    <div className="flex grow flex-col gap-y-3">
       <LinkBox color={color}>
         <Link href="/newsletter">newsletter</Link>
       </LinkBox>
@@ -29,7 +29,7 @@ function LinkBox({
     <div className="flex justify-center border border-retro-gray py-3">
       <div
         className={classNames(
-          "grow whitespace-break-spaces text-center text-sm font-medium uppercase",
+          "grow whitespace-break-spaces text-center text-sm font-medium uppercase lg:text-xl",
           {
             "text-retro-gray": color === "gray",
             "text-retro-black": color === "black",

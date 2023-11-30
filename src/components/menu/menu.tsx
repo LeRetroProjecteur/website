@@ -23,9 +23,9 @@ export default function Menu() {
   }, [oldPathName, pathName]);
 
   return (
-    <div className="flex flex-col gap-7 pb-7">
-      <div className="flex grow flex-col">
-        <div className="flex justify-center pb-4 pt-10">
+    <div className="flex grow flex-col gap-7 pb-7 lg:justify-between">
+      <div className="flex grow flex-col lg:h-[1000px] lg:grow-0 lg:border-r lg:border-retro-gray lg:pr-4">
+        <div className="flex justify-center pb-4 pt-10 lg:hidden">
           <div className="cursor-pointer" onClick={closeMenu}>
             <CloseIcon />
           </div>
@@ -50,7 +50,9 @@ export default function Menu() {
           ))}
         </div>
       </div>
-      <FooterLinks color="black" />
+      <div className="flex lg:pr-4">
+        <FooterLinks color="black" />
+      </div>
     </div>
   );
 }
@@ -64,7 +66,7 @@ function MenuLink({ children, path }: { children: ReactNode; path?: string }) {
         { "bg-retro-green": path === route },
       )}
     >
-      <div className="grow whitespace-break-spaces text-center font-degular text-5xl font-extrabold uppercase text-retro-gray">
+      <div className="grow whitespace-break-spaces text-center font-degular text-5xl font-extrabold uppercase text-retro-gray lg:text-4xl">
         {children}
       </div>
     </div>
