@@ -48,24 +48,24 @@ export default function MovieTable({
   return (
     <div className="flex grow flex-col pb-4">
       <div className="flex">
-        <div className="border-retro-gray flex w-1/2 border-r pr-1">
-          <div className="border-retro-gray bg-retro-green text-retro-gray grow border-y py-2 pl-1 text-xl font-semibold uppercase">
+        <div className="flex w-1/2 border-r border-retro-gray pr-1">
+          <div className="grow border-y border-retro-gray bg-retro-green py-2 pl-1 text-xl font-semibold uppercase text-retro-gray">
             Films
           </div>
         </div>
-        <div className="border-retro-gray flex w-1/2 pl-1">
-          <div className="border-retro-gray bg-retro-green text-retro-gray grow border-y py-2 pl-1 text-xl font-semibold uppercase">
+        <div className="flex w-1/2 border-retro-gray pl-1">
+          <div className="grow border-y border-retro-gray bg-retro-green py-2 pl-1 text-xl font-semibold uppercase text-retro-gray">
             Séances
           </div>
         </div>
       </div>
       {sortedFilteredMovies.map((movie, i) => (
         <div key={movie.id} className="flex">
-          <div className="border-retro-gray flex w-1/2 border-r pr-1">
+          <div className="flex w-1/2 border-r border-retro-gray pr-1">
             <div
               className={classNames(
                 { "bg-retro-green": i % 2 == 1 },
-                "border-retro-gray text-retro-black flex grow items-center gap-1 border-b px-1 py-2 font-medium",
+                "flex grow items-center gap-1 border-b border-retro-gray px-1 py-2 font-medium text-retro-black",
               )}
             >
               <div className="grow">
@@ -85,11 +85,11 @@ export default function MovieTable({
               ) : null}
             </div>
           </div>
-          <div className="border-retro-gray flex w-1/2 pl-1">
+          <div className="flex w-1/2 border-retro-gray pl-1">
             <div
               className={classNames(
                 { "bg-retro-green": i % 2 == 1 },
-                "border-retro-gray text-retro-black flex grow border-b px-1 py-2 font-medium",
+                "flex grow border-b border-retro-gray px-1 py-2 font-medium text-retro-black",
               )}
             >
               <Seances movie={movie} />
@@ -98,7 +98,7 @@ export default function MovieTable({
         </div>
       ))}
       <div className="flex h-20">
-        <div className="border-retro-gray w-1/2 border-r pr-1"></div>
+        <div className="w-1/2 border-r border-retro-gray pr-1"></div>
         <div className="w-1/2 pl-1"></div>
       </div>
     </div>

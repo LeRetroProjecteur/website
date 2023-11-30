@@ -48,7 +48,7 @@ export default function CoupsDeCoeurPage() {
         <PageHeader text="coups de coeur" />
       </div>
       <div className="flex flex-col gap-4">
-        <div className="border-retro-gray text-retro-gray flex border-b py-4 text-xl font-semibold uppercase">
+        <div className="flex border-b border-retro-gray py-4 text-xl font-semibold uppercase text-retro-gray">
           archive des critiques
         </div>
         <div className="flex">
@@ -61,21 +61,21 @@ export default function CoupsDeCoeurPage() {
         <div className="flex grow flex-col">
           {filteredReviews.map((review, i) => (
             <div key={review.id} className="flex">
-              <div className="border-retro-gray flex w-1/2 border-r pr-1">
+              <div className="flex w-1/2 border-r border-retro-gray pr-1">
                 <div
                   className={classNames(
                     { "bg-retro-green": i % 2 == 1 },
-                    "border-retro-gray text-retro-black grow gap-1 border-b px-1 py-2 font-medium",
+                    "grow gap-1 border-b border-retro-gray px-1 py-2 font-medium text-retro-black",
                   )}
                 >
                   {formatDDMMYYWithDots(safeDate(review.review_date))}
                 </div>
               </div>
-              <div className="border-retro-gray flex w-1/2 pl-1">
+              <div className="flex w-1/2 border-retro-gray pl-1">
                 <div
                   className={classNames(
                     { "bg-retro-green": i % 2 == 1 },
-                    "border-retro-gray text-retro-black grow border-b px-1 py-2 font-medium uppercase",
+                    "grow border-b border-retro-gray px-1 py-2 font-medium uppercase text-retro-black",
                   )}
                 >
                   <Link href={`/archives/${review.id}`} className="underline">
@@ -87,7 +87,7 @@ export default function CoupsDeCoeurPage() {
             </div>
           ))}
           <div className="flex h-20">
-            <div className="border-retro-gray w-1/2 border-r pr-1"></div>
+            <div className="w-1/2 border-r border-retro-gray pr-1"></div>
             <div className="w-1/2 pl-1"></div>
           </div>
         </div>
