@@ -1,7 +1,7 @@
 import { readdir } from "fs/promises";
 import { Metadata } from "next";
-import Image from "next/image";
-import Link from "next/link";
+
+import PageHeader from "@/components/layout/page-header";
 
 import lumiereIcon from "./festival-lumiere-2023/img/icon.png";
 import top2022 from "./top-2022/img/icon.png";
@@ -36,31 +36,10 @@ export default async function Chroniques() {
   }
 
   return (
-    <>
-      <h2>Chroniques</h2>
-      <div className="post-grid">
-        {chroniques.map(({ titre, slug, image, date }) => (
-          <div className="post" key={slug}>
-            <Link href={`chroniques/${slug}`}>
-              <Image
-                width={274}
-                height={150}
-                className="post-icon"
-                src={image}
-                alt={titre}
-              />
-            </Link>
-            <p>
-              <strong>
-                <Link href={`chroniques/${slug}`}>{titre}</Link>
-              </strong>
-            </p>
-            <p style={{ textAlign: "right" }}>
-              <i>{date}</i>
-            </p>
-          </div>
-        ))}
+    <div className="flex grow flex-col">
+      <div className="flex">
+        <PageHeader text="chroniques" />
       </div>
-    </>
+    </div>
   );
 }

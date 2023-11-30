@@ -1,10 +1,11 @@
 "use client";
 
+import { usePrevious } from "@uidotdev/usehooks";
 import classNames from "classnames";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 
 import { closeMenu } from "@/lib/menu-store";
 
@@ -12,6 +13,15 @@ import logoCarre from "../../assets/logo-carre.png";
 import FooterLinks from "../layout/footer-links";
 
 export default function Menu() {
+  const pathName = usePathname();
+  const oldPathName = usePrevious(pathName);
+
+  useEffect(() => {
+    if (oldPathName != null && oldPathName !== pathName) {
+      closeMenu();
+    }
+  }, [oldPathName, pathName]);
+
   return (
     <div className="flex flex-col gap-7 pb-7">
       <div className="flex grow flex-col">
@@ -29,7 +39,7 @@ export default function Menu() {
         <div className="flex flex-col">
           {[
             ["calendrier", "/"],
-            ["actualité", "/actualite"],
+            ["chroniques", "/chroniques"],
             ["coups de coeur", "/coeur"],
             ["à propos", "/a-propos"],
             ["recherche", "/recherche"],
