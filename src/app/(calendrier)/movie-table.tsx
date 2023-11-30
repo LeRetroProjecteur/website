@@ -12,6 +12,7 @@ import {
   isTodayInParis,
   movie_info_containsFilteringTerm,
   nowInParis,
+  splitIntoSubArrays,
 } from "@/lib/util";
 
 import coupDeCoeur from "./coup-de-coeur.png";
@@ -46,26 +47,25 @@ export default function MovieTable({
   );
 
   return (
-    <div className="flex grow flex-col pb-4">
+    <div className="flex grow flex-col pb-9 lg:pb-6">
       <div className="flex">
-        <div className="flex w-1/2 border-r border-retro-gray pr-1">
-          <div className="grow border-y border-retro-gray bg-retro-green py-2 pl-1 text-xl font-semibold uppercase text-retro-gray lg:py-4 lg:pl-5">
+        <div className="flex w-1/2 border-r border-retro-gray pr-2">
+          <div className="grow border-y border-retro-gray bg-retro-green pl-1 text-xl font-semibold uppercase leading-10 text-retro-gray lg:py-3 lg:pl-5 lg:text-2xl">
             Films
           </div>
         </div>
-        <div className="flex w-1/2 border-retro-gray pl-1">
-          <div className="grow border-y border-retro-gray bg-retro-green py-2 pl-1 text-xl font-semibold uppercase text-retro-gray lg:py-4 lg:pl-5">
+        <div className="flex w-1/2 border-retro-gray pl-2">
+          <div className="grow border-y border-retro-gray bg-retro-green pl-1 text-xl font-semibold uppercase leading-10 text-retro-gray lg:py-3 lg:pl-5 lg:text-2xl">
             Séances
           </div>
         </div>
       </div>
-      {sortedFilteredMovies.map((movie, i) => (
-        <div key={movie.id} className="flex">
-          <div className="flex w-1/2 border-r border-retro-gray pr-1">
+      {sortedFilteredMovies.map((movie) => (
+        <div key={movie.id} className="group flex">
+          <div className="flex w-1/2 border-r border-retro-gray pr-2">
             <div
               className={classNames(
-                { "bg-retro-green": i % 2 == 1 },
-                "flex grow items-center gap-1 border-b border-retro-gray px-1 py-2 font-medium text-retro-black lg:bg-white lg:py-4 lg:pl-5",
+                "flex grow items-center gap-1 border-b border-retro-gray px-1 py-4 font-medium leading-4 text-retro-black group-odd:bg-retro-green lg:py-4 lg:pl-5 lg:leading-5 group-odd:lg:bg-white",
               )}
             >
               <div className="grow">
@@ -88,11 +88,10 @@ export default function MovieTable({
               ) : null}
             </div>
           </div>
-          <div className="flex w-1/2 border-retro-gray pl-1">
+          <div className="flex w-1/2 border-retro-gray pl-2">
             <div
               className={classNames(
-                { "bg-retro-green": i % 2 == 1 },
-                "flex grow border-b border-retro-gray px-1 py-2 font-medium text-retro-black lg:bg-white lg:py-4 lg:pl-5",
+                "flex grow border-b border-retro-gray px-1 py-4 font-medium leading-4 text-retro-black group-odd:bg-retro-green lg:py-4 lg:pl-5 lg:leading-5 group-odd:lg:bg-white",
               )}
             >
               <Seances movie={movie} />
@@ -100,9 +99,9 @@ export default function MovieTable({
           </div>
         </div>
       ))}
-      <div className="flex h-20">
-        <div className="w-1/2 border-r border-retro-gray pr-1"></div>
-        <div className="w-1/2 pl-1"></div>
+      <div className="flex h-40">
+        <div className="w-1/2 border-r border-retro-gray pr-2"></div>
+        <div className="w-1/2 pl-2"></div>
       </div>
     </div>
   );
@@ -129,7 +128,7 @@ function Seances({ movie }: { movie: Movie }) {
   );
 
   return (
-    <div className="flex grow flex-col gap-3">
+    <div className="flex grow flex-col gap-4 lg:gap-1">
       {(isExpanded ? sorted : take(sorted)).map((showtime_theater) => (
         <div
           className="flex justify-between gap-3"
@@ -138,19 +137,33 @@ function Seances({ movie }: { movie: Movie }) {
           <div className="grow">
             {showtime_theater.clean_name} ({showtime_theater.zipcode_clean})
           </div>
-          <div className="flex flex-col text-right lg:flex-row">
-            {sortBy(showtime_theater.showtimes).map((showtime, i) => (
-              <div key={i}>
-                {floatHourToString(showtime)}
-                {i === showtime_theater.showtimes.length - 1 ? null : (
-                  <span className="hidden lg:inline">&nbsp;•&nbsp;</span>
-                )}
+          <div className="flex flex-col text-right">
+            {splitIntoSubArrays(
+              take(
+                sortBy(showtime_theater.showtimes),
+                isExpanded ? showtime_theater.showtimes.length : 3,
+              ),
+              3,
+            ).map((showtimes, i) => (
+              <div key={i} className="flex flex-col lg:flex-row">
+                {showtimes.map((showtime) => (
+                  <div key={showtime} className="group">
+                    {floatHourToString(showtime)}
+                    <span className="hidden group-last:hidden lg:inline">
+                      &nbsp;•&nbsp;
+                    </span>
+                  </div>
+                ))}
               </div>
             ))}
           </div>
         </div>
       ))}
-      {sorted.length > 1 ? (
+      {sorted.length > 1 ||
+      some(
+        sorted,
+        (showtime_theater) => showtime_theater.showtimes.length > 3,
+      ) ? (
         <div className="cursor-pointer font-semibold" onClick={toggleExpanded}>
           {isExpanded ? "Moins de séances ↑" : "Plus de séances ↓"}
         </div>

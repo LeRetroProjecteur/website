@@ -134,3 +134,9 @@ export function formatYYYYMMDD(date: Date) {
 export function formatDDMMYYWithDots(date: Date) {
   return format(date, "dd.MM.yy", { locale: fr });
 }
+
+export function splitIntoSubArrays<T>(array: T[], subArraySize: number) {
+  return [...Array(Math.ceil(array.length / subArraySize))].map((_, i) =>
+    array.slice(i * subArraySize, i * subArraySize + subArraySize),
+  );
+}

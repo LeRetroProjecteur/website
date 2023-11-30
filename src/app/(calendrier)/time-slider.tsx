@@ -20,8 +20,8 @@ export default function TimeSlider({
   };
 
   return (
-    <div className="flex grow justify-between pt-3">
-      <div className="border-b border-retro-gray pb-2 pr-4 font-medium uppercase">
+    <div className="flex grow justify-between pt-3 lg:pt-7">
+      <div className="border-b border-retro-gray pb-3 pr-4 font-medium uppercase">
         Horaires :
       </div>
       <div className="relative flex grow">

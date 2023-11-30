@@ -19,7 +19,7 @@ export default function QuartierSelector({
   isOpen: boolean;
 }) {
   return isOpen ? (
-    <div className="flex flex-wrap gap-x-4 gap-y-2">
+    <div className="flex flex-wrap gap-x-4 gap-y-2 pt-2">
       {QUARTIERS.map(([quartierName, quartier]) => (
         <QuartierToggler
           key={quartier}
@@ -64,7 +64,7 @@ function QuartierToggler({
           "border-retro-black": present,
           "text-retro-black": present,
         },
-        "cursor-pointer border px-5 py-1 font-medium uppercase uppercase lg:px-16 lg:py-2 lg:text-xl",
+        "cursor-pointer border px-5 font-medium uppercase uppercase leading-7 lg:px-16 lg:py-2 lg:text-xl",
       )}
     >
       {quartierName}

@@ -41,19 +41,19 @@ export default function CalendrierPage() {
         </div>
         <div className="flex flex-col">
           <div className="flex flex-col pt-6 lg:flex-row lg:gap-4 lg:pt-0">
-            <div className="flex grow pb-2 lg:grow-0 lg:pb-0">
+            <div className="flex">
               <QuartierSelectorToggler
                 toggleOpen={toggleQuartierSelectorOpen}
                 isOpen={isQuartierSelectorOpen}
               />
             </div>
-            <div className="flex pb-4 lg:hidden">
+            <div className="flex lg:hidden">
               <QuartierSelector
                 isOpen={isQuartierSelectorOpen}
                 useCalendrierStore={useCalendrierStore.current}
               />
             </div>
-            <div className="flex pb-5 lg:grow lg:pb-0">
+            <div className="flex pb-5 pt-4 lg:grow lg:py-0">
               <Search useCalendrierStore={useCalendrierStore.current} />
             </div>
           </div>

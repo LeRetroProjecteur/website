@@ -43,12 +43,12 @@ export default function CoupsDeCoeurPage() {
   );
 
   return (
-    <div className="flex grow flex-col">
+    <div className="flex grow flex-col pb-4">
       <div className="flex">
         <PageHeader text="coups de coeur" />
       </div>
       <div className="flex flex-col gap-4">
-        <div className="flex border-b border-retro-gray py-4 text-xl font-semibold uppercase text-retro-gray">
+        <div className="flex border-b border-retro-gray py-4 text-xl/6 font-semibold uppercase text-retro-gray">
           archive des critiques
         </div>
         <div className="flex">
@@ -59,23 +59,21 @@ export default function CoupsDeCoeurPage() {
           />
         </div>
         <div className="flex grow flex-col">
-          {filteredReviews.map((review, i) => (
-            <div key={review.id} className="flex">
-              <div className="flex w-1/2 border-r border-retro-gray pr-1">
+          {filteredReviews.map((review) => (
+            <div key={review.id} className="group flex">
+              <div className="flex w-1/2 border-r border-retro-gray pr-2">
                 <div
                   className={classNames(
-                    { "bg-retro-green": i % 2 == 1 },
-                    "grow gap-1 border-b border-retro-gray px-1 py-2 font-medium text-retro-black",
+                    "grow gap-1 border-b border-retro-gray px-1 py-2 font-medium text-retro-black group-first:border-t group-odd:bg-retro-green",
                   )}
                 >
                   {formatDDMMYYWithDots(safeDate(review.review_date))}
                 </div>
               </div>
-              <div className="flex w-1/2 border-retro-gray pl-1">
+              <div className="flex w-1/2 border-retro-gray pl-2">
                 <div
                   className={classNames(
-                    { "bg-retro-green": i % 2 == 1 },
-                    "grow border-b border-retro-gray px-1 py-2 font-medium uppercase text-retro-black",
+                    "grow border-b border-retro-gray px-1 py-2 font-medium uppercase text-retro-black group-first:border-t group-odd:bg-retro-green",
                   )}
                 >
                   <Link href={`/archives/${review.id}`} className="underline">
@@ -86,9 +84,9 @@ export default function CoupsDeCoeurPage() {
               </div>
             </div>
           ))}
-          <div className="flex h-20">
-            <div className="w-1/2 border-r border-retro-gray pr-1"></div>
-            <div className="w-1/2 pl-1"></div>
+          <div className="flex h-40">
+            <div className="w-1/2 border-r border-retro-gray pr-2"></div>
+            <div className="w-1/2 pl-2"></div>
           </div>
         </div>
       </div>

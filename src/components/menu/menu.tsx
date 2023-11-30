@@ -23,9 +23,9 @@ export default function Menu() {
   }, [oldPathName, pathName]);
 
   return (
-    <div className="flex grow flex-col gap-7 pb-7 lg:justify-between">
-      <div className="flex grow flex-col lg:h-[1000px] lg:grow-0 lg:border-r lg:border-retro-gray lg:pr-4">
-        <div className="flex justify-center pb-4 pt-10 lg:hidden">
+    <div className="flex grow flex-col gap-5 pb-7 lg:justify-between">
+      <div className="flex grow flex-col lg:h-[1000px] lg:grow-0 lg:border-r lg:border-retro-gray lg:pr-5">
+        <div className="flex justify-center pb-3 pt-12 lg:hidden">
           <div className="cursor-pointer" onClick={closeMenu}>
             <CloseIcon />
           </div>
@@ -35,7 +35,7 @@ export default function Menu() {
             <Image src={logoCarre} alt="logo" className="w-full" />
           </div>
         </div>
-        <MenuLink>le rétro projecteur</MenuLink>
+        <MenuLink smallTopPadding>le rétro projecteur</MenuLink>
         <div className="flex flex-col">
           {[
             ["calendrier", "/"],
@@ -50,23 +50,32 @@ export default function Menu() {
           ))}
         </div>
       </div>
-      <div className="flex lg:pr-4">
-        <FooterLinks color="black" />
+      <div className="flex lg:pr-5">
+        <FooterLinks bigLineHeight={true} color="black" />
       </div>
     </div>
   );
 }
 
-function MenuLink({ children, path }: { children: ReactNode; path?: string }) {
+function MenuLink({
+  children,
+  path,
+  smallTopPadding,
+}: {
+  children: ReactNode;
+  path?: string;
+  smallTopPadding?: boolean;
+}) {
   const route = usePathname();
   return (
     <div
-      className={classNames(
-        "flex justify-center border-b border-retro-gray py-5",
-        { "bg-retro-green": path === route },
-      )}
+      className={classNames("flex justify-center border-b border-retro-gray", {
+        "bg-retro-green": path === route,
+        "py-4 lg:py-3": !(smallTopPadding ?? false),
+        "py-2": smallTopPadding ?? false,
+      })}
     >
-      <div className="grow whitespace-break-spaces text-center font-degular text-5xl font-extrabold uppercase text-retro-gray lg:text-4xl">
+      <div className="grow whitespace-break-spaces text-center font-degular text-5xl/8 font-extrabold uppercase text-retro-gray lg:text-4xl/7">
         {children}
       </div>
     </div>
