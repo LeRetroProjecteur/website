@@ -60,11 +60,11 @@ function MenuLink({ children, path }: { children: ReactNode; path?: string }) {
   return (
     <div
       className={classNames(
-        "border-retro-gray flex justify-center border-b py-5",
+        "flex justify-center border-b border-retro-gray py-5",
         { "bg-retro-green": path === route },
       )}
     >
-      <div className="font-degular text-retro-gray grow whitespace-break-spaces text-center text-5xl font-extrabold uppercase">
+      <div className="grow whitespace-break-spaces text-center font-degular text-5xl font-extrabold uppercase text-retro-gray">
         {children}
       </div>
     </div>
