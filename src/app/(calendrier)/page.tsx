@@ -21,7 +21,7 @@ export default function CalendrierPage() {
       <div className="flex">
         <PageHeader text="calendrier" />
       </div>
-      <div className="border-retro-gray flex border-b py-3">
+      <div className="flex border-b border-retro-gray py-3">
         <DateSelector useCalendrierStore={useCalendrierStore.current} />
       </div>
       <div className="flex">

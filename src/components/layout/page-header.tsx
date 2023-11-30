@@ -1,6 +1,6 @@
 export default function PageHeader({ text }: { text: string }) {
   return (
-    <div className="text-retro-gray bg-retro-green border-retro-gray font-degular grow whitespace-break-spaces border-y py-4 text-center text-5xl font-extrabold uppercase">
+    <div className="grow whitespace-break-spaces border-y border-retro-gray bg-retro-green py-4 text-center font-degular text-5xl font-extrabold uppercase text-retro-gray">
       {text}
     </div>
   );

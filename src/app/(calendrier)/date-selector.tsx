@@ -16,7 +16,7 @@ export default function DateSelector({
   return (
     <div className="flex grow items-center justify-center">
       <LeftArrow useCalendrierStore={useCalendrierStore} />
-      <div className="text-retro-gray px-2 text-xl font-semibold uppercase">
+      <div className="px-2 text-xl font-semibold uppercase text-retro-gray">
         {formatLundi1Janvier(date)}
       </div>
       <RightArrow useCalendrierStore={useCalendrierStore} />

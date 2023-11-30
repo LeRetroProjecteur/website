@@ -26,7 +26,7 @@ function LinkBox({
   color: "gray" | "black";
 }) {
   return (
-    <div className="border-retro-gray flex justify-center border py-3">
+    <div className="flex justify-center border border-retro-gray py-3">
       <div
         className={classNames(
           "grow whitespace-break-spaces text-center text-sm font-medium uppercase",

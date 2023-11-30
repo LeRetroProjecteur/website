@@ -22,7 +22,7 @@ export default function QuartierSelector({
 
   return (
     <div className="flex grow flex-col gap-2">
-      <div className="border-retro-gray flex items-center justify-center gap-1 border py-1">
+      <div className="flex items-center justify-center gap-1 border border-retro-gray py-1">
         <div className="font-medium uppercase">par quartiers</div>{" "}
         <div className="flex cursor-pointer items-center" onClick={toggleOpen}>
           {isOpen ? <ArrowUp /> : <ArrowDown />}
