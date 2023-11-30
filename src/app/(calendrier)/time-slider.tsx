@@ -21,19 +21,21 @@ export default function TimeSlider({
 
   return (
     <div className="flex grow justify-between pt-3">
-      <div className="border-b border-retro-gray pb-2 pr-4 font-medium uppercase">
-        Horaire :
+      <div className="border-retro-gray border-b pb-2 pr-4 font-medium uppercase">
+        Horaires :
       </div>
       <div className="relative flex grow">
         <div className="absolute flex w-full justify-between">
-          <div
-            className="relative font-medium uppercase"
-            style={{ left: `${(100 * minHour) / 48}%` }}
-          >{`de ${padStart(String(minHour), 2, "0")}h`}</div>
-          <div
-            className="relative font-medium uppercase"
-            style={{ right: `${(100 * (24 - maxHour)) / 48}%` }}
-          >{`à ${padStart(String(maxHour), 2, "0")}h`}</div>
+          <div className="relative left-0 font-medium uppercase">{`de ${padStart(
+            String(minHour),
+            2,
+            "0",
+          )}h`}</div>
+          <div className="relative right-0 font-medium uppercase">{`à ${padStart(
+            String(maxHour),
+            2,
+            "0",
+          )}h`}</div>
         </div>
         <ReactSlider
           className="grow"
@@ -51,7 +53,7 @@ export default function TimeSlider({
               key={props.key}
               {...omit(props, "key")}
               className={classNames(
-                "relative bottom-0 border-t border-retro-gray",
+                "border-retro-gray relative bottom-0 border-t",
                 {
                   "border-dashed": state.index === 1,
                   relative: state.index === 1,
@@ -66,7 +68,7 @@ export default function TimeSlider({
           onChange={onChange}
         />
       </div>
-      <div className="w-2 border-b border-retro-gray font-medium uppercase" />
+      <div className="border-retro-gray w-2 border-b font-medium uppercase" />
     </div>
   );
 }

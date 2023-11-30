@@ -48,28 +48,31 @@ export default function MovieTable({
   return (
     <div className="flex grow flex-col pb-4">
       <div className="flex">
-        <div className="flex w-1/2 border-r border-retro-gray pr-1">
-          <div className="grow border-y border-retro-gray bg-retro-green py-2 pl-1 text-xl font-semibold uppercase text-retro-gray">
+        <div className="border-retro-gray flex w-1/2 border-r pr-1">
+          <div className="border-retro-gray bg-retro-green text-retro-gray grow border-y py-2 pl-1 text-xl font-semibold uppercase lg:py-4 lg:pl-5">
             Films
           </div>
         </div>
-        <div className="flex w-1/2 border-retro-gray pl-1">
-          <div className="grow border-y border-retro-gray bg-retro-green py-2 pl-1 text-xl font-semibold uppercase text-retro-gray">
+        <div className="border-retro-gray flex w-1/2 pl-1">
+          <div className="border-retro-gray bg-retro-green text-retro-gray grow border-y py-2 pl-1 text-xl font-semibold uppercase lg:py-4 lg:pl-5">
             Séances
           </div>
         </div>
       </div>
       {sortedFilteredMovies.map((movie, i) => (
         <div key={movie.id} className="flex">
-          <div className="flex w-1/2 border-r border-retro-gray pr-1">
+          <div className="border-retro-gray flex w-1/2 border-r pr-1">
             <div
               className={classNames(
                 { "bg-retro-green": i % 2 == 1 },
-                "flex grow items-center gap-1 border-b border-retro-gray px-1 py-2 font-medium text-retro-black",
+                "border-retro-gray text-retro-black flex grow items-center gap-1 border-b px-1 py-2 font-medium lg:bg-white lg:py-4 lg:pl-5",
               )}
             >
               <div className="grow">
-                <Link href={`/archives/${movie.id}`} className="underline">
+                <Link
+                  href={`/archives/${movie.id}`}
+                  className="italic hover:underline"
+                >
                   {movie.title}
                 </Link>
                 , {movie.directors} ({movie.year})
@@ -85,11 +88,11 @@ export default function MovieTable({
               ) : null}
             </div>
           </div>
-          <div className="flex w-1/2 border-retro-gray pl-1">
+          <div className="border-retro-gray flex w-1/2 pl-1">
             <div
               className={classNames(
                 { "bg-retro-green": i % 2 == 1 },
-                "flex grow border-b border-retro-gray px-1 py-2 font-medium text-retro-black",
+                "border-retro-gray text-retro-black flex grow border-b px-1 py-2 font-medium lg:bg-white lg:py-4 lg:pl-5",
               )}
             >
               <Seances movie={movie} />
@@ -98,7 +101,7 @@ export default function MovieTable({
         </div>
       ))}
       <div className="flex h-20">
-        <div className="w-1/2 border-r border-retro-gray pr-1"></div>
+        <div className="border-retro-gray w-1/2 border-r pr-1"></div>
         <div className="w-1/2 pl-1"></div>
       </div>
     </div>
@@ -135,9 +138,14 @@ function Seances({ movie }: { movie: Movie }) {
           <div className="grow">
             {showtime_theater.clean_name} ({showtime_theater.zipcode_clean})
           </div>
-          <div className="flex flex-col text-right">
+          <div className="flex flex-col text-right lg:flex-row">
             {sortBy(showtime_theater.showtimes).map((showtime, i) => (
-              <div key={i}>{floatHourToString(showtime)}</div>
+              <div key={i}>
+                {floatHourToString(showtime)}
+                {i === showtime_theater.showtimes.length - 1 ? null : (
+                  <span className="hidden lg:inline">&nbsp;•&nbsp;</span>
+                )}
+              </div>
             ))}
           </div>
         </div>
