@@ -16,7 +16,9 @@ import Search from "./search";
 export default function CalendrierPage() {
   const useCalendrierStore = useRef(useUseCalendrierStore());
   const fetchMovies = useCalendrierStore.current((s) => s.fetchMovies);
-  useEffect(() => fetchMovies, [fetchMovies]);
+  useEffect(() => {
+    fetchMovies();
+  }, [fetchMovies]);
 
   const [isQuartierSelectorOpen, setQuartierSelectorOpen] = useState(false);
 
