@@ -1,6 +1,5 @@
 "use client";
 
-import clsx from "clsx";
 import { sortBy } from "lodash-es";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -69,20 +68,12 @@ export default function CoupsDeCoeurPage() {
             {filteredReviews.map((review) => (
               <div key={review.id} className="group flex">
                 <div className="flex border-r border-retro-gray pr-2 lg:pr-5">
-                  <div
-                    className={clsx(
-                      "w-[80px] grow gap-1 border-b border-retro-gray px-1 py-2 font-medium text-retro-black group-first:border-t group-odd:bg-retro-green lg:w-[88px] lg:px-3 lg:py-4 lg:text-lg/6 lg:group-odd:bg-white",
-                    )}
-                  >
+                  <div className="w-[80px] grow gap-1 border-b border-retro-gray px-1 py-2 font-medium text-retro-black group-first:border-t group-odd:bg-retro-green lg:w-[88px] lg:px-3 lg:py-4 lg:text-lg/6 lg:group-odd:bg-white">
                     {formatDDMMYYWithDots(safeDate(review.review_date))}
                   </div>
                 </div>
                 <div className="flex grow border-retro-gray pl-2 lg:pl-5">
-                  <div
-                    className={clsx(
-                      "grow border-b border-retro-gray px-1 py-2 font-medium uppercase text-retro-black group-first:border-t group-odd:bg-retro-green lg:px-3 lg:py-4 lg:text-lg/6 lg:group-odd:bg-white",
-                    )}
-                  >
+                  <div className="grow border-b border-retro-gray px-1 py-2 font-medium uppercase text-retro-black group-first:border-t group-odd:bg-retro-green lg:px-3 lg:py-4 lg:text-lg/6 lg:group-odd:bg-white">
                     <Link href={`/archives/${review.id}`} className="underline">
                       {review.title}
                     </Link>{" "}

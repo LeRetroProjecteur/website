@@ -19,7 +19,7 @@ export default function QuartierSelector({
   isOpen: boolean;
 }) {
   return isOpen ? (
-    <div className="flex flex-wrap gap-x-4 gap-y-2 pt-2">
+    <div className="flex grow flex-wrap gap-x-4 gap-y-2 pt-2">
       {QUARTIERS.map(([quartierName, quartier]) => (
         <QuartierToggler
           key={quartier}

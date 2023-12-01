@@ -129,9 +129,7 @@ function Screenings({
       {sortedByDateAndTheater.map(([date, theaters]) => (
         <div
           key={date}
-          className={clsx(
-            "flex border-b border-retro-gray py-4 font-medium leading-4",
-          )}
+          className="flex border-b border-retro-gray py-4 font-medium leading-4"
         >
           <div className="shrink-0 pr-3">
             {formatDDMMYYWithDots(safeDate(date))}

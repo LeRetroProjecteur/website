@@ -1,4 +1,3 @@
-import clsx from "clsx";
 import { some, sortBy, take, uniqBy } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
@@ -72,11 +71,7 @@ export default function MovieTable({
       {sortedFilteredMovies.map((movie) => (
         <div key={movie.id} className="group flex">
           <div className="flex w-1/2 border-r border-retro-gray pr-2">
-            <div
-              className={clsx(
-                "flex grow items-center gap-1 border-b border-retro-gray px-1 py-4 font-medium leading-4 text-retro-black group-odd:bg-retro-green lg:py-4 lg:pl-5 lg:leading-5 group-odd:lg:bg-white",
-              )}
-            >
+            <div className="flex grow items-center gap-1 border-b border-retro-gray px-1 py-4 font-medium leading-4 text-retro-black group-odd:bg-retro-green lg:py-4 lg:pl-5 lg:leading-5 group-odd:lg:bg-white">
               <div className="grow">
                 <Link
                   href={`/archives/${movie.id}`}
@@ -98,11 +93,7 @@ export default function MovieTable({
             </div>
           </div>
           <div className="flex w-1/2 border-retro-gray pl-2">
-            <div
-              className={clsx(
-                "flex grow border-b border-retro-gray px-1 py-4 font-medium leading-4 text-retro-black group-odd:bg-retro-green lg:py-4 lg:pl-5 lg:leading-5 group-odd:lg:bg-white",
-              )}
-            >
+            <div className="flex grow border-b border-retro-gray px-1 py-4 font-medium leading-4 text-retro-black group-odd:bg-retro-green lg:py-4 lg:pl-5 lg:leading-5 group-odd:lg:bg-white">
               <Seances movie={movie} />
             </div>
           </div>
