@@ -64,7 +64,7 @@ export default function CoupsDeCoeurPage() {
               <div className="flex border-r border-retro-gray pr-2 lg:pr-5">
                 <div
                   className={classNames(
-                    "w-[88px] grow gap-1 border-b border-retro-gray px-1 py-2 font-medium text-retro-black group-first:border-t group-odd:bg-retro-green lg:px-3 lg:py-4 lg:text-lg/6 lg:group-odd:bg-white",
+                    "w-[80px] grow gap-1 border-b border-retro-gray px-1 py-2 font-medium text-retro-black group-first:border-t group-odd:bg-retro-green lg:w-[88px] lg:px-3 lg:py-4 lg:text-lg/6 lg:group-odd:bg-white",
                   )}
                 >
                   {formatDDMMYYWithDots(safeDate(review.review_date))}
