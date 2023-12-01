@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -36,7 +36,7 @@ function LinkBox({
   return (
     <div className="flex justify-center border border-retro-gray">
       <div
-        className={classNames(
+        className={clsx(
           "grow whitespace-break-spaces text-center text-xl font-medium uppercase  leading-10 lg:text-xl",
           {
             "text-retro-gray": color === "gray",

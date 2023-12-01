@@ -1,6 +1,6 @@
 "use client";
 
-import classNames from "classnames";
+import clsx from "clsx";
 import { size, sortBy, toPairs } from "lodash-es";
 import { useParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -70,7 +70,7 @@ export default function ArchivesPage() {
                 ></div>
               )}
               <div
-                className={classNames(
+                className={clsx(
                   "flex pb-8 text-xl/6 font-medium uppercase text-retro-gray lg:pl-5",
                   { "mt-4": movie.review == null },
                 )}
@@ -129,9 +129,7 @@ function Screenings({
       {sortedByDateAndTheater.map(([date, theaters]) => (
         <div
           key={date}
-          className={classNames(
-            "flex border-b border-retro-gray py-4 font-medium leading-4",
-          )}
+          className="flex border-b border-retro-gray py-4 font-medium leading-4"
         >
           <div className="shrink-0 pr-3">
             {formatDDMMYYWithDots(safeDate(date))}

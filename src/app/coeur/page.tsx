@@ -1,6 +1,5 @@
 "use client";
 
-import classNames from "classnames";
 import { sortBy } from "lodash-es";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
@@ -58,37 +57,37 @@ export default function CoupsDeCoeurPage() {
             setValue={setFilter}
           />
         </div>
-        <div className="flex grow flex-col lg:pl-5">
-          {filteredReviews.map((review) => (
-            <div key={review.id} className="group flex">
-              <div className="flex border-r border-retro-gray pr-2 lg:pr-5">
-                <div
-                  className={classNames(
-                    "w-[80px] grow gap-1 border-b border-retro-gray px-1 py-2 font-medium text-retro-black group-first:border-t group-odd:bg-retro-green lg:w-[88px] lg:px-3 lg:py-4 lg:text-lg/6 lg:group-odd:bg-white",
-                  )}
-                >
-                  {formatDDMMYYWithDots(safeDate(review.review_date))}
-                </div>
-              </div>
-              <div className="flex grow border-retro-gray pl-2 lg:pl-5">
-                <div
-                  className={classNames(
-                    "grow border-b border-retro-gray px-1 py-2 font-medium uppercase text-retro-black group-first:border-t group-odd:bg-retro-green lg:px-3 lg:py-4 lg:text-lg/6 lg:group-odd:bg-white",
-                  )}
-                >
-                  <Link href={`/archives/${review.id}`} className="underline">
-                    {review.title}
-                  </Link>{" "}
-                  ({review.year}), {review.directors}
-                </div>
-              </div>
-            </div>
-          ))}
-          <div className="flex h-40">
-            <div className="w-1/2 border-r border-retro-gray pr-2"></div>
-            <div className="w-1/2 pl-2"></div>
+        {filteredReviews.length !== 0 ? null : (
+          <div className="flex text-lg/5 font-medium uppercase text-retro-gray lg:pl-5 lg:text-xl/5">
+            désolé, nous n&apos;avons rien trouvé qui corresponde à votre
+            recherche !
           </div>
-        </div>
+        )}
+        {filteredReviews.length === 0 ? null : (
+          <div className="flex grow flex-col lg:pl-5">
+            {filteredReviews.map((review) => (
+              <div key={review.id} className="group flex">
+                <div className="flex border-r border-retro-gray pr-2 lg:pr-5">
+                  <div className="w-[80px] grow gap-1 border-b border-retro-gray px-1 py-2 font-medium text-retro-black group-first:border-t group-odd:bg-retro-green lg:w-[88px] lg:px-3 lg:py-4 lg:text-lg/6 lg:group-odd:bg-white">
+                    {formatDDMMYYWithDots(safeDate(review.review_date))}
+                  </div>
+                </div>
+                <div className="flex grow border-retro-gray pl-2 lg:pl-5">
+                  <div className="grow border-b border-retro-gray px-1 py-2 font-medium uppercase text-retro-black group-first:border-t group-odd:bg-retro-green lg:px-3 lg:py-4 lg:text-lg/6 lg:group-odd:bg-white">
+                    <Link href={`/archives/${review.id}`} className="underline">
+                      {review.title}
+                    </Link>{" "}
+                    ({review.year}), {review.directors}
+                  </div>
+                </div>
+              </div>
+            ))}
+            <div className="flex h-40">
+              <div className="w-1/2 border-r border-retro-gray pr-2"></div>
+              <div className="w-1/2 pl-2"></div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

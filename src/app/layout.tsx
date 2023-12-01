@@ -1,5 +1,5 @@
 import { GoogleTagManager } from "@next/third-parties/google";
-import classNames from "classnames";
+import clsx from "clsx";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
@@ -50,7 +50,7 @@ export default function RootLayout({
   return (
     <html lang="fr">
       <body
-        className={classNames(
+        className={clsx(
           degular.variable,
           suisse.variable,
           "font-suisse text-retro-black",

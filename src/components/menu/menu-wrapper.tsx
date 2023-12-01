@@ -1,6 +1,5 @@
 "use client";
 
-import classNames from "classnames";
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 
@@ -26,9 +25,7 @@ export default function MenuWrapper({
     <>
       <div className="relative lg:static lg:flex lg:p-4">
         <motion.div
-          className={classNames(
-            "absolute left-0 z-10 hidden min-h-screen w-full bg-white px-4 lg:static lg:flex lg:w-72 lg:px-0",
-          )}
+          className="absolute left-0 z-10 hidden min-h-screen w-full bg-white px-4 lg:static lg:flex lg:w-72 lg:px-0"
           animate={
             isDesktop || isMenuOpen
               ? { translateX: 0, display: "flex" }

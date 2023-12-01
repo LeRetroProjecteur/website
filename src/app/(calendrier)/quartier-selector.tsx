@@ -1,6 +1,6 @@
 "use client";
 
-import classNames from "classnames";
+import clsx from "clsx";
 import { useCallback, useMemo } from "react";
 
 import { CalendrierStore, Quartier } from "@/lib/calendrier-store";
@@ -19,7 +19,7 @@ export default function QuartierSelector({
   isOpen: boolean;
 }) {
   return isOpen ? (
-    <div className="flex flex-wrap gap-x-4 gap-y-2 pt-2">
+    <div className="flex grow flex-wrap gap-x-4 gap-y-2 pt-2">
       {QUARTIERS.map(([quartierName, quartier]) => (
         <QuartierToggler
           key={quartier}
@@ -55,7 +55,7 @@ function QuartierToggler({
   return (
     <div
       onClick={onClick}
-      className={classNames(
+      className={clsx(
         {
           "border-retro-gray": !present,
           "text-retro-gray": !present,

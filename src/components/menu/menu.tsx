@@ -1,7 +1,7 @@
 "use client";
 
 import { usePrevious } from "@uidotdev/usehooks";
-import classNames from "classnames";
+import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -69,7 +69,7 @@ function MenuLink({
   const route = usePathname();
   return (
     <div
-      className={classNames("flex justify-center border-b border-retro-gray", {
+      className={clsx("flex justify-center border-b border-retro-gray", {
         "bg-retro-green": path === route,
         "py-4 lg:py-3": !(smallTopPadding ?? false),
         "py-2": smallTopPadding ?? false,
