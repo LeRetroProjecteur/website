@@ -1,6 +1,6 @@
 "use client";
 
-import classNames from "classnames";
+import clsx from "clsx";
 import { useCallback, useEffect, useRef, useState } from "react";
 
 import DateSelector from "@/app/(calendrier)/date-selector";
@@ -60,8 +60,8 @@ export default function CalendrierPage() {
             </div>
           </div>
           <div
-            className={classNames("hidden lg:flex", {
-              "pt-4": isQuartierSelectorOpen,
+            className={clsx("hidden lg:flex", {
+              "pt-2": isQuartierSelectorOpen,
             })}
           >
             <QuartierSelector

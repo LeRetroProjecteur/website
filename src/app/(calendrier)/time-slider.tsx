@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import { omit, padStart } from "lodash-es";
 import ReactSlider from "react-slider";
 
@@ -52,13 +52,10 @@ export default function TimeSlider({
             <div
               key={props.key}
               {...omit(props, "key")}
-              className={classNames(
-                "relative bottom-0 border-t border-retro-gray",
-                {
-                  "border-dashed": state.index === 1,
-                  relative: state.index === 1,
-                },
-              )}
+              className={clsx("relative bottom-0 border-t border-retro-gray", {
+                "border-dashed": state.index === 1,
+                relative: state.index === 1,
+              })}
             />
           )}
           value={[minHour, maxHour]}

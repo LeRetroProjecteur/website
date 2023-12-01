@@ -1,4 +1,4 @@
-import classNames from "classnames";
+import clsx from "clsx";
 import { some, sortBy, take, uniqBy } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
@@ -60,11 +60,20 @@ export default function MovieTable({
           </div>
         </div>
       </div>
+      {sortedFilteredMovies.length > 0 ? null : (
+        <div className="flex w-1/2 border-r border-retro-gray pr-2">
+          <div className="flex grow items-center gap-1 border-b border-retro-gray px-1 py-4 font-medium leading-4 text-retro-black group-odd:bg-retro-green lg:py-4 lg:pl-5 lg:leading-5 group-odd:lg:bg-white">
+            {filter.length > 0
+              ? "Aucun film ne correspond à cette recherche aujourd'hui. Essayez demain ?"
+              : "Aucun film ne joue à cette heure-ci aujourd'hui. Essayez demain ?"}
+          </div>
+        </div>
+      )}
       {sortedFilteredMovies.map((movie) => (
         <div key={movie.id} className="group flex">
           <div className="flex w-1/2 border-r border-retro-gray pr-2">
             <div
-              className={classNames(
+              className={clsx(
                 "flex grow items-center gap-1 border-b border-retro-gray px-1 py-4 font-medium leading-4 text-retro-black group-odd:bg-retro-green lg:py-4 lg:pl-5 lg:leading-5 group-odd:lg:bg-white",
               )}
             >
@@ -90,7 +99,7 @@ export default function MovieTable({
           </div>
           <div className="flex w-1/2 border-retro-gray pl-2">
             <div
-              className={classNames(
+              className={clsx(
                 "flex grow border-b border-retro-gray px-1 py-4 font-medium leading-4 text-retro-black group-odd:bg-retro-green lg:py-4 lg:pl-5 lg:leading-5 group-odd:lg:bg-white",
               )}
             >
