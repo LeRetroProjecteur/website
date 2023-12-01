@@ -59,8 +59,8 @@ export default function CoupsDeCoeurPage() {
         </div>
         {filteredReviews.length !== 0 ? null : (
           <div className="flex text-lg/5 font-medium uppercase text-retro-gray lg:pl-5 lg:text-xl/5">
-            DÉSOLÉ, NOUS N&apos;AVONS RIEN TROUVÉ QUI CORRESPONDE À VOTRE
-            RECHERCHE !
+            désolé, nous n&apos;avons rien trouvé qui corresponde à votre
+            recherche !
           </div>
         )}
         {filteredReviews.length === 0 ? null : (
