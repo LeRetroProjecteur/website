@@ -1,21 +1,28 @@
 "use client";
 
-import {capitalize, groupBy, sortBy, toPairs, uniqBy} from "lodash-es";
+import { capitalize, groupBy, sortBy, toPairs, uniqBy } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
-import {useSearchParams} from "next/navigation";
-import {ChangeEvent, Fragment, useCallback, useEffect, useMemo, useState,} from "react";
+import { useSearchParams } from "next/navigation";
+import {
+  ChangeEvent,
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
-import {format, isSameMonth, parse} from "date-fns";
-import {fr} from "date-fns/locale";
+import { format, isSameMonth, parse } from "date-fns";
+import { fr } from "date-fns/locale";
 
 import MovieTable from "@/components/movie-table";
-import {MovieWithShowtimesByDay} from "@/lib/types";
+import { MovieWithShowtimesByDay } from "@/lib/types";
 import {
-    floatHourToString,
-    getNextMovieWeek,
-    movie_info_containsFilteringTerm,
-    movie_plays_after_today,
+  floatHourToString,
+  getNextMovieWeek,
+  movie_info_containsFilteringTerm,
+  movie_plays_after_today,
 } from "@/lib/util";
 
 import logo_square from "../../../assets/logo_square.png";
@@ -169,8 +176,9 @@ export function Movies({
         movie.title,
       ]).filter(
         (movie) =>
-          filter == "" || movie_info_containsFilteringTerm(movie, filter) &&
-        movie_plays_after_today(movie),
+          filter == "" ||
+          (movie_info_containsFilteringTerm(movie, filter) &&
+            movie_plays_after_today(movie)),
       ),
     [movies, filter],
   );
