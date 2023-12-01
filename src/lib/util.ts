@@ -1,4 +1,6 @@
 import { every, omit, padStart, some } from "lodash-es";
+import { useMemo } from "react";
+import { useWindowSize } from "usehooks-ts";
 
 import {
   addDays,
@@ -139,4 +141,9 @@ export function splitIntoSubArrays<T>(array: T[], subArraySize: number) {
   return [...Array(Math.ceil(array.length / subArraySize))].map((_, i) =>
     array.slice(i * subArraySize, i * subArraySize + subArraySize),
   );
+}
+
+export function useIsMobile() {
+  const { width } = useWindowSize();
+  return useMemo(() => width > 1 && width < 1024, [width]);
 }

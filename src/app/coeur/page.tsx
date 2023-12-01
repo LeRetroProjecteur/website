@@ -58,7 +58,7 @@ export default function CoupsDeCoeurPage() {
             setValue={setFilter}
           />
         </div>
-        <div className="flex grow flex-col pl-5">
+        <div className="flex grow flex-col lg:pl-5">
           {filteredReviews.map((review) => (
             <div key={review.id} className="group flex">
               <div className="flex border-r border-retro-gray pr-2 lg:pr-5">
