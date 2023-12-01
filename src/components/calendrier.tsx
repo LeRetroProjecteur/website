@@ -1,21 +1,33 @@
 "use client";
 
-import {useClickAway} from "@uidotdev/usehooks";
+import { useClickAway } from "@uidotdev/usehooks";
 import classNames from "classnames";
-import {capitalize, sortBy, uniqBy} from "lodash-es";
+import { capitalize, sortBy, uniqBy } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
-import {useSearchParams} from "next/navigation";
-import {ChangeEvent, MutableRefObject, useCallback, useEffect, useMemo, useState,} from "react";
+import { useSearchParams } from "next/navigation";
+import {
+  ChangeEvent,
+  MutableRefObject,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import ReactSlider from "react-slider";
 
-import {addDays, format, startOfDay, subDays,} from "date-fns";
-import {utcToZonedTime} from "date-fns-tz";
-import {fr} from "date-fns/locale";
+import { addDays, format, startOfDay, subDays } from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
+import { fr } from "date-fns/locale";
 
 import MovieTable from "@/components/movie-table";
-import {Movie} from "@/lib/types";
-import {checkNotNull, floatHourToString, isTodayInParis, movie_info_containsFilteringTerm,} from "@/lib/util";
+import { Movie } from "@/lib/types";
+import {
+  checkNotNull,
+  floatHourToString,
+  isTodayInParis,
+  movie_info_containsFilteringTerm,
+} from "@/lib/util";
 
 import logo_square from "../assets/logo_square.png";
 
