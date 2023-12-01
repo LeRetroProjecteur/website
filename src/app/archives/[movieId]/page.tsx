@@ -3,13 +3,15 @@
 import clsx from "clsx";
 import { size, sortBy, toPairs } from "lodash-es";
 import { useParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
+import useSWR from "swr";
 
 import { isAfter, isEqual } from "date-fns";
 
 import PageHeader from "@/components/layout/page-header";
 import { MovieDetail, ShowtimesTheater } from "@/lib/types";
 import {
+  fetcher,
   floatHourToString,
   formatDDMMYYWithDots,
   getStartOfDayInParis,
@@ -20,13 +22,11 @@ import {
 
 export default function ArchivesPage() {
   const { movieId } = useParams();
-  const [movie, setMovie] = useState<MovieDetail | undefined>();
 
-  useEffect(() => {
-    (async () => {
-      setMovie(await (await fetch(`/api/movies/by-id/${movieId}`)).json());
-    })();
-  }, [movieId]);
+  const { data: movie } = useSWR<MovieDetail>(
+    `/api/movies/by-id/${movieId}`,
+    fetcher,
+  );
 
   const screenings = useMemo(
     () =>
@@ -45,12 +45,12 @@ export default function ArchivesPage() {
       </div>
       {movie == null ? null : (
         <div className="flex flex-col">
-          <div className="border-b border-retro-gray pb-4 text-center text-xl/6 font-semibold uppercase text-retro-gray lg:border-t lg:bg-retro-green lg:py-3 lg:pl-5 lg:text-left lg:text-3xl/8 lg:font-medium">
+          <div className="border-retro-gray text-retro-gray lg:bg-retro-green border-b pb-4 text-center text-xl/6 font-semibold uppercase lg:border-t lg:py-3 lg:pl-5 lg:text-left lg:text-3xl/8 lg:font-medium">
             <u className="underline">{movie.title}</u> ({movie.year}),{" "}
             {movie.directors}
           </div>
           <div className="flex flex-col lg:flex-row lg:pt-5">
-            <div className="flex flex-col lg:w-1/2 lg:border-r lg:border-retro-gray lg:pb-40 lg:pr-5">
+            <div className="lg:border-retro-gray flex flex-col lg:w-1/2 lg:border-r lg:pb-40 lg:pr-5">
               {movie.image_file == null ? null : (
                 <div className="flex pt-4 lg:pl-5 lg:pt-0">
                   {
@@ -71,7 +71,7 @@ export default function ArchivesPage() {
               )}
               <div
                 className={clsx(
-                  "flex pb-8 text-xl/6 font-medium uppercase text-retro-gray lg:pl-5",
+                  "text-retro-gray flex pb-8 text-xl/6 font-medium uppercase lg:pl-5",
                   { "mt-4": movie.review == null },
                 )}
               >
@@ -85,7 +85,7 @@ export default function ArchivesPage() {
               </div>
             </div>
             <div className="flex flex-col lg:w-1/2 lg:pl-5">
-              <div className="flex border-y border-retro-gray bg-retro-green px-4 py-1 text-center text-xl/10 font-semibold uppercase text-retro-gray lg:py-3 lg:text-2xl/6">
+              <div className="border-retro-gray bg-retro-green text-retro-gray flex border-y px-4 py-1 text-center text-xl/10 font-semibold uppercase lg:py-3 lg:text-2xl/6">
                 prochaines scéances à paris
               </div>
               <div className="flex flex-col">
@@ -94,11 +94,11 @@ export default function ArchivesPage() {
                     <Screenings screenings={screenings} />
                   </div>
                 ) : (
-                  <div className="border-b border-retro-gray py-4 text-center font-medium leading-3 lg:grow">
+                  <div className="border-retro-gray border-b py-4 text-center font-medium leading-3 lg:grow">
                     Pas de séances prévues pour le moment
                   </div>
                 )}
-                <div className="mt-4 h-40 w-1/2 self-start border-r border-retro-gray lg:hidden" />
+                <div className="border-retro-gray mt-4 h-40 w-1/2 self-start border-r lg:hidden" />
               </div>
             </div>
           </div>
@@ -129,7 +129,7 @@ function Screenings({
       {sortedByDateAndTheater.map(([date, theaters]) => (
         <div
           key={date}
-          className="flex border-b border-retro-gray py-4 font-medium leading-4"
+          className="border-retro-gray flex border-b py-4 font-medium leading-4"
         >
           <div className="shrink-0 pr-3">
             {formatDDMMYYWithDots(safeDate(date))}
