@@ -147,3 +147,6 @@ export function useIsMobile() {
   const { width } = useWindowSize();
   return useMemo(() => width > 1 && width < 1024, [width]);
 }
+
+export const fetcher = (...args: Parameters<typeof fetch>) =>
+  fetch(...args).then((res) => res.json());

@@ -3,13 +3,15 @@
 import clsx from "clsx";
 import { size, sortBy, toPairs } from "lodash-es";
 import { useParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
+import useSWR from "swr";
 
 import { isAfter, isEqual } from "date-fns";
 
 import PageHeader from "@/components/layout/page-header";
 import { MovieDetail, ShowtimesTheater } from "@/lib/types";
 import {
+  fetcher,
   floatHourToString,
   formatDDMMYYWithDots,
   getStartOfDayInParis,
@@ -20,13 +22,11 @@ import {
 
 export default function ArchivesPage() {
   const { movieId } = useParams();
-  const [movie, setMovie] = useState<MovieDetail | undefined>();
 
-  useEffect(() => {
-    (async () => {
-      setMovie(await (await fetch(`/api/movies/by-id/${movieId}`)).json());
-    })();
-  }, [movieId]);
+  const { data: movie } = useSWR<MovieDetail>(
+    `/api/movies/by-id/${movieId}`,
+    fetcher,
+  );
 
   const screenings = useMemo(
     () =>

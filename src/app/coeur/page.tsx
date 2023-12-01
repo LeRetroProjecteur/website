@@ -2,34 +2,35 @@
 
 import { sortBy } from "lodash-es";
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
+import useSWR from "swr";
 
 import RetroInput from "@/components/forms/retro-input";
 import PageHeader from "@/components/layout/page-header";
-import { Review } from "@/lib/types";
 import {
+  fetcher,
   formatDDMMYYWithDots,
-  isCoupDeCoeur,
   movie_info_containsFilteringTerm,
   safeDate,
 } from "@/lib/util";
 
 export default function CoupsDeCoeurPage() {
   const [filter, setFilter] = useState("");
-  const [reviews, setReviews] = useState<Review[]>([]);
 
-  useEffect(() => {
-    (async () => {
-      setReviews(
-        sortBy(
-          (await (await fetch("/api/movies/all-reviewed")).json()).filter(
-            isCoupDeCoeur,
-          ),
-          (review) => -safeDate(review.review_date).valueOf(),
-        ),
-      );
-    })();
-  }, []);
+  const { data: fetchedReviews, isLoading } = useSWR(
+    "/api/movies/all-reviewed",
+    fetcher,
+    { fallbackData: [] },
+  );
+
+  const reviews = useMemo(
+    () =>
+      sortBy(
+        fetchedReviews,
+        (review) => -safeDate(review.review_date).valueOf(),
+      ),
+    [fetchedReviews],
+  );
 
   const filteredReviews = useMemo(
     () =>
@@ -57,7 +58,7 @@ export default function CoupsDeCoeurPage() {
             setValue={setFilter}
           />
         </div>
-        {filteredReviews.length !== 0 ? null : (
+        {filteredReviews.length !== 0 || isLoading ? null : (
           <div className="flex text-lg/5 font-medium uppercase text-retro-gray lg:pl-5 lg:text-xl/5">
             désolé, nous n&apos;avons rien trouvé qui corresponde à votre
             recherche !

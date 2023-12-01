@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 import DateSelector from "@/app/(calendrier)/date-selector";
 import QuartierSelector from "@/app/(calendrier)/quartier-selector";
@@ -15,10 +15,6 @@ import Search from "./search";
 
 export default function CalendrierPage() {
   const useCalendrierStore = useRef(useUseCalendrierStore());
-  const fetchMovies = useCalendrierStore.current((s) => s.fetchMovies);
-  useEffect(() => {
-    fetchMovies();
-  }, [fetchMovies]);
 
   const [isQuartierSelectorOpen, setQuartierSelectorOpen] = useState(false);
 

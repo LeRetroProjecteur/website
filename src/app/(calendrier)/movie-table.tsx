@@ -2,11 +2,14 @@ import { some, sortBy, take, uniqBy } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
+import useSWR from "swr";
 
 import { CalendrierStore, Quartier } from "@/lib/calendrier-store";
 import { Movie } from "@/lib/types";
 import {
+  fetcher,
   floatHourToString,
+  formatYYYYMMDD,
   isCoupDeCoeur,
   isTodayInParis,
   movie_info_containsFilteringTerm,
@@ -26,7 +29,12 @@ export default function MovieTable({
   const maxHour = useCalendrierStore((s) => s.maxHour);
   const filter = useCalendrierStore((s) => s.filter);
   const quartiers = useCalendrierStore((s) => s.quartiers);
-  const movies = useCalendrierStore((s) => s.movies);
+
+  const { data: movies, isLoading } = useSWR(
+    `/api/movies/by-day/${formatYYYYMMDD(date)}`,
+    fetcher,
+    { fallbackData: [] },
+  );
 
   const minHourFilteringTodaysMissedFilms = useMemo(
     () => getMinHourFilteringTodaysMissedFilms(date, minHour),
@@ -59,7 +67,7 @@ export default function MovieTable({
           </div>
         </div>
       </div>
-      {sortedFilteredMovies.length > 0 ? null : (
+      {sortedFilteredMovies.length > 0 || isLoading ? null : (
         <div className="flex w-1/2 border-r border-retro-gray pr-2">
           <div className="flex grow items-center gap-1 border-b border-retro-gray px-1 py-4 font-medium leading-4 text-retro-black group-odd:bg-retro-green lg:py-4 lg:pl-5 lg:leading-5 group-odd:lg:bg-white">
             {filter.length > 0
