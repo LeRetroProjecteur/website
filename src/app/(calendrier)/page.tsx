@@ -1,6 +1,5 @@
 "use client";
 
-import clsx from "clsx";
 import { useCallback, useRef, useState } from "react";
 
 import DateSelector from "@/app/(calendrier)/date-selector";
@@ -25,48 +24,42 @@ export default function CalendrierPage() {
 
   return (
     <div className="flex grow flex-col">
-      <div className="flex flex-col lg:gap-4">
-        <div className="flex">
+      <div className="flex flex-col">
+        <div className="flex lg:pb-4">
           <PageHeader text="calendrier" />
         </div>
-        <div className="flex border-b border-retro-gray py-3 lg:border-0 lg:py-0">
+        <div className="flex border-b py-3 lg:border-0 lg:py-0">
           <DateSelector useCalendrierStore={useCalendrierStore.current} />
         </div>
       </div>
-      <div className="flex flex-col lg:gap-8 lg:pl-4">
-        <div className="flex">
+      <div className="flex flex-col lg:pl-4">
+        <div className="flex pb-6 lg:pb-8">
           <TimeSlider useCalendrierStore={useCalendrierStore.current} />
         </div>
-        <div className="flex flex-col">
-          <div className="flex flex-col pt-6 lg:flex-row lg:gap-4 lg:pt-0">
-            <div className="flex">
-              <QuartierSelectorToggler
-                toggleOpen={toggleQuartierSelectorOpen}
-                isOpen={isQuartierSelectorOpen}
-              />
-            </div>
-            <div className="flex lg:hidden">
-              <QuartierSelector
-                isOpen={isQuartierSelectorOpen}
-                useCalendrierStore={useCalendrierStore.current}
-              />
-            </div>
-            <div className="flex pb-5 pt-4 lg:grow lg:py-0">
-              <Search useCalendrierStore={useCalendrierStore.current} />
-            </div>
-          </div>
-          <div
-            className={clsx("hidden lg:flex", {
-              "pt-2": isQuartierSelectorOpen,
-            })}
-          >
-            <QuartierSelector
+        <div className="flex flex-col lg:flex-row">
+          <div className="flex lg:pr-4">
+            <QuartierSelectorToggler
+              toggleOpen={toggleQuartierSelectorOpen}
               isOpen={isQuartierSelectorOpen}
-              useCalendrierStore={useCalendrierStore.current}
             />
           </div>
+          {isQuartierSelectorOpen && (
+            <div className="flex pt-2 lg:hidden">
+              <QuartierSelector
+                useCalendrierStore={useCalendrierStore.current}
+              />{" "}
+            </div>
+          )}
+          <div className="flex pt-4 lg:grow lg:pt-0">
+            <Search useCalendrierStore={useCalendrierStore.current} />
+          </div>
         </div>
-        <div className="flex">
+        {isQuartierSelectorOpen && (
+          <div className="hidden pt-5 lg:flex">
+            <QuartierSelector useCalendrierStore={useCalendrierStore.current} />
+          </div>
+        )}
+        <div className="flex pt-5 lg:pt-8">
           <MovieTable useCalendrierStore={useCalendrierStore.current} />
         </div>
       </div>
