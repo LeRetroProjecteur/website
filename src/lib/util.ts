@@ -150,3 +150,15 @@ export function useIsMobile() {
 
 export const fetcher = (...args: Parameters<typeof fetch>) =>
   fetch(...args).then((res) => res.json());
+
+export function getMovieTags({ tags }: { tags: string }) {
+  return Array.from(tags.matchAll(/#([^\s]+)/g)).map(([_, tag]) => tag);
+}
+
+export const TAG_MAP: Record<string, string> = {
+  cdc: "coup de coeur",
+  curio: "on est curieux",
+  female: "femmes réalisatrices",
+  jamesbond: "james bond",
+  "s&s": "top 100 du sondage sight & sound",
+};
