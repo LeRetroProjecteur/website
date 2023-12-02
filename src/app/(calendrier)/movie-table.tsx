@@ -1,11 +1,12 @@
+import clsx from "clsx";
 import { some, sortBy, take, uniqBy } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useMemo, useState } from "react";
+import { ReactNode, useCallback, useMemo, useState } from "react";
 import useSWR from "swr";
 
 import { CalendrierStore, Quartier } from "@/lib/calendrier-store";
-import { Movie } from "@/lib/types";
+import { Movie, ShowtimesTheater } from "@/lib/types";
 import {
   fetcher,
   floatHourToString,
@@ -55,62 +56,96 @@ export default function MovieTable({
 
   return (
     <div className="flex grow flex-col pb-9 lg:pb-6">
-      <div className="flex">
-        <div className="flex w-1/2 border-r border-retro-gray pr-2">
-          <div className="grow border-y border-retro-gray bg-retro-green pl-1 text-xl font-semibold uppercase leading-10 text-retro-gray lg:py-3 lg:pl-5 lg:text-2xl">
-            Films
-          </div>
-        </div>
-        <div className="flex w-1/2 border-retro-gray pl-2">
-          <div className="grow border-y border-retro-gray bg-retro-green pl-1 text-xl font-semibold uppercase leading-10 text-retro-gray lg:py-3 lg:pl-5 lg:text-2xl">
-            Séances
-          </div>
-        </div>
+      <TableHeader />
+      {sortedFilteredMovies.length == 0 && !isLoading && (
+        <EmptyTableState filter={filter} />
+      )}
+      <MovieRows movies={sortedFilteredMovies} />
+      <TableFooter />
+    </div>
+  );
+}
+
+function TableHeader() {
+  return (
+    <Row
+      cellClassName="font-semibold uppercase leading-10 text-retro-gray lg:text-2xl bg-retro-green text-xl lg:py-3 px-1 lg:px-5"
+      leftCol="Films"
+      rightCol="Séances"
+    />
+  );
+}
+
+function EmptyTableState({ filter }: { filter: string }) {
+  return (
+    <Row
+      cellClassName="font-medium lg:leading-5 leading-4 px-1 lg:px-2"
+      leftCol={
+        filter.length > 0
+          ? "Aucun film ne correspond à cette recherche aujourd'hui. Essayez demain ?"
+          : "Aucun film ne joue à cette heure-ci aujourd'hui. Essayez demain ?"
+      }
+    />
+  );
+}
+
+function MovieRows({ movies }: { movies: Movie[] }) {
+  return movies.map((movie) => (
+    <Row
+      key={movie.id}
+      rowClassName="group"
+      cellClassName="font-medium leading-4 lg:leading-5 group-odd:bg-retro-green group-odd:lg:bg-white py-4 px-1 lg:px-2"
+      leftCol={<MovieCell movie={movie} />}
+      rightCol={<Seances movie={movie} />}
+    />
+  ));
+}
+
+function TableFooter() {
+  return (
+    <div className="flex h-40">
+      <div className="w-1/2 border-r pr-2"></div>
+    </div>
+  );
+}
+
+function Row({
+  leftCol,
+  rightCol,
+  cellClassName,
+  rowClassName,
+}: {
+  leftCol?: ReactNode;
+  rightCol?: ReactNode;
+  cellClassName?: string;
+  rowClassName?: string;
+}) {
+  return (
+    <div className={clsx("flex", rowClassName)}>
+      <div className="flex w-1/2 border-r pr-2">
+        <div className={clsx("grow border-b", cellClassName)}>{leftCol}</div>
       </div>
-      {sortedFilteredMovies.length > 0 || isLoading ? null : (
-        <div className="flex w-1/2 border-r border-retro-gray pr-2">
-          <div className="flex grow items-center gap-1 border-b border-retro-gray px-1 py-4 font-medium leading-4 text-retro-black group-odd:bg-retro-green lg:py-4 lg:pl-5 lg:leading-5 group-odd:lg:bg-white">
-            {filter.length > 0
-              ? "Aucun film ne correspond à cette recherche aujourd'hui. Essayez demain ?"
-              : "Aucun film ne joue à cette heure-ci aujourd'hui. Essayez demain ?"}
-          </div>
+      <div className="flex w-1/2  pl-2">
+        <div className={clsx("grow border-b", cellClassName)}>{rightCol}</div>
+      </div>
+    </div>
+  );
+}
+
+function MovieCell({ movie }: { movie: Movie }) {
+  return (
+    <div className="flex">
+      <div className="grow">
+        <Link href={`/archives/${movie.id}`} className="italic hover:underline">
+          {movie.title}
+        </Link>
+        , {movie.directors} ({movie.year})
+      </div>
+      {isCoupDeCoeur(movie) && (
+        <div className="shrink-0">
+          <Image className="w-[25px]" alt="coup de coeur" src={coupDeCoeur} />
         </div>
       )}
-      {sortedFilteredMovies.map((movie) => (
-        <div key={movie.id} className="group flex">
-          <div className="flex w-1/2 border-r border-retro-gray pr-2">
-            <div className="flex grow items-center gap-1 border-b border-retro-gray px-1 py-4 font-medium leading-4 text-retro-black group-odd:bg-retro-green lg:py-4 lg:pl-5 lg:leading-5 group-odd:lg:bg-white">
-              <div className="grow">
-                <Link
-                  href={`/archives/${movie.id}`}
-                  className="italic hover:underline"
-                >
-                  {movie.title}
-                </Link>
-                , {movie.directors} ({movie.year})
-              </div>
-              {isCoupDeCoeur(movie) ? (
-                <div className="shrink-0">
-                  <Image
-                    className="w-[25px]"
-                    alt="coup de coeur"
-                    src={coupDeCoeur}
-                  />
-                </div>
-              ) : null}
-            </div>
-          </div>
-          <div className="flex w-1/2 border-retro-gray pl-2">
-            <div className="flex grow border-b border-retro-gray px-1 py-4 font-medium leading-4 text-retro-black group-odd:bg-retro-green lg:py-4 lg:pl-5 lg:leading-5 group-odd:lg:bg-white">
-              <Seances movie={movie} />
-            </div>
-          </div>
-        </div>
-      ))}
-      <div className="flex h-40">
-        <div className="w-1/2 border-r border-retro-gray pr-2"></div>
-        <div className="w-1/2 pl-2"></div>
-      </div>
     </div>
   );
 }
@@ -123,7 +158,7 @@ function Seances({ movie }: { movie: Movie }) {
     [isExpanded, setIsExpanded],
   );
 
-  const sorted = useMemo(
+  const sortedTheaters = useMemo(
     () =>
       sortBy(
         uniqBy(
@@ -135,47 +170,73 @@ function Seances({ movie }: { movie: Movie }) {
     [movie],
   );
 
+  const needsExpanding = useMemo(
+    () =>
+      sortedTheaters.length > 1 ||
+      some(
+        sortedTheaters,
+        (showtime_theater) => showtime_theater.showtimes.length > 3,
+      ),
+    [sortedTheaters],
+  );
+
   return (
     <div className="flex grow flex-col gap-4 lg:gap-1">
-      {(isExpanded ? sorted : take(sorted)).map((showtime_theater) => (
-        <div
-          className="flex justify-between gap-3"
-          key={showtime_theater.clean_name}
-        >
-          <div className="grow">
-            {showtime_theater.clean_name} ({showtime_theater.zipcode_clean})
-          </div>
-          <div className="flex flex-col text-right">
-            {splitIntoSubArrays(
-              take(
-                sortBy(showtime_theater.showtimes),
-                isExpanded ? showtime_theater.showtimes.length : 3,
-              ),
-              3,
-            ).map((showtimes, i) => (
-              <div key={i} className="flex flex-col lg:flex-row">
-                {showtimes.map((showtime) => (
-                  <div key={showtime} className="group">
-                    {floatHourToString(showtime)}
-                    <span className="hidden group-last:hidden lg:inline">
-                      &nbsp;•&nbsp;
-                    </span>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
-        </div>
-      ))}
-      {sorted.length > 1 ||
-      some(
-        sorted,
-        (showtime_theater) => showtime_theater.showtimes.length > 3,
-      ) ? (
+      {take(sortedTheaters, isExpanded ? sortedTheaters.length : 1).map(
+        (theater) => (
+          <SceancesTheater
+            showtimesTheater={theater}
+            key={theater.clean_name}
+            isExpanded={isExpanded}
+          />
+        ),
+      )}
+      {needsExpanding && (
         <div className="cursor-pointer font-semibold" onClick={toggleExpanded}>
           {isExpanded ? "Moins de séances ↑" : "Plus de séances ↓"}
         </div>
-      ) : null}
+      )}
+    </div>
+  );
+}
+
+function SceancesTheater({
+  showtimesTheater,
+  isExpanded,
+}: {
+  showtimesTheater: ShowtimesTheater;
+  isExpanded: boolean;
+}) {
+  const groupsOfThree = splitIntoSubArrays(
+    take(
+      sortBy(showtimesTheater.showtimes),
+      isExpanded ? showtimesTheater.showtimes.length : 3,
+    ),
+    3,
+  );
+  return (
+    <div className="flex justify-between" key={showtimesTheater.clean_name}>
+      <div className="grow pr-3">
+        {showtimesTheater.clean_name} ({showtimesTheater.zipcode_clean})
+      </div>
+      <div className="flex flex-col">
+        {groupsOfThree.map((showtimes, i) => (
+          <ThreeShowtimes key={i} threeShowtimes={showtimes} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ThreeShowtimes({ threeShowtimes }: { threeShowtimes: number[] }) {
+  return (
+    <div className="flex flex-col lg:flex-row lg:justify-end">
+      {threeShowtimes.map((showtime) => (
+        <div key={showtime} className="group flex justify-end">
+          {floatHourToString(showtime)}
+          <div className="hidden group-last:hidden lg:block">&nbsp;•&nbsp;</div>
+        </div>
+      ))}
     </div>
   );
 }

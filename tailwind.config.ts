@@ -9,6 +9,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      borderColor: ({ theme }) => ({
+        DEFAULT: theme("colors.retro-gray"),
+      }),
       borderWidth: {
         DEFAULT: "1.5px",
       },

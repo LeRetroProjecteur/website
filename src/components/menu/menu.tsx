@@ -24,7 +24,7 @@ export default function Menu() {
 
   return (
     <div className="flex grow flex-col gap-5 pb-7 lg:justify-between">
-      <div className="flex grow flex-col lg:h-[1000px] lg:grow-0 lg:border-r lg:border-retro-gray lg:pr-5">
+      <div className="flex grow flex-col lg:h-[1000px] lg:grow-0 lg:border-r lg:pr-5">
         <div className="flex justify-center pb-3 pt-12 lg:hidden">
           <div className="cursor-pointer" onClick={closeMenu}>
             <CloseIcon />
@@ -35,7 +35,7 @@ export default function Menu() {
             <Image src={logoCarre} alt="logo" className="w-full" />
           </div>
         </div>
-        <MenuLink smallTopPadding>le rétro projecteur</MenuLink>
+        <MenuLink largeTopPadding>le rétro projecteur</MenuLink>
         <div className="flex flex-col">
           {[
             ["calendrier", "/"],
@@ -60,19 +60,19 @@ export default function Menu() {
 function MenuLink({
   children,
   path,
-  smallTopPadding,
+  largeTopPadding,
 }: {
   children: ReactNode;
   path?: string;
-  smallTopPadding?: boolean;
+  largeTopPadding?: boolean;
 }) {
   const route = usePathname();
   return (
     <div
-      className={clsx("flex justify-center border-b border-retro-gray", {
+      className={clsx("flex justify-center border-b ", {
         "bg-retro-green": path === route,
-        "py-4 lg:py-3": !(smallTopPadding ?? false),
-        "py-2": smallTopPadding ?? false,
+        "py-4 lg:py-3": !(largeTopPadding ?? false),
+        "py-5 lg:py-4": largeTopPadding ?? false,
       })}
     >
       <div className="grow whitespace-break-spaces text-center font-degular text-5xl/8 font-extrabold uppercase text-retro-gray lg:text-4xl/7">

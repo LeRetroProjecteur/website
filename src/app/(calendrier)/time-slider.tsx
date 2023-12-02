@@ -21,7 +21,7 @@ export default function TimeSlider({
 
   return (
     <div className="flex grow justify-between pt-3 lg:pt-7">
-      <div className="border-b border-retro-gray pb-3 pr-4 font-medium uppercase">
+      <div className="border-b  pb-3 pr-4 font-medium uppercase">
         Horaires :
       </div>
       <div className="relative flex grow">
@@ -52,7 +52,7 @@ export default function TimeSlider({
             <div
               key={props.key}
               {...omit(props, "key")}
-              className={clsx("relative bottom-0 border-t border-retro-gray", {
+              className={clsx("relative bottom-0 border-t ", {
                 "border-dashed": state.index === 1,
                 relative: state.index === 1,
               })}
@@ -65,7 +65,7 @@ export default function TimeSlider({
           onChange={onChange}
         />
       </div>
-      <div className="w-2 border-b border-retro-gray font-medium uppercase" />
+      <div className="w-2 border-b" />
     </div>
   );
 }

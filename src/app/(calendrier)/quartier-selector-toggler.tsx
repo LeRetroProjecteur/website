@@ -8,8 +8,8 @@ export default function QuartierSelectorToggler({
   toggleOpen: () => void;
 }) {
   return (
-    <div className="flex grow items-center justify-center gap-1 border border-retro-gray lg:px-12 lg:py-2">
-      <div className="font-medium uppercase leading-7 lg:text-xl lg:leading-6">
+    <div className="flex grow items-center justify-center border  lg:px-12 lg:py-2">
+      <div className="pr-1 font-medium uppercase leading-7 lg:text-xl lg:leading-6">
         par quartiers
       </div>{" "}
       <div className="flex cursor-pointer items-center" onClick={toggleOpen}>
