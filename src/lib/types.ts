@@ -60,3 +60,7 @@ export interface MovieDetail {
   review?: string;
   review_date?: string;
 }
+
+export interface MovieDetailWithImage extends MovieDetail {
+  image_file?: string;
+}

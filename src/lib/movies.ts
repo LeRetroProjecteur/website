@@ -6,7 +6,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { keyBy, uniq } from "lodash-es";
+import { keyBy, omit, uniq } from "lodash-es";
 import { unstable_cache } from "next/cache";
 import "server-only";
 
@@ -16,6 +16,7 @@ import { getFirebase } from "./firebase";
 import {
   Movie,
   MovieDetail,
+  MovieDetailWithImage,
   MovieWithShowtimesByDay,
   Review,
   SearchMovie,
@@ -113,7 +114,7 @@ export const getMovie = unstable_cache(
     const querySnapshot = await getDocs(q);
     const data_aux: MovieDetail[] = [];
     querySnapshot.forEach((doc) => {
-      data_aux.push(doc.data() as MovieDetail);
+      data_aux.push(omit(doc.data() as MovieDetailWithImage, "image_file"));
     });
     return data_aux[0];
   },
