@@ -65,7 +65,7 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
 function MovieInfo({ movie }: { movie: MovieDetail }) {
   return (
     <div className="flex flex-col lg:w-1/2 lg:border-r lg:pb-40 lg:pr-5">
-      {movie.image_file && movie.review && (
+      {movie.review && (
         <div className="flex flex-col lg:pb-8">
           <div className="flex pb-4 lg:pl-5">
             <div className="flex grow basis-0">

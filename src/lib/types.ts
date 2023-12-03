@@ -57,7 +57,6 @@ export interface MovieDetail {
   countries: string;
   category?: string;
   genre?: string;
-  image_file?: string;
   review?: string;
   review_date?: string;
 }
