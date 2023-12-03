@@ -1,6 +1,7 @@
 "use client";
 
 import { size, sortBy, toPairs } from "lodash-es";
+import Image from "next/image";
 import { useParams } from "next/navigation";
 import { useMemo } from "react";
 import useSWR from "swr";
@@ -14,6 +15,7 @@ import {
   fetcher,
   floatHourToString,
   formatDDMMYYWithDots,
+  getImageUrl,
   getMovieTags,
   getStartOfDayInParis,
   getStartOfTodayInParis,
@@ -65,18 +67,19 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
 function MovieInfo({ movie }: { movie: MovieDetail }) {
   return (
     <div className="flex flex-col lg:w-1/2 lg:border-r lg:pb-40 lg:pr-5">
-      {movie.image_file && movie.review && (
+      {movie.review && (
         <div className="flex flex-col lg:pb-8">
           <div className="flex pb-4 lg:pl-5">
-            {
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                className="grow"
-                src={`data:image/png;base64,${movie.image_file}`}
+            <div className="flex grow basis-0">
+              <Image
+                width={1200}
+                height={675}
+                className="h-auto w-full"
+                src={getImageUrl(movie)}
                 alt="movie-screenshot"
               />
-            }
-          </div>{" "}
+            </div>
+          </div>
           <div
             className="font-medium leading-6 lg:pl-5"
             dangerouslySetInnerHTML={{ __html: movie.review }}

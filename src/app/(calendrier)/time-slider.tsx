@@ -73,13 +73,12 @@ export default function TimeSlider({
 function Thumb() {
   return (
     <svg
-      width="13"
-      height="13"
+      className="h-[13px] w-[13px] fill-retro-gray"
       viewBox="0 0 13 13"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="6.5" cy="6.5" r="6.5" fill="#6A6A6D" />
+      <circle cx="6.5" cy="6.5" r="6.5" />
     </svg>
   );
 }

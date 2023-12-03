@@ -85,8 +85,7 @@ function MenuLink({
 function CloseIcon() {
   return (
     <svg
-      width="28"
-      height="29"
+      className="h-[29px] w-[28px] stroke-retro-gray"
       viewBox="0 0 28 29"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -96,7 +95,6 @@ function CloseIcon() {
         y1="27.2216"
         x2="27.2929"
         y2="1.2216"
-        stroke="#6A6A6D"
         strokeWidth="2"
       />
       <line
@@ -104,7 +102,6 @@ function CloseIcon() {
         y1="27.7071"
         x2="1.29289"
         y2="1.70711"
-        stroke="#6A6A6D"
         strokeWidth="2"
       />
     </svg>
