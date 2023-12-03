@@ -1,20 +1,16 @@
 "use client";
 
-import { capitalize, size, sortBy, toPairs } from "lodash-es";
-import { useParams } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import {capitalize, size, sortBy, toPairs} from "lodash-es";
+import {useParams} from "next/navigation";
+import {useEffect, useMemo, useState} from "react";
 
-import { format, isAfter, isEqual, startOfDay } from "date-fns";
-import { utcToZonedTime } from "date-fns-tz";
-import { fr } from "date-fns/locale";
+import {format, isAfter, isEqual, startOfDay} from "date-fns";
+import {utcToZonedTime} from "date-fns-tz";
+import {fr} from "date-fns/locale";
 
 import SetTitle from "@/app/details/[movieId]/set-title";
-import { MovieDetail } from "@/lib/types";
-import {
-  checkNotNull,
-  floatHourToString,
-  getStartOfDayInParis,
-} from "@/lib/util";
+import {MovieDetail} from "@/lib/types";
+import {checkNotNull, floatHourToString, getImageUrl, getStartOfDayInParis,} from "@/lib/util";
 
 export default function Details() {
   const { movieId } = useParams();
@@ -65,9 +61,8 @@ export default function Details() {
         <span id="review_box">
           <div className="moviebox">
             {movie.image_file != null ? (
-              // eslint-disable-next-line @next/next/no-img-element
               <img
-                src={`data:image/png;base64,${movie.image_file}`}
+                src={getImageUrl(movie)}
                 alt="movie-screenshot"
               />
             ) : null}
