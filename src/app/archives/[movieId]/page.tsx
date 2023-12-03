@@ -11,10 +11,12 @@ import { isAfter, isEqual } from "date-fns";
 import PageHeader from "@/components/layout/page-header";
 import { MovieDetail, ShowtimesTheater } from "@/lib/types";
 import {
+  TAG_MAP,
   fetcher,
   floatHourToString,
   formatDDMMYYWithDots,
   getImageUrl,
+  getMovieTags,
   getStartOfDayInParis,
   getStartOfTodayInParis,
   safeDate,
@@ -91,6 +93,7 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
           ? "Durée inconnue"
           : `Durée ${Math.floor(parseInt(movie.duration) / 60)} minutes`}
       </div>
+      <Tags movie={movie} />
     </div>
   );
 }
@@ -205,5 +208,24 @@ function ThreeScreenings({ showtimes }: { showtimes: number[] }) {
         </div>
       ))}
     </div>
+  );
+}
+
+function Tags({ movie }: { movie: MovieDetail }) {
+  const tags = useMemo(() => getMovieTags(movie), [movie]);
+
+  return (
+    tags.length > 0 && (
+      <div className="flex-rap flex gap-x-2 gap-y-2 pl-5 pt-4 lg:pl-6">
+        {tags.map((tag) => (
+          <div
+            key={tag}
+            className="rounded-2xl bg-retro-gray p-2 text-lg/4 font-medium uppercase text-white"
+          >
+            {TAG_MAP[tag]}
+          </div>
+        ))}
+      </div>
+    )
   );
 }
