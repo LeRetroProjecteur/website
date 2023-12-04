@@ -3,7 +3,7 @@ import FooterLinks from "./footer-links";
 export default function Footer() {
   return (
     <div className="flex grow flex-col gap-3 border-t  pt-3 lg:h-[141px] lg:pt-2">
-      <div className="flex flex-col gap-7 text-xl font-medium uppercase leading-6 text-retro-gray lg:grow lg:justify-between">
+      <div className="flex flex-col gap-7 text-xl lg:text-lg font-medium uppercase leading-6 text-retro-gray lg:grow lg:justify-between">
         <div className="text-center lg:text-left">
           Un problème sur le site ? Signalez-le nous{" "}
           <a href="mailto:contact@leretroprojecteur.com" className="underline">
@@ -13,7 +13,11 @@ export default function Footer() {
         </div>
         <div className="text-center lg:text-left">
           Design graphique par{" "}
-          <a href="https://clairemalot.com/" className="underline">
+          <a
+            href="https://clairemalot.com/"
+            className="underline"
+            target="_blank"
+          >
             claire malot
           </a>
           <br />

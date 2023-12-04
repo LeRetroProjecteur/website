@@ -9,7 +9,7 @@ import RetroInput from "@/components/forms/retro-input";
 import PageHeader from "@/components/layout/page-header";
 import { Review } from "@/lib/types";
 import {
-  formatDDMMYYWithDots,
+  formatDDMMYYWithSlashes,
   getImageUrl,
   movie_info_containsFilteringTerm,
   safeDate,
@@ -105,6 +105,9 @@ function ReviewThumbnails({ reviews }: { reviews: Review[] }) {
       {reviews.map((review) => (
         <ReviewThumbnail review={review} key={review.id} />
       ))}
+      {[...Array(reviews.length % 3)].map((_, i) => (
+        <div className="min-w-[340px] grow basis-0" key={i} />
+      ))}
     </div>
   );
 }
@@ -112,8 +115,8 @@ function ReviewThumbnails({ reviews }: { reviews: Review[] }) {
 function ReviewThumbnail({ review }: { review: Review }) {
   return (
     <div className="min-w-[340px] grow basis-0">
-      <div className="flex flex-col gap-3">
-        <Link href={`/archives/${review.id}`}>
+      <Link href={`/archives/${review.id}`}>
+        <div className="flex flex-col gap-3">
           <Image
             className="h-auto w-full"
             width={1200}
@@ -126,10 +129,10 @@ function ReviewThumbnail({ review }: { review: Review }) {
               <u className="underline">{review.title}</u> ({review.year}),{" "}
               {review.directors}
             </div>
-            <div>{formatDDMMYYWithDots(safeDate(review.review_date))}</div>
+            <div>{formatDDMMYYWithSlashes(safeDate(review.review_date))}</div>
           </div>
-        </Link>
-      </div>
+        </div>
+      </Link>
     </div>
   );
 }
@@ -149,21 +152,21 @@ function ReviewList({ reviews }: { reviews: Review[] }) {
 
 function ReviewRow({ review }: { review: Review }) {
   return (
-    <div key={review.id} className="group flex">
-      <div className="flex border-r  pr-2 lg:pr-5">
-        <div className="w-[80px] grow gap-1 border-b  px-1 py-2 font-medium text-retro-black group-first:border-t group-odd:bg-retro-green lg:w-[88px] lg:px-3 lg:py-4 lg:text-lg/6 lg:group-odd:bg-white">
-          {formatDDMMYYWithDots(safeDate(review.review_date))}
+    <Link href={`/archives/${review.id}`}>
+      <div key={review.id} className="group flex">
+        <div className="flex border-r  pr-2 lg:pr-5">
+          <div className="w-[80px] grow gap-1 border-b  px-1 py-2 font-medium text-retro-black group-first:border-t group-odd:bg-retro-green lg:w-[88px] lg:px-3 lg:py-4 lg:text-lg/6 lg:group-odd:bg-white">
+            {formatDDMMYYWithSlashes(safeDate(review.review_date))}
+          </div>
+        </div>
+        <div className="flex grow  pl-2 lg:pl-5">
+          <div className="grow border-b  px-1 py-2 font-medium uppercase text-retro-black group-first:border-t group-odd:bg-retro-green lg:px-3 lg:py-4 lg:text-lg/6 lg:group-odd:bg-white">
+            <u className="underline">{review.title}</u> ({review.year}),{" "}
+            {review.directors}
+          </div>
         </div>
       </div>
-      <div className="flex grow  pl-2 lg:pl-5">
-        <div className="grow border-b  px-1 py-2 font-medium uppercase text-retro-black group-first:border-t group-odd:bg-retro-green lg:px-3 lg:py-4 lg:text-lg/6 lg:group-odd:bg-white">
-          <Link href={`/archives/${review.id}`} className="underline">
-            {review.title}
-          </Link>{" "}
-          ({review.year}), {review.directors}
-        </div>
-      </div>
-    </div>
+    </Link>
   );
 }
 

@@ -8,11 +8,14 @@ export default function QuartierSelectorToggler({
   toggleOpen: () => void;
 }) {
   return (
-    <div className="flex grow items-center justify-center border  lg:px-12 lg:py-2">
+    <div
+      className="flex grow items-center justify-center border  lg:px-12 lg:py-2 cursor-pointer"
+      onClick={toggleOpen}
+    >
       <div className="pr-1 font-medium uppercase leading-7 lg:text-xl lg:leading-6">
         par quartiers
       </div>{" "}
-      <div className="flex cursor-pointer items-center" onClick={toggleOpen}>
+      <div className="flex items-center">
         {isOpen ? <ArrowUp /> : <ArrowDown />}
       </div>
     </div>
@@ -47,10 +50,10 @@ function ArrowUp() {
 function ArrowDown() {
   return (
     <svg
-      viewBox="0 0 14 11"
+      viewBox="0 0 14 10"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="h-[14px] w-[11px] stroke-retro-black lg:h-[19px] lg:w-[14.9px]"
+      className="h-[14px] w-[10px] stroke-retro-black lg:h-[19px] lg:w-[13.6px]"
     >
       <line
         y1="-0.75"

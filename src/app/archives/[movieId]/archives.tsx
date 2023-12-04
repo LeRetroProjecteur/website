@@ -11,7 +11,7 @@ import { MovieDetail, ShowtimesTheater } from "@/lib/types";
 import {
   TAG_MAP,
   floatHourToString,
-  formatDDMMYYWithDots,
+  formatDDMMYYWithSlashes,
   getImageUrl,
   getMovieTags,
   getStartOfDayInParis,
@@ -153,7 +153,7 @@ function DateScreenings({
   return (
     <div className="flex border-b py-4 font-medium leading-4">
       <div className="shrink-0 pr-3">
-        {formatDDMMYYWithDots(safeDate(date))}
+        {formatDDMMYYWithSlashes(safeDate(date))}
       </div>
       <div className="flex grow flex-col gap-2">
         {theaters.map((theater) => (
