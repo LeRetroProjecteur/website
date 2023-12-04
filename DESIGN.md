@@ -62,11 +62,7 @@
 
 - [x] Augmenter taille de typo de tout le sélecteur horaire (même taille que “par quartiers” etc)
 
-- [ ] Si possible fluidifier le glissement des poignées
-
-## SÉLECTEUR JOUR
-
-- [ ] comment fluidifier le passage d’un jour à l’autre ? à voir ensemble
+- [x] Si possible fluidifier le glissement des poignées
 
 ## BOUTON “PAR QUARTIERS”
 
@@ -96,7 +92,7 @@
 
 # PAGE COUPS DE COEUR - MENU des coups de coeurs (desktop)
 
-- [ ] Est-ce qu’on ne ferait pas au final un système de page ? Je trouve ça très lourd au vu de la quantité de films
+- [ ] ~~Est-ce qu’on ne ferait pas au final un système de page ? Je trouve ça très lourd au vu de la quantité de films~~
 
 - [x] Mauvais format de date : on avait changé pour JJ/MM/AA
 
