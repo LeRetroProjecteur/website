@@ -20,7 +20,7 @@ export default function TimeSlider({
   };
 
   return (
-    <div className="flex flex-col grow justify-between pt-3 lg:pt-7 lg:text-xl">
+    <div className="flex grow flex-col justify-between pt-3 lg:pt-7 lg:text-xl">
       <div className="flex">
         <div className="pb-3 font-medium uppercase">Horaires :&nbsp;</div>
         <div className="flex grow justify-between">
@@ -36,8 +36,8 @@ export default function TimeSlider({
           )}h`}</div>
         </div>
       </div>
-      <div className="flex relative">
-        <div className="absolute flex grow border-t w-full bottom-0" />
+      <div className="relative flex">
+        <div className="absolute bottom-0 flex w-full grow border-t" />
         <div className="flex grow px-2">
           <ReactSlider
             className="grow"

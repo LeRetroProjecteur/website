@@ -23,7 +23,7 @@ export default function Menu() {
   }, [oldPathName, pathName]);
 
   return (
-    <div className="flex grow flex-col gap-5 pb-7 lg:pb-0 lg:justify-between lg:border-r">
+    <div className="flex grow flex-col gap-5 pb-7 lg:justify-between lg:border-r lg:pb-0">
       <div className="flex grow flex-col lg:grow-0 lg:pr-5">
         <div className="flex justify-center pb-3 pt-12 lg:hidden">
           <div className="cursor-pointer" onClick={closeMenu}>
