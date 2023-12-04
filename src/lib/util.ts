@@ -1,9 +1,15 @@
-import {every, padStart, some} from "lodash-es";
+import { every, padStart, some } from "lodash-es";
 
-import {addDays, addWeeks, isSameDay, startOfDay, startOfISOWeek,} from "date-fns";
-import {utcToZonedTime} from "date-fns-tz";
+import {
+  addDays,
+  addWeeks,
+  isSameDay,
+  startOfDay,
+  startOfISOWeek,
+} from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
 
-import {MovieWithNoShowtimes, MovieWithShowtimesByDay} from "./types";
+import { MovieWithNoShowtimes, MovieWithShowtimesByDay } from "./types";
 
 export function getNextMovieWeek() {
   const today = utcToZonedTime(new Date(), "Europe/Paris");
