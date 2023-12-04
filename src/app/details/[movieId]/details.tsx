@@ -60,12 +60,10 @@ export default function Details() {
       {movie.review != null ? (
         <span id="review_box">
           <div className="moviebox">
-            {movie.image_file != null ? (
-              <img
-                src={getImageUrl(movie)}
-                alt="movie-screenshot"
-              />
-            ) : null}
+            <img
+              src={getImageUrl(movie)}
+              alt="movie-screenshot"
+            />
             <h3 style={{ color: "grey" }}>COUP DE CŒUR</h3>
             <div dangerouslySetInnerHTML={{ __html: movie.review }}></div>
             <div style={{ textAlign: "right" }}>
