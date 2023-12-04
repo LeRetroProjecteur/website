@@ -21,20 +21,27 @@ import {
 import coupDeCoeur from "./coup-de-coeur.png";
 
 export default function MovieTable({
+  serverMovies,
   useCalendrierStore,
 }: {
+  serverMovies: Movie[];
   useCalendrierStore: CalendrierStore;
 }) {
   const date = useCalendrierStore((s) => s.date);
+  const dateChanged = useCalendrierStore((s) => s.dateChanged);
   const minHour = useCalendrierStore((s) => s.minHour);
   const maxHour = useCalendrierStore((s) => s.maxHour);
   const filter = useCalendrierStore((s) => s.filter);
   const quartiers = useCalendrierStore((s) => s.quartiers);
 
-  const { data: movies, isLoading } = useSWR(
-    `/api/movies/by-day/${formatYYYYMMDD(date)}`,
+  const { data: clientMovies } = useSWR<Movie[]>(
+    dateChanged ? `/api/movies/by-day/${formatYYYYMMDD(date)}` : false,
     fetcher,
-    { fallbackData: [] },
+  );
+
+  const movies = useMemo(
+    () => clientMovies ?? serverMovies,
+    [clientMovies, serverMovies],
   );
 
   const minHourFilteringTodaysMissedFilms = useMemo(
@@ -57,9 +64,7 @@ export default function MovieTable({
   return (
     <div className="flex grow flex-col pb-9 lg:pb-6">
       <TableHeader />
-      {sortedFilteredMovies.length == 0 && !isLoading && (
-        <EmptyTableState filter={filter} />
-      )}
+      {sortedFilteredMovies.length == 0 && <EmptyTableState filter={filter} />}
       <MovieRows movies={sortedFilteredMovies} />
       <TableFooter />
     </div>

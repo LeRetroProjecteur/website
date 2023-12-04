@@ -13,6 +13,7 @@ export type CalendrierStore = UseBoundStore<StoreApi<CalendrierState>>;
 
 interface CalendrierState {
   date: Date;
+  dateChanged: boolean;
   minHour: number;
   maxHour: number;
   filter: string;
@@ -27,13 +28,14 @@ interface CalendrierState {
 export function useUseCalendrierStore() {
   return create<CalendrierState>()((set, get) => ({
     date: getStartOfTodayInParis(),
+    dateChanged: false,
     minHour: 0,
     maxHour: 24,
     filter: "",
     quartiers: [Quartier.RG, Quartier.RD, Quartier.EM],
     movies: [],
     setDate: (date: Date) => {
-      set({ date, minHour: 0, maxHour: 24 });
+      set({ date, minHour: 0, maxHour: 24, dateChanged: true });
     },
     setMinHour: (minHour: number) => set({ minHour }),
     setMaxHour: (maxHour: number) => set({ maxHour }),
