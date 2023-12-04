@@ -34,6 +34,7 @@ export default function RecherchePage() {
               </div>
             </span>
 
+            <br/>
             <div className="font-medium leading-6 lg:pl-5"
             dangerouslySetInnerHTML={{ __html: "<p>Le Rétro Projecteur est un site de cinéma de patrimoine à Paris. Nous vous proposons une sélection de films à voir dans les salles de cinéma parisiennes, ainsi que des critiques et des analyses de films.</p>" }}>
             </div>
