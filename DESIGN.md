@@ -1,6 +1,6 @@
 # ARCHIVEs
 
-- [ ] Il manque le navigateur en bas : “Critique précédente”, “Critique suivante, “Retours aux coups de coeur” (screen 1)
+- [x] Il manque le navigateur en bas : “Critique précédente”, “Critique suivante, “Retours aux coups de coeur” (screen 1)
 
 ## Titre
 
