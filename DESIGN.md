@@ -1,3 +1,8 @@
+# MISC
+
+- [ ] le titre & le sous-titre en haut de page est fixé
+- [ ] même largeurs de bouton pour “Par Quartier”/“Rive gauche”/Rive droite/Extramuros
+
 # MENU - DESKTOP
 
 - [x] Fixer en bas la partie du Menu Newsletter/Insta/Twitter (= pas de scroll)

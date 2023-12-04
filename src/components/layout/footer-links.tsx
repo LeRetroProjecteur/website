@@ -7,11 +7,12 @@ export default function FooterLinks({
   bigLineHeight,
 }: {
   color: "gray" | "black";
+  newsletterGreen?: boolean;
   bigLineHeight: boolean;
 }) {
   return (
     <div className="flex grow flex-col gap-y-3">
-      <LinkBox color={color} bigLineHeight={bigLineHeight}>
+      <LinkBox color={color} bigLineHeight={bigLineHeight} bgGreen>
         <Link href="/newsletter">newsletter</Link>
       </LinkBox>
       <LinkBox color={color} bigLineHeight={bigLineHeight}>
@@ -32,13 +33,19 @@ function LinkBox({
   children,
   bigLineHeight,
   color,
+  bgGreen,
 }: {
   children: ReactNode;
   bigLineHeight: boolean;
   color: "gray" | "black";
+  bgGreen?: boolean;
 }) {
   return (
-    <div className="flex justify-center border ">
+    <div
+      className={clsx("flex justify-center border", {
+        "bg-retro-green": bgGreen ?? false,
+      })}
+    >
       <div
         className={clsx(
           "grow whitespace-break-spaces text-center text-xl font-medium uppercase  leading-10 lg:text-xl",

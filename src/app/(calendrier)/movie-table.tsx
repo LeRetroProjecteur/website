@@ -99,7 +99,7 @@ function MovieRows({ movies }: { movies: Movie[] }) {
     <Row
       key={movie.id}
       rowClassName="group"
-      cellClassName="font-medium leading-4 lg:leading-5 group-odd:bg-retro-green group-odd:lg:bg-white py-4 px-1 lg:px-2"
+      cellClassName="font-medium leading-4 lg:leading-5 group-odd:bg-retro-green group-odd:lg:bg-white py-4 px-1 lg:px-2 lg:group-hover:bg-retro-pale-green"
       leftCol={<MovieCell movie={movie} />}
       rightCol={<Seances movie={movie} />}
     />
