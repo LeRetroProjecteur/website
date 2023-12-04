@@ -3,7 +3,7 @@ import FooterLinks from "./footer-links";
 export default function Footer() {
   return (
     <div className="flex grow flex-col gap-3 border-t  pt-3 lg:h-[141px] lg:pt-2">
-      <div className="flex flex-col gap-7 text-xl lg:text-lg font-medium uppercase leading-6 text-retro-gray lg:grow lg:justify-between">
+      <div className="flex flex-col gap-7 text-xl font-medium uppercase leading-6 text-retro-gray lg:grow lg:justify-between lg:text-lg">
         <div className="text-center lg:text-left">
           Un problème sur le site ? Signalez-le nous{" "}
           <a href="mailto:contact@leretroprojecteur.com" className="underline">

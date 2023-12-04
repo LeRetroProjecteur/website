@@ -40,7 +40,7 @@ export default function Menu() {
         </div>
         <div className="flex">
           <Link href="/">
-            <Image src={logoCarre} alt="logo" className="w-[206px] h-auto" />
+            <Image src={logoCarre} alt="logo" className="h-auto w-[206px]" />
           </Link>
         </div>
         <MenuLink>le rétro projecteur</MenuLink>
@@ -67,7 +67,7 @@ function MenuLink({ children, path }: { children: ReactNode; path?: string }) {
         "bg-retro-green": path === route,
       })}
     >
-      <div className="grow whitespace-break-spaces text-center font-degular text-5xl/8 font-extrabold uppercase text-retro-gray lg:text-4xl/7 w-min">
+      <div className="w-min grow whitespace-break-spaces text-center font-degular text-5xl/8 font-extrabold uppercase text-retro-gray lg:text-4xl/7">
         {children}
       </div>
     </div>
