@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ReactNode, useCallback, useMemo, useState } from "react";
 import useSWR from "swr";
 
-import { CalendrierStore, Quartier } from "@/lib/calendrier-store";
+import { Quartier, useCalendrierStore } from "@/lib/calendrier-store";
 import { Movie, ShowtimesTheater } from "@/lib/types";
 import {
   fetcher,
@@ -22,10 +22,8 @@ import coupDeCoeur from "./coup-de-coeur.png";
 
 export default function MovieTable({
   serverMovies,
-  useCalendrierStore,
 }: {
   serverMovies: Movie[];
-  useCalendrierStore: CalendrierStore;
 }) {
   const date = useCalendrierStore((s) => s.date);
   const dateChanged = useCalendrierStore((s) => s.dateChanged);

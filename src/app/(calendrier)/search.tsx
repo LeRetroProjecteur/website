@@ -1,11 +1,7 @@
 import RetroInput from "@/components/forms/retro-input";
-import { CalendrierStore } from "@/lib/calendrier-store";
+import { useCalendrierStore } from "@/lib/calendrier-store";
 
-export default function Search({
-  useCalendrierStore,
-}: {
-  useCalendrierStore: CalendrierStore;
-}) {
+export default function Search() {
   const filter = useCalendrierStore((s) => s.filter);
   const setFilter = useCalendrierStore((s) => s.setFilter);
 

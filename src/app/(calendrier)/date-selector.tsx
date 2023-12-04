@@ -4,31 +4,23 @@ import { useCallback } from "react";
 
 import { addDays, subDays } from "date-fns";
 
-import { CalendrierStore } from "@/lib/calendrier-store";
+import { useCalendrierStore } from "@/lib/calendrier-store";
 import { formatLundi1Janvier } from "@/lib/util";
 
-export default function DateSelector({
-  useCalendrierStore,
-}: {
-  useCalendrierStore: CalendrierStore;
-}) {
+export default function DateSelector() {
   const date = useCalendrierStore((s) => s.date);
   return (
     <div className="flex grow items-center justify-center lg:border-y lg:bg-retro-green lg:py-4">
-      <LeftArrow useCalendrierStore={useCalendrierStore} />
+      <LeftArrow />
       <div className="px-2 text-xl/6 font-semibold uppercase text-retro-gray lg:text-3xl/6">
         {formatLundi1Janvier(date)}
       </div>
-      <RightArrow useCalendrierStore={useCalendrierStore} />
+      <RightArrow />
     </div>
   );
 }
 
-function LeftArrow({
-  useCalendrierStore,
-}: {
-  useCalendrierStore: CalendrierStore;
-}) {
+function LeftArrow() {
   const date = useCalendrierStore((s) => s.date);
   const setDate = useCalendrierStore((s) => s.setDate);
 
@@ -65,11 +57,7 @@ function LeftArrow({
   );
 }
 
-function RightArrow({
-  useCalendrierStore,
-}: {
-  useCalendrierStore: CalendrierStore;
-}) {
+function RightArrow() {
   const date = useCalendrierStore((s) => s.date);
   const setDate = useCalendrierStore((s) => s.setDate);
 

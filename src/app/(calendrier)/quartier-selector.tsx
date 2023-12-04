@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import { useCallback, useMemo } from "react";
 
-import { CalendrierStore, Quartier } from "@/lib/calendrier-store";
+import { Quartier, useCalendrierStore } from "@/lib/calendrier-store";
 
 const QUARTIERS: [string, Quartier][] = [
   ["rive gauche", Quartier.RG],
@@ -11,11 +11,7 @@ const QUARTIERS: [string, Quartier][] = [
   ["extramuros", Quartier.EM],
 ];
 
-export default function QuartierSelector({
-  useCalendrierStore,
-}: {
-  useCalendrierStore: CalendrierStore;
-}) {
+export default function QuartierSelector() {
   return (
     <div className="flex grow flex-wrap gap-x-4 gap-y-2">
       {QUARTIERS.map(([quartierName, quartier]) => (
@@ -23,7 +19,6 @@ export default function QuartierSelector({
           key={quartier}
           quartierName={quartierName}
           quartier={quartier}
-          useCalendrierStore={useCalendrierStore}
         />
       ))}
     </div>
@@ -33,11 +28,9 @@ export default function QuartierSelector({
 function QuartierToggler({
   quartierName,
   quartier,
-  useCalendrierStore,
 }: {
   quartierName: string;
   quartier: Quartier;
-  useCalendrierStore: CalendrierStore;
 }) {
   const quartiers = useCalendrierStore((s) => s.quartiers);
   const toggleQuartier = useCalendrierStore((s) => s.toggleQuartier);

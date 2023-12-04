@@ -5,8 +5,9 @@ import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ReactNode, useEffect } from "react";
+import { MouseEvent, ReactNode, useCallback, useEffect } from "react";
 
+import { useCalendrierStore } from "@/lib/calendrier-store";
 import { closeMenu } from "@/lib/menu-store";
 
 import logoCarre from "../../assets/logo-carre.png";
@@ -37,6 +38,21 @@ export default function Menu() {
     }
   }, [oldPathName, pathName]);
 
+  const closeMenuIfOnSamePathname = useCallback(
+    (e: MouseEvent<HTMLAnchorElement>) => {
+      if ((e.target as HTMLAnchorElement).href.endsWith(pathName)) {
+        useCalendrierStore.getState().reset();
+        closeMenu();
+      }
+    },
+    [pathName],
+  );
+
+  const onClickLogo = useCallback(() => {
+    useCalendrierStore.getState().reset();
+    closeMenu();
+  }, []);
+
   return (
     <div className="flex grow flex-col gap-5 pb-7 lg:justify-between lg:border-r lg:pb-0">
       <div className="flex grow flex-col lg:grow-0 lg:pr-5">
@@ -46,7 +62,7 @@ export default function Menu() {
           </div>
         </div>
         <div className="flex justify-center">
-          <Link href="/">
+          <Link href="/" onClick={onClickLogo}>
             <Image
               src={logoCarre}
               alt="logo"
@@ -62,7 +78,9 @@ export default function Menu() {
         <div className="flex flex-col">
           {menu.map(([section, path]) => (
             <MenuLink key={path} path={path}>
-              <Link href={path}>{section}</Link>
+              <Link href={path} onClick={closeMenuIfOnSamePathname}>
+                {section}
+              </Link>
             </MenuLink>
           ))}
         </div>
