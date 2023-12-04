@@ -1,15 +1,15 @@
 "use client";
 
-import {sortBy} from "lodash-es";
+import { sortBy } from "lodash-es";
 import Link from "next/link";
-import {useSearchParams} from "next/navigation";
-import {useEffect, useMemo, useState} from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 
-import {format} from "date-fns";
-import {fr} from "date-fns/locale";
+import { format } from "date-fns";
+import { fr } from "date-fns/locale";
 
-import {Review} from "@/lib/types";
-import {safeDate} from "@/lib/util";
+import { Review } from "@/lib/types";
+import { safeDate } from "@/lib/util";
 
 export default function Coeur() {
   const _ = useSearchParams();

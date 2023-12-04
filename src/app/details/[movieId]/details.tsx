@@ -1,16 +1,22 @@
 "use client";
 
-import {capitalize, size, sortBy, toPairs} from "lodash-es";
-import {useParams} from "next/navigation";
-import {useEffect, useMemo, useState} from "react";
+import { capitalize, size, sortBy, toPairs } from "lodash-es";
+import Image from "next/image";
+import { useParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
 
-import {format, isAfter, isEqual, startOfDay} from "date-fns";
-import {utcToZonedTime} from "date-fns-tz";
-import {fr} from "date-fns/locale";
+import { format, isAfter, isEqual, startOfDay } from "date-fns";
+import { utcToZonedTime } from "date-fns-tz";
+import { fr } from "date-fns/locale";
 
 import SetTitle from "@/app/details/[movieId]/set-title";
-import {MovieDetail} from "@/lib/types";
-import {checkNotNull, floatHourToString, getImageUrl, getStartOfDayInParis,} from "@/lib/util";
+import { MovieDetail } from "@/lib/types";
+import {
+  checkNotNull,
+  floatHourToString,
+  getImageUrl,
+  getStartOfDayInParis,
+} from "@/lib/util";
 
 export default function Details() {
   const { movieId } = useParams();
@@ -60,9 +66,12 @@ export default function Details() {
       {movie.review != null ? (
         <span id="review_box">
           <div className="moviebox">
-            <img
+            <Image
               src={getImageUrl(movie)}
               alt="movie-screenshot"
+              width={1200}
+              height={675}
+              style={{ width: "100%", height: "auto" }}
             />
             <h3 style={{ color: "grey" }}>COUP DE CŒUR</h3>
             <div dangerouslySetInnerHTML={{ __html: movie.review }}></div>
