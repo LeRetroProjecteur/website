@@ -1,32 +1,140 @@
 "use client";
 
-import { size, sortBy, toPairs } from "lodash-es";
+import { maxBy, minBy, size, sortBy, toPairs } from "lodash-es";
 import Image from "next/image";
+import Link from "next/link";
 import { useMemo } from "react";
 
-import { isAfter, isEqual } from "date-fns";
+import { isAfter, isEqual, isSameDay } from "date-fns";
 
+import { LeftArrow, RightArrow } from "@/components/icons/arrows";
 import PageHeader from "@/components/layout/page-header";
-import { MovieDetail, ShowtimesTheater } from "@/lib/types";
+import { MovieDetail, Review, ShowtimesTheater } from "@/lib/types";
 import {
   TAG_MAP,
+  checkNotNull,
   floatHourToString,
   formatDDMMYYWithSlashes,
   getImageUrl,
   getMovieTags,
+  getReviewSortKey,
   getStartOfDayInParis,
   getStartOfTodayInParis,
   safeDate,
   splitIntoSubArrays,
 } from "@/lib/util";
 
-export default function Archives({ movie }: { movie: MovieDetail }) {
+export default function Archives({
+  movie,
+  reviewedMovies,
+}: {
+  movie: MovieDetail;
+  reviewedMovies: Review[];
+}) {
+  const isCoupDeCoeur = useMemo(() => movie.review_date !== null, [movie]);
+
+  const previousReview = useMemo(
+    () =>
+      movie.review_date != null
+        ? maxBy(
+            reviewedMovies.filter(
+              (review) =>
+                safeDate(review.review_date) <
+                  safeDate(checkNotNull(movie.review_date)) ||
+                (isSameDay(
+                  safeDate(review.review_date),
+                  safeDate(checkNotNull(movie.review_date)),
+                ) &&
+                  review.id < movie.id),
+            ),
+            getReviewSortKey,
+          )
+        : undefined,
+    [movie, reviewedMovies],
+  );
+  const nextReview = useMemo(
+    () =>
+      movie.review_date != null
+        ? minBy(
+            reviewedMovies.filter(
+              (review) =>
+                safeDate(review.review_date) >
+                  safeDate(checkNotNull(movie.review_date)) ||
+                (isSameDay(
+                  safeDate(review.review_date),
+                  safeDate(checkNotNull(movie.review_date)),
+                ) &&
+                  review.id > movie.id),
+            ),
+            getReviewSortKey,
+          )
+        : undefined,
+    [movie, reviewedMovies],
+  );
+
   return (
     <div className="mb-8 flex grow flex-col">
       <div className="flex pb-4">
-        <PageHeader text="archives" />
+        <PageHeader text={isCoupDeCoeur ? "coup de coeur" : "archives"} />
       </div>
-      {movie != null && <Movie movie={movie} />}
+      <Movie movie={movie} />
+      {isCoupDeCoeur && (
+        <ReviewsNav previousReview={previousReview} nextReview={nextReview} />
+      )}
+    </div>
+  );
+}
+
+function ReviewsNav({
+  previousReview,
+  nextReview,
+}: {
+  previousReview?: Review;
+  nextReview?: Review;
+}) {
+  return (
+    <div className="flex flex-col lg:pl-4">
+      <div className="flex justify-between pb-4">
+        {previousReview ? (
+          <Link
+            href={`/archives/${previousReview.id}`}
+            className="flex items-center"
+          >
+            <LeftArrow small />
+            &nbsp;
+            <div className="text-xl font-medium uppercase leading-none text-retro-gray lg:hidden">
+              précédent
+            </div>
+            <div className="hidden text-xl font-medium uppercase leading-none text-retro-gray lg:block">
+              critique précédente
+            </div>
+          </Link>
+        ) : (
+          <div />
+        )}
+        {nextReview ? (
+          <Link
+            href={`/archives/${nextReview.id}`}
+            className="flex items-center"
+          >
+            <div className="text-xl font-medium uppercase leading-none text-retro-gray lg:hidden">
+              suivant
+            </div>
+            <div className="hidden text-xl font-medium uppercase leading-none text-retro-gray lg:block">
+              critique suivante
+            </div>
+            &nbsp;
+            <RightArrow small />
+          </Link>
+        ) : (
+          <div />
+        )}
+      </div>
+      <Link href="/coeur">
+        <div className="border bg-retro-pale-green py-2 text-center text-xl/6 font-medium uppercase text-retro-gray">
+          retour aux coups de coeur
+        </div>
+      </Link>
     </div>
   );
 }
