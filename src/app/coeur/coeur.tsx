@@ -1,6 +1,6 @@
 "use client";
 
-import { sortBy } from "lodash-es";
+import { orderBy } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
@@ -11,6 +11,7 @@ import { Review } from "@/lib/types";
 import {
   formatDDMMYYWithSlashes,
   getImageUrl,
+  getReviewSortKey,
   movie_info_containsFilteringTerm,
   safeDate,
 } from "@/lib/util";
@@ -23,11 +24,7 @@ export default function CoupsDeCoeur({
   const [filter, setFilter] = useState("");
 
   const reviews = useMemo(
-    () =>
-      sortBy(
-        fetchedReviews,
-        (review) => -safeDate(review.review_date).valueOf(),
-      ),
+    () => orderBy(fetchedReviews, getReviewSortKey, "desc"),
     [fetchedReviews],
   );
 
@@ -177,14 +174,14 @@ function ListIcon() {
       className="h-[22px] w-[29px] stroke-retro-gray lg:h-[25px] lg:w-[34px]"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <line x1="8" y1="1" x2="34" y2="1" stroke-width="2" />
-      <line x1="8" y1="9" x2="34" y2="9" stroke-width="2" />
-      <line x1="8" y1="16" x2="34" y2="16" stroke-width="2" />
-      <line x1="8" y1="24" x2="34" y2="24" stroke-width="2" />
-      <line y1="1" x2="4" y2="1" stroke-width="2" />
-      <line y1="9" x2="4" y2="9" stroke-width="2" />
-      <line y1="16" x2="4" y2="16" stroke-width="2" />
-      <line y1="24" x2="4" y2="24" stroke-width="2" />
+      <line x1="8" y1="1" x2="34" y2="1" strokeWidth="2" />
+      <line x1="8" y1="9" x2="34" y2="9" strokeWidth="2" />
+      <line x1="8" y1="16" x2="34" y2="16" strokeWidth="2" />
+      <line x1="8" y1="24" x2="34" y2="24" strokeWidth="2" />
+      <line y1="1" x2="4" y2="1" strokeWidth="2" />
+      <line y1="9" x2="4" y2="9" strokeWidth="2" />
+      <line y1="16" x2="4" y2="16" strokeWidth="2" />
+      <line y1="24" x2="4" y2="24" strokeWidth="2" />
     </svg>
   );
 }
@@ -199,27 +196,21 @@ function ThumbnailIcon() {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <rect x="1" y="1" width="13.1667" height="13.1667" stroke-width="2" />
-      <rect
-        x="20.833"
-        y="1"
-        width="13.1667"
-        height="13.1667"
-        stroke-width="2"
-      />
+      <rect x="1" y="1" width="13.1667" height="13.1667" strokeWidth="2" />
+      <rect x="20.833" y="1" width="13.1667" height="13.1667" strokeWidth="2" />
       <rect
         x="1"
         y="20.8335"
         width="13.1667"
         height="13.1667"
-        stroke-width="2"
+        strokeWidth="2"
       />
       <rect
         x="20.833"
         y="20.8335"
         width="13.1667"
         height="13.1667"
-        stroke-width="2"
+        strokeWidth="2"
       />
     </svg>
   );

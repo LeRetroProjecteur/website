@@ -166,3 +166,7 @@ export const TAG_MAP: Record<string, string> = {
 export function getImageUrl({ id }: { id: string }) {
   return `https://firebasestorage.googleapis.com/v0/b/website-cine.appspot.com/o/images%2F${id}.jpg?alt=media`;
 }
+
+export function getReviewSortKey(review: Review) {
+  return `${formatYYYYMMDD(safeDate(review.review_date))}-${review.id}`;
+}
