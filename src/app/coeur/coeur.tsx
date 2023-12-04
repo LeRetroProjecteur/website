@@ -152,8 +152,8 @@ function ReviewList({ reviews }: { reviews: Review[] }) {
 
 function ReviewRow({ review }: { review: Review }) {
   return (
-    <Link href={`/archives/${review.id}`}>
-      <div key={review.id} className="group flex">
+    <Link href={`/archives/${review.id}`} className="group">
+      <div key={review.id} className="flex">
         <div className="flex border-r  pr-2 lg:pr-5">
           <div className="w-[80px] grow gap-1 border-b  px-1 py-2 font-medium text-retro-black group-first:border-t group-odd:bg-retro-green lg:w-[88px] lg:px-3 lg:py-4 lg:text-lg/6 lg:group-odd:bg-white">
             {formatDDMMYYWithSlashes(safeDate(review.review_date))}
