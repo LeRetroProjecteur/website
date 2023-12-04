@@ -10,7 +10,7 @@ import { keyBy, omit, uniq } from "lodash-es";
 import { unstable_cache } from "next/cache";
 import "server-only";
 
-import { format, hoursToSeconds } from "date-fns";
+import { format } from "date-fns";
 
 import { getFirebase } from "./firebase";
 import {
@@ -79,7 +79,7 @@ export const getDayMovies = unstable_cache(
     return docs;
   },
   ["day-movies"],
-  { revalidate: hoursToSeconds(1) },
+  { revalidate: 1 },
 );
 
 export const getMovies = unstable_cache(
@@ -90,7 +90,7 @@ export const getMovies = unstable_cache(
     return checkNotNull(querySnapshot.data()).elements as SearchMovie[];
   },
   ["all-movies"],
-  { revalidate: hoursToSeconds(1) },
+  { revalidate: 1 },
 );
 
 export const getReviewedMovies = unstable_cache(
@@ -101,7 +101,7 @@ export const getReviewedMovies = unstable_cache(
     return checkNotNull(querySnapshot.data()).elements as Review[];
   },
   ["reviewed-movies"],
-  { revalidate: hoursToSeconds(1) },
+  { revalidate: 1 },
 );
 
 export const getMovie = unstable_cache(
@@ -114,10 +114,12 @@ export const getMovie = unstable_cache(
     const querySnapshot = await getDocs(q);
     const data_aux: MovieDetail[] = [];
     querySnapshot.forEach((doc) => {
-      data_aux.push(omit(doc.data() as MovieDetailWithImage, "image_file"));
+      data_aux.push({
+        ...omit(doc.data() as MovieDetailWithImage, "image_file"),
+      });
     });
     return data_aux[0];
   },
   ["single-movie"],
-  { revalidate: hoursToSeconds(1) },
+  { revalidate: 1 },
 );
