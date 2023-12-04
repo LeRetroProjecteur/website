@@ -1,3 +1,35 @@
+# ARCHIVEs
+
+- [ ] Il manque le navigateur en bas : “Critique précédente”, “Critique suivante, “Retours aux coups de coeur” (screen 1)
+
+## Titre
+
+- [ ] Pas la bonne graisse (Medium et non semi-bold)
+
+- [ ] Il manque la date dans le titre (calé à droite, format “CRITIQUE DU JJ/MM/AA”)
+
+## Corps de texte
+
+- [ ] INTERLIGNAGE + graisse du corps de texte n’est pas bon - je te donnerai toutes ces infos dans la fiche de style
+
+## INFOS & TAG
+
+- [ ] Infos (durée etc) : pas la bonne graisse
+
+- [ ] Ajouter ” :” après “Durée”
+
+- [ ] Calage du Tag n’est pas bon (plus à gauche)
+
+## PROCHAINES SÉANCES À PARIS
+
+- [ ] Mauvaise graisse (médium et non semi-bold)
+
+- [ ] Centrer le titre
+
+- [ ] Faute à “Séances”
+
+- [ ] Augmenter la marge entre la date et le cinéma (screen 2)
+
 # MISC
 
 - [ ] le titre & le sous-titre en haut de page est fixé

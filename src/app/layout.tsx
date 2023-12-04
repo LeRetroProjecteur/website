@@ -11,24 +11,24 @@ import MenuWrapper from "@/components/menu/menu-wrapper";
 import "./globals.css";
 
 const degular = localFont({
-  src: "../assets/DegularVariable.ttf",
+  src: "../assets/DegularVariable.woff2",
   variable: "--font-degular",
 });
 
 const suisse = localFont({
   src: [
     {
-      path: "../assets/SuisseIntl-Regular.otf",
+      path: "../assets/SuisseIntl-Regular.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../assets/SuisseIntl-Medium.otf",
+      path: "../assets/SuisseIntl-Book.woff2",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../assets/SuisseIntl-SemiBold.otf",
+      path: "../assets/SuisseIntl-Medium.woff2",
       weight: "600",
       style: "normal",
     },
