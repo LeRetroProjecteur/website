@@ -38,7 +38,7 @@ export default function TimeSlider({
       </div>
       <div className="relative flex">
         <div className="absolute bottom-0 flex w-full grow border-t" />
-        <div className="flex grow mx-2 bg-white z-10 h-[2px]">
+        <div className="z-10 mx-2 flex h-[2px] grow bg-white">
           <ReactSlider
             className="grow"
             renderThumb={(props) => (
