@@ -52,7 +52,7 @@
 
 # FOOTER – DESKTOP
 
-- x ] Lien externe (sur Claire Malot par exemple) = ouvrir dans un nouvel onglet. (de manière générale dans tout le site)
+- [x] Lien externe (sur Claire Malot par exemple) = ouvrir dans un nouvel onglet. (de manière générale dans tout le site)
 
 - [x] Typo trop grande + pas la bonne graisse je pense (mettre la Medium, là j’ai l’impression que tu es en Semi-bold) : cf feuille de style (à venir)
 
