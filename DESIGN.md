@@ -32,7 +32,7 @@
 
 # MISC
 
-- [ ] le titre & le sous-titre en haut de page est fixé
+- [x] le titre & le sous-titre en haut de page est fixé
 
 - [x] même largeurs de bouton pour “Par Quartier”/“Rive gauche”/Rive droite/Extramuros
 
