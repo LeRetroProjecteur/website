@@ -84,7 +84,7 @@ function TableHeader() {
 function EmptyTableState({ filter }: { filter: string }) {
   return (
     <Row
-      cellClassName="font-medium lg:leading-5 leading-4 px-1 lg:px-2"
+      cellClassName="font-medium lg:leading-5 leading-4 px-1 lg:px-2 py-4"
       leftCol={
         filter.length > 0
           ? "Aucun film ne correspond à cette recherche aujourd'hui. Essayez demain ?"

@@ -133,8 +133,8 @@ export function formatYYYYMMDD(date: Date) {
   return format(date, "yyyy-MM-dd", { locale: fr });
 }
 
-export function formatDDMMYYWithDots(date: Date) {
-  return format(date, "dd.MM.yy", { locale: fr });
+export function formatDDMMYYWithSlashes(date: Date) {
+  return format(date, "dd/MM/yy", { locale: fr });
 }
 
 export function splitIntoSubArrays<T>(array: T[], subArraySize: number) {

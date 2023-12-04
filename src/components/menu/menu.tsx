@@ -12,6 +12,14 @@ import { closeMenu } from "@/lib/menu-store";
 import logoCarre from "../../assets/logo-carre.png";
 import FooterLinks from "../layout/footer-links";
 
+const menu: [JSX.Element, string][] = [
+  [<>calendrier</>, "/"],
+  [<>chroniques</>, "/chroniques"],
+  [<>coups de coeur</>, "/coeur"],
+  [<>à propos</>, "/a-propos"],
+  [<>recherche</>, "/recherche"],
+];
+
 export default function Menu() {
   const pathName = usePathname();
   const oldPathName = usePrevious(pathName);
@@ -30,21 +38,15 @@ export default function Menu() {
             <CloseIcon />
           </div>
         </div>
-        <div className="flex justify-center">
-          <div className="w-[245px]">
-            <Image src={logoCarre} alt="logo" className="w-full" />
-          </div>
+        <div className="flex">
+          <Link href="/">
+            <Image src={logoCarre} alt="logo" className="h-auto w-[206px]" />
+          </Link>
         </div>
-        <MenuLink largeTopPadding>le rétro projecteur</MenuLink>
+        <MenuLink>le rétro projecteur</MenuLink>
         <div className="flex flex-col">
-          {[
-            ["calendrier", "/"],
-            ["chroniques", "/chroniques"],
-            ["coups de coeur", "/coeur"],
-            ["à propos", "/a-propos"],
-            ["recherche", "/recherche"],
-          ].map(([section, path]) => (
-            <MenuLink key={section} path={path}>
+          {menu.map(([section, path]) => (
+            <MenuLink key={path} path={path}>
               <Link href={path}>{section}</Link>
             </MenuLink>
           ))}
@@ -57,25 +59,15 @@ export default function Menu() {
   );
 }
 
-function MenuLink({
-  children,
-  path,
-  largeTopPadding,
-}: {
-  children: ReactNode;
-  path?: string;
-  largeTopPadding?: boolean;
-}) {
+function MenuLink({ children, path }: { children: ReactNode; path?: string }) {
   const route = usePathname();
   return (
     <div
-      className={clsx("flex justify-center border-b ", {
+      className={clsx("flex justify-center border-b py-4 lg:py-3", {
         "bg-retro-green": path === route,
-        "py-4 lg:py-3": !(largeTopPadding ?? false),
-        "py-5 lg:py-4": largeTopPadding ?? false,
       })}
     >
-      <div className="grow whitespace-break-spaces text-center font-degular text-5xl/8 font-extrabold uppercase text-retro-gray lg:text-4xl/7">
+      <div className="w-min grow whitespace-break-spaces text-center font-degular text-5xl/8 font-extrabold uppercase text-retro-gray lg:text-4xl/7">
         {children}
       </div>
     </div>

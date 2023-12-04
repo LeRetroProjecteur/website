@@ -15,10 +15,14 @@ export default function FooterLinks({
         <Link href="/newsletter">newsletter</Link>
       </LinkBox>
       <LinkBox color={color} bigLineHeight={bigLineHeight}>
-        <a href="https://www.instagram.com/leretroprojecteur">instagram</a>
+        <a href="https://www.instagram.com/leretroprojecteur" target="_blank">
+          instagram
+        </a>
       </LinkBox>
       <LinkBox color={color} bigLineHeight={bigLineHeight}>
-        <a href="https://twitter.com/RetroProjecteur">twitter</a>
+        <a href="https://twitter.com/RetroProjecteur" target="_blank">
+          twitter
+        </a>
       </LinkBox>
     </div>
   );
