@@ -10,6 +10,7 @@ import PageHeader from "@/components/layout/page-header";
 import { MovieDetail, ShowtimesTheater } from "@/lib/types";
 import {
   TAG_MAP,
+  checkNotNull,
   floatHourToString,
   formatDDMMYYWithSlashes,
   getImageUrl,
@@ -47,9 +48,15 @@ function Movie({ movie }: { movie: MovieDetail }) {
 
 function MovieHeader({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="border-b  pb-4 text-center text-xl/6 font-semibold uppercase text-retro-gray lg:border-t lg:bg-retro-green lg:py-3 lg:pl-5 lg:text-left lg:text-3xl/8 lg:font-medium">
-      <u className="underline">{movie.title}</u> ({movie.year}),{" "}
-      {movie.directors}
+    <div className="flex  justify-between gap-32 border-b pb-4 text-center text-xl/6 font-semibold uppercase text-retro-gray lg:border-t lg:bg-retro-green lg:py-3 lg:pl-5 lg:text-left lg:text-3xl/8 lg:font-medium">
+      <div className="grow">
+        <u className="underline">{movie.title}</u> ({movie.year}),{" "}
+        {movie.directors}
+      </div>
+      <div className="hidden w-max whitespace-nowrap pr-2 lg:block">
+        Critique du{" "}
+        {formatDDMMYYWithSlashes(safeDate(checkNotNull(movie.review_date)))}
+      </div>
     </div>
   );
 }
@@ -81,7 +88,7 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
         <br />
         {movie.duration == null
           ? "Durée inconnue"
-          : `Durée ${Math.floor(parseInt(movie.duration) / 60)} minutes`}
+          : `Durée : ${Math.floor(parseInt(movie.duration) / 60)} minutes`}
       </div>
       <Tags movie={movie} />
     </div>
@@ -101,8 +108,8 @@ function MovieScreenings({ movie }: { movie: MovieDetail }) {
 
   return (
     <div className="flex flex-col lg:w-1/2 lg:pl-5">
-      <div className="flex border-y bg-retro-green px-4 py-1 text-center text-xl/10 font-semibold uppercase text-retro-gray lg:py-3 lg:text-2xl/6">
-        prochaines scéances à paris
+      <div className="flex justify-center border-y bg-retro-green px-4 py-1 text-center text-xl/10 font-semibold uppercase text-retro-gray lg:py-3 lg:text-2xl/6">
+        prochaines séances à paris
       </div>
       <div className="flex flex-col">
         {size(screenings) > 0 ? (
@@ -152,7 +159,7 @@ function DateScreenings({
 }) {
   return (
     <div className="flex border-b py-4 font-medium leading-4">
-      <div className="shrink-0 pr-3">
+      <div className="w-32 shrink-0 lg:w-24">
         {formatDDMMYYWithSlashes(safeDate(date))}
       </div>
       <div className="flex grow flex-col gap-2">
@@ -206,7 +213,7 @@ function Tags({ movie }: { movie: MovieDetail }) {
 
   return (
     tags.length > 0 && (
-      <div className="flex-rap flex gap-x-2 gap-y-2 pl-5 pt-4 lg:pl-6">
+      <div className="flex flex-wrap gap-x-2 gap-y-2 pt-4 lg:pl-5">
         {tags.map((tag) => (
           <div
             key={tag}

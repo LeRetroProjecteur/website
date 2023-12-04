@@ -62,7 +62,7 @@ function QuartierToggler({
           "border-retro-black": present,
           "text-retro-black": present,
         },
-        "cursor-pointer border px-5 font-medium uppercase uppercase leading-7 lg:px-16 lg:py-2 lg:text-xl",
+        "w-[172px] cursor-pointer border text-center font-medium uppercase uppercase leading-7 lg:w-[278px] lg:py-2 lg:text-xl",
       )}
     >
       {quartierName}
