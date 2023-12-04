@@ -4,17 +4,17 @@
 
 ## Titre
 
-- [ ] Pas la bonne graisse (Medium et non semi-bold)
+- [x] Pas la bonne graisse (Medium et non semi-bold)
 
 - [x] Il manque la date dans le titre (calé à droite, format “CRITIQUE DU JJ/MM/AA”)
 
 ## Corps de texte
 
-- [ ] INTERLIGNAGE + graisse du corps de texte n’est pas bon - je te donnerai toutes ces infos dans la fiche de style
+- [ ] INTERLIGNAGE - je te donnerai toutes ces infos dans la fiche de style
 
 ## INFOS & TAG
 
-- [ ] Infos (durée etc) : pas la bonne graisse
+- [x] Infos (durée etc) : pas la bonne graisse
 
 - [x] Ajouter ” :” après “Durée”
 
@@ -22,7 +22,7 @@
 
 ## PROCHAINES SÉANCES À PARIS
 
-- [ ] Mauvaise graisse (médium et non semi-bold)
+- [x] Mauvaise graisse (médium et non semi-bold)
 
 - [x] Centrer le titre
 
@@ -33,7 +33,8 @@
 # MISC
 
 - [ ] le titre & le sous-titre en haut de page est fixé
-- [ ] même largeurs de bouton pour “Par Quartier”/“Rive gauche”/Rive droite/Extramuros
+
+- [x] même largeurs de bouton pour “Par Quartier”/“Rive gauche”/Rive droite/Extramuros
 
 # MENU - DESKTOP
 
