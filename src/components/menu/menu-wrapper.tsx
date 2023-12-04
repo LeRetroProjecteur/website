@@ -23,13 +23,13 @@ export default function MenuWrapper({
 
   return (
     <>
-      <div className="relative lg:static lg:flex lg:p-4">
+      <div className="relative lg:static lg:flex lg:p-4 lg:h-screen lg:overflow-auto">
         <motion.div
-          className="absolute left-0 z-10 hidden min-h-screen w-full bg-white px-4 lg:static lg:flex lg:w-72 lg:px-0"
+          className="absolute left-0 z-10 hidden min-h-screen w-full bg-white px-4 lg:sticky lg:flex lg:w-72 lg:px-0 lg:top-0 lg:min-h-max"
           animate={
             isDesktop || isMenuOpen
               ? { translateX: 0, display: "flex" }
-              : { translateX: "-100%", display: "hidden" }
+              : { translateX: "-100%", display: "none" }
           }
           transition={{
             duration: wasMenuOpen.current !== isMenuOpen ? 0.2 : 0,
@@ -45,7 +45,7 @@ export default function MenuWrapper({
           animate={
             isDesktop || !isMenuOpen
               ? { translateX: 0, display: "flex" }
-              : { translateX: "100%", display: "hidden" }
+              : { translateX: "100%", display: "none" }
           }
         >
           {children}

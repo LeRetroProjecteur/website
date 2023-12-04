@@ -74,7 +74,7 @@ export default function MovieTable({
 function TableHeader() {
   return (
     <Row
-      cellClassName="font-semibold uppercase leading-10 text-retro-gray lg:text-2xl bg-retro-green text-xl lg:py-3 px-1 lg:px-5"
+      cellClassName="font-semibold uppercase leading-10 text-retro-gray lg:text-2xl bg-retro-green text-xl lg:py-3 px-1 lg:px-5 border-t"
       leftCol="Films"
       rightCol="Séances"
     />
@@ -177,7 +177,7 @@ function Seances({ movie }: { movie: Movie }) {
 
   const needsExpanding = useMemo(
     () =>
-      sortedTheaters.length > 1 ||
+      sortedTheaters.length > 2 ||
       some(
         sortedTheaters,
         (showtime_theater) => showtime_theater.showtimes.length > 3,
@@ -187,7 +187,7 @@ function Seances({ movie }: { movie: Movie }) {
 
   return (
     <div className="flex grow flex-col gap-4 lg:gap-1">
-      {take(sortedTheaters, isExpanded ? sortedTheaters.length : 1).map(
+      {take(sortedTheaters, isExpanded ? sortedTheaters.length : 2).map(
         (theater) => (
           <SceancesTheater
             showtimesTheater={theater}

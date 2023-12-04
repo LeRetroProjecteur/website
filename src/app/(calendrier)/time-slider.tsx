@@ -20,12 +20,10 @@ export default function TimeSlider({
   };
 
   return (
-    <div className="flex grow justify-between pt-3 lg:pt-7">
-      <div className="border-b  pb-3 pr-4 font-medium uppercase">
-        Horaires :
-      </div>
-      <div className="relative flex grow">
-        <div className="absolute flex w-full justify-between">
+    <div className="flex flex-col grow justify-between pt-3 lg:pt-7 lg:text-xl">
+      <div className="flex">
+        <div className="pb-3 font-medium uppercase">Horaires :&nbsp;</div>
+        <div className="flex grow justify-between">
           <div className="relative left-0 font-medium uppercase">{`de ${padStart(
             String(minHour),
             2,
@@ -37,35 +35,39 @@ export default function TimeSlider({
             "0",
           )}h`}</div>
         </div>
-        <ReactSlider
-          className="grow"
-          renderThumb={(props) => (
-            <div
-              key={props.key}
-              {...omit(props, "key")}
-              className="bottom-[-5.5px] outline-none"
-            >
-              <Thumb />
-            </div>
-          )}
-          renderTrack={(props, state) => (
-            <div
-              key={props.key}
-              {...omit(props, "key")}
-              className={clsx("relative bottom-0 border-t ", {
-                "border-dashed": state.index === 1,
-                relative: state.index === 1,
-              })}
-            />
-          )}
-          value={[minHour, maxHour]}
-          max={24}
-          min={0}
-          minDistance={1}
-          onChange={onChange}
-        />
       </div>
-      <div className="w-2 border-b" />
+      <div className="flex relative">
+        <div className="absolute flex grow border-t w-full bottom-0" />
+        <div className="flex grow px-2">
+          <ReactSlider
+            className="grow"
+            renderThumb={(props) => (
+              <div
+                key={props.key}
+                {...omit(props, "key")}
+                className="bottom-[-5.5px] outline-none"
+              >
+                <Thumb />
+              </div>
+            )}
+            renderTrack={(props, state) => (
+              <div
+                key={props.key}
+                {...omit(props, "key")}
+                className={clsx("bottom-0 border-t", {
+                  "border-dashed": state.index === 1,
+                  "z-99": state.index == 1,
+                })}
+              />
+            )}
+            value={[minHour, maxHour]}
+            max={24}
+            min={0}
+            minDistance={1}
+            onChange={onChange}
+          />
+        </div>
+      </div>
     </div>
   );
 }
