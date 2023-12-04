@@ -15,7 +15,14 @@ import FooterLinks from "../layout/footer-links";
 const menu: [JSX.Element, string][] = [
   [<>calendrier</>, "/"],
   [<>chroniques</>, "/chroniques"],
-  [<>coups de coeur</>, "/coeur"],
+  [
+    <>
+      coups
+      <br />
+      de coeur
+    </>,
+    "/coeur",
+  ],
   [<>à propos</>, "/a-propos"],
   [<>recherche</>, "/recherche"],
 ];
@@ -38,12 +45,20 @@ export default function Menu() {
             <CloseIcon />
           </div>
         </div>
-        <div className="flex">
+        <div className="flex justify-center">
           <Link href="/">
-            <Image src={logoCarre} alt="logo" className="h-auto w-[206px]" />
+            <Image
+              src={logoCarre}
+              alt="logo"
+              className="h-auto w-[272px] lg:w-[206px]"
+            />
           </Link>
         </div>
-        <MenuLink>le rétro projecteur</MenuLink>
+        <MenuLink>
+          le rétro
+          <br />
+          projecteur
+        </MenuLink>
         <div className="flex flex-col">
           {menu.map(([section, path]) => (
             <MenuLink key={path} path={path}>

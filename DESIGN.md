@@ -1,3 +1,8 @@
+# MISC
+
+- [ ] le titre & le sous-titre en haut de page est fixé
+- [ ] même largeurs de bouton pour “Par Quartier”/“Rive gauche”/Rive droite/Extramuros
+
 # MENU - DESKTOP
 
 - [x] Fixer en bas la partie du Menu Newsletter/Insta/Twitter (= pas de scroll)
@@ -44,7 +49,7 @@
 
 - [x] Ajouter trait gris en haut de la case Films & Séances
 
-- [ ] Quand Hover sur une ligne du tableau : fond coloré vert clair
+- [x] Quand Hover sur une ligne du tableau : fond coloré vert clair
 
 - [x] “Plus de séances” : uniquement à partir de 3 salles. Si 2 salles (donc 2 lignes), les afficher directement.
 
@@ -70,7 +75,7 @@
 
 ## TABLEAU EN VUE LISTE :
 
-- [ ] ajouter le hover fond coloré lorsqu’on passe la souris sur une ligne du tableau
+- [x] ajouter le hover fond coloré lorsqu’on passe la souris sur une ligne du tableau
 - [x] Rendre toute la ligne du tableau cliquable, pas seulement le titre de film sous-ligné
 
 ## RECHERCHE DANS LES COUPS DE COEUR :

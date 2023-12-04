@@ -19,7 +19,7 @@ const config: Config = {
         ["retro-gray"]: "#6A6A6D",
         ["retro-black"]: "#030303",
         ["retro-green"]: "#E2FF46",
-        ["retro-pale-green"]: "#F4FFB7",
+        ["retro-pale-green"]: "#E2FF4666",
       },
       fontFamily: {
         degular: ["var(--font-degular)"],
