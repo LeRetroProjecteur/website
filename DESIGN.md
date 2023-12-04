@@ -16,19 +16,19 @@
 
 - [ ] Infos (durée etc) : pas la bonne graisse
 
-- [ ] Ajouter ” :” après “Durée”
+- [x] Ajouter ” :” après “Durée”
 
-- [ ] Calage du Tag n’est pas bon (plus à gauche)
+- [x] Calage du Tag n’est pas bon (plus à gauche)
 
 ## PROCHAINES SÉANCES À PARIS
 
 - [ ] Mauvaise graisse (médium et non semi-bold)
 
-- [ ] Centrer le titre
+- [x] Centrer le titre
 
-- [ ] Faute à “Séances”
+- [x] Faute à “Séances”
 
-- [ ] Augmenter la marge entre la date et le cinéma (screen 2)
+- [x] Augmenter la marge entre la date et le cinéma (screen 2)
 
 # MISC
 
