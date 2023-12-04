@@ -50,7 +50,7 @@
 
 - [x] Quand on clique sur le logo : revenir à la page calendrier
 
-- [ ] CALENDRIER : click = reset le calendrier (comme sur le site actuel), et reset quand on clique sur le logo, et fermer le menu dans la version mobile
+- [x] CALENDRIER : click = reset le calendrier (comme sur le site actuel), et reset quand on clique sur le logo, et fermer le menu dans la version mobile
 
 # PAGE CALENDRIER - DESKTOP
 

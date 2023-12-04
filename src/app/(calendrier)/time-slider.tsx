@@ -2,13 +2,9 @@ import clsx from "clsx";
 import { omit, padStart } from "lodash-es";
 import ReactSlider from "react-slider";
 
-import { CalendrierStore } from "@/lib/calendrier-store";
+import { useCalendrierStore } from "@/lib/calendrier-store";
 
-export default function TimeSlider({
-  useCalendrierStore,
-}: {
-  useCalendrierStore: CalendrierStore;
-}) {
+export default function TimeSlider() {
   const minHour = useCalendrierStore((s) => s.minHour);
   const maxHour = useCalendrierStore((s) => s.maxHour);
   const setMinHour = useCalendrierStore((s) => s.setMinHour);

@@ -23,9 +23,10 @@ interface CalendrierState {
   setMaxHour: (maxHour: number) => void;
   setFilter: (filter: string) => void;
   toggleQuartier: (quartier: Quartier) => void;
+  reset: () => void;
 }
 
-export function useUseCalendrierStore() {
+export function getUseCalendrierStore() {
   return create<CalendrierState>()((set, get) => ({
     date: getStartOfTodayInParis(),
     dateChanged: false,
@@ -33,7 +34,6 @@ export function useUseCalendrierStore() {
     maxHour: 24,
     filter: "",
     quartiers: [Quartier.RG, Quartier.RD, Quartier.EM],
-    movies: [],
     setDate: (date: Date) => {
       set({ date, minHour: 0, maxHour: 24, dateChanged: true });
     },
@@ -48,5 +48,17 @@ export function useUseCalendrierStore() {
         set({ quartiers: [...quartiers, quartier] });
       }
     },
+    reset: () => {
+      set({
+        date: getStartOfTodayInParis(),
+        dateChanged: true,
+        minHour: 0,
+        maxHour: 24,
+        filter: "",
+        quartiers: [Quartier.RG, Quartier.RD, Quartier.EM],
+      });
+    },
   }));
 }
+
+export const useCalendrierStore = getUseCalendrierStore();
