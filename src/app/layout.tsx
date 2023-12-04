@@ -46,7 +46,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <StrictMode>
-      <html lang="fr">
+      <html lang="fr" className="h-screen overflow-y-auto">
         <body
           className={clsx(
             degular.variable,

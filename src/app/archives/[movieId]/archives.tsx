@@ -8,6 +8,7 @@ import { useMemo } from "react";
 import { isAfter, isEqual, isSameDay } from "date-fns";
 
 import { LeftArrow, RightArrow } from "@/components/icons/arrows";
+import FixedHeader from "@/components/layout/fixed-header";
 import PageHeader from "@/components/layout/page-header";
 import { MovieDetail, Review, ShowtimesTheater } from "@/lib/types";
 import {
@@ -74,9 +75,10 @@ export default function Archives({
 
   return (
     <div className="mb-8 flex grow flex-col">
-      <div className="flex pb-4">
+      <FixedHeader className="flex flex-col gap-4 pb-4">
         <PageHeader text={isCoupDeCoeur ? "coup de coeur" : "archives"} />
-      </div>
+        <MovieHeader movie={movie} />
+      </FixedHeader>
       <Movie movie={movie} />
       {isCoupDeCoeur && (
         <ReviewsNav previousReview={previousReview} nextReview={nextReview} />
@@ -141,14 +143,9 @@ function ReviewsNav({
 
 function Movie({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="flex flex-col">
-      <div className="lg:pb-5">
-        <MovieHeader movie={movie} />
-      </div>
-      <div className="flex flex-col gap-8 lg:flex-row lg:gap-0">
-        <MovieInfo movie={movie} />
-        <MovieScreenings movie={movie} />
-      </div>
+    <div className="flex flex-col gap-8 lg:flex-row lg:gap-0">
+      <MovieInfo movie={movie} />
+      <MovieScreenings movie={movie} />
     </div>
   );
 }

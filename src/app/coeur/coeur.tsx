@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useCallback, useMemo, useState } from "react";
 
 import RetroInput from "@/components/forms/retro-input";
+import FixedHeader from "@/components/layout/fixed-header";
 import PageHeader from "@/components/layout/page-header";
 import { Review } from "@/lib/types";
 import {
@@ -45,11 +46,13 @@ export default function CoupsDeCoeur({
 
   return (
     <div className="flex grow flex-col pb-4">
-      <div className="pb-2 lg:pb-4">
-        <PageHeader text="coups de coeur" />
-      </div>
-      <div className="flex flex-col gap-4 lg:gap-5">
+      <FixedHeader className="flex flex-col pb-4">
+        <div className="pb-2 lg:pb-4">
+          <PageHeader text="coups de coeur" />
+        </div>
         <SubHeader display={display} toggleDisplay={toggleDisplay} />
+      </FixedHeader>
+      <div className="flex flex-col gap-4 lg:gap-5">
         <div className="flex lg:pl-5">
           <RetroInput
             placeholder="recherche"
