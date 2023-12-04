@@ -10,6 +10,7 @@ import PageHeader from "@/components/layout/page-header";
 import { MovieDetail, ShowtimesTheater } from "@/lib/types";
 import {
   TAG_MAP,
+  checkNotNull,
   floatHourToString,
   formatDDMMYYWithSlashes,
   getImageUrl,
@@ -47,9 +48,15 @@ function Movie({ movie }: { movie: MovieDetail }) {
 
 function MovieHeader({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="border-b  pb-4 text-center text-xl/6 font-semibold uppercase text-retro-gray lg:border-t lg:bg-retro-green lg:py-3 lg:pl-5 lg:text-left lg:text-3xl/8 lg:font-medium">
-      <u className="underline">{movie.title}</u> ({movie.year}),{" "}
-      {movie.directors}
+    <div className="flex  justify-between gap-32 border-b pb-4 text-center text-xl/6 font-semibold uppercase text-retro-gray lg:border-t lg:bg-retro-green lg:py-3 lg:pl-5 lg:text-left lg:text-3xl/8 lg:font-medium">
+      <div className="grow">
+        <u className="underline">{movie.title}</u> ({movie.year}),{" "}
+        {movie.directors}
+      </div>
+      <div className="hidden w-max whitespace-nowrap pr-2 lg:block">
+        Critique du{" "}
+        {formatDDMMYYWithSlashes(safeDate(checkNotNull(movie.review_date)))}
+      </div>
     </div>
   );
 }

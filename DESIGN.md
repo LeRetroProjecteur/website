@@ -6,7 +6,7 @@
 
 - [ ] Pas la bonne graisse (Medium et non semi-bold)
 
-- [ ] Il manque la date dans le titre (calé à droite, format “CRITIQUE DU JJ/MM/AA”)
+- [x] Il manque la date dans le titre (calé à droite, format “CRITIQUE DU JJ/MM/AA”)
 
 ## Corps de texte
 
