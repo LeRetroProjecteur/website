@@ -27,16 +27,21 @@ export default function RecherchePage() {
                 <Image
                   src={`https://firebasestorage.googleapis.com/v0/b/website-cine.appspot.com/o/images%2Fadieu-philippine-1963.jpg?alt=media`}
                   alt="movie-screenshot"
-                  width={750}
-                  height={500}
-                  style={{ width: "100%", height: "auto" }}
+                  width={1200}
+                  height={675}
+                  className="h-auto w-full"
                 />
               </div>
             </span>
 
             <br/>
-            <div className="font-medium leading-6 lg:pl-5"
-            dangerouslySetInnerHTML={{ __html: "<p>Le Rétro Projecteur est un site de cinéma de patrimoine à Paris. Nous vous proposons une sélection de films à voir dans les salles de cinéma parisiennes, ainsi que des critiques et des analyses de films.</p>" }}>
+            <div className="font-medium leading-7 lg:pl-5"
+                 dangerouslySetInnerHTML={{ __html: "<p>Le Rétro Projecteur est un site de cinéma de patrimoine à Paris. " +
+                         "Nous vous proposons une sélection de films à voir dans les salles de cinéma parisiennes, " +
+                         "ainsi que des critiques et des analyses de films." + "<br/><br/>" +
+                         "Cinémas, producteurs, indépendants ? " +
+                         "<a href='contact@leretroprojecteur.com'>Ecrivez-nous ici !</a>" +
+                         "</p>"}}>
             </div>
         </div>
     );
