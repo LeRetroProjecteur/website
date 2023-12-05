@@ -12,6 +12,14 @@ const nextConfig = {
       },
     ],
   },
+  redirects: async () => [
+    {
+      source: "/:path*",
+      has: [{ type: "host", value: "www.leretroprojecteur.com" }],
+      destination: "https://leretroprojecteur.com/:path*",
+      permanent: true,
+    },
+  ],
 };
 
 module.exports = nextConfig;
