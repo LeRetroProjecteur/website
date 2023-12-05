@@ -1,17 +1,9 @@
 "use client";
 
-import {ListIcon, ThumbnailIcon} from "@/app/coeur/page";
 import PageHeader from "@/components/layout/page-header";
-import {useCallback, useState} from "react";
 import Image from "next/image";
 
-
 export default function RecherchePage() {
-    const [display, setDisplay] = useState<"thumbnails" | "list">("thumbnails");
-    const toggleDisplay = useCallback(() => {
-    setDisplay(display === "thumbnails" ? "list" : "thumbnails");
-    }, [display]);
-
     return (
         <div className="flex grow flex-col pb-4">
           <div className="pb-2 lg:pb-4">
@@ -40,7 +32,7 @@ export default function RecherchePage() {
                          "Nous vous proposons une sélection de films à voir dans les salles de cinéma parisiennes, " +
                          "ainsi que des critiques et des analyses de films." + "<br/><br/>" +
                          "Cinémas, producteurs, indépendants ? " +
-                         "<a href='contact@leretroprojecteur.com'>Ecrivez-nous ici !</a>" +
+                         "<a href='contact@leretroprojecteur.com'> <u>Ecrivez-nous ici !</u></a>" +
                          "</p>"}}>
             </div>
         </div>
