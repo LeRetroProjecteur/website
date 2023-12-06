@@ -14,6 +14,9 @@ export const metadata: Metadata = {
   description:
     "Venez découvrir toutes les ressorties de films dans les salles parisiennes.",
   metadataBase: new URL("https://leretroprojecteur.com/"),
+  alternates: {
+    canonical: new URL("https://leretroprojecteur.com/"),
+  },
 };
 
 export default function RootLayout({
