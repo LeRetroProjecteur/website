@@ -1,15 +1,9 @@
-import { every, padStart, some } from "lodash-es";
+import {every, padStart, some} from "lodash-es";
 
-import {
-  addDays,
-  addWeeks,
-  isSameDay,
-  startOfDay,
-  startOfISOWeek,
-} from "date-fns";
-import { utcToZonedTime } from "date-fns-tz";
+import {addDays, addWeeks, isSameDay, startOfDay, startOfISOWeek,} from "date-fns";
+import {utcToZonedTime} from "date-fns-tz";
 
-import { MovieWithNoShowtimes, MovieWithShowtimesByDay } from "./types";
+import {MovieWithNoShowtimes, MovieWithShowtimesByDay} from "./types";
 
 export function getNextMovieWeek() {
   const today = utcToZonedTime(new Date(), "Europe/Paris");
@@ -94,21 +88,24 @@ export function movie_info_containsFilteringTerm(
 
 export function movie_plays_after_today(movie: MovieWithShowtimesByDay) {
   const today = startOfDay(utcToZonedTime(new Date(), "Europe/Paris"));
-  const filteredShowtimesByDay = Object.fromEntries(
-    Object.entries(movie.showtimes_by_day || {}).filter(
-      ([date]) => safeDate(date) >= today,
-    ),
-  );
+  const filteredShowtimesByDay = [];
+
+  for (const [date] of Object.entries(movie.showtimes_by_day || {})) {
+    const startOfDayInParis = getStartOfDayInParis(date);
+
+    if (startOfDayInParis >= today) {
+      filteredShowtimesByDay.push(date);
+    }
+  }
+  if (filteredShowtimesByDay.length === 0) {
+    return null;
+  }
+
   const filteredMovie = {
     ...movie,
     showtimes_by_day: filteredShowtimesByDay,
   };
   return filteredMovie;
-
-  // return some(
-  //   Object.keys(movie.showtimes_by_day.keys),
-  //   (date) => safeDate(date) >= today,
-  // );
 }
 
 function get_movie_info_string(f: MovieWithNoShowtimes) {
