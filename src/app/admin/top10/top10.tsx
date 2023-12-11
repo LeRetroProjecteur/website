@@ -145,13 +145,10 @@ function getTop(week: String[], dayValues: string[], movies: SearchMovie[]) {
                 <strong>
                   <u>
                     <span style={{ fontSize: "18px" }}>
-                      {capitalize("Top " + (i + 1))}
+                      {capitalize("Top " + (i + 1)) + " :" }
                     </span>
                   </u>
-                  <br />
-                  <span style={{ fontSize: "16px" }}>
-                    <i>{movie.title}</i>, {movie.directors} ({movie.year})
-                  </span>
+                    {" "} <i>{movie.title}</i>, {movie.directors} ({movie.year})
                 </strong>
                 <br />
                 {showtimes.map((showtimes_theater) => (
