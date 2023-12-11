@@ -8,7 +8,7 @@ import {SearchMovie} from "@/lib/types";
 import {string_match} from "@/lib/util";
 
 
-export default function Top10Search(
+export default function Top2023Search(
     {
       onSearchTermChange,
     }:

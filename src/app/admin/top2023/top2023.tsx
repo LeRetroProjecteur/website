@@ -2,7 +2,7 @@
 
 import {useSearchParams} from "next/navigation";
 import React, {Fragment, useEffect, useRef, useState} from "react";
-import Top10Search from "@/app/admin/top10/top10-search";
+import Top2023Search from "@/app/admin/top2023/top2023-search";
 
 interface Inputs {
   mercredi: string;
@@ -58,7 +58,7 @@ export default function SemaineAuCinema() {
           {tops.map((k, i) => (
             <Fragment key={k}>
               <h3>{"Number " + (i+1)}</h3>
-              <Top10Search
+              <Top2023Search
                   onSearchTermChange={(term) => handleSearchTermChange(i, term)}
               />
             </Fragment>
