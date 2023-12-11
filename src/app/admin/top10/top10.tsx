@@ -24,7 +24,7 @@ interface Inputs {
 export default function SemaineAuCinema() {
   useSearchParams();
 
-  const { register, watch } = useForm<Inputs>();
+  const { watch } = useForm<Inputs>();
   const week = useMemo(() => getNextMovieWeek(), []);
 
   const [weekHtml, setWeekHtml] = useState("");
@@ -76,8 +76,8 @@ export default function SemaineAuCinema() {
         <form>
           {top_ints.map((day, i) => (
             <Fragment key={day}>
-              <h3>{"Number " + capitalize(i+1)}</h3> <label htmlFor={day}></label>
-              <select id={day} {...day}>
+              <h3>{"Number " + i}</h3>
+              <select id={day.toString()}>
                 [<option value="">-----</option>
                 {sortBy(movies, (movie) => [movie.title]).map(
                   (movie) => (
