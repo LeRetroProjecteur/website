@@ -1,14 +1,12 @@
 "use client";
 
-import {capitalize, find, sortBy, uniqBy} from "lodash-es";
+import {capitalize, find, sortBy} from "lodash-es";
 import {useSearchParams} from "next/navigation";
-import {Fragment, useEffect, useMemo, useRef, useState} from "react";
+import {Fragment, useEffect, useRef, useState} from "react";
 import {useForm} from "react-hook-form";
 
-import {format} from "date-fns";
-
-import {Movie, SearchMovie} from "@/lib/types";
-import {checkNotNull, floatHourToString, getNextMovieWeek} from "@/lib/util";
+import {SearchMovie} from "@/lib/types";
+import {checkNotNull} from "@/lib/util";
 
 interface Inputs {
   mercredi: string;
@@ -24,7 +22,6 @@ export default function SemaineAuCinema() {
   useSearchParams();
 
   const { register, watch } = useForm<Inputs>();
-  const week = useMemo(() => getNextMovieWeek(), []);
 
   const [weekHtml, setWeekHtml] = useState("");
 
@@ -37,28 +34,12 @@ export default function SemaineAuCinema() {
     }
   });
 
-  const [moviesByDay, setMoviesByDay] = useState<Movie[][]>([]);
   const [movies, setMovies] = useState<SearchMovie[]>([]);
   useEffect(() => {
     (async () => {
       setMovies(await (await fetch("/api/all-movies")).json());
     })();
   }, []);
-
-  useEffect(() => {
-    (async () => {
-      setMoviesByDay(
-        await Promise.all(
-          week.map(
-            async (day) =>
-              (await (
-                await fetch(`/api/${format(day, "y-MM-dd")}`)
-              ).json()) as Movie[],
-          ),
-        ),
-      );
-    })();
-  }, [setMoviesByDay, week]);
 
   const ints: number[] = Array.from(Array(5).keys());
   const top_ints_string: string[] = ints.map((i) => i.toString());
@@ -105,7 +86,7 @@ export default function SemaineAuCinema() {
   );
 }
 
-function getTop(week: String[], dayValues: string[], movies: SearchMovie[]) {
+function getTop(week: string[], dayValues: string[], movies: SearchMovie[]) {
   return (
     <>
       <h3
@@ -133,13 +114,6 @@ function getTop(week: String[], dayValues: string[], movies: SearchMovie[]) {
             const movie = checkNotNull(
               find(movies, (movie) => movie.id === dayValues[i]),
             );
-            const showtimes = sortBy(
-              uniqBy(
-                movie.showtimes_theater,
-                (showtimes_theater) => showtimes_theater.clean_name,
-              ),
-              (showtimes_theater) => showtimes_theater.clean_name,
-            );
             return (
               <Fragment key={i}>
                 <strong>
@@ -150,18 +124,6 @@ function getTop(week: String[], dayValues: string[], movies: SearchMovie[]) {
                   </u>
                     {" "} <i>{movie.title}</i>, {movie.directors} ({movie.year})
                 </strong>
-                <br />
-                {showtimes.map((showtimes_theater) => (
-                  <Fragment key={showtimes_theater.clean_name}>
-                    {showtimes_theater.clean_name} (
-                    {showtimes_theater.zipcode_clean}):{" "}
-                    {showtimes_theater.showtimes
-                      .map((showtime) => floatHourToString(showtime))
-                      .join(", ")}
-                    <br />
-                  </Fragment>
-                ))}
-                <br />
               </Fragment>
             );
           }
