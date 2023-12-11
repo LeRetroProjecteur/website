@@ -48,6 +48,12 @@ export default function SemaineAuCinema() {
   );
   const topsValues = watch(tops);
 
+  const [userName, setUserName] = useState('');
+  const [responseMessage, setResponseMessage] = useState('');
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserName(event.target.value);
+  };
+
   return (
     <>
       <h2>
@@ -76,12 +82,24 @@ export default function SemaineAuCinema() {
           <br />
         </form>
       </div>
-        {/*<h2>2023 :</h2>*/}
       <div ref={weekHtmlRef} style={{ textAlign: "center" }}>
         {getTop(top_ints_string, topsValues, movies)}
       </div>
-      <h2>HTML :</h2>
-      <span>{weekHtml}</span>
+        <br />
+        <input
+            type="text"
+            id="userNameInput"
+            placeholder="Enter your name"
+            value={userName}
+            onChange={handleInputChange}
+            style={{ fontSize: "20px"}}
+        />
+        <span>
+            <button onClick={() => sendNameToFirestore(userName, topsValues, setResponseMessage)} style={{ fontSize: "20px"}}>
+                Send us your top
+            </button>
+        </span>
+        <p>{responseMessage}</p>
     </>
   );
 }
@@ -124,6 +142,7 @@ function getTop(week: string[], dayValues: string[], movies: SearchMovie[]) {
                   </u>
                     {" "} <i>{movie.title}</i>, {movie.directors} ({movie.year})
                 </strong>
+                <br />
               </Fragment>
             );
           }
@@ -131,4 +150,21 @@ function getTop(week: string[], dayValues: string[], movies: SearchMovie[]) {
       </div>
     </>
   );
+}
+
+async function sendNameToFirestore(userName: string, topsValues: string[], setResponseMessage: (message: string) => void) {
+    const response = await fetch('https://europe-west1-website-cine.cloudfunctions.net/add_name_to_firestore', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({"name": userName, "tops": topsValues}),
+    });
+    if (response.ok) {
+        setResponseMessage("Your top has been saved. Thank you!");
+    } else {
+        // Handle non-successful response
+        console.error('Error sending name to Firestore:', response.statusText);
+        setResponseMessage("Failed to save your top. Please try again.");
+    }
 }
