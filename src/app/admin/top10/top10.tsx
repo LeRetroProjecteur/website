@@ -1,12 +1,8 @@
 "use client";
 
-import {capitalize, find, sortBy} from "lodash-es";
 import {useSearchParams} from "next/navigation";
-import {Fragment, useEffect, useRef, useState} from "react";
-import {useForm} from "react-hook-form";
-
-import {SearchMovie} from "@/lib/types";
-import {checkNotNull} from "@/lib/util";
+import React, {Fragment, useEffect, useRef, useState} from "react";
+import Top10Search from "@/app/admin/top10/top10-search";
 
 interface Inputs {
   mercredi: string;
@@ -20,11 +16,7 @@ interface Inputs {
 
 export default function SemaineAuCinema() {
   useSearchParams();
-
-  const { register, watch } = useForm<Inputs>();
-
   const [weekHtml, setWeekHtml] = useState("");
-
   const weekHtmlRef = useRef<HTMLDivElement>(null);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -34,24 +26,26 @@ export default function SemaineAuCinema() {
     }
   });
 
-  const [movies, setMovies] = useState<SearchMovie[]>([]);
-  useEffect(() => {
-    (async () => {
-      setMovies(await (await fetch("/api/all-movies")).json());
-    })();
-  }, []);
-
   const ints: number[] = Array.from(Array(5).keys());
   const top_ints_string: string[] = ints.map((i) => i.toString());
   const tops: Array<keyof Inputs> = top_ints_string.map(
     (int) => int as keyof Inputs,
   );
-  const topsValues = watch(tops);
 
   const [userName, setUserName] = useState('');
   const [responseMessage, setResponseMessage] = useState('');
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(event.target.value);
+  };
+
+  const [topsValues, setTopsValues] = useState<string[]>(Array(tops.length).fill(''));
+  const handleSearchTermChange = (index: number, term: string) => {
+      console.log('handleSearchTermChange called with', index, term);
+      setTopsValues((prevTopsValues) => {
+      const newTopsValues = [...prevTopsValues];
+      newTopsValues[index] = term;
+      return newTopsValues;
+    });
   };
 
   return (
@@ -60,30 +54,18 @@ export default function SemaineAuCinema() {
         Votre Top5 2023 :
       </h2>
       <div style={{ textAlign: "center" }}>
-        <form>
-          {tops.map((day, i) => (
-            <Fragment key={day}>
+          <form>
+          {tops.map((k, i) => (
+            <Fragment key={k}>
               <h3>{"Number " + (i+1)}</h3>
-              <select id={day.toString()} {...register(day)}>
-                [<option value="">-----</option>
-                {sortBy(movies, (movie) => [movie.title]).map(
-                  (movie) => (
-                    <option value={movie.id} key={movie.id}>
-                      {movie.title}, {movie.directors} ({movie.year})
-                    </option>
-                  ),
-                )}
-                ]
-              </select>
+              <Top10Search
+                  onSearchTermChange={(term) => handleSearchTermChange(i, term)}
+              />
             </Fragment>
           ))}
           <br />
           <br />
-          <br />
         </form>
-      </div>
-      <div ref={weekHtmlRef} style={{ textAlign: "center" }}>
-        {getTop(top_ints_string, topsValues, movies)}
       </div>
         <br />
         <input
@@ -100,54 +82,6 @@ export default function SemaineAuCinema() {
             </button>
         </span>
         <p>{responseMessage}</p>
-    </>
-  );
-}
-
-function getTop(week: string[], dayValues: string[], movies: SearchMovie[]) {
-  return (
-    <>
-      <h3
-        style={{
-          textAlign: "center",
-          fontFamily: "lora,georgia,times new roman,serif",
-          color: "#808080",
-          fontSize: "18px",
-        }}
-      >
-        Mon Top 5 2023
-      </h3>
-      <br />
-      <div
-        style={{
-          textAlign: "center",
-          fontFamily: "lora,georgia,times new roman,serif",
-          color: "#444444",
-        }}
-      >
-        {week.map((day, i) => {
-          if (dayValues[i] == null || dayValues[i] === "") {
-            return null;
-          } else {
-            const movie = checkNotNull(
-              find(movies, (movie) => movie.id === dayValues[i]),
-            );
-            return (
-              <Fragment key={i}>
-                <strong>
-                  <u>
-                    <span style={{ fontSize: "18px" }}>
-                      {capitalize("Top " + (i + 1)) + " :" }
-                    </span>
-                  </u>
-                    {" "} <i>{movie.title}</i>, {movie.directors} ({movie.year})
-                </strong>
-                <br />
-              </Fragment>
-            );
-          }
-        })}
-      </div>
     </>
   );
 }
