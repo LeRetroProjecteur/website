@@ -6,7 +6,6 @@ import {Fragment, useEffect, useMemo, useRef, useState} from "react";
 import {useForm} from "react-hook-form";
 
 import {format} from "date-fns";
-import {fr} from "date-fns/locale";
 
 import {Movie, SearchMovie} from "@/lib/types";
 import {checkNotNull, floatHourToString, getNextMovieWeek} from "@/lib/util";
@@ -24,7 +23,7 @@ interface Inputs {
 export default function SemaineAuCinema() {
   useSearchParams();
 
-  const { watch } = useForm<Inputs>();
+  const { register, watch } = useForm<Inputs>();
   const week = useMemo(() => getNextMovieWeek(), []);
 
   const [weekHtml, setWeekHtml] = useState("");
@@ -61,11 +60,12 @@ export default function SemaineAuCinema() {
     })();
   }, [setMoviesByDay, week]);
 
-  const days: Array<keyof Inputs> = week.map(
-    (day) => format(day, "eeee", { locale: fr }) as keyof Inputs,
+  const ints: number[] = Array.from(Array(5).keys());
+  const top_ints_string: string[] = ints.map((i) => i.toString());
+  const tops: Array<keyof Inputs> = top_ints_string.map(
+    (int) => int as keyof Inputs,
   );
-  const dayValues = watch(days);
-  const top_ints: number[] = Array.from(Array(5).keys());
+  const topsValues = watch(tops);
 
   return (
     <>
@@ -74,10 +74,10 @@ export default function SemaineAuCinema() {
       </h2>
       <div style={{ textAlign: "center" }}>
         <form>
-          {top_ints.map((day, i) => (
+          {tops.map((day, i) => (
             <Fragment key={day}>
-              <h3>{"Number " + i}</h3>
-              <select id={day.toString()}>
+              <h3>{"Number " + (i+1)}</h3>
+              <select id={day.toString()} {...register(day)}>
                 [<option value="">-----</option>
                 {sortBy(movies, (movie) => [movie.title]).map(
                   (movie) => (
@@ -95,9 +95,9 @@ export default function SemaineAuCinema() {
           <br />
         </form>
       </div>
-        <h2>Semaine :</h2>
+        {/*<h2>2023 :</h2>*/}
       <div ref={weekHtmlRef} style={{ textAlign: "center" }}>
-        {getWeek(week, dayValues, moviesByDay)}
+        {getTop(top_ints_string, topsValues, movies)}
       </div>
       <h2>HTML :</h2>
       <span>{weekHtml}</span>
@@ -105,7 +105,7 @@ export default function SemaineAuCinema() {
   );
 }
 
-function getWeek(week: Date[], dayValues: string[], moviesByDay: Movie[][]) {
+function getTop(week: String[], dayValues: string[], movies: SearchMovie[]) {
   return (
     <>
       <h3
@@ -116,7 +116,7 @@ function getWeek(week: Date[], dayValues: string[], moviesByDay: Movie[][]) {
           fontSize: "18px",
         }}
       >
-        UNE SEMAINE DE CINÉMA
+        Mon Top 5 2023
       </h3>
       <br />
       <div
@@ -131,7 +131,7 @@ function getWeek(week: Date[], dayValues: string[], moviesByDay: Movie[][]) {
             return null;
           } else {
             const movie = checkNotNull(
-              find(moviesByDay[i], (movie) => movie.id === dayValues[i]),
+              find(movies, (movie) => movie.id === dayValues[i]),
             );
             const showtimes = sortBy(
               uniqBy(
@@ -145,7 +145,7 @@ function getWeek(week: Date[], dayValues: string[], moviesByDay: Movie[][]) {
                 <strong>
                   <u>
                     <span style={{ fontSize: "18px" }}>
-                      {capitalize(format(day, "EEEE d MMMM", { locale: fr }))}
+                      {capitalize("Top " + (i + 1))}
                     </span>
                   </u>
                   <br />
