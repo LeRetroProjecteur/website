@@ -2,7 +2,7 @@
 
 import {useSearchParams} from "next/navigation";
 import React, {Fragment, useEffect, useRef, useState} from "react";
-import Top2023Search from "@/app/admin/top2023/top2023-search";
+import Top2023Search from "@/app/top2023/top2023-search";
 
 interface Inputs {
   mercredi: string;
@@ -34,8 +34,12 @@ export default function SemaineAuCinema() {
 
   const [userName, setUserName] = useState('');
   const [responseMessage, setResponseMessage] = useState('');
+  const [autreInformation, setAutreInformation] = useState('');
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(event.target.value);
+  };
+  const handleAutreInformationChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setAutreInformation(event.target.value);
   };
 
   const [topsValues, setTopsValues] = useState<string[]>(Array(tops.length).fill(''));
@@ -48,6 +52,7 @@ export default function SemaineAuCinema() {
     });
   };
 
+
   return (
     <>
       <h2>
@@ -57,7 +62,7 @@ export default function SemaineAuCinema() {
           <form>
           {tops.map((k, i) => (
             <Fragment key={k}>
-              <h3>{"Number " + (i+1)}</h3>
+              <h3>{"Numéro " + (i+1)}</h3>
               <Top2023Search
                   onSearchTermChange={(term) => handleSearchTermChange(i, term)}
               />
@@ -65,20 +70,30 @@ export default function SemaineAuCinema() {
           ))}
           <br />
           <br />
+                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                      <label htmlFor="autreInformation" style={{ fontSize: "20px", marginBottom: '8px' }}>Vous voulez nous dire quelque chose ? </label>
+                      <textarea
+                        id="autreInformation"
+                        value={autreInformation}
+                        rows={5}
+                        style={{fontSize: "20px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px'}}
+                        onChange={handleAutreInformationChange}
+                      />
+              </div>
         </form>
       </div>
         <br />
         <input
             type="text"
             id="userNameInput"
-            placeholder="Enter your name"
+            placeholder="Nom Prénom"
             value={userName}
             onChange={handleInputChange}
             style={{ fontSize: "20px"}}
         />
         <span>
-            <button onClick={() => sendNameToFirestore(userName, topsValues, setResponseMessage)} style={{ fontSize: "20px"}}>
-                Send us your top
+            <button onClick={() => sendNameToFirestore(userName, topsValues, autreInformation, setResponseMessage)} style={{ fontSize: "20px"}}>
+                Envoyez nous votre Top
             </button>
         </span>
         <p>{responseMessage}</p>
@@ -86,19 +101,17 @@ export default function SemaineAuCinema() {
   );
 }
 
-async function sendNameToFirestore(userName: string, topsValues: string[], setResponseMessage: (message: string) => void) {
+async function sendNameToFirestore(userName: string, topsValues: string[], autreInformation: string, setResponseMessage: (message: string) => void) {
     const response = await fetch('https://europe-west1-website-cine.cloudfunctions.net/add_name_to_firestore', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({"name": userName, "tops": topsValues}),
+        body: JSON.stringify({"name": userName, "tops": topsValues, "autre": autreInformation}),
     });
     if (response.ok) {
-        setResponseMessage("Your top has been saved. Thank you!");
+        setResponseMessage("Bien reçu, merci !");
     } else {
-        // Handle non-successful response
-        console.error('Error sending name to Firestore:', response.statusText);
-        setResponseMessage("Failed to save your top. Please try again.");
+        setResponseMessage("Il y a eu une erreur, pouvez-vous vous ré-essayer ?");
     }
 }
