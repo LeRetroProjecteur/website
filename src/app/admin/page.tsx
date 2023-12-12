@@ -15,9 +15,6 @@ export default function AdminPage() {
       <div>
         <Link href="/admin/tous-les-films">Tous les films</Link>
       </div>
-        <div>
-            <Link href="/admin/top10">Votre Top10</Link>
-        </div>
     </>
   );
 }
