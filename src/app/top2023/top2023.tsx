@@ -3,7 +3,6 @@
 import {useSearchParams} from "next/navigation";
 import React, {Fragment, useEffect, useRef, useState} from "react";
 import Top2023Search from "@/app/top2023/top2023-search";
-import {Metadata} from "next";
 
 interface Inputs {
   mercredi: string;
@@ -14,11 +13,6 @@ interface Inputs {
   lundi: string;
   mardi: string;
 }
-
-export const metadata: Metadata = {
-  title:
-    "Sondage | Cinéma de patrimoine 2023",
-};
 
 export default function SemaineAuCinema() {
   useSearchParams();
