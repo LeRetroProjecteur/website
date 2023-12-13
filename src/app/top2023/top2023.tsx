@@ -143,7 +143,7 @@ export default function SemaineAuCinema() {
                       />
                   </div>
 
-                  <div style={{ display: 'flex', flexDirection: 'column', padding: "10px", alignItems: 'center' }}>
+                      <div style={{ display: 'flex', flexDirection: 'column', padding: "10px", alignItems: 'center' }}>
                       <label htmlFor="nombredefois" style={{ fontSize: "15px", marginBottom: '10px' }}> A combien estimez-vous le nombre de fois où vous êtes allés voir un film de patrimoine au cinéma cette année ? (facultatif)</label>
                       <textarea
                         id="nombredefois"
@@ -164,7 +164,7 @@ export default function SemaineAuCinema() {
                       />
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', padding: "10px", alignItems: 'center' }}>
-                      <label htmlFor="autreinformation" style={{ fontSize: "15px", marginBottom: '10px' }}>Vous voulez nous dire quelque chose ? (facultatif)</label>
+                      <label htmlFor="autreinformation" style={{ fontSize: "15px", marginBottom: '10px' }}>Faites-nous part de vos retours sur notre projet ou sur notre site web ! (facultatif)</label>
                       <textarea
                         id="autreinformation"
                         value={autreinformation}
