@@ -3,6 +3,7 @@
 import {useSearchParams} from "next/navigation";
 import React, {Fragment, useEffect, useRef, useState} from "react";
 import Top2023Search from "@/app/top2023/top2023-search";
+import {Metadata} from "next";
 
 interface Inputs {
   mercredi: string;
@@ -13,6 +14,11 @@ interface Inputs {
   lundi: string;
   mardi: string;
 }
+
+export const metadata: Metadata = {
+  title:
+    "Sondage | Cinéma de patrimoine 2023",
+};
 
 export default function SemaineAuCinema() {
   useSearchParams();
@@ -32,15 +38,36 @@ export default function SemaineAuCinema() {
     (int) => int as keyof Inputs,
   );
 
-  const [userName, setUserName] = useState('');
   const [responseMessage, setResponseMessage] = useState('');
-  const [autreInformation, setAutreInformation] = useState('');
+  const [userName, setUserName] = useState('');
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setUserName(event.target.value);
   };
+  const [mail, setmail] = useState('');
+  const handlemailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setmail(event.target.value);
+  };
+
+
+  const [autreInformation, setAutreInformation] = useState('');
   const handleAutreInformationChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setAutreInformation(event.target.value);
   };
+
+  const [othermovies, setothermovies] = useState('');
+  const handleothermoviesChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setothermovies(event.target.value);
+  };
+
+  const [nombredefois, setnombredefois] = useState('');
+  const handlenombredefoisChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setnombredefois(event.target.value);
+  };
+  const [real, setreal] = useState('');
+  const handlerealChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setreal(event.target.value);
+  };
+
 
   const [topsValues, setTopsValues] = useState<string[]>(Array(tops.length).fill(''));
   const handleSearchTermChange = (index: number, term: string) => {
@@ -55,14 +82,41 @@ export default function SemaineAuCinema() {
 
   return (
     <>
+        <h1>
+            Sondage
+        </h1>
       <h2>
-        Votre Top5 2023 :
+        Votez pour vos meilleures découvertes de cinéma de patrimoine de 2023 !
       </h2>
-      <div style={{ textAlign: "center" }}>
+        <br />
+
+        <h4>
+            Rappel: est élligible tout film vieux de plus de trois ans. Veuillez sélectionner entre cinq et dix films.
+        </h4>
+        <br />
+        <span>
+            <input
+                type="text"
+                id="userNameInput"
+                placeholder="Nom"
+                value={userName}
+                onChange={handleInputChange}
+                style={{ fontSize: "20px", marginBottom:"10px"}}
+            />
+            <input
+                type="text"
+                id="mail"
+                placeholder="email"
+                value={mail}
+                onChange={handlemailChange}
+                style={{ fontSize: "20px", marginBottom:"10px"}}
+            />
+        </span>
+      <div style={{ textAlign: "center", padding:"5px" }}>
           <form>
           {tops.map((k, i) => (
             <Fragment key={k}>
-              <h3>{"Numéro " + (i+1)}</h3>
+              <h3>{"#" + (i+1)}</h3>
               <Top2023Search
                   onSearchTermChange={(term) => handleSearchTermChange(i, term)}
               />
@@ -70,8 +124,39 @@ export default function SemaineAuCinema() {
           ))}
           <br />
           <br />
-                  <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                      <label htmlFor="autreInformation" style={{ fontSize: "20px", marginBottom: '8px' }}>Vous voulez nous dire quelque chose ? </label>
+                  <div style={{ display: 'flex', flexDirection: 'column', padding: "10px", alignItems: 'center' }}>
+                      <label htmlFor="othermovies" style={{ fontSize: "20px", marginBottom: '10px' }}> Y a-t-il d'autres films dans votre Top ? (optionnel)</label>
+                      <textarea
+                        id="othermovies"
+                        value={othermovies}
+                        rows={5}
+                        style={{fontSize: "20px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px'}}
+                        onChange={handleothermoviesChange}
+                      />
+                  </div>
+
+                  <div style={{ display: 'flex', flexDirection: 'column', padding: "10px", alignItems: 'center' }}>
+                      <label htmlFor="nombredefois" style={{ fontSize: "20px", marginBottom: '10px' }}> A combien estimez-vous le nombre de fois où vous êtes allés voir un film de patrimoine au cinéma cette année ? (optionnel)</label>
+                      <textarea
+                        id="nombredefois"
+                        value={nombredefois}
+                        rows={5}
+                        style={{fontSize: "20px", wordWrap: 'break-word', width: '125px', height: '40px', padding: '5px'}}
+                        onChange={handlenombredefoisChange}
+                      />
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', padding: "10px", alignItems: 'center' }}>
+                      <label htmlFor="real" style={{ fontSize: "20px", marginBottom: '10px' }}>Y a-t-il des films/réalisateurs en particulier que vous aimeriez voir plus souvent programmés en salle ? (optionnel)</label>
+                      <textarea
+                        id="real"
+                        value={real}
+                        rows={5}
+                        style={{fontSize: "20px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px'}}
+                        onChange={handlerealChange}
+                      />
+                  </div>
+                  <div style={{ display: 'flex', flexDirection: 'column', padding: "10px", alignItems: 'center' }}>
+                      <label htmlFor="autreInformation" style={{ fontSize: "20px", marginBottom: '10px' }}>Vous voulez nous dire quelque chose ? (optionnel)</label>
                       <textarea
                         id="autreInformation"
                         value={autreInformation}
@@ -79,21 +164,23 @@ export default function SemaineAuCinema() {
                         style={{fontSize: "20px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px'}}
                         onChange={handleAutreInformationChange}
                       />
-              </div>
+                  </div>
         </form>
       </div>
-        <br />
-        <input
-            type="text"
-            id="userNameInput"
-            placeholder="Nom Prénom"
-            value={userName}
-            onChange={handleInputChange}
-            style={{ fontSize: "20px"}}
-        />
         <span>
-            <button onClick={() => sendNameToFirestore(userName, topsValues, autreInformation, setResponseMessage)} style={{ fontSize: "20px"}}>
-                Envoyez nous votre Top
+            <button onClick={() =>
+                sendNameToFirestore(
+                    userName,
+                    mail,
+                    topsValues,
+                    othermovies,
+                    autreInformation,
+                    nombredefois,
+                    real,
+                    setResponseMessage
+                )
+            } style={{ fontSize: "20px", padding:"10px", backgroundColor: 'rgba(255, 77, 77, 0.5)' }}>
+                Envoyez votre top !
             </button>
         </span>
         <p>{responseMessage}</p>
@@ -101,13 +188,31 @@ export default function SemaineAuCinema() {
   );
 }
 
-async function sendNameToFirestore(userName: string, topsValues: string[], autreInformation: string, setResponseMessage: (message: string) => void) {
+async function sendNameToFirestore(
+    userName: string,
+    mail: string,
+    topsValues: string[],
+    othermovies: string,
+    autreInformation: string,
+    nombredefois: string,
+    real: string,
+    setResponseMessage: (message: string) => void)
+{
     const response = await fetch('https://europe-west1-website-cine.cloudfunctions.net/add_name_to_firestore', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({"name": userName, "tops": topsValues, "autre": autreInformation}),
+        body: JSON.stringify(
+            {
+                "name": userName,
+                "mail": mail,
+                "tops": topsValues,
+                "othermovies": othermovies,
+                "nombredefois": nombredefois,
+                "real": real,
+                "autre": autreInformation}
+        ),
     });
     if (response.ok) {
         setResponseMessage("Bien reçu, merci !");
