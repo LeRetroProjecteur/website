@@ -203,7 +203,7 @@ async function sendNameToFirestore(
     mail: string,
     topsValues: string[],
     othermovies: string,
-    autreInformation: string,
+    autreinformation: string,
     nombredefois: string,
     real: string,
     setResponseMessage: (message: string) => void)
@@ -221,7 +221,7 @@ async function sendNameToFirestore(
                 "othermovies": othermovies,
                 "nombredefois": nombredefois,
                 "real": real,
-                "autre": autreInformation}
+                "autreinformation": autreinformation}
         ),
     });
     if (response.ok) {
