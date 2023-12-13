@@ -86,7 +86,7 @@ export default function SemaineAuCinema() {
             Sondage
         </h1>
       <h2>
-        Votez pour vos meilleures découvertes de cinéma de patrimoine de 2023 !
+        Votez pour vos meilleures découvertes de cinéma de patrimoine de 2023&nbsp!
       </h2>
         <br />
 
