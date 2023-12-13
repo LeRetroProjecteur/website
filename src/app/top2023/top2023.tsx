@@ -175,7 +175,7 @@ export default function SemaineAuCinema() {
                   </div>
         </form>
       </div>
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10vh' }}>
+        <div style={{ display: 'flex', padding:"15px", justifyContent: 'center', alignItems: 'center', height: '10vh' }}>
         <span>
             <button onClick={() =>
                 sendNameToFirestore(
@@ -188,7 +188,7 @@ export default function SemaineAuCinema() {
                     real,
                     setResponseMessage
                 )
-            } style={{ fontSize: "15px", padding:"10px", backgroundColor: 'rgba(255, 77, 77, 0.5)' }}>
+            } style={{ fontSize: "15px", padding:"5px", backgroundColor: 'rgba(255, 77, 77, 0.5)' }}>
                 Envoyez votre top !
             </button>
             <p><b>{responseMessage}</b></p>
