@@ -92,8 +92,10 @@ export default function SemaineAuCinema() {
 
         <h4>
             Est élligible tout film vieux de plus de trois ans. Vous pouvez lister entre cinq et dix films.
-            NB : Si vous ne trouvez pas votre choix dans les propositions automatiques, entrez simplement le nom du film et du réalisateur et passez à la prochaine case suivante.
         </h4>
+        <p>
+            <b>NB :</b>Si vous ne trouvez pas votre choix dans les propositions automatiques, entrez simplement le nom du film et du réalisateur et passez à la prochaine case suivante.
+        </p>
         <br />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <span>
@@ -105,6 +107,8 @@ export default function SemaineAuCinema() {
                 onChange={handleInputChange}
                 style={{ fontSize: "15px", marginBottom:"10px"}}
             />
+        </span>
+        <span>
             <input
                 type="text"
                 id="mail"
