@@ -125,7 +125,7 @@ export default function SemaineAuCinema() {
           <br />
           <br />
                   <div style={{ display: 'flex', flexDirection: 'column', padding: "10px", alignItems: 'center' }}>
-                      <label htmlFor="othermovies" style={{ fontSize: "20px", marginBottom: '10px' }}> Y a-t-il d'autres films dans votre Top ? (optionnel)</label>
+                      <label htmlFor="othermovies" style={{ fontSize: "20px", marginBottom: '10px' }}> Y a-t-il des films supplémentaires dans votre Top ? (optionnel)</label>
                       <textarea
                         id="othermovies"
                         value={othermovies}
