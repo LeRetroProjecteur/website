@@ -49,9 +49,9 @@ export default function SemaineAuCinema() {
   };
 
 
-  const [autreInformation, setAutreInformation] = useState('');
-  const handleAutreInformationChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setAutreInformation(event.target.value);
+  const [autreinformation, setautreinformation] = useState('');
+  const handleautreinformationChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setautreinformation(event.target.value);
   };
 
   const [othermovies, setothermovies] = useState('');
@@ -160,13 +160,13 @@ export default function SemaineAuCinema() {
                       />
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', padding: "10px", alignItems: 'center' }}>
-                      <label htmlFor="autreInformation" style={{ fontSize: "15px", marginBottom: '10px' }}>Vous voulez nous dire quelque chose ? (optionnel)</label>
+                      <label htmlFor="autreinformation" style={{ fontSize: "15px", marginBottom: '10px' }}>Vous voulez nous dire quelque chose ? (optionnel)</label>
                       <textarea
-                        id="autreInformation"
-                        value={autreInformation}
+                        id="autreinformation"
+                        value={autreinformation}
                         rows={5}
                         style={{fontSize: "15px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px', marginLeft: '10px', marginRight: '10px' }}
-                        onChange={handleAutreInformationChange}
+                        onChange={handleautreinformationChange}
                       />
                   </div>
         </form>
@@ -179,7 +179,7 @@ export default function SemaineAuCinema() {
                     mail,
                     topsValues,
                     othermovies,
-                    autreInformation,
+                    autreinformation,
                     nombredefois,
                     real,
                     setResponseMessage
