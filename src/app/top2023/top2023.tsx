@@ -133,7 +133,7 @@ export default function SemaineAuCinema() {
           <br />
           <br />
                   <div style={{ display: 'flex', flexDirection: 'column', padding: "10px", alignItems: 'center' }}>
-                      <label htmlFor="othermovies" style={{ fontSize: "15px", marginBottom: '10px' }}> Y a-t-il des films supplémentaires dans votre Top ? (optionnel)</label>
+                      <label htmlFor="othermovies" style={{ fontSize: "15px", marginBottom: '10px' }}> Y a-t-il des films supplémentaires dans votre Top ? (facultatif)</label>
                       <textarea
                         id="othermovies"
                         value={othermovies}
@@ -144,7 +144,7 @@ export default function SemaineAuCinema() {
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', padding: "10px", alignItems: 'center' }}>
-                      <label htmlFor="nombredefois" style={{ fontSize: "15px", marginBottom: '10px' }}> A combien estimez-vous le nombre de fois où vous êtes allés voir un film de patrimoine au cinéma cette année ? (optionnel)</label>
+                      <label htmlFor="nombredefois" style={{ fontSize: "15px", marginBottom: '10px' }}> A combien estimez-vous le nombre de fois où vous êtes allés voir un film de patrimoine au cinéma cette année ? (facultatif)</label>
                       <textarea
                         id="nombredefois"
                         value={nombredefois}
@@ -154,7 +154,7 @@ export default function SemaineAuCinema() {
                       />
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', padding: "10px", alignItems: 'center' }}>
-                      <label htmlFor="real" style={{ fontSize: "15px", marginBottom: '10px' }}>Y a-t-il des films/réalisateurs en particulier que vous aimeriez voir plus souvent programmés en salle ? (optionnel)</label>
+                      <label htmlFor="real" style={{ fontSize: "15px", marginBottom: '10px' }}>Y a-t-il des films/réalisateurs en particulier que vous aimeriez voir plus souvent programmés en salle ? (facultatif)</label>
                       <textarea
                         id="real"
                         value={real}
@@ -164,7 +164,7 @@ export default function SemaineAuCinema() {
                       />
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', padding: "10px", alignItems: 'center' }}>
-                      <label htmlFor="autreinformation" style={{ fontSize: "15px", marginBottom: '10px' }}>Vous voulez nous dire quelque chose ? (optionnel)</label>
+                      <label htmlFor="autreinformation" style={{ fontSize: "15px", marginBottom: '10px' }}>Vous voulez nous dire quelque chose ? (facultatif)</label>
                       <textarea
                         id="autreinformation"
                         value={autreinformation}
