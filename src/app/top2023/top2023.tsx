@@ -91,10 +91,10 @@ export default function SemaineAuCinema() {
         <br />
 
         <h4>
-            Est élligible tout film vieux de plus de trois ans. Vous pouvez lister entre cinq et dix films.
+            Est éligible tout film vieux de plus de trois ans. Vous pouvez lister entre cinq et dix films.
         </h4>
         <p>
-            <b>NB: </b>Si vous ne trouvez pas votre choix dans les propositions automatiques, entrez simplement le nom du film et du réalisateur et passez à la case suivante.
+            <b>NB :</b>Si vous ne trouvez pas votre choix dans les propositions automatiques, entrez simplement le nom du film et du réalisateur et passez à la case suivante.
         </p>
         <br />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
