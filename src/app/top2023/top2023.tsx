@@ -91,7 +91,7 @@ export default function SemaineAuCinema() {
         <br />
 
         <h4>
-            Est éligible tout film vieux de plus de trois ans. Vous pouvez lister entre cinq et dix films.
+            Est éligible tout film vieux de plus de trois ans.
         </h4>
         <p>
             <b>NB :</b> Si vous ne trouvez pas votre choix dans les propositions automatiques, entrez simplement le nom du film et du réalisateur et passez à la case suivante.
@@ -138,7 +138,7 @@ export default function SemaineAuCinema() {
                         id="othermovies"
                         value={othermovies}
                         rows={5}
-                        style={{fontSize: "15px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px', marginLeft: '10px', marginRight: '10px'}}
+                        style={{fontSize: "15px", wordWrap: 'break-word', width: 'min(95%, 400px)', height: '100px', padding: '5px', marginLeft: '10px', marginRight: '10px'}}
                         onChange={handleothermoviesChange}
                       />
                   </div>
@@ -149,7 +149,7 @@ export default function SemaineAuCinema() {
                         id="nombredefois"
                         value={nombredefois}
                         rows={5}
-                        style={{fontSize: "15px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px', marginLeft: '10px', marginRight: '10px' }}
+                        style={{fontSize: "15px", wordWrap: 'break-word', width: 'min(95%, 400px)', height: '100px', padding: '5px', marginLeft: '10px', marginRight: '10px' }}
                         onChange={handlenombredefoisChange}
                       />
                   </div>
@@ -159,7 +159,7 @@ export default function SemaineAuCinema() {
                         id="real"
                         value={real}
                         rows={5}
-                        style={{fontSize: "15px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px', marginLeft: '10px', marginRight: '10px' }}
+                        style={{fontSize: "15px", wordWrap: 'break-word', width: 'min(95%, 400px)', height: '100px', padding: '5px', marginLeft: '10px', marginRight: '10px' }}
                         onChange={handlerealChange}
                       />
                   </div>
@@ -169,7 +169,7 @@ export default function SemaineAuCinema() {
                         id="autreinformation"
                         value={autreinformation}
                         rows={5}
-                        style={{fontSize: "15px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px', marginLeft: '10px', marginRight: '10px' }}
+                        style={{fontSize: "15px", wordWrap: 'break-word', width: 'min(95%, 400px)', height: '100px', padding: '5px', marginLeft: '10px', marginRight: '10px' }}
                         onChange={handleautreinformationChange}
                       />
                   </div>
