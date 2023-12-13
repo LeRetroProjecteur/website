@@ -15,11 +15,6 @@ interface Inputs {
   mardi: string;
 }
 
-export const metadata: Metadata = {
-  title:
-    "Sondage | Cinéma de patrimoine 2023",
-};
-
 export default function SemaineAuCinema() {
   useSearchParams();
   const [weekHtml, setWeekHtml] = useState("");
