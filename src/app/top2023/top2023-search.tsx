@@ -32,7 +32,7 @@ export default function Top2023Search(
 
   return (
     <>
-      <div style={{ textAlign: "center" }} ref={inputRef}>
+      <div style={{ textAlign: "center", padding:"6px" }} ref={inputRef}>
         <div className="dropdown">
           <label htmlFor="movie-search"></label>
           <input
