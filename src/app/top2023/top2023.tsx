@@ -138,7 +138,7 @@ export default function SemaineAuCinema() {
                         id="othermovies"
                         value={othermovies}
                         rows={5}
-                        style={{fontSize: "20px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px', marginLeft: '10px', marginRight: '10px'}}
+                        style={{fontSize: "15px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px', marginLeft: '10px', marginRight: '10px'}}
                         onChange={handleothermoviesChange}
                       />
                   </div>
@@ -149,7 +149,7 @@ export default function SemaineAuCinema() {
                         id="nombredefois"
                         value={nombredefois}
                         rows={5}
-                        style={{fontSize: "20px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px', marginLeft: '10px', marginRight: '10px' }}
+                        style={{fontSize: "15px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px', marginLeft: '10px', marginRight: '10px' }}
                         onChange={handlenombredefoisChange}
                       />
                   </div>
@@ -159,7 +159,7 @@ export default function SemaineAuCinema() {
                         id="real"
                         value={real}
                         rows={5}
-                        style={{fontSize: "20px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px', marginLeft: '10px', marginRight: '10px' }}
+                        style={{fontSize: "15px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px', marginLeft: '10px', marginRight: '10px' }}
                         onChange={handlerealChange}
                       />
                   </div>
@@ -188,12 +188,12 @@ export default function SemaineAuCinema() {
                     real,
                     setResponseMessage
                 )
-            } style={{ fontSize: "20px", padding:"10px", backgroundColor: 'rgba(255, 77, 77, 0.5)' }}>
+            } style={{ fontSize: "15px", padding:"10px", backgroundColor: 'rgba(255, 77, 77, 0.5)' }}>
                 Envoyez votre top !
             </button>
+            <p><b>{responseMessage}</b></p>
         </span>
         </div>
-        <p>{responseMessage}</p>
     </>
   );
 }
