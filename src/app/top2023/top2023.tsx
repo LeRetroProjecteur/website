@@ -91,9 +91,11 @@ export default function SemaineAuCinema() {
         <br />
 
         <h4>
-            Rappel: est élligible tout film vieux de plus de trois ans. Veuillez sélectionner entre cinq et dix films.
+            Est élligible tout film vieux de plus de trois ans. Vous pouvez lister entre cinq et dix films.
+            NB : Si vous ne trouvez pas votre choix dans les propositions automatiques, entrez simplement le nom du film et du réalisateur et passez à la prochaine case suivante.
         </h4>
         <br />
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
         <span>
             <input
                 type="text"
@@ -101,17 +103,19 @@ export default function SemaineAuCinema() {
                 placeholder="Nom"
                 value={userName}
                 onChange={handleInputChange}
-                style={{ fontSize: "20px", marginBottom:"10px"}}
+                style={{ fontSize: "15px", marginBottom:"10px"}}
             />
             <input
                 type="text"
                 id="mail"
-                placeholder="email"
+                placeholder="Adresse mail (facultatif)"
                 value={mail}
                 onChange={handlemailChange}
-                style={{ fontSize: "20px", marginBottom:"10px"}}
+                style={{ fontSize: "15px", marginBottom:"10px"}}
             />
         </span>
+        </div>
+        <br />
       <div style={{ textAlign: "center", padding:"5px" }}>
           <form>
           {tops.map((k, i) => (
@@ -125,48 +129,49 @@ export default function SemaineAuCinema() {
           <br />
           <br />
                   <div style={{ display: 'flex', flexDirection: 'column', padding: "10px", alignItems: 'center' }}>
-                      <label htmlFor="othermovies" style={{ fontSize: "20px", marginBottom: '10px' }}> Y a-t-il des films supplémentaires dans votre Top ? (optionnel)</label>
+                      <label htmlFor="othermovies" style={{ fontSize: "15px", marginBottom: '10px' }}> Y a-t-il des films supplémentaires dans votre Top ? (optionnel)</label>
                       <textarea
                         id="othermovies"
                         value={othermovies}
                         rows={5}
-                        style={{fontSize: "20px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px'}}
+                        style={{fontSize: "20px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px', marginLeft: '10px', marginRight: '10px'}}
                         onChange={handleothermoviesChange}
                       />
                   </div>
 
                   <div style={{ display: 'flex', flexDirection: 'column', padding: "10px", alignItems: 'center' }}>
-                      <label htmlFor="nombredefois" style={{ fontSize: "20px", marginBottom: '10px' }}> A combien estimez-vous le nombre de fois où vous êtes allés voir un film de patrimoine au cinéma cette année ? (optionnel)</label>
+                      <label htmlFor="nombredefois" style={{ fontSize: "15px", marginBottom: '10px' }}> A combien estimez-vous le nombre de fois où vous êtes allés voir un film de patrimoine au cinéma cette année ? (optionnel)</label>
                       <textarea
                         id="nombredefois"
                         value={nombredefois}
                         rows={5}
-                        style={{fontSize: "20px", wordWrap: 'break-word', width: '125px', height: '40px', padding: '5px'}}
+                        style={{fontSize: "20px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px', marginLeft: '10px', marginRight: '10px' }}
                         onChange={handlenombredefoisChange}
                       />
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', padding: "10px", alignItems: 'center' }}>
-                      <label htmlFor="real" style={{ fontSize: "20px", marginBottom: '10px' }}>Y a-t-il des films/réalisateurs en particulier que vous aimeriez voir plus souvent programmés en salle ? (optionnel)</label>
+                      <label htmlFor="real" style={{ fontSize: "15px", marginBottom: '10px' }}>Y a-t-il des films/réalisateurs en particulier que vous aimeriez voir plus souvent programmés en salle ? (optionnel)</label>
                       <textarea
                         id="real"
                         value={real}
                         rows={5}
-                        style={{fontSize: "20px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px'}}
+                        style={{fontSize: "20px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px', marginLeft: '10px', marginRight: '10px' }}
                         onChange={handlerealChange}
                       />
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', padding: "10px", alignItems: 'center' }}>
-                      <label htmlFor="autreInformation" style={{ fontSize: "20px", marginBottom: '10px' }}>Vous voulez nous dire quelque chose ? (optionnel)</label>
+                      <label htmlFor="autreInformation" style={{ fontSize: "15px", marginBottom: '10px' }}>Vous voulez nous dire quelque chose ? (optionnel)</label>
                       <textarea
                         id="autreInformation"
                         value={autreInformation}
                         rows={5}
-                        style={{fontSize: "20px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px'}}
+                        style={{fontSize: "15px", wordWrap: 'break-word', width: '400px', height: '100px', padding: '5px', marginLeft: '10px', marginRight: '10px' }}
                         onChange={handleAutreInformationChange}
                       />
                   </div>
         </form>
       </div>
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '10vh' }}>
         <span>
             <button onClick={() =>
                 sendNameToFirestore(
@@ -183,6 +188,7 @@ export default function SemaineAuCinema() {
                 Envoyez votre top !
             </button>
         </span>
+        </div>
         <p>{responseMessage}</p>
     </>
   );

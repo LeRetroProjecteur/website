@@ -41,7 +41,7 @@ export default function Top2023Search(
             onChange={onChangeSearchTerm}
             className="movie-search"
             placeholder="Recherchez un film..."
-            style={{ fontSize: "18px"}}
+            style={{ marginBottom:"10px", fontSize: "15px"}}
           />
             <Dropdown searchTerm={searchTerm} setSearchTerm={setSearchTerm} onSearchTermChange={onSearchTermChange} />
         </div>
