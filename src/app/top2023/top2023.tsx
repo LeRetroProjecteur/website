@@ -86,7 +86,7 @@ export default function SemaineAuCinema() {
             Sondage
         </h1>
       <h2>
-        Votez pour vos meilleures découvertes de cinéma de patrimoine de 2023&nbsp!
+        Votez pour vos meilleures découvertes de cinéma de patrimoine de 2023&nbsp;!
       </h2>
         <br />
 
@@ -94,7 +94,7 @@ export default function SemaineAuCinema() {
             Est éligible tout film vieux de plus de trois ans. Vous pouvez lister entre cinq et dix films.
         </h4>
         <p>
-            <b>NB :</b>Si vous ne trouvez pas votre choix dans les propositions automatiques, entrez simplement le nom du film et du réalisateur et passez à la case suivante.
+            <b>NB :</b> Si vous ne trouvez pas votre choix dans les propositions automatiques, entrez simplement le nom du film et du réalisateur et passez à la case suivante.
         </p>
         <br />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
