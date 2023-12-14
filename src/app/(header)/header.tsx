@@ -8,11 +8,14 @@ import logo from "./logo.png";
 export default function Header() {
   return (
     <>
-      <div className="center" style={{ textAlign: "center", background: "var(--red)"}}>
-          <Link href="/top2023" style={{ color: "var(--white)"}}>
-              Top 2023&nbsp;: Participez à notre sondage&nbsp;!
-          </Link>
-          <p></p>
+      <div
+        className="center"
+        style={{ textAlign: "center", background: "var(--red)" }}
+      >
+        <Link href="/top2023" style={{ color: "var(--white)" }}>
+          Top 2023&nbsp;: Participez à notre sondage&nbsp;!
+        </Link>
+        <p></p>
         {/*<Link href="/subscribe">*/}
         {/*  Abonnez-vous à notre newsletter hebdomadaire&nbsp;!*/}
         {/*</Link>*/}
