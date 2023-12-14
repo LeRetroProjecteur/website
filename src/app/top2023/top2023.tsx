@@ -86,7 +86,12 @@ export default function SemaineAuCinema() {
           <Head>
               <link rel="icon" type="image/png" href="/img/icon.png" />
               <meta name="twitter:card" content="summary_large_image" />
-              <meta name="twitter:image" content="/img/icon.png" />
+              <meta name="twitter:title" content="Sondage Top 2023" />
+              <meta name="twitter:description" content="Votez pour vos meilleures découvertes de cinéma de patrimoine de l'année !" />
+              <meta name="twitter:image" content="https://leretroprojecteur.com/src/app/top2023/img/icon.png" />
+              <meta property="og:title" content="Sondage Top 2023" />
+              <meta property="og:description" content="Votez pour vos meilleures découvertes de cinéma de patrimoine de l'année !" />
+              <meta property="og:image" content="https://leretroprojecteur.com/src/app/top2023/img/icon.png" />
           </Head>
         </div>
         <h1>
@@ -180,18 +185,20 @@ export default function SemaineAuCinema() {
             <br />
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <span>
-                    <button onClick={() =>
-                        sendNameToFirestore(
-                            userName,
-                            mail,
-                            topsValues,
-                            othermovies,
-                            autreinformation,
-                            nombredefois,
-                            real,
-                            setResponseMessage
-                        )
-                    } style={{ fontSize: "16px", padding:"15px", backgroundColor: 'var(--red)', color: 'white', border:"0 none", borderRadius:"4px" }}>
+                    <button
+                        onClick={() =>
+                            sendNameToFirestore(
+                                userName,
+                                mail,
+                                topsValues,
+                                othermovies,
+                                autreinformation,
+                                nombredefois,
+                                real,
+                                setResponseMessage
+                            )
+                        } style={{ fontSize: "16px", padding:"15px", backgroundColor: 'var(--red)', color: 'white', border:"0 none", borderRadius:"4px", cursor:"pointer" }}
+                    >
                         Envoyez votre top !
                     </button>
                     <p><b>{responseMessage}</b></p>
@@ -231,6 +238,6 @@ async function sendNameToFirestore(
     if (response.ok) {
         setResponseMessage("Bien reçu, merci !");
     } else {
-        setResponseMessage("Il y a eu une erreur, pouvez-vous vous ré-essayer ?");
+        setResponseMessage("Il y a eu une erreur, pouvez-vous vous réessayer ?");
     }
 }
