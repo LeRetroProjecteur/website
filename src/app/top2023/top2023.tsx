@@ -3,7 +3,6 @@
 import {useSearchParams} from "next/navigation";
 import React, {Fragment, useEffect, useRef, useState} from "react";
 import Top2023Search from "@/app/top2023/top2023-search";
-import Head from "next/head";
 
 interface Inputs {
   mercredi: string;
@@ -82,18 +81,6 @@ export default function SemaineAuCinema() {
 
   return (
     <>
-        <div>
-          <Head>
-              <link rel="icon" type="image/png" href="/img/icon.png" />
-              <meta name="twitter:card" content="summary_large_image" />
-              <meta name="twitter:title" content="Sondage Top 2023" />
-              <meta name="twitter:description" content="Votez pour vos meilleures découvertes de cinéma de patrimoine de l'année !" />
-              <meta name="twitter:image" content="https://leretroprojecteur.com/src/app/top2023/img/icon.png" />
-              <meta property="og:title" content="Sondage Top 2023" />
-              <meta property="og:description" content="Votez pour vos meilleures découvertes de cinéma de patrimoine de l'année !" />
-              <meta property="og:image" content="https://leretroprojecteur.com/src/app/top2023/img/icon.png" />
-          </Head>
-        </div>
         <h1>
             Sondage
         </h1>
