@@ -41,7 +41,7 @@ export default function Top2023Search(
             onChange={onChangeSearchTerm}
             className="movie-search"
             placeholder="Recherchez un film..."
-            style={{ fontSize: "15px", padding: "5px", border: "1px solid var(--black);" }}
+            style={{ fontSize: "15px", padding: "5px", border: "1px solid var(--black)" }}
           />
             <Dropdown searchTerm={searchTerm} setSearchTerm={setSearchTerm} onSearchTermChange={onSearchTermChange} />
         </div>
@@ -73,7 +73,7 @@ function Dropdown({
       setSearchTerm(`${movie.title}, ${movie.directors} (${movie.year})`);
         onSearchTermChange(`${movie.title}, ${movie.directors} (${movie.year})`);
     },
-    [setSearchTerm],
+      [setSearchTerm, onSearchTermChange],
   );
 
 
