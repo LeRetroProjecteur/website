@@ -339,3 +339,8 @@ select {
   color: var(--darkgrey);
   font-size: 14px;
 }
+
+.selection-item:hover {
+  background-color: var(--red);
+  color: var(--white);
+}
