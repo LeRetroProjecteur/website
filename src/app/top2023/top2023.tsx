@@ -3,6 +3,7 @@
 import {useSearchParams} from "next/navigation";
 import React, {Fragment, useEffect, useRef, useState} from "react";
 import Top2023Search from "@/app/top2023/top2023-search";
+import Head from "next/head";
 
 interface Inputs {
   mercredi: string;
@@ -81,10 +82,17 @@ export default function SemaineAuCinema() {
 
   return (
     <>
-    <h1>
-        Sondage
-    </h1>
-    <h2>
+        <div>
+          <Head>
+              <link rel="icon" type="image/png" href="/img/icon.png" />
+              <meta name="twitter:card" content="summary_large_image" />
+              <meta name="twitter:image" content="/img/icon.png" />
+          </Head>
+        </div>
+        <h1>
+            Sondage
+        </h1>
+      <h2>
         Votez pour vos meilleures découvertes de cinéma de patrimoine de 2023&nbsp;!
     </h2>
     <br />
