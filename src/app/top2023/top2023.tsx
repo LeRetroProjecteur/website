@@ -96,7 +96,7 @@ export default function SemaineAuCinema() {
         Votez pour vos meilleures découvertes de cinéma de patrimoine de 2023&nbsp;!
     </h2>
     <br />
-        <div className="moviebox" style={{ border: "4px solid var(--red);" }}>
+        <div className="moviebox" style={{ border: "4px solid var(--red)" }}>
             <strong>Est éligible tout film vieux de plus de trois ans.</strong>
             <br />
             <b>NB :</b> Si vous ne trouvez pas votre choix dans les propositions automatiques, entrez simplement le nom du film et du réalisateur et passez à la case suivante.
@@ -111,7 +111,7 @@ export default function SemaineAuCinema() {
                         placeholder="Prénom et nom"
                         value={userName}
                         onChange={handleInputChange}
-                        style={{ fontSize: "15px", marginBottom:"10px", width:"200px", padding: "5px", border: "1px solid var(--black);" }}
+                        style={{ fontSize: "15px", marginBottom:"10px", width:"200px", padding: "5px", border: "1px solid var(--black)" }}
                     />
                 </span>
                 <span>
@@ -121,7 +121,7 @@ export default function SemaineAuCinema() {
                         placeholder="Adresse mail (facultatif)"
                         value={mail}
                         onChange={handlemailChange}
-                        style={{ fontSize: "15px", marginBottom:"10px", width:"200px", padding: "5px", border: "1px solid var(--black);"  }}
+                        style={{ fontSize: "15px", marginBottom:"10px", width:"200px", padding: "5px", border: "1px solid var(--black)"  }}
                     />
                 </span>
             </div>
