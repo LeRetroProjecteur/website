@@ -17,6 +17,7 @@ This is the source code of the website [Le Rétro Projecteur](https://leretropro
 - Navigate to repo directory
 - (optional) Créer un fichier .env.local et y insérer la clef Firebase au format suivant : `FIREBASE_API_KEY=<clef-firebase>`
 - Run `$ pnpm install`
+- Install [prettier](https://prettier.io/docs/en/install.html)
 
 ### To spin up a local host
 
@@ -31,4 +32,4 @@ This is the source code of the website [Le Rétro Projecteur](https://leretropro
 - Run `$ pnpm run build` (to check that the website builds correctly)
 - `$ pnpm lint`
 - Push changes
-- pnpm exec prettier . --write
+- `$ pnpm exec prettier . --write`
