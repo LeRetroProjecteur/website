@@ -136,7 +136,6 @@ input {
   max-width: 90%;
   background-color: var(--white);
   box-shadow: none;
-  border-color: var(--black);
   border-radius: 4px;
   border: 1px solid black;
 }
@@ -152,7 +151,6 @@ input {
   top: -5px;
   right: -9px; /* half the width */
   border-radius: 50%;
-  border-color: var(--black);
   background-color: var(--white);
   border: 1px solid black;
   box-shadow: none;
