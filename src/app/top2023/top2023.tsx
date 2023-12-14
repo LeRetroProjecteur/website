@@ -81,7 +81,7 @@ export default function SemaineAuCinema() {
 
   return (
     <>
-        <div>
+        {/*<div>*/}
           {/*<Head>*/}
           {/*    <link rel="icon" type="image/png" href="/img/icon.png" />*/}
           {/*    <meta name="twitter:card" content="summary_large_image" />*/}
@@ -92,7 +92,7 @@ export default function SemaineAuCinema() {
           {/*    <meta property="og:description" content="Votez pour vos meilleures découvertes de cinéma de patrimoine de l'année !" />*/}
           {/*    <meta property="og:image" content="https://leretroprojecteur.com/src/app/top2023/img/icon.png" />*/}
           {/*</Head>*/}
-        </div>
+        {/*</div>*/}
         <h1>
             Sondage
         </h1>
