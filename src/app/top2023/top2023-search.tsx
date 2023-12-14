@@ -32,7 +32,7 @@ export default function Top2023Search(
 
   return (
     <>
-      <div style={{ textAlign: "center", padding:"6px" }} ref={inputRef}>
+      <div style={{ textAlign: "center", marginBottom:"10px" }} ref={inputRef}>
         <div className="dropdown">
           <label htmlFor="movie-search"></label>
           <input
@@ -41,7 +41,7 @@ export default function Top2023Search(
             onChange={onChangeSearchTerm}
             className="movie-search"
             placeholder="Recherchez un film..."
-            style={{ marginBottom:"10px", fontSize: "15px"}}
+            style={{ fontSize: "15px", padding: "5px", border: "1px solid var(--black);" }}
           />
             <Dropdown searchTerm={searchTerm} setSearchTerm={setSearchTerm} onSearchTermChange={onSearchTermChange} />
         </div>
@@ -96,8 +96,8 @@ function Dropdown({
   return (
     <div id="dropDown" className="dropdown-content show">
       {filtered.map((movie) => (
-        <div key={movie.id} onClick={() => selectMovie(movie)} style={{ cursor: 'pointer' } }>
-          <i>{movie.title}</i>, {movie.directors} ({movie.year})
+        <div className = "selection-item" key={movie.id} onClick={() => selectMovie(movie)} style={{ cursor: 'pointer' }}>
+            <i>{movie.title}</i>, {movie.directors} ({movie.year})
         </div>
       ))}
     </div>
