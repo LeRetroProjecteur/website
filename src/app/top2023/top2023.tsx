@@ -79,7 +79,9 @@ export default function SemaineAuCinema() {
     <>
         <div>
           <Head>
-            <link rel="icon" type="image/png" href="/img/icon.png" />
+              <link rel="icon" type="image/png" href="/img/icon.png" />
+              <meta name="twitter:card" content="summary_large_image" />
+              <meta name="twitter:image" content="/img/icon.png" />
           </Head>
         </div>
         <h1>
