@@ -1,5 +1,7 @@
 import { Metadata } from "next";
+import Head from "next/head";
 import Image from "next/image";
+import React from "react";
 
 import altman from "./img/altman.jpg";
 import cuaronAnderson from "./img/cuaron-anderson.jpg";
@@ -7,11 +9,10 @@ import icon from "./img/icon.png";
 import lyon from "./img/lyon.jpeg";
 import mareeNoire from "./img/maree_noire.jpeg";
 import ozuRay from "./img/ozu-ray.jpg";
-import Head from "next/head";
-import React from "react";
 
 export const metadata: Metadata = {
-  title: "Retour sur le Festival Lumière 2023 | Le Rétro Projecteur — Cinéma de patrimoine à Paris",
+  title:
+    "Retour sur le Festival Lumière 2023 | Le Rétro Projecteur — Cinéma de patrimoine à Paris",
 };
 
 export default function FestivalLumiere() {
@@ -20,11 +21,23 @@ export default function FestivalLumiere() {
       <div>
         <Head>
           <link rel="icon" type="image/png" href="/img/icon.png" />
-          <meta property="og:title" content="Retour sur le Festival Lumière 2023" />
-          <meta property="og:image" content="https://leretroprojecteur.com/src/app/chroniques/festival-lumiere-2023/img/icon.png" />
+          <meta
+            property="og:title"
+            content="Retour sur le Festival Lumière 2023"
+          />
+          <meta
+            property="og:image"
+            content="https://leretroprojecteur.com/src/app/chroniques/festival-lumiere-2023/img/icon.png"
+          />
           <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content="Retour sur le Festival Lumière 2023" />
-          <meta name="twitter:image" content="https://leretroprojecteur.com/src/app/chroniques/festival-lumiere-2023/img/icon.png" />
+          <meta
+            name="twitter:title"
+            content="Retour sur le Festival Lumière 2023"
+          />
+          <meta
+            name="twitter:image"
+            content="https://leretroprojecteur.com/src/app/chroniques/festival-lumiere-2023/img/icon.png"
+          />
         </Head>
       </div>
       <h1>Retour sur le Festival Lumière 2023</h1>
