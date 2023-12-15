@@ -30,6 +30,6 @@ This is the source code of the website [Le Rétro Projecteur](https://leretropro
 - Create new branch
 - Make changes
 - Run `$ pnpm run build` (to check that the website builds correctly)
-- `$ pnpm lint`
+- Run `$ pnpm lint`
+- Run `$ pnpm exec prettier . --write`
 - Push changes
-- `$ pnpm exec prettier . --write`
