@@ -98,7 +98,7 @@ export default function SemaineAuCinema() {
         <strong>Est éligible tout film vieux de plus de trois ans.</strong>
         <br />
         <b>NB :</b> Si vous ne trouvez pas votre choix dans les propositions
-        automatiques, entrez simplement le nom du film et du réalisateur et
+        automatiques, entrez simplement le nom et les informations du film et
         passez à la case suivante.
         <br />
         <br />
@@ -168,7 +168,7 @@ export default function SemaineAuCinema() {
               <label htmlFor="othermovies" style={{ fontSize: "15px" }}>
                 {" "}
                 Quels autres films avez-vous particulièrement apprécié découvrir
-                cette année ? (facultatif)
+                cette année&nbsp;? (facultatif)
               </label>
               <textarea
                 id="othermovies"
@@ -194,8 +194,9 @@ export default function SemaineAuCinema() {
             >
               <label htmlFor="nombredefois" style={{ fontSize: "15px" }}>
                 {" "}
-                A combien estimez-vous le nombre de fois où vous êtes allés voir
-                un film de patrimoine au cinéma cette année ? (facultatif)
+                À combien estimez-vous le nombre de fois où vous êtes allé·e·s
+                voir un film de patrimoine au cinéma cette année&nbsp;?
+                (facultatif)
               </label>
               <textarea
                 id="nombredefois"
@@ -220,8 +221,9 @@ export default function SemaineAuCinema() {
               }}
             >
               <label htmlFor="real" style={{ fontSize: "15px" }}>
-                Y a-t-il des films/réalisateurs en particulier que vous aimeriez
-                voir plus souvent programmés en salle ? (facultatif)
+                Y a-t-il des films/réalisateur·rices en particulier que vous
+                aimeriez voir plus souvent programmés en salle&nbsp;?
+                (facultatif)
               </label>
               <textarea
                 id="real"
@@ -247,7 +249,7 @@ export default function SemaineAuCinema() {
             >
               <label htmlFor="autreinformation" style={{ fontSize: "15px" }}>
                 Faites-nous part de vos retours sur notre projet ou sur notre
-                site web ! (facultatif)
+                site web&nbsp;! (facultatif)
               </label>
               <textarea
                 id="autreinformation"
@@ -297,7 +299,7 @@ export default function SemaineAuCinema() {
                 cursor: "pointer",
               }}
             >
-              Envoyez votre top !
+              Envoyez votre top&nbsp;!
             </button>
             <p>
               <b>{responseMessage}</b>
