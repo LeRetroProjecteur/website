@@ -13,6 +13,14 @@ import ozuRay from "./img/ozu-ray.jpg";
 export const metadata: Metadata = {
   title:
     "Retour sur le Festival Lumière 2023 | Le Rétro Projecteur — Cinéma de patrimoine à Paris",
+  description: "Créer l'événement autour du cinéma de patrimoine.",
+  other: {
+    "og:image":
+      "https://leretroprojecteur.com/chroniques/festival-lumiere-2023/img/icon.png",
+    "twitter:card": "summary_large_image",
+    "twitter:image":
+      "https://leretroprojecteur.com/chroniques/festival-lumiere-2023/img/icon.png",
+  },
 };
 
 export default function FestivalLumiere() {
@@ -21,23 +29,6 @@ export default function FestivalLumiere() {
       <div>
         <Head>
           <link rel="icon" type="image/png" href="/img/icon.png" />
-          <meta
-            property="og:title"
-            content="Retour sur le Festival Lumière 2023"
-          />
-          <meta
-            property="og:image"
-            content="https://leretroprojecteur.com/src/app/chroniques/festival-lumiere-2023/img/icon.png"
-          />
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta
-            name="twitter:title"
-            content="Retour sur le Festival Lumière 2023"
-          />
-          <meta
-            name="twitter:image"
-            content="https://leretroprojecteur.com/src/app/chroniques/festival-lumiere-2023/img/icon.png"
-          />
         </Head>
       </div>
       <h1>Retour sur le Festival Lumière 2023</h1>
