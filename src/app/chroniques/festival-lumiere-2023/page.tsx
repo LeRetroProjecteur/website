@@ -1,5 +1,7 @@
 import { Metadata } from "next";
+import Head from "next/head";
 import Image from "next/image";
+import React from "react";
 
 import altman from "./img/altman.jpg";
 import cuaronAnderson from "./img/cuaron-anderson.jpg";
@@ -16,6 +18,28 @@ export const metadata: Metadata = {
 export default function FestivalLumiere() {
   return (
     <>
+      <div>
+        <Head>
+          <link rel="icon" type="image/png" href="/img/icon.png" />
+          <meta
+            property="og:title"
+            content="Retour sur le Festival Lumière 2023"
+          />
+          <meta
+            property="og:image"
+            content="https://leretroprojecteur.com/src/app/chroniques/festival-lumiere-2023/img/icon.png"
+          />
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta
+            name="twitter:title"
+            content="Retour sur le Festival Lumière 2023"
+          />
+          <meta
+            name="twitter:image"
+            content="https://leretroprojecteur.com/src/app/chroniques/festival-lumiere-2023/img/icon.png"
+          />
+        </Head>
+      </div>
       <h1>Retour sur le Festival Lumière 2023</h1>
       <Image
         width={700}
