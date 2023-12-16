@@ -14,6 +14,7 @@ import { format, hoursToSeconds } from "date-fns";
 
 import { getFirebase } from "./firebase";
 import {
+  Ballot,
   Movie,
   MovieDetail,
   MovieWithShowtimesByDay,
@@ -21,6 +22,17 @@ import {
   SearchMovie,
 } from "./types";
 import { checkNotNull, getNextMovieWeek } from "./util";
+
+export const getBallots = async () => {
+  const { db } = getFirebase();
+  const q = query(collection(db, `names`));
+  const querySnapshot = await getDocs(q);
+  const data_aux: Ballot[] = [];
+  querySnapshot.forEach((doc) => {
+    data_aux.push(doc.data().name);
+  });
+  return data_aux;
+};
 
 export const getWeekMovies = async () => {
   const nextMovieWeek = getNextMovieWeek();
