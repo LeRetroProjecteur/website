@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import SurveyCounter from "./survey-counter";
 
 export const metadata: Metadata = {
-  title: "To the moon | Le Rétro Projecteur – Cinéma de patrimoine à Paris",
+  title: "Ad Astra | Le Rétro Projecteur – Cinéma de patrimoine à Paris",
 };
 
 export default function CoeurPage() {
