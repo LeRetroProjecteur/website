@@ -29,6 +29,7 @@ This is the source code of the website [Le Rétro Projecteur](https://leretropro
 
 - Create new branch
 - Make changes
+- Check there is no warning with `$ pnpm run dev`
 - Run `$ pnpm run build` (to check that the website builds correctly)
 - Run `$ pnpm lint`
 - Run `$ pnpm exec prettier . --write`

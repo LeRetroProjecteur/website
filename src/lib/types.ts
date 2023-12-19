@@ -23,8 +23,8 @@ export interface SearchMovie {
   relevance_score: number;
   directors: string;
   title: string;
+  original_title: string;
   id: string;
-  search_field: string;
 }
 
 export interface ShowtimesTheater {

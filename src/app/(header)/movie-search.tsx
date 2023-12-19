@@ -74,7 +74,14 @@ function Dropdown({
         ? take(
             sortBy(
               movies.filter((movie) =>
-                string_match(searchTerm, movie.search_field),
+                string_match(
+                  searchTerm,
+                  movie.directors +
+                    " " +
+                    movie.title +
+                    " " +
+                    movie.original_title,
+                ),
               ),
               (movie) => -movie.relevance_score,
             ),
