@@ -1,11 +1,15 @@
+import { Metadata } from "next";
 import { Suspense } from "react";
 
 import Calendrier from "@/components/calendrier";
 
+export const metadata: Metadata = {
+  title: "Lucid Lamar | Le Rétro Projecteur – Cinéma de patrimoine à Paris",
+};
+
 export default function TousLesFilms() {
   return (
     <>
-      <h2>Bienvenue Frère Lumar !</h2>
       <Suspense fallback={<></>}>
         <Calendrier allMovies={true} />
       </Suspense>

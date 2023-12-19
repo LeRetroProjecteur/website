@@ -1,4 +1,9 @@
+import { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Admin | Le Rétro Projecteur – Cinéma de patrimoine à Paris",
+};
 
 export default function AdminPage() {
   return (

@@ -12,6 +12,12 @@ export default function Footer() {
       <br />
       <hr />
       <br />
+      <div className="center" style={{ textAlign: "center" }}>
+        <Link href="/newsletter">
+          Abonnez-vous à notre newsletter hebdomadaire&nbsp;!
+        </Link>
+      </div>
+      <br />
       <div style={{ textAlign: "center" }}>
         <a
           href="https://twitter.com/RetroProjecteur"

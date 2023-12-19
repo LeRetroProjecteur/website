@@ -4,8 +4,7 @@ import { Suspense } from "react";
 import Coeur from "./coeur";
 
 export const metadata: Metadata = {
-  title:
-    "Nos Coups de Cœur | Le Rétro Projecteur – Cinéma de patrimoine à Paris",
+  title: "Coups de cœur | Le Rétro Projecteur – Cinéma de patrimoine à Paris",
 };
 
 export default function CoeurPage() {
