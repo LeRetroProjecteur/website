@@ -8,7 +8,7 @@ import ranking from "./img/ranking.png";
 
 export const metadata: Metadata = {
   title: "Top 2023 | Le Rétro Projecteur — Cinéma de patrimoine à Paris",
-  description: "Créer l'événement autour du cinéma de patrimoine.",
+  description: "",
   other: {
     "og:image":
       "https://leretroprojecteur.com/chroniques/top-2023-sondage/img/icon.png",
@@ -80,7 +80,7 @@ export default function Sondage2023() {
       <br />
       <div style={{ textAlign: "center" }}>
         <Top
-          name={"Joachim Lepastier"}
+          name={"Joachim Lepastier (Critique)"}
           top={[
             ["Gallipoli", "Peter Weir (1981)"],
             ["Rouge Sang", "Rudolf Thome (1970)"],
@@ -98,7 +98,7 @@ export default function Sondage2023() {
           ]}
         />
         <Top
-          name={"Nicolas Pariser"}
+          name={"Nicolas Pariser (Réalisateur)"}
           top={[
             ["Saraband", "Ingmar Bergman (2003)"],
             ["S.O.B.", "Blake Edwards (1981)"],
@@ -113,7 +113,7 @@ export default function Sondage2023() {
           ]}
         />
         <Top
-          name={"Eric Vernay"}
+          name={"Eric Vernay (Critique)"}
           top={[
             ["Larmes de joie", "Mario Monicelli (1960)"],
             ["Un vrai crime d'amour", "Luigi Comencini (1974)"],
@@ -128,7 +128,7 @@ export default function Sondage2023() {
           ]}
         />
         <Top
-          name={"Marin Gérard"}
+          name={"Marin Gérard (Critique, Critikat)"}
           top={[
             ["L'Homme qui en savait trop", "Alfred Hitchcock (1956)"],
             ["La Blonde framboise", "Raoul Walsh (1941)"],
@@ -164,6 +164,133 @@ export default function Sondage2023() {
               "Jean-Marie Straub, Danièle Huillet (1984)",
             ],
             ["Classified People", "Yolande Zauberman (1987)"],
+          ]}
+        />
+        <Top
+          name={"Nicolas Moreno (Tsounami)"}
+          top={[
+            [
+              "Les Quatre cavaliers de l'apocalypse",
+              "Vincente Minnelli (1962)",
+            ],
+            ["La Clepsydre", "Wojciech Has (1973)"],
+            ["Nanouk l'Esquimau", "Robert J. Flaherty (1922)"],
+            ["Shoah", "Claude Lanzmann (1985)"],
+            [
+              "Guerre et paix - Episode 1: Andreï Bolkonski",
+              "Sergey Bondarchuk (1966)",
+            ],
+            ["Reminiscences of a Journey to Lithuania", "Jonas Mekas (1971)"],
+            ["L'amour fou", "Jacques Rivette (1969)"],
+            ["Wanda", "Barbara Loden (1970)"],
+            ["Jack le magnifique", "Peter Bogdanovich (1979)"],
+            ["Les Chants de Mandrin", "Rabah Ameur-Zaïmeche (2011)"],
+          ]}
+        />
+        <Top
+          name={"Pauline Jannon (SuperSeven)"}
+          top={[
+            ["Spider", "David Cronenberg (2002)"],
+            ["Guerre et Paix", "Sergey Bondarchuk (1966)"],
+            ["Pasqualino", "Lina Wertmüller (1975)"],
+            ["Kasaba", "Nuri Bilge Ceylan (1997)"],
+            ["Jonas qui aura 25 ans en l’an 2000", "Alain Tanner (1976)"],
+            ["Il giovedi", "Dino Risi (1964)"],
+            ["Out-takes from the life of a happy man", "Jonas Mekas (2012)"],
+            ["Ghost Dog: la voie du samourai", "Jim Jarmusch (1999)"],
+            ["Bonjour", "Yasujirô Ozu (1959)"],
+            ["Cette sacrée vérité", "Leo McCarey (1937)"],
+          ]}
+        />
+        <Top
+          name={"Sylvain Lefort (Revus & Corrigés)"}
+          top={[
+            ["Les Soeurs Munekata", "Yasujirô Ozu (1950)"],
+            ["Intolérance", "D.W. Griffith (1916)"],
+            ["Une vie difficile", "Dino Risi (1961)"],
+            ["Au fil du temps", "Wim Wenders (1976)"],
+            ["Daniel", "Sidney Lumet (1983)"],
+            [
+              "Jeanne Dielman",
+              "23, quai du Commerce, 1080 Bruxelles, Chantal Akerman (1975)",
+            ],
+            ["Petulia", "Richard Lester (1968)"],
+            ["La Bataille d'Alger", "Gillo Pontecorvo (1966)"],
+            ["Graffiti Party", "John Milius (1978)"],
+            ["Vie privée", "Louis Malle (1962)"],
+          ]}
+        />
+        <Top
+          name={"Alicia Arpaia (Sorociné)"}
+          top={[
+            ["Hester Street", "Joan Micklin Silver (1975)"],
+            [
+              "Les Aventures du prince Ahmed",
+              "Lotte Reiniger, Carl Koch (1926)",
+            ],
+            ["Wanda", "Barbara Loden (1970)"],
+            [
+              "Jeanne Dielman",
+              "23, quai du Commerce, 1080 Bruxelles, Chantal Akerman (1975)",
+            ],
+            ["Le Challat de Tunis", "Kaouther Ben Hania (2014)"],
+            ["Récréations", "Claire Simon (1992)"],
+            ["Nous étions jeunes", "Binka Zhelyazkova (1961)"],
+            ["Haut les coeurs!", "Solveig Anspach (1998)"],
+            ["La dame de Constantinople", "Judit Elek (1969)"],
+            ["Lumière", "Jeanne Moreau (1976)"],
+          ]}
+        />
+        <Top
+          name={"Matteu Maestracci (Critique)"}
+          top={[
+            ["Violent Cop", "Takeshi Kitano (1989)"],
+            ["Autour de minuit", "Bertrand Tavernier (1986)"],
+            ["Taram et le chaudron magique", "Ted Berman, Richard Rich (1985)"],
+            ["Mais vous êtes fous", "Audrey Diwan (2018)"],
+            ["Hôtel des Amériques", "André Téchiné (1981)"],
+          ]}
+        />
+        <Top
+          name={"Victor Courgeon (Cinéma Le Méliès)"}
+          top={[
+            ["L'Âme sœur", "Fredi M. Murer (1985)"],
+            ["Unrelated", "Joanna Hogg (2007)"],
+            ["The Appointment", "Lindsey C. Vickers (1981)"],
+            ["Déménagement", "Shinji Sōmai (1993)"],
+            ["Vengeance Is Mine", "Michael Roemer (1984)"],
+          ]}
+        />
+        <Top
+          name={"Jean-Michel Frodon (Critique)"}
+          top={[
+            ["Adieu Philippine", "Jacques Rozier (1963)"],
+            ["Ce vieux rêve qui bouge", "Alain Guiraudie (2000)"],
+            ["Certaines Femmes", "Kelly Reichardt (2016)"],
+            ["Histoire d&#39;un secret", "Mariana Otero (2003)"],
+            ["L&#39;amour fou", "Jacques Rivette (1969)"],
+            ["La Maman et la Putain", "Jean Eustache (1972)"],
+            ["Le Diable probablement", "Robert Bresson (1977)"],
+            ["Le Goût de la cerise", "Abbas Kiarostami (1997)"],
+            ["Le Joli Mai, Chris Marker", "Pierre Lhomme (1963)"],
+            ["Les Fleurs de Shanghai", "Hou Hsiao-Hsien (1998)"],
+            ["Les Soeurs Munekata", "Yasujirô Ozu (1950)"],
+            ["Loulou", "Maurice Pialat (1980)"],
+            ["Ma nuit chez Maud", "Eric Rohmer (1969)"],
+            ["Nothing But a Man", "Michael Roemer (1964)"],
+            ["Outrage", "Ida Lupino (1950)"],
+            ["Palomita blanca", "Raoul Ruiz (1973)"],
+            ["Portrait of Jason", "Shirley Clarke (1967)"],
+            ["Rio Bravo", "Howard Hawks (1959)"],
+            ["Touki-bouki", "Djibril Diop Mambety (1973)"],
+            ["Tropical Malady", "Apichatpong Weerasethakul (2004)"],
+            ["Une femme sous influence", "John Cassavetes (1974)"],
+            ["Wanda", "Barbara Loden (1970)"],
+            ["Welfare", "Frederick Wiseman (1975)"],
+            [
+              "Wesh Wesh, qu&#39;est-ce qui se passe ?",
+              "Rabah Ameur-Zaïmeche (2001)",
+            ],
           ]}
         />
       </div>
