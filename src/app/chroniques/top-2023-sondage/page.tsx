@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import Head from "next/head";
 import Image from "next/image";
 import React from "react";
 
@@ -22,11 +21,6 @@ export const metadata: Metadata = {
 export default function Sondage2023() {
   return (
     <>
-      <div>
-        <Head>
-          <link rel="icon" type="image/png" href="/img/icon.png" />
-        </Head>
-      </div>
       <h1>Top 2023 : Vos plus belles découvertes de l’année</h1>
       <br />
       Cette année, nous avons voulu, pour la première fois, vous consulter pour
