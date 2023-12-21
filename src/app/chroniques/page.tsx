@@ -5,6 +5,7 @@ import Link from "next/link";
 
 import lumiereIcon from "./festival-lumiere-2023/img/icon.png";
 import top2022 from "./top-2022/img/icon.png";
+import top2023sondage from "./top-2023-sondage/img/icon.png";
 
 export const metadata: Metadata = {
   title: "Chroniques | Le Rétro Projecteur — Cinéma de patrimoine à Paris",
@@ -12,13 +13,19 @@ export const metadata: Metadata = {
 
 const chroniques = [
   {
+    titre: "Top 2023 – Vos plus belles découvertes de l'année",
+    slug: "top-2023-sondage",
+    image: top2023sondage,
+    date: "22 décembre, 2023",
+  },
+  {
     titre: "Retour sur le Festival Lumière 2023",
     slug: "festival-lumiere-2023",
     image: lumiereIcon,
     date: "31 octobre, 2023",
   },
   {
-    titre: "Rétrospective 2022 — Nos meilleures séances patrimoine",
+    titre: "Top 2022 – Nos séances préférées de l'année",
     slug: "top-2022",
     image: top2022,
     date: "2 janvier, 2023",
