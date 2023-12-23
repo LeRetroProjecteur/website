@@ -2,9 +2,11 @@
 
 export default function Top({
   name,
+  role,
   top,
 }: {
   name: React.ReactNode;
+  role: React.ReactNode;
   top: React.ReactNode[][];
 }) {
   return (
@@ -19,7 +21,9 @@ export default function Top({
         verticalAlign: "middle",
       }}
     >
-      <h3>{name}</h3>
+      <h3>
+        {name} (<i>{role}</i>)
+      </h3>
       <ol
         style={{
           paddingLeft: "27px",

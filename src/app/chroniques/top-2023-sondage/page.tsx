@@ -29,8 +29,7 @@ export default function Sondage2023() {
       diverses. Parmi les XXX bulletins reçus, nous recensons plus de XXX
       différents films mentionnés (de XX différents réalisateurs). Malgré tout,
       de réelles tendances se dessinent, liées à ce que nous pourrions appeler
-      “l’actualité du cinéma de patrimoine” : ressorties, rétrospectives,
-      événements spéciaux…
+      une véritable actualité du cinéma de patrimoine.
       <br />
       <br />
       <Image
@@ -41,46 +40,82 @@ export default function Sondage2023() {
         alt=""
       />
       <p className="post-image-caption">
-        N.B.&nbsp;: Étaient éligible tout film de plus de 3 ans. Nous avons pris
-        la liberté de regrouper les votes pour les différentes parties de{" "}
-        <i>Guerre et Paix</i> en un seul film.
+        N.B. : Était éligible tout film de plus de 3 ans.
       </p>
-      Sans grande surprise, l’événement de l’année en termes de cinéma de
-      patrimoine a été la ressortie en MOIS dernier de Jeanne Dielman. Le film,
-      qui venait d’être consacrée “meilleur film de tous les temps” lors de
-      fameux sondage décennal de Sight & Sound, a été mentionné par 49 d’entre
-      vous. Les autres événements : la rétrospective intégrale Jean Eustache,
-      Indéniablement, la ressortie de Jeanne Dielman a été l’événement majeur du
-      cinéma de patrimoine de l’année. Frileux à l’idée de le voir chez soi, les
-      cinéphiles se sont rués
+      C’est sans grande surprise que la ressortie en avril dernier de Jeanne
+      Dielman a été l’événement majeur de l’année du cinéma de patrimoine. Le
+      film, qui venait d’être consacré « meilleur film de tous les temps » par
+      le fameux sondage décennal Sight & Sound, a été sélectionné par XX d’entre
+      vous. Les autres films cités témoignent également d’événements marquants
+      de l’année : la rétrospective historique consacrée à l’intégralité des
+      films de Jean Eustache (jusqu’alors plus ou moins introuvables), la
+      rétrospective Lars von Trier dans la foulée du festival de la Rochelle et
+      la ressortie de nombreux films rares (Déménagement, House, Welfare et Lost
+      Highway).
       <br />
       <br />
-      Cette année, le Prix Lumière (hommage rendu à une figure majeure du
-      septième art) était remis à <strong>Wim Wenders</strong>. L&apos;immense
-      majorité de ses films était donc proposée dans la programmation. Pour le
-      plus grand bonheur de nos lecteurs et lectrices à Paris, on notera que la
-      rétrospective ainsi concoctée a déjà trouvé le chemin des écrans de la
-      capitale (depuis le 25 octobre). Pour nous, cela a été l&apos;occasion de
-      se faire recaler de justesse pour une séance de <i>Paris, Texas</i>, mais
-      aussi de profiter de la ‘Carte blanche à Wim Wenders&apos;. Idée
-      géniale&nbsp;: tous les ans, le récipiendaire du prix s&apos;improvise
-      aussi programmateur. Le choix de Wenders de projeter notamment{" "}
-      <i>Beau Travail</i> (Claire Denis) et <i>Enter The Void</i> (Gaspar Noé),
-      deux œuvres ultra stylisées et sensorielles, avait de quoi surprendre
-      quelque peu. Une invitation à envisager différemment sa propre
-      œuvre&nbsp;?
-      <br />
-      <h2>Tops de personnalités du monde du cinéma</h2>
-      Le Rétro Projecteur a également eu l’occasion de solliciter des
-      contributions de la part de différentes personnes du monde du cinéma :
-      critiques institutionnel·le·s ou indépendant·e·s, cinéastes, membres
-      d’associations promouvant le cinéma, … On est très reconnaissant à toutes
-      ces personnalités !
+      Si Chantal Akerman est également la réalisatrice la plus citée, c’est
+      presque uniquement grâce à Jeanne Dielman (5 votes seulement pour d’autres
+      de ses films). On pourrait lui opposer le cas du réalisateur japonais
+      Yasujiro Ozu : alors même qu’aucun de ses films ne se fraye un chemin dans
+      le Top 10, le cinéaste n’en demeure pas moins troisième en nombre total de
+      citations et surtout celui dont le plus grand nombre de films différents
+      ont été mentionnés (XX, contre XX pour Louis Malle, XX pour Lars von Trier
+      et XX pour JLG). Assez logique, étant donné la ressortie de certains des
+      films « rares et inédits » du maître japonais.
       <br />
       <br />
+      Mais le cas Ozu ne suffit pas à expliquer l’extraordinaire popularité du
+      cinéma japonais dans vos scrutins. En effet, il y a XX citations pour des
+      films japonais (derrière seulement les États-Unis et la France, et
+      nettement devant l’Italie). Aux ressorties déjà mentionnées s’ajoute la
+      popularité de réalisateurs moins connus (Takeshi Kitano, Nobuhiko
+      Ôbayashi, Shinya Tsukamoto, Kinuyo Tanaka, Kaneto Shindô), tous cités au
+      moins 10 fois.
+      <br />
+      <br />
+      Pour le reste, vos choix semble confirmer une certaine idée du canon
+      cinématographique traditionnel : un tropisme européen (après les
+      États-Unis, la France, le Japon et l’Italie viennent la Grande-Bretagne,
+      l’Allemagne, la Belgique, l’Espagne, l’URSS et finalement Taïwan), et un
+      gout prononcé pour les cinéma des années 1970 (première décennie aux
+      nombres de citations devant les années 1990 et 1960).
+      <br />
+      <p style={{ textAlign: "center" }}>***</p>
+      Nous avons également profité de ce sondage pour vous demander ce que vous
+      aimeriez voir plus souvent programmé en salles. Nombre d’entre vous nous
+      ont fait part de votre envie de voir plus de cinéastes asiatiques – ou,
+      peut être, un autre cinéma asiatique – programmés en salles. Ont notamment
+      été cités Tsai Ming Liang, Tsui Hark, Apichatpong Weerasethakul, John Woo,
+      Yoon Ga-eun, Kenji Mizoguchi, Johnnie To, Sammo Hung et Liu Chia-Liang. On
+      espère que le succès des ressorties de cinéma japonais (décrit par l’un·e
+      de vous comme « le plus beau [...] du monde ») donnera des idées à
+      certains distributeurs !
+      <br />
+      <br />
+      Plusieurs d’entre vous nous ont aussi fait part de leur envie de voir plus
+      de femmes cinéastes programmées en salles. Difficile en effet de ne pas se
+      dire que Chantal Akerman a été l’arbre qui cachait la forêt en cette année
+      2023 (réalisatrice la plus citée mais seule femme du top 10). En 2022,
+      nous découvrions en salles l’extraordinaire Variety de Bette Gordon, ou
+      encore l’œuvre de Kinuyo Tanako, confirmant que le manque de
+      représentation de femmes dans le canon traditionnel de la cinéphilie
+      résulte à la fois des obstacles infligés aux femmes cinéastes et du fait
+      que leur œuvre est insuffisamment distribuée.
+      <br />
+      <br />
+      Enfin, vous avez été plusieurs à déplorer l’absence en salles de vieux
+      films d’animation et de documentaires, deux véritables continents de la
+      production cinématographiques trop souvent décrits (pour mieux les
+      ostraciser) comme “genres” à part entière. Que 2024 fasse tomber ces
+      catégories superflues !
+      <br />
+      <br />
+      <h2>Les Tops de l’équipe du Rétro Projecteur</h2>
       <div style={{ textAlign: "center" }}>
         <Top
-          name={"Joachim Lepastier (Critique)"}
+          name={"Lionel Guetta-Jeanrenaud"}
+          role={""}
           top={[
             ["Gallipoli", "Peter Weir (1981)"],
             ["Rouge Sang", "Rudolf Thome (1970)"],
@@ -98,7 +133,8 @@ export default function Sondage2023() {
           ]}
         />
         <Top
-          name={"Nicolas Pariser (Réalisateur)"}
+          name={"Nicolas Guetta-Jeanrenaud"}
+          role={""}
           top={[
             ["Saraband", "Ingmar Bergman (2003)"],
             ["S.O.B.", "Blake Edwards (1981)"],
@@ -113,7 +149,68 @@ export default function Sondage2023() {
           ]}
         />
         <Top
-          name={"Eric Vernay (Critique)"}
+          name={"Ugo Tanielian"}
+          role={""}
+          top={[
+            ["Larmes de joie", "Mario Monicelli (1960)"],
+            ["Un vrai crime d'amour", "Luigi Comencini (1974)"],
+            ["Une vie difficile", "Dino Risi (1961)"],
+            ["Un Jeu brutal", "Jean-Claude Brisseau (1983)"],
+            ["Récit d'un propriétaire", "Yasujirô Ozu (1947)"],
+            ["Daisy Miller", "Peter Bogdanovich (1974)"],
+            ["San Babila : un crime inutile", "Carlo Lizzani (1976)"],
+            ["La rupture", "Claude Chabrol (1970)"],
+            ["Chère Louise", "Philippe de Broca (1972)"],
+            ["Avant de t'aimer", "Ida Lupino, Elmer Clifton (1949)"],
+          ]}
+        />
+      </div>
+      <h2>Tops de personnalités du monde du cinéma</h2>
+      Le Rétro Projecteur a également eu l’occasion de solliciter des
+      contributions de la part de différentes personnes du monde du cinéma :
+      critiques institutionnel·le·s ou indépendant·e·s, cinéastes, membres
+      d’associations promouvant le cinéma, … On est très reconnaissant à toutes
+      ces personnalités ! <br />
+      <br />
+      <div style={{ textAlign: "center" }}>
+        <Top
+          name={"Joachim Lepastier"}
+          role={"Critique, AOC"}
+          top={[
+            ["Gallipoli", "Peter Weir (1981)"],
+            ["Rouge Sang", "Rudolf Thome (1970)"],
+            ["Messidor", "Alain Tanner (1978)"],
+            [
+              "Jeanne Dielman, 23, quai du Commerce, 1080 Bruxelles",
+              "Chantal Akerman (1975)",
+            ],
+            ["House", "Nobuhiko Ôbayashi (1977)"],
+            ["Bungalow pour femmes", "Raoul Walsh (1956)"],
+            ["Un bourgeois tout petit", "petit, Mario Monicelli (1977)"],
+            ["Storie di vita e malavita", "Carlo Lizzani, Mino Giarda (1975)"],
+            ["Seule contre la mafia", "Damiano Damiani (1970)"],
+            ["Confidences pour confidences", "Pascal Thomas (1978)"],
+          ]}
+        />
+        <Top
+          name={"Nicolas Pariser"}
+          role={"Réalisateur"}
+          top={[
+            ["Saraband", "Ingmar Bergman (2003)"],
+            ["S.O.B.", "Blake Edwards (1981)"],
+            ["La Vengeance est à Moi", "Shôhei Imamura (1979)"],
+            ["Elle s'appelait Scorpion", "Shun'ya Itō (1972)"],
+            ["Massacre à la tronçonneuse", "Tobe Hooper (1974)"],
+            ["Le Gaucho", "Jacques Tourneur (1952)"],
+            ["Du rouge pour un truand", "Lewis Teague (1979)"],
+            ["The Big Wednesday", "John Milius (1978)"],
+            ["Voyage sans retour", "Tay Garnett (1932)"],
+            ["Contes cruels de la jeunesse", "Nagisa Oshima (1960)"],
+          ]}
+        />
+        <Top
+          name={"Eric Vernay"}
+          role={"Critique, SoFilm"}
           top={[
             ["Larmes de joie", "Mario Monicelli (1960)"],
             ["Un vrai crime d'amour", "Luigi Comencini (1974)"],
@@ -128,7 +225,8 @@ export default function Sondage2023() {
           ]}
         />
         <Top
-          name={"Marin Gérard (Critique, Critikat)"}
+          name={"Marin Gérard"}
+          role={"Critique, Critikat"}
           top={[
             ["L'Homme qui en savait trop", "Alfred Hitchcock (1956)"],
             ["La Blonde framboise", "Raoul Walsh (1941)"],
@@ -146,7 +244,8 @@ export default function Sondage2023() {
           ]}
         />
         <Top
-          name={"Luc Chessel (Libération)"}
+          name={"Luc Chessel"}
+          role={"Critique, Libération"}
           top={[
             ["Déménagement", "Shinji Sōmai (1993)"],
             ["Sois belle et tais-toi", "Delphine Seyrig (1977)"],
@@ -167,7 +266,8 @@ export default function Sondage2023() {
           ]}
         />
         <Top
-          name={"Nicolas Moreno (Tsounami)"}
+          name={"Nicolas Moreno"}
+          role={"Tsounami"}
           top={[
             [
               "Les Quatre cavaliers de l'apocalypse",
@@ -188,7 +288,8 @@ export default function Sondage2023() {
           ]}
         />
         <Top
-          name={"Pauline Jannon (SuperSeven)"}
+          name={"Pauline Jannon"}
+          role={"SuperSeven"}
           top={[
             ["Spider", "David Cronenberg (2002)"],
             ["Guerre et Paix", "Sergey Bondarchuk (1966)"],
@@ -203,7 +304,8 @@ export default function Sondage2023() {
           ]}
         />
         <Top
-          name={"Sylvain Lefort (Revus & Corrigés)"}
+          name={"Sylvain Lefort"}
+          role={"Revus & Corrigés"}
           top={[
             ["Les Soeurs Munekata", "Yasujirô Ozu (1950)"],
             ["Intolérance", "D.W. Griffith (1916)"],
@@ -221,7 +323,8 @@ export default function Sondage2023() {
           ]}
         />
         <Top
-          name={"Alicia Arpaia (Sorociné)"}
+          name={"Alicia Arpaia"}
+          role={"Sorociné"}
           top={[
             ["Hester Street", "Joan Micklin Silver (1975)"],
             [
@@ -242,7 +345,8 @@ export default function Sondage2023() {
           ]}
         />
         <Top
-          name={"Matteu Maestracci (Critique)"}
+          name={"Matteu Maestracci"}
+          role={"Critique"}
           top={[
             ["Violent Cop", "Takeshi Kitano (1989)"],
             ["Autour de minuit", "Bertrand Tavernier (1986)"],
@@ -252,7 +356,8 @@ export default function Sondage2023() {
           ]}
         />
         <Top
-          name={"Victor Courgeon (Cinéma Le Méliès)"}
+          name={"Victor Courgeon"}
+          role={"Programmateur, Cinéma Le Méliès"}
           top={[
             ["L'Âme sœur", "Fredi M. Murer (1985)"],
             ["Unrelated", "Joanna Hogg (2007)"],
@@ -261,14 +366,22 @@ export default function Sondage2023() {
             ["Vengeance Is Mine", "Michael Roemer (1984)"],
           ]}
         />
+      </div>
+      <br />
+      <div style={{ textAlign: "center" }}>
+        Plutôt que de nous faire part de ses plus belles découvertes de l’année,
+        Jean-Michel Frodon a choisi ses coups de cœur parmi tous les films que
+        nous avons sélectionnés dans les conseils hebdomadaires de notre
+        newsletter en 2023. Les voici :
         <Top
-          name={"Jean-Michel Frodon (Critique)"}
+          name={"Jean-Michel Frodon"}
+          role={"Critique"}
           top={[
             ["Adieu Philippine", "Jacques Rozier (1963)"],
             ["Ce vieux rêve qui bouge", "Alain Guiraudie (2000)"],
             ["Certaines Femmes", "Kelly Reichardt (2016)"],
-            ["Histoire d&#39;un secret", "Mariana Otero (2003)"],
-            ["L&#39;amour fou", "Jacques Rivette (1969)"],
+            ["Histoire d'un secret", "Mariana Otero (2003)"],
+            ["L'amour fou", "Jacques Rivette (1969)"],
             ["La Maman et la Putain", "Jean Eustache (1972)"],
             ["Le Diable probablement", "Robert Bresson (1977)"],
             ["Le Goût de la cerise", "Abbas Kiarostami (1997)"],
@@ -288,7 +401,7 @@ export default function Sondage2023() {
             ["Wanda", "Barbara Loden (1970)"],
             ["Welfare", "Frederick Wiseman (1975)"],
             [
-              "Wesh Wesh, qu&#39;est-ce qui se passe ?",
+              "Wesh Wesh, qu'est-ce qui se passe ?",
               "Rabah Ameur-Zaïmeche (2001)",
             ],
           ]}
