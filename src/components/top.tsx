@@ -12,11 +12,11 @@ export default function Top({
   return (
     <div
       style={{
-        width: "min(95%, 400px)",
-        height: "420px", // Set a fixed height for the container
+        width: "min(95%, 325px)",
+        minHeight: "480px", // Set a fixed height for the container
         backgroundColor: "var(--lightred)",
         border: "3px solid var(--red)",
-        padding: "6px",
+        padding: "4px",
         margin: "3px",
         display: "inline-block",
         verticalAlign: "middle",
