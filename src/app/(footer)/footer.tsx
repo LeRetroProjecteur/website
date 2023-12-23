@@ -13,7 +13,7 @@ export default function Footer() {
       <hr />
       <br />
       <div className="center" style={{ textAlign: "center" }}>
-        <Link href="/newsletter">
+        <Link href="/subscribe">
           Abonnez-vous à notre newsletter hebdomadaire&nbsp;!
         </Link>
       </div>
