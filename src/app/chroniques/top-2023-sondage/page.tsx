@@ -152,16 +152,16 @@ export default function Sondage2023() {
           name={"Ugo Tanielian"}
           role={""}
           top={[
-            ["Larmes de joie", "Mario Monicelli (1960)"],
-            ["Un vrai crime d'amour", "Luigi Comencini (1974)"],
-            ["Une vie difficile", "Dino Risi (1961)"],
-            ["Un Jeu brutal", "Jean-Claude Brisseau (1983)"],
-            ["Récit d'un propriétaire", "Yasujirô Ozu (1947)"],
-            ["Daisy Miller", "Peter Bogdanovich (1974)"],
-            ["San Babila : un crime inutile", "Carlo Lizzani (1976)"],
-            ["La rupture", "Claude Chabrol (1970)"],
-            ["Chère Louise", "Philippe de Broca (1972)"],
-            ["Avant de t'aimer", "Ida Lupino, Elmer Clifton (1949)"],
+            ["Blood Simple, Joel Coen, Ethan Coen (1984)"],
+            ["Il était un père, Yasujirô Ozu (1942)"],
+            ["John McCabe, Robert Altman (1971)"],
+            ["Bonnie and Clyde, Arthur Penn (1967)"],
+            ["Nothing But a Man, Michael Roemer (1964)"],
+            ["À bout de course, Sidney Lumet (1988)"],
+            ["La Chronique des pauvres amants, Carlo Lizzani (1954)"],
+            ["Ténèbres, Dario Argento (1982)"],
+            ["Serpico, Sidney Lumet (1973)"],
+            ["La Nuit du chasseur, Charles Laughton (1955)"],
           ]}
         />
       </div>
