@@ -117,51 +117,57 @@ export default function Sondage2023() {
           name={"Lionel Guetta-Jeanrenaud"}
           role={""}
           top={[
-            ["Gallipoli", "Peter Weir (1981)"],
-            ["Rouge Sang", "Rudolf Thome (1970)"],
-            ["Messidor", "Alain Tanner (1978)"],
             [
-              "Jeanne Dielman, 23, quai du Commerce, 1080 Bruxelles",
-              "Chantal Akerman (1975)",
+              "Jeanne Dielman",
+              "23, quai du Commerce, 1080 Bruxelles, Chantal Akerman (1975)",
             ],
-            ["House", "Nobuhiko Ôbayashi (1977)"],
-            ["Bungalow pour femmes", "Raoul Walsh (1956)"],
-            ["Un bourgeois tout petit", "petit, Mario Monicelli (1977)"],
-            ["Storie di vita e malavita", "Carlo Lizzani, Mino Giarda (1975)"],
-            ["Seule contre la mafia", "Damiano Damiani (1970)"],
-            ["Confidences pour confidences", "Pascal Thomas (1978)"],
+            ["Zéro de conduite", "Jean Vigo (1933)"],
+            ["La Rosière de Pessac", "Jean Eustache (1968)"],
+            ["Les Naufragés de l'ile de la Tortue", "Jacques Rozier (1974)"],
+            ["John McCabe", "Robert Altman (1971)"],
+            ["Opening Night", "John Cassavetes (1977)"],
+            ["Le Mandat", "Ousmane Sembene (1968)"],
+            ["Quatre nuits avec Anna", "Jerzy Skolimowski (2008)"],
+            ["Entre nos mains", "Mariana Otero (2010)"],
+            ["Le Salon de musique", "Satyajit Ray (1958)"],
           ]}
         />
         <Top
           name={"Nicolas Guetta-Jeanrenaud"}
           role={""}
           top={[
-            ["Saraband", "Ingmar Bergman (2003)"],
-            ["S.O.B.", "Blake Edwards (1981)"],
-            ["La Vengeance est à Moi", "Shôhei Imamura (1979)"],
-            ["Elle s'appelait Scorpion", "Shun'ya Itō (1972)"],
-            ["Massacre à la tronçonneuse", "Tobe Hooper (1974)"],
-            ["Le Gaucho", "Jacques Tourneur (1952)"],
-            ["Du rouge pour un truand", "Lewis Teague (1979)"],
-            ["The Big Wednesday", "John Milius (1978)"],
-            ["Voyage sans retour", "Tay Garnett (1932)"],
-            ["Contes cruels de la jeunesse", "Nagisa Oshima (1960)"],
+            ["Les Idiots", "Lars von Trier (1998)"],
+            ["La Rosière de Pessac", "Jean Eustache (1968)"],
+            [
+              "Jeanne Dielman, 23, quai du Commerce, 1080 Bruxelles",
+              "Chantal Akerman (1975)",
+            ],
+            ["Haute pègre", "Ernst Lubitsch (1932)"],
+            ["Short Cuts", "Robert Altman (1993)"],
+            ["Welfare", "Frederick Wiseman (1975)"],
+            ["Le Goût de la cerise", "Abbas Kiarostami (1997)"],
+            ["Nothing But a Man", "Michael Roemer (1964)"],
+            [
+              "Chronique d'Anna Magdalena Bach",
+              "Jean-Marie Straub, Danièle Huillet (1967)",
+            ],
+            ["Invasion Los Angeles", "John Carpenter (1988)"],
           ]}
         />
         <Top
           name={"Ugo Tanielian"}
           role={""}
           top={[
-            ["Blood Simple, Joel Coen, Ethan Coen (1984)"],
-            ["Il était un père, Yasujirô Ozu (1942)"],
-            ["John McCabe, Robert Altman (1971)"],
-            ["Bonnie and Clyde, Arthur Penn (1967)"],
-            ["Nothing But a Man, Michael Roemer (1964)"],
-            ["À bout de course, Sidney Lumet (1988)"],
-            ["La Chronique des pauvres amants, Carlo Lizzani (1954)"],
-            ["Ténèbres, Dario Argento (1982)"],
-            ["Serpico, Sidney Lumet (1973)"],
-            ["La Nuit du chasseur, Charles Laughton (1955)"],
+            ["Blood Simple", "Joel Coen, Ethan Coen (1984)"],
+            ["Il était un père", "Yasujirô Ozu (1942)"],
+            ["John McCabe", "Robert Altman (1971)"],
+            ["Bonnie and Clyde", "Arthur Penn (1967)"],
+            ["Nothing But a Man", "Michael Roemer (1964)"],
+            ["À bout de course", "Sidney Lumet (1988)"],
+            ["La Chronique des pauvres amants", "Carlo Lizzani (1954)"],
+            ["Ténèbres", "Dario Argento (1982)"],
+            ["Serpico", "Sidney Lumet (1973)"],
+            ["La Nuit du chasseur", "Charles Laughton (1955)"],
           ]}
         />
       </div>
@@ -187,7 +193,7 @@ export default function Sondage2023() {
             ["House", "Nobuhiko Ôbayashi (1977)"],
             ["Bungalow pour femmes", "Raoul Walsh (1956)"],
             ["Un bourgeois tout petit", "petit, Mario Monicelli (1977)"],
-            ["Storie di vita e malavita", "Carlo Lizzani, Mino Giarda (1975)"],
+            ["Storie di vita e malavita", "Carlo Lizzani (1975)"],
             ["Seule contre la mafia", "Damiano Damiani (1970)"],
             ["Confidences pour confidences", "Pascal Thomas (1978)"],
           ]}
