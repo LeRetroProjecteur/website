@@ -13,7 +13,7 @@ export default function Top({
     <div
       style={{
         width: "min(95%, 325px)",
-        minHeight: "425px",
+        minHeight: "450px",
         backgroundColor: "var(--lightred)",
         border: "3px solid var(--red)",
         padding: "4px",

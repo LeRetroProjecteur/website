@@ -180,73 +180,25 @@ export default function Sondage2023() {
       <br />
       <div style={{ textAlign: "center" }}>
         <Top
-          name={"Joachim Lepastier"}
-          role={"Critique, AOC"}
+          name={"Alicia Arpaia"}
+          role={"Sorociné"}
           top={[
-            ["Gallipoli", "Peter Weir (1981)"],
-            ["Rouge Sang", "Rudolf Thome (1970)"],
-            ["Messidor", "Alain Tanner (1978)"],
+            ["Hester Street", "Joan Micklin Silver (1975)"],
             [
-              "Jeanne Dielman, 23, quai du Commerce, 1080 Bruxelles",
-              "Chantal Akerman (1975)",
+              "Les Aventures du prince Ahmed",
+              "Lotte Reiniger, Carl Koch (1926)",
             ],
-            ["House", "Nobuhiko Ôbayashi (1977)"],
-            ["Bungalow pour femmes", "Raoul Walsh (1956)"],
-            ["Un bourgeois tout petit", "petit, Mario Monicelli (1977)"],
-            ["Storie di vita e malavita", "Carlo Lizzani (1975)"],
-            ["Seule contre la mafia", "Damiano Damiani (1970)"],
-            ["Confidences pour confidences", "Pascal Thomas (1978)"],
-          ]}
-        />
-        <Top
-          name={"Nicolas Pariser"}
-          role={"Réalisateur"}
-          top={[
-            ["Saraband", "Ingmar Bergman (2003)"],
-            ["S.O.B.", "Blake Edwards (1981)"],
-            ["La Vengeance est à Moi", "Shôhei Imamura (1979)"],
-            ["Elle s'appelait Scorpion", "Shun'ya Itō (1972)"],
-            ["Massacre à la tronçonneuse", "Tobe Hooper (1974)"],
-            ["Le Gaucho", "Jacques Tourneur (1952)"],
-            ["Du rouge pour un truand", "Lewis Teague (1979)"],
-            ["The Big Wednesday", "John Milius (1978)"],
-            ["Voyage sans retour", "Tay Garnett (1932)"],
-            ["Contes cruels de la jeunesse", "Nagisa Oshima (1960)"],
-          ]}
-        />
-        <Top
-          name={"Eric Vernay"}
-          role={"Critique, SoFilm"}
-          top={[
-            ["Larmes de joie", "Mario Monicelli (1960)"],
-            ["Un vrai crime d'amour", "Luigi Comencini (1974)"],
-            ["Une vie difficile", "Dino Risi (1961)"],
-            ["Un Jeu brutal", "Jean-Claude Brisseau (1983)"],
-            ["Récit d'un propriétaire", "Yasujirô Ozu (1947)"],
-            ["Daisy Miller", "Peter Bogdanovich (1974)"],
-            ["San Babila : un crime inutile", "Carlo Lizzani (1976)"],
-            ["La rupture", "Claude Chabrol (1970)"],
-            ["Chère Louise", "Philippe de Broca (1972)"],
-            ["Avant de t'aimer", "Ida Lupino, Elmer Clifton (1949)"],
-          ]}
-        />
-        <Top
-          name={"Marin Gérard"}
-          role={"Critique, Critikat"}
-          top={[
-            ["L'Homme qui en savait trop", "Alfred Hitchcock (1956)"],
-            ["La Blonde framboise", "Raoul Walsh (1941)"],
+            ["Wanda", "Barbara Loden (1970)"],
             [
-              "Jeanne Dielman, 23, quai du Commerce, 1080 Bruxelles",
-              "Chantal Akerman (1975)",
+              "Jeanne Dielman",
+              "23, quai du Commerce, 1080 Bruxelles, Chantal Akerman (1975)",
             ],
-            ["Le Secret derrière la porte", "Fritz Lang (1948)"],
-            ["Le Songe de la lumiere", "Victor Erice (1992)"],
-            ["Welfare", "Frederick Wiseman (1975)"],
-            ["Le Diable probablement", "Robert Bresson (1977)"],
-            ["My Dinner With André", "Louis Malle (1981)"],
-            ["La vie ne me fait pas peur", "Noémie Lvovsky (1999)"],
-            ["Remorques", "Jean Gremillon (1941)"],
+            ["Le Challat de Tunis", "Kaouther Ben Hania (2014)"],
+            ["Récréations", "Claire Simon (1992)"],
+            ["Nous étions jeunes", "Binka Zhelyazkova (1961)"],
+            ["Haut les coeurs!", "Solveig Anspach (1998)"],
+            ["La dame de Constantinople", "Judit Elek (1969)"],
+            ["Lumière", "Jeanne Moreau (1976)"],
           ]}
         />
         <Top
@@ -272,25 +224,33 @@ export default function Sondage2023() {
           ]}
         />
         <Top
-          name={"Nicolas Moreno"}
-          role={"Tsounami"}
+          name={"Victor Courgeon"}
+          role={"Programmateur, Cinéma Le Méliès"}
           top={[
+            ["L'Âme sœur", "Fredi M. Murer (1985)"],
+            ["Unrelated", "Joanna Hogg (2007)"],
+            ["The Appointment", "Lindsey C. Vickers (1981)"],
+            ["Déménagement", "Shinji Sōmai (1993)"],
+            ["Vengeance Is Mine", "Michael Roemer (1984)"],
+          ]}
+        />
+        <Top
+          name={"Marin Gérard"}
+          role={"Critique, Critikat"}
+          top={[
+            ["L'Homme qui en savait trop", "Alfred Hitchcock (1956)"],
+            ["La Blonde framboise", "Raoul Walsh (1941)"],
             [
-              "Les Quatre cavaliers de l'apocalypse",
-              "Vincente Minnelli (1962)",
+              "Jeanne Dielman, 23, quai du Commerce, 1080 Bruxelles",
+              "Chantal Akerman (1975)",
             ],
-            ["La Clepsydre", "Wojciech Has (1973)"],
-            ["Nanouk l'Esquimau", "Robert J. Flaherty (1922)"],
-            ["Shoah", "Claude Lanzmann (1985)"],
-            [
-              "Guerre et paix - Episode 1: Andreï Bolkonski",
-              "Sergey Bondarchuk (1966)",
-            ],
-            ["Reminiscences of a Journey to Lithuania", "Jonas Mekas (1971)"],
-            ["L'amour fou", "Jacques Rivette (1969)"],
-            ["Wanda", "Barbara Loden (1970)"],
-            ["Jack le magnifique", "Peter Bogdanovich (1979)"],
-            ["Les Chants de Mandrin", "Rabah Ameur-Zaïmeche (2011)"],
+            ["Le Secret derrière la porte", "Fritz Lang (1948)"],
+            ["Le Songe de la lumiere", "Victor Erice (1992)"],
+            ["Welfare", "Frederick Wiseman (1975)"],
+            ["Le Diable probablement", "Robert Bresson (1977)"],
+            ["My Dinner With André", "Louis Malle (1981)"],
+            ["La vie ne me fait pas peur", "Noémie Lvovsky (1999)"],
+            ["Remorques", "Jean Gremillon (1941)"],
           ]}
         />
         <Top
@@ -329,25 +289,22 @@ export default function Sondage2023() {
           ]}
         />
         <Top
-          name={"Alicia Arpaia"}
-          role={"Sorociné"}
+          name={"Joachim Lepastier"}
+          role={"Critique, AOC"}
           top={[
-            ["Hester Street", "Joan Micklin Silver (1975)"],
+            ["Gallipoli", "Peter Weir (1981)"],
+            ["Rouge Sang", "Rudolf Thome (1970)"],
+            ["Messidor", "Alain Tanner (1978)"],
             [
-              "Les Aventures du prince Ahmed",
-              "Lotte Reiniger, Carl Koch (1926)",
+              "Jeanne Dielman, 23, quai du Commerce, 1080 Bruxelles",
+              "Chantal Akerman (1975)",
             ],
-            ["Wanda", "Barbara Loden (1970)"],
-            [
-              "Jeanne Dielman",
-              "23, quai du Commerce, 1080 Bruxelles, Chantal Akerman (1975)",
-            ],
-            ["Le Challat de Tunis", "Kaouther Ben Hania (2014)"],
-            ["Récréations", "Claire Simon (1992)"],
-            ["Nous étions jeunes", "Binka Zhelyazkova (1961)"],
-            ["Haut les coeurs!", "Solveig Anspach (1998)"],
-            ["La dame de Constantinople", "Judit Elek (1969)"],
-            ["Lumière", "Jeanne Moreau (1976)"],
+            ["House", "Nobuhiko Ôbayashi (1977)"],
+            ["Bungalow pour femmes", "Raoul Walsh (1956)"],
+            ["Un bourgeois tout petit", "petit, Mario Monicelli (1977)"],
+            ["Storie di vita e malavita", "Carlo Lizzani (1975)"],
+            ["Seule contre la mafia", "Damiano Damiani (1970)"],
+            ["Confidences pour confidences", "Pascal Thomas (1978)"],
           ]}
         />
         <Top
@@ -362,23 +319,67 @@ export default function Sondage2023() {
           ]}
         />
         <Top
-          name={"Victor Courgeon"}
-          role={"Programmateur, Cinéma Le Méliès"}
+          name={"Nicolas Moreno"}
+          role={"Tsounami"}
           top={[
-            ["L'Âme sœur", "Fredi M. Murer (1985)"],
-            ["Unrelated", "Joanna Hogg (2007)"],
-            ["The Appointment", "Lindsey C. Vickers (1981)"],
-            ["Déménagement", "Shinji Sōmai (1993)"],
-            ["Vengeance Is Mine", "Michael Roemer (1984)"],
+            [
+              "Les Quatre cavaliers de l'apocalypse",
+              "Vincente Minnelli (1962)",
+            ],
+            ["La Clepsydre", "Wojciech Has (1973)"],
+            ["Nanouk l'Esquimau", "Robert J. Flaherty (1922)"],
+            ["Shoah", "Claude Lanzmann (1985)"],
+            [
+              "Guerre et paix - Episode 1: Andreï Bolkonski",
+              "Sergey Bondarchuk (1966)",
+            ],
+            ["Reminiscences of a Journey to Lithuania", "Jonas Mekas (1971)"],
+            ["L'amour fou", "Jacques Rivette (1969)"],
+            ["Wanda", "Barbara Loden (1970)"],
+            ["Jack le magnifique", "Peter Bogdanovich (1979)"],
+            ["Les Chants de Mandrin", "Rabah Ameur-Zaïmeche (2011)"],
+          ]}
+        />
+        <Top
+          name={"Nicolas Pariser"}
+          role={"Réalisateur"}
+          top={[
+            ["Saraband", "Ingmar Bergman (2003)"],
+            ["S.O.B.", "Blake Edwards (1981)"],
+            ["La Vengeance est à Moi", "Shôhei Imamura (1979)"],
+            ["Elle s'appelait Scorpion", "Shun'ya Itō (1972)"],
+            ["Massacre à la tronçonneuse", "Tobe Hooper (1974)"],
+            ["Le Gaucho", "Jacques Tourneur (1952)"],
+            ["Du rouge pour un truand", "Lewis Teague (1979)"],
+            ["The Big Wednesday", "John Milius (1978)"],
+            ["Voyage sans retour", "Tay Garnett (1932)"],
+            ["Contes cruels de la jeunesse", "Nagisa Oshima (1960)"],
+          ]}
+        />
+        <Top
+          name={"Eric Vernay"}
+          role={"Critique, SoFilm"}
+          top={[
+            ["Larmes de joie", "Mario Monicelli (1960)"],
+            ["Un vrai crime d'amour", "Luigi Comencini (1974)"],
+            ["Une vie difficile", "Dino Risi (1961)"],
+            ["Un Jeu brutal", "Jean-Claude Brisseau (1983)"],
+            ["Récit d'un propriétaire", "Yasujirô Ozu (1947)"],
+            ["Daisy Miller", "Peter Bogdanovich (1974)"],
+            ["San Babila : un crime inutile", "Carlo Lizzani (1976)"],
+            ["La rupture", "Claude Chabrol (1970)"],
+            ["Chère Louise", "Philippe de Broca (1972)"],
+            ["Avant de t'aimer", "Ida Lupino, Elmer Clifton (1949)"],
           ]}
         />
       </div>
       <br />
+      Plutôt que de nous faire part de ses plus belles découvertes de l’année,
+      Jean-Michel Frodon a choisi ses coups de cœur parmi tous les films que
+      nous avons sélectionnés dans les conseils hebdomadaires de notre
+      newsletter en 2023. Les voici :
+      <br />
       <div style={{ textAlign: "center" }}>
-        Plutôt que de nous faire part de ses plus belles découvertes de l’année,
-        Jean-Michel Frodon a choisi ses coups de cœur parmi tous les films que
-        nous avons sélectionnés dans les conseils hebdomadaires de notre
-        newsletter en 2023. Les voici :
         <Top
           name={"Jean-Michel Frodon"}
           role={"Critique"}
