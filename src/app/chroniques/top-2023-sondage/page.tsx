@@ -31,6 +31,7 @@ export default function Sondage2023() {
       Malgré tout, de réelles tendances se dessinent, liées à ce que nous
       pourrions appeler une véritable actualité du cinéma de patrimoine.
       <br />
+      <br />
       <Image
         width={700}
         height={394}
@@ -198,8 +199,9 @@ export default function Sondage2023() {
       Le Rétro Projecteur a également eu l’occasion de solliciter des
       contributions de la part de différentes personnes du monde du cinéma :
       critiques institutionnel·le·s ou indépendant·e·s, cinéastes, membres
-      d’associations promouvant le cinéma, … On est très reconnaissant à toutes
-      ces personnalités ! <br />
+      d’associations promouvant le cinéma,&nbsp;… On est très reconnaissant à
+      toutes ces personnalités&nbsp;!
+      <br />
       <br />
       <div style={{ textAlign: "center" }}>
         <Top
@@ -397,10 +399,12 @@ export default function Sondage2023() {
         />
       </div>
       <br />
+      <br />
       Plutôt que de nous faire part de ses plus belles découvertes de l’année,
       Jean-Michel Frodon a choisi ses coups de cœur parmi tous les films que
       nous avons sélectionnés dans les conseils hebdomadaires de notre
-      newsletter en 2023. Les voici :
+      newsletter en 2023. Les voici&nbsp;:
+      <br />
       <br />
       <div style={{ textAlign: "center" }}>
         <Top
