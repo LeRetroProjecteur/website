@@ -1,4 +1,4 @@
-import { Metadata } from "next";
+import {Metadata} from "next";
 import Image from "next/image";
 import React from "react";
 
@@ -19,6 +19,25 @@ export const metadata: Metadata = {
 };
 
 export default function Sondage2023() {
+  const SorocineLink = <a href={"https://www.sorocine.com/"}>Sorociné</a>;
+  const MeliesLink = (
+    <a href={"http://meliesmontreuil.fr/"}>Programmateur, Cinéma Le Méliès</a>
+  );
+  const CritikatLink = <a href={"https://www.critikat.com/"}>Critikat</a>;
+  const SupersevenLink = <a href={"https://superseven.fr/"}>SuperSeven</a>;
+  const RevusLink = (
+    <a href={"https://revusetcorriges.com/"}>Revus & Corrigés</a>
+  );
+  const Libelink = (
+    <a href={"https://www.liberation.fr/auteur/luc-chessel/"}>
+      Critique, Libération
+    </a>
+  );
+  const AOCLink = <a href={"https://aoc.media/"}>Critique, AOC</a>;
+  const TsounamiLink = <a href={"https://tsounami.fr/"}>Tsounami</a>;
+  const SoFilmLink = <a href={"https://sofilm.fr/"}>Critique, SoFilm</a>;
+
+
   return (
     <>
       <h1>Top 2023&nbsp;: Vos plus belles découvertes de l’année</h1>
@@ -205,8 +224,9 @@ export default function Sondage2023() {
       <br />
       <div style={{ textAlign: "center" }}>
         <Top
+          first_index={0}
           name={"Alicia Arpaia"}
-          role={"Sorociné"}
+          role={SorocineLink}
           top={[
             ["Hester Street", "Joan Micklin Silver (1975)"],
             [
@@ -227,8 +247,9 @@ export default function Sondage2023() {
           ]}
         />
         <Top
+          first_index={0}
           name={"Luc Chessel"}
-          role={"Critique, Libération"}
+          role={Libelink}
           top={[
             ["Déménagement", "Shinji Sōmai (1993)"],
             ["Sois belle et tais-toi", "Delphine Seyrig (1977)"],
@@ -249,8 +270,9 @@ export default function Sondage2023() {
           ]}
         />
         <Top
+          first_index={0}
           name={"Victor Courgeon"}
-          role={"Programmateur, Cinéma Le Méliès"}
+          role={MeliesLink}
           top={[
             ["L'Âme sœur", "Fredi M. Murer (1985)"],
             ["Unrelated", "Joanna Hogg (2007)"],
@@ -260,8 +282,9 @@ export default function Sondage2023() {
           ]}
         />
         <Top
+          first_index={0}
           name={"Marin Gérard"}
-          role={"Critique, Critikat"}
+          role={CritikatLink}
           top={[
             ["L'Homme qui en savait trop", "Alfred Hitchcock (1956)"],
             ["La Blonde framboise", "Raoul Walsh (1941)"],
@@ -279,8 +302,9 @@ export default function Sondage2023() {
           ]}
         />
         <Top
+          first_index={0}
           name={"Pauline Jannon"}
-          role={"SuperSeven"}
+          role={SupersevenLink}
           top={[
             ["Spider", "David Cronenberg (2002)"],
             ["Guerre et Paix", "Sergey Bondarchuk (1966)"],
@@ -295,8 +319,9 @@ export default function Sondage2023() {
           ]}
         />
         <Top
+          first_index={0}
           name={"Sylvain Lefort"}
-          role={"Revus & Corrigés"}
+          role={RevusLink}
           top={[
             ["Les Soeurs Munekata", "Yasujirô Ozu (1950)"],
             ["Intolérance", "D.W. Griffith (1916)"],
@@ -314,8 +339,9 @@ export default function Sondage2023() {
           ]}
         />
         <Top
+          first_index={0}
           name={"Joachim Lepastier"}
-          role={"Critique, AOC"}
+          role={AOCLink}
           top={[
             ["Gallipoli", "Peter Weir (1981)"],
             ["Rouge Sang", "Rudolf Thome (1970)"],
@@ -333,6 +359,7 @@ export default function Sondage2023() {
           ]}
         />
         <Top
+          first_index={0}
           name={"Matteu Maestracci"}
           role={"Critique"}
           top={[
@@ -344,8 +371,9 @@ export default function Sondage2023() {
           ]}
         />
         <Top
+          first_index={0}
           name={"Nicolas Moreno"}
-          role={"Tsounami"}
+          role={TsounamiLink}
           top={[
             [
               "Les Quatre cavaliers de l'apocalypse",
@@ -366,6 +394,7 @@ export default function Sondage2023() {
           ]}
         />
         <Top
+          first_index={0}
           name={"Nicolas Pariser"}
           role={"Réalisateur"}
           top={[
@@ -382,8 +411,9 @@ export default function Sondage2023() {
           ]}
         />
         <Top
+          first_index={0}
           name={"Eric Vernay"}
-          role={"Critique, SoFilm"}
+          role={SoFilmLink}
           top={[
             ["Larmes de joie", "Mario Monicelli (1960)"],
             ["Un vrai crime d'amour", "Luigi Comencini (1974)"],
@@ -408,6 +438,7 @@ export default function Sondage2023() {
       <br />
       <div style={{ textAlign: "center" }}>
         <Top
+          first_index={0}
           name={"Jean-Michel Frodon"}
           role={"Critique"}
           top={[
@@ -423,6 +454,13 @@ export default function Sondage2023() {
             ["Les Fleurs de Shanghai", "Hou Hsiao-Hsien (1998)"],
             ["Les Soeurs Munekata", "Yasujirô Ozu (1950)"],
             ["Loulou", "Maurice Pialat (1980)"],
+          ]}
+        />
+        <Top
+          first_index={12}
+          name={"Jean-Michel Frodon"}
+          role={"suite"}
+          top={[
             ["Ma nuit chez Maud", "Eric Rohmer (1969)"],
             ["Nothing But a Man", "Michael Roemer (1964)"],
             ["Outrage", "Ida Lupino (1950)"],

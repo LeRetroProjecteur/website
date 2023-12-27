@@ -1,10 +1,12 @@
 "use client";
 
 export default function Top({
+  first_index,
   name,
   role,
   top,
 }: {
+  first_index: number;
   name: React.ReactNode;
   role: React.ReactNode;
   top: React.ReactNode[][];
@@ -13,7 +15,7 @@ export default function Top({
     <div
       style={{
         width: "min(95%, 325px)",
-        minHeight: "450px",
+        minHeight: "425px",
         backgroundColor: "var(--lightred)",
         border: "3px solid var(--red)",
         padding: "4px",
@@ -26,6 +28,7 @@ export default function Top({
         {name} (<i>{role}</i>)
       </h4>
       <ol
+        start={first_index + 1}
         style={{
           paddingLeft: "27px",
           margin: "0",
