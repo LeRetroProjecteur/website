@@ -25,7 +25,7 @@ export default function Top({
       }}
     >
       <h4>
-        {name} (<i>{role}</i>)
+        {name} <i>{role}</i>
       </h4>
       <ol
         start={first_index + 1}

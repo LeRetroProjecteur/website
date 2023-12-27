@@ -1,4 +1,4 @@
-import {Metadata} from "next";
+import { Metadata } from "next";
 import Image from "next/image";
 import React from "react";
 
@@ -19,24 +19,21 @@ export const metadata: Metadata = {
 };
 
 export default function Sondage2023() {
-  const SorocineLink = <a href={"https://www.sorocine.com/"}>Sorociné</a>;
+  const SorocineLink = <a href={"https://www.sorocine.com/"}>(Sorociné)</a>;
   const MeliesLink = (
-    <a href={"http://meliesmontreuil.fr/"}>Programmateur, Cinéma Le Méliès</a>
+    <a href={"http://meliesmontreuil.fr/"}>(Cinéma Le Méliès)</a>
   );
-  const CritikatLink = <a href={"https://www.critikat.com/"}>Critikat</a>;
-  const SupersevenLink = <a href={"https://superseven.fr/"}>SuperSeven</a>;
+  const CritikatLink = <a href={"https://www.critikat.com/"}>(Critikat)</a>;
+  const SupersevenLink = <a href={"https://superseven.fr/"}>(SuperSeven)</a>;
   const RevusLink = (
-    <a href={"https://revusetcorriges.com/"}>Revus & Corrigés</a>
+    <a href={"https://revusetcorriges.com/"}>(Revus & Corrigés)</a>
   );
   const Libelink = (
-    <a href={"https://www.liberation.fr/auteur/luc-chessel/"}>
-      Critique, Libération
-    </a>
+    <a href={"https://www.liberation.fr/auteur/luc-chessel/"}>(Libération)</a>
   );
-  const AOCLink = <a href={"https://aoc.media/"}>Critique, AOC</a>;
-  const TsounamiLink = <a href={"https://tsounami.fr/"}>Tsounami</a>;
-  const SoFilmLink = <a href={"https://sofilm.fr/"}>Critique, SoFilm</a>;
-
+  const AOCLink = <a href={"https://aoc.media/"}>(AOC)</a>;
+  const TsounamiLink = <a href={"https://tsounami.fr/"}>(Tsounami)</a>;
+  const SoFilmLink = <a href={"https://sofilm.fr/"}>(SoFilm)</a>;
 
   return (
     <>
@@ -361,7 +358,7 @@ export default function Sondage2023() {
         <Top
           first_index={0}
           name={"Matteu Maestracci"}
-          role={"Critique"}
+          role={""}
           top={[
             ["Violent Cop", "Takeshi Kitano (1989)"],
             ["Autour de minuit", "Bertrand Tavernier (1986)"],
@@ -440,7 +437,7 @@ export default function Sondage2023() {
         <Top
           first_index={0}
           name={"Jean-Michel Frodon"}
-          role={"Critique"}
+          role={""}
           top={[
             ["Adieu Philippine", "Jacques Rozier (1963)"],
             ["Ce vieux rêve qui bouge", "Alain Guiraudie (2000)"],
@@ -459,7 +456,7 @@ export default function Sondage2023() {
         <Top
           first_index={12}
           name={"Jean-Michel Frodon"}
-          role={"suite"}
+          role={"(suite)"}
           top={[
             ["Ma nuit chez Maud", "Eric Rohmer (1969)"],
             ["Nothing But a Man", "Michael Roemer (1964)"],
