@@ -21,16 +21,15 @@ export const metadata: Metadata = {
 export default function Sondage2023() {
   return (
     <>
-      <h1>Top 2023 : Vos plus belles découvertes de l’année</h1>
+      <h1>Top 2023&nbsp;: Vos plus belles découvertes de l’année</h1>
       <br />
       Cette année, nous avons voulu, pour la première fois, vous consulter pour
       savoir quelles étaient vos plus belles découvertes de vieux films. Avec un
       tel champ des possibles, vos réponses ont forcément été extrêmement
-      diverses. Parmi les XXX bulletins reçus, nous recensons plus de XXX
-      différents films mentionnés (de XX différents réalisateurs). Malgré tout,
-      de réelles tendances se dessinent, liées à ce que nous pourrions appeler
-      une véritable actualité du cinéma de patrimoine.
-      <br />
+      diverses. Parmi les 279 bulletins reçus, nous recensons plus de 1000
+      différents films mentionnés (de plus de 450 différents réalisateurs).
+      Malgré tout, de réelles tendances se dessinent, liées à ce que nous
+      pourrions appeler une véritable actualité du cinéma de patrimoine.
       <br />
       <Image
         width={700}
@@ -39,34 +38,48 @@ export default function Sondage2023() {
         src={ranking}
         alt=""
       />
-      <p className="post-image-caption">
-        N.B. : Était éligible tout film de plus de 3 ans.
-      </p>
-      C’est sans grande surprise que la ressortie en avril dernier de Jeanne
-      Dielman a été l’événement majeur de l’année du cinéma de patrimoine. Le
-      film, qui venait d’être consacré « meilleur film de tous les temps » par
-      le fameux sondage décennal Sight & Sound, a été sélectionné par XX d’entre
-      vous. Les autres films cités témoignent également d’événements marquants
-      de l’année : la rétrospective historique consacrée à l’intégralité des
-      films de Jean Eustache (jusqu’alors plus ou moins introuvables), la
-      rétrospective Lars von Trier dans la foulée du festival de la Rochelle et
-      la ressortie de nombreux films rares (Déménagement, House, Welfare et Lost
-      Highway).
+      <br />
+      C’est sans grande surprise que la ressortie en avril dernier de{" "}
+      <i>
+        <a
+          href={
+            "https://leretroprojecteur.com/details/jeanne-dielman-23-quai-commerce-1080-bruxelles-1975"
+          }
+        >
+          Jeanne Dielman
+        </a>
+      </i>{" "}
+      a été l’événement majeur de l’année du cinéma de patrimoine. Le film, qui
+      venait d’être consacré «&nbsp;meilleur film de tous les temps&nbsp;» par
+      le fameux{" "}
+      <a
+        href={"https://www.bfi.org.uk/sight-and-sound/greatest-films-all-time"}
+      >
+        sondage décennal Sight & Sound
+      </a>
+      , a été sélectionné par 49 d’entre vous. Les autres films cités témoignent
+      également d’événements marquants de l’année&nbsp;: la rétrospective
+      historique consacrée à l’intégralité des films de Jean Eustache
+      (jusqu’alors plus ou moins introuvables), la rétrospective Lars von Trier
+      dans la foulée du festival de la Rochelle et la ressortie de nombreux
+      films rares (<i>Déménagement</i>, <i>House</i>, <i>Welfare</i> et{" "}
+      <i>Lost Highway</i>).
       <br />
       <br />
       Si Chantal Akerman est également la réalisatrice la plus citée, c’est
-      presque uniquement grâce à Jeanne Dielman (5 votes seulement pour d’autres
-      de ses films). On pourrait lui opposer le cas du réalisateur japonais
-      Yasujiro Ozu : alors même qu’aucun de ses films ne se fraye un chemin dans
-      le Top 10, le cinéaste n’en demeure pas moins troisième en nombre total de
-      citations et surtout celui dont le plus grand nombre de films différents
-      ont été mentionnés (XX, contre XX pour Louis Malle, XX pour Lars von Trier
-      et XX pour JLG). Assez logique, étant donné la ressortie de certains des
-      films « rares et inédits » du maître japonais.
+      presque uniquement grâce à <i>Jeanne Dielman</i> (5 votes seulement pour
+      d’autres de ses films). On pourrait lui opposer le cas du réalisateur
+      japonais Yasujiro Ozu&nbsp;: alors même qu’aucun de ses films ne se fraye
+      un chemin dans le Top 10, le cinéaste n’en demeure pas moins troisième en
+      nombre total de citations et surtout celui dont le plus grand nombre de
+      films différents ont été mentionnés (15, contre 13 pour Louis Malle ou
+      Jean-Luc Godard et 12 pour Lars von Trier). Assez logique, étant donné la
+      ressortie de certains des films «&nbsp;rares et inédits&nbsp;» du maître
+      japonais.
       <br />
       <br />
       Mais le cas Ozu ne suffit pas à expliquer l’extraordinaire popularité du
-      cinéma japonais dans vos scrutins. En effet, il y a XX citations pour des
+      cinéma japonais dans vos scrutins. En effet, il y a 233 citations pour des
       films japonais (derrière seulement les États-Unis et la France, et
       nettement devant l’Italie). Aux ressorties déjà mentionnées s’ajoute la
       popularité de réalisateurs moins connus (Takeshi Kitano, Nobuhiko
@@ -74,31 +87,36 @@ export default function Sondage2023() {
       moins 10 fois.
       <br />
       <br />
-      Pour le reste, vos choix semble confirmer une certaine idée du canon
-      cinématographique traditionnel : un tropisme européen (après les
+      Pour le reste, vos choix semblent confirmer une certaine idée du canon
+      cinématographique traditionnel&nbsp;: un tropisme européen (après les
       États-Unis, la France, le Japon et l’Italie viennent la Grande-Bretagne,
       l’Allemagne, la Belgique, l’Espagne, l’URSS et finalement Taïwan), et un
-      gout prononcé pour les cinéma des années 1970 (première décennie aux
+      goût prononcé pour les cinéma des années 1970 (première décennie aux
       nombres de citations devant les années 1990 et 1960).
       <br />
+      <br />
       <p style={{ textAlign: "center" }}>***</p>
+      <br />
       Nous avons également profité de ce sondage pour vous demander ce que vous
       aimeriez voir plus souvent programmé en salles. Nombre d’entre vous nous
-      ont fait part de votre envie de voir plus de cinéastes asiatiques – ou,
-      peut être, un autre cinéma asiatique – programmés en salles. Ont notamment
-      été cités Tsai Ming Liang, Tsui Hark, Apichatpong Weerasethakul, John Woo,
-      Yoon Ga-eun, Kenji Mizoguchi, Johnnie To, Sammo Hung et Liu Chia-Liang. On
-      espère que le succès des ressorties de cinéma japonais (décrit par l’un·e
-      de vous comme « le plus beau [...] du monde ») donnera des idées à
-      certains distributeurs !
+      ont fait part de votre envie de voir plus de cinéastes asiatiques&nbsp;–
+      ou, peut être, un <i>autre</i> cinéma asiatique&nbsp;– programmés en
+      salles. Ont notamment été cités Tsai Ming Liang, Tsui Hark, Apichatpong
+      Weerasethakul, John Woo, Yoon Ga-eun, Kenji Mizoguchi, Johnnie To, Sammo
+      Hung et Liu Chia-Liang. On espère que le succès des ressorties de cinéma
+      japonais (décrit par l’un·e de vous comme «&nbsp;le plus beau du
+      monde&nbsp;») donnera des idées à certains distributeurs !
       <br />
       <br />
       Plusieurs d’entre vous nous ont aussi fait part de leur envie de voir plus
       de femmes cinéastes programmées en salles. Difficile en effet de ne pas se
       dire que Chantal Akerman a été l’arbre qui cachait la forêt en cette année
       2023 (réalisatrice la plus citée mais seule femme du top 10). En 2022,
-      nous découvrions en salles l’extraordinaire Variety de Bette Gordon, ou
-      encore l’œuvre de Kinuyo Tanako, confirmant que le manque de
+      nous découvrions en salles l’extraordinaire{" "}
+      <a href={"https://leretroprojecteur.com/details/variety-1983"}>
+        <i>Variety</i> de Bette Gordon
+      </a>
+      , ou encore l’œuvre de Kinuyo Tanako, confirmant que le manque de
       représentation de femmes dans le canon traditionnel de la cinéphilie
       résulte à la fois des obstacles infligés aux femmes cinéastes et du fait
       que leur œuvre est insuffisamment distribuée.
@@ -107,70 +125,75 @@ export default function Sondage2023() {
       Enfin, vous avez été plusieurs à déplorer l’absence en salles de vieux
       films d’animation et de documentaires, deux véritables continents de la
       production cinématographiques trop souvent décrits (pour mieux les
-      ostraciser) comme “genres” à part entière. Que 2024 fasse tomber ces
-      catégories superflues !
+      ostraciser) comme «&nbsp;genres&nbsp;» à part entière. Que 2024 fasse
+      tomber ces catégories superflues&nbsp;!
       <br />
       <br />
-      <h2>Les Tops de l’équipe du Rétro Projecteur</h2>
-      <div style={{ textAlign: "center" }}>
-        <Top
-          name={"Lionel Guetta-Jeanrenaud"}
-          role={""}
-          top={[
-            [
-              "Jeanne Dielman",
-              "23, quai du Commerce, 1080 Bruxelles, Chantal Akerman (1975)",
-            ],
-            ["Zéro de conduite", "Jean Vigo (1933)"],
-            ["La Rosière de Pessac", "Jean Eustache (1968)"],
-            ["Les Naufragés de l'ile de la Tortue", "Jacques Rozier (1974)"],
-            ["John McCabe", "Robert Altman (1971)"],
-            ["Opening Night", "John Cassavetes (1977)"],
-            ["Le Mandat", "Ousmane Sembene (1968)"],
-            ["Quatre nuits avec Anna", "Jerzy Skolimowski (2008)"],
-            ["Entre nos mains", "Mariana Otero (2010)"],
-            ["Le Salon de musique", "Satyajit Ray (1958)"],
-          ]}
-        />
-        <Top
-          name={"Nicolas Guetta-Jeanrenaud"}
-          role={""}
-          top={[
-            ["Les Idiots", "Lars von Trier (1998)"],
-            ["La Rosière de Pessac", "Jean Eustache (1968)"],
-            [
-              "Jeanne Dielman, 23, quai du Commerce, 1080 Bruxelles",
-              "Chantal Akerman (1975)",
-            ],
-            ["Haute pègre", "Ernst Lubitsch (1932)"],
-            ["Short Cuts", "Robert Altman (1993)"],
-            ["Welfare", "Frederick Wiseman (1975)"],
-            ["Le Goût de la cerise", "Abbas Kiarostami (1997)"],
-            ["Nothing But a Man", "Michael Roemer (1964)"],
-            [
-              "Chronique d'Anna Magdalena Bach",
-              "Jean-Marie Straub, Danièle Huillet (1967)",
-            ],
-            ["Invasion Los Angeles", "John Carpenter (1988)"],
-          ]}
-        />
-        <Top
-          name={"Ugo Tanielian"}
-          role={""}
-          top={[
-            ["Blood Simple", "Joel Coen, Ethan Coen (1984)"],
-            ["Il était un père", "Yasujirô Ozu (1942)"],
-            ["John McCabe", "Robert Altman (1971)"],
-            ["Bonnie and Clyde", "Arthur Penn (1967)"],
-            ["Nothing But a Man", "Michael Roemer (1964)"],
-            ["À bout de course", "Sidney Lumet (1988)"],
-            ["La Chronique des pauvres amants", "Carlo Lizzani (1954)"],
-            ["Ténèbres", "Dario Argento (1982)"],
-            ["Serpico", "Sidney Lumet (1973)"],
-            ["La Nuit du chasseur", "Charles Laughton (1955)"],
-          ]}
-        />
-      </div>
+      P.S. La palme du plus grand nombre de séances de vieux films vus en salle
+      cette année revient à une certaine Eva, avec un total absolument
+      ahurissant de 300. Qui pour faire mieux l’année prochaine&nbsp;?
+      <br />
+      <br />
+      {/*<h2>Les Tops de l’équipe du Rétro Projecteur</h2>*/}
+      {/*<div style={{ textAlign: "center" }}>*/}
+      {/*  <Top*/}
+      {/*    name={"Lionel Guetta-Jeanrenaud"}*/}
+      {/*    role={""}*/}
+      {/*    top={[*/}
+      {/*      [*/}
+      {/*        "Jeanne Dielman",*/}
+      {/*        "23, quai du Commerce, 1080 Bruxelles, Chantal Akerman (1975)",*/}
+      {/*      ],*/}
+      {/*      ["Zéro de conduite", "Jean Vigo (1933)"],*/}
+      {/*      ["La Rosière de Pessac", "Jean Eustache (1968)"],*/}
+      {/*      ["Les Naufragés de l'ile de la Tortue", "Jacques Rozier (1974)"],*/}
+      {/*      ["John McCabe", "Robert Altman (1971)"],*/}
+      {/*      ["Opening Night", "John Cassavetes (1977)"],*/}
+      {/*      ["Le Mandat", "Ousmane Sembene (1968)"],*/}
+      {/*      ["Quatre nuits avec Anna", "Jerzy Skolimowski (2008)"],*/}
+      {/*      ["Entre nos mains", "Mariana Otero (2010)"],*/}
+      {/*      ["Le Salon de musique", "Satyajit Ray (1958)"],*/}
+      {/*    ]}*/}
+      {/*  />*/}
+      {/*  <Top*/}
+      {/*    name={"Nicolas Guetta-Jeanrenaud"}*/}
+      {/*    role={""}*/}
+      {/*    top={[*/}
+      {/*      ["Les Idiots", "Lars von Trier (1998)"],*/}
+      {/*      ["La Rosière de Pessac", "Jean Eustache (1968)"],*/}
+      {/*      [*/}
+      {/*        "Jeanne Dielman, 23, quai du Commerce, 1080 Bruxelles",*/}
+      {/*        "Chantal Akerman (1975)",*/}
+      {/*      ],*/}
+      {/*      ["Haute pègre", "Ernst Lubitsch (1932)"],*/}
+      {/*      ["Short Cuts", "Robert Altman (1993)"],*/}
+      {/*      ["Welfare", "Frederick Wiseman (1975)"],*/}
+      {/*      ["Le Goût de la cerise", "Abbas Kiarostami (1997)"],*/}
+      {/*      ["Nothing But a Man", "Michael Roemer (1964)"],*/}
+      {/*      [*/}
+      {/*        "Chronique d'Anna Magdalena Bach",*/}
+      {/*        "Jean-Marie Straub, Danièle Huillet (1967)",*/}
+      {/*      ],*/}
+      {/*      ["Invasion Los Angeles", "John Carpenter (1988)"],*/}
+      {/*    ]}*/}
+      {/*  />*/}
+      {/*  <Top*/}
+      {/*    name={"Ugo Tanielian"}*/}
+      {/*    role={""}*/}
+      {/*    top={[*/}
+      {/*      ["Blood Simple", "Joel Coen, Ethan Coen (1984)"],*/}
+      {/*      ["Il était un père", "Yasujirô Ozu (1942)"],*/}
+      {/*      ["John McCabe", "Robert Altman (1971)"],*/}
+      {/*      ["Bonnie and Clyde", "Arthur Penn (1967)"],*/}
+      {/*      ["Nothing But a Man", "Michael Roemer (1964)"],*/}
+      {/*      ["À bout de course", "Sidney Lumet (1988)"],*/}
+      {/*      ["La Chronique des pauvres amants", "Carlo Lizzani (1954)"],*/}
+      {/*      ["Ténèbres", "Dario Argento (1982)"],*/}
+      {/*      ["Serpico", "Sidney Lumet (1973)"],*/}
+      {/*      ["La Nuit du chasseur", "Charles Laughton (1955)"],*/}
+      {/*    ]}*/}
+      {/*  />*/}
+      {/*</div>*/}
       <h2>Tops de personnalités du monde du cinéma</h2>
       Le Rétro Projecteur a également eu l’occasion de solliciter des
       contributions de la part de différentes personnes du monde du cinéma :
