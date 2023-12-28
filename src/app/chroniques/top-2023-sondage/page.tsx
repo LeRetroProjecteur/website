@@ -19,21 +19,51 @@ export const metadata: Metadata = {
 };
 
 export default function Sondage2023() {
-  const SorocineLink = <a href={"https://www.sorocine.com/"}>(Sorociné)</a>;
-  const MeliesLink = (
-    <a href={"http://meliesmontreuil.fr/"}>(Cinéma Le Méliès)</a>
+  const SorocineLink = (
+    <a href={"https://www.sorocine.com/"} target="_blank">
+      Sorociné
+    </a>
   );
-  const CritikatLink = <a href={"https://www.critikat.com/"}>(Critikat)</a>;
-  const SupersevenLink = <a href={"https://superseven.fr/"}>(SuperSeven)</a>;
+  const MeliesLink = (
+    <a href={"http://meliesmontreuil.fr/"} target="_blank">
+      Cinéma Le Méliès
+    </a>
+  );
+  const CritikatLink = (
+    <a href={"https://www.critikat.com/"} target="_blank">
+      Critikat
+    </a>
+  );
+  const SupersevenLink = (
+    <a href={"https://superseven.fr/"} target="_blank">
+      SuperSeven
+    </a>
+  );
   const RevusLink = (
-    <a href={"https://revusetcorriges.com/"}>(Revus & Corrigés)</a>
+    <a href={"https://revusetcorriges.com/"} target="_blank">
+      Revus & Corrigés
+    </a>
   );
   const Libelink = (
-    <a href={"https://www.liberation.fr/auteur/luc-chessel/"}>(Libération)</a>
+    <a href={"https://www.liberation.fr/auteur/luc-chessel/"} target="_blank">
+      Libération
+    </a>
   );
-  const AOCLink = <a href={"https://aoc.media/"}>(AOC)</a>;
-  const TsounamiLink = <a href={"https://tsounami.fr/"}>(Tsounami)</a>;
-  const SoFilmLink = <a href={"https://sofilm.fr/"}>(SoFilm)</a>;
+  const AOCLink = (
+    <a href={"https://aoc.media/"} target="_blank">
+      AOC
+    </a>
+  );
+  const TsounamiLink = (
+    <a href={"https://tsounami.fr/"} target="_blank">
+      Tsounami
+    </a>
+  );
+  const SoFilmLink = (
+    <a href={"https://sofilm.fr/"} target="_blank">
+      SoFilm
+    </a>
+  );
 
   return (
     <>
@@ -221,7 +251,6 @@ export default function Sondage2023() {
       <br />
       <div style={{ textAlign: "center" }}>
         <Top
-          first_index={0}
           name={"Alicia Arpaia"}
           role={SorocineLink}
           top={[
@@ -242,9 +271,10 @@ export default function Sondage2023() {
             ["La dame de Constantinople", "Judit Elek (1969)"],
             ["Lumière", "Jeanne Moreau (1976)"],
           ]}
+          firstIndex={0}
+          bulletStyle={"inherit"}
         />
         <Top
-          first_index={0}
           name={"Luc Chessel"}
           role={Libelink}
           top={[
@@ -265,9 +295,10 @@ export default function Sondage2023() {
             ],
             ["Classified People", "Yolande Zauberman (1987)"],
           ]}
+          firstIndex={0}
+          bulletStyle={"inherit"}
         />
         <Top
-          first_index={0}
           name={"Victor Courgeon"}
           role={MeliesLink}
           top={[
@@ -277,9 +308,10 @@ export default function Sondage2023() {
             ["Déménagement", "Shinji Sōmai (1993)"],
             ["Vengeance Is Mine", "Michael Roemer (1984)"],
           ]}
+          firstIndex={0}
+          bulletStyle={"inherit"}
         />
         <Top
-          first_index={0}
           name={"Marin Gérard"}
           role={CritikatLink}
           top={[
@@ -297,9 +329,10 @@ export default function Sondage2023() {
             ["La vie ne me fait pas peur", "Noémie Lvovsky (1999)"],
             ["Remorques", "Jean Gremillon (1941)"],
           ]}
+          firstIndex={0}
+          bulletStyle={"inherit"}
         />
         <Top
-          first_index={0}
           name={"Pauline Jannon"}
           role={SupersevenLink}
           top={[
@@ -314,9 +347,10 @@ export default function Sondage2023() {
             ["Bonjour", "Yasujirô Ozu (1959)"],
             ["Cette sacrée vérité", "Leo McCarey (1937)"],
           ]}
+          firstIndex={0}
+          bulletStyle={"inherit"}
         />
         <Top
-          first_index={0}
           name={"Sylvain Lefort"}
           role={RevusLink}
           top={[
@@ -334,9 +368,10 @@ export default function Sondage2023() {
             ["Graffiti Party", "John Milius (1978)"],
             ["Vie privée", "Louis Malle (1962)"],
           ]}
+          firstIndex={0}
+          bulletStyle={"inherit"}
         />
         <Top
-          first_index={0}
           name={"Joachim Lepastier"}
           role={AOCLink}
           top={[
@@ -354,9 +389,10 @@ export default function Sondage2023() {
             ["Seule contre la mafia", "Damiano Damiani (1970)"],
             ["Confidences pour confidences", "Pascal Thomas (1978)"],
           ]}
+          firstIndex={0}
+          bulletStyle={"inherit"}
         />
         <Top
-          first_index={0}
           name={"Matteu Maestracci"}
           role={""}
           top={[
@@ -366,9 +402,10 @@ export default function Sondage2023() {
             ["Mais vous êtes fous", "Audrey Diwan (2018)"],
             ["Hôtel des Amériques", "André Téchiné (1981)"],
           ]}
+          firstIndex={0}
+          bulletStyle={"inherit"}
         />
         <Top
-          first_index={0}
           name={"Nicolas Moreno"}
           role={TsounamiLink}
           top={[
@@ -389,9 +426,10 @@ export default function Sondage2023() {
             ["Jack le magnifique", "Peter Bogdanovich (1979)"],
             ["Les Chants de Mandrin", "Rabah Ameur-Zaïmeche (2011)"],
           ]}
+          firstIndex={0}
+          bulletStyle={"inherit"}
         />
         <Top
-          first_index={0}
           name={"Nicolas Pariser"}
           role={"Réalisateur"}
           top={[
@@ -406,9 +444,10 @@ export default function Sondage2023() {
             ["Voyage sans retour", "Tay Garnett (1932)"],
             ["Contes cruels de la jeunesse", "Nagisa Oshima (1960)"],
           ]}
+          firstIndex={0}
+          bulletStyle={"inherit"}
         />
         <Top
-          first_index={0}
           name={"Eric Vernay"}
           role={SoFilmLink}
           top={[
@@ -423,6 +462,8 @@ export default function Sondage2023() {
             ["Chère Louise", "Philippe de Broca (1972)"],
             ["Avant de t'aimer", "Ida Lupino, Elmer Clifton (1949)"],
           ]}
+          firstIndex={0}
+          bulletStyle={"inherit"}
         />
       </div>
       <br />
@@ -435,7 +476,6 @@ export default function Sondage2023() {
       <br />
       <div style={{ textAlign: "center" }}>
         <Top
-          first_index={0}
           name={"Jean-Michel Frodon"}
           role={""}
           top={[
@@ -450,14 +490,15 @@ export default function Sondage2023() {
             ["Le Joli Mai, Chris Marker", "Pierre Lhomme (1963)"],
             ["Les Fleurs de Shanghai", "Hou Hsiao-Hsien (1998)"],
             ["Les Soeurs Munekata", "Yasujirô Ozu (1950)"],
-            ["Loulou", "Maurice Pialat (1980)"],
           ]}
+          firstIndex={0}
+          bulletStyle={"disc"}
         />
         <Top
-          first_index={12}
           name={"Jean-Michel Frodon"}
-          role={"(suite)"}
+          role={"suite"}
           top={[
+            ["Loulou", "Maurice Pialat (1980)"],
             ["Ma nuit chez Maud", "Eric Rohmer (1969)"],
             ["Nothing But a Man", "Michael Roemer (1964)"],
             ["Outrage", "Ida Lupino (1950)"],
@@ -474,6 +515,8 @@ export default function Sondage2023() {
               "Rabah Ameur-Zaïmeche (2001)",
             ],
           ]}
+          firstIndex={11}
+          bulletStyle={"disc"}
         />
       </div>
     </>
