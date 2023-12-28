@@ -20,17 +20,23 @@ export const metadata: Metadata = {
 
 export default function Sondage2023() {
   const SorocineLink = (
-    <a href={"https://www.sorocine.com/"} target="_blank">
-      Sorociné
-    </a>
+    <p style={{ display: "inline" }}>
+      <a href={"https://www.sorocine.com/"} target="_blank">
+        Sorociné
+      </a>
+      ,{" "}
+      <a href={"https://revusetcorriges.com/"} target="_blank">
+        Revus & Corrigés
+      </a>
+    </p>
   );
   const MeliesLink = (
     <a href={"http://meliesmontreuil.fr/"} target="_blank">
-      Cinéma Le Méliès
+      Cinéma Le Méliès Montreuil
     </a>
   );
   const CritikatLink = (
-    <a href={"https://www.critikat.com/"} target="_blank">
+    <a href={"https://www.critikat.com/author/maringerard/"} target="_blank">
       Critikat
     </a>
   );
@@ -63,6 +69,28 @@ export default function Sondage2023() {
     <a href={"https://sofilm.fr/"} target="_blank">
       SoFilm
     </a>
+  );
+  const MatteuMaestracciLink = (
+    <a
+      href={"https://www.francetvinfo.fr/redaction/matteu-maestracci/"}
+      target="_blank"
+    >
+      France Info
+    </a>
+  );
+  const JeanMichelFrodonLink = (
+    <p style={{ display: "inline" }}>
+      <a href={"https://projection-publique.com/"} target="_blank">
+        Projection Publique
+      </a>
+      ,{" "}
+      <a
+        href={"https://www.slate.fr/source/15525/jean-michel-frodon"}
+        target="_blank"
+      >
+        Slate.fr
+      </a>
+    </p>
   );
 
   return (
@@ -242,11 +270,10 @@ export default function Sondage2023() {
       {/*  />*/}
       {/*</div>*/}
       <h2>Tops de personnalités du monde du cinéma</h2>
-      Le Rétro Projecteur a également eu l’occasion de solliciter des
-      contributions de la part de différentes personnes du monde du cinéma :
-      critiques institutionnel·le·s ou indépendant·e·s, cinéastes, membres
-      d’associations promouvant le cinéma,&nbsp;… On est très reconnaissant à
-      toutes ces personnalités&nbsp;!
+      Le Rétro Projecteur a également sollicité des contributions de la part de
+      différentes personnalités du monde du cinéma : critiques
+      institutionnel·le·s ou indépendant·e·s, cinéastes, membres
+      d’associations,&nbsp;… On les remercie pour leur participation&nbsp;!
       <br />
       <br />
       <div style={{ textAlign: "center" }}>
@@ -394,7 +421,7 @@ export default function Sondage2023() {
         />
         <Top
           name={"Matteu Maestracci"}
-          role={""}
+          role={MatteuMaestracciLink}
           top={[
             ["Violent Cop", "Takeshi Kitano (1989)"],
             ["Autour de minuit", "Bertrand Tavernier (1986)"],
@@ -477,7 +504,7 @@ export default function Sondage2023() {
       <div style={{ textAlign: "center" }}>
         <Top
           name={"Jean-Michel Frodon"}
-          role={""}
+          role={JeanMichelFrodonLink}
           top={[
             ["Adieu Philippine", "Jacques Rozier (1963)"],
             ["Ce vieux rêve qui bouge", "Alain Guiraudie (2000)"],
@@ -490,14 +517,6 @@ export default function Sondage2023() {
             ["Le Joli Mai, Chris Marker", "Pierre Lhomme (1963)"],
             ["Les Fleurs de Shanghai", "Hou Hsiao-Hsien (1998)"],
             ["Les Soeurs Munekata", "Yasujirô Ozu (1950)"],
-          ]}
-          firstIndex={0}
-          bulletStyle={"disc"}
-        />
-        <Top
-          name={"Jean-Michel Frodon"}
-          role={"suite"}
-          top={[
             ["Loulou", "Maurice Pialat (1980)"],
             ["Ma nuit chez Maud", "Eric Rohmer (1969)"],
             ["Nothing But a Man", "Michael Roemer (1964)"],
@@ -515,7 +534,7 @@ export default function Sondage2023() {
               "Rabah Ameur-Zaïmeche (2001)",
             ],
           ]}
-          firstIndex={11}
+          firstIndex={0}
           bulletStyle={"disc"}
         />
       </div>
