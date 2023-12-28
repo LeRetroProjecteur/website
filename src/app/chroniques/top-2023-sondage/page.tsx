@@ -397,6 +397,7 @@ export default function Sondage2023() {
             ["Intolérance", "D.W. Griffith (1916)"],
             ["Une vie difficile", "Dino Risi (1961)"],
             ["Au fil du temps", "Wim Wenders (1976)"],
+            ["Petulia", "Richard Lester (1968)"],
             ["Daniel", "Sidney Lumet (1983)"],
             [
               "Jeanne Dielman",
@@ -405,7 +406,6 @@ export default function Sondage2023() {
             ["Petulia", "Richard Lester (1968)"],
             ["La Bataille d'Alger", "Gillo Pontecorvo (1966)"],
             ["Graffiti Party", "John Milius (1978)"],
-            ["Vie privée", "Louis Malle (1962)"],
           ]}
           firstIndex={0}
           bulletStyle={"inherit"}
