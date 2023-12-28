@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import Head from "next/head";
 import Image from "next/image";
 import React from "react";
 
@@ -26,11 +25,6 @@ export const metadata: Metadata = {
 export default function FestivalLumiere() {
   return (
     <>
-      <div>
-        <Head>
-          <link rel="icon" type="image/png" href="/img/icon.png" />
-        </Head>
-      </div>
       <h1>Retour sur le Festival Lumière 2023</h1>
       <Image
         width={700}
