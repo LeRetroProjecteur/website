@@ -403,9 +403,9 @@ export default function Sondage2023() {
               "Jeanne Dielman",
               "23, quai du Commerce, 1080 Bruxelles, Chantal Akerman (1975)",
             ],
-            ["Petulia", "Richard Lester (1968)"],
             ["La Bataille d'Alger", "Gillo Pontecorvo (1966)"],
             ["Graffiti Party", "John Milius (1978)"],
+            ["Vie privée", "Louis Malle (1962)"],
           ]}
           firstIndex={0}
           bulletStyle={"inherit"}
