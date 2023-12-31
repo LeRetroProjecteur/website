@@ -382,8 +382,7 @@ export function Movies({
             <b>
               {filter.length > 0
                 ? "Aucun film ne correspond à cette recherche aujourd'hui."
-                : // : "Aucun film ne joue à cette heure-ci aujourd'hui, regardez demain ?"}
-                  "Notre calendrier est actuellement en maintenance. Veuillez nous excuser pour le désagrément et rendez-vous dans quelques heures pour toutes les séances !"}
+                : "Aucun film ne joue à cette heure-ci aujourd'hui, regardez demain ?"}
             </b>
           </td>
         </tr>
