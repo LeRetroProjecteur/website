@@ -21,7 +21,7 @@ interface Inputs {
   mardi: string;
 }
 
-export default function SemaineAuCinema() {
+export default function WeekGenerator() {
   useSearchParams();
 
   const { register, watch } = useForm<Inputs>();
