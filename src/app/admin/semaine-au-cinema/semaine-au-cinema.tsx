@@ -157,7 +157,7 @@ function getWeek(week: Date[], dayValues: string[], moviesByDay: Movie[][]) {
                 {showtimes.map((showtimes_theater) => (
                   <Fragment key={showtimes_theater.clean_name}>
                     {showtimes_theater.clean_name} (
-                    {showtimes_theater.zipcode_clean}):{" "}
+                    {showtimes_theater.zipcode_clean})&nbsp;:{" "}
                     {showtimes_theater.showtimes
                       .map((showtime) => floatHourToString(showtime))
                       .join(", ")}
