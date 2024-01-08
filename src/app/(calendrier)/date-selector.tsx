@@ -5,6 +5,7 @@ import { useCallback } from "react";
 import { addDays, subDays } from "date-fns";
 
 import { LeftArrow, RightArrow } from "@/components/icons/arrows";
+import { SousTitre1 } from "@/components/typography/typography";
 import { useCalendrierStore } from "@/lib/calendrier-store";
 import { formatLundi1Janvier } from "@/lib/util";
 
@@ -21,10 +22,10 @@ export default function DateSelector() {
   }, [date, setDate]);
 
   return (
-    <div className="flex grow items-center justify-center lg:border-y lg:bg-retro-green lg:py-4">
+    <div className="flex grow items-center justify-center lg:border-y lg:bg-retro-green lg:py-[18px]">
       <LeftArrow onClick={onClickLeft} />
-      <div className="px-2 text-xl/6 font-semibold uppercase text-retro-gray lg:text-3xl/6">
-        {formatLundi1Janvier(date)}
+      <div className="px-2">
+        <SousTitre1>{formatLundi1Janvier(date)}</SousTitre1>
       </div>
       <RightArrow onClick={onClickRight} />
     </div>

@@ -96,7 +96,7 @@ function MenuLink({ children, path }: { children: ReactNode; path?: string }) {
   const route = usePathname();
   return (
     <div
-      className={clsx("flex justify-center border-b py-4 lg:py-3", {
+      className={clsx("flex justify-center border-b py-4 lg:py-[15px]", {
         "bg-retro-green": path === route,
       })}
     >
