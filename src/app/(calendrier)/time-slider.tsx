@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { omit, padStart } from "lodash-es";
 import ReactSlider from "react-slider";
 
+import { ButtonCopy } from "@/components/typography/typography";
 import { useCalendrierStore } from "@/lib/calendrier-store";
 
 export default function TimeSlider() {
@@ -16,20 +17,22 @@ export default function TimeSlider() {
   };
 
   return (
-    <div className="flex grow flex-col justify-between pt-3 lg:pt-7 lg:text-xl">
+    <div className="flex grow flex-col justify-between lg:text-xl">
       <div className="flex">
-        <div className="pb-3 font-medium uppercase">Horaires :&nbsp;</div>
+        <div className="pb-3">
+          <ButtonCopy>Horaires :&nbsp;</ButtonCopy>
+        </div>
         <div className="flex grow justify-between">
-          <div className="relative left-0 font-medium uppercase">{`de ${padStart(
-            String(minHour),
-            2,
-            "0",
-          )}h`}</div>
-          <div className="relative right-0 font-medium uppercase">{`à ${padStart(
-            String(maxHour),
-            2,
-            "0",
-          )}h`}</div>
+          <div className="relative left-0">
+            <ButtonCopy>{`de ${padStart(
+              String(minHour),
+              2,
+              "0",
+            )}h`}</ButtonCopy>
+          </div>
+          <div className="relative right-0">
+            <ButtonCopy>{`à ${padStart(String(maxHour), 2, "0")}h`}</ButtonCopy>
+          </div>
         </div>
       </div>
       <div className="relative flex">

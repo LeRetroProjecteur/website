@@ -1,5 +1,7 @@
 "use client";
 
+import { ButtonCopy } from "@/components/typography/typography";
+
 export default function QuartierSelectorToggler({
   isOpen,
   toggleOpen,
@@ -9,11 +11,11 @@ export default function QuartierSelectorToggler({
 }) {
   return (
     <div
-      className="flex grow cursor-pointer items-center justify-center  border lg:w-[278px] lg:py-2"
+      className="flex grow cursor-pointer items-center justify-center border lg:w-[278px] lg:py-2"
       onClick={toggleOpen}
     >
-      <div className="pr-1 font-medium uppercase leading-7 lg:text-xl lg:leading-6">
-        par quartiers
+      <div className="pr-1">
+        <ButtonCopy>par quartiers</ButtonCopy>
       </div>{" "}
       <div className="flex items-center">
         {isOpen ? <ArrowUp /> : <ArrowDown />}

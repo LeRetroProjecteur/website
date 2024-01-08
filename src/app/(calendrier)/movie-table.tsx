@@ -5,6 +5,7 @@ import Link from "next/link";
 import { ReactNode, useCallback, useMemo, useState } from "react";
 import useSWR from "swr";
 
+import { BodyCopy, SousTitre2 } from "@/components/typography/typography";
 import { Quartier, useCalendrierStore } from "@/lib/calendrier-store";
 import { Movie, ShowtimesTheater } from "@/lib/types";
 import {
@@ -60,7 +61,7 @@ export default function MovieTable({
   );
 
   return (
-    <div className="flex grow flex-col pb-9 lg:pb-6">
+    <div className="flex grow flex-col">
       <TableHeader />
       {sortedFilteredMovies.length == 0 && <EmptyTableState filter={filter} />}
       <MovieRows movies={sortedFilteredMovies} />
@@ -72,9 +73,9 @@ export default function MovieTable({
 function TableHeader() {
   return (
     <Row
-      cellClassName="font-semibold uppercase leading-10 text-retro-gray lg:text-2xl bg-retro-green text-xl lg:py-3 px-1 lg:px-5 border-t"
-      leftCol="Films"
-      rightCol="Séances"
+      cellClassName="bg-retro-green lg:p-5 px-1 border-t"
+      leftCol={<SousTitre2>Films</SousTitre2>}
+      rightCol={<SousTitre2>Séances</SousTitre2>}
     />
   );
 }
@@ -82,11 +83,13 @@ function TableHeader() {
 function EmptyTableState({ filter }: { filter: string }) {
   return (
     <Row
-      cellClassName="font-medium lg:leading-5 leading-4 px-1 lg:px-2 py-4"
+      cellClassName="px-1 lg:px-2.5 py-5"
       leftCol={
-        filter.length > 0
-          ? "Aucun film ne correspond à cette recherche aujourd'hui. Essayez demain ?"
-          : "Aucun film ne joue à cette heure-ci aujourd'hui. Essayez demain ?"
+        <BodyCopy>
+          {filter.length > 0
+            ? "Aucun film ne correspond à cette recherche aujourd'hui. Essayez demain ?"
+            : "Aucun film ne joue à cette heure-ci aujourd'hui. Essayez demain ?"}
+        </BodyCopy>
       }
     />
   );
@@ -97,7 +100,7 @@ function MovieRows({ movies }: { movies: Movie[] }) {
     <Row
       key={movie.id}
       rowClassName="group"
-      cellClassName="font-medium leading-4 lg:leading-5 group-odd:bg-retro-green group-odd:lg:bg-white py-4 px-1 lg:px-2 lg:group-hover:bg-retro-pale-green"
+      cellClassName="group-odd:bg-retro-green group-odd:lg:bg-white py-5 px-1 lg:px-2.5 lg:group-hover:bg-retro-pale-green"
       leftCol={<MovieCell movie={movie} />}
       rightCol={<Seances movie={movie} />}
     />
@@ -107,7 +110,7 @@ function MovieRows({ movies }: { movies: Movie[] }) {
 function TableFooter() {
   return (
     <div className="flex h-40">
-      <div className="w-1/2 border-r pr-2"></div>
+      <div className="w-1/2 border-r pr-2.5"></div>
     </div>
   );
 }
@@ -125,10 +128,10 @@ function Row({
 }) {
   return (
     <div className={clsx("flex", rowClassName)}>
-      <div className="flex w-1/2 border-r pr-2">
+      <div className="flex w-1/2 border-r pr-2.5">
         <div className={clsx("grow border-b", cellClassName)}>{leftCol}</div>
       </div>
-      <div className="flex w-1/2  pl-2">
+      <div className="flex w-1/2 pl-2.5">
         <div className={clsx("grow border-b", cellClassName)}>{rightCol}</div>
       </div>
     </div>
@@ -139,10 +142,15 @@ function MovieCell({ movie }: { movie: Movie }) {
   return (
     <div className="flex">
       <div className="grow">
-        <Link href={`/archives/${movie.id}`} className="italic hover:underline">
-          {movie.title}
-        </Link>
-        , {movie.directors} ({movie.year})
+        <BodyCopy>
+          <Link
+            href={`/archives/${movie.id}`}
+            className="italic hover:underline"
+          >
+            {movie.title}
+          </Link>
+          , {movie.directors} ({movie.year})
+        </BodyCopy>
       </div>
       {isCoupDeCoeur(movie) && (
         <div className="shrink-0">
@@ -220,7 +228,9 @@ function SceancesTheater({
   return (
     <div className="flex justify-between" key={showtimesTheater.clean_name}>
       <div className="grow pr-3">
-        {showtimesTheater.clean_name} ({showtimesTheater.zipcode_clean})
+        <BodyCopy>
+          {showtimesTheater.clean_name} ({showtimesTheater.zipcode_clean})
+        </BodyCopy>
       </div>
       <div className="flex flex-col">
         {groupsOfThree.map((showtimes, i) => (
@@ -236,8 +246,10 @@ function ThreeShowtimes({ threeShowtimes }: { threeShowtimes: number[] }) {
     <div className="flex flex-col lg:flex-row lg:justify-end">
       {threeShowtimes.map((showtime) => (
         <div key={showtime} className="group flex justify-end">
-          {floatHourToString(showtime)}
-          <div className="hidden group-last:hidden lg:block">&nbsp;•&nbsp;</div>
+          <BodyCopy>{floatHourToString(showtime)}</BodyCopy>
+          <div className="hidden group-last:hidden lg:block">
+            <BodyCopy>&nbsp;•&nbsp;</BodyCopy>
+          </div>
         </div>
       ))}
     </div>

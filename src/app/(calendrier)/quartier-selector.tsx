@@ -3,6 +3,7 @@
 import clsx from "clsx";
 import { useCallback, useMemo } from "react";
 
+import { ButtonCopy } from "@/components/typography/typography";
 import { Quartier, useCalendrierStore } from "@/lib/calendrier-store";
 
 const QUARTIERS: [string, Quartier][] = [
@@ -13,7 +14,7 @@ const QUARTIERS: [string, Quartier][] = [
 
 export default function QuartierSelector() {
   return (
-    <div className="flex grow flex-wrap gap-x-4 gap-y-2">
+    <div className="flex grow flex-wrap gap-x-5 gap-y-2.5">
       {QUARTIERS.map(([quartierName, quartier]) => (
         <QuartierToggler
           key={quartier}
@@ -55,10 +56,10 @@ function QuartierToggler({
           "border-retro-black": present,
           "text-retro-black": present,
         },
-        "w-[172px] cursor-pointer border text-center font-medium uppercase uppercase leading-7 lg:w-[278px] lg:py-2 lg:text-xl",
+        "w-[172px] cursor-pointer border text-center lg:w-[278px] lg:py-2",
       )}
     >
-      {quartierName}
+      <ButtonCopy>{quartierName}</ButtonCopy>
     </div>
   );
 }

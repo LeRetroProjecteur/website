@@ -8,6 +8,11 @@ import { useCallback, useMemo, useState } from "react";
 import RetroInput from "@/components/forms/retro-input";
 import FixedHeader from "@/components/layout/fixed-header";
 import PageHeader from "@/components/layout/page-header";
+import {
+  BodyCopy,
+  MetaCopy,
+  SousTitre2,
+} from "@/components/typography/typography";
 import { Review } from "@/lib/types";
 import {
   formatDDMMYYWithSlashes,
@@ -45,9 +50,9 @@ export default function CoupsDeCoeur({
   }, [display]);
 
   return (
-    <div className="flex grow flex-col pb-4">
-      <FixedHeader className="flex flex-col pb-4">
-        <div className="pb-2 lg:pb-4">
+    <div className="flex grow flex-col pb-5">
+      <FixedHeader className="flex flex-col pb-5">
+        <div className="pb-2 lg:pb-5">
           <PageHeader text="coups de coeur" />
         </div>
         <SubHeader display={display} toggleDisplay={toggleDisplay} />
@@ -80,10 +85,8 @@ function SubHeader({
   toggleDisplay: () => void;
 }) {
   return (
-    <div className="flex items-center justify-between border-b  pb-2 lg:border-t lg:bg-retro-green lg:px-5 lg:py-4 lg:pr-3">
-      <div className="text-xl/6 font-semibold uppercase text-retro-gray lg:text-3xl/6">
-        archive des critiques
-      </div>
+    <div className="flex items-center justify-between border-b  pb-2 lg:border-t lg:bg-retro-green lg:px-5 lg:py-5 lg:pr-3">
+      <SousTitre2>archive des critiques</SousTitre2>
       <div className="flex cursor-pointer items-center" onClick={toggleDisplay}>
         {display === "thumbnails" ? <ListIcon /> : <ThumbnailIcon />}
       </div>
@@ -93,15 +96,18 @@ function SubHeader({
 
 function EmptyState() {
   return (
-    <div className="flex text-lg/5 font-medium uppercase text-retro-gray lg:pl-5 lg:text-xl/5">
-      désolé, nous n&apos;avons rien trouvé qui corresponde à votre recherche !
+    <div className="flex lg:pl-5">
+      <BodyCopy>
+        désolé, nous n&apos;avons rien trouvé qui corresponde à votre recherche
+        !
+      </BodyCopy>
     </div>
   );
 }
 
 function ReviewThumbnails({ reviews }: { reviews: Review[] }) {
   return (
-    <div className="flex grow flex-wrap gap-x-4 gap-y-2 lg:gap-x-5 lg:gap-y-3 lg:pl-5">
+    <div className="flex grow flex-wrap gap-x-4 gap-y-2 lg:gap-x-5 lg:gap-y-[17px] lg:pl-5">
       {reviews.map((review) => (
         <ReviewThumbnail review={review} key={review.id} />
       ))}
@@ -116,7 +122,7 @@ function ReviewThumbnail({ review }: { review: Review }) {
   return (
     <div className="min-w-[340px] grow basis-0">
       <Link href={`/archives/${review.id}`}>
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col gap-[15px]">
           <Image
             className="h-auto w-full"
             width={1200}
@@ -124,12 +130,18 @@ function ReviewThumbnail({ review }: { review: Review }) {
             src={getImageUrl(review)}
             alt={review.title}
           />
-          <div className="flex justify-between gap-3 text-sm/4 font-medium uppercase text-retro-gray lg:text-lg/5">
+          <div className="flex justify-between gap-3">
             <div>
-              <u className="underline">{review.title}</u> ({review.year}),{" "}
-              {review.directors}
+              <MetaCopy>
+                <u className="underline">{review.title}</u> ({review.year}),{" "}
+                {review.directors}
+              </MetaCopy>
             </div>
-            <div>{formatDDMMYYWithSlashes(safeDate(review.review_date))}</div>
+            <div>
+              <MetaCopy>
+                {formatDDMMYYWithSlashes(safeDate(review.review_date))}
+              </MetaCopy>
+            </div>
           </div>
         </div>
       </Link>
@@ -154,12 +166,12 @@ function ReviewRow({ review }: { review: Review }) {
   return (
     <Link href={`/archives/${review.id}`} className="group">
       <div key={review.id} className="flex">
-        <div className="flex border-r  pr-2 lg:pr-5">
+        <div className="flex border-r  pr-2 lg:pr-2">
           <div className="w-[80px] gap-1 border-b px-1  py-2 font-medium text-retro-black group-first:border-t group-odd:bg-retro-green lg:w-[88px] lg:w-[95px] lg:px-3 lg:py-4 lg:text-lg/6 lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
             {formatDDMMYYWithSlashes(safeDate(review.review_date))}
           </div>
         </div>
-        <div className="flex grow  pl-2 lg:pl-5">
+        <div className="flex grow  pl-2 lg:pl-2">
           <div className="grow border-b  px-1 py-2 font-medium uppercase text-retro-black group-first:border-t group-odd:bg-retro-green lg:px-3 lg:py-4 lg:text-lg/6 lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
             <u className="underline">{review.title}</u> ({review.year}),{" "}
             {review.directors}

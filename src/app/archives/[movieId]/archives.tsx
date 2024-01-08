@@ -10,6 +10,12 @@ import { isAfter, isEqual, isSameDay } from "date-fns";
 import { LeftArrow, RightArrow } from "@/components/icons/arrows";
 import FixedHeader from "@/components/layout/fixed-header";
 import PageHeader from "@/components/layout/page-header";
+import {
+  BodyCopy,
+  MetaCopy,
+  SousTitre1,
+  SousTitre2,
+} from "@/components/typography/typography";
 import { MovieDetail, Review, ShowtimesTheater } from "@/lib/types";
 import {
   TAG_MAP,
@@ -32,7 +38,7 @@ export default function Archives({
   movie: MovieDetail;
   reviewedMovies: Review[];
 }) {
-  const isCoupDeCoeur = useMemo(() => movie.review_date !== null, [movie]);
+  const isCoupDeCoeur = useMemo(() => movie.review_date != null, [movie]);
 
   const previousReview = useMemo(
     () =>
@@ -75,7 +81,7 @@ export default function Archives({
 
   return (
     <div className="mb-8 flex grow flex-col">
-      <FixedHeader className="flex flex-col gap-4 pb-4">
+      <FixedHeader className="flex flex-col gap-4 pb-5">
         <PageHeader text={isCoupDeCoeur ? "coup de coeur" : "archives"} />
         <MovieHeader movie={movie} />
       </FixedHeader>
@@ -152,14 +158,18 @@ function Movie({ movie }: { movie: MovieDetail }) {
 
 function MovieHeader({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="flex  justify-between gap-32 border-b pb-4 text-center text-xl/6 font-semibold uppercase text-retro-gray lg:border-t lg:bg-retro-green lg:py-3 lg:pl-5 lg:text-left lg:text-3xl/8 lg:font-medium">
+    <div className="flex justify-between gap-32 border-b pb-4 text-center lg:border-t lg:bg-retro-green lg:py-[18px] lg:pl-5 lg:text-left">
       <div className="grow">
-        <u className="underline">{movie.title}</u> ({movie.year}),{" "}
-        {movie.directors}
+        <SousTitre1>
+          <u className="underline">{movie.title}</u> ({movie.year}),{" "}
+          {movie.directors}
+        </SousTitre1>
       </div>
       {movie.review_date && (
         <div className="hidden w-max whitespace-nowrap pr-2 lg:block">
-          Critique du {formatDDMMYYWithSlashes(safeDate(movie.review_date))}
+          <SousTitre1>
+            Critique du {formatDDMMYYWithSlashes(safeDate(movie.review_date))}
+          </SousTitre1>
         </div>
       )}
     </div>
@@ -182,19 +192,23 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
               />
             </div>
           </div>
-          <div
-            className="font-medium leading-6 lg:pl-5"
-            dangerouslySetInnerHTML={{ __html: movie.review }}
-          ></div>
+          <BodyCopy>
+            <div
+              className="lg:pl-5"
+              dangerouslySetInnerHTML={{ __html: movie.review }}
+            ></div>
+          </BodyCopy>
         </div>
       )}
-      <div className="flex pt-8 text-xl/6 font-medium uppercase text-retro-gray lg:pl-5 lg:pt-0">
-        titre original : {movie.original_title}
-        <br />
-        {movie.duration == null
-          ? "Durée inconnue"
-          : `Durée : ${Math.floor(parseInt(movie.duration) / 60)} minutes`}
-      </div>
+      <MetaCopy>
+        <div className="flex pt-8 lg:pl-5 lg:pt-0">
+          titre original : {movie.original_title}
+          <br />
+          {movie.duration == null
+            ? "Durée inconnue"
+            : `Durée : ${Math.floor(parseInt(movie.duration) / 60)} minutes`}
+        </div>
+      </MetaCopy>
       <Tags movie={movie} />
     </div>
   );
@@ -213,15 +227,15 @@ function MovieScreenings({ movie }: { movie: MovieDetail }) {
 
   return (
     <div className="flex flex-col lg:w-1/2 lg:pl-5">
-      <div className="flex justify-center border-y bg-retro-green px-4 py-1 text-center text-xl/10 font-semibold uppercase text-retro-gray lg:py-3 lg:text-2xl/6">
-        prochaines séances à paris
+      <div className="flex justify-center border-y bg-retro-green px-5 py-[18px] text-center">
+        <SousTitre2>prochaines séances à paris</SousTitre2>
       </div>
       <div className="flex flex-col">
         {size(screenings) > 0 ? (
           <Screenings screenings={screenings} />
         ) : (
-          <div className="border-b  py-4 text-center font-medium leading-3 lg:grow">
-            Pas de séances prévues pour le moment
+          <div className="border-b  py-5 text-center lg:grow">
+            <BodyCopy>Pas de séances prévues pour le moment</BodyCopy>
           </div>
         )}
         <div className="mt-4 h-40 w-1/2 self-start border-r  lg:hidden" />
@@ -263,9 +277,9 @@ function DateScreenings({
   theaters: ShowtimesTheater[];
 }) {
   return (
-    <div className="flex border-b py-4 font-medium leading-4">
+    <div className="flex border-b py-[16px] lg:hover:bg-retro-pale-green">
       <div className="w-32 shrink-0 lg:w-24">
-        {formatDDMMYYWithSlashes(safeDate(date))}
+        <BodyCopy>{formatDDMMYYWithSlashes(safeDate(date))}</BodyCopy>
       </div>
       <div className="flex grow flex-col gap-2">
         {theaters.map((theater) => (
@@ -287,7 +301,9 @@ function TheaterScreenings({
   return (
     <div className="flex">
       <div className="grow">
-        {showtimesTheater.clean_name} ({showtimesTheater.zipcode_clean})
+        <BodyCopy>
+          {showtimesTheater.clean_name} ({showtimesTheater.zipcode_clean})
+        </BodyCopy>
       </div>
       <div className="flex shrink-0 flex-col pl-3">
         {splitIntoSubArrays(showtimesTheater.showtimes, 3).map(
@@ -305,8 +321,10 @@ function ThreeScreenings({ showtimes }: { showtimes: number[] }) {
     <div className="flex flex-col justify-end lg:flex-row">
       {showtimes.map((showtime) => (
         <div key={showtime} className="group flex justify-end">
-          {floatHourToString(showtime)}
-          <div className="hidden group-last:hidden lg:block">&nbsp;•&nbsp;</div>
+          <BodyCopy>{floatHourToString(showtime)}</BodyCopy>
+          <div className="hidden group-last:hidden lg:block">
+            <BodyCopy>&nbsp;•&nbsp;</BodyCopy>
+          </div>
         </div>
       ))}
     </div>
@@ -322,7 +340,7 @@ function Tags({ movie }: { movie: MovieDetail }) {
         {tags.map((tag) => (
           <div
             key={tag}
-            className="rounded-2xl bg-retro-gray p-2 text-lg/4 font-medium uppercase text-white"
+            className="rounded-2xl bg-retro-gray p-2 px-3 text-lg/4 font-medium uppercase leading-[20px] tracking-[-0.01em] text-white"
           >
             {TAG_MAP[tag]}
           </div>

@@ -17,7 +17,7 @@ export default function RetroInput({
   return (
     <input
       type="text"
-      className="grow border  bg-retro-pale-green py-0 uppercase leading-7 text-retro-black placeholder:text-center placeholder:text-retro-gray focus:border-retro-gray focus:outline-0 focus:ring-0 focus:placeholder:opacity-0 lg:text-xl/9 lg:font-medium"
+      className="grow border  bg-retro-pale-green py-0 uppercase leading-7 text-retro-black placeholder:text-center placeholder:text-retro-gray focus:border-retro-gray focus:outline-0 focus:ring-0 focus:placeholder:opacity-0 lg:py-2 lg:text-[20px] lg:font-medium lg:leading-[21px]"
       onChange={onChange}
       value={value}
       placeholder={placeholder}

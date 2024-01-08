@@ -25,7 +25,7 @@ export default function MenuWrapper({
     <>
       <div className="relative lg:static lg:flex lg:items-start">
         <motion.div
-          className="absolute left-0 z-10 hidden min-h-screen w-full bg-white px-4 lg:sticky lg:top-0 lg:flex lg:w-max lg:pb-4 lg:pr-0 lg:pt-4"
+          className="absolute left-0 z-10 hidden min-h-screen w-full bg-white px-5 lg:sticky lg:top-0 lg:flex lg:w-max lg:pb-5 lg:pr-0 lg:pt-5"
           animate={
             isDesktop || isMenuOpen
               ? { translateX: 0, display: "flex" }
@@ -38,7 +38,7 @@ export default function MenuWrapper({
           <Menu></Menu>
         </motion.div>
         <motion.div
-          className="absolute left-0 flex min-h-screen w-full grow px-4 lg:static lg:pl-0"
+          className="absolute left-0 flex min-h-screen w-full grow px-5 lg:static lg:pl-0"
           transition={{
             duration: wasMenuOpen.current !== isMenuOpen ? 0.2 : 0,
           }}
