@@ -6,23 +6,21 @@ import { ButtonCopy } from "../typography/typography";
 
 export default function FooterLinks({
   color,
-  bigLineHeight,
 }: {
   color: "gray" | "black";
   newsletterGreen?: boolean;
-  bigLineHeight: boolean;
 }) {
   return (
     <div className="flex grow flex-col gap-y-10px">
-      <LinkBox color={color} bigLineHeight={bigLineHeight} bgGreen>
+      <LinkBox color={color} bgGreen>
         <Link href="/newsletter">newsletter</Link>
       </LinkBox>
-      <LinkBox color={color} bigLineHeight={bigLineHeight}>
+      <LinkBox color={color}>
         <a href="https://www.instagram.com/leretroprojecteur" target="_blank">
           instagram
         </a>
       </LinkBox>
-      <LinkBox color={color} bigLineHeight={bigLineHeight}>
+      <LinkBox color={color}>
         <a href="https://twitter.com/RetroProjecteur" target="_blank">
           twitter
         </a>
@@ -33,12 +31,10 @@ export default function FooterLinks({
 
 function LinkBox({
   children,
-  bigLineHeight,
   color,
   bgGreen,
 }: {
   children: ReactNode;
-  bigLineHeight: boolean;
   color: "gray" | "black";
   bgGreen?: boolean;
 }) {

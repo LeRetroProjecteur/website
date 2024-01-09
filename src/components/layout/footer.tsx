@@ -34,7 +34,7 @@ export default function Footer() {
         </div>
       </div>
       <div className="flex lg:hidden">
-        <FooterLinks bigLineHeight={false} color="gray" />
+        <FooterLinks color="gray" />
       </div>
     </div>
   );

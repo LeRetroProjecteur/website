@@ -86,7 +86,7 @@ export default function Menu() {
         </div>
       </div>
       <div className="flex">
-        <FooterLinks bigLineHeight={true} color="black" />
+        <FooterLinks color="black" />
       </div>
     </div>
   );
