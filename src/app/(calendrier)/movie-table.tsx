@@ -231,7 +231,7 @@ function SceancesTheater({
   );
   return (
     <div className="flex justify-between" key={showtimesTheater.clean_name}>
-      <div className="pr-5px grow">
+      <div className="grow pr-5px">
         <BodyCopy>
           {showtimesTheater.clean_name} ({showtimesTheater.zipcode_clean})
         </BodyCopy>

@@ -101,18 +101,18 @@ function ReviewsNav({
   nextReview?: Review;
 }) {
   return (
-    <div className="lg:pl-20px flex flex-col">
-      <div className="pb-14px flex justify-between">
+    <div className="flex flex-col lg:pl-20px">
+      <div className="flex justify-between pb-14px">
         {previousReview ? (
           <Link
             href={`/archives/${previousReview.id}`}
             className="flex items-center"
           >
             <LeftArrow small />
-            <div className="leading-25px text-20px pl-5px font-medium uppercase tracking-[-0.02em] text-retro-gray lg:hidden">
+            <div className="pl-5px text-20px font-medium uppercase leading-25px tracking-[-0.02em] text-retro-gray lg:hidden">
               précédent
             </div>
-            <div className="text-20px leading-25px pl-5px hidden font-medium uppercase tracking-[-0.02em] text-retro-gray lg:block">
+            <div className="hidden pl-5px text-20px font-medium uppercase leading-25px tracking-[-0.02em] text-retro-gray lg:block">
               critique précédente
             </div>
           </Link>
@@ -124,10 +124,10 @@ function ReviewsNav({
             href={`/archives/${nextReview.id}`}
             className="flex items-center"
           >
-            <div className="leading-25px text-20px pr-5px font-medium uppercase tracking-[-0.02em] text-retro-gray lg:hidden">
+            <div className="pr-5px text-20px font-medium uppercase leading-25px tracking-[-0.02em] text-retro-gray lg:hidden">
               suivant
             </div>
-            <div className="text-20px leading-25px pr-5px hidden font-medium uppercase tracking-[-0.02em] text-retro-gray lg:block">
+            <div className="hidden pr-5px text-20px font-medium uppercase leading-25px tracking-[-0.02em] text-retro-gray lg:block">
               critique suivante
             </div>
             <RightArrow small />
@@ -137,7 +137,7 @@ function ReviewsNav({
         )}
       </div>
       <Link href="/coeur">
-        <div className="leading-25px text-20px py-8px border bg-retro-pale-green text-center font-medium uppercase text-retro-gray">
+        <div className="border bg-retro-pale-green py-8px text-center text-20px font-medium uppercase leading-25px text-retro-gray">
           retour aux coups de coeur
         </div>
       </Link>
@@ -156,7 +156,7 @@ function Movie({ movie }: { movie: MovieDetail }) {
 
 function MovieHeader({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="lg:py-14px gap-190px lg:pl-20px flex justify-between border-b text-center lg:border-t lg:bg-retro-green lg:text-left">
+    <div className="flex justify-between gap-190px border-b text-center lg:border-t lg:bg-retro-green lg:py-14px lg:pl-20px lg:text-left">
       <div className="grow">
         <SousTitre1>
           <u className="underline">{movie.title}</u> ({movie.year}),{" "}
@@ -164,7 +164,7 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
         </SousTitre1>
       </div>
       {movie.review_date && (
-        <div className="lg:pr-10px hidden w-max whitespace-nowrap lg:block">
+        <div className="hidden w-max whitespace-nowrap lg:block lg:pr-10px">
           <SousTitre1>
             Critique du {formatDDMMYYWithSlashes(safeDate(movie.review_date))}
           </SousTitre1>
@@ -176,11 +176,11 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
 
 function MovieInfo({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="lg:pb-640px lg:px-20px flex flex-col lg:w-1/2 lg:border-r">
+    <div className="flex flex-col lg:w-1/2 lg:border-r lg:px-20px lg:pb-640px">
       {movie.review && (
-        <div className="pb-100px flex flex-col">
+        <div className="flex flex-col pb-100px">
           <div className="flex">
-            <div className="pb-20px flex grow basis-0">
+            <div className="flex grow basis-0 pb-20px">
               <Image
                 width={1200}
                 height={675}
@@ -221,15 +221,15 @@ function MovieScreenings({ movie }: { movie: MovieDetail }) {
   );
 
   return (
-    <div className="lg:pl-20px flex flex-col lg:w-1/2">
-      <div className="lg:px-20px lg:py-16px flex justify-center border-y bg-retro-green text-center">
+    <div className="flex flex-col lg:w-1/2 lg:pl-20px">
+      <div className="flex justify-center border-y bg-retro-green text-center lg:px-20px lg:py-16px">
         <SousTitre2>prochaines séances à paris</SousTitre2>
       </div>
       <div className="flex flex-col">
         {size(screenings) > 0 ? (
           <Screenings screenings={screenings} />
         ) : (
-          <div className="lg:py-16px border-b text-center lg:grow">
+          <div className="border-b text-center lg:grow lg:py-16px">
             <BodyCopy>Pas de séances prévues pour le moment</BodyCopy>
           </div>
         )}
@@ -272,7 +272,7 @@ function DateScreenings({
   theaters: ShowtimesTheater[];
 }) {
   return (
-    <div className="lg:py-16px flex border-b lg:hover:bg-retro-pale-green">
+    <div className="flex border-b lg:py-16px lg:hover:bg-retro-pale-green">
       <div className="w-[6rem] shrink-0">
         <BodyCopy>{formatDDMMYYWithSlashes(safeDate(date))}</BodyCopy>
       </div>
@@ -300,7 +300,7 @@ function TheaterScreenings({
           {showtimesTheater.clean_name} ({showtimesTheater.zipcode_clean})
         </BodyCopy>
       </div>
-      <div className="lg:pl-8px flex shrink-0 flex-col">
+      <div className="flex shrink-0 flex-col lg:pl-8px">
         {splitIntoSubArrays(showtimesTheater.showtimes, 3).map(
           (showtimes, i) => (
             <ThreeScreenings showtimes={showtimes} key={i} />
@@ -331,11 +331,11 @@ function Tags({ movie }: { movie: MovieDetail }) {
 
   return (
     tags.length > 0 && (
-      <div className="lg:pt-20px gap-10px flex flex-wrap">
+      <div className="flex flex-wrap gap-10px lg:pt-20px">
         {tags.map((tag) => (
           <div
             key={tag}
-            className="py-6px px-12px text-20px leading-20px rounded-2xl bg-retro-gray font-medium uppercase tracking-[-0.02em] text-white"
+            className="rounded-2xl bg-retro-gray px-12px py-6px text-20px font-medium uppercase leading-20px tracking-[-0.02em] text-white"
           >
             {TAG_MAP[tag]}
           </div>

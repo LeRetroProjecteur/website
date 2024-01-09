@@ -51,14 +51,14 @@ export default function CoupsDeCoeur({
 
   return (
     <div className="flex grow flex-col">
-      <FixedHeader className="pb-20px flex flex-col">
+      <FixedHeader className="flex flex-col pb-20px">
         <div className="lg:pb-20px">
           <PageHeader text="coups de coeur" />
         </div>
         <SubHeader display={display} toggleDisplay={toggleDisplay} />
       </FixedHeader>
-      <div className="pl-20px flex flex-col">
-        <div className="pb-20px flex">
+      <div className="flex flex-col pl-20px">
+        <div className="flex pb-20px">
           <RetroInput
             placeholder="recherche"
             value={filter}
@@ -85,7 +85,7 @@ function SubHeader({
   toggleDisplay: () => void;
 }) {
   return (
-    <div className="lg:py-14px lg:pl-20px lg:pr-10px flex items-center justify-between border-b lg:border-t lg:bg-retro-green">
+    <div className="flex items-center justify-between border-b lg:border-t lg:bg-retro-green lg:py-14px lg:pl-20px lg:pr-10px">
       <SousTitre1>archive des critiques</SousTitre1>
       <div className="flex cursor-pointer items-center" onClick={toggleDisplay}>
         {display === "thumbnails" ? <ListIcon /> : <ThumbnailIcon />}
@@ -107,7 +107,7 @@ function EmptyState() {
 
 function ReviewThumbnails({ reviews }: { reviews: Review[] }) {
   return (
-    <div className="lg:gap-x-20px lg:gap-y-16px flex grow flex-wrap">
+    <div className="flex grow flex-wrap lg:gap-x-20px lg:gap-y-16px">
       {reviews.map((review) => (
         <ReviewThumbnail review={review} key={review.id} />
       ))}
@@ -122,7 +122,7 @@ function ReviewThumbnail({ review }: { review: Review }) {
   return (
     <div className="min-w-340px grow basis-0">
       <Link href={`/archives/${review.id}`}>
-        <div className="gap-12px flex flex-col">
+        <div className="flex flex-col gap-12px">
           <Image
             className="h-auto w-full"
             width={1200}
@@ -130,7 +130,7 @@ function ReviewThumbnail({ review }: { review: Review }) {
             src={getImageUrl(review)}
             alt={review.title}
           />
-          <div className="gap-20px flex justify-between">
+          <div className="flex justify-between gap-20px">
             <div>
               <MetaCopy>
                 <u className="underline">{review.title}</u> ({review.year}),{" "}
@@ -155,8 +155,8 @@ function ReviewList({ reviews }: { reviews: Review[] }) {
       {reviews.map((review) => (
         <ReviewRow review={review} key={review.id} />
       ))}
-      <div className="h-640px flex">
-        <div className="pr-10px w-1/2 border-r"></div>
+      <div className="flex h-640px">
+        <div className="w-1/2 border-r pr-10px"></div>
       </div>
     </div>
   );
@@ -166,15 +166,15 @@ function ReviewRow({ review }: { review: Review }) {
   return (
     <Link href={`/archives/${review.id}`} className="group">
       <div key={review.id} className="flex">
-        <div className="pr-10px flex border-r">
-          <div className="py-16px border-b text-center group-first:border-t group-odd:bg-retro-green lg:w-[5.9375rem] lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
+        <div className="flex border-r pr-10px">
+          <div className="border-b py-16px text-center group-first:border-t group-odd:bg-retro-green lg:w-[5.9375rem] lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
             <BodyCopy>
               {formatDDMMYYWithSlashes(safeDate(review.review_date))}
             </BodyCopy>
           </div>
         </div>
-        <div className="pl-10px flex grow">
-          <div className="pl-10px py-16px grow border-b group-first:border-t group-odd:bg-retro-green lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
+        <div className="flex grow pl-10px">
+          <div className="grow border-b py-16px pl-10px group-first:border-t group-odd:bg-retro-green lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
             <BodyCopy className="uppercase">
               <u className="underline">{review.title}</u> ({review.year}),{" "}
               {review.directors}
@@ -190,7 +190,7 @@ function ListIcon() {
   return (
     <svg
       viewBox="0 0 34 25"
-      className="h-22px w-29px lg:h-25px lg:w-34px stroke-retro-gray"
+      className="h-22px w-29px stroke-retro-gray lg:h-25px lg:w-34px"
       xmlns="http://www.w3.org/2000/svg"
     >
       <line x1="8" y1="1" x2="34" y2="1" strokeWidth="2" />
@@ -208,7 +208,7 @@ function ListIcon() {
 function ThumbnailIcon() {
   return (
     <svg
-      className="h-22px w-22px lg:h-25px lg:w-25px stroke-retro-gray"
+      className="h-22px w-22px stroke-retro-gray lg:h-25px lg:w-25px"
       width="35"
       height="35"
       viewBox="0 0 35 35"
