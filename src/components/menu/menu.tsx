@@ -54,7 +54,7 @@ export default function Menu() {
   }, []);
 
   return (
-    <div className="flex grow flex-col lg:justify-between lg:border-r lg:pr-20px">
+    <div className="lg:pr-20px flex grow flex-col lg:justify-between lg:border-r">
       <div className="flex grow flex-col lg:grow-0">
         <div className="flex justify-center pb-3 pt-12 lg:hidden">
           <div className="cursor-pointer" onClick={closeMenu}>
@@ -63,11 +63,11 @@ export default function Menu() {
         </div>
         <div className="flex justify-center">
           <Link href="/" onClick={onClickLogo}>
-            <Image src={logoCarre} alt="logo" className="h-auto lg:w-[207px]" />
+            <Image src={logoCarre} alt="logo" className="lg:w-207px h-auto" />
           </Link>
         </div>
         <MenuLink>
-          <div className="py-3px font-degular text-35px font-extrabold uppercase leading-25px tracking-[0.01em] text-retro-gray">
+          <div className="py-3px text-35px leading-25px font-degular font-extrabold uppercase tracking-[0.01em] text-retro-gray">
             le rétro
             <br />
             projecteur
@@ -76,7 +76,7 @@ export default function Menu() {
         <div className="flex flex-col">
           {menu.map(([section, path]) => (
             <MenuLink key={path} path={path}>
-              <div className="font-degular text-32px font-extrabold uppercase leading-25px text-retro-gray">
+              <div className="text-32px leading-25px font-degular font-extrabold uppercase text-retro-gray">
                 <Link href={path} onClick={closeMenuIfOnSamePathname}>
                   {section}
                 </Link>
@@ -96,7 +96,7 @@ function MenuLink({ children, path }: { children: ReactNode; path?: string }) {
   const route = usePathname();
   return (
     <div
-      className={clsx("flex justify-center border-b lg:py-12px", {
+      className={clsx("lg:py-12px flex justify-center border-b", {
         "bg-retro-green": path === route,
       })}
     >
@@ -110,7 +110,7 @@ function MenuLink({ children, path }: { children: ReactNode; path?: string }) {
 function CloseIcon() {
   return (
     <svg
-      className="h-[29px] w-[28px] stroke-retro-gray"
+      className="h-29px w-28px stroke-retro-gray"
       viewBox="0 0 28 29"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
