@@ -109,7 +109,7 @@ function MovieRows({ movies }: { movies: Movie[] }) {
 
 function TableFooter() {
   return (
-    <div className="h-640px flex">
+    <div className="flex h-640px">
       <div className="w-1/2 border-r"></div>
     </div>
   );
@@ -128,10 +128,10 @@ function Row({
 }) {
   return (
     <div className={clsx("flex", rowClassName)}>
-      <div className="lg:pr-10px flex w-1/2 border-r">
+      <div className="flex w-1/2 border-r lg:pr-10px">
         <div className={clsx("grow border-b", cellClassName)}>{leftCol}</div>
       </div>
-      <div className="lg:pl-10px flex w-1/2">
+      <div className="flex w-1/2 lg:pl-10px">
         <div className={clsx("grow border-b", cellClassName)}>{rightCol}</div>
       </div>
     </div>
@@ -140,7 +140,7 @@ function Row({
 
 function MovieCell({ movie }: { movie: Movie }) {
   return (
-    <div className="lg:pl-10px flex">
+    <div className="flex lg:pl-10px">
       <div className="grow">
         <BodyCopy>
           <Link
@@ -192,7 +192,7 @@ function Seances({ movie }: { movie: Movie }) {
   );
 
   return (
-    <div className="lg:pl-10px lg:gap-5px flex grow flex-col">
+    <div className="flex grow flex-col lg:gap-5px lg:pl-10px">
       {take(sortedTheaters, isExpanded ? sortedTheaters.length : 2).map(
         (theater) => (
           <SceancesTheater

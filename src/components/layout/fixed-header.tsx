@@ -12,7 +12,7 @@ export default function FixedHeader({
     <div
       className={clsx(
         className,
-        "lg:pb-20px lg:pt-20px z-20 flex flex-col bg-white lg:sticky lg:top-0",
+        "z-20 flex flex-col bg-white lg:sticky lg:top-0 lg:pb-20px lg:pt-20px",
       )}
     >
       {children}

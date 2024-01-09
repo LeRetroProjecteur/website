@@ -28,19 +28,19 @@ export default function Calendrier({
   return (
     <div className="flex grow flex-col">
       <FixedHeader className="flex flex-col">
-        <div className="lg:pb-20px flex">
+        <div className="flex lg:pb-20px">
           <PageHeader text="calendrier" />
         </div>
         <div className="flex border-b lg:border-0">
           <DateSelector />
         </div>
       </FixedHeader>
-      <div className="lg:pl-20px flex flex-col">
-        <div className="lg:pb-32px lg:pt-19px flex">
+      <div className="flex flex-col lg:pl-20px">
+        <div className="flex lg:pb-32px lg:pt-19px">
           <TimeSlider />
         </div>
         <div className="flex flex-col lg:flex-row">
-          <div className="lg:pr-20px flex">
+          <div className="flex lg:pr-20px">
             <QuartierSelectorToggler
               toggleOpen={toggleQuartierSelectorOpen}
               isOpen={isQuartierSelectorOpen}
@@ -56,11 +56,11 @@ export default function Calendrier({
           </div>
         </div>
         {isQuartierSelectorOpen && (
-          <div className="lg:pt-20px hidden lg:flex">
+          <div className="hidden lg:flex lg:pt-20px">
             <QuartierSelector />
           </div>
         )}
-        <div className="lg:pt-28px flex">
+        <div className="flex lg:pt-28px">
           <MovieTable serverMovies={serverMovies} />
         </div>
       </div>
