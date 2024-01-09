@@ -13,7 +13,7 @@ export default function FooterLinks({
   bigLineHeight: boolean;
 }) {
   return (
-    <div className="gap-y-10px flex grow flex-col">
+    <div className="flex grow flex-col gap-y-10px">
       <LinkBox color={color} bigLineHeight={bigLineHeight} bgGreen>
         <Link href="/newsletter">newsletter</Link>
       </LinkBox>
@@ -44,7 +44,7 @@ function LinkBox({
 }) {
   return (
     <div
-      className={clsx("py-12px flex justify-center border", {
+      className={clsx("flex justify-center border py-12px", {
         "bg-retro-green": bgGreen ?? false,
       })}
     >
