@@ -25,6 +25,10 @@ const config: Config = {
         degular: ["var(--font-degular)"],
         suisse: ["var(--font-suisse)"],
       },
+      fontSize: {
+        "35px": `${35 / 16}rem`,
+        "32px": `${32 / 16}rem`,
+      },
       gap: {
         "20px": `${20 / 16}rem`,
         "10px": `${10 / 16}rem`,
@@ -32,22 +36,28 @@ const config: Config = {
       },
       height: {
         "640px": `${640 / 16}rem`,
+        "163px": `${163 / 16}rem`,
         "14px": `${14 / 16}rem`,
         "10px": `${10 / 16}rem`,
+      },
+      lineHeight: {
+        "25px": `${25 / 16}rem`,
       },
       padding: {
         "32px": `${32 / 16}rem`,
         "28px": `${28 / 16}rem`,
         "20px": `${20 / 16}rem`,
         "19px": `${19 / 16}rem`,
-        "16px": `${16 / 16}rem`,
         "18px": `${18 / 16}rem`,
+        "16px": `${16 / 16}rem`,
+        "15px": `${15 / 16}rem`,
         "12px": `${12 / 16}rem`,
         "10px": `${10 / 16}rem`,
         "6px": `${6 / 16}rem`,
       },
       width: {
         "278px": `${278 / 16}rem`,
+        "207px": `${207 / 16}rem`,
         "25px": `${25 / 16}rem`,
         "19px": `${19 / 16}rem`,
         "13px": `${13 / 16}rem`,

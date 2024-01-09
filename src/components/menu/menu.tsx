@@ -54,8 +54,8 @@ export default function Menu() {
   }, []);
 
   return (
-    <div className="flex grow flex-col gap-5 pb-7 lg:justify-between lg:border-r lg:pb-0">
-      <div className="flex grow flex-col lg:grow-0 lg:pr-5">
+    <div className="lg:pr-20px flex grow flex-col lg:justify-between lg:border-r">
+      <div className="flex grow flex-col lg:grow-0">
         <div className="flex justify-center pb-3 pt-12 lg:hidden">
           <div className="cursor-pointer" onClick={closeMenu}>
             <CloseIcon />
@@ -63,29 +63,29 @@ export default function Menu() {
         </div>
         <div className="flex justify-center">
           <Link href="/" onClick={onClickLogo}>
-            <Image
-              src={logoCarre}
-              alt="logo"
-              className="h-auto w-[272px] lg:w-[206px]"
-            />
+            <Image src={logoCarre} alt="logo" className="h-auto lg:w-[207px]" />
           </Link>
         </div>
         <MenuLink>
-          le rétro
-          <br />
-          projecteur
+          <div className="text-35px leading-25px font-degular font-extrabold uppercase tracking-[0.01em] text-retro-gray">
+            le rétro
+            <br />
+            projecteur
+          </div>
         </MenuLink>
         <div className="flex flex-col">
           {menu.map(([section, path]) => (
             <MenuLink key={path} path={path}>
-              <Link href={path} onClick={closeMenuIfOnSamePathname}>
-                {section}
-              </Link>
+              <div className="text-32px leading-25px font-degular font-extrabold uppercase text-retro-gray">
+                <Link href={path} onClick={closeMenuIfOnSamePathname}>
+                  {section}
+                </Link>
+              </div>
             </MenuLink>
           ))}
         </div>
       </div>
-      <div className="flex lg:pr-5">
+      <div className="flex">
         <FooterLinks bigLineHeight={true} color="black" />
       </div>
     </div>
@@ -96,11 +96,11 @@ function MenuLink({ children, path }: { children: ReactNode; path?: string }) {
   const route = usePathname();
   return (
     <div
-      className={clsx("flex justify-center border-b py-4 lg:py-[15px]", {
+      className={clsx("lg:py-15px flex justify-center border-b", {
         "bg-retro-green": path === route,
       })}
     >
-      <div className="w-min grow whitespace-break-spaces text-center font-degular text-5xl/8 font-extrabold uppercase text-retro-gray lg:text-4xl/7">
+      <div className="w-min grow whitespace-break-spaces text-center">
         {children}
       </div>
     </div>

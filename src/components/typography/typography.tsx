@@ -33,9 +33,20 @@ export function SousTitre3({ children }: { children: ReactNode }) {
   );
 }
 
-export function ButtonCopy({ children }: { children: ReactNode }) {
+export function ButtonCopy({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   return (
-    <div className="text-[20px] font-medium uppercase leading-[21px]">
+    <div
+      className={clsx(
+        className,
+        "text-[20px] font-medium uppercase leading-[21px]",
+      )}
+    >
       {children}
     </div>
   );
