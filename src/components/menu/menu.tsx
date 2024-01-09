@@ -63,11 +63,11 @@ export default function Menu() {
         </div>
         <div className="flex justify-center">
           <Link href="/" onClick={onClickLogo}>
-            <Image src={logoCarre} alt="logo" className="h-auto lg:w-[207px]" />
+            <Image src={logoCarre} alt="logo" className="h-auto lg:w-207px" />
           </Link>
         </div>
         <MenuLink>
-          <div className="font-degular text-35px font-extrabold uppercase leading-25px tracking-[0.01em] text-retro-gray">
+          <div className="py-3px font-degular text-35px font-extrabold uppercase leading-25px tracking-[0.01em] text-retro-gray">
             le rétro
             <br />
             projecteur
@@ -96,7 +96,7 @@ function MenuLink({ children, path }: { children: ReactNode; path?: string }) {
   const route = usePathname();
   return (
     <div
-      className={clsx("flex justify-center border-b lg:py-15px", {
+      className={clsx("flex justify-center border-b lg:py-12px", {
         "bg-retro-green": path === route,
       })}
     >
@@ -110,7 +110,7 @@ function MenuLink({ children, path }: { children: ReactNode; path?: string }) {
 function CloseIcon() {
   return (
     <svg
-      className="h-[29px] w-[28px] stroke-retro-gray"
+      className="h-29px w-28px stroke-retro-gray"
       viewBox="0 0 28 29"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

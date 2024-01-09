@@ -80,7 +80,7 @@ export default function Archives({
   );
 
   return (
-    <div className="mb-8 flex grow flex-col">
+    <div className="flex grow flex-col">
       <FixedHeader className="flex flex-col gap-4 pb-5">
         <PageHeader text={isCoupDeCoeur ? "coup de coeur" : "archives"} />
         <MovieHeader movie={movie} />
@@ -101,19 +101,18 @@ function ReviewsNav({
   nextReview?: Review;
 }) {
   return (
-    <div className="flex flex-col lg:pl-4">
-      <div className="flex justify-between pb-4">
+    <div className="flex flex-col lg:pl-20px">
+      <div className="flex justify-between pb-14px">
         {previousReview ? (
           <Link
             href={`/archives/${previousReview.id}`}
             className="flex items-center"
           >
             <LeftArrow small />
-            &nbsp;
-            <div className="text-xl font-medium uppercase leading-none text-retro-gray lg:hidden">
+            <div className="pl-5px text-20px font-medium uppercase leading-25px tracking-[-0.02em] text-retro-gray lg:hidden">
               précédent
             </div>
-            <div className="hidden text-xl font-medium uppercase leading-none text-retro-gray lg:block">
+            <div className="hidden pl-5px text-20px font-medium uppercase leading-25px tracking-[-0.02em] text-retro-gray lg:block">
               critique précédente
             </div>
           </Link>
@@ -125,13 +124,12 @@ function ReviewsNav({
             href={`/archives/${nextReview.id}`}
             className="flex items-center"
           >
-            <div className="text-xl font-medium uppercase leading-none text-retro-gray lg:hidden">
+            <div className="pr-5px text-20px font-medium uppercase leading-25px tracking-[-0.02em] text-retro-gray lg:hidden">
               suivant
             </div>
-            <div className="hidden text-xl font-medium uppercase leading-none text-retro-gray lg:block">
+            <div className="hidden pr-5px text-20px font-medium uppercase leading-25px tracking-[-0.02em] text-retro-gray lg:block">
               critique suivante
             </div>
-            &nbsp;
             <RightArrow small />
           </Link>
         ) : (
@@ -139,7 +137,7 @@ function ReviewsNav({
         )}
       </div>
       <Link href="/coeur">
-        <div className="border bg-retro-pale-green py-2 text-center text-xl/6 font-medium uppercase text-retro-gray">
+        <div className="border bg-retro-pale-green py-8px text-center text-20px font-medium uppercase leading-25px text-retro-gray">
           retour aux coups de coeur
         </div>
       </Link>
@@ -158,7 +156,7 @@ function Movie({ movie }: { movie: MovieDetail }) {
 
 function MovieHeader({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="flex justify-between gap-32 border-b pb-4 text-center lg:border-t lg:bg-retro-green lg:py-[18px] lg:pl-5 lg:text-left">
+    <div className="flex justify-between gap-190px border-b text-center lg:border-t lg:bg-retro-green lg:py-14px lg:pl-20px lg:text-left">
       <div className="grow">
         <SousTitre1>
           <u className="underline">{movie.title}</u> ({movie.year}),{" "}
@@ -166,7 +164,7 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
         </SousTitre1>
       </div>
       {movie.review_date && (
-        <div className="hidden w-max whitespace-nowrap pr-2 lg:block">
+        <div className="hidden w-max whitespace-nowrap lg:block lg:pr-10px">
           <SousTitre1>
             Critique du {formatDDMMYYWithSlashes(safeDate(movie.review_date))}
           </SousTitre1>
@@ -178,11 +176,11 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
 
 function MovieInfo({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="flex flex-col lg:w-1/2 lg:border-r lg:pb-40 lg:pr-5">
+    <div className="flex flex-col lg:w-1/2 lg:border-r lg:px-20px lg:pb-640px">
       {movie.review && (
-        <div className="flex flex-col lg:pb-8">
-          <div className="flex pb-4 lg:pl-5">
-            <div className="flex grow basis-0">
+        <div className="flex flex-col pb-100px">
+          <div className="flex">
+            <div className="flex grow basis-0 pb-20px">
               <Image
                 width={1200}
                 height={675}
@@ -193,15 +191,12 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
             </div>
           </div>
           <BodyCopy>
-            <div
-              className="lg:pl-5"
-              dangerouslySetInnerHTML={{ __html: movie.review }}
-            ></div>
+            <div dangerouslySetInnerHTML={{ __html: movie.review }}></div>
           </BodyCopy>
         </div>
       )}
       <MetaCopy>
-        <div className="flex pt-8 lg:pl-5 lg:pt-0">
+        <div className="flex">
           titre original : {movie.original_title}
           <br />
           {movie.duration == null
@@ -226,19 +221,19 @@ function MovieScreenings({ movie }: { movie: MovieDetail }) {
   );
 
   return (
-    <div className="flex flex-col lg:w-1/2 lg:pl-5">
-      <div className="flex justify-center border-y bg-retro-green px-5 py-[18px] text-center">
+    <div className="flex flex-col lg:w-1/2 lg:pl-20px">
+      <div className="flex justify-center border-y bg-retro-green text-center lg:px-20px lg:py-16px">
         <SousTitre2>prochaines séances à paris</SousTitre2>
       </div>
       <div className="flex flex-col">
         {size(screenings) > 0 ? (
           <Screenings screenings={screenings} />
         ) : (
-          <div className="border-b  py-5 text-center lg:grow">
+          <div className="border-b text-center lg:grow lg:py-16px">
             <BodyCopy>Pas de séances prévues pour le moment</BodyCopy>
           </div>
         )}
-        <div className="mt-4 h-40 w-1/2 self-start border-r  lg:hidden" />
+        <div className="mt-4 h-40 w-1/2 self-start border-r lg:hidden" />
       </div>
     </div>
   );
@@ -277,11 +272,11 @@ function DateScreenings({
   theaters: ShowtimesTheater[];
 }) {
   return (
-    <div className="flex border-b py-[16px] lg:hover:bg-retro-pale-green">
-      <div className="w-32 shrink-0 lg:w-24">
+    <div className="flex border-b lg:py-16px lg:hover:bg-retro-pale-green">
+      <div className="w-[6rem] shrink-0">
         <BodyCopy>{formatDDMMYYWithSlashes(safeDate(date))}</BodyCopy>
       </div>
-      <div className="flex grow flex-col gap-2">
+      <div className="flex grow flex-col">
         {theaters.map((theater) => (
           <TheaterScreenings
             key={theater.clean_name}
@@ -305,7 +300,7 @@ function TheaterScreenings({
           {showtimesTheater.clean_name} ({showtimesTheater.zipcode_clean})
         </BodyCopy>
       </div>
-      <div className="flex shrink-0 flex-col pl-3">
+      <div className="flex shrink-0 flex-col lg:pl-8px">
         {splitIntoSubArrays(showtimesTheater.showtimes, 3).map(
           (showtimes, i) => (
             <ThreeScreenings showtimes={showtimes} key={i} />
@@ -336,11 +331,11 @@ function Tags({ movie }: { movie: MovieDetail }) {
 
   return (
     tags.length > 0 && (
-      <div className="flex flex-wrap gap-x-2 gap-y-2 pt-4 lg:pl-5">
+      <div className="flex flex-wrap gap-10px lg:pt-20px">
         {tags.map((tag) => (
           <div
             key={tag}
-            className="rounded-2xl bg-retro-gray p-2 px-3 text-lg/4 font-medium uppercase leading-[20px] tracking-[-0.01em] text-white"
+            className="rounded-2xl bg-retro-gray px-12px py-6px text-20px font-medium uppercase leading-20px tracking-[-0.02em] text-white"
           >
             {TAG_MAP[tag]}
           </div>
