@@ -67,7 +67,7 @@ export default function Menu() {
           </Link>
         </div>
         <MenuLink>
-          <div className="font-degular text-35px font-extrabold uppercase leading-25px tracking-[0.01em] text-retro-gray">
+          <div className="py-3px font-degular text-35px font-extrabold uppercase leading-25px tracking-[0.01em] text-retro-gray">
             le rétro
             <br />
             projecteur
@@ -96,7 +96,7 @@ function MenuLink({ children, path }: { children: ReactNode; path?: string }) {
   const route = usePathname();
   return (
     <div
-      className={clsx("flex justify-center border-b lg:py-15px", {
+      className={clsx("flex justify-center border-b lg:py-12px", {
         "bg-retro-green": path === route,
       })}
     >

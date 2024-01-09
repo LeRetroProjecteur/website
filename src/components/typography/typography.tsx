@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 export function Titre({ children }: { children: ReactNode }) {
   return (
-    <div className="font-degular text-5xl/8 font-black uppercase tracking-[0.01em] text-retro-gray lg:text-[95px] lg:leading-[60px]">
+    <div className="font-degular font-black uppercase tracking-[0.01em] text-retro-gray lg:text-95px lg:leading-60px">
       {children}
     </div>
   );
@@ -11,7 +11,7 @@ export function Titre({ children }: { children: ReactNode }) {
 
 export function SousTitre1({ children }: { children: ReactNode }) {
   return (
-    <div className="text-xl/6 font-medium uppercase tracking-[-0.01em] text-retro-gray lg:text-[29px] lg:leading-[29px]">
+    <div className="font-medium uppercase tracking-[-0.01em] text-retro-gray lg:text-29px lg:leading-31px">
       {children}
     </div>
   );
@@ -19,7 +19,7 @@ export function SousTitre1({ children }: { children: ReactNode }) {
 
 export function SousTitre2({ children }: { children: ReactNode }) {
   return (
-    <div className="text-[25px] font-semibold uppercase leading-[25px] tracking-[-0.01em] text-retro-gray">
+    <div className="font-semibold uppercase tracking-[-0.01em] text-retro-gray lg:text-25px lg:leading-25px">
       {children}
     </div>
   );
@@ -27,7 +27,7 @@ export function SousTitre2({ children }: { children: ReactNode }) {
 
 export function SousTitre3({ children }: { children: ReactNode }) {
   return (
-    <div className="text-[21px] font-semibold leading-[26px] text-retro-gray">
+    <div className="text-21px font-semibold leading-26px text-retro-gray">
       {children}
     </div>
   );
@@ -44,7 +44,7 @@ export function ButtonCopy({
     <div
       className={clsx(
         className,
-        "text-[20px] font-medium uppercase leading-[21px]",
+        "text-20px font-medium uppercase leading-21px",
       )}
     >
       {children}
@@ -54,7 +54,7 @@ export function ButtonCopy({
 
 export function MetaCopy({ children }: { children: ReactNode }) {
   return (
-    <div className="text-[20px] font-medium uppercase leading-[22px] text-retro-gray">
+    <div className="text-20px font-medium uppercase leading-22px text-retro-gray">
       {children}
     </div>
   );
@@ -71,7 +71,7 @@ export function BodyCopy({
     <div
       className={clsx(
         className,
-        "text-[16px] font-medium leading-[20px] text-retro-black",
+        "text-16px font-medium leading-20px text-retro-black",
       )}
     >
       {children}

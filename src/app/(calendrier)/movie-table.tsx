@@ -73,7 +73,7 @@ export default function MovieTable({
 function TableHeader() {
   return (
     <Row
-      cellClassName="bg-retro-green lg:p-20px border-t"
+      cellClassName="bg-retro-green lg:px-20px border-t lg:py-17px"
       leftCol={<SousTitre2>Films</SousTitre2>}
       rightCol={<SousTitre2>Séances</SousTitre2>}
     />
@@ -100,7 +100,7 @@ function MovieRows({ movies }: { movies: Movie[] }) {
     <Row
       key={movie.id}
       rowClassName="group"
-      cellClassName="group-odd:bg-retro-green group-odd:lg:bg-white lg:py-16px lg:group-hover:bg-retro-pale-green"
+      cellClassName="group-odd:bg-retro-green group-odd:lg:bg-white lg:py-17px lg:group-hover:bg-retro-pale-green"
       leftCol={<MovieCell movie={movie} />}
       rightCol={<Seances movie={movie} />}
     />
