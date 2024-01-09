@@ -11,12 +11,12 @@ export default function QuartierSelectorToggler({
 }) {
   return (
     <div
-      className="flex grow cursor-pointer items-center justify-center border lg:w-[278px] lg:py-2"
+      className="flex grow cursor-pointer items-center justify-center border lg:w-278px lg:py-12px"
       onClick={toggleOpen}
     >
-      <div className="pr-1">
+      <div className="pr-6px">
         <ButtonCopy>par quartiers</ButtonCopy>
-      </div>{" "}
+      </div>
       <div className="flex items-center">
         {isOpen ? <ArrowUp /> : <ArrowDown />}
       </div>
@@ -27,7 +27,7 @@ function ArrowUp() {
   return (
     <svg
       viewBox="0 0 14 10"
-      className="h-[14px] w-[10px] stroke-retro-black lg:h-[19px] lg:w-[13.6px]"
+      className="h-[14px] w-[10px] stroke-retro-black lg:h-14px lg:w-19px"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -55,7 +55,7 @@ function ArrowDown() {
       viewBox="0 0 14 10"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="h-[14px] w-[10px] stroke-retro-black lg:h-[19px] lg:w-[13.6px]"
+      className="h-[14px] w-[10px] stroke-retro-black lg:h-14px lg:w-19px"
     >
       <line
         y1="-0.75"

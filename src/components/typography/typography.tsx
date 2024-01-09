@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { ReactNode } from "react";
 
 export function Titre({ children }: { children: ReactNode }) {
@@ -48,9 +49,20 @@ export function MetaCopy({ children }: { children: ReactNode }) {
   );
 }
 
-export function BodyCopy({ children }: { children: ReactNode }) {
+export function BodyCopy({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   return (
-    <div className="text-[16px] font-medium leading-[20px] text-retro-black">
+    <div
+      className={clsx(
+        className,
+        "text-[16px] font-medium leading-[20px] text-retro-black",
+      )}
+    >
       {children}
     </div>
   );

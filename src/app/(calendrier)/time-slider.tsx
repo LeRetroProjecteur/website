@@ -17,9 +17,9 @@ export default function TimeSlider() {
   };
 
   return (
-    <div className="flex grow flex-col justify-between lg:text-xl">
+    <div className="flex grow flex-col justify-between">
       <div className="flex">
-        <div className="pb-3">
+        <div className="lg:pb-20px">
           <ButtonCopy>Horaires :&nbsp;</ButtonCopy>
         </div>
         <div className="flex grow justify-between">
@@ -77,7 +77,7 @@ export default function TimeSlider() {
 function Thumb() {
   return (
     <svg
-      className="h-[13px] w-[13px] fill-retro-gray"
+      className="h-13px w-13px fill-retro-gray"
       viewBox="0 0 13 13"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
