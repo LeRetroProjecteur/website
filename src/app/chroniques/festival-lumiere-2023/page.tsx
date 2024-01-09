@@ -109,8 +109,8 @@ export default function FestivalLumiere() {
       Festival qui auront droit à une ressortie nationale prochaine. On
       mentionnera notamment{" "}
       <strong>la fameuse trilogie d&apos;Apu de Satyajit Ray</strong>
-      &nbsp;– <i>La Complainte du sentier</i> (1955), <i>L&apos;invaincu</i>{" "}
-      (1956) et <i>Le Monde d&apos;Apu</i> (1959)&nbsp;– prévue en salles le 6
+      &nbsp;- <i>La Complainte du sentier</i> (1955), <i>L&apos;invaincu</i>{" "}
+      (1956) et <i>Le Monde d&apos;Apu</i> (1959)&nbsp;- prévue en salles le 6
       décembre prochain. Le plaisir du festivalier est en bonne partie imputable
       aux secrètes correspondances que les films nous permettent de tisser entre
       eux. Ainsi ne peut-on pas s&apos;empêcher de rapprocher les films du

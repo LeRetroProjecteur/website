@@ -37,7 +37,7 @@ const suisse = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Calendrier | Le Rétro Projecteur – Cinéma de patrimoine à Paris",
+  title: "Calendrier | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
   description:
     "Venez découvrir toutes les ressorties de films dans les salles parisiennes.",
   metadataBase: new URL("https://leretroprojecteur.com/"),
@@ -61,7 +61,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               </div>
               <div className="flex grow flex-col justify-between">
                 <div className="flex">{children}</div>
-                <div className="flex pb-7 lg:pb-5 lg:pl-5 lg:pt-5">
+                <div className="flex lg:pb-20px lg:pl-20px lg:pt-20px">
                   <Footer />
                 </div>
               </div>
