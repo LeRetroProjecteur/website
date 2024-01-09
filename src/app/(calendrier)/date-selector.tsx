@@ -22,9 +22,9 @@ export default function DateSelector() {
   }, [date, setDate]);
 
   return (
-    <div className="flex grow items-center justify-center lg:border-y lg:bg-retro-green lg:py-[18px]">
+    <div className="lg:py-18px flex grow items-center justify-center lg:border-y lg:bg-retro-green">
       <LeftArrow onClick={onClickLeft} />
-      <div className="px-2">
+      <div className="px-10px">
         <SousTitre1>{formatLundi1Janvier(date)}</SousTitre1>
       </div>
       <RightArrow onClick={onClickRight} />
