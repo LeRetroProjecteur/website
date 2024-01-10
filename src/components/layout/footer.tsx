@@ -1,4 +1,4 @@
-import { MetaCopy } from "../typography/typography";
+import { FooterCopy } from "../typography/typography";
 import FooterLinks from "./footer-links";
 
 export default function Footer() {
@@ -6,7 +6,7 @@ export default function Footer() {
     <div className="flex grow flex-col border-t pt-13px lg:h-146px lg:pt-10px">
       <div className="flex flex-col lg:grow lg:justify-between">
         <div className="text-center lg:text-left">
-          <MetaCopy>
+          <FooterCopy>
             Un problème sur le site ?<br className="lg:hidden" />
             Signalez-le nous{" "}
             <a
@@ -16,10 +16,10 @@ export default function Footer() {
               ICI
             </a>{" "}
             !
-          </MetaCopy>
+          </FooterCopy>
         </div>
         <div className="pt-28px text-center lg:pt-0 lg:text-left">
-          <MetaCopy>
+          <FooterCopy>
             Design graphique par{" "}
             <a
               href="https://clairemalot.com/"
@@ -31,7 +31,7 @@ export default function Footer() {
             <br />
             © Le Rétro Projecteur 2021-2023 <br />« Pour le grand écran, pas la
             p&apos;tite lucarne ! »
-          </MetaCopy>
+          </FooterCopy>
         </div>
       </div>
       <div className="flex pb-28px pt-13px lg:hidden lg:py-0">

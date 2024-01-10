@@ -19,7 +19,7 @@ export function SousTitre1({ children }: { children: ReactNode }) {
 
 export function SousTitre2({ children }: { children: ReactNode }) {
   return (
-    <div className="text-21px font-semibold uppercase tracking-normal text-retro-gray lg:text-25px lg:leading-25px lg:tracking-[-0.01em]">
+    <div className="text-21px font-semibold uppercase leading-25px tracking-normal text-retro-gray lg:text-25px lg:leading-25px lg:tracking-[-0.01em]">
       {children}
     </div>
   );
@@ -53,6 +53,22 @@ export function ButtonCopy({
 }
 
 export function MetaCopy({ children }: { children: ReactNode }) {
+  return (
+    <div className="text-19px font-medium uppercase leading-21px text-retro-gray lg:text-20px lg:leading-22px lg:tracking-[-0.01em]">
+      {children}
+    </div>
+  );
+}
+
+export function CoeurCopy({ children }: { children: ReactNode }) {
+  return (
+    <div className="text-14px font-medium uppercase leading-16px tracking-[-0.01em] text-retro-gray lg:text-20px lg:leading-22px">
+      {children}
+    </div>
+  );
+}
+
+export function FooterCopy({ children }: { children: ReactNode }) {
   return (
     <div className="text-19px font-medium uppercase leading-21px tracking-[-0.01em] text-retro-gray lg:text-20px lg:leading-22px">
       {children}
