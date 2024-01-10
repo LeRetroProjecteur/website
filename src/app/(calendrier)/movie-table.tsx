@@ -73,7 +73,7 @@ export default function MovieTable({
 function TableHeader() {
   return (
     <Row
-      cellClassName="bg-retro-green lg:px-20px border-t lg:py-17px"
+      cellClassName="bg-retro-green lg:px-20px border-t lg:py-17px p-6px"
       leftCol={<SousTitre2>Films</SousTitre2>}
       rightCol={<SousTitre2>Séances</SousTitre2>}
     />
@@ -83,7 +83,7 @@ function TableHeader() {
 function EmptyTableState({ filter }: { filter: string }) {
   return (
     <Row
-      cellClassName="lg:px-10px lg:py-20px"
+      cellClassName="lg:px-10px lg:py-20px py-13px px-6px"
       leftCol={
         <BodyCopy>
           {filter.length > 0
@@ -100,7 +100,7 @@ function MovieRows({ movies }: { movies: Movie[] }) {
     <Row
       key={movie.id}
       rowClassName="group"
-      cellClassName="group-odd:bg-retro-green group-odd:lg:bg-white lg:py-17px lg:group-hover:bg-retro-pale-green"
+      cellClassName="group-odd:bg-retro-green group-odd:lg:bg-white lg:py-17px py-12px lg:group-hover:bg-retro-pale-green"
       leftCol={<MovieCell movie={movie} />}
       rightCol={<Seances movie={movie} />}
     />
@@ -109,7 +109,7 @@ function MovieRows({ movies }: { movies: Movie[] }) {
 
 function TableFooter() {
   return (
-    <div className="flex h-640px">
+    <div className="h-640px flex">
       <div className="w-1/2 border-r"></div>
     </div>
   );
@@ -128,10 +128,10 @@ function Row({
 }) {
   return (
     <div className={clsx("flex", rowClassName)}>
-      <div className="flex w-1/2 border-r lg:pr-10px">
+      <div className="lg:pr-10px pr-6px flex w-1/2 border-r">
         <div className={clsx("grow border-b", cellClassName)}>{leftCol}</div>
       </div>
-      <div className="flex w-1/2 lg:pl-10px">
+      <div className="lg:pl-10px pl-6px flex w-1/2">
         <div className={clsx("grow border-b", cellClassName)}>{rightCol}</div>
       </div>
     </div>
@@ -140,7 +140,7 @@ function Row({
 
 function MovieCell({ movie }: { movie: Movie }) {
   return (
-    <div className="flex lg:pl-10px">
+    <div className="lg:pl-10px px-6px flex lg:pr-0">
       <div className="grow">
         <BodyCopy>
           <Link
@@ -192,7 +192,7 @@ function Seances({ movie }: { movie: Movie }) {
   );
 
   return (
-    <div className="flex grow flex-col lg:gap-5px lg:pl-10px">
+    <div className="lg:gap-5px gap-10px lg:pl-10px px-6px flex grow flex-col lg:pr-0">
       {take(sortedTheaters, isExpanded ? sortedTheaters.length : 2).map(
         (theater) => (
           <SceancesTheater
@@ -231,7 +231,7 @@ function SceancesTheater({
   );
   return (
     <div className="flex justify-between" key={showtimesTheater.clean_name}>
-      <div className="grow pr-5px">
+      <div className="pr-20px grow">
         <BodyCopy>
           {showtimesTheater.clean_name} ({showtimesTheater.zipcode_clean})
         </BodyCopy>

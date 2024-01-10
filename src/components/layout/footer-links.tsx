@@ -2,8 +2,6 @@ import clsx from "clsx";
 import Link from "next/link";
 import { ReactNode } from "react";
 
-import { ButtonCopy } from "../typography/typography";
-
 export default function FooterLinks({
   color,
 }: {
@@ -11,7 +9,7 @@ export default function FooterLinks({
   newsletterGreen?: boolean;
 }) {
   return (
-    <div className="flex grow flex-col gap-y-10px">
+    <div className="gap-y-12px lg:gap-y-10px flex grow flex-col">
       <LinkBox color={color} bgGreen>
         <Link href="/newsletter">newsletter</Link>
       </LinkBox>
@@ -40,7 +38,7 @@ function LinkBox({
 }) {
   return (
     <div
-      className={clsx("flex justify-center border py-9px", {
+      className={clsx("py-14px lg:py-9px flex justify-center border", {
         "bg-retro-green": bgGreen ?? false,
       })}
     >
@@ -50,7 +48,9 @@ function LinkBox({
           "text-retro-black": color === "black",
         })}
       >
-        <ButtonCopy className="font-semibold">{children}</ButtonCopy>
+        <div className="text-20px leading-21px uppercase lg:font-semibold">
+          {children}
+        </div>
       </div>
     </div>
   );

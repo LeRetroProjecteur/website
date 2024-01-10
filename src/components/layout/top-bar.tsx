@@ -14,7 +14,7 @@ export default function TopBar() {
         <BurgerIcon />
       </div>
       <div className="flex grow justify-center">
-        <Image src={logoAnime} alt="logo" className="w-52" />
+        <Image src={logoAnime} alt="logo" className="w-200px" />
       </div>
     </div>
   );

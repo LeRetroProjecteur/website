@@ -54,20 +54,24 @@ export default function Menu() {
   }, []);
 
   return (
-    <div className="flex grow flex-col lg:justify-between lg:border-r lg:pr-20px">
+    <div className="lg:pr-20px px-15px flex grow flex-col lg:justify-between lg:border-r lg:pl-0">
       <div className="flex grow flex-col lg:grow-0">
-        <div className="flex justify-center pb-3 pt-12 lg:hidden">
+        <div className="py-18px flex justify-center lg:hidden">
           <div className="cursor-pointer" onClick={closeMenu}>
             <CloseIcon />
           </div>
         </div>
-        <div className="flex justify-center">
+        <div className="pb-18px flex justify-center lg:pb-0">
           <Link href="/" onClick={onClickLogo}>
-            <Image src={logoCarre} alt="logo" className="h-auto lg:w-207px" />
+            <Image
+              src={logoCarre}
+              alt="logo"
+              className="lg:w-207px w-250px h-auto"
+            />
           </Link>
         </div>
         <MenuLink>
-          <div className="py-3px font-degular text-35px font-extrabold uppercase leading-25px tracking-[0.01em] text-retro-gray">
+          <div className="pb-16px text-44px leading-29px lg:py-3px lg:text-35px lg:leading-25px font-degular font-extrabold uppercase tracking-[0.01em] text-retro-gray">
             le rétro
             <br />
             projecteur
@@ -75,8 +79,8 @@ export default function Menu() {
         </MenuLink>
         <div className="flex flex-col">
           {menu.map(([section, path]) => (
-            <MenuLink key={path} path={path}>
-              <div className="font-degular text-32px font-extrabold uppercase leading-25px text-retro-gray">
+            <MenuLink key={path} path={path} className="py-16px">
+              <div className="text-44px lg:text-32px leading-29px lg:leading-25px font-degular font-extrabold uppercase text-retro-gray">
                 <Link href={path} onClick={closeMenuIfOnSamePathname}>
                   {section}
                 </Link>
@@ -85,18 +89,26 @@ export default function Menu() {
           ))}
         </div>
       </div>
-      <div className="flex">
+      <div className="pb-28px flex lg:pb-0">
         <FooterLinks color="black" />
       </div>
     </div>
   );
 }
 
-function MenuLink({ children, path }: { children: ReactNode; path?: string }) {
+function MenuLink({
+  children,
+  path,
+  className,
+}: {
+  children: ReactNode;
+  path?: string;
+  className?: string;
+}) {
   const route = usePathname();
   return (
     <div
-      className={clsx("flex justify-center border-b lg:py-12px", {
+      className={clsx(className, "lg:py-12px flex justify-center border-b", {
         "bg-retro-green": path === route,
       })}
     >

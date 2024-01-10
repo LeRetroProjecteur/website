@@ -11,7 +11,7 @@ export default function QuartierSelectorToggler({
 }) {
   return (
     <div
-      className="flex grow cursor-pointer items-center justify-center border lg:w-278px lg:py-8px"
+      className="lg:w-278px lg:py-8px py-1px flex grow cursor-pointer items-center justify-center border"
       onClick={toggleOpen}
     >
       <div className="pr-6px">
@@ -27,7 +27,7 @@ function ArrowUp() {
   return (
     <svg
       viewBox="0 0 14 10"
-      className="h-14px w-10px stroke-retro-black lg:h-14px lg:w-19px"
+      className="w-14px h-10px lg:h-14px lg:w-19px stroke-retro-black"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
@@ -55,7 +55,7 @@ function ArrowDown() {
       viewBox="0 0 14 10"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className="h-14px w-10px stroke-retro-black lg:h-14px lg:w-19px"
+      className="w-14px h-10px lg:h-14px lg:w-19px stroke-retro-black"
     >
       <line
         y1="-0.75"
