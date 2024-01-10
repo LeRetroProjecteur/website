@@ -81,14 +81,18 @@ export default function Archives({
 
   return (
     <div className="flex grow flex-col">
-      <FixedHeader className="flex flex-col gap-4 pb-5">
-        <PageHeader text={isCoupDeCoeur ? "coup de coeur" : "archives"} />
+      <FixedHeader className="flex flex-col">
+        <div className="lg:pb-20px">
+          <PageHeader text={isCoupDeCoeur ? "coup de coeur" : "archives"} />
+        </div>
         <MovieHeader movie={movie} />
       </FixedHeader>
-      <Movie movie={movie} />
-      {isCoupDeCoeur && (
-        <ReviewsNav previousReview={previousReview} nextReview={nextReview} />
-      )}
+      <div className="flex flex-col pb-15px lg:pb-0">
+        <Movie movie={movie} />
+        {isCoupDeCoeur && (
+          <ReviewsNav previousReview={previousReview} nextReview={nextReview} />
+        )}
+      </div>
     </div>
   );
 }
@@ -101,7 +105,7 @@ function ReviewsNav({
   nextReview?: Review;
 }) {
   return (
-    <div className="flex flex-col lg:pl-20px">
+    <div className="flex flex-col pt-44px lg:pl-20px">
       <div className="flex justify-between pb-14px">
         {previousReview ? (
           <Link
@@ -156,7 +160,7 @@ function Movie({ movie }: { movie: MovieDetail }) {
 
 function MovieHeader({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="flex justify-between gap-190px border-b text-center lg:border-t lg:bg-retro-green lg:py-14px lg:pl-20px lg:text-left">
+    <div className="flex justify-between gap-190px border-b py-10px text-center lg:border-t lg:bg-retro-green lg:py-14px lg:pl-20px lg:text-left">
       <div className="grow">
         <SousTitre1>
           <u className="underline">{movie.title}</u> ({movie.year}),{" "}
@@ -178,9 +182,9 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
   return (
     <div className="flex flex-col lg:w-1/2 lg:border-r lg:px-20px lg:pb-640px">
       {movie.review && (
-        <div className="flex flex-col pb-100px">
+        <div className="flex flex-col pb-32px pt-15px lg:pb-100px lg:pt-0">
           <div className="flex">
-            <div className="flex grow basis-0 pb-20px">
+            <div className="flex grow basis-0 pb-15px lg:pb-20px">
               <Image
                 width={1200}
                 height={675}
@@ -221,19 +225,18 @@ function MovieScreenings({ movie }: { movie: MovieDetail }) {
   );
 
   return (
-    <div className="flex flex-col lg:w-1/2 lg:pl-20px">
-      <div className="flex justify-center border-y bg-retro-green text-center lg:px-20px lg:py-16px">
+    <div className="flex flex-col pt-27px lg:w-1/2 lg:pl-20px lg:pt-0">
+      <div className="flex justify-center border-y bg-retro-green py-13px text-center lg:px-20px lg:py-16px">
         <SousTitre2>prochaines séances à paris</SousTitre2>
       </div>
       <div className="flex flex-col">
         {size(screenings) > 0 ? (
           <Screenings screenings={screenings} />
         ) : (
-          <div className="border-b text-center lg:grow lg:py-16px">
+          <div className="border-b py-12px text-center lg:grow lg:py-16px">
             <BodyCopy>Pas de séances prévues pour le moment</BodyCopy>
           </div>
         )}
-        <div className="mt-4 h-40 w-1/2 self-start border-r lg:hidden" />
       </div>
     </div>
   );
@@ -272,8 +275,8 @@ function DateScreenings({
   theaters: ShowtimesTheater[];
 }) {
   return (
-    <div className="flex border-b lg:py-16px lg:hover:bg-retro-pale-green">
-      <div className="w-[6rem] shrink-0">
+    <div className="flex border-b py-12px lg:py-16px lg:hover:bg-retro-pale-green">
+      <div className="w-85px shrink-0 lg:w-95px">
         <BodyCopy>{formatDDMMYYWithSlashes(safeDate(date))}</BodyCopy>
       </div>
       <div className="flex grow flex-col">
@@ -331,11 +334,11 @@ function Tags({ movie }: { movie: MovieDetail }) {
 
   return (
     tags.length > 0 && (
-      <div className="flex flex-wrap gap-10px lg:pt-20px">
+      <div className="flex flex-wrap gap-8px pt-15px lg:gap-10px lg:pt-20px">
         {tags.map((tag) => (
           <div
             key={tag}
-            className="rounded-2xl bg-retro-gray px-12px py-6px text-20px font-medium uppercase leading-20px tracking-[-0.02em] text-white"
+            className="rounded-2xl bg-retro-gray px-15px py-6px text-19px font-medium uppercase leading-20px text-white lg:px-12px lg:text-20px lg:tracking-[-0.02em]"
           >
             {TAG_MAP[tag]}
           </div>

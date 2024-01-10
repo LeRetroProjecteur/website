@@ -10,7 +10,7 @@ import FixedHeader from "@/components/layout/fixed-header";
 import PageHeader from "@/components/layout/page-header";
 import {
   BodyCopy,
-  MetaCopy,
+  CoeurCopy,
   SousTitre1,
 } from "@/components/typography/typography";
 import { Review } from "@/lib/types";
@@ -51,14 +51,14 @@ export default function CoupsDeCoeur({
 
   return (
     <div className="flex grow flex-col">
-      <FixedHeader className="flex flex-col pb-20px">
+      <FixedHeader className="flex flex-col">
         <div className="lg:pb-20px">
           <PageHeader text="coups de coeur" />
         </div>
         <SubHeader display={display} toggleDisplay={toggleDisplay} />
       </FixedHeader>
-      <div className="flex flex-col pl-20px">
-        <div className="flex pb-20px">
+      <div className="flex flex-col pb-10px lg:pb-0 lg:pl-20px">
+        <div className="flex pb-15px pt-15px lg:pb-20px lg:pt-0 ">
           <RetroInput
             placeholder="recherche"
             value={filter}
@@ -85,7 +85,7 @@ function SubHeader({
   toggleDisplay: () => void;
 }) {
   return (
-    <div className="flex items-center justify-between border-b lg:border-t lg:bg-retro-green lg:py-14px lg:pl-20px lg:pr-10px">
+    <div className="flex items-center justify-between border-b py-14px lg:border-t lg:bg-retro-green lg:pl-20px lg:pr-10px">
       <SousTitre1>archive des critiques</SousTitre1>
       <div className="flex cursor-pointer items-center" onClick={toggleDisplay}>
         {display === "thumbnails" ? <ListIcon /> : <ThumbnailIcon />}
@@ -97,22 +97,22 @@ function SubHeader({
 function EmptyState() {
   return (
     <div className="flex">
-      <MetaCopy>
+      <CoeurCopy>
         désolé, nous n&apos;avons rien trouvé qui corresponde à votre recherche
         !
-      </MetaCopy>
+      </CoeurCopy>
     </div>
   );
 }
 
 function ReviewThumbnails({ reviews }: { reviews: Review[] }) {
   return (
-    <div className="flex grow flex-wrap lg:gap-x-20px lg:gap-y-16px">
+    <div className="flex grow flex-wrap gap-x-15px gap-y-10px lg:gap-x-20px lg:gap-y-16px">
       {reviews.map((review) => (
         <ReviewThumbnail review={review} key={review.id} />
       ))}
       {[...Array(reviews.length % 3)].map((_, i) => (
-        <div className="min-w-340px grow basis-0" key={i} />
+        <div className="min-w-300px grow basis-0 lg:min-w-340px" key={i} />
       ))}
     </div>
   );
@@ -120,9 +120,9 @@ function ReviewThumbnails({ reviews }: { reviews: Review[] }) {
 
 function ReviewThumbnail({ review }: { review: Review }) {
   return (
-    <div className="min-w-340px grow basis-0">
+    <div className="min-w-300px grow basis-0 lg:min-w-340px">
       <Link href={`/archives/${review.id}`}>
-        <div className="flex flex-col gap-12px">
+        <div className="flex flex-col gap-10px lg:gap-12px">
           <Image
             className="h-auto w-full"
             width={1200}
@@ -130,17 +130,17 @@ function ReviewThumbnail({ review }: { review: Review }) {
             src={getImageUrl(review)}
             alt={review.title}
           />
-          <div className="flex justify-between gap-20px">
+          <div className="flex flex-col justify-between gap-0 lg:flex-row lg:gap-20px">
             <div>
-              <MetaCopy>
+              <CoeurCopy>
                 <u className="underline">{review.title}</u> ({review.year}),{" "}
                 {review.directors}
-              </MetaCopy>
+              </CoeurCopy>
             </div>
             <div>
-              <MetaCopy>
+              <CoeurCopy>
                 {formatDDMMYYWithSlashes(safeDate(review.review_date))}
-              </MetaCopy>
+              </CoeurCopy>
             </div>
           </div>
         </div>
@@ -156,7 +156,7 @@ function ReviewList({ reviews }: { reviews: Review[] }) {
         <ReviewRow review={review} key={review.id} />
       ))}
       <div className="flex h-640px">
-        <div className="w-1/2 border-r pr-10px"></div>
+        <div className="w-1/2 border-r pr-6px lg:pr-10px"></div>
       </div>
     </div>
   );
@@ -166,15 +166,15 @@ function ReviewRow({ review }: { review: Review }) {
   return (
     <Link href={`/archives/${review.id}`} className="group">
       <div key={review.id} className="flex">
-        <div className="flex border-r pr-10px">
-          <div className="border-b py-16px text-center group-first:border-t group-odd:bg-retro-green lg:w-[5.9375rem] lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
+        <div className="flex border-r pr-6px lg:pr-10px">
+          <div className="w-[75px] shrink-0 border-b px-6px py-10px group-first:border-t group-odd:bg-retro-green lg:w-95px lg:py-16px lg:pl-10px lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
             <BodyCopy>
               {formatDDMMYYWithSlashes(safeDate(review.review_date))}
             </BodyCopy>
           </div>
         </div>
-        <div className="flex grow pl-10px">
-          <div className="grow border-b py-16px pl-10px group-first:border-t group-odd:bg-retro-green lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
+        <div className="flex grow pl-6px lg:pl-10px">
+          <div className="grow border-b px-6px py-10px group-first:border-t group-odd:bg-retro-green lg:py-16px lg:pl-10px lg:pr-0 lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
             <BodyCopy className="uppercase">
               <u className="underline">{review.title}</u> ({review.year}),{" "}
               {review.directors}
