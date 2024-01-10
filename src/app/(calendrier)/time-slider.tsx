@@ -19,7 +19,7 @@ export default function TimeSlider() {
   return (
     <div className="flex grow flex-col justify-between">
       <div className="flex">
-        <div className="lg:pb-20px pb-10px">
+        <div className="pb-10px lg:pb-20px">
           <ButtonCopy>Horaires :&nbsp;</ButtonCopy>
         </div>
         <div className="flex grow justify-between">

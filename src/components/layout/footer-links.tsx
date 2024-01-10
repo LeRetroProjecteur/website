@@ -9,7 +9,7 @@ export default function FooterLinks({
   newsletterGreen?: boolean;
 }) {
   return (
-    <div className="gap-y-12px lg:gap-y-10px flex grow flex-col">
+    <div className="flex grow flex-col gap-y-12px lg:gap-y-10px">
       <LinkBox color={color} bgGreen>
         <Link href="/newsletter">newsletter</Link>
       </LinkBox>
@@ -38,7 +38,7 @@ function LinkBox({
 }) {
   return (
     <div
-      className={clsx("py-14px lg:py-9px flex justify-center border", {
+      className={clsx("flex justify-center border py-14px lg:py-9px", {
         "bg-retro-green": bgGreen ?? false,
       })}
     >
@@ -48,7 +48,7 @@ function LinkBox({
           "text-retro-black": color === "black",
         })}
       >
-        <div className="text-20px leading-21px uppercase lg:font-semibold">
+        <div className="text-20px uppercase leading-21px lg:font-semibold">
           {children}
         </div>
       </div>

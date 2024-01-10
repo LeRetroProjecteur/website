@@ -28,39 +28,39 @@ export default function Calendrier({
   return (
     <div className="flex grow flex-col">
       <FixedHeader className="flex flex-col">
-        <div className="lg:pb-20px flex">
+        <div className="flex lg:pb-20px">
           <PageHeader text="calendrier" />
         </div>
         <div className="flex border-b lg:border-0">
           <DateSelector />
         </div>
       </FixedHeader>
-      <div className="lg:pl-20px pb-10px flex flex-col">
-        <div className="lg:pb-32px lg:pt-19px pt-14px pb-23px flex">
+      <div className="flex flex-col pb-10px lg:pl-20px">
+        <div className="flex pb-23px pt-14px lg:pb-32px lg:pt-19px">
           <TimeSlider />
         </div>
         <div className="flex flex-col lg:flex-row">
-          <div className="lg:pr-20px flex">
+          <div className="flex lg:pr-20px">
             <QuartierSelectorToggler
               toggleOpen={toggleQuartierSelectorOpen}
               isOpen={isQuartierSelectorOpen}
             />
           </div>
           {isQuartierSelectorOpen && (
-            <div className="pt-8px flex lg:hidden">
+            <div className="flex pt-8px lg:hidden">
               <QuartierSelector />{" "}
             </div>
           )}
-          <div className="pt-15px flex lg:grow lg:pt-0">
+          <div className="flex pt-15px lg:grow lg:pt-0">
             <Search />
           </div>
         </div>
         {isQuartierSelectorOpen && (
-          <div className="lg:pt-20px hidden lg:flex">
+          <div className="hidden lg:flex lg:pt-20px">
             <QuartierSelector />
           </div>
         )}
-        <div className="lg:pt-28px pt-18px flex">
+        <div className="flex pt-18px lg:pt-28px">
           <MovieTable serverMovies={serverMovies} />
         </div>
       </div>

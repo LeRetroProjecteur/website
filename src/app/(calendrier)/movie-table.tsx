@@ -109,7 +109,7 @@ function MovieRows({ movies }: { movies: Movie[] }) {
 
 function TableFooter() {
   return (
-    <div className="h-640px flex">
+    <div className="flex h-640px">
       <div className="w-1/2 border-r"></div>
     </div>
   );
@@ -128,10 +128,10 @@ function Row({
 }) {
   return (
     <div className={clsx("flex", rowClassName)}>
-      <div className="lg:pr-10px pr-6px flex w-1/2 border-r">
+      <div className="flex w-1/2 border-r pr-6px lg:pr-10px">
         <div className={clsx("grow border-b", cellClassName)}>{leftCol}</div>
       </div>
-      <div className="lg:pl-10px pl-6px flex w-1/2">
+      <div className="flex w-1/2 pl-6px lg:pl-10px">
         <div className={clsx("grow border-b", cellClassName)}>{rightCol}</div>
       </div>
     </div>
@@ -140,7 +140,7 @@ function Row({
 
 function MovieCell({ movie }: { movie: Movie }) {
   return (
-    <div className="lg:pl-10px px-6px flex lg:pr-0">
+    <div className="flex px-6px lg:pl-10px lg:pr-0">
       <div className="grow">
         <BodyCopy>
           <Link
@@ -192,7 +192,7 @@ function Seances({ movie }: { movie: Movie }) {
   );
 
   return (
-    <div className="lg:gap-5px gap-10px lg:pl-10px px-6px flex grow flex-col lg:pr-0">
+    <div className="flex grow flex-col gap-10px px-6px lg:gap-5px lg:pl-10px lg:pr-0">
       {take(sortedTheaters, isExpanded ? sortedTheaters.length : 2).map(
         (theater) => (
           <SceancesTheater
@@ -231,7 +231,7 @@ function SceancesTheater({
   );
   return (
     <div className="flex justify-between" key={showtimesTheater.clean_name}>
-      <div className="pr-20px grow">
+      <div className="grow pr-20px">
         <BodyCopy>
           {showtimesTheater.clean_name} ({showtimesTheater.zipcode_clean})
         </BodyCopy>

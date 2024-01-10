@@ -3,7 +3,7 @@ import FooterLinks from "./footer-links";
 
 export default function Footer() {
   return (
-    <div className="lg:h-146px lg:pt-10px pt-13px flex grow flex-col border-t">
+    <div className="flex grow flex-col border-t pt-13px lg:h-146px lg:pt-10px">
       <div className="flex flex-col lg:grow lg:justify-between">
         <div className="text-center lg:text-left">
           <MetaCopy>
@@ -34,7 +34,7 @@ export default function Footer() {
           </MetaCopy>
         </div>
       </div>
-      <div className="pt-13px pb-28px flex lg:hidden lg:py-0">
+      <div className="flex pb-28px pt-13px lg:hidden lg:py-0">
         <FooterLinks color="gray" />
       </div>
     </div>

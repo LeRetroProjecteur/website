@@ -55,13 +55,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           )}
         >
           <MenuWrapper>
-            <div className="pt-25px flex grow flex-col lg:pt-0">
-              <div className="pb-20px flex lg:hidden">
+            <div className="flex grow flex-col pt-25px lg:pt-0">
+              <div className="flex pb-20px lg:hidden">
                 <TopBar />
               </div>
               <div className="flex grow flex-col justify-between">
                 <div className="flex">{children}</div>
-                <div className="lg:pb-20px lg:pl-20px lg:pt-20px flex">
+                <div className="flex lg:pb-20px lg:pl-20px lg:pt-20px">
                   <Footer />
                 </div>
               </div>
