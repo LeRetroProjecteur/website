@@ -14,7 +14,7 @@ const QUARTIERS: [string, Quartier][] = [
 
 export default function QuartierSelector() {
   return (
-    <div className="flex grow flex-wrap gap-x-20px gap-y-10px">
+    <div className="flex grow flex-wrap gap-x-15px gap-y-8px lg:gap-x-20px lg:gap-y-10px">
       {QUARTIERS.map(([quartierName, quartier]) => (
         <QuartierToggler
           key={quartier}
@@ -22,6 +22,7 @@ export default function QuartierSelector() {
           quartier={quartier}
         />
       ))}
+      <div className="invisible min-w-172px shrink-0 grow basis-0 border lg:hidden"></div>
     </div>
   );
 }
@@ -56,7 +57,7 @@ function QuartierToggler({
           "border-retro-black": present,
           "text-retro-black": present,
         },
-        "cursor-pointer border text-center lg:w-278px lg:py-8px",
+        "min-w-172px shrink-0 grow basis-0 cursor-pointer border text-center lg:grow-0 lg:basis-278px lg:py-8px",
       )}
     >
       <ButtonCopy>{quartierName}</ButtonCopy>

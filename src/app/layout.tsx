@@ -55,8 +55,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           )}
         >
           <MenuWrapper>
-            <div className="flex grow flex-col gap-6 pt-16 lg:pt-0">
-              <div className="flex lg:hidden">
+            <div className="flex grow flex-col pt-25px lg:pt-0">
+              <div className="flex pb-20px lg:hidden">
                 <TopBar />
               </div>
               <div className="flex grow flex-col justify-between">

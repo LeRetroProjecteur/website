@@ -35,8 +35,8 @@ export default function Calendrier({
           <DateSelector />
         </div>
       </FixedHeader>
-      <div className="flex flex-col lg:pl-20px">
-        <div className="flex lg:pb-32px lg:pt-19px">
+      <div className="flex flex-col pb-10px lg:pl-20px">
+        <div className="flex pb-23px pt-14px lg:pb-32px lg:pt-19px">
           <TimeSlider />
         </div>
         <div className="flex flex-col lg:flex-row">
@@ -47,11 +47,11 @@ export default function Calendrier({
             />
           </div>
           {isQuartierSelectorOpen && (
-            <div className="flex pt-2 lg:hidden">
+            <div className="flex pt-8px lg:hidden">
               <QuartierSelector />{" "}
             </div>
           )}
-          <div className="flex pt-4 lg:grow lg:pt-0">
+          <div className="flex pt-15px lg:grow lg:pt-0">
             <Search />
           </div>
         </div>
@@ -60,7 +60,7 @@ export default function Calendrier({
             <QuartierSelector />
           </div>
         )}
-        <div className="flex lg:pt-28px">
+        <div className="flex pt-18px lg:pt-28px">
           <MovieTable serverMovies={serverMovies} />
         </div>
       </div>

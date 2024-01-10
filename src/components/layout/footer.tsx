@@ -3,11 +3,12 @@ import FooterLinks from "./footer-links";
 
 export default function Footer() {
   return (
-    <div className="flex grow flex-col gap-3 border-t pt-3 lg:h-145px lg:pt-10px">
-      <div className="flex flex-col gap-7 lg:grow lg:justify-between">
+    <div className="flex grow flex-col border-t pt-13px lg:h-146px lg:pt-10px">
+      <div className="flex flex-col lg:grow lg:justify-between">
         <div className="text-center lg:text-left">
           <MetaCopy>
-            Un problème sur le site ? Signalez-le nous{" "}
+            Un problème sur le site ?<br className="lg:hidden" />
+            Signalez-le nous{" "}
             <a
               href="mailto:contact@leretroprojecteur.com"
               className="underline"
@@ -17,7 +18,7 @@ export default function Footer() {
             !
           </MetaCopy>
         </div>
-        <div className="text-center lg:text-left">
+        <div className="pt-28px text-center lg:pt-0 lg:text-left">
           <MetaCopy>
             Design graphique par{" "}
             <a
@@ -33,7 +34,7 @@ export default function Footer() {
           </MetaCopy>
         </div>
       </div>
-      <div className="flex lg:hidden">
+      <div className="flex pb-28px pt-13px lg:hidden lg:py-0">
         <FooterLinks color="gray" />
       </div>
     </div>
