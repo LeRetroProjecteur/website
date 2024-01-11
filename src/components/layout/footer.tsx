@@ -7,7 +7,8 @@ export default function Footer() {
       <div className="flex flex-col lg:grow lg:justify-between">
         <div className="text-center lg:text-left">
           <FooterCopy>
-            Un problème sur le site ?<br className="lg:hidden" />
+            Un problème sur le site ?<span className="hidden lg:inline"> </span>
+            <br className="lg:hidden" />
             Signalez-le nous{" "}
             <a
               href="mailto:contact@leretroprojecteur.com"
