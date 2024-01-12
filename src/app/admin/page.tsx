@@ -13,7 +13,7 @@ export default function AdminPage() {
         <Link href="/admin/semaine">Semaine</Link>
       </div>
       <div>
-        <Link href="/admin/semaine-au-cinema">
+        <Link href="/admin/generateur-semaine">
           Générateur de code pour &quot;une semaine au cinéma&quot;
         </Link>
       </div>

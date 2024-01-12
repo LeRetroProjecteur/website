@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import { Suspense } from "react";
 
-import SemaineAuCinema from "./semaine-au-cinema";
+import WeekGenerator from "./week-generator";
 
 export const metadata: Metadata = {
   title: "El Generator | Le Rétro Projecteur – Cinéma de patrimoine à Paris",
@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 export default function SemaineAuCinemaPage() {
   return (
     <Suspense fallback={<></>}>
-      <SemaineAuCinema />
+      <WeekGenerator />
     </Suspense>
   );
 }
