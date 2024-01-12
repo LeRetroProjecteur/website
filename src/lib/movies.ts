@@ -19,7 +19,6 @@ import {
   MovieDetail,
   MovieWithShowtimesByDay,
   Review,
-  SearchMovie,
 } from "./types";
 import { checkNotNull, getNextMovieWeek } from "./util";
 
@@ -96,9 +95,13 @@ export const getDayMovies = unstable_cache(
 export const getMovies = unstable_cache(
   async () => {
     const { db } = getFirebase();
-    const q = doc(db, "website-extra-docs", "all-movies");
-    const querySnapshot = await getDoc(q);
-    return checkNotNull(querySnapshot.data()).elements as SearchMovie[];
+    const collectionRef = collection(db, "website-extra-docs");
+    const query_docs = query(collectionRef, where("search", "==", true));
+    const querySnapshot = await getDocs(query_docs);
+    const searchMovies = [].concat(
+      ...querySnapshot.docs.map((doc) => doc.data().elements),
+    );
+    return searchMovies;
   },
   ["all-movies"],
   { revalidate: hoursToSeconds(1) },
