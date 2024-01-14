@@ -3,9 +3,9 @@ import Image from "next/image";
 
 import altman from "./img/altman.jpg";
 import cuaronAnderson from "./img/cuaron-anderson.jpg";
-import icon from "./img/icon.png";
+import icon from "./img/icon.jpg";
 import lyon from "./img/lyon.jpeg";
-import mareeNoire from "./img/maree_noire.jpeg";
+import mareeNoire from "./img/maree_noire.jpg";
 import ozuRay from "./img/ozu-ray.jpg";
 
 export const metadata: Metadata = {

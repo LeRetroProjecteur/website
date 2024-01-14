@@ -63,11 +63,68 @@ export default function AProposPage() {
               <br />
               <span className="uppercase">Rédacteur en chef</span>
               <br />
-              Retrouvez-moi sur Letterboxd, Insta, Twitter
+              Retrouvez-moi sur{" "}
+              <a
+                className="underline"
+                href="https://letterboxd.com/nicogj/"
+                target="_blank"
+              >
+                Letterboxd
+              </a>
+              ,{" "}
+              <a
+                className="underline"
+                href="https://twitter.com/nicogj_"
+                target="_blank"
+              >
+                Twitter
+              </a>
+              <br />
+              <Film
+                name="Metropolis"
+                inLink="/archives/metropolis-1927"
+              />,{" "}
+              <Film
+                name="Ma Nuit chez Maud"
+                inLink="/archives/nuit-chez-maud-1969"
+              />
+              ,{" "}
+              <Film
+                name="Printemps Tardif"
+                inLink="/archives/printemps-tardif-1949"
+              />
+              , <Film name="Old Joy" outLink="/archives/old-joy-2006" />
+            </Contributeur>
+            <Contributeur>
+              Lionel Guetta-Jeanrenaud
+              <br />
+              <span className="uppercase">Rédacteur en chef</span>
+              <br />
+              Retrouvez-moi sur Letterboxd, Instagram, Twitter
               <br />
               <Film
                 name="Titanic"
                 outLink="https://en.wikipedia.org/wiki/Titanic_(1997_film)"
+              />
+            </Contributeur>
+            <Contributeur>
+              Ugo Tanielian
+              <br />
+              <span className="uppercase">Rédacteur en chef</span>
+              <br />
+              <Film
+                name="Il était une fois dans l'Ouest"
+                inLink="/archives/etait-fois-ouest-1968"
+              />
+              , <Film name="John McCabe" inLink="/archives/john-mccabe-1971" />,{" "}
+              <Film
+                name="Voyage au bout de l'enfer"
+                inLink="/archives/voyage-bout-enfer-1978"
+              />
+              ,{" "}
+              <Film
+                name="Nothing But a Man"
+                inLink="/archives/nothing-man-1964"
               />
             </Contributeur>
             <Contributeur>
@@ -83,25 +140,34 @@ export default function AProposPage() {
               />
             </Contributeur>
             <Contributeur>
-              Ugo Tanielian <br />
-              <span className="uppercase">Rédacteur en chef</span>
-              <br />
-              Retrouvez-moi sur Letterboxd, Insta, Twitter
-              <br />
-              <Film
-                name="Titanic"
-                outLink="https://en.wikipedia.org/wiki/Titanic_(1997_film)"
-              />
-            </Contributeur>
-            <Contributeur>
               Claire Malot
               <br />
               <span className="uppercase">designer graphique</span>
               <br />
+              Retrouvez mon travail sur{" "}
+              <a
+                href="https://www.instagram.com/clairon.malot/"
+                className="underline"
+                target="_blank"
+              >
+                Instagram
+              </a>{" "}
+              et sur mon{" "}
+              <a
+                href="https://clairemalot.com/"
+                className="underline"
+                target="_blank"
+              >
+                site personnel
+              </a>
+              .
+              <br />
               <Film
-                name="Titanic"
-                outLink="https://en.wikipedia.org/wiki/Titanic_(1997_film)"
+                name="L'un chante, l'autre pas"
+                inLink="/archives/chante-autre-1977"
               />
+              , <Film name="Conte d'été" inLink="/archives/conte-d-ete-1996" />,{" "}
+              <Film name="First Cow" inLink="/archives/first-cow-2020" />
             </Contributeur>
             <Contributeur>
               Jonathan Roitgrund
@@ -110,16 +176,16 @@ export default function AProposPage() {
               <br />
               <Film
                 name="After Hours"
-                inLink="/details/after-hours-1985"
+                inLink="/archives/after-hours-1985"
               />,{" "}
               <Film
                 name="Stranger than Paradise"
-                inLink="/details/stranger-than-paradise-1984"
+                inLink="/archives/stranger-than-paradise-1984"
               />
               ,{" "}
               <Film
-                name="Living in Oblivion"
-                outLink="https://en.wikipedia.org/wiki/Living_in_Oblivion"
+                name="Ça tourne à Manhattan"
+                outLink="https://fr.wikipedia.org/wiki/%C3%87a_tourne_%C3%A0_Manhattan"
               />
             </Contributeur>
           </div>
@@ -151,12 +217,12 @@ function Film({
   return (
     <i className="italic">
       {inLink != null && (
-        <Link href={inLink} className="hover:underline">
+        <Link href={inLink} className="underline">
           {name}
         </Link>
       )}
       {outLink != null && (
-        <a target="_blank" href={outLink} className="hover:underline">
+        <a target="_blank" href={outLink} className="underline">
           {name}
         </a>
       )}

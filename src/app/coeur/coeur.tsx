@@ -111,7 +111,7 @@ function ReviewThumbnails({ reviews }: { reviews: Review[] }) {
       {reviews.map((review) => (
         <ReviewThumbnail review={review} key={review.id} />
       ))}
-      {[...Array(reviews.length % 3)].map((_, i) => (
+      {[...Array(reviews.length % 4)].map((_, i) => (
         <div className="min-w-300px grow basis-0 lg:min-w-340px" key={i} />
       ))}
     </div>
