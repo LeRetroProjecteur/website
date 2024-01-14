@@ -45,10 +45,11 @@ export default function Top2022() {
           <br />
           <br />
           Si l&apos;année a indéniablement été marquée par la ressortie massive
-          de <i>La maman et la putain</i>, elle a aussi été riche en découvertes
-          d&apos;œuvres moins connues (comme le merveilleux <i>Variety</i> de
-          Bette Gordon ou <i>Le grand silence</i> de Sergio Corbucci). À cela se
-          rajoutent les rétrospectives de Fassbinder, de Pasolini, de Kinuyo
+          de <i className="italic">La maman et la putain</i>, elle a aussi été
+          riche en découvertes d&apos;œuvres moins connues (comme le merveilleux{" "}
+          <i className="italic">Variety</i> de Bette Gordon ou{" "}
+          <i className="italic">Le grand silence</i> de Sergio Corbucci). À cela
+          se rajoutent les rétrospectives de Fassbinder, de Pasolini, de Kinuyo
           Tanaka ou encore de Jean-Luc Godard et Peter Bogdanovich à la suite de
           leur décès.
           <br />
@@ -69,7 +70,7 @@ export default function Top2022() {
           patrimoine souhaiteriez-vous retrouver plus souvent dans les salles
           parisiennes&nbsp;? N&apos;hésitez pas à nous faire part de vos
           impressions{" "}
-          <a href="mailto:eclaireursallesobscures@gmail.com">par mail</a>
+          <a href="mailto:contact@leretroprojecteur.com">par mail</a>
           &nbsp;!
           <br />
           <br />
@@ -266,7 +267,7 @@ function ImageAndCaption({
   return (
     <div className="flex flex-col gap-10px lg:gap-12px">
       <Image src={image} alt={alt} className="w-full" />
-      <div className="leading-17px text-center text-14px font-semibold uppercase text-retro-gray lg:text-left lg:text-16px lg:leading-18px">
+      <div className="text-center text-14px font-semibold uppercase leading-17px text-retro-gray lg:text-left lg:text-16px lg:leading-18px">
         {caption}
       </div>
     </div>

@@ -32,7 +32,7 @@ const chroniques = [
   },
 ];
 
-export default function AProposPage() {
+export default function ActualitesPage() {
   return (
     <div className="flex grow flex-col">
       <FixedHeader className="flex flex-col">
@@ -45,7 +45,7 @@ export default function AProposPage() {
           </SousTitre1>
         </div>
       </FixedHeader>
-      <div className="gap-25px flex flex-col pb-25px pt-17px lg:flex-row lg:flex-wrap lg:gap-20px lg:pl-20px">
+      <div className="flex flex-col gap-25px pb-25px pt-17px lg:flex-row lg:flex-wrap lg:gap-20px lg:pl-20px">
         {chroniques.map(({ titre, slug, image, date, type }) => (
           <div
             key={slug}
