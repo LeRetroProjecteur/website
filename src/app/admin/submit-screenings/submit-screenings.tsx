@@ -5,8 +5,15 @@ import React, { Fragment, useEffect, useRef, useState } from "react";
 
 import MovieSearch from "./movie-search";
 
-interface Inputs {
-  movie: string;
+interface screening {
+  film: string;
+  day: number;
+  hour: number;
+  id: string;
+  minute: number;
+  month: number;
+  notes: string;
+  year: number;
 }
 
 export default function SubmitScreenings() {
@@ -21,11 +28,12 @@ export default function SubmitScreenings() {
     }
   });
 
-  const ints: number[] = Array.from(Array(10).keys());
-  const top_ints_string: string[] = ints.map((i) => i.toString());
-  const tops: Array<keyof Inputs> = top_ints_string.map(
-    (int) => int as keyof Inputs,
-  );
+  const nb_submissions = 10;
+  const inputs: Array<keyof screening> = Array.from(
+    Array(nb_submissions).keys(),
+  )
+    .map((i) => i.toString())
+    .map((int) => int as keyof screening);
 
   const [responseMessage, setResponseMessage] = useState("");
   const [cineID, setCineID] = useState("");
@@ -39,17 +47,25 @@ export default function SubmitScreenings() {
     setComments(event.target.value);
   };
 
-  const [screeningsList, setScreeningsList] = useState<string[]>(
-    Array(tops.length).fill(""),
+  const [screeningsList, setScreeningsList] = useState<screening[]>(
+    Array(inputs.length).fill({
+      day: 0,
+      hour: 0,
+      id: "",
+      minute: 0,
+      month: 0,
+      notes: "",
+      year: 0,
+    }),
   );
   const handleSearchTermChange = (index: number, term: string) => {
-    console.log("handleSearchTermChange called with", index, term);
     setScreeningsList((prevScreeningsList) => {
       const newScreeningsList = [...prevScreeningsList];
-      newScreeningsList[index] = term;
+      newScreeningsList[index]["id"] = term;
       return newScreeningsList;
     });
   };
+  console.log(screeningsList)
 
   return (
     <>
@@ -100,7 +116,7 @@ export default function SubmitScreenings() {
               </tr>
             </thead>
             <tbody>
-              {tops.map((k, i) => (
+              {inputs.map((k, i) => (
                 <Fragment key={k}>
                   <tr style={{ backgroundColor: "var(--white)" }}>
                     <td>
@@ -117,12 +133,7 @@ export default function SubmitScreenings() {
                       <input type="time" id="time" name="time" />
                     </td>
                     <td>
-                      <input
-                        type="text"
-                        placeholder=""
-                        value={cineID}
-                        onChange={handleCineIDChange}
-                      />
+                      <input type="text" />
                     </td>
                   </tr>
                 </Fragment>
@@ -198,20 +209,22 @@ export default function SubmitScreenings() {
 
 async function sendNameToFirestore(
   cineID: string,
-  screeningsList: string[],
+  screeningsList: screening[],
   comments: string,
   setResponseMessage: (message: string) => void,
 ) {
   const response = await fetch(
-    "https://europe-west1-website-cine.cloudfunctions.net/add_name_to_firestore",
+    "https://europe-west1-website-cine.cloudfunctions.net/create_http_function_with_dictionnary_request",
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        cineID: cineID,
-        screeningsList: screeningsList,
+        collection_name: "raw-submissions",
+        key_for_doc_name: cineID,
+        theater_id: cineID,
+        showtimes: screeningsList,
         comments: comments,
       }),
     },
