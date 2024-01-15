@@ -55,7 +55,7 @@ function clean_string(str: string) {
   str = str.replaceAll("-", " ");
   str = str.replaceAll(/['’]/g, "'");
   str = str.replaceAll("'", " ");
-  str = str.replaceAll("&", "and");
+  str = str.replaceAll("&", " and ");
   str = str.normalize("NFD").replace(/\p{Diacritic}/gu, "");
   str = str.replaceAll(/[^a-zA-Z0-9 #]/g, "");
   str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
