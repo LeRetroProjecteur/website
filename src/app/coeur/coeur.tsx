@@ -129,10 +129,6 @@ function ReviewThumbnail({ review }: { review: Review }) {
             height={675}
             src={getImageUrl(review)}
             alt={review.title}
-            placeholder="blur"
-            blurDataURL={`/_next/image?url=${encodeURI(
-              getImageUrl(review),
-            )}&w=16&q=1`}
           />
           <div className="flex flex-col justify-between gap-0 lg:flex-row lg:gap-20px">
             <div>
