@@ -83,7 +83,7 @@ export const getDayMovies = unstable_cache(
           options?.allMovies ?? false ? "-all" : ""
         }`,
       ),
-      where("date", "==", format(date, "Y_MM_dd")),
+      where("date", "==", format(date, "y_MM_dd")),
     );
     const docs: Movie[] = [];
     (await getDocs(q)).forEach((doc) => docs.push(...doc.data().movies));
