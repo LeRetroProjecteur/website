@@ -65,7 +65,7 @@ export default function SubmitScreenings() {
       return newScreeningsList;
     });
   };
-  console.log(screeningsList)
+  console.log(screeningsList);
 
   return (
     <>
