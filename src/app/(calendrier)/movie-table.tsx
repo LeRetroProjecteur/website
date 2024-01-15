@@ -19,7 +19,7 @@ import {
   splitIntoSubArrays,
 } from "@/lib/util";
 
-import coupDeCoeur from "./coup-de-coeur.png";
+import coupDeCoeur from "../../assets/coup-de-coeur.png";
 
 export default function MovieTable({
   serverMovies,

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -10,6 +11,8 @@ import {
   SousTitre1,
   SousTitre2,
 } from "@/components/typography/typography";
+
+import coupDeCoeur from "../../assets/coup-de-coeur.png";
 
 export default function AProposPage() {
   return (
@@ -59,9 +62,9 @@ export default function AProposPage() {
           </div>
           <div>
             <Contributeur>
-              Nicolas Guetta-Jeanrenaud
+              <span className="font-semibold">Nicolas Guetta-Jeanrenaud</span>
               <br />
-              <span className="uppercase">Rédacteur en chef</span>
+              <span className="font-semibold uppercase">Rédacteur en chef</span>
               <br />
               Retrouvez-moi sur{" "}
               <a
@@ -80,10 +83,12 @@ export default function AProposPage() {
                 Twitter
               </a>
               <br />
-              <Film
-                name="Metropolis"
-                inLink="/archives/metropolis-1927"
-              />,{" "}
+              <Image
+                className="mt-[-0.1875rem] inline-block h-21px w-auto w-auto pr-5px"
+                alt="coup de coeur"
+                src={coupDeCoeur}
+              />{" "}
+              <Film name="Metropolis" inLink="/archives/metropolis-1927" />,{" "}
               <Film
                 name="Ma Nuit chez Maud"
                 inLink="/archives/nuit-chez-maud-1969"
@@ -96,22 +101,57 @@ export default function AProposPage() {
               , <Film name="Old Joy" outLink="/archives/old-joy-2006" />
             </Contributeur>
             <Contributeur>
-              Lionel Guetta-Jeanrenaud
+              <span className="font-semibold">Lionel Guetta-Jeanrenaud</span>
               <br />
-              <span className="uppercase">Rédacteur en chef</span>
+              <span className="font-semibold uppercase">Rédacteur en chef</span>
               <br />
-              Retrouvez-moi sur Letterboxd, Instagram, Twitter
+              Retrouvez-moi sur{" "}
+              <a
+                className="underline"
+                href="https://letterboxd.com/lioguetta/"
+                target="_blank"
+              >
+                Letterboxd
+              </a>
+              ,{" "}
+              <a
+                className="underline"
+                href="https://twitter.com/liojeanrenaud"
+                target="_blank"
+              >
+                Twitter
+              </a>
               <br />
+              <Image
+                className="mt-[-0.1875rem] inline-block h-21px w-auto w-auto pr-5px"
+                alt="coup de coeur"
+                src={coupDeCoeur}
+              />{" "}
               <Film
-                name="Titanic"
-                outLink="https://en.wikipedia.org/wiki/Titanic_(1997_film)"
+                name="Les Parapluies de Cherbourg"
+                inLink="/archives/parapluies-cherbourg-1963"
+              />
+              ,{" "}
+              <Film
+                name="Jeannette, l'enfance de Jeanne d'Arc"
+                inLink="/archives/jeannette-enfance-jeanne-arc-2017"
+              />
+              , <Film name="L'Atalante" inLink="/archives/l-atalante-1934" />,{" "}
+              <Film
+                name="Marie-Antoinette"
+                inLink="/archives/marie-antoinette-2006"
               />
             </Contributeur>
             <Contributeur>
-              Ugo Tanielian
+              <span className="font-semibold">Ugo Tanielian</span>
               <br />
-              <span className="uppercase">Rédacteur en chef</span>
+              <span className="font-semibold uppercase">Rédacteur en chef</span>
               <br />
+              <Image
+                className="mt-[-0.1875rem] inline-block h-21px w-auto w-auto pr-5px"
+                alt="coup de coeur"
+                src={coupDeCoeur}
+              />{" "}
               <Film
                 name="Il était une fois dans l'Ouest"
                 inLink="/archives/etait-fois-ouest-1968"
@@ -128,21 +168,11 @@ export default function AProposPage() {
               />
             </Contributeur>
             <Contributeur>
-              Lionel Guetta-Jeanrenaud
+              <span className="font-semibold">Claire Malot</span>
               <br />
-              <span className="uppercase">Rédacteur en chef</span>
-              <br />
-              Retrouvez-moi sur Letterboxd, Instagram, Twitter
-              <br />
-              <Film
-                name="Titanic"
-                outLink="https://en.wikipedia.org/wiki/Titanic_(1997_film)"
-              />
-            </Contributeur>
-            <Contributeur>
-              Claire Malot
-              <br />
-              <span className="uppercase">designer graphique</span>
+              <span className="font-semibold uppercase">
+                designer graphique
+              </span>
               <br />
               Retrouvez mon travail sur{" "}
               <a
@@ -162,6 +192,11 @@ export default function AProposPage() {
               </a>
               .
               <br />
+              <Image
+                className="mt-[-0.1875rem] inline-block h-21px w-auto w-auto pr-5px"
+                alt="coup de coeur"
+                src={coupDeCoeur}
+              />{" "}
               <Film
                 name="L'un chante, l'autre pas"
                 inLink="/archives/chante-autre-1977"
@@ -170,14 +205,16 @@ export default function AProposPage() {
               <Film name="First Cow" inLink="/archives/first-cow-2020" />
             </Contributeur>
             <Contributeur>
-              Jonathan Roitgrund
+              <span className="font-semibold">Jonathan Roitgrund</span>
               <br />
-              <span className="uppercase">développeur</span>
+              <span className="font-semibold uppercase">développeur</span>
               <br />
-              <Film
-                name="After Hours"
-                inLink="/archives/after-hours-1985"
-              />,{" "}
+              <Image
+                className="mt-[-0.1875rem] inline-block h-21px w-auto w-auto pr-5px"
+                alt="coup de coeur"
+                src={coupDeCoeur}
+              />{" "}
+              <Film name="After Hours" inLink="/archives/after-hours-1985" />,{" "}
               <Film
                 name="Stranger than Paradise"
                 inLink="/archives/stranger-than-paradise-1984"

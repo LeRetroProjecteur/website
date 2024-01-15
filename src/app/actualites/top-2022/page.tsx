@@ -1,11 +1,11 @@
-import { Metadata } from "next";
 import Image, { StaticImageData } from "next/image";
 import { ReactNode } from "react";
 
 import FixedHeader from "@/components/layout/fixed-header";
 import PageHeader from "@/components/layout/page-header";
-import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
+import { SousTitre1 } from "@/components/typography/typography";
 
+import { ImageAndCaption, ImageCell, TextCell } from "../components";
 import adieu from "./img/adieu.jpg";
 import evangile from "./img/evangile.jpg";
 import lola from "./img/lola.jpg";
@@ -13,11 +13,6 @@ import mamanputain from "./img/mamanputain.jpg";
 import pictureshow from "./img/pictureshow.jpg";
 import silence from "./img/silence.jpg";
 import variety from "./img/variety.jpg";
-
-export const metadata: Metadata = {
-  title:
-    "Rétrospective 2022 — Notre top | Le Rétro Projecteur — Cinéma de patrimoine à Paris",
-};
 
 export default function Top2022() {
   return (
@@ -251,41 +246,6 @@ export default function Top2022() {
           demeureront immortelles.
         </TextCell>
       </div>
-    </div>
-  );
-}
-
-function ImageAndCaption({
-  image,
-  alt,
-  caption,
-}: {
-  image: StaticImageData;
-  alt: string;
-  caption: ReactNode;
-}) {
-  return (
-    <div className="flex flex-col gap-10px lg:gap-12px">
-      <Image src={image} alt={alt} className="w-full" />
-      <div className="text-center text-14px font-semibold uppercase leading-17px text-retro-gray lg:text-left lg:text-16px lg:leading-18px">
-        {caption}
-      </div>
-    </div>
-  );
-}
-
-function ImageCell({ children }: { children?: ReactNode }) {
-  return (
-    <div className="pb-15px lg:border-r lg:pb-20px lg:pr-20px lg:pt-5px">
-      {children}
-    </div>
-  );
-}
-
-function TextCell({ children }: { children?: ReactNode }) {
-  return (
-    <div className="pb-15px lg:pb-20px lg:pl-20px">
-      <BodyCopy>{children}</BodyCopy>
     </div>
   );
 }
