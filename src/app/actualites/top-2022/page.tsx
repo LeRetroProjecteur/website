@@ -1,6 +1,3 @@
-import Image, { StaticImageData } from "next/image";
-import { ReactNode } from "react";
-
 import FixedHeader from "@/components/layout/fixed-header";
 import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
