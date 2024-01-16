@@ -129,6 +129,18 @@ function ReviewThumbnail({ review }: { review: Review }) {
             height={675}
             src={getImageUrl(review)}
             alt={review.title}
+            placeholder="blur"
+            blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAABhWlDQ1
+            BJQ0MgcHJvZmlsZQAAKJF9kT1Iw1AUhU9Ti6IVBTuIOGSoThZERRy1CkWoEGqFVh1MXvoHTRqSFB
+            dHwbXg4M9i1cHFWVcHV0EQ/AFxdnBSdJES70sKLWK88Hgf591zeO8+QKiXmWZ1jAOabpupRFzMZF
+            fFzlcE0I8QehCSmWXMSVISvvV1T91UdzGe5d/3Z/WqOYsBAZF4lhmmTbxBPL1pG5z3iSOsKKvE58
+            RjJl2Q+JHrisdvnAsuCzwzYqZT88QRYrHQxkobs6KpEU8RR1VNp3wh47HKeYuzVq6y5j35C8M5fW
+            WZ67SGkcAiliBBhIIqSijDRox2nRQLKTqP+/iHXL9ELoVcJTByLKACDbLrB/+D37O18pMTXlI4Do
+            ReHOdjBOjcBRo1x/k+dpzGCRB8Bq70lr9SB2Y+Sa+1tOgR0LcNXFy3NGUPuNwBBp8M2ZRdKUhLyO
+            eB9zP6piwwcAt0r3lza57j9AFI06ySN8DBITBaoOx1n3d3tc/t357m/H4A00xyZ4zFmDgAAAAGYk
+            tHRAD/AP8A/6C9p5MAAAAJcEhZcwAALiMAAC4jAXilP3YAAAAHdElNRQfoARAFFzB+KzuxAAAAGX
+            RFWHRDb21tZW50AENyZWF0ZWQgd2l0aCBHSU1QV4EOFwAAAA1JREFUCNdj+PJ/+38ACT8DquQRMK
+            UAAAAASUVORK5CYII="
           />
           <div className="flex flex-col justify-between gap-0 lg:flex-row lg:gap-20px">
             <div>

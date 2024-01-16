@@ -36,7 +36,7 @@ export default function Calendrier({
         </div>
       </FixedHeader>
       <div className="flex flex-col pb-10px lg:pl-20px">
-        <div className="flex pb-23px pt-14px lg:pb-32px lg:pt-19px">
+        <div className="flex pb-23px pt-14px lg:pb-32px lg:pt-14px">
           <TimeSlider />
         </div>
         <div className="flex flex-col lg:flex-row">
