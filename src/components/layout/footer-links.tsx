@@ -14,7 +14,9 @@ export default function FooterLinks({
   return (
     <div className="flex grow flex-col gap-y-12px lg:gap-y-10px">
       <LinkBox color={color} bgGreen>
-        <a onClick={openNewsLetter}>newsletter</a>
+        <a className="cursor-pointer" onClick={openNewsLetter}>
+          newsletter
+        </a>
       </LinkBox>
       <LinkBox color={color}>
         <a href="https://www.instagram.com/leretroprojecteur" target="_blank">

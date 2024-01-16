@@ -20,6 +20,7 @@ const config: Config = {
         ["retro-black"]: "#030303",
         ["retro-green"]: "#E2FF46",
         ["retro-pale-green"]: "#E2FF4666",
+        ["retro-blue"]: "#CCDAFF",
       },
       flexBasis: {
         "278px": `${278 / 16}rem`,
