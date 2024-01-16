@@ -1,6 +1,9 @@
+"use client";
+
 import clsx from "clsx";
-import Link from "next/link";
 import { ReactNode } from "react";
+
+import { openNewsLetter } from "@/lib/newsletter-store";
 
 export default function FooterLinks({
   color,
@@ -11,7 +14,9 @@ export default function FooterLinks({
   return (
     <div className="flex grow flex-col gap-y-12px lg:gap-y-10px">
       <LinkBox color={color} bgGreen>
-        <Link href="/newsletter">newsletter</Link>
+        <a className="cursor-pointer" onClick={openNewsLetter}>
+          newsletter
+        </a>
       </LinkBox>
       <LinkBox color={color}>
         <a href="https://www.instagram.com/leretroprojecteur" target="_blank">

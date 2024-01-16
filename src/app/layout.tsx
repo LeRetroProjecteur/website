@@ -5,6 +5,7 @@ import localFont from "next/font/local";
 import { ReactNode, StrictMode } from "react";
 
 import Footer from "@/components/layout/footer";
+import Newsletter from "@/components/layout/newsletter";
 import TopBar from "@/components/layout/top-bar";
 import MenuWrapper from "@/components/menu/menu-wrapper";
 
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             "font-suisse text-retro-black",
           )}
         >
+          <Newsletter />
           <MenuWrapper>
             <div className="flex grow flex-col pt-25px lg:pt-0">
               <div className="flex pb-20px lg:hidden">

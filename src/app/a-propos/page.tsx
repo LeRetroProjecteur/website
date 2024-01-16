@@ -1,5 +1,3 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
 import { ReactNode } from "react";
@@ -98,7 +96,7 @@ export default function AProposPage() {
                 name="Printemps Tardif"
                 inLink="/archives/printemps-tardif-1949"
               />
-              , <Film name="Old Joy" outLink="/archives/old-joy-2006" />
+              , <Film name="Old Joy" inLink="/archives/old-joy-2006" />
             </Contributeur>
             <Contributeur>
               <span className="font-semibold">Lionel Guetta-Jeanrenaud</span>

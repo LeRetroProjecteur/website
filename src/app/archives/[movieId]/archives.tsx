@@ -1,5 +1,3 @@
-"use client";
-
 import { maxBy, minBy, size, sortBy, toPairs } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
