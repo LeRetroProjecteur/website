@@ -19,6 +19,7 @@ import {
 import { MovieDetail, Review, ShowtimesTheater } from "@/lib/types";
 import {
   TAG_MAP,
+  blurProps,
   checkNotNull,
   floatHourToString,
   formatDDMMYYWithSlashes,
@@ -191,6 +192,7 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
                 className="h-auto w-full"
                 src={getImageUrl(movie)}
                 alt="movie-screenshot"
+                {...blurProps}
               />
             </div>
           </div>
