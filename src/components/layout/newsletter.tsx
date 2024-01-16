@@ -19,18 +19,18 @@ export default function Newsletter() {
         target="_blank"
       >
         <div className="fixed z-50 flex h-screen w-screen items-center justify-center">
-          <div className="flex flex-col lg:gap-20px">
-            <div className="bg-retro-blue lg:px-20px lg:pb-20px">
-              <div className="border-b text-center font-medium uppercase text-retro-gray lg:text-22px lg:leading-54px">
+          <div className="flex flex-col gap-20px">
+            <div className="bg-retro-blue px-20px pb-20px">
+              <div className="border-b text-center text-22px font-medium uppercase leading-54px text-retro-gray">
                 up close
               </div>
-              <div className="border-b text-center font-degular font-extrabold uppercase tracking-[0.01em] lg:py-18px lg:text-71px lg:leading-58px">
+              <div className="border-b py-18px text-center font-degular text-71px font-extrabold uppercase leading-58px tracking-[0.01em]">
                 S&apos;INSCRIRE
                 <br />À LA
                 <br />
                 NEWSLETTER
               </div>
-              <div className="flex justify-center lg:pb-10px lg:pt-20px">
+              <div className="flex justify-center pb-10px pt-20px">
                 <RetroInput
                   blue
                   value={email}
@@ -43,7 +43,7 @@ export default function Newsletter() {
                 <input
                   type="submit"
                   value="s'inscrire"
-                  className="grow cursor-pointer bg-retro-gray text-center font-medium uppercase text-retro-blue lg:py-10px lg:text-20px lg:leading-25px"
+                  className="grow cursor-pointer bg-retro-gray py-10px text-center text-20px font-medium uppercase leading-25px text-retro-blue"
                   onClick={subscribe}
                 />
               </div>
