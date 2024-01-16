@@ -2,6 +2,7 @@ import Image, { StaticImageData } from "next/image";
 import { ReactNode } from "react";
 
 import { BodyCopy } from "@/components/typography/typography";
+import { blurProps } from "@/lib/util";
 
 export function ImageCell({ children }: { children?: ReactNode }) {
   return (
@@ -30,7 +31,7 @@ export function ImageAndCaption({
 }) {
   return (
     <div className="flex flex-col gap-10px lg:gap-12px">
-      <Image src={image} alt={alt} className="w-full" />
+      <Image src={image} alt={alt} className="w-full" {...blurProps} />
       <div className="text-center text-14px font-semibold uppercase leading-17px text-retro-gray lg:text-left lg:text-16px lg:leading-18px">
         {caption}
       </div>

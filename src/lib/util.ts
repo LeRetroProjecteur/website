@@ -1,5 +1,6 @@
 import { every, omit, padStart, some } from "lodash-es";
-import { useMemo } from "react";
+import Image from "next/image";
+import { ComponentProps, useMemo } from "react";
 import { useWindowSize } from "usehooks-ts";
 
 import {
@@ -170,3 +171,16 @@ export function getImageUrl({ id }: { id: string }) {
 export function getReviewSortKey(review: Review) {
   return `${formatYYYYMMDD(safeDate(review.review_date))}-${review.id}`;
 }
+
+export const blurProps: Partial<ComponentProps<typeof Image>> = {
+  placeholder: "blur",
+  blurDataURL:
+    "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAABhWlDQ1BJQ0MgcHJvZmlsZQAAKJF9kT1I\
+    w1AUhU9Ti6IVBTuIOGSoThZERRy1CkWoEGqFVh1MXvoHTRqSFBdHwbXg4M9i1cHFWVcHV0EQ/AFxdnBSdJES70sKLWK88Hgf591zeO8\
+    +QKiXmWZ1jAOabpupRFzMZFfFzlcE0I8QehCSmWXMSVISvvV1T91UdzGe5d/3Z/WqOYsBAZF4lhmmTbxBPL1pG5z3iSOsKKvE58RjJl\
+    2Q+JHrisdvnAsuCzwzYqZT88QRYrHQxkobs6KpEU8RR1VNp3wh47HKeYuzVq6y5j35C8M5fWWZ67SGkcAiliBBhIIqSijDRox2nRQLK\
+    TqP+/iHXL9ELoVcJTByLKACDbLrB/+D37O18pMTXlI4DoReHOdjBOjcBRo1x/k+dpzGCRB8Bq70lr9SB2Y+Sa+1tOgR0LcNXFy3NGUP\
+    uNwBBp8M2ZRdKUhLyOeB9zP6piwwcAt0r3lza57j9AFI06ySN8DBITBaoOx1n3d3tc/t357m/H4A00xyZ4zFmDgAAAAGYktHRAD/AP8\
+    A/6C9p5MAAAAJcEhZcwAALiMAAC4jAXilP3YAAAAHdElNRQfoARAFFzB+KzuxAAAAGXRFWHRDb21tZW50AENyZWF0ZWQgd2l0aCBHSU\
+    1QV4EOFwAAAA1JREFUCNdj+PJ/+38ACT8DquQRMKUAAAAASUVORK5CYII=",
+};

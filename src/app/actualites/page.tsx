@@ -4,6 +4,7 @@ import Link from "next/link";
 import FixedHeader from "@/components/layout/fixed-header";
 import PageHeader from "@/components/layout/page-header";
 import { MetaCopy, SousTitre1 } from "@/components/typography/typography";
+import { blurProps } from "@/lib/util";
 
 import lumiereIcon from "./festival-lumiere-2023/img/icon.jpg";
 import top2022 from "./top-2022/img/icon.jpg";
@@ -57,7 +58,12 @@ export default function ActualitesPage() {
               className="cursor-pointer"
             >
               <div className="flex flex-col gap-10px">
-                <Image src={image} alt={titre} className="h-auto w-full" />
+                <Image
+                  src={image}
+                  alt={titre}
+                  className="h-auto w-full"
+                  {...blurProps}
+                />
                 <div className="flex justify-between gap-10px">
                   <div>
                     <MetaCopy>
