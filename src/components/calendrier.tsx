@@ -327,6 +327,25 @@ export function Movies({
     [moviesWithFilteredShowtimes, filter],
   );
 
+  const isbefore22inparis =
+    utcToZonedTime(new Date(), "Europe/Paris").getHours() < 22;
+  const [lastCallTime, setLastCallTime] = useState(0);
+  const callCloudFunction = () => {
+    const currentTime = new Date().getTime();
+    const delay = 10 * 60 * 1000; // 5 minutes in milliseconds
+    if (currentTime - lastCallTime >= delay) {
+      const cloudFunctionUrl =
+        "https://europe-west1-website-cine.cloudfunctions.net/send_warning";
+      const warning =
+        "Attention, le website est vide et il n'est pas encore 22h.";
+      const urlWithParams = new URL(cloudFunctionUrl);
+      urlWithParams.searchParams.set("warning", warning);
+      fetch(urlWithParams);
+      setLastCallTime(currentTime);
+    }
+    return "Notre site web est en cours de maintenance planifiée. Veuillez nous excuser pour la gêne occasionnée. Il sera à nouveau disponible sous peu !";
+  };
+
   return (
     <>
       {filteredMovies.length > 0 ? (
@@ -380,9 +399,11 @@ export function Movies({
         <tr>
           <td colSpan={2}>
             <b>
-              {filter.length > 0
-                ? "Aucun film ne correspond à cette recherche aujourd'hui."
-                : "Aucun film ne joue à cette heure-ci aujourd'hui, regardez demain ?"}
+              {moviesWithFilteredShowtimes.length === 0
+                ? isbefore22inparis
+                  ? callCloudFunction()
+                  : "Aucun film ne joue à cette heure-ci aujourd'hui, regardez demain ?"
+                : "Aucun film ne correspond à cette recherche aujourd'hui."}
             </b>
           </td>
         </tr>
