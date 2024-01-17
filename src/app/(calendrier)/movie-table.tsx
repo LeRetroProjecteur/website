@@ -41,11 +41,7 @@ export default function MovieTable({
   const filter = useCalendrierStore((s) => s.filter);
   const quartiers = useCalendrierStore((s) => s.quartiers);
 
-  const {
-    data: clientMovies,
-    isLoading,
-    isValidating,
-  } = useSWR<Movie[]>(
+  const { data: clientMovies, isLoading } = useSWR<Movie[]>(
     dateChanged ? `/api/movies/by-day/${formatYYYYMMDD(date)}` : false,
     fetcher,
   );
@@ -68,7 +64,7 @@ export default function MovieTable({
         </div>
       }
     >
-      {isLoading && !isValidating ? (
+      {isLoading ? (
         <div className="flex grow items-center justify-center">
           <Loading className="h-75px w-75px animate-bounce text-retro-gray" />
         </div>
