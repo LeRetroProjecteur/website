@@ -16,7 +16,7 @@ import Search from "./search";
 export default function Calendrier({
   serverMovies,
 }: {
-  serverMovies: Movie[];
+  serverMovies: Promise<Movie[]>;
 }) {
   const [isQuartierSelectorOpen, setQuartierSelectorOpen] = useState(false);
 
@@ -35,7 +35,7 @@ export default function Calendrier({
           <DateSelector />
         </div>
       </FixedHeader>
-      <div className="flex flex-col pb-10px lg:pl-20px">
+      <div className="flex grow flex-col pb-10px lg:pl-20px">
         <div className="flex pb-23px pt-14px lg:pb-32px lg:pt-14px">
           <TimeSlider />
         </div>
@@ -60,7 +60,7 @@ export default function Calendrier({
             <QuartierSelector />
           </div>
         )}
-        <div className="flex pt-18px lg:pt-28px">
+        <div className="flex grow pt-18px lg:pt-28px">
           <MovieTable serverMovies={serverMovies} />
         </div>
       </div>

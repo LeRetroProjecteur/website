@@ -6,7 +6,7 @@ export const dynamic = "force-static";
 export const revalidate = 1;
 
 export default async function CoupsDeCoeurPage() {
-  const reviews = await getReviewedMovies();
+  const reviews = getReviewedMovies();
 
   return <CoupsDeCoeur fetchedReviews={reviews} />;
 }

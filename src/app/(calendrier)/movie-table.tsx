@@ -2,9 +2,17 @@ import clsx from "clsx";
 import { some, sortBy, take, uniqBy } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
-import { ReactNode, useCallback, useMemo, useState } from "react";
+import {
+  ReactNode,
+  Suspense,
+  use,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import useSWR from "swr";
 
+import Loading from "@/components/icons/loading";
 import { BodyCopy, SousTitre2 } from "@/components/typography/typography";
 import { Quartier, useCalendrierStore } from "@/lib/calendrier-store";
 import { Movie, ShowtimesTheater } from "@/lib/types";
@@ -24,7 +32,7 @@ import coupDeCoeur from "../../assets/coup-de-coeur.png";
 export default function MovieTable({
   serverMovies,
 }: {
-  serverMovies: Movie[];
+  serverMovies: Promise<Movie[]>;
 }) {
   const date = useCalendrierStore((s) => s.date);
   const dateChanged = useCalendrierStore((s) => s.dateChanged);
@@ -33,13 +41,17 @@ export default function MovieTable({
   const filter = useCalendrierStore((s) => s.filter);
   const quartiers = useCalendrierStore((s) => s.quartiers);
 
-  const { data: clientMovies } = useSWR<Movie[]>(
+  const {
+    data: clientMovies,
+    isLoading,
+    isValidating,
+  } = useSWR<Movie[]>(
     dateChanged ? `/api/movies/by-day/${formatYYYYMMDD(date)}` : false,
     fetcher,
   );
 
   const movies = useMemo(
-    () => clientMovies ?? serverMovies,
+    () => (clientMovies != null ? Promise.resolve(clientMovies) : serverMovies),
     [clientMovies, serverMovies],
   );
 
@@ -48,6 +60,47 @@ export default function MovieTable({
     [minHour, date],
   );
 
+  return (
+    <Suspense
+      fallback={
+        <div className="flex grow items-center justify-center">
+          <Loading className="h-75px w-75px animate-bounce text-retro-gray" />
+        </div>
+      }
+    >
+      {isLoading && !isValidating ? (
+        <div className="flex grow items-center justify-center">
+          <Loading className="h-75px w-75px animate-bounce text-retro-gray" />
+        </div>
+      ) : (
+        <LoadedTable
+          {...{
+            movies,
+            minHourFilteringTodaysMissedFilms,
+            maxHour,
+            quartiers,
+            filter,
+          }}
+        />
+      )}
+    </Suspense>
+  );
+}
+
+function LoadedTable({
+  movies: moviesPromise,
+  minHourFilteringTodaysMissedFilms,
+  maxHour,
+  quartiers,
+  filter,
+}: {
+  movies: Promise<Movie[]>;
+  minHourFilteringTodaysMissedFilms: number;
+  maxHour: number;
+  quartiers: Quartier[];
+  filter: string;
+}) {
+  const movies = use(moviesPromise);
   const sortedFilteredMovies = useMemo(
     () =>
       filterAndSortMovies(
