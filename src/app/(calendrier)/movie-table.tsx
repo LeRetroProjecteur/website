@@ -46,11 +46,6 @@ export default function MovieTable({
     fetcher,
   );
 
-  const movies = useMemo(
-    () => (clientMovies != null ? Promise.resolve(clientMovies) : serverMovies),
-    [clientMovies, serverMovies],
-  );
-
   const minHourFilteringTodaysMissedFilms = useMemo(
     () => getMinHourFilteringTodaysMissedFilms(date, minHour),
     [minHour, date],
@@ -71,7 +66,8 @@ export default function MovieTable({
       ) : (
         <LoadedTable
           {...{
-            movies,
+            serverMovies,
+            clientMovies,
             minHourFilteringTodaysMissedFilms,
             maxHour,
             quartiers,
@@ -84,19 +80,25 @@ export default function MovieTable({
 }
 
 function LoadedTable({
-  movies: moviesPromise,
+  serverMovies,
+  clientMovies,
   minHourFilteringTodaysMissedFilms,
   maxHour,
   quartiers,
   filter,
 }: {
-  movies: Promise<Movie[]>;
+  serverMovies: Promise<Movie[]>;
+  clientMovies?: Movie[];
   minHourFilteringTodaysMissedFilms: number;
   maxHour: number;
   quartiers: Quartier[];
   filter: string;
 }) {
-  const movies = use(moviesPromise);
+  const movies = useMemo(
+    () => (clientMovies != null ? clientMovies : use(serverMovies)),
+    [clientMovies, serverMovies],
+  );
+
   const sortedFilteredMovies = useMemo(
     () =>
       filterAndSortMovies(
