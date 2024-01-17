@@ -25,6 +25,7 @@ export interface SearchMovie {
   title: string;
   id: string;
   search_field: string;
+  original_title: string;
 }
 
 export interface ShowtimesTheater {

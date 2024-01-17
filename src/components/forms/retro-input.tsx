@@ -7,12 +7,16 @@ export default function RetroInput({
   placeholder,
   blue,
   name,
+  customTypography,
+  className,
 }: {
   value: string;
   setValue: (newValue: string) => void;
   placeholder: string;
   blue?: boolean;
   name?: string;
+  customTypography?: boolean;
+  className?: string;
 }) {
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => setValue(e.target.value),
@@ -24,8 +28,14 @@ export default function RetroInput({
       {...{ name }}
       type="text"
       className={clsx(
-        { "bg-retro-pale-green": blue ?? false, "bg-retro-blue": blue },
-        "grow border py-1px text-15px font-medium uppercase leading-25px text-retro-black placeholder:text-center placeholder:text-retro-gray focus:border-retro-gray focus:outline-0 focus:ring-0 focus:placeholder:opacity-0 lg:py-8px lg:text-20px lg:leading-21px",
+        className,
+        {
+          "bg-retro-pale-green": !(blue ?? false),
+          "bg-retro-blue": blue,
+          "text-15px font-medium uppercase leading-25px lg:text-20px lg:leading-21px":
+            !(customTypography ?? false),
+        },
+        "grow border py-1px text-retro-black placeholder:text-center placeholder:text-retro-gray focus:border-retro-gray focus:outline-0 focus:ring-0 focus:placeholder:opacity-0 lg:py-8px ",
       )}
       onChange={onChange}
       value={value}

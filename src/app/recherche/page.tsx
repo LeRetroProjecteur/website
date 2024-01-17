@@ -1,13 +1,13 @@
-"use client";
+import { setTimeout } from "timers/promises";
 
-import PageHeader from "@/components/layout/page-header";
+import { getMovies } from "@/lib/movies";
+
+import Recherche from "./recherche";
 
 export default function RecherchePage() {
+  const allMovies = getMovies();
+
   return (
-    <div className="flex grow flex-col">
-      <div className="flex">
-        <PageHeader text="recherche" />
-      </div>
-    </div>
+    <Recherche allMoviesPromise={setTimeout(5000).then(() => allMovies)} />
   );
 }
