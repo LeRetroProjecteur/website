@@ -3,9 +3,10 @@
 import { orderBy } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
-import { useCallback, useMemo, useState } from "react";
+import { Suspense, use, useCallback, useMemo, useState } from "react";
 
 import RetroInput from "@/components/forms/retro-input";
+import Loading from "@/components/icons/loading";
 import FixedHeader from "@/components/layout/fixed-header";
 import PageHeader from "@/components/layout/page-header";
 import {
@@ -26,24 +27,9 @@ import {
 export default function CoupsDeCoeur({
   fetchedReviews,
 }: {
-  fetchedReviews: Review[];
+  fetchedReviews: Promise<Review[]>;
 }) {
   const [filter, setFilter] = useState("");
-
-  const reviews = useMemo(
-    () => orderBy(fetchedReviews, getReviewSortKey, "desc"),
-    [fetchedReviews],
-  );
-
-  const filteredReviews = useMemo(
-    () =>
-      filter === ""
-        ? reviews
-        : reviews.filter((review) =>
-            movie_info_containsFilteringTerm(review, filter),
-          ),
-    [filter, reviews],
-  );
 
   const [display, setDisplay] = useState<"thumbnails" | "list">("thumbnails");
   const toggleDisplay = useCallback(() => {
@@ -58,7 +44,7 @@ export default function CoupsDeCoeur({
         </div>
         <SubHeader display={display} toggleDisplay={toggleDisplay} />
       </FixedHeader>
-      <div className="flex flex-col pb-10px lg:pb-0 lg:pl-20px">
+      <div className="flex grow flex-col pb-10px lg:pb-0 lg:pl-20px">
         <div className="flex pb-15px pt-15px lg:pb-20px lg:pt-0 ">
           <RetroInput
             placeholder="recherche"
@@ -66,13 +52,15 @@ export default function CoupsDeCoeur({
             setValue={setFilter}
           />
         </div>
-        {filteredReviews.length === 0 && <EmptyState />}
-        {filteredReviews.length > 0 && display === "list" && (
-          <ReviewList reviews={filteredReviews} />
-        )}
-        {filteredReviews.length > 0 && display === "thumbnails" && (
-          <ReviewThumbnails reviews={filteredReviews} />
-        )}
+        <Suspense
+          fallback={
+            <div className="flex grow items-center justify-center">
+              <Loading className="h-75px w-75px animate-bounce text-retro-gray" />
+            </div>
+          }
+        >
+          <Reviews {...{ fetchedReviews, display, filter }} />
+        </Suspense>
       </div>
     </div>
   );
@@ -92,6 +80,45 @@ function SubHeader({
         {display === "thumbnails" ? <ListIcon /> : <ThumbnailIcon />}
       </div>
     </div>
+  );
+}
+
+function Reviews({
+  fetchedReviews: fetchedReviewsPromise,
+  filter,
+  display,
+}: {
+  fetchedReviews: Promise<Review[]>;
+  filter: string;
+  display: "thumbnails" | "list";
+}) {
+  const fetchedReviews = use(fetchedReviewsPromise);
+
+  const reviews = useMemo(
+    () => orderBy(fetchedReviews, getReviewSortKey, "desc"),
+    [fetchedReviews],
+  );
+
+  const filteredReviews = useMemo(
+    () =>
+      filter === ""
+        ? reviews
+        : reviews.filter((review) =>
+            movie_info_containsFilteringTerm(review, filter),
+          ),
+    [filter, reviews],
+  );
+
+  return (
+    <>
+      {filteredReviews.length === 0 && <EmptyState />}
+      {filteredReviews.length > 0 && display === "list" && (
+        <ReviewList reviews={filteredReviews} />
+      )}
+      {filteredReviews.length > 0 && display === "thumbnails" && (
+        <ReviewThumbnails reviews={filteredReviews} />
+      )}
+    </>
   );
 }
 

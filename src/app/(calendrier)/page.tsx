@@ -6,8 +6,6 @@ import Calendrier from "./calendrier";
 export const dynamic = "force-static";
 export const revalidate = 1;
 
-export default async function CalendrierPage() {
-  return (
-    <Calendrier serverMovies={await getDayMovies(getStartOfTodayInParis())} />
-  );
+export default function CalendrierPage() {
+  return <Calendrier serverMovies={getDayMovies(getStartOfTodayInParis())} />;
 }
