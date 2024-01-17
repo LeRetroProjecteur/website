@@ -1,5 +1,3 @@
-import { setTimeout } from "timers/promises";
-
 import { getDayMovies } from "@/lib/movies";
 import { getStartOfTodayInParis } from "@/lib/util";
 
@@ -9,11 +7,5 @@ export const dynamic = "force-static";
 export const revalidate = 1;
 
 export default function CalendrierPage() {
-  return (
-    <Calendrier
-      serverMovies={setTimeout(2000).then(() =>
-        getDayMovies(getStartOfTodayInParis()),
-      )}
-    />
-  );
+  return <Calendrier serverMovies={getDayMovies(getStartOfTodayInParis())} />;
 }
