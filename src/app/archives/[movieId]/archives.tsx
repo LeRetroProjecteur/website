@@ -86,7 +86,7 @@ export default function Archives({
         </div>
         <MovieHeader movie={movie} />
       </FixedHeader>
-      <div className="flex flex-col pb-15px lg:pb-0">
+      <div className="flex grow flex-col pb-15px lg:pb-0 ">
         <Movie movie={movie} />
         {isCoupDeCoeur && (
           <ReviewsNav previousReview={previousReview} nextReview={nextReview} />
@@ -150,7 +150,7 @@ function ReviewsNav({
 
 function Movie({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="flex flex-col gap-8 lg:flex-row lg:gap-0">
+    <div className="flex grow flex-col gap-8 lg:flex-row lg:gap-0">
       <MovieInfo movie={movie} />
       <MovieScreenings movie={movie} />
     </div>
@@ -179,9 +179,9 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
 
 function MovieInfo({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="flex flex-col lg:w-1/2 lg:border-r lg:px-20px lg:pb-640px">
+    <div className="flex grow flex-col lg:w-1/2 lg:border-r lg:px-20px">
       {movie.review && (
-        <div className="flex flex-col pb-32px pt-15px lg:pb-100px lg:pt-0">
+        <div className="flex flex-col pt-15px lg:pb-20px lg:pt-0">
           <div className="flex">
             <div className="flex grow basis-0 pb-15px lg:pb-20px">
               <Image
@@ -199,15 +199,16 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
           </BodyCopy>
         </div>
       )}
-      <MetaCopy>
-        <div className="flex">
+
+      <div className="flex pt-15px lg:pt-0">
+        <MetaCopy>
           titre original : {movie.original_title}
           <br />
           {movie.duration == null
             ? "Durée inconnue"
             : `Durée : ${Math.floor(parseInt(movie.duration) / 60)} minutes`}
-        </div>
-      </MetaCopy>
+        </MetaCopy>
+      </div>
       <Tags movie={movie} />
     </div>
   );

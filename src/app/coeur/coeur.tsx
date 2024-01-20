@@ -184,7 +184,7 @@ function ReviewList({ reviews }: { reviews: Review[] }) {
       {reviews.map((review) => (
         <ReviewRow review={review} key={review.id} />
       ))}
-      <div className="flex h-640px">
+      <div className="flex grow">
         <div className="w-1/2 border-r pr-6px lg:pr-10px"></div>
       </div>
     </div>

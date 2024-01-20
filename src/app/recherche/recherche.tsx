@@ -1,8 +1,10 @@
 "use client";
 
-import { orderBy, take } from "lodash-es";
+import clsx from "clsx";
+import { every, orderBy, take, toPairs, without } from "lodash-es";
 import Link from "next/link";
-import { Suspense, use, useMemo, useState } from "react";
+import { Suspense, use, useCallback, useMemo, useState } from "react";
+import { create } from "zustand";
 
 import RetroInput from "@/components/forms/retro-input";
 import Loading from "@/components/icons/loading";
@@ -10,7 +12,18 @@ import FixedHeader from "@/components/layout/fixed-header";
 import PageHeader from "@/components/layout/page-header";
 import { MetaCopy } from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
-import { string_match } from "@/lib/util";
+import { TAG_MAP, string_match } from "@/lib/util";
+
+const useRechercheStore = create<{
+  tags: string[];
+}>()(() => ({
+  tags: Object.keys(TAG_MAP),
+}));
+
+const toggleTag = (tag: string) =>
+  useRechercheStore.setState((s) => ({
+    tags: s.tags.includes(tag) ? without(s.tags, tag) : [...s.tags, tag],
+  }));
 
 export default function Recherche({
   allMoviesPromise,
@@ -34,17 +47,24 @@ export default function Recherche({
           />
         </div>
       </FixedHeader>
-      <Suspense
-        fallback={
-          <div className="flex grow items-center justify-center">
-            {searchTerm.length > 0 && (
-              <Loading className="h-75px w-75px animate-bounce text-retro-gray" />
-            )}
-          </div>
-        }
-      >
-        <Results {...{ searchTerm, allMoviesPromise }} />
-      </Suspense>
+      <div className="flex grow flex-col pt-20px lg:px-20px lg:py-0">
+        <div className="flex hidden flex-wrap gap-10px py-10px lg:gap-x-20px lg:gap-y-16px lg:py-20px">
+          {toPairs(TAG_MAP).map(([tag, displayTag]) => (
+            <Tag key={tag} {...{ tag, displayTag }} />
+          ))}
+        </div>
+        <Suspense
+          fallback={
+            <div className="flex grow items-center justify-center">
+              {searchTerm.length > 0 && (
+                <Loading className="h-75px w-75px animate-bounce text-retro-gray" />
+              )}
+            </div>
+          }
+        >
+          <Results {...{ searchTerm, allMoviesPromise }} />
+        </Suspense>
+      </div>
     </div>
   );
 }
@@ -56,17 +76,20 @@ function Results({
   allMoviesPromise: Promise<SearchMovie[]>;
   searchTerm: string;
 }) {
+  const tags = useRechercheStore((s) => s.tags);
   const allMovies = use(allMoviesPromise);
   const filtered = useMemo(
     () =>
       searchTerm.length > 0
         ? take(
             orderBy(
-              allMovies.filter((movie) =>
-                string_match(
-                  searchTerm,
-                  `${movie.directors} ${movie.title} ${movie.original_title}`,
-                ),
+              allMovies.filter(
+                (movie) =>
+                  string_match(
+                    searchTerm,
+                    `${movie.directors} ${movie.title} ${movie.original_title}`,
+                  ) &&
+                  (tags.length === 0 || every(tags, () => true)),
               ),
               (movie) => movie.relevance_score,
               "desc",
@@ -74,12 +97,12 @@ function Results({
             5,
           )
         : [],
-    [allMovies, searchTerm],
+    [allMovies, searchTerm, tags],
   );
 
   return (
     searchTerm.length > 0 && (
-      <div className="flex flex-col pt-20px lg:px-20px">
+      <div className="flex flex-col">
         {filtered.length > 0 ? (
           filtered.map((movie) => (
             <Link
@@ -99,5 +122,21 @@ function Results({
         )}
       </div>
     )
+  );
+}
+
+function Tag({ tag, displayTag }: { tag: string; displayTag: string }) {
+  const onClick = useCallback(() => toggleTag(tag), [tag]);
+  const enabled = useRechercheStore((s) => s.tags.includes(tag));
+  return (
+    <div
+      onClick={onClick}
+      className={clsx(
+        { "line-through": !enabled },
+        "cursor-pointer rounded-2xl bg-retro-gray px-12px py-6px text-19px font-medium uppercase leading-20px text-white lg:px-12px lg:text-20px lg:tracking-[-0.02em]",
+      )}
+    >
+      {displayTag}
+    </div>
   );
 }
