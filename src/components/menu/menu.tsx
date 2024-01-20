@@ -40,8 +40,8 @@ export default function Menu() {
 
   const closeMenuIfOnSamePathname = useCallback(
     (e: MouseEvent<HTMLAnchorElement>) => {
+      useCalendrierStore.getState().reset();
       if ((e.target as HTMLAnchorElement).href.endsWith(pathName)) {
-        useCalendrierStore.getState().reset();
         closeMenu();
       }
     },
@@ -61,22 +61,22 @@ export default function Menu() {
             <CloseIcon />
           </div>
         </div>
-        <div className="flex justify-center pb-18px lg:pb-0">
-          <Link href="/" onClick={onClickLogo}>
+        <Link href="/" onClick={onClickLogo}>
+          <div className="flex justify-center pb-18px lg:pb-0">
             <Image
               src={logoCarre}
               alt="logo"
               className="h-auto w-250px lg:w-207px"
             />
-          </Link>
-        </div>
-        <MenuLink>
-          <div className="pb-16px font-degular text-44px font-extrabold uppercase leading-29px tracking-[0.01em] text-retro-gray lg:py-3px lg:text-35px lg:leading-25px">
-            le rétro
-            <br />
-            projecteur
           </div>
-        </MenuLink>
+          <MenuLink>
+            <div className="pb-16px font-degular text-44px font-extrabold uppercase leading-29px tracking-[0.01em] text-retro-gray lg:py-3px lg:text-35px lg:leading-25px">
+              le rétro
+              <br />
+              projecteur
+            </div>
+          </MenuLink>
+        </Link>
         <div className="flex flex-col">
           {menu.map(([section, path]) => (
             <MenuLink key={path} path={path} className="py-16px">
@@ -108,9 +108,13 @@ function MenuLink({
   const route = usePathname();
   return (
     <div
-      className={clsx(className, "flex justify-center border-b lg:py-12px", {
-        "bg-retro-green": path === route,
-      })}
+      className={clsx(
+        className,
+        "flex justify-center border-b last:border-0 lg:py-12px lg:last:border-b",
+        {
+          "bg-retro-green": path === route,
+        },
+      )}
     >
       <div className="w-min grow whitespace-break-spaces text-center">
         {children}

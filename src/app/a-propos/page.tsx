@@ -27,13 +27,12 @@ export default function AProposPage() {
         <div className="lg:w-1/2 lg:pr-20px">
           <div className="py-17px lg:pb-25px lg:pt-0">
             <BodyCopy>
-              Le Rétro Projecteur est un média digital, en libre accès, open
-              source et à but non lucratif qui se donne pour mission de mettre
-              en lumière la programmation en salle du cinéma de patrimoine.
-              Croyant à l&apos;existence d&apos;un cinéma aussi résolument
-              populaire que politique, le Rétro Projecteur s&apos;engage à
-              promouvoir une programmation originale, indépendante et
-              enrichissante.
+              Le Rétro Projecteur est un média digital, en libre accès et à but
+              non lucratif qui se donne pour mission de mettre en lumière la
+              programmation en salle du cinéma de patrimoine. Croyant à
+              l&apos;existence d&apos;un cinéma aussi résolument populaire que
+              politique, le Rétro Projecteur s&apos;engage à promouvoir une
+              programmation originale, indépendante et enrichissante.
             </BodyCopy>
           </div>
           <div className="flex justify-center border-y bg-retro-green py-15px">

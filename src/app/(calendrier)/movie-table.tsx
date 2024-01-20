@@ -160,7 +160,7 @@ function MovieRows({ movies }: { movies: Movie[] }) {
 
 function TableFooter() {
   return (
-    <div className="flex h-640px">
+    <div className="flex grow">
       <div className="w-1/2 border-r"></div>
     </div>
   );
