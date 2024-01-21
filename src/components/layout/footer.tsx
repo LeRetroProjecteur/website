@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import { FooterCopy } from "../typography/typography";
 import FooterLinks from "./footer-links";
 
@@ -30,8 +32,8 @@ export default function Footer() {
               claire malot
             </a>
             <br />
-            © Le Rétro Projecteur 2021-2023 <br />« Pour le grand écran, pas la
-            p&apos;tite lucarne ! »
+            <Link href="/admin">©</Link> Le Rétro Projecteur 2021-2023 <br />«
+            Pour le grand écran, pas la p&apos;tite lucarne ! »
           </FooterCopy>
         </div>
       </div>

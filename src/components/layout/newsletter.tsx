@@ -65,7 +65,7 @@ export default function Newsletter() {
                   x2="28.7248"
                   y2="8.71092"
                   className="stroke-retro-gray"
-                  stroke-width="2"
+                  strokeWidth="2"
                 />
                 <line
                   x1="28.725"
@@ -73,7 +73,7 @@ export default function Newsletter() {
                   x2="8.54308"
                   y2="8.10707"
                   className="stroke-retro-gray"
-                  stroke-width="2"
+                  strokeWidth="2"
                 />
               </svg>
             </div>

@@ -1,3 +1,5 @@
+"use client";
+
 import RetroInput from "@/components/forms/retro-input";
 import { useCalendrierStore } from "@/lib/calendrier-store";
 
