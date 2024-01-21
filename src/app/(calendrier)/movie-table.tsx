@@ -1,5 +1,15 @@
+"use client";
+
 import clsx from "clsx";
-import { some, sortBy, take, uniqBy } from "lodash-es";
+import {
+  capitalize,
+  orderBy,
+  some,
+  sortBy,
+  take,
+  toPairs,
+  uniqBy,
+} from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -7,6 +17,7 @@ import {
   Suspense,
   use,
   useCallback,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -15,15 +26,25 @@ import useSWR from "swr";
 import Loading from "@/components/icons/loading";
 import { BodyCopy, SousTitre2 } from "@/components/typography/typography";
 import { Quartier, useCalendrierStore } from "@/lib/calendrier-store";
-import { Movie, ShowtimesTheater } from "@/lib/types";
 import {
+  Movie,
+  MovieWithNoShowtimes,
+  MovieWithShowtimesByDay,
+  ShowtimesTheater,
+} from "@/lib/types";
+import {
+  checkNotNull,
   fetcher,
   floatHourToString,
+  formatLundi1Janvier,
   formatYYYYMMDD,
   isCoupDeCoeur,
+  isMovieWithShowtimesByDay,
+  isMoviesWithShowtimesByDay,
   isTodayInParis,
   movie_info_containsFilteringTerm,
   nowInParis,
+  safeDate,
   splitIntoSubArrays,
 } from "@/lib/util";
 
@@ -31,9 +52,15 @@ import coupDeCoeur from "../../assets/coup-de-coeur.png";
 
 export default function MovieTable({
   serverMovies,
+  allMovies,
 }: {
-  serverMovies: Promise<Movie[]>;
+  serverMovies: Promise<Movie[] | MovieWithShowtimesByDay[]>;
+  allMovies?: boolean;
 }) {
+  useEffect(() => {
+    useCalendrierStore.getState().reset();
+  }, []);
+
   const date = useCalendrierStore((s) => s.date);
   const dateChanged = useCalendrierStore((s) => s.dateChanged);
   const minHour = useCalendrierStore((s) => s.minHour);
@@ -41,10 +68,14 @@ export default function MovieTable({
   const filter = useCalendrierStore((s) => s.filter);
   const quartiers = useCalendrierStore((s) => s.quartiers);
 
-  const { data: clientMovies, isLoading } = useSWR<Movie[]>(
-    dateChanged ? `/api/movies/by-day/${formatYYYYMMDD(date)}` : false,
-    fetcher,
-  );
+  const url =
+    allMovies ?? false
+      ? `/api/movies/all-by-day/${formatYYYYMMDD(date)}`
+      : `/api/movies/by-day/${formatYYYYMMDD(date)}`;
+
+  const { data: clientMovies, isLoading } = useSWR<
+    Movie[] | MovieWithShowtimesByDay[]
+  >(dateChanged ? url : false, fetcher);
 
   const minHourFilteringTodaysMissedFilms = useMemo(
     () => getMinHourFilteringTodaysMissedFilms(date, minHour),
@@ -66,6 +97,7 @@ export default function MovieTable({
       ) : (
         <LoadedTable
           {...{
+            dateChanged,
             serverMovies,
             clientMovies,
             minHourFilteringTodaysMissedFilms,
@@ -80,23 +112,26 @@ export default function MovieTable({
 }
 
 function LoadedTable({
-  serverMovies,
+  serverMovies: serverMoviesPromise,
   clientMovies,
+  dateChanged,
   minHourFilteringTodaysMissedFilms,
   maxHour,
   quartiers,
   filter,
 }: {
-  serverMovies: Promise<Movie[]>;
-  clientMovies?: Movie[];
+  serverMovies: Promise<Movie[] | MovieWithShowtimesByDay[]>;
+  clientMovies?: Movie[] | MovieWithShowtimesByDay[];
+  dateChanged: boolean;
   minHourFilteringTodaysMissedFilms: number;
   maxHour: number;
   quartiers: Quartier[];
   filter: string;
 }) {
+  const serverMovies = use(serverMoviesPromise);
   const movies = useMemo(
-    () => (clientMovies != null ? clientMovies : use(serverMovies)),
-    [clientMovies, serverMovies],
+    () => (dateChanged ? checkNotNull(clientMovies) : serverMovies),
+    [clientMovies, serverMovies, dateChanged],
   );
 
   const sortedFilteredMovies = useMemo(
@@ -146,14 +181,24 @@ function EmptyTableState({ filter }: { filter: string }) {
   );
 }
 
-function MovieRows({ movies }: { movies: Movie[] }) {
+function MovieRows({
+  movies,
+}: {
+  movies: Movie[] | MovieWithShowtimesByDay[];
+}) {
   return movies.map((movie) => (
     <Row
       key={movie.id}
       rowClassName="group"
       cellClassName="group-odd:bg-retro-green group-odd:lg:bg-white lg:py-17px py-12px lg:group-hover:bg-retro-pale-green"
       leftCol={<MovieCell movie={movie} />}
-      rightCol={<Seances movie={movie} />}
+      rightCol={
+        isMovieWithShowtimesByDay(movie) ? (
+          <MultiDaySeances movie={movie} />
+        ) : (
+          <Seances movie={movie} />
+        )
+      }
     />
   ));
 }
@@ -189,7 +234,7 @@ function Row({
   );
 }
 
-function MovieCell({ movie }: { movie: Movie }) {
+function MovieCell({ movie }: { movie: MovieWithNoShowtimes }) {
   return (
     <div className="flex px-6px lg:pl-10px lg:pr-0">
       <div className="grow">
@@ -208,6 +253,42 @@ function MovieCell({ movie }: { movie: Movie }) {
           <Image className="w-25px" alt="coup de coeur" src={coupDeCoeur} />
         </div>
       )}
+    </div>
+  );
+}
+
+function MultiDaySeances({ movie }: { movie: MovieWithShowtimesByDay }) {
+  return (
+    <div className="multi-day flex grow flex-col gap-20px px-6px lg:gap-10px lg:pl-10px lg:pr-0">
+      {orderBy(
+        toPairs(movie.showtimes_by_day).map<[Date, ShowtimesTheater[]]>(
+          ([day, theaters]) => [safeDate(day), theaters],
+        ),
+        ([day]) => day,
+      ).map(([day, theaters], i) => (
+        <div key={i} className="flex grow flex-col gap-10px lg:gap-5px">
+          <BodyCopy>
+            <strong className="font-semibold">
+              {capitalize(formatLundi1Janvier(day))}
+            </strong>
+          </BodyCopy>
+          <div className="flex grow flex-col gap-10px lg:gap-5px">
+            {sortBy(
+              uniqBy(
+                theaters,
+                (showtime_theater) => showtime_theater.clean_name,
+              ),
+              (showtime_theater) => showtime_theater.clean_name,
+            ).map((theater) => (
+              <SceancesTheater
+                showtimesTheater={theater}
+                key={theater.clean_name}
+                isExpanded={true}
+              />
+            ))}
+          </div>
+        </div>
+      ))}
     </div>
   );
 }
@@ -243,7 +324,7 @@ function Seances({ movie }: { movie: Movie }) {
   );
 
   return (
-    <div className="flex grow flex-col gap-10px px-6px lg:gap-5px lg:pl-10px lg:pr-0">
+    <div className="single-day flex grow flex-col gap-10px px-6px lg:gap-5px lg:pl-10px lg:pr-0">
       {take(sortedTheaters, isExpanded ? sortedTheaters.length : 2).map(
         (theater) => (
           <SceancesTheater
@@ -321,31 +402,33 @@ function getMinHourFilteringTodaysMissedFilms(date: Date, minHour: number) {
 }
 
 function filterAndSortMovies(
-  movies: Movie[],
+  movies: Movie[] | MovieWithShowtimesByDay[],
   minHourFilteringTodaysMissedFilms: number,
   maxHour: number,
   quartiers: Quartier[],
   filter: string,
 ) {
-  const moviesWithFilteredShowtimes = movies
-    .map((movie) => ({
-      ...movie,
-      showtimes_theater: movie.showtimes_theater
-        .map((theater) => ({
-          ...theater,
-          showtimes: theater.showtimes.filter(
-            (showtime) =>
-              showtime >= minHourFilteringTodaysMissedFilms &&
-              showtime <= maxHour,
-          ),
+  const moviesWithFilteredShowtimes = isMoviesWithShowtimesByDay(movies)
+    ? movies
+    : movies
+        .map<Movie>((movie) => ({
+          ...movie,
+          showtimes_theater: movie.showtimes_theater
+            .map((theater) => ({
+              ...theater,
+              showtimes: theater.showtimes.filter(
+                (showtime) =>
+                  showtime >= minHourFilteringTodaysMissedFilms &&
+                  showtime <= maxHour,
+              ),
+            }))
+            .filter(
+              (theater) =>
+                theater.showtimes.length > 0 &&
+                some(quartiers, (quartier) => quartier === theater.location_2),
+            ),
         }))
-        .filter(
-          (theater) =>
-            theater.showtimes.length > 0 &&
-            some(quartiers, (quartier) => quartier === theater.location_2),
-        ),
-    }))
-    .filter((movie) => movie.showtimes_theater.length > 0);
+        .filter((movie) => movie.showtimes_theater.length > 0);
 
   const filteredMovies = moviesWithFilteredShowtimes.filter(
     (movie) => filter == "" || movie_info_containsFilteringTerm(movie, filter),
@@ -357,5 +440,5 @@ function filterAndSortMovies(
     movie.title,
   ]);
 
-  return sortedFilteredMovies;
+  return sortedFilteredMovies as Movie[] | MovieWithShowtimesByDay[];
 }

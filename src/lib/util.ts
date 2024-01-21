@@ -14,7 +14,12 @@ import {
 import { utcToZonedTime } from "date-fns-tz";
 import { fr } from "date-fns/locale";
 
-import { MovieWithNoShowtimes, Review } from "./types";
+import {
+  Movie,
+  MovieWithNoShowtimes,
+  MovieWithShowtimesByDay,
+  Review,
+} from "./types";
 
 export function isCoupDeCoeur({ category }: { category?: string }) {
   return category === "COUP DE CŒUR";
@@ -184,3 +189,15 @@ export const blurProps: Partial<ComponentProps<typeof Image>> = {
     A/6C9p5MAAAAJcEhZcwAALiMAAC4jAXilP3YAAAAHdElNRQfoARAFFzB+KzuxAAAAGXRFWHRDb21tZW50AENyZWF0ZWQgd2l0aCBHSU\
     1QV4EOFwAAAA1JREFUCNdj+PJ/+38ACT8DquQRMKUAAAAASUVORK5CYII=",
 };
+
+export function isMovieWithShowtimesByDay(
+  movie: MovieWithNoShowtimes,
+): movie is MovieWithShowtimesByDay {
+  return "showtimes_by_day" in movie;
+}
+
+export function isMoviesWithShowtimesByDay(
+  movies: Movie[] | MovieWithShowtimesByDay[],
+): movies is MovieWithShowtimesByDay[] {
+  return some(movies, isMovieWithShowtimesByDay);
+}

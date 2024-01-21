@@ -7,7 +7,7 @@ import QuartierSelector from "@/app/(calendrier)/quartier-selector";
 import TimeSlider from "@/app/(calendrier)/time-slider";
 import FixedHeader from "@/components/layout/fixed-header";
 import PageHeader from "@/components/layout/page-header";
-import { Movie } from "@/lib/types";
+import { Movie, MovieWithShowtimesByDay } from "@/lib/types";
 
 import MovieTable from "./movie-table";
 import QuartierSelectorToggler from "./quartier-selector-toggler";
@@ -15,8 +15,10 @@ import Search from "./search";
 
 export default function Calendrier({
   serverMovies,
+  allMovies,
 }: {
-  serverMovies: Promise<Movie[]>;
+  serverMovies: Promise<Movie[] | MovieWithShowtimesByDay[]>;
+  allMovies?: boolean;
 }) {
   const [isQuartierSelectorOpen, setQuartierSelectorOpen] = useState(false);
 
@@ -61,7 +63,7 @@ export default function Calendrier({
           </div>
         )}
         <div className="flex grow pt-18px lg:pt-28px">
-          <MovieTable serverMovies={serverMovies} />
+          <MovieTable serverMovies={serverMovies} allMovies={allMovies} />
         </div>
       </div>
     </div>

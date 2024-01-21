@@ -51,7 +51,7 @@ export function getUseCalendrierStore() {
     reset: () => {
       set({
         date: getStartOfTodayInParis(),
-        dateChanged: true,
+        dateChanged: false,
         minHour: 0,
         maxHour: 24,
         filter: "",
