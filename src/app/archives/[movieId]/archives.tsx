@@ -332,7 +332,7 @@ function Tags({ movie }: { movie: MovieDetail }) {
 
   return (
     tags.length > 0 && (
-      <div className="flex flex-wrap gap-8px pt-15px lg:gap-10px lg:pt-20px">
+      <div className="flex hidden flex-wrap gap-8px pt-15px lg:gap-10px lg:pt-20px">
         {tags.map((tag) => (
           <div
             key={tag}
