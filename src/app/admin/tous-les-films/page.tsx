@@ -9,6 +9,7 @@ export const revalidate = 1;
 export default function TousLesFilmsPage() {
   return (
     <Calendrier
+      title="Tous les films"
       serverMovies={getDayMovies(getStartOfTodayInParis(), { allMovies: true })}
       allMovies={true}
     />

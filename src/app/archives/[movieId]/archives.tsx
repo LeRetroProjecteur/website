@@ -6,7 +6,6 @@ import { useMemo } from "react";
 import { isAfter, isEqual, isSameDay } from "date-fns";
 
 import { LeftArrow, RightArrow } from "@/components/icons/arrows";
-import FixedHeader from "@/components/layout/fixed-header";
 import PageHeader from "@/components/layout/page-header";
 import {
   BodyCopy,
@@ -79,20 +78,17 @@ export default function Archives({
   );
 
   return (
-    <div className="flex grow flex-col">
-      <FixedHeader className="flex flex-col">
-        <div className="lg:pb-20px">
-          <PageHeader text={isCoupDeCoeur ? "coup de coeur" : "archives"} />
-        </div>
+    <>
+      <PageHeader text={isCoupDeCoeur ? "coup de coeur" : "archives"}>
         <MovieHeader movie={movie} />
-      </FixedHeader>
+      </PageHeader>
       <div className="flex grow flex-col pb-15px lg:pb-0 ">
         <Movie movie={movie} />
         {isCoupDeCoeur && (
           <ReviewsNav previousReview={previousReview} nextReview={nextReview} />
         )}
       </div>
-    </div>
+    </>
   );
 }
 
@@ -159,7 +155,7 @@ function Movie({ movie }: { movie: MovieDetail }) {
 
 function MovieHeader({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="flex justify-between gap-190px border-b py-10px text-center lg:border-t lg:bg-retro-green lg:py-14px lg:pl-20px lg:text-left">
+    <div className="flex grow justify-between gap-190px">
       <div className="grow">
         <SousTitre1>
           <u className="underline">{movie.title}</u> ({movie.year}),{" "}

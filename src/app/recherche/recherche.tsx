@@ -3,13 +3,12 @@
 import clsx from "clsx";
 import { every, orderBy, take, toPairs, without } from "lodash-es";
 import Link from "next/link";
-import { Suspense, use, useCallback, useMemo, useState } from "react";
+import { use, useCallback, useMemo, useState } from "react";
 import { create } from "zustand";
 
 import RetroInput from "@/components/forms/retro-input";
-import Loading from "@/components/icons/loading";
-import FixedHeader from "@/components/layout/fixed-header";
-import PageHeader from "@/components/layout/page-header";
+import { SuspenseWithLoading } from "@/components/icons/loading";
+import PageHeader, { FixedHeader } from "@/components/layout/page-header";
 import { MetaCopy } from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
 import { TAG_MAP, string_match } from "@/lib/util";
@@ -32,7 +31,7 @@ export default function Recherche({
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   return (
-    <div className="flex grow flex-col">
+    <>
       <FixedHeader className="lg:border-b">
         <div className="pb-17px lg:hidden">
           <PageHeader text={"recherche"} />
@@ -53,19 +52,15 @@ export default function Recherche({
             <Tag key={tag} {...{ tag, displayTag }} />
           ))}
         </div>
-        <Suspense
-          fallback={
-            <div className="flex grow items-center justify-center">
-              {searchTerm.length > 0 && (
-                <Loading className="h-75px w-75px animate-bounce text-retro-gray" />
-              )}
-            </div>
-          }
-        >
+        {searchTerm.length > 0 ? (
+          <SuspenseWithLoading>
+            <Results {...{ searchTerm, allMoviesPromise }} />
+          </SuspenseWithLoading>
+        ) : (
           <Results {...{ searchTerm, allMoviesPromise }} />
-        </Suspense>
+        )}
       </div>
-    </div>
+    </>
   );
 }
 
@@ -115,10 +110,12 @@ function Results({
             </Link>
           ))
         ) : (
-          <MetaCopy>
-            désolé, nous n&apos;avons rien trouvé qui corresponde à votre
-            recherche !
-          </MetaCopy>
+          <div className="lg:p-20px">
+            <MetaCopy>
+              désolé, nous n&apos;avons rien trouvé qui corresponde à votre
+              recherche !
+            </MetaCopy>
+          </div>
         )}
       </div>
     )

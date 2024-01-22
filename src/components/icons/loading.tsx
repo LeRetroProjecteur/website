@@ -1,4 +1,19 @@
-export default function Loading({ className }: { className: string }) {
+import clsx from "clsx";
+import { ReactNode, Suspense } from "react";
+
+export function Loading() {
+  return (
+    <div className="flex grow items-center justify-center">
+      <LoadingIcon className="h-75px w-75px animate-bounce text-retro-gray" />
+    </div>
+  );
+}
+
+export function SuspenseWithLoading({ children }: { children?: ReactNode }) {
+  return <Suspense fallback={<Loading />}>{children}</Suspense>;
+}
+
+export function LoadingIcon({ className }: { className: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -6,7 +21,10 @@ export default function Loading({ className }: { className: string }) {
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
-      className={className}
+      className={clsx(
+        className,
+        "h-75px w-75px animate-bounce text-retro-gray",
+      )}
     >
       <path
         strokeLinecap="round"

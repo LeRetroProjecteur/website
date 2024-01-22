@@ -3,11 +3,10 @@
 import { orderBy } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
-import { Suspense, use, useCallback, useMemo, useState } from "react";
+import { use, useCallback, useMemo, useState } from "react";
 
 import RetroInput from "@/components/forms/retro-input";
-import Loading from "@/components/icons/loading";
-import FixedHeader from "@/components/layout/fixed-header";
+import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
 import {
   BodyCopy,
@@ -37,13 +36,10 @@ export default function CoupsDeCoeur({
   }, [display]);
 
   return (
-    <div className="flex grow flex-col">
-      <FixedHeader className="flex flex-col">
-        <div className="lg:pb-20px">
-          <PageHeader text="coups de coeur" />
-        </div>
+    <>
+      <PageHeader text="coups de coeur">
         <SubHeader display={display} toggleDisplay={toggleDisplay} />
-      </FixedHeader>
+      </PageHeader>
       <div className="flex grow flex-col pb-10px lg:pb-0 lg:pl-20px">
         <div className="flex pb-15px pt-15px lg:pb-20px lg:pt-0 ">
           <RetroInput
@@ -52,17 +48,11 @@ export default function CoupsDeCoeur({
             setValue={setFilter}
           />
         </div>
-        <Suspense
-          fallback={
-            <div className="flex grow items-center justify-center">
-              <Loading className="h-75px w-75px animate-bounce text-retro-gray" />
-            </div>
-          }
-        >
+        <SuspenseWithLoading>
           <Reviews {...{ fetchedReviews, display, filter }} />
-        </Suspense>
+        </SuspenseWithLoading>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -74,7 +64,7 @@ function SubHeader({
   toggleDisplay: () => void;
 }) {
   return (
-    <div className="flex items-center justify-between border-b py-14px lg:border-t lg:bg-retro-green lg:pl-20px lg:pr-10px">
+    <div className="flex grow justify-between">
       <SousTitre1>archive des critiques</SousTitre1>
       <div className="flex cursor-pointer items-center" onClick={toggleDisplay}>
         {display === "thumbnails" ? <ListIcon /> : <ThumbnailIcon />}

@@ -5,7 +5,6 @@ import { useCallback, useState } from "react";
 import DateSelector from "@/app/(calendrier)/date-selector";
 import QuartierSelector from "@/app/(calendrier)/quartier-selector";
 import TimeSlider from "@/app/(calendrier)/time-slider";
-import FixedHeader from "@/components/layout/fixed-header";
 import PageHeader from "@/components/layout/page-header";
 import { Movie, MovieWithShowtimesByDay } from "@/lib/types";
 
@@ -16,9 +15,11 @@ import Search from "./search";
 export default function Calendrier({
   serverMovies,
   allMovies,
+  title,
 }: {
   serverMovies: Promise<Movie[] | MovieWithShowtimesByDay[]>;
   allMovies?: boolean;
+  title?: string;
 }) {
   const [isQuartierSelectorOpen, setQuartierSelectorOpen] = useState(false);
 
@@ -29,14 +30,9 @@ export default function Calendrier({
 
   return (
     <div className="flex grow flex-col">
-      <FixedHeader className="flex flex-col">
-        <div className="flex lg:pb-20px">
-          <PageHeader text="calendrier" />
-        </div>
-        <div className="flex border-b lg:border-0">
-          <DateSelector />
-        </div>
-      </FixedHeader>
+      <PageHeader text={title ?? "calendrier"}>
+        <DateSelector />
+      </PageHeader>
       <div className="flex grow flex-col pb-10px lg:pl-20px">
         <div className="flex pb-23px pt-14px lg:pb-32px lg:pt-14px">
           <TimeSlider />
