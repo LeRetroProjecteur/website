@@ -36,17 +36,20 @@ export default function Recherche({
         <div className="pb-17px lg:hidden">
           <PageHeader text={"recherche"} />
         </div>
-        <div className="flex flex-col lg:px-20px">
+        <div className="flex flex-col lg:pl-20px">
           <RetroInput
             customTypography
             value={searchTerm}
             setValue={setSearchTerm}
             placeholder="film, réalisateur, année, pays..."
+            leftAlignPlaceholder
+            transparentPlaceholder
+            grayText
             className="text-21px font-medium uppercase leading-25px leading-44px lg:text-29px lg:tracking-[-0.01em]"
           />
         </div>
       </FixedHeader>
-      <div className="flex grow flex-col pt-20px lg:px-20px lg:py-0">
+      <div className="flex grow flex-col pt-20px lg:py-0 lg:pl-20px">
         <div className="flex hidden flex-wrap gap-10px py-10px lg:gap-x-20px lg:gap-y-16px lg:py-20px">
           {toPairs(TAG_MAP).map(([tag, displayTag]) => (
             <Tag key={tag} {...{ tag, displayTag }} />
@@ -110,7 +113,7 @@ function Results({
             </Link>
           ))
         ) : (
-          <div className="lg:p-20px">
+          <div className="lg:pt-20px">
             <MetaCopy>
               désolé, nous n&apos;avons rien trouvé qui corresponde à votre
               recherche !
