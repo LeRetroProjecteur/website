@@ -127,82 +127,74 @@ function EmptyState() {
 
 function ReviewThumbnails({ reviews }: { reviews: Review[] }) {
   return (
-    <div className="flex grow flex-wrap gap-x-15px gap-y-10px lg:gap-x-20px lg:gap-y-16px">
+    <div className="grid grid-cols-thumbnails-sm gap-x-15px gap-y-10px lg:grid-cols-thumbnails-lg lg:gap-x-20px lg:gap-y-16px">
       {reviews.map((review) => (
         <ReviewThumbnail review={review} key={review.id} />
       ))}
-      <div className="min-w-300px grow basis-0 lg:min-w-340px" />
-      <div className="min-w-300px grow basis-0 lg:min-w-340px" />
-      <div className="min-w-300px grow basis-0 lg:min-w-340px" />
-      <div className="min-w-300px grow basis-0 lg:min-w-340px" />
-      <div className="min-w-300px grow basis-0 lg:min-w-340px" />
     </div>
   );
 }
 
 function ReviewThumbnail({ review }: { review: Review }) {
   return (
-    <div className="min-w-300px grow basis-0 lg:min-w-340px">
-      <Link href={`/archives/${review.id}`}>
-        <div className="flex flex-col gap-10px lg:gap-12px">
-          <Image
-            className="h-auto w-full"
-            width={1200}
-            height={675}
-            src={getImageUrl(review)}
-            alt={review.title}
-            {...blurProps}
-          />
-          <div className="flex flex-col justify-between gap-0 lg:flex-row lg:gap-20px">
-            <div>
-              <CoeurCopy>
-                <u className="underline">{review.title}</u> ({review.year}),{" "}
-                {review.directors}
-              </CoeurCopy>
-            </div>
-            <div>
-              <CoeurCopy>
-                {formatDDMMYYWithSlashes(safeDate(review.review_date))}
-              </CoeurCopy>
-            </div>
+    <Link href={`/archives/${review.id}`}>
+      <div className="flex flex-col gap-10px lg:gap-12px">
+        <Image
+          className="h-auto w-full"
+          width={1200}
+          height={675}
+          src={getImageUrl(review)}
+          alt={review.title}
+          {...blurProps}
+        />
+        <div className="flex flex-col justify-between gap-0 lg:flex-row lg:gap-20px">
+          <div>
+            <CoeurCopy>
+              <u className="underline">{review.title}</u> ({review.year}),{" "}
+              {review.directors}
+            </CoeurCopy>
+          </div>
+          <div>
+            <CoeurCopy>
+              {formatDDMMYYWithSlashes(safeDate(review.review_date))}
+            </CoeurCopy>
           </div>
         </div>
-      </Link>
-    </div>
+      </div>
+    </Link>
   );
 }
 
 function ReviewList({ reviews }: { reviews: Review[] }) {
   return (
-    <div className="flex grow flex-col">
+    <div className="grid grid-cols-[auto_1fr]">
       {reviews.map((review) => (
         <ReviewRow review={review} key={review.id} />
       ))}
-      <div className="flex grow">
-        <div className="w-1/2 border-r pr-6px lg:pr-10px"></div>
-      </div>
+      <div className="h-300px border-r" />
     </div>
   );
 }
 
 function ReviewRow({ review }: { review: Review }) {
   return (
-    <Link href={`/archives/${review.id}`} className="group">
-      <div key={review.id} className="flex">
-        <div className="flex border-r pr-6px lg:pr-10px">
-          <div className="w-[75px] shrink-0 border-b px-6px py-10px group-first:border-t group-odd:bg-retro-green lg:w-95px lg:py-16px lg:pl-10px lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
-            <BodyCopy>
-              {formatDDMMYYWithSlashes(safeDate(review.review_date))}
-            </BodyCopy>
-          </div>
+    <Link
+      href={`/archives/${review.id}`}
+      className="group col-span-full grid grid-cols-[subgrid]"
+    >
+      <div className="flex border-b border-r group-first:border-t">
+        <div className="px-6px py-10px group-odd:bg-retro-green lg:py-16px lg:pl-10px lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
+          <BodyCopy>
+            {formatDDMMYYWithSlashes(safeDate(review.review_date))}
+          </BodyCopy>
         </div>
-        <div className="flex grow pl-6px lg:pl-10px">
-          <div className="grow border-b px-6px py-10px group-first:border-t group-odd:bg-retro-green lg:py-16px lg:pl-10px lg:pr-0 lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
-            <BodyCopy className="uppercase">
-              <u className="underline">{review.title}</u> ({review.year}),{" "}
-              {review.directors}
-            </BodyCopy>
-          </div>
+      </div>
+      <div className="flex grow border-b group-first:border-t">
+        <div className="grow px-6px py-10px group-odd:bg-retro-green lg:py-16px lg:pl-10px lg:pr-0 lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
+          <BodyCopy className="uppercase">
+            <u className="underline">{review.title}</u> ({review.year}),{" "}
+            {review.directors}
+          </BodyCopy>
         </div>
       </div>
     </Link>

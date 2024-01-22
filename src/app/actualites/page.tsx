@@ -38,12 +38,9 @@ export default function ActualitesPage() {
       <PageHeader text="actualités">
         <SousTitre1>Nos chroniques, les retrospectives phares, etc</SousTitre1>
       </PageHeader>
-      <div className="flex flex-col gap-25px pb-25px pt-17px lg:flex-row lg:flex-wrap lg:gap-20px lg:pl-20px">
+      <div className="grid grid-cols-thumbnails-sm gap-25px pb-25px pt-17px lg:grid-cols-thumbnails-lg lg:flex-row lg:flex-wrap lg:gap-20px lg:pl-20px">
         {chroniques.map(({ titre, slug, image, date, type }) => (
-          <div
-            key={slug}
-            className="lg:min-w-340px lg:grow lg:basis-0 lg:gap-12px"
-          >
+          <div key={slug} className="lg:gap-12px">
             <Link
               key={slug}
               href={`/actualites/${slug}`}
@@ -70,12 +67,6 @@ export default function ActualitesPage() {
             </Link>
           </div>
         ))}
-        <div className="hidden min-w-340px grow basis-0 lg:flex" />
-        <div className="hidden min-w-340px grow basis-0 lg:flex" />
-        <div className="hidden min-w-340px grow basis-0 lg:flex" />
-        <div className="hidden min-w-340px grow basis-0 lg:flex" />
-        <div className="hidden min-w-340px grow basis-0 lg:flex" />
-        <div className="hidden min-w-340px grow basis-0 lg:flex" />
       </div>
     </>
   );
