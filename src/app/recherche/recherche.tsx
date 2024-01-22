@@ -3,11 +3,11 @@
 import clsx from "clsx";
 import { every, orderBy, take, toPairs, without } from "lodash-es";
 import Link from "next/link";
-import { Suspense, use, useCallback, useMemo, useState } from "react";
+import { use, useCallback, useMemo, useState } from "react";
 import { create } from "zustand";
 
 import RetroInput from "@/components/forms/retro-input";
-import Loading from "@/components/icons/loading";
+import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader, { FixedHeader } from "@/components/layout/page-header";
 import { MetaCopy } from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
@@ -52,17 +52,13 @@ export default function Recherche({
             <Tag key={tag} {...{ tag, displayTag }} />
           ))}
         </div>
-        <Suspense
-          fallback={
-            <div className="flex grow items-center justify-center">
-              {searchTerm.length > 0 && (
-                <Loading className="h-75px w-75px animate-bounce text-retro-gray" />
-              )}
-            </div>
-          }
-        >
+        {searchTerm.length > 0 ? (
+          <SuspenseWithLoading>
+            <Results {...{ searchTerm, allMoviesPromise }} />
+          </SuspenseWithLoading>
+        ) : (
           <Results {...{ searchTerm, allMoviesPromise }} />
-        </Suspense>
+        )}
       </div>
     </>
   );
@@ -114,10 +110,12 @@ function Results({
             </Link>
           ))
         ) : (
-          <MetaCopy>
-            désolé, nous n&apos;avons rien trouvé qui corresponde à votre
-            recherche !
-          </MetaCopy>
+          <div className="lg:p-20px">
+            <MetaCopy>
+              désolé, nous n&apos;avons rien trouvé qui corresponde à votre
+              recherche !
+            </MetaCopy>
+          </div>
         )}
       </div>
     )

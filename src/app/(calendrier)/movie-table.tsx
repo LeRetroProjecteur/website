@@ -14,7 +14,6 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ReactNode,
-  Suspense,
   use,
   useCallback,
   useEffect,
@@ -23,7 +22,7 @@ import {
 } from "react";
 import useSWR from "swr";
 
-import Loading from "@/components/icons/loading";
+import { Loading, SuspenseWithLoading } from "@/components/icons/loading";
 import { BodyCopy, SousTitre2 } from "@/components/typography/typography";
 import { Quartier, useCalendrierStore } from "@/lib/calendrier-store";
 import {
@@ -62,7 +61,7 @@ export default function MovieTable({
   }, []);
 
   const date = useCalendrierStore((s) => s.date);
-  const dateChanged = useCalendrierStore((s) => s.dateChanged);
+  const useClientData = useCalendrierStore((s) => s.dateChanged);
   const minHour = useCalendrierStore((s) => s.minHour);
   const maxHour = useCalendrierStore((s) => s.maxHour);
   const filter = useCalendrierStore((s) => s.filter);
@@ -75,7 +74,7 @@ export default function MovieTable({
 
   const { data: clientMovies, isLoading } = useSWR<
     Movie[] | MovieWithShowtimesByDay[]
-  >(dateChanged ? url : false, fetcher);
+  >(useClientData ? url : false, fetcher);
 
   const minHourFilteringTodaysMissedFilms = useMemo(
     () => getMinHourFilteringTodaysMissedFilms(date, minHour),
@@ -83,21 +82,13 @@ export default function MovieTable({
   );
 
   return (
-    <Suspense
-      fallback={
-        <div className="flex grow items-center justify-center">
-          <Loading className="h-75px w-75px animate-bounce text-retro-gray" />
-        </div>
-      }
-    >
+    <SuspenseWithLoading>
       {isLoading ? (
-        <div className="flex grow items-center justify-center">
-          <Loading className="h-75px w-75px animate-bounce text-retro-gray" />
-        </div>
+        <Loading />
       ) : (
         <LoadedTable
           {...{
-            dateChanged,
+            useClientData,
             serverMovies,
             clientMovies,
             minHourFilteringTodaysMissedFilms,
@@ -107,14 +98,14 @@ export default function MovieTable({
           }}
         />
       )}
-    </Suspense>
+    </SuspenseWithLoading>
   );
 }
 
 function LoadedTable({
   serverMovies: serverMoviesPromise,
   clientMovies,
-  dateChanged,
+  useClientData,
   minHourFilteringTodaysMissedFilms,
   maxHour,
   quartiers,
@@ -122,7 +113,7 @@ function LoadedTable({
 }: {
   serverMovies: Promise<Movie[] | MovieWithShowtimesByDay[]>;
   clientMovies?: Movie[] | MovieWithShowtimesByDay[];
-  dateChanged: boolean;
+  useClientData: boolean;
   minHourFilteringTodaysMissedFilms: number;
   maxHour: number;
   quartiers: Quartier[];
@@ -130,8 +121,8 @@ function LoadedTable({
 }) {
   const serverMovies = use(serverMoviesPromise);
   const movies = useMemo(
-    () => (dateChanged ? checkNotNull(clientMovies) : serverMovies),
-    [clientMovies, serverMovies, dateChanged],
+    () => (useClientData ? checkNotNull(clientMovies) : serverMovies),
+    [clientMovies, serverMovies, useClientData],
   );
 
   const sortedFilteredMovies = useMemo(
