@@ -18,13 +18,13 @@ export default function Newsletter() {
         method="post"
         target="_blank"
       >
-        <div className="fixed z-50 flex h-screen w-screen items-center justify-center">
+        <div className="fixed bottom-[11vh] right-[5vw] z-50 flex">
           <div className="flex flex-col gap-20px">
             <div className="bg-retro-blue px-20px pb-20px">
               <div className="border-b text-center text-22px font-medium uppercase leading-54px text-retro-gray">
                 up close
               </div>
-              <div className="border-b py-18px text-center font-degular text-71px font-extrabold uppercase leading-58px tracking-[0.01em]">
+              <div className="border-b py-18px text-center font-degular text-71px font-extrabold uppercase leading-58px tracking-[0.01em] text-retro-gray">
                 S&apos;INSCRIRE
                 <br />À LA
                 <br />
@@ -43,7 +43,7 @@ export default function Newsletter() {
                 <input
                   type="submit"
                   value="s'inscrire"
-                  className="grow cursor-pointer bg-retro-gray py-10px text-center text-20px font-medium uppercase leading-25px text-retro-blue"
+                  className="grow cursor-pointer border bg-retro-gray py-10px text-center text-20px font-medium uppercase leading-25px text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
                   onClick={subscribe}
                 />
               </div>
