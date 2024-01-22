@@ -85,7 +85,7 @@ export default function Archives({
       </PageHeader>
       <div className="flex grow flex-col pb-15px lg:pb-0 lg:pl-20px">
         <Movie movie={movie} />
-        <div className="w-1/2 border-r lg:h-300px" />
+        <div className="lg:h-300px w-1/2 border-r" />
         {isCoupDeCoeur && (
           <ReviewsNav previousReview={previousReview} nextReview={nextReview} />
         )}
@@ -262,7 +262,7 @@ function Screenings({
   );
 
   return (
-    <div className="flex flex-col">
+    <div className="grid-auto-rows grid grid-cols-[auto_1fr] gap-x-10px">
       {sortedByDateAndTheater.map(([date, theaters]) => (
         <DateScreenings key={date} date={date} theaters={theaters} />
       ))}
@@ -278,12 +278,9 @@ function DateScreenings({
   theaters: ShowtimesTheater[];
 }) {
   return (
-    <div className="flex border-b py-12px lg:py-16px lg:hover:bg-retro-pale-green">
-      <div className="w-85px shrink-0 lg:w-95px">
-        {/* TODO: grid */}
-        <BodyCopy>{capitalize(formatMerJJMM(safeDate(date)))}</BodyCopy>
-      </div>
-      <div className="flex grow flex-col">
+    <div className="col-span-full grid grid-cols-[subgrid] border-b py-12px lg:py-16px lg:hover:bg-retro-pale-green">
+      <BodyCopy>{capitalize(formatMerJJMM(safeDate(date)))}</BodyCopy>
+      <div className="flex flex-col">
         {theaters.map((theater) => (
           <TheaterScreenings
             key={theater.clean_name}
