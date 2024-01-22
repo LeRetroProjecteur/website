@@ -231,7 +231,7 @@ function MovieCell({ movie }: { movie: MovieWithNoShowtimes }) {
   return (
     <Link
       href={`/archives/${movie.id}`}
-      className="block cursor-pointer py-12px lg:py-17px"
+      className="block cursor-pointer py-12px pr-10px lg:py-17px"
     >
       <div className="flex px-6px lg:pl-10px lg:pr-0">
         <div className="grow">
