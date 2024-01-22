@@ -19,6 +19,7 @@ import {
   formatDDMMYYWithSlashes,
   getImageUrl,
   getReviewSortKey,
+  isCoupDeCoeur,
   movie_info_containsFilteringTerm,
   safeDate,
 } from "@/lib/util";
@@ -85,7 +86,8 @@ function Reviews({
   const fetchedReviews = use(fetchedReviewsPromise);
 
   const reviews = useMemo(
-    () => orderBy(fetchedReviews, getReviewSortKey, "desc"),
+    () =>
+      orderBy(fetchedReviews.filter(isCoupDeCoeur), getReviewSortKey, "desc"),
     [fetchedReviews],
   );
 
@@ -129,9 +131,11 @@ function ReviewThumbnails({ reviews }: { reviews: Review[] }) {
       {reviews.map((review) => (
         <ReviewThumbnail review={review} key={review.id} />
       ))}
-      {[...Array(reviews.length % 4)].map((_, i) => (
-        <div className="min-w-300px grow basis-0 lg:min-w-340px" key={i} />
-      ))}
+      <div className="min-w-300px grow basis-0 lg:min-w-340px" />
+      <div className="min-w-300px grow basis-0 lg:min-w-340px" />
+      <div className="min-w-300px grow basis-0 lg:min-w-340px" />
+      <div className="min-w-300px grow basis-0 lg:min-w-340px" />
+      <div className="min-w-300px grow basis-0 lg:min-w-340px" />
     </div>
   );
 }

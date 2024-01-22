@@ -70,9 +70,12 @@ export default function ActualitesPage() {
             </Link>
           </div>
         ))}
-        {[...Array(chroniques.length % 4)].map((_, i) => (
-          <div className="hidden min-w-340px grow basis-0 lg:flex" key={i} />
-        ))}
+        <div className="hidden min-w-340px grow basis-0 lg:flex" />
+        <div className="hidden min-w-340px grow basis-0 lg:flex" />
+        <div className="hidden min-w-340px grow basis-0 lg:flex" />
+        <div className="hidden min-w-340px grow basis-0 lg:flex" />
+        <div className="hidden min-w-340px grow basis-0 lg:flex" />
+        <div className="hidden min-w-340px grow basis-0 lg:flex" />
       </div>
     </>
   );
