@@ -32,8 +32,8 @@ export default function Footer() {
               claire malot
             </a>
             <br />
-            <Link href="/admin">©</Link> Le Rétro Projecteur 2021-2023 <br />«
-            Pour le grand écran, pas la p&apos;tite lucarne ! »
+            <Link href="/admin">©</Link> Le Rétro Projecteur 2021–2024 <br />
+            «&nbsp;Pour le grand écran, pas la p&apos;tite lucarne&nbsp;!&nbsp;»
           </FooterCopy>
         </div>
       </div>
