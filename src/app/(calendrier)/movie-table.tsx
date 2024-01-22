@@ -231,9 +231,9 @@ function MovieCell({ movie }: { movie: MovieWithNoShowtimes }) {
   return (
     <Link
       href={`/archives/${movie.id}`}
-      className="block cursor-pointer py-12px pr-10px lg:py-17px"
+      className="block cursor-pointer py-12px lg:py-17px"
     >
-      <div className="flex px-6px lg:pl-10px lg:pr-0">
+      <div className="flex px-6px lg:px-10px">
         <div className="grow">
           <BodyCopy>
             <i className="italic group-hover:underline">{movie.title}</i>,{" "}
@@ -252,7 +252,7 @@ function MovieCell({ movie }: { movie: MovieWithNoShowtimes }) {
 
 function MultiDaySeances({ movie }: { movie: MovieWithShowtimesByDay }) {
   return (
-    <div className="multi-day flex grow flex-col gap-20px px-6px lg:gap-10px lg:pl-10px lg:pr-0">
+    <div className="multi-day flex grow flex-col gap-20px px-6px lg:gap-10px lg:px-10px">
       {orderBy(
         toPairs(movie.showtimes_by_day).map<[Date, ShowtimesTheater[]]>(
           ([day, theaters]) => [safeDate(day), theaters],
@@ -319,7 +319,7 @@ function Seances({ movie }: { movie: Movie }) {
       onClick={toggleExpanded}
       className={clsx(
         { "cursor-pointer": needsExpanding },
-        "single-day flex grow flex-col gap-10px px-6px py-12px lg:gap-5px lg:py-17px lg:pl-10px lg:pr-0",
+        "single-day flex grow flex-col gap-10px px-6px py-12px lg:gap-5px lg:px-10px lg:py-17px",
       )}
     >
       {take(sortedTheaters, isExpanded ? sortedTheaters.length : 2).map(
