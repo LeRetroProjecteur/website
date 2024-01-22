@@ -100,12 +100,13 @@ function ReviewsNav({
   nextReview?: Review;
 }) {
   return (
-    <div className="flex flex-col pt-44px lg:pl-20px">
+    <div className="flex flex-col lg:pl-20px">
+      <div className="h-44px w-1/2 lg:border-r" />
       <div className="flex justify-between pb-14px">
         {previousReview ? (
           <Link
             href={`/archives/${previousReview.id}`}
-            className="flex items-center"
+            className="flex w-1/2 items-center lg:border-r"
           >
             <LeftArrow small />
             <div className="pl-5px text-20px font-medium uppercase leading-25px tracking-[-0.02em] text-retro-gray lg:hidden">
@@ -121,7 +122,7 @@ function ReviewsNav({
         {nextReview ? (
           <Link
             href={`/archives/${nextReview.id}`}
-            className="flex items-center"
+            className="flex w-1/2 items-center justify-end"
           >
             <div className="pr-5px text-20px font-medium uppercase leading-25px tracking-[-0.02em] text-retro-gray lg:hidden">
               suivant
@@ -146,7 +147,7 @@ function ReviewsNav({
 
 function Movie({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="flex grow flex-col gap-8 lg:flex-row lg:gap-0">
+    <div className="flex grow flex-col gap-8 lg:flex-row lg:gap-0 lg:pl-20px">
       <MovieInfo movie={movie} />
       <MovieScreenings movie={movie} />
     </div>
@@ -175,7 +176,7 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
 
 function MovieInfo({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="flex grow flex-col lg:w-1/2 lg:border-r lg:px-20px">
+    <div className="flex grow flex-col lg:w-1/2 lg:border-r lg:pr-20px">
       {movie.review && (
         <div className="flex flex-col pt-15px lg:pb-20px lg:pt-0">
           <div className="flex">
