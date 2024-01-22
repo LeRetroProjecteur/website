@@ -215,10 +215,10 @@ function Row({
 }) {
   return (
     <div className={clsx("flex", rowClassName)}>
-      <div className="flex w-1/2 border-r pr-6px lg:pr-10px">
+      <div className="flex w-1/2 border-r">
         <div className={clsx("grow border-b", cellClassName)}>{leftCol}</div>
       </div>
-      <div className="flex w-1/2 pl-6px lg:pl-10px">
+      <div className="flex w-1/2">
         <div className={clsx("grow border-b", cellClassName)}>{rightCol}</div>
       </div>
     </div>
