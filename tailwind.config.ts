@@ -17,6 +17,7 @@ const config: Config = {
       },
       colors: {
         ["retro-gray"]: "#6A6A6D",
+        ["retro-gray-transparent"]: "#6A6A6D99",
         ["retro-black"]: "#030303",
         ["retro-green"]: "#E2FF46",
         ["retro-pale-green"]: "#E2FF4666",
@@ -86,6 +87,7 @@ const config: Config = {
         "29px": `${29 / 16}rem`,
         "26px": `${26 / 16}rem`,
         "25px": `${25 / 16}rem`,
+        "24px": `${24 / 16}rem`,
         "22px": `${22 / 16}rem`,
         "21px": `${21 / 16}rem`,
         "20px": `${20 / 16}rem`,
