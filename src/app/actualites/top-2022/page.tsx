@@ -1,4 +1,3 @@
-import FixedHeader from "@/components/layout/fixed-header";
 import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
 
@@ -13,17 +12,12 @@ import variety from "./img/variety.jpg";
 
 export default function Top2022() {
   return (
-    <div className="flex grow flex-col">
-      <FixedHeader className="flex flex-col">
-        <div className="lg:pb-20px">
-          <PageHeader text={"actualités"} />
-        </div>
-        <div className="flex items-center justify-center border-b py-14px lg:border-t lg:bg-retro-green lg:pl-20px lg:pr-10px">
-          <SousTitre1>
-            Notre top du cinéma de patrimoine en 2022 à Paris
-          </SousTitre1>
-        </div>
-      </FixedHeader>
+    <>
+      <PageHeader text="actualités">
+        <SousTitre1>
+          Notre top du cinéma de patrimoine en 2022 à Paris
+        </SousTitre1>
+      </PageHeader>
       <div className="pt-15px lg:grid lg:auto-rows-max lg:grid-cols-[1fr_2fr] lg:pl-20px">
         <ImageCell />
         <TextCell>
@@ -243,6 +237,6 @@ export default function Top2022() {
           demeureront immortelles.
         </TextCell>
       </div>
-    </div>
+    </>
   );
 }

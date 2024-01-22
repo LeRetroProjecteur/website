@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import FixedHeader from "@/components/layout/fixed-header";
 import PageHeader from "@/components/layout/page-header";
 import { MetaCopy, SousTitre1 } from "@/components/typography/typography";
 import { blurProps } from "@/lib/util";
@@ -35,17 +34,10 @@ const chroniques = [
 
 export default function ActualitesPage() {
   return (
-    <div className="flex grow flex-col">
-      <FixedHeader className="flex flex-col">
-        <div className="lg:pb-20px">
-          <PageHeader text={"à propos"} />
-        </div>
-        <div className="flex items-center justify-center border-b py-14px lg:border-t lg:bg-retro-green lg:pl-20px lg:pr-10px">
-          <SousTitre1>
-            Nos chroniques, les retrospectives phares, etc
-          </SousTitre1>
-        </div>
-      </FixedHeader>
+    <>
+      <PageHeader text="actualités">
+        <SousTitre1>Nos chroniques, les retrospectives phares, etc</SousTitre1>
+      </PageHeader>
       <div className="flex flex-col gap-25px pb-25px pt-17px lg:flex-row lg:flex-wrap lg:gap-20px lg:pl-20px">
         {chroniques.map(({ titre, slug, image, date, type }) => (
           <div
@@ -82,6 +74,6 @@ export default function ActualitesPage() {
           <div className="hidden min-w-340px grow basis-0 lg:flex" key={i} />
         ))}
       </div>
-    </div>
+    </>
   );
 }

@@ -8,8 +8,7 @@ import { create } from "zustand";
 
 import RetroInput from "@/components/forms/retro-input";
 import Loading from "@/components/icons/loading";
-import FixedHeader from "@/components/layout/fixed-header";
-import PageHeader from "@/components/layout/page-header";
+import PageHeader, { FixedHeader } from "@/components/layout/page-header";
 import { MetaCopy } from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
 import { TAG_MAP, string_match } from "@/lib/util";
@@ -32,7 +31,7 @@ export default function Recherche({
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   return (
-    <div className="flex grow flex-col">
+    <>
       <FixedHeader className="lg:border-b">
         <div className="pb-17px lg:hidden">
           <PageHeader text={"recherche"} />
@@ -65,7 +64,7 @@ export default function Recherche({
           <Results {...{ searchTerm, allMoviesPromise }} />
         </Suspense>
       </div>
-    </div>
+    </>
   );
 }
 
