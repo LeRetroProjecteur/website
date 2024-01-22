@@ -19,6 +19,7 @@ import {
   formatDDMMYYWithSlashes,
   getImageUrl,
   getReviewSortKey,
+  isCoupDeCoeur,
   movie_info_containsFilteringTerm,
   safeDate,
 } from "@/lib/util";
@@ -85,7 +86,8 @@ function Reviews({
   const fetchedReviews = use(fetchedReviewsPromise);
 
   const reviews = useMemo(
-    () => orderBy(fetchedReviews, getReviewSortKey, "desc"),
+    () =>
+      orderBy(fetchedReviews.filter(isCoupDeCoeur), getReviewSortKey, "desc"),
     [fetchedReviews],
   );
 
