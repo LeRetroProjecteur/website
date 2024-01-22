@@ -308,11 +308,9 @@ function Seances({ movie }: { movie: Movie }) {
 
   const needsExpanding = useMemo(
     () =>
-      sortedTheaters.length > 2 ||
-      some(
-        sortedTheaters,
-        (showtime_theater) => showtime_theater.showtimes.length > 3,
-      ),
+      sortedTheaters.length > 3 ||
+      sortedTheaters.reduce((total, curr) => total + curr.showtimes.length, 0) >
+        6,
     [sortedTheaters],
   );
 
