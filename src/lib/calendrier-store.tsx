@@ -35,7 +35,7 @@ export function getUseCalendrierStore() {
     filter: "",
     quartiers: [Quartier.RG, Quartier.RD, Quartier.EM],
     setDate: (date: Date) => {
-      set({ date, minHour: 0, maxHour: 24, dateChanged: true });
+      set({ date, dateChanged: true });
     },
     setMinHour: (minHour: number) => set({ minHour }),
     setMaxHour: (maxHour: number) => set({ maxHour }),

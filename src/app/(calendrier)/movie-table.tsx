@@ -181,11 +181,13 @@ function MovieRows({
     <Row
       key={movie.id}
       rowClassName="group"
-      cellClassName="group-odd:bg-retro-green group-odd:lg:bg-white lg:py-17px py-12px lg:group-hover:bg-retro-pale-green"
+      cellClassName="group-odd:bg-retro-green group-odd:lg:bg-white lg:group-hover:bg-retro-pale-green"
       leftCol={<MovieCell movie={movie} />}
       rightCol={
         isMovieWithShowtimesByDay(movie) ? (
-          <MultiDaySeances movie={movie} />
+          <div className="py-12px lg:py-17px">
+            <MultiDaySeances movie={movie} />
+          </div>
         ) : (
           <Seances movie={movie} />
         )
@@ -197,7 +199,7 @@ function MovieRows({
 function TableFooter() {
   return (
     <div className="flex grow">
-      <div className="w-1/2 border-r"></div>
+      <div className="h-300px w-1/2 border-r"></div>
     </div>
   );
 }
@@ -227,24 +229,24 @@ function Row({
 
 function MovieCell({ movie }: { movie: MovieWithNoShowtimes }) {
   return (
-    <div className="flex px-6px lg:pl-10px lg:pr-0">
-      <div className="grow">
-        <BodyCopy>
-          <Link
-            href={`/archives/${movie.id}`}
-            className="italic hover:underline"
-          >
-            {movie.title}
-          </Link>
-          , {movie.directors} ({movie.year})
-        </BodyCopy>
-      </div>
-      {isCoupDeCoeur(movie) && (
-        <div className="shrink-0">
-          <Image className="w-25px" alt="coup de coeur" src={coupDeCoeur} />
+    <Link
+      href={`/archives/${movie.id}`}
+      className="block cursor-pointer py-12px lg:py-17px"
+    >
+      <div className="flex px-6px lg:pl-10px lg:pr-0">
+        <div className="grow">
+          <BodyCopy>
+            <i className="italic group-hover:underline">{movie.title}</i>,{" "}
+            {movie.directors} ({movie.year})
+          </BodyCopy>
         </div>
-      )}
-    </div>
+        {isCoupDeCoeur(movie) && (
+          <div className="shrink-0">
+            <Image className="w-25px" alt="coup de coeur" src={coupDeCoeur} />
+          </div>
+        )}
+      </div>
+    </Link>
   );
 }
 
@@ -315,7 +317,13 @@ function Seances({ movie }: { movie: Movie }) {
   );
 
   return (
-    <div className="single-day flex grow flex-col gap-10px px-6px lg:gap-5px lg:pl-10px lg:pr-0">
+    <div
+      onClick={toggleExpanded}
+      className={clsx(
+        { "cursor-pointer": needsExpanding },
+        "single-day flex grow flex-col gap-10px px-6px py-12px lg:gap-5px lg:py-17px lg:pl-10px lg:pr-0",
+      )}
+    >
       {take(sortedTheaters, isExpanded ? sortedTheaters.length : 2).map(
         (theater) => (
           <SceancesTheater
@@ -327,11 +335,9 @@ function Seances({ movie }: { movie: Movie }) {
       )}
       {needsExpanding && (
         <div className="flex justify-end">
-          <div className="cursor-pointer" onClick={toggleExpanded}>
-            <BodyCopy className="font-semibold">
-              {isExpanded ? "Moins de séances ↑" : "Plus de séances ↓"}
-            </BodyCopy>
-          </div>
+          <BodyCopy className="font-semibold">
+            {isExpanded ? "Moins de séances ↑" : "Plus de séances ↓"}
+          </BodyCopy>
         </div>
       )}
     </div>

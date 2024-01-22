@@ -143,6 +143,10 @@ export function formatDDMMYYWithSlashes(date: Date) {
   return format(date, "dd/MM/yy", { locale: fr });
 }
 
+export function formatMerJJMM(date: Date) {
+  return format(date, "EEE dd/MM", { locale: fr });
+}
+
 export function splitIntoSubArrays<T>(array: T[], subArraySize: number) {
   return [...Array(Math.ceil(array.length / subArraySize))].map((_, i) =>
     array.slice(i * subArraySize, i * subArraySize + subArraySize),

@@ -1,4 +1,4 @@
-import { maxBy, minBy, size, sortBy, toPairs } from "lodash-es";
+import { capitalize, maxBy, minBy, size, sortBy, toPairs } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo } from "react";
@@ -20,6 +20,7 @@ import {
   checkNotNull,
   floatHourToString,
   formatDDMMYYWithSlashes,
+  formatMerJJMM,
   getImageUrl,
   getMovieTags,
   getReviewSortKey,
@@ -82,8 +83,9 @@ export default function Archives({
       <PageHeader text={isCoupDeCoeur ? "coup de coeur" : "archives"}>
         <MovieHeader movie={movie} />
       </PageHeader>
-      <div className="flex grow flex-col pb-15px lg:pb-0 ">
+      <div className="flex grow flex-col pb-15px lg:pb-0 lg:pl-20px">
         <Movie movie={movie} />
+        <div className="w-1/2 border-r lg:h-300px" />
         {isCoupDeCoeur && (
           <ReviewsNav previousReview={previousReview} nextReview={nextReview} />
         )}
@@ -100,7 +102,7 @@ function ReviewsNav({
   nextReview?: Review;
 }) {
   return (
-    <div className="flex flex-col lg:pl-20px">
+    <div className="flex flex-col">
       <div className="h-44px w-1/2 lg:border-r" />
       <div className="flex justify-between pb-14px">
         {previousReview ? (
@@ -147,7 +149,7 @@ function ReviewsNav({
 
 function Movie({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="flex grow flex-col gap-8 lg:flex-row lg:gap-0 lg:pl-20px">
+    <div className="flex grow flex-col gap-8 lg:flex-row lg:gap-0">
       <MovieInfo movie={movie} />
       <MovieScreenings movie={movie} />
     </div>
@@ -159,8 +161,8 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
     <div className="flex grow justify-between gap-190px">
       <div className="grow">
         <SousTitre1>
-          <u className="underline">{movie.title}</u> ({movie.year}),{" "}
-          {movie.directors}
+          <u className="underline">{movie.title}</u> ({movie.directors}),{" "}
+          {movie.year}
         </SousTitre1>
       </div>
       {movie.review_date && (
@@ -192,7 +194,10 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
             </div>
           </div>
           <BodyCopy>
-            <div dangerouslySetInnerHTML={{ __html: movie.review }}></div>
+            <div
+              className="lg:leading-21px"
+              dangerouslySetInnerHTML={{ __html: movie.review }}
+            ></div>
           </BodyCopy>
         </div>
       )}
@@ -275,7 +280,8 @@ function DateScreenings({
   return (
     <div className="flex border-b py-12px lg:py-16px lg:hover:bg-retro-pale-green">
       <div className="w-85px shrink-0 lg:w-95px">
-        <BodyCopy>{formatDDMMYYWithSlashes(safeDate(date))}</BodyCopy>
+        {/* TODO: grid */}
+        <BodyCopy>{capitalize(formatMerJJMM(safeDate(date)))}</BodyCopy>
       </div>
       <div className="flex grow flex-col">
         {theaters.map((theater) => (
