@@ -53,7 +53,7 @@ function LinkBox({
           "text-retro-black": color === "black",
         })}
       >
-        <div className="text-20px uppercase leading-21px lg:font-semibold">
+        <div className="text-20px font-medium uppercase leading-21px">
           {children}
         </div>
       </div>
