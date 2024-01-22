@@ -60,6 +60,10 @@ const config: Config = {
         "8px": `${8 / 16}rem`,
         "5px": `${5 / 16}rem`,
       },
+      gridTemplateColumns: {
+        "thumbnails-sm": `repeat(auto-fill, minmax(${300 / 16}rem, 1fr))`,
+        "thumbnails-lg": `repeat(auto-fill, minmax(${340 / 16}rem, 1fr))`,
+      },
       height: {
         "640px": `${640 / 16}rem`,
         "300px": `${300 / 16}rem`,

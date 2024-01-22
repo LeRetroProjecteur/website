@@ -85,7 +85,7 @@ export default function Archives({
       </PageHeader>
       <div className="flex grow flex-col pb-15px lg:pb-0 lg:pl-20px">
         <Movie movie={movie} />
-        <div className="lg:h-300px w-1/2 border-r" />
+        <div className="w-1/2 border-r lg:h-300px" />
         {isCoupDeCoeur && (
           <ReviewsNav previousReview={previousReview} nextReview={nextReview} />
         )}
