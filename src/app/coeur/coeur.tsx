@@ -182,20 +182,16 @@ function ReviewRow({ review }: { review: Review }) {
       href={`/archives/${review.id}`}
       className="group col-span-full grid grid-cols-[subgrid]"
     >
-      <div className="border-b border-r group-first:border-t">
-        <div className="px-6px py-10px group-odd:bg-retro-green lg:py-16px lg:pl-10px lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
-          <BodyCopy>
-            {formatDDMMYYWithSlashes(safeDate(review.review_date))}
-          </BodyCopy>
-        </div>
+      <div className="border-b border-r px-6px py-10px pr-6px group-first:border-t group-odd:bg-retro-green lg:py-16px lg:pl-10px lg:pr-10px lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
+        <BodyCopy>
+          {formatDDMMYYWithSlashes(safeDate(review.review_date))}
+        </BodyCopy>
       </div>
-      <div className="border-b group-first:border-t">
-        <div className="px-6px py-10px group-odd:bg-retro-green lg:py-16px lg:pl-10px lg:pr-0 lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
-          <BodyCopy className="uppercase">
-            <u className="underline">{review.title}</u> ({review.year}),{" "}
-            {review.directors}
-          </BodyCopy>
-        </div>
+      <div className="border-b px-6px py-10px group-first:border-t group-odd:bg-retro-green lg:py-16px lg:pl-10px lg:pr-0 lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
+        <BodyCopy className="uppercase">
+          <u className="underline">{review.title}</u> ({review.year}),{" "}
+          {review.directors}
+        </BodyCopy>
       </div>
     </Link>
   );
