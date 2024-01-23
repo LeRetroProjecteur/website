@@ -10,19 +10,19 @@ export default function Footer() {
         <div className="text-center lg:text-left">
           <FooterCopy>
             Un problème sur le site ?<span className="hidden lg:inline"> </span>
-            <br className="lg:hidden" />
-            Signalez-le nous{" "}
+            <br className="lg:hidden" />{" "}
             <a
               href="mailto:contact@leretroprojecteur.com"
               className="underline"
             >
-              ICI
-            </a>{" "}
-            !
+              Signalez-le nous&nbsp;!
+            </a>
           </FooterCopy>
         </div>
         <div className="pt-28px text-center lg:pt-0 lg:text-left">
           <FooterCopy>
+            <Link href="/admin">©</Link> Le Rétro Projecteur 2021–2024
+            <br />
             Design graphique par{" "}
             <a
               href="https://clairemalot.com/"
@@ -31,8 +31,13 @@ export default function Footer() {
             >
               claire malot
             </a>
-            <br />
-            <Link href="/admin">©</Link> Le Rétro Projecteur 2021–2024 <br />
+            .<span className="hidden lg:inline"> </span>
+            <br className="lg:hidden" />
+            Développé par Jonathan Roitgrund.
+          </FooterCopy>
+        </div>
+        <div className="pt-28px text-center lg:pt-0 lg:text-left">
+          <FooterCopy>
             «&nbsp;Pour le grand écran, pas la p&apos;tite lucarne&nbsp;!&nbsp;»
           </FooterCopy>
         </div>
