@@ -153,10 +153,7 @@ export default function AProposPage() {
                 inLink="/film/voyage-bout-enfer-1978"
               />
               ,{" "}
-              <Film
-                name="Nothing But a Man"
-                inLink="/film/nothing-man-1964"
-              />
+              <Film name="Nothing But a Man" inLink="/film/nothing-man-1964" />
             </Contributeur>
             <Contributeur>
               <span className="font-semibold">Claire Malot</span>
