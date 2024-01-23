@@ -152,7 +152,11 @@ function TableHeader() {
     <Row
       cellClassName="bg-retro-green lg:px-20px border-t lg:py-17px p-6px"
       leftCol={<SousTitre2>Films</SousTitre2>}
-      rightCol={<SousTitre2>Séances</SousTitre2>}
+      rightCol={
+        <div className="pl-4px lg:pl-5px">
+          <SousTitre2>Séances</SousTitre2>
+        </div>
+      }
     />
   );
 }
@@ -184,13 +188,15 @@ function MovieRows({
       cellClassName="group-odd:bg-retro-green group-odd:lg:bg-white lg:group-hover:bg-retro-pale-green"
       leftCol={<MovieCell movie={movie} />}
       rightCol={
-        isMovieWithShowtimesByDay(movie) ? (
-          <div className="py-12px lg:py-17px">
-            <MultiDaySeances movie={movie} />
-          </div>
-        ) : (
-          <Seances movie={movie} />
-        )
+        <div className="pl-4px lg:pl-5px">
+          {isMovieWithShowtimesByDay(movie) ? (
+            <div className="py-12px lg:py-17px">
+              <MultiDaySeances movie={movie} />
+            </div>
+          ) : (
+            <Seances movie={movie} />
+          )}
+        </div>
       }
     />
   ));

@@ -55,8 +55,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             "font-suisse text-retro-black",
           )}
         >
-          <Newsletter />
           <MenuWrapper>
+            <Newsletter />
             <div className="flex grow flex-col pt-25px lg:pt-0">
               <div className="flex pb-20px lg:hidden">
                 <TopBar />
