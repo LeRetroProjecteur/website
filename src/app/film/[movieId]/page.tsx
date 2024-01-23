@@ -2,26 +2,26 @@ import { Suspense } from "react";
 
 import { getMovie, getReviewedMovies } from "@/lib/movies";
 
-import Archives from "./archives";
+import Film from "./film";
 
 export const dynamic = "force-static";
 export const revalidate = 1;
 
-export default function ArchivesPage({
+export default function FilmPage({
   params: { movieId },
 }: {
   params: { movieId: string };
 }) {
   return (
     <Suspense fallback={<></>}>
-      <ArchivesPageLoader movieId={movieId} />
+      <FilmPageLoader movieId={movieId} />
     </Suspense>
   );
 }
 
-async function ArchivesPageLoader({ movieId }: { movieId: string }) {
+async function FilmPageLoader({ movieId }: { movieId: string }) {
   return (
-    <Archives
+    <Film
       movie={await getMovie(movieId)}
       reviewedMovies={await getReviewedMovies()}
     />

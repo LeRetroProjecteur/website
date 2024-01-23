@@ -137,7 +137,7 @@ function ReviewThumbnails({ reviews }: { reviews: Review[] }) {
 
 function ReviewThumbnail({ review }: { review: Review }) {
   return (
-    <Link href={`/archives/${review.id}`}>
+    <Link href={`/film/${review.id}`}>
       <div className="flex flex-col gap-10px lg:gap-12px">
         <Image
           className="h-auto w-full"
@@ -179,7 +179,7 @@ function ReviewList({ reviews }: { reviews: Review[] }) {
 function ReviewRow({ review }: { review: Review }) {
   return (
     <Link
-      href={`/archives/${review.id}`}
+      href={`/film/${review.id}`}
       className="group col-span-full grid grid-cols-[subgrid]"
     >
       <div className="border-b border-r px-6px py-10px pr-6px group-first:border-t group-odd:bg-retro-green lg:py-16px lg:pl-10px lg:pr-10px lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">

@@ -25,17 +25,15 @@ import {
   splitIntoSubArrays,
 } from "@/lib/util";
 
-export default function Archives({
+export default function Film({
   movie,
 }: {
   movie: MovieDetail;
   reviewedMovies: Review[];
 }) {
-  const isCoupDeCoeur = useMemo(() => movie.review_date != null, [movie]);
-
   return (
     <>
-      <PageHeader text={isCoupDeCoeur ? "coup de coeur" : "archives"}>
+      <PageHeader text={"Film"}>
         <MovieHeader movie={movie} />
       </PageHeader>
       <div className="flex grow flex-col pb-15px lg:pb-0 lg:pl-20px">
