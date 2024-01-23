@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import { getMovie, getReviewedMovies } from "@/lib/movies";
+import { getMovie } from "@/lib/movies";
 
 import Film from "./film";
 
@@ -20,10 +20,5 @@ export default function FilmPage({
 }
 
 async function FilmPageLoader({ movieId }: { movieId: string }) {
-  return (
-    <Film
-      movie={await getMovie(movieId)}
-      reviewedMovies={await getReviewedMovies()}
-    />
-  );
+  return <Film movie={await getMovie(movieId)} />;
 }

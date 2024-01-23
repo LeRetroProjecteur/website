@@ -11,7 +11,7 @@ import {
   SousTitre1,
   SousTitre2,
 } from "@/components/typography/typography";
-import { MovieDetail, Review, ShowtimesTheater } from "@/lib/types";
+import { MovieDetail, ShowtimesTheater } from "@/lib/types";
 import {
   TAG_MAP,
   blurProps,
@@ -25,12 +25,7 @@ import {
   splitIntoSubArrays,
 } from "@/lib/util";
 
-export default function Film({
-  movie,
-}: {
-  movie: MovieDetail;
-  reviewedMovies: Review[];
-}) {
+export default function Film({ movie }: { movie: MovieDetail }) {
   return (
     <>
       <PageHeader text={"Film"}>
@@ -93,46 +88,33 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
 
       <div className="flex pt-15px lg:pt-0">
         <MetaCopy>
-          <text>Titre original&nbsp;: {movie.original_title}</text>
+          <div>Titre original&nbsp;: {movie.original_title}</div>
           {movie.duration == null ? (
             "Durée inconnue"
           ) : (
-            <text>
-              <br />
+            <div>
               Durée&nbsp;: {Math.floor(parseInt(movie.duration) / 60)} minutes
-            </text>
+            </div>
           )}
           {movie.language == null ? (
             ""
           ) : (
-            <text>
-              <br />
-              Langue&nbsp;: {movie.language}
-            </text>
+            <div>Langue&nbsp;: {movie.language}</div>
           )}
           {movie.screenwriters == null ? (
             ""
           ) : (
-            <text>
-              <br />
-              Scénario&nbsp;: {movie.screenwriters}
-            </text>
+            <div>Scénario&nbsp;: {movie.screenwriters}</div>
           )}
           {movie.countries == null ? (
             ""
           ) : (
-            <text>
-              <br />
-              Pays&nbsp;: {movie.countries}
-            </text>
+            <div>Pays&nbsp;: {movie.countries}</div>
           )}
           {movie.distributor == null ? (
             ""
           ) : (
-            <text>
-              <br />
-              Distribué par {movie.distributor}
-            </text>
+            <div>Distribué par {movie.distributor}</div>
           )}
         </MetaCopy>
       </div>
