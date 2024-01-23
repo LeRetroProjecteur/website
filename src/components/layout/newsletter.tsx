@@ -18,11 +18,40 @@ export default function Newsletter() {
         method="post"
         target="_blank"
       >
-        <div className="fixed bottom-[11vh] right-[5vw] z-50 flex">
+        <div className="fixed bottom-[11vh] left-[5vw] z-50 flex drop-shadow-[0_1px_3px_rgba(0,0,0,0.15)]">
           <div className="flex flex-col gap-20px">
             <div className="bg-retro-blue px-20px pb-20px">
-              <div className="border-b text-center text-22px font-medium uppercase leading-54px text-retro-gray">
-                up close
+              <div className="relative flex items-center justify-center border-b">
+                <div className="text-center text-22px font-medium uppercase leading-54px text-retro-gray">
+                  up close
+                </div>
+                <div
+                  className="absolute right-0 cursor-pointer"
+                  onClick={closeNewsLetter}
+                >
+                  <svg
+                    className="h-22px w-22px fill-retro-gray stroke-retro-blue"
+                    viewBox="0 0 22 22"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <rect width="22" height="22" />
+                    <line
+                      x1="4.79289"
+                      y1="16.8929"
+                      x2="16.793"
+                      y2="4.89282"
+                      strokeWidth="2"
+                    />
+                    <line
+                      x1="16.7931"
+                      y1="17.1072"
+                      x2="4.79306"
+                      y2="5.10712"
+                      strokeWidth="2"
+                    />
+                  </svg>
+                </div>
               </div>
               <div className="border-b py-18px text-center font-degular text-71px font-extrabold uppercase leading-58px tracking-[0.01em] text-retro-gray">
                 S&apos;INSCRIRE
@@ -47,35 +76,6 @@ export default function Newsletter() {
                   onClick={subscribe}
                 />
               </div>
-            </div>
-            <div
-              className="cursor-pointer self-end bg-retro-blue"
-              onClick={closeNewsLetter}
-            >
-              <svg
-                viewBox="0 0 37 37"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-37px w-37px"
-              >
-                <rect className="h-37px w-37px fill-retro-blue" />
-                <line
-                  x1="8.54289"
-                  y1="28.8929"
-                  x2="28.7248"
-                  y2="8.71092"
-                  className="stroke-retro-gray"
-                  strokeWidth="2"
-                />
-                <line
-                  x1="28.725"
-                  y1="28.289"
-                  x2="8.54308"
-                  y2="8.10707"
-                  className="stroke-retro-gray"
-                  strokeWidth="2"
-                />
-              </svg>
             </div>
           </div>
         </div>
