@@ -96,11 +96,47 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
 
       <div className="flex pt-15px lg:pt-0">
         <MetaCopy>
-          titre original : {movie.original_title}
-          <br />
-          {movie.duration == null
-            ? "Durée inconnue"
-            : `Durée : ${Math.floor(parseInt(movie.duration) / 60)} minutes`}
+          <text>Titre original&nbsp;: {movie.original_title}</text>
+          {movie.duration == null ? (
+            "Durée inconnue"
+          ) : (
+            <text>
+              <br />
+              Durée&nbsp;: {Math.floor(parseInt(movie.duration) / 60)} minutes
+            </text>
+          )}
+          {movie.language == null ? (
+            ""
+          ) : (
+            <text>
+              <br />
+              Langue&nbsp;: {movie.language}
+            </text>
+          )}
+          {movie.screenwriters == null ? (
+            ""
+          ) : (
+            <text>
+              <br />
+              Scénario&nbsp;: {movie.screenwriters}
+            </text>
+          )}
+          {movie.countries == null ? (
+            ""
+          ) : (
+            <text>
+              <br />
+              Pays&nbsp;: {movie.countries}
+            </text>
+          )}
+          {movie.distributor == null ? (
+            ""
+          ) : (
+            <text>
+              <br />
+              Distribué par {movie.distributor}
+            </text>
+          )}
         </MetaCopy>
       </div>
       <Tags movie={movie} />
