@@ -60,8 +60,7 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
     <div className="flex grow justify-between gap-190px">
       <div className="grow">
         <SousTitre1>
-          <u className="underline">{movie.title}</u> ({movie.directors}),{" "}
-          {movie.year}
+          {movie.title}, {movie.directors} ({movie.year})
         </SousTitre1>
       </div>
     </div>
