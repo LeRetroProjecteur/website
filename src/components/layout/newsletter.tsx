@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { closeNewsLetter, useNewsletterStore } from "@/lib/newsletter-store";
 
@@ -10,6 +10,16 @@ export default function Newsletter() {
   const isOpen = useNewsletterStore((s) => s.isOpen);
   const [email, setEmail] = useState("");
   const subscribe = useCallback(() => {}, []);
+
+  useEffect(() => {
+    const listener = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        closeNewsLetter();
+      }
+    };
+    document.addEventListener("keydown", listener);
+    return () => document.removeEventListener("keydown", listener);
+  }, []);
 
   return (
     isOpen && (
