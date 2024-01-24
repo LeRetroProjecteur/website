@@ -163,16 +163,13 @@ function TableHeader() {
 
 function EmptyTableState({ filter }: { filter: string }) {
   return (
-    <Row
-      cellClassName="lg:px-10px lg:py-20px py-13px px-6px"
-      leftCol={
-        <BodyCopy>
-          {filter.length > 0
-            ? "Aucun film ne correspond à cette recherche aujourd'hui. Essayez demain ?"
-            : "Aucun film ne joue à cette heure-ci aujourd'hui. Essayez demain ?"}
-        </BodyCopy>
-      }
-    />
+    <div className="flex justify-center border-b py-13px lg:py-20px">
+      <BodyCopy>
+        {filter.length > 0
+          ? "Aucun film ne correspond à cette recherche aujourd'hui. Essayez demain ?"
+          : "Aucun film ne joue à cette heure-ci aujourd'hui. Essayez demain ?"}
+      </BodyCopy>
+    </div>
   );
 }
 
