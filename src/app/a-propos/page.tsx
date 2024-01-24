@@ -79,17 +79,17 @@ export default function AProposPage() {
                 alt="coup de coeur"
                 src={coupDeCoeur}
               />{" "}
-              <Film name="Metropolis" inLink="/archives/metropolis-1927" />,{" "}
+              <Film name="Metropolis" inLink="/film/metropolis-1927" />,{" "}
               <Film
                 name="Ma Nuit chez Maud"
-                inLink="/archives/nuit-chez-maud-1969"
+                inLink="/film/nuit-chez-maud-1969"
               />
               ,{" "}
               <Film
                 name="Printemps Tardif"
-                inLink="/archives/printemps-tardif-1949"
+                inLink="/film/printemps-tardif-1949"
               />
-              , <Film name="Old Joy" inLink="/archives/old-joy-2006" />
+              , <Film name="Old Joy" inLink="/film/old-joy-2006" />
             </Contributeur>
             <Contributeur>
               <span className="font-semibold">Lionel Guetta-Jeanrenaud</span>
@@ -120,17 +120,17 @@ export default function AProposPage() {
               />{" "}
               <Film
                 name="Les Parapluies de Cherbourg"
-                inLink="/archives/parapluies-cherbourg-1963"
+                inLink="/film/parapluies-cherbourg-1963"
               />
               ,{" "}
               <Film
                 name="Jeannette, l'enfance de Jeanne d'Arc"
-                inLink="/archives/jeannette-enfance-jeanne-arc-2017"
+                inLink="/film/jeannette-enfance-jeanne-arc-2017"
               />
-              , <Film name="L'Atalante" inLink="/archives/l-atalante-1934" />,{" "}
+              , <Film name="L'Atalante" inLink="/film/l-atalante-1934" />,{" "}
               <Film
                 name="Marie-Antoinette"
-                inLink="/archives/marie-antoinette-2006"
+                inLink="/film/marie-antoinette-2006"
               />
             </Contributeur>
             <Contributeur>
@@ -145,18 +145,15 @@ export default function AProposPage() {
               />{" "}
               <Film
                 name="Il était une fois dans l'Ouest"
-                inLink="/archives/etait-fois-ouest-1968"
+                inLink="/film/etait-fois-ouest-1968"
               />
-              , <Film name="John McCabe" inLink="/archives/john-mccabe-1971" />,{" "}
+              , <Film name="John McCabe" inLink="/film/john-mccabe-1971" />,{" "}
               <Film
                 name="Voyage au bout de l'enfer"
-                inLink="/archives/voyage-bout-enfer-1978"
+                inLink="/film/voyage-bout-enfer-1978"
               />
               ,{" "}
-              <Film
-                name="Nothing But a Man"
-                inLink="/archives/nothing-man-1964"
-              />
+              <Film name="Nothing But a Man" inLink="/film/nothing-man-1964" />
             </Contributeur>
             <Contributeur>
               <span className="font-semibold">Claire Malot</span>
@@ -190,10 +187,10 @@ export default function AProposPage() {
               />{" "}
               <Film
                 name="L'un chante, l'autre pas"
-                inLink="/archives/chante-autre-1977"
+                inLink="/film/chante-autre-1977"
               />
-              , <Film name="Conte d'été" inLink="/archives/conte-d-ete-1996" />,{" "}
-              <Film name="First Cow" inLink="/archives/first-cow-2020" />
+              , <Film name="Conte d'été" inLink="/film/conte-d-ete-1996" />,{" "}
+              <Film name="First Cow" inLink="/film/first-cow-2020" />
             </Contributeur>
             <Contributeur>
               <span className="font-semibold">Jonathan Roitgrund</span>
@@ -205,10 +202,10 @@ export default function AProposPage() {
                 alt="coup de coeur"
                 src={coupDeCoeur}
               />{" "}
-              <Film name="After Hours" inLink="/archives/after-hours-1985" />,{" "}
+              <Film name="After Hours" inLink="/film/after-hours-1985" />,{" "}
               <Film
                 name="Stranger than Paradise"
-                inLink="/archives/stranger-than-paradise-1984"
+                inLink="/film/stranger-than-paradise-1984"
               />
               ,{" "}
               <Film

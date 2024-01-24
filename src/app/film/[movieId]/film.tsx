@@ -1,11 +1,9 @@
-import { capitalize, maxBy, minBy, size, sortBy, toPairs } from "lodash-es";
+import { capitalize, size, sortBy, toPairs } from "lodash-es";
 import Image from "next/image";
-import Link from "next/link";
 import { useMemo } from "react";
 
-import { isAfter, isEqual, isSameDay } from "date-fns";
+import { isAfter, isEqual } from "date-fns";
 
-import { LeftArrow, RightArrow } from "@/components/icons/arrows";
 import PageHeader from "@/components/layout/page-header";
 import {
   BodyCopy,
@@ -13,137 +11,31 @@ import {
   SousTitre1,
   SousTitre2,
 } from "@/components/typography/typography";
-import { MovieDetail, Review, ShowtimesTheater } from "@/lib/types";
+import { MovieDetail, ShowtimesTheater } from "@/lib/types";
 import {
   TAG_MAP,
   blurProps,
-  checkNotNull,
   floatHourToString,
-  formatDDMMYYWithSlashes,
   formatMerJJMM,
   getImageUrl,
   getMovieTags,
-  getReviewSortKey,
   getStartOfDayInParis,
   getStartOfTodayInParis,
   safeDate,
   splitIntoSubArrays,
 } from "@/lib/util";
 
-export default function Archives({
-  movie,
-  reviewedMovies,
-}: {
-  movie: MovieDetail;
-  reviewedMovies: Review[];
-}) {
-  const isCoupDeCoeur = useMemo(() => movie.review_date != null, [movie]);
-
-  const previousReview = useMemo(
-    () =>
-      movie.review_date != null
-        ? maxBy(
-            reviewedMovies.filter(
-              (review) =>
-                safeDate(review.review_date) <
-                  safeDate(checkNotNull(movie.review_date)) ||
-                (isSameDay(
-                  safeDate(review.review_date),
-                  safeDate(checkNotNull(movie.review_date)),
-                ) &&
-                  review.id < movie.id),
-            ),
-            getReviewSortKey,
-          )
-        : undefined,
-    [movie, reviewedMovies],
-  );
-  const nextReview = useMemo(
-    () =>
-      movie.review_date != null
-        ? minBy(
-            reviewedMovies.filter(
-              (review) =>
-                safeDate(review.review_date) >
-                  safeDate(checkNotNull(movie.review_date)) ||
-                (isSameDay(
-                  safeDate(review.review_date),
-                  safeDate(checkNotNull(movie.review_date)),
-                ) &&
-                  review.id > movie.id),
-            ),
-            getReviewSortKey,
-          )
-        : undefined,
-    [movie, reviewedMovies],
-  );
-
+export default function Film({ movie }: { movie: MovieDetail }) {
   return (
     <>
-      <PageHeader text={isCoupDeCoeur ? "coup de coeur" : "archives"}>
+      <PageHeader text={"Film"}>
         <MovieHeader movie={movie} />
       </PageHeader>
       <div className="flex grow flex-col pb-15px lg:pb-0 lg:pl-20px">
         <Movie movie={movie} />
         <div className="w-1/2 border-r lg:h-300px" />
-        {isCoupDeCoeur && (
-          <ReviewsNav previousReview={previousReview} nextReview={nextReview} />
-        )}
       </div>
     </>
-  );
-}
-
-function ReviewsNav({
-  previousReview,
-  nextReview,
-}: {
-  previousReview?: Review;
-  nextReview?: Review;
-}) {
-  return (
-    <div className="flex flex-col">
-      <div className="h-44px w-1/2 lg:border-r" />
-      <div className="flex justify-between pb-14px">
-        {previousReview ? (
-          <Link
-            href={`/archives/${previousReview.id}`}
-            className="flex w-1/2 items-center lg:border-r"
-          >
-            <LeftArrow small />
-            <div className="pl-5px text-20px font-medium uppercase leading-25px tracking-[-0.02em] text-retro-gray lg:hidden">
-              précédent
-            </div>
-            <div className="hidden pl-5px text-20px font-medium uppercase leading-25px tracking-[-0.02em] text-retro-gray lg:block">
-              critique précédente
-            </div>
-          </Link>
-        ) : (
-          <div />
-        )}
-        {nextReview ? (
-          <Link
-            href={`/archives/${nextReview.id}`}
-            className="flex w-1/2 items-center justify-end"
-          >
-            <div className="pr-5px text-20px font-medium uppercase leading-25px tracking-[-0.02em] text-retro-gray lg:hidden">
-              suivant
-            </div>
-            <div className="hidden pr-5px text-20px font-medium uppercase leading-25px tracking-[-0.02em] text-retro-gray lg:block">
-              critique suivante
-            </div>
-            <RightArrow small />
-          </Link>
-        ) : (
-          <div />
-        )}
-      </div>
-      <Link href="/coeur">
-        <div className="border bg-retro-pale-green py-8px text-center text-20px font-medium uppercase leading-25px text-retro-gray">
-          retour aux coups de coeur
-        </div>
-      </Link>
-    </div>
   );
 }
 
@@ -161,17 +53,9 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
     <div className="flex grow justify-between gap-190px">
       <div className="grow">
         <SousTitre1>
-          <u className="underline">{movie.title}</u> ({movie.directors}),{" "}
-          {movie.year}
+          {movie.title}, {movie.directors} ({movie.year})
         </SousTitre1>
       </div>
-      {movie.review_date && (
-        <div className="hidden w-max whitespace-nowrap lg:block lg:pr-10px">
-          <SousTitre1>
-            Critique du {formatDDMMYYWithSlashes(safeDate(movie.review_date))}
-          </SousTitre1>
-        </div>
-      )}
     </div>
   );
 }
@@ -204,11 +88,34 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
 
       <div className="flex pt-15px lg:pt-0">
         <MetaCopy>
-          titre original : {movie.original_title}
-          <br />
-          {movie.duration == null
-            ? "Durée inconnue"
-            : `Durée : ${Math.floor(parseInt(movie.duration) / 60)} minutes`}
+          <div>Titre original&nbsp;: {movie.original_title}</div>
+          {movie.duration == null ? (
+            "Durée inconnue"
+          ) : (
+            <div>
+              Durée&nbsp;: {Math.floor(parseInt(movie.duration) / 60)} minutes
+            </div>
+          )}
+          {movie.language == null ? (
+            ""
+          ) : (
+            <div>Langue&nbsp;: {movie.language}</div>
+          )}
+          {movie.screenwriters == null ? (
+            ""
+          ) : (
+            <div>Scénario&nbsp;: {movie.screenwriters}</div>
+          )}
+          {movie.countries == null ? (
+            ""
+          ) : (
+            <div>Pays&nbsp;: {movie.countries}</div>
+          )}
+          {movie.distributor == null ? (
+            ""
+          ) : (
+            <div>Distribué par {movie.distributor}</div>
+          )}
         </MetaCopy>
       </div>
       <Tags movie={movie} />
