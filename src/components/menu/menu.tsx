@@ -76,6 +76,7 @@ export default function Menu() {
               projecteur
             </div>
           </MenuLink>
+          <div className="hidden" />
         </Link>
         <div className="flex flex-col">
           {menu.map(([section, path]) => (

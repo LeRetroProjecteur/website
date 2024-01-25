@@ -76,7 +76,8 @@ export default function Newsletter() {
                   setValue={setEmail}
                   name="EMAIL"
                   placeholder="adresse@mail.com"
-                ></RetroInput>
+                  grayText
+                />
               </div>
               <div className="flex">
                 <input
