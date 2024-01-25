@@ -28,7 +28,7 @@ export default function Newsletter() {
         method="post"
         target="_blank"
       >
-        <div className="fixed left-[18.75rem] top-[28rem] z-50 flex drop-shadow-[0_1px_3px_rgba(0,0,0,0.15)]">
+        <div className="fixed bottom-[3.5rem] left-[18.75rem] z-50 flex drop-shadow-[0_1px_3px_rgba(0,0,0,0.15)]">
           <div className="flex flex-col gap-20px">
             <div className="bg-retro-blue px-20px pb-20px">
               <div className="relative flex items-center justify-center border-b">
