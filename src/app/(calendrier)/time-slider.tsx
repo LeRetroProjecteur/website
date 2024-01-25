@@ -44,7 +44,7 @@ export default function TimeSlider() {
               <div
                 key={props.key}
                 {...omit(props, "key")}
-                className="bottom-[-5.5px] outline-none"
+                className="bottom-[-24px] outline-none"
               >
                 <Thumb />
               </div>
@@ -74,12 +74,13 @@ export default function TimeSlider() {
 function Thumb() {
   return (
     <svg
-      className="h-13px w-13px fill-retro-gray"
-      viewBox="0 0 13 13"
+      className="h-50px w-50px fill-retro-gray"
+      viewBox="0 0 50 50"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="6.5" cy="6.5" r="6.5" />
+      <rect width="50" height="50" className="fill-[#00000000]" />
+      <circle cx="25" cy="25" r="6.5" />
     </svg>
   );
 }
