@@ -153,7 +153,7 @@ function ReviewThumbnail({ review }: { review: Review }) {
         <div className="flex flex-col justify-between gap-0 lg:flex-row lg:gap-20px">
           <div>
             <CoeurCopy>
-              {review.title}, {review.directors} ({review.year})
+              <u>{review.title}</u>, {review.directors} ({review.year})
             </CoeurCopy>
           </div>
         </div>
@@ -186,7 +186,7 @@ function ReviewRow({ review }: { review: Review }) {
       </div>
       <div className="border-b px-6px py-10px group-first:border-t group-odd:bg-retro-green lg:px-10px lg:py-16px lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
         <BodyCopy className="uppercase">
-          {review.title}, {review.directors} ({review.year})
+          <u>{review.title}</u>, {review.directors} ({review.year})
         </BodyCopy>
       </div>
     </Link>
