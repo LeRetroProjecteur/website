@@ -44,7 +44,7 @@ export default function TimeSlider() {
               <div
                 key={props.key}
                 {...omit(props, "key")}
-                className="bottom-[-5.5px] outline-none transition-all duration-200"
+                className="bottom-[-5.5px] outline-none"
               >
                 <Thumb />
               </div>
@@ -53,13 +53,10 @@ export default function TimeSlider() {
               <div
                 key={props.key}
                 {...omit(props, "key")}
-                className={clsx(
-                  "bottom-0 border-t transition-all duration-200",
-                  {
-                    "border-dashed": state.index === 1,
-                    "z-99": state.index == 1,
-                  },
-                )}
+                className={clsx("bottom-0 border-t", {
+                  "border-dashed": state.index === 1,
+                  "z-99": state.index == 1,
+                })}
               />
             )}
             value={[minHour, maxHour]}
