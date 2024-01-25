@@ -126,24 +126,19 @@ function MenuLink({
 
 function CloseIcon() {
   return (
-    <svg
-      className="h-29px w-28px stroke-retro-gray"
-      viewBox="0 0 28 29"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg viewBox="0 0 38 38" className="h-38px w-38px stroke-retro-gray">
       <line
-        x1="1.29289"
-        y1="27.2216"
-        x2="27.2929"
-        y2="1.2216"
+        y1="-1"
+        x2="49.3883"
+        y2="-1"
+        transform="matrix(0.708302 -0.705909 0.708302 0.705909 2.18164 37.1544)"
         strokeWidth="2"
       />
       <line
-        x1="27.2929"
-        y1="27.7071"
-        x2="1.29289"
-        y2="1.70711"
+        y1="-1"
+        x2="49.3883"
+        y2="-1"
+        transform="matrix(-0.708302 -0.705909 0.708302 -0.705909 37.1636 35.9091)"
         strokeWidth="2"
       />
     </svg>
