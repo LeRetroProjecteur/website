@@ -14,21 +14,21 @@ const chroniques = [
     slug: "top-2023-sondage",
     image: lumiereIcon,
     date: "22/12/2023",
-    type: "chronique",
+    type: "retro-spective",
   },
   {
     titre: "Retour sur le Festival Lumière 2023",
     slug: "festival-lumiere-2023",
     image: lumiereIcon,
     date: "31/10/2023",
-    type: "chronique",
+    type: "retour de festival",
   },
   {
     titre: "Rétrospective 2022 — Nos meilleures séances patrimoine",
     slug: "top-2022",
     image: top2022,
     date: "02/01/2023",
-    type: "chronique",
+    type: "retro-spective",
   },
 ];
 
@@ -36,9 +36,9 @@ export default function ActualitesPage() {
   return (
     <>
       <PageHeader text="actualités">
-        <SousTitre1>Nos chroniques, les retrospectives phares, etc</SousTitre1>
+        <SousTitre1>Nos dernières chroniques</SousTitre1>
       </PageHeader>
-      <div className="grid grid-cols-thumbnails-sm gap-25px pb-25px pt-17px lg:grid-cols-thumbnails-lg lg:flex-row lg:flex-wrap lg:gap-20px lg:pl-20px">
+      <div className="grid grid-cols-thumbnails-sm gap-25px pb-25px pt-17px lg:grid-cols-thumbnails-lg lg:gap-20px lg:pl-20px">
         {chroniques.map(({ titre, slug, image, date, type }) => (
           <div key={slug} className="lg:gap-12px">
             <Link
@@ -56,11 +56,10 @@ export default function ActualitesPage() {
                 <div className="flex justify-between gap-10px">
                   <div>
                     <MetaCopy>
-                      {type} • <span className="text-retro-black">{titre}</span>
+                      {date} • {type}
+                      <br />
+                      <span className="text-retro-black">{titre}</span>
                     </MetaCopy>
-                  </div>
-                  <div>
-                    <MetaCopy>{date}</MetaCopy>
                   </div>
                 </div>
               </div>

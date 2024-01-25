@@ -11,7 +11,7 @@ export default function QuartierSelectorToggler({
 }) {
   return (
     <div
-      className="flex grow cursor-pointer items-center justify-center border py-1px lg:w-278px lg:py-8px"
+      className="flex grow cursor-pointer items-center justify-center border py-1px py-4px lg:w-278px lg:py-8px"
       onClick={toggleOpen}
     >
       <div className="pr-6px">

@@ -163,16 +163,13 @@ function TableHeader() {
 
 function EmptyTableState({ filter }: { filter: string }) {
   return (
-    <Row
-      cellClassName="lg:px-10px lg:py-20px py-13px px-6px"
-      leftCol={
-        <BodyCopy>
-          {filter.length > 0
-            ? "Aucun film ne correspond à cette recherche aujourd'hui. Essayez demain ?"
-            : "Aucun film ne joue à cette heure-ci aujourd'hui. Essayez demain ?"}
-        </BodyCopy>
-      }
-    />
+    <div className="flex justify-center border-b py-13px lg:py-20px">
+      <BodyCopy>
+        {filter.length > 0
+          ? "Aucun film ne correspond à cette recherche aujourd'hui. Essayez demain ?"
+          : "Aucun film ne joue à cette heure-ci aujourd'hui. Essayez demain ?"}
+      </BodyCopy>
+    </div>
   );
 }
 
@@ -185,7 +182,7 @@ function MovieRows({
     <Row
       key={movie.id}
       rowClassName="group"
-      cellClassName="group-odd:bg-retro-green group-odd:lg:bg-white lg:group-hover:bg-retro-pale-green"
+      cellClassName="group-odd:bg-retro-pale-green group-odd:lg:bg-white lg:group-hover:bg-retro-pale-green"
       leftCol={<MovieCell movie={movie} />}
       rightCol={
         <div className="pl-4px lg:pl-5px">
