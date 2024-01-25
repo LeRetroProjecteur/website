@@ -38,7 +38,7 @@ export default function ActualitesPage() {
       <PageHeader text="actualités">
         <SousTitre1>Nos dernières chroniques</SousTitre1>
       </PageHeader>
-      <div className="grid grid-cols-thumbnails-sm gap-25px pb-25px pt-17px lg:grid-cols-thumbnails-lg lg:flex-row lg:flex-wrap lg:gap-20px lg:pl-20px">
+      <div className="grid grid-cols-thumbnails-sm gap-25px pb-25px pt-17px lg:grid-cols-thumbnails-lg lg:gap-20px lg:pl-20px">
         {chroniques.map(({ titre, slug, image, date, type }) => (
           <div key={slug} className="lg:gap-12px">
             <Link
