@@ -67,7 +67,10 @@ function SubHeader({
   return (
     <div className="flex grow justify-between">
       <SousTitre1>Archive de nos critiques</SousTitre1>
-      <div className="flex cursor-pointer items-center" onClick={toggleDisplay}>
+      <div
+        className="flex cursor-pointer items-center pl-6px"
+        onClick={toggleDisplay}
+      >
         {display === "thumbnails" ? <ListIcon /> : <ThumbnailIcon />}
       </div>
     </div>
@@ -150,8 +153,7 @@ function ReviewThumbnail({ review }: { review: Review }) {
         <div className="flex flex-col justify-between gap-0 lg:flex-row lg:gap-20px">
           <div>
             <CoeurCopy>
-              <strong>{review.title}</strong>, {review.directors} ({review.year}
-              )
+              {review.title}, {review.directors} ({review.year})
             </CoeurCopy>
           </div>
         </div>
@@ -177,14 +179,14 @@ function ReviewRow({ review }: { review: Review }) {
       href={`/film/${review.id}`}
       className="group col-span-full grid grid-cols-[subgrid]"
     >
-      <div className="border-b border-r px-6px py-10px pr-6px group-first:border-t group-odd:bg-retro-green lg:py-16px lg:pl-10px lg:pr-10px lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
+      <div className="border-b border-r px-6px py-10px group-first:border-t group-odd:bg-retro-green lg:px-10px lg:py-16px lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
         <BodyCopy>
           {formatDDMMYYWithSlashes(safeDate(review.review_date))}
         </BodyCopy>
       </div>
-      <div className="border-b px-6px py-10px group-first:border-t group-odd:bg-retro-green lg:py-16px lg:pl-10px lg:pr-0 lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
+      <div className="border-b px-6px py-10px group-first:border-t group-odd:bg-retro-green lg:px-10px lg:py-16px lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
         <BodyCopy className="uppercase">
-          <strong>{review.title}</strong>, {review.directors} ({review.year})
+          {review.title}, {review.directors} ({review.year})
         </BodyCopy>
       </div>
     </Link>
