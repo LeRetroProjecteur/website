@@ -24,7 +24,7 @@ export default function Top2022() {
           />
         </ImageCell>
         <TextCell>
-          <strong className="font-semibold">
+          <strong>
             Créer l&apos;événement autour du cinéma de patrimoine.
           </strong>{" "}
           Ce pourrait être un bon résumé de la mission que nous nous sommes
@@ -51,12 +51,11 @@ export default function Top2022() {
           directeur de l&apos;Institut Lumière et de délégué général du Festival
           de Cannes. Sa force de frappe, dont on peut logiquement questionner le
           bien fondé, permet notamment à ce qu&apos;un{" "}
-          <strong className="font-semibold">Wes Anderson</strong> se fasse le
-          présentateur enjoué de la trilogie d&apos;Apu de Satyajit Ray. Plus
-          détonnant encore&nbsp;:{" "}
-          <strong className="font-semibold">Alfonso Cuarón</strong> qui fait le
-          déplacement uniquement pour présenter trois films du suisse Alain
-          Tanner, réalisateur radical et profondément anti-système. Découvrir{" "}
+          <strong>Wes Anderson</strong> se fasse le présentateur enjoué de la
+          trilogie d&apos;Apu de Satyajit Ray. Plus détonnant encore&nbsp;:{" "}
+          <strong>Alfonso Cuarón</strong> qui fait le déplacement uniquement
+          pour présenter trois films du suisse Alain Tanner, réalisateur radical
+          et profondément anti-système. Découvrir{" "}
           <i className="italic">Charles mort ou vif</i> juste après le
           visionnage d&apos;un clip-hommage au réalisateur mexicain incluant de
           nombreuses scènes de{" "}
@@ -81,17 +80,16 @@ export default function Top2022() {
         </ImageCell>
         <TextCell>
           Cette année, le Prix Lumière (hommage rendu à une figure majeure du
-          septième art) était remis à{" "}
-          <strong className="font-semibold">Wim Wenders</strong>. L&apos;immense
-          majorité de ses films était donc proposée dans la programmation. Pour
-          le plus grand bonheur de nos lecteurs et lectrices à Paris, on notera
-          que la rétrospective ainsi concoctée a déjà trouvé le chemin des
-          écrans de la capitale (depuis le 25 octobre). Pour nous, cela a été
-          l&apos;occasion de se faire recaler de justesse pour une séance de{" "}
-          <i className="italic">Paris, Texas</i>, mais aussi de profiter de la
-          ‘Carte blanche à Wim Wenders&apos;. Idée géniale&nbsp;: tous les ans,
-          le récipiendaire du prix s&apos;improvise aussi programmateur. Le
-          choix de Wenders de projeter notamment{" "}
+          septième art) était remis à <strong>Wim Wenders</strong>.
+          L&apos;immense majorité de ses films était donc proposée dans la
+          programmation. Pour le plus grand bonheur de nos lecteurs et lectrices
+          à Paris, on notera que la rétrospective ainsi concoctée a déjà trouvé
+          le chemin des écrans de la capitale (depuis le 25 octobre). Pour nous,
+          cela a été l&apos;occasion de se faire recaler de justesse pour une
+          séance de <i className="italic">Paris, Texas</i>, mais aussi de
+          profiter de la ‘Carte blanche à Wim Wenders&apos;. Idée géniale&nbsp;:
+          tous les ans, le récipiendaire du prix s&apos;improvise aussi
+          programmateur. Le choix de Wenders de projeter notamment{" "}
           <i className="italic">Beau Travail</i> (Claire Denis) et{" "}
           <i className="italic">Enter The Void</i> (Gaspar Noé), deux œuvres
           ultra stylisées et sensorielles, avait de quoi surprendre quelque peu.
@@ -100,13 +98,12 @@ export default function Top2022() {
           <br />
           Plus sympathique encore, on a vu Wenders débarquer à l&apos;improviste
           pour présenter{" "}
-          <strong className="font-semibold">
+          <strong>
             un des six films nouvellement restaurés d&apos;Ozu
-          </strong>
-          , <i className="italic">Une femme dans le vent</i> (1948). Il conclut
-          sa présentation en s&apos;installant carrément avec le public du
-          cinéma Lumière Terreaux, cédant à la tentation de revoir le film dans
-          une salle comble. Totalement inédit en France, ce dernier a fait
+          </strong>, <i className="italic">Une femme dans le vent</i> (1948). Il
+          conclut sa présentation en s&apos;installant carrément avec le public
+          du cinéma Lumière Terreaux, cédant à la tentation de revoir le film
+          dans une salle comble. Totalement inédit en France, ce dernier a fait
           l&apos;objet d&apos;une ressortie nationale dans la foulée (le 25
           octobre). C&apos;est l&apos;histoire d&apos;une femme dont le mari
           tarde à rentrer de la guerre et qui, pour s&apos;occuper de son enfant
@@ -121,11 +118,10 @@ export default function Top2022() {
           Heureusement, les inédits d&apos;Ozu ne sont pas les seuls films du
           Festival qui auront droit à une ressortie nationale prochaine. On
           mentionnera notamment{" "}
-          <strong className="font-semibold">
-            la fameuse trilogie d&apos;Apu de Satyajit Ray
-          </strong>
-          &nbsp;- <i className="italic">La Complainte du sentier</i> (1955),{" "}
-          <i className="italic">L&apos;invaincu</i> (1956) et{" "}
+          <strong>la fameuse trilogie d&apos;Apu de Satyajit Ray</strong>
+          &nbsp;- <i className="italic">
+            La Complainte du sentier
+          </i> (1955), <i className="italic">L&apos;invaincu</i> (1956) et{" "}
           <i className="italic">Le Monde d&apos;Apu</i> (1959)&nbsp;- prévue en
           salles le 6 décembre prochain. Le plaisir du festivalier est en bonne
           partie imputable aux secrètes correspondances que les films nous
@@ -156,7 +152,7 @@ export default function Top2022() {
           beaucoup de ruptures de ton. Ainsi en est-il d&apos;une journée où
           l&apos;on court du deuxième volet de la trilogie de Satyajit Ray à la
           projection de{" "}
-          <strong className="font-semibold">
+          <strong>
             <i className="italic">Lune froide</i> de Patrick Bouchitey
           </strong>{" "}
           (sortie nationale le 15 novembre). Difficile en effet de trouver, à
@@ -177,7 +173,7 @@ export default function Top2022() {
           <br />
           En ce qui concerne les autres films qui bénéficieront d&apos;une
           sortie prochaine, on mentionnera également le fascinant{" "}
-          <strong className="font-semibold">
+          <strong>
             <i className="italic">Bushman</i> de David Schikele
           </strong>
           . Le film suit les aventures d&apos;un jeune Nigérian, Gabriel, qui
@@ -196,7 +192,7 @@ export default function Top2022() {
           Un petit mot aussi sur une des découvertes les plus enthousiasmantes
           du festival, cette fois-ci pleinement dans le domaine du
           documentaire&nbsp;:{" "}
-          <strong className="font-semibold">
+          <strong>
             <i className="italic">Marée noire et colère rouge</i> de René
             Vautier
           </strong>{" "}
@@ -225,16 +221,14 @@ export default function Top2022() {
           Le Festival Lumière se targue de ne pas être un événement compétitif.
           Cela n&apos;a pas empêché un événement particulier d&apos;attirer une
           bonne partie de l&apos;attention des festivaliers&nbsp;:{" "}
-          <strong className="font-semibold">
-            la rétrospective Robert Altman
-          </strong>
-          . La cause d&apos;un tel émoi est à trouver dans la rareté d&apos;un
-          tel événement. Altman a en effet toujours cherché à diversifier ses
-          sources de financements pour échapper à la tutelle des grands studios,
-          ce qui rend très compliqué le fait de réunir tous les différents
-          droits d&apos;exploitation de ses films. La rétrospective de douze de
-          ses œuvres les plus connues (de <i className="italic">M*A*S*H</i> en
-          1970 à <i className="italic">Gosford Park</i> en 2001) était donc
+          <strong>la rétrospective Robert Altman</strong>. La cause d&apos;un
+          tel émoi est à trouver dans la rareté d&apos;un tel événement. Altman
+          a en effet toujours cherché à diversifier ses sources de financements
+          pour échapper à la tutelle des grands studios, ce qui rend très
+          compliqué le fait de réunir tous les différents droits
+          d&apos;exploitation de ses films. La rétrospective de douze de ses
+          œuvres les plus connues (de <i className="italic">M*A*S*H</i> en 1970
+          à <i className="italic">Gosford Park</i> en 2001) était donc
           historique. Des réalisateurs du Nouvel Hollywood, Altman est peut-être
           celui dont les cinéastes américains contemporains se revendiquent le
           plus ouvertement (à commencer évidemment par Paul Thomas Anderson). Il
@@ -262,7 +256,7 @@ export default function Top2022() {
         </ImageCell>
         <TextCell>
           Le visionnage de{" "}
-          <strong className="font-semibold">
+          <strong>
             <i className="italic">John McCabe</i>
           </strong>{" "}
           fut peut-être l&apos;expérience la plus éclatante du festival. Prenant
@@ -294,7 +288,7 @@ export default function Top2022() {
         <TextCell>
           En guise de conclusion, un dernier petit souvenir absolument
           inoubliable du festival&nbsp;: le visionnage de{" "}
-          <strong className="font-semibold">
+          <strong>
             <i className="italic">Maine-Océan</i> de Jacques Rozier
           </strong>
           . Le film était projeté en forme d&apos;hommage à l&apos;intempestif
