@@ -4,6 +4,7 @@ import { useMemo } from "react";
 
 import { isAfter, isEqual } from "date-fns";
 
+import coupDeCoeur from "@/assets/coup-de-coeur.png";
 import PageHeader from "@/components/layout/page-header";
 import {
   BodyCopy,
@@ -25,7 +26,6 @@ import {
   safeDate,
   splitIntoSubArrays,
 } from "@/lib/util";
-import coupDeCoeur from "@/assets/coup-de-coeur.png";
 
 export default function Film({ movie }: { movie: MovieDetail }) {
   return (
@@ -50,17 +50,17 @@ function Movie({ movie }: { movie: MovieDetail }) {
   );
 }
 
-function ReviewDate( reviewDate : string ) {
+function ReviewDate(reviewDate: string) {
   return (
     <div className="flex grow pt-6px">
-      <div className="shrink-0 pr-6px inline-block my-auto">
+      <div className="my-auto inline-block shrink-0 pr-6px">
         <Image className="w-25px" alt="coup de coeur" src={coupDeCoeur} />
       </div>
-      <div className="inline-block my-auto">
+      <div className="my-auto inline-block">
         Critique du {formatDDMMYYWithSlashes(safeDate(reviewDate))}
       </div>
     </div>
-  )
+  );
 }
 
 function MovieHeader({ movie }: { movie: MovieDetail }) {
