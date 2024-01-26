@@ -177,7 +177,7 @@ function ReviewList({ reviews }: { reviews: Review[] }) {
       {reviews.map((review) => (
         <ReviewRow review={review} key={review.id} />
       ))}
-      <div className="h-300px border-r" />
+      <div className="h-100px border-r" />
     </div>
   );
 }

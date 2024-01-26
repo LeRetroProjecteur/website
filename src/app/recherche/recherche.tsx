@@ -45,7 +45,8 @@ export default function Recherche({
             leftAlignPlaceholder
             transparentPlaceholder
             grayText
-            className="text-21px font-medium uppercase leading-25px leading-44px lg:text-29px lg:tracking-[-0.01em]"
+            customHeight
+            className="h-50px text-21px font-medium uppercase lg:h-57px lg:text-29px lg:tracking-[-0.01em]"
           />
         </div>
       </FixedHeader>

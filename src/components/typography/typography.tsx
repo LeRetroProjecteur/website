@@ -9,9 +9,20 @@ export function Titre({ children }: { children: ReactNode }) {
   );
 }
 
-export function SousTitre1({ children }: { children: ReactNode }) {
+export function SousTitre1({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   return (
-    <div className="text-21px font-semibold uppercase leading-25px tracking-[-0.01em] text-retro-gray lg:text-29px lg:font-medium lg:leading-31px">
+    <div
+      className={clsx(
+        className,
+        "text-21px font-semibold uppercase leading-25px tracking-[-0.01em] text-retro-gray lg:text-29px lg:font-medium lg:leading-31px",
+      )}
+    >
       {children}
     </div>
   );

@@ -13,7 +13,9 @@ export default function AProposPage() {
   return (
     <>
       <PageHeader text="newsletter">
-        <SousTitre1>up close, la newsletter du rétro</SousTitre1>
+        <SousTitre1 className="text-center lg:text-left">
+          up close, la newsletter du rétro
+        </SousTitre1>
       </PageHeader>
       <div className="flex grow flex-col pb-10px pt-10px lg:pl-20px lg:pt-0">
         <div className="flex grow flex-col gap-10px lg:flex-row lg:gap-0">
@@ -51,7 +53,7 @@ export default function AProposPage() {
               <input
                 type="submit"
                 value="s'inscrire"
-                className="cursor-pointer border bg-retro-gray py-1px text-center text-15px font-medium uppercase leading-25px text-white hover:bg-white hover:text-retro-gray lg:py-10px lg:text-20px"
+                className="h-33px cursor-pointer border bg-retro-gray text-center text-15px font-medium uppercase text-white hover:bg-white hover:text-retro-gray lg:h-48px lg:text-20px"
               />
               <div className="font-medium leading-20px text-retro-gray">
                 *champs obligatoires
@@ -59,7 +61,7 @@ export default function AProposPage() {
             </form>
           </div>
         </div>
-        <div className="hidden h-300px w-1/2 border-r lg:block" />
+        <div className="hidden h-100px w-1/2 border-r lg:block" />
       </div>
     </>
   );
