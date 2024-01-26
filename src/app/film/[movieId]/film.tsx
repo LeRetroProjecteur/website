@@ -16,6 +16,7 @@ import {
   TAG_MAP,
   blurProps,
   floatHourToString,
+  formatDDMMYYWithSlashes,
   formatMerJJMM,
   getImageUrl,
   getMovieTags,
@@ -24,6 +25,7 @@ import {
   safeDate,
   splitIntoSubArrays,
 } from "@/lib/util";
+import coupDeCoeur from "@/assets/coup-de-coeur.png";
 
 export default function Film({ movie }: { movie: MovieDetail }) {
   return (
@@ -48,6 +50,19 @@ function Movie({ movie }: { movie: MovieDetail }) {
   );
 }
 
+function ReviewDate( reviewDate : string ) {
+  return (
+    <div className="flex grow pt-6px">
+      <div className="shrink-0 pr-6px inline-block my-auto">
+        <Image className="w-25px" alt="coup de coeur" src={coupDeCoeur} />
+      </div>
+      <div className="inline-block my-auto">
+        Critique du {formatDDMMYYWithSlashes(safeDate(reviewDate))}
+      </div>
+    </div>
+  )
+}
+
 function MovieHeader({ movie }: { movie: MovieDetail }) {
   return (
     <div className="flex grow justify-between gap-190px text-center lg:text-left">
@@ -63,7 +78,7 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
 function MovieInfo({ movie }: { movie: MovieDetail }) {
   return (
     <div className="flex grow flex-col lg:w-1/2 lg:border-r lg:pr-20px">
-      {movie.review && (
+      {movie.review && movie.review_date && (
         <div className="flex flex-col pt-15px lg:pb-20px lg:pt-0">
           <div className="flex">
             <div className="flex grow basis-0 pb-15px lg:pb-20px">
@@ -78,10 +93,15 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
             </div>
           </div>
           <BodyCopy>
-            <div
-              className="lg:leading-21px"
-              dangerouslySetInnerHTML={{ __html: movie.review }}
-            ></div>
+            <div>
+              <div
+                className="lg:leading-21px"
+                dangerouslySetInnerHTML={{ __html: movie.review }}
+              ></div>
+              <div className="lg:leading-21px">
+                {ReviewDate(movie.review_date)}
+              </div>
+            </div>
           </BodyCopy>
         </div>
       )}
