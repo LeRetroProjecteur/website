@@ -22,7 +22,7 @@ export default function TopBar() {
       </div>
       <div className="flex grow justify-center">
         <Link href="/" onClick={onClickLogo}>
-          <Image src={logoAnime} alt="logo" className="w-200px" />
+          <Image src={logoAnime} alt="logo" className="w-225px" />
         </Link>
       </div>
     </div>
