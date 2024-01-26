@@ -4,6 +4,7 @@ import { useMemo } from "react";
 
 import { isAfter, isEqual } from "date-fns";
 
+import coupDeCoeur from "@/assets/coup-de-coeur.png";
 import PageHeader from "@/components/layout/page-header";
 import {
   BodyCopy,
@@ -16,6 +17,7 @@ import {
   TAG_MAP,
   blurProps,
   floatHourToString,
+  formatDDMMYYWithSlashes,
   formatMerJJMM,
   getImageUrl,
   getMovieTags,
@@ -41,7 +43,7 @@ export default function Film({ movie }: { movie: MovieDetail }) {
 
 function Movie({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="flex grow flex-col gap-8 lg:flex-row lg:gap-0">
+    <div className="flex grow flex-col lg:flex-row">
       <MovieInfo movie={movie} />
       <MovieScreenings movie={movie} />
     </div>
@@ -50,12 +52,10 @@ function Movie({ movie }: { movie: MovieDetail }) {
 
 function MovieHeader({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="flex grow justify-between gap-190px">
-      <div className="grow">
-        <SousTitre1>
-          {movie.title}, {movie.directors} ({movie.year})
-        </SousTitre1>
-      </div>
+    <div className="text-center lg:text-left">
+      <SousTitre1>
+        <u>{movie.title}</u>, {movie.directors} ({movie.year})
+      </SousTitre1>
     </div>
   );
 }
@@ -63,7 +63,7 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
 function MovieInfo({ movie }: { movie: MovieDetail }) {
   return (
     <div className="flex grow flex-col lg:w-1/2 lg:border-r lg:pr-20px">
-      {movie.review && (
+      {movie.review && movie.review_date && (
         <div className="flex flex-col pt-15px lg:pb-20px lg:pt-0">
           <div className="flex">
             <div className="flex grow basis-0 pb-15px lg:pb-20px">
@@ -82,6 +82,19 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
               className="lg:leading-21px"
               dangerouslySetInnerHTML={{ __html: movie.review }}
             ></div>
+            <div className="flex items-center pt-6px lg:leading-21px">
+              <div className="pr-6px">
+                <Image
+                  className="w-25px"
+                  alt="coup de coeur"
+                  src={coupDeCoeur}
+                />
+              </div>
+              <div>
+                Critique du{" "}
+                {formatDDMMYYWithSlashes(safeDate(movie.review_date))}
+              </div>
+            </div>
           </BodyCopy>
         </div>
       )}
@@ -137,7 +150,7 @@ function MovieScreenings({ movie }: { movie: MovieDetail }) {
   return (
     <div className="flex flex-col pt-27px lg:w-1/2 lg:pl-20px lg:pt-0">
       <div className="flex justify-center border-y bg-retro-green py-13px text-center lg:px-20px lg:py-16px">
-        <SousTitre2>prochaines séances à paris</SousTitre2>
+        <SousTitre2>Prochaines séances à Paris</SousTitre2>
       </div>
       <div className="flex flex-col">
         {size(screenings) > 0 ? (
