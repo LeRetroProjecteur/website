@@ -26,14 +26,23 @@ import {
 
 export default function CoupsDeCoeur({
   fetchedReviews,
+  displayPreference,
 }: {
   fetchedReviews: Promise<Review[]>;
+  displayPreference: "thumbnails" | "list";
 }) {
   const [filter, setFilter] = useState("");
 
-  const [display, setDisplay] = useState<"thumbnails" | "list">("thumbnails");
-  const toggleDisplay = useCallback(() => {
-    setDisplay(display === "thumbnails" ? "list" : "thumbnails");
+  const [display, setDisplay] = useState<"thumbnails" | "list">(
+    displayPreference,
+  );
+  const toggleDisplay = useCallback(async () => {
+    const pref = display === "thumbnails" ? "list" : "thumbnails";
+    setDisplay(pref);
+    document.cookie = `cdc-display=${pref};max-age=31536000`;
+    await fetch("/api/cache/coeur", {
+      method: "DELETE",
+    });
   }, [display]);
 
   return (
