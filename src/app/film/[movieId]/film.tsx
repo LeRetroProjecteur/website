@@ -43,7 +43,7 @@ export default function Film({ movie }: { movie: MovieDetail }) {
 
 function Movie({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="flex grow flex-col lg:flex-row lg:gap-0">
+    <div className="flex grow flex-col lg:flex-row">
       <MovieInfo movie={movie} />
       <MovieScreenings movie={movie} />
     </div>
@@ -52,12 +52,10 @@ function Movie({ movie }: { movie: MovieDetail }) {
 
 function MovieHeader({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="flex grow justify-between gap-190px text-center lg:text-left">
-      <div className="grow">
-        <SousTitre1>
-          <u>{movie.title}</u>, {movie.directors} ({movie.year})
-        </SousTitre1>
-      </div>
+    <div className="flex grow text-center lg:text-left">
+      <SousTitre1>
+        <u>{movie.title}</u>, {movie.directors} ({movie.year})
+      </SousTitre1>
     </div>
   );
 }
@@ -80,25 +78,21 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
             </div>
           </div>
           <BodyCopy>
-            <div>
-              <div
-                className="lg:leading-21px"
-                dangerouslySetInnerHTML={{ __html: movie.review }}
-              ></div>
-              <div className="lg:leading-21px">
-                <div className="flex grow pt-6px">
-                  <div className="my-auto inline-block shrink-0 pr-6px">
-                    <Image
-                      className="w-25px"
-                      alt="coup de coeur"
-                      src={coupDeCoeur}
-                    />
-                  </div>
-                  <div className="my-auto inline-block">
-                    Critique du{" "}
-                    {formatDDMMYYWithSlashes(safeDate(movie.review_date))}
-                  </div>
-                </div>
+            <div
+              className="lg:leading-21px"
+              dangerouslySetInnerHTML={{ __html: movie.review }}
+            ></div>
+            <div className="flex items-center pt-6px lg:leading-21px">
+              <div className="my-auto pr-6px">
+                <Image
+                  className="w-25px"
+                  alt="coup de coeur"
+                  src={coupDeCoeur}
+                />
+              </div>
+              <div className="my-auto">
+                Critique du{" "}
+                {formatDDMMYYWithSlashes(safeDate(movie.review_date))}
               </div>
             </div>
           </BodyCopy>
