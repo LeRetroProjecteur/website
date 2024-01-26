@@ -107,10 +107,9 @@ function Results({
             <Link
               key={movie.id}
               href={`/film/${movie.id}`}
-              className="flex border-b py-10px pl-5px text-15px font-medium uppercase leading-20px first:border-t odd:bg-retro-green lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0 lg:last:border-0 lg:odd:bg-white lg:hover:bg-retro-pale-green"
+              className="border-b py-10px pl-5px text-15px font-medium uppercase leading-20px first:border-t odd:bg-retro-green lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0 lg:last:border-0 lg:odd:bg-white lg:hover:bg-retro-pale-green"
             >
-              <u className="underline">{movie.title}</u>&nbsp;({movie.year}),{" "}
-              {movie.directors}
+              <u>{movie.title}</u>, {movie.directors} ({movie.year})
             </Link>
           ))
         ) : (
