@@ -83,14 +83,14 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
               dangerouslySetInnerHTML={{ __html: movie.review }}
             ></div>
             <div className="flex items-center pt-6px lg:leading-21px">
-              <div className="my-auto pr-6px">
+              <div className="pr-6px">
                 <Image
                   className="w-25px"
                   alt="coup de coeur"
                   src={coupDeCoeur}
                 />
               </div>
-              <div className="my-auto">
+              <div>
                 Critique du{" "}
                 {formatDDMMYYWithSlashes(safeDate(movie.review_date))}
               </div>
