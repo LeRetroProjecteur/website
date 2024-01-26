@@ -66,8 +66,11 @@ function SubHeader({
 }) {
   return (
     <div className="flex grow justify-between">
-      <SousTitre1>archive des critiques</SousTitre1>
-      <div className="flex cursor-pointer items-center" onClick={toggleDisplay}>
+      <SousTitre1>Archive de nos critiques</SousTitre1>
+      <div
+        className="flex cursor-pointer items-center pl-6px"
+        onClick={toggleDisplay}
+      >
         {display === "thumbnails" ? <ListIcon /> : <ThumbnailIcon />}
       </div>
     </div>
@@ -118,8 +121,8 @@ function EmptyState() {
   return (
     <div className="flex">
       <CoeurCopy>
-        désolé, nous n&apos;avons rien trouvé qui corresponde à votre recherche
-        !
+        Désolé, nous n&apos;avons rien trouvé qui corresponde à votre
+        recherche&nbsp;!
       </CoeurCopy>
     </div>
   );
@@ -138,7 +141,7 @@ function ReviewThumbnails({ reviews }: { reviews: Review[] }) {
 function ReviewThumbnail({ review }: { review: Review }) {
   return (
     <Link href={`/film/${review.id}`}>
-      <div className="flex flex-col gap-10px lg:gap-12px">
+      <div className="flex flex-col gap-5px">
         <Image
           className="h-auto w-full"
           width={1200}
@@ -150,13 +153,7 @@ function ReviewThumbnail({ review }: { review: Review }) {
         <div className="flex flex-col justify-between gap-0 lg:flex-row lg:gap-20px">
           <div>
             <CoeurCopy>
-              <u className="underline">{review.title}</u> ({review.year}),{" "}
-              {review.directors}
-            </CoeurCopy>
-          </div>
-          <div>
-            <CoeurCopy>
-              {formatDDMMYYWithSlashes(safeDate(review.review_date))}
+              <u>{review.title}</u>, {review.directors} ({review.year})
             </CoeurCopy>
           </div>
         </div>
@@ -182,15 +179,14 @@ function ReviewRow({ review }: { review: Review }) {
       href={`/film/${review.id}`}
       className="group col-span-full grid grid-cols-[subgrid]"
     >
-      <div className="border-b border-r px-6px py-10px pr-6px group-first:border-t group-odd:bg-retro-green lg:py-16px lg:pl-10px lg:pr-10px lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
+      <div className="border-b border-r px-6px py-10px group-first:border-t group-odd:bg-retro-green lg:px-10px lg:py-16px lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
         <BodyCopy>
           {formatDDMMYYWithSlashes(safeDate(review.review_date))}
         </BodyCopy>
       </div>
-      <div className="border-b px-6px py-10px group-first:border-t group-odd:bg-retro-green lg:py-16px lg:pl-10px lg:pr-0 lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
+      <div className="border-b px-6px py-10px group-first:border-t group-odd:bg-retro-green lg:px-10px lg:py-16px lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
         <BodyCopy className="uppercase">
-          <u className="underline">{review.title}</u> ({review.year}),{" "}
-          {review.directors}
+          <u>{review.title}</u>, {review.directors} ({review.year})
         </BodyCopy>
       </div>
     </Link>
