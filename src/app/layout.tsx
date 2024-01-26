@@ -67,7 +67,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         >
           <MenuWrapper>
             <Newsletter />
-            <div className="flex grow flex-col pt-25px lg:pt-0">
+            <div className="flex grow flex-col pt-20px lg:pt-0">
               <div className="flex pb-20px lg:hidden">
                 <TopBar />
               </div>
