@@ -41,7 +41,7 @@ export default function Film({ movie }: { movie: MovieDetail }) {
 
 function Movie({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="flex grow flex-col gap-8 lg:flex-row lg:gap-0">
+    <div className="flex grow flex-col lg:flex-row lg:gap-0">
       <MovieInfo movie={movie} />
       <MovieScreenings movie={movie} />
     </div>
@@ -137,7 +137,7 @@ function MovieScreenings({ movie }: { movie: MovieDetail }) {
   return (
     <div className="flex flex-col pt-27px lg:w-1/2 lg:pl-20px lg:pt-0">
       <div className="flex justify-center border-y bg-retro-green py-13px text-center lg:px-20px lg:py-16px">
-        <SousTitre2>prochaines séances à paris</SousTitre2>
+        <SousTitre2>Prochaines séances à Paris</SousTitre2>
       </div>
       <div className="flex flex-col">
         {size(screenings) > 0 ? (
