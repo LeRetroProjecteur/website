@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 import { closeNewsLetter, useNewsletterStore } from "@/lib/newsletter-store";
 
@@ -9,7 +10,6 @@ import RetroInput from "../forms/retro-input";
 export default function Newsletter() {
   const isOpen = useNewsletterStore((s) => s.isOpen);
   const [email, setEmail] = useState("");
-  const subscribe = useCallback(() => {}, []);
 
   useEffect(() => {
     const listener = (e: KeyboardEvent) => {
@@ -84,8 +84,13 @@ export default function Newsletter() {
                   type="submit"
                   value="s'inscrire"
                   className="grow cursor-pointer border bg-retro-gray py-10px text-center text-20px font-medium uppercase leading-25px text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
-                  onClick={subscribe}
+                  onClick={closeNewsLetter}
                 />
+              </div>
+              <div className="pt-15px text-center text-18px font-medium uppercase leading-25px text-retro-gray">
+                <Link href="/newsletter" onClick={closeNewsLetter}>
+                  Plus d’informations
+                </Link>
               </div>
             </div>
           </div>
