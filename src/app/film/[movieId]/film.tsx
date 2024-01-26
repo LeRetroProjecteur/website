@@ -35,7 +35,7 @@ export default function Film({ movie }: { movie: MovieDetail }) {
       </PageHeader>
       <div className="flex grow flex-col pb-15px lg:pb-0 lg:pl-20px">
         <Movie movie={movie} />
-        <div className="w-1/2 border-r lg:h-300px" />
+        <div className="w-1/2 border-r lg:h-100px" />
       </div>
     </>
   );

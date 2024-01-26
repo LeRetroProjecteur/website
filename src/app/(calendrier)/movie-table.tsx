@@ -202,7 +202,7 @@ function MovieRows({
 function TableFooter() {
   return (
     <div className="flex grow">
-      <div className="h-300px w-1/2 border-r"></div>
+      <div className="h-100px w-1/2 border-r"></div>
     </div>
   );
 }
