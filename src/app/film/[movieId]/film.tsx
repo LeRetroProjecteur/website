@@ -50,19 +50,6 @@ function Movie({ movie }: { movie: MovieDetail }) {
   );
 }
 
-function ReviewDate(reviewDate: string) {
-  return (
-    <div className="flex grow pt-6px">
-      <div className="my-auto inline-block shrink-0 pr-6px">
-        <Image className="w-25px" alt="coup de coeur" src={coupDeCoeur} />
-      </div>
-      <div className="my-auto inline-block">
-        Critique du {formatDDMMYYWithSlashes(safeDate(reviewDate))}
-      </div>
-    </div>
-  );
-}
-
 function MovieHeader({ movie }: { movie: MovieDetail }) {
   return (
     <div className="flex grow justify-between gap-190px text-center lg:text-left">
@@ -99,7 +86,19 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
                 dangerouslySetInnerHTML={{ __html: movie.review }}
               ></div>
               <div className="lg:leading-21px">
-                {ReviewDate(movie.review_date)}
+                <div className="flex grow pt-6px">
+                  <div className="my-auto inline-block shrink-0 pr-6px">
+                    <Image
+                      className="w-25px"
+                      alt="coup de coeur"
+                      src={coupDeCoeur}
+                    />
+                  </div>
+                  <div className="my-auto inline-block">
+                    Critique du{" "}
+                    {formatDDMMYYWithSlashes(safeDate(movie.review_date))}
+                  </div>
+                </div>
               </div>
             </div>
           </BodyCopy>
