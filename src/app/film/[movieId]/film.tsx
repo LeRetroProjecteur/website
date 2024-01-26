@@ -52,7 +52,7 @@ function Movie({ movie }: { movie: MovieDetail }) {
 
 function MovieHeader({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="flex grow text-center lg:text-left">
+    <div className="text-center lg:text-left">
       <SousTitre1>
         <u>{movie.title}</u>, {movie.directors} ({movie.year})
       </SousTitre1>
