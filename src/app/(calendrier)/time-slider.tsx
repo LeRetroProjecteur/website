@@ -68,7 +68,7 @@ export default function TimeSlider() {
                   "key",
                 )}
                 className={clsx("bottom-0 border-t", {
-                  "border-dashed": state.index === 1,
+                  "border-dotted": state.index === 1,
                   "z-99": state.index == 1,
                 })}
               />

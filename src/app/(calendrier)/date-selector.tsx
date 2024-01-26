@@ -23,11 +23,21 @@ export default function DateSelector() {
 
   return (
     <>
-      <LeftArrow onClick={onClickLeft} />
-      <div className="px-10px">
+      <div
+        onClick={onClickLeft}
+        className="flex grow cursor-pointer justify-end pr-5px"
+      >
+        <LeftArrow />
+      </div>
+      <div>
         <SousTitre1>{formatLundi1Janvier(date)}</SousTitre1>
       </div>
-      <RightArrow onClick={onClickRight} />
+      <div
+        onClick={onClickRight}
+        className="flex grow cursor-pointer justify-start pl-5px"
+      >
+        <RightArrow />
+      </div>
     </>
   );
 }
