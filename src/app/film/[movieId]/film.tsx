@@ -50,10 +50,10 @@ function Movie({ movie }: { movie: MovieDetail }) {
 
 function MovieHeader({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="flex grow justify-between gap-190px">
+    <div className="flex grow justify-between gap-190px text-center lg:text-left">
       <div className="grow">
         <SousTitre1>
-          {movie.title}, {movie.directors} ({movie.year})
+          <u>{movie.title}</u>, {movie.directors} ({movie.year})
         </SousTitre1>
       </div>
     </div>
