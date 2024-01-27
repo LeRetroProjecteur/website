@@ -109,13 +109,9 @@ function MenuLink({
   const route = usePathname();
   return (
     <div
-      className={clsx(
-        className,
-        "flex justify-center border-b last:border-0 lg:py-12px lg:last:border-b",
-        {
-          "bg-retro-green": path === route,
-        },
-      )}
+      className={clsx(className, "flex justify-center border-b lg:py-12px", {
+        "bg-retro-green": path === route,
+      })}
     >
       <div className="w-min grow whitespace-break-spaces text-center">
         {children}
