@@ -11,6 +11,19 @@ const nextConfig = {
         pathname: "/v0/b/website-cine.appspot.com/o/**",
       },
     ],
+    async headers() {
+      return [
+        {
+          source: "/fonts/",
+          headers: [
+            {
+              key: "Access-Control-Allow-Origin",
+              value: "*",
+            },
+          ],
+        },
+      ];
+    },
   },
 };
 
