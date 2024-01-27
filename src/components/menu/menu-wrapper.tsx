@@ -38,7 +38,7 @@ export default function MenuWrapper({
           <Menu />
         </motion.div>
         <motion.div
-          className="absolute left-0 flex min-h-screen w-full grow px-20px lg:static lg:pl-0"
+          className="absolute left-0 flex min-h-screen w-full grow px-15px lg:static lg:px-20px lg:pl-0"
           transition={{
             duration: wasMenuOpen.current !== isMenuOpen ? 0.2 : 0,
           }}
