@@ -15,6 +15,11 @@ export default function Admin() {
           Semaine
         </Link>
       </SousTitre1>
+      <SousTitre1>
+        <Link className="underline" href="/admin/generate-newsletter">
+          Générateur de newsletter
+        </Link>
+      </SousTitre1>
     </div>
   );
 }
