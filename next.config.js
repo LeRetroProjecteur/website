@@ -15,7 +15,7 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: "/fonts/",
+        source: "/fonts/:font",
         headers: [
           {
             key: "Access-Control-Allow-Origin",
