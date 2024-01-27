@@ -232,14 +232,11 @@ function Row({
 
 function MovieCell({ movie }: { movie: MovieWithNoShowtimes }) {
   return (
-    <Link
-      href={`/film/${movie.id}`}
-      className="block cursor-pointer py-12px lg:py-17px"
-    >
-      <div className="flex px-6px lg:px-10px">
-        <div className="grow">
+    <Link href={`/film/${movie.id}`} className="block cursor-pointer">
+      <div className="flex items-center px-6px lg:px-10px">
+        <div className="grow py-12px lg:py-17px">
           <BodyCopy>
-            <i className="italic group-hover:underline">{movie.title}</i>,{" "}
+            <i className="group-hover:underline">{movie.title}</i>,{" "}
             {movie.directors} ({movie.year})
           </BodyCopy>
         </div>
