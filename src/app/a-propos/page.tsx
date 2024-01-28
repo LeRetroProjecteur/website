@@ -18,8 +18,8 @@ export default function AProposPage() {
         <SousTitre1>qui sommes nous ?</SousTitre1>
       </PageHeader>
       <div className="flex grow flex-col pb-15px lg:pb-0 lg:pl-20px">
-        <div className="flex grow flex-col lg:flex-row">
-          <div className="flex grow flex-col lg:w-1/2 lg:border-r lg:pr-20px">
+        <div className="flex grow flex-col gap-y-15px lg:flex-row">
+          <div className="flex grow flex-col gap-y-15px lg:w-1/2 lg:border-r lg:pr-20px">
             <div className="py-17px lg:pb-25px lg:pt-0">
               <BodyCopy>
                 Le Rétro Projecteur est un média digital, en libre accès et à
@@ -30,25 +30,27 @@ export default function AProposPage() {
                 programmation originale, indépendante et enrichissante.
               </BodyCopy>
             </div>
-            <div className="flex justify-center border-y bg-retro-green py-15px">
-              <SousTitre2>contactez-nous</SousTitre2>
-            </div>
-            <div className="py-17px lg:pb-0 lg:pt-20px">
-              <BodyCopy>
-                Une séance manquante, une erreur sur le site, un projet à nous
-                proposer&nbsp;?
-                <br />
-                Cinémas, producteurs, indépendants&nbsp;?{" "}
-                <a
-                  href="mailto:contact@leretroprojecteur.com"
-                  className="underline"
-                >
-                  Écrivez-nous&nbsp;!
-                </a>
-              </BodyCopy>
+            <div>
+              <div className="flex justify-center border-y bg-retro-green py-15px">
+                <SousTitre2>contactez-nous</SousTitre2>
+              </div>
+              <div className="py-17px lg:pt-20px">
+                <BodyCopy>
+                  Une séance manquante, une erreur sur le site, un projet à nous
+                  proposer&nbsp;?
+                  <br />
+                  Cinémas, producteurs, indépendants&nbsp;?{" "}
+                  <a
+                    href="mailto:contact@leretroprojecteur.com"
+                    className="underline"
+                  >
+                    Écrivez-nous&nbsp;!
+                  </a>
+                </BodyCopy>
+              </div>
             </div>
           </div>
-          <div className="flex flex-col pt-27px lg:w-1/2 lg:pl-20px lg:pt-0">
+          <div className="flex flex-col lg:w-1/2 lg:pl-20px lg:pt-0">
             <div className="flex justify-center border-y bg-retro-green py-15px">
               <SousTitre2>l&apos;équipe du rétro</SousTitre2>
             </div>
@@ -234,7 +236,7 @@ export default function AProposPage() {
 
 function Contributeur({ children }: { children: ReactNode }) {
   return (
-    <div className="border-b py-18px text-center">
+    <div className="border-b py-17px text-center">
       <BodyCopy>
         <div className="leading-21px">{children}</div>
       </BodyCopy>
