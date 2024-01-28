@@ -237,9 +237,7 @@ export default function AProposPage() {
 function Contributeur({ children }: { children: ReactNode }) {
   return (
     <div className="border-b py-17px text-center">
-      <BodyCopy>
-        <div className="leading-21px">{children}</div>
-      </BodyCopy>
+      <BodyCopy>{children}</BodyCopy>
     </div>
   );
 }
