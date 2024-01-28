@@ -148,6 +148,12 @@ const config: Config = {
         "2px": `${2 / 16}rem`,
         "1px": `${1 / 16}rem`,
       },
+      screens: {
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1280px",
+      },
       width: {
         "278px": `${278 / 16}rem`,
         "250px": `${250 / 16}rem`,
