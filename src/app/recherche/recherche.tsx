@@ -50,7 +50,7 @@ export default function Recherche({
           />
         </div>
       </FixedHeader>
-      <div className="flex grow flex-col pt-20px lg:py-0 lg:pl-20px">
+      <div className="flex grow flex-col lg:py-0 lg:pl-20px">
         <div className="flex hidden flex-wrap gap-10px py-10px lg:gap-x-20px lg:gap-y-16px lg:py-20px">
           {toPairs(TAG_MAP).map(([tag, displayTag]) => (
             <Tag key={tag} {...{ tag, displayTag }} />
@@ -107,15 +107,15 @@ function Results({
             <Link
               key={movie.id}
               href={`/film/${movie.id}`}
-              className="border-b py-10px pl-5px text-15px font-medium uppercase leading-20px first:border-t odd:bg-retro-green lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0 lg:odd:bg-white lg:hover:bg-retro-pale-green"
+              className="border-b py-10px pl-5px text-15px font-medium uppercase leading-20px even:bg-retro-pale-green lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0 lg:even:bg-white lg:hover:bg-retro-pale-green"
             >
               <u>{movie.title}</u>, {movie.directors} ({movie.year})
             </Link>
           ))
         ) : (
-          <div className="lg:pt-20px">
+          <div className="pt-15px lg:pt-20px">
             <MetaCopy>
-              désolé, nous n&apos;avons rien trouvé qui corresponde à votre
+              Désolé, nous n&apos;avons rien trouvé qui corresponde à votre
               recherche !
             </MetaCopy>
           </div>
