@@ -35,7 +35,7 @@ export default function Calendrier({
           <DateSelector />
         </div>
       </PageHeader>
-      <div className="flex grow flex-col pb-10px lg:pl-20px">
+      <div className="flex grow flex-col lg:pl-20px">
         <div className="flex pb-23px pt-14px lg:pb-32px lg:pt-14px">
           <TimeSlider />
         </div>
