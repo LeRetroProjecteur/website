@@ -17,7 +17,7 @@ export default function AProposPage() {
       <PageHeader text="à propos">
         <SousTitre1>qui sommes nous ?</SousTitre1>
       </PageHeader>
-      <div className="flex grow flex-col pb-15px lg:pb-0 lg:pl-20px">
+      <div className="flex grow flex-col lg:pl-20px">
         <div className="flex grow flex-col gap-y-15px lg:flex-row">
           <div className="flex grow flex-col gap-y-15px lg:w-1/2 lg:border-r lg:pr-20px">
             <div className="py-17px lg:pb-25px lg:pt-0">
