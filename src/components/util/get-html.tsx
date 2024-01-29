@@ -15,7 +15,7 @@ export default function GetHTML({
     if (div.current != null) {
       onChange(div.current?.innerHTML);
     }
-  });
+  }, [children, onChange]);
 
   return (
     <div className="hidden" ref={div}>
