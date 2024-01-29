@@ -20,7 +20,11 @@ import PageHeader from "@/components/layout/page-header";
 import { BodyCopy, SousTitre2 } from "@/components/typography/typography";
 import GetHTML from "@/components/util/get-html";
 import IFrame from "@/components/util/iframe";
-import { MovieWithShowtimesByDay } from "@/lib/types";
+import {
+  MovieWithNoShowtimes,
+  MovieWithShowtimesByDay,
+  ShowtimesTheater,
+} from "@/lib/types";
 import {
   checkNotNull,
   floatHourToString,
@@ -101,69 +105,156 @@ export function Movies({
       <div className="pb-20px">
         <SousTitre2>Semaine de cinéma</SousTitre2>
       </div>
-      <div className="flex flex-col gap-10px">
-        {days.map((day, i) => (
-          <div key={day} className="flex flex-col gap-5px">
-            <BodyCopy>{capitalize(day)}</BodyCopy>
-            <select id={day} {...register(day)}>
-              [<option value="">-----</option>
-              {sortBy(moviesByDay[i], (movie) => [movie.title]).map((movie) => (
-                <option value={movie.id} key={movie.id}>
-                  {movie.title}, {movie.directors} ({movie.year})
-                </option>
-              ))}
-              ]
-            </select>
-          </div>
-        ))}
+      <div className="flex">
+        <div className="flex w-1/2 grow flex-col gap-10px border-r pr-10px">
+          {days.map((day, i) => (
+            <div key={day} className="flex flex-col gap-5px">
+              <BodyCopy>{capitalize(day)}</BodyCopy>
+              <select id={day} {...register(day)}>
+                [<option value="">-----</option>
+                {sortBy(moviesByDay[i], (movie) => [movie.title]).map(
+                  (movie) => (
+                    <option value={movie.id} key={movie.id}>
+                      {movie.title}, {movie.directors} ({movie.year})
+                    </option>
+                  ),
+                )}
+                ]
+              </select>
+            </div>
+          ))}
+        </div>
+        <div className="pl-10px">
+          <IFrame html={html} className="w-[600px]"></IFrame>
+        </div>
       </div>
-      <IFrame html={html} className="h-[1000px] w-[600px]"></IFrame>
-      <div className="font-mono">{html}</div>
+      <div className="py-20px font-mono">{html}</div>
       <GetHTML onChange={setHtml}>
-        <div className="days">
-          {week.map((day, i) => {
-            if (dayValues[i] == null || dayValues[i] === "") {
-              return null;
-            } else {
-              const movie = checkNotNull(moviesById[dayValues[i]]);
-              const showtimes = sortBy(
-                uniqBy(
-                  movie.showtimes_by_day[formatYYYYMMDD(day)],
-                  (showtimes_theater) => showtimes_theater.clean_name,
-                ),
-                (showtimes_theater) => showtimes_theater.clean_name,
-              );
-              return (
-                <Fragment key={i}>
-                  <div>
-                    <div>
-                      <u>
-                        <span>
-                          {capitalize(
-                            format(day, "EEEE d MMMM", { locale: fr }),
-                          )}
-                        </span>
-                      </u>
-                    </div>
-                    <div>
-                      <i>{movie.title}</i>, {movie.directors} ({movie.year})
-                    </div>
-                  </div>
-                  {showtimes.map((showtimes_theater) => (
-                    <div key={showtimes_theater.clean_name}>
-                      {showtimes_theater.clean_name} (
-                      {showtimes_theater.zipcode_clean})&nbsp;:{" "}
-                      {showtimes_theater.showtimes
-                        .map((showtime) => floatHourToString(showtime))
-                        .join(", ")}
-                    </div>
-                  ))}
-                </Fragment>
-              );
-            }
-          })}
+        <div
+          style={{
+            padding: "12px 0",
+          }}
+        >
+          <table style={{ width: "100%" }}>
+            <tbody>
+              <tr>
+                <td
+                  style={{
+                    width: "50%",
+                    textAlign: "center",
+                    verticalAlign: "top",
+                  }}
+                >
+                  <DaysMovies
+                    week={week.slice(0, 4)}
+                    dayValues={dayValues.slice(0, 4)}
+                    moviesById={moviesById}
+                  />
+                </td>
+                <td
+                  style={{
+                    width: "50%",
+                    textAlign: "center",
+                    verticalAlign: "top",
+                  }}
+                >
+                  <DaysMovies
+                    week={week.slice(4)}
+                    dayValues={dayValues.slice(4)}
+                    moviesById={moviesById}
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </GetHTML>
+    </>
+  );
+}
+
+export function DaysMovies({
+  week,
+  dayValues,
+  moviesById,
+}: {
+  week: Date[];
+  dayValues: string[];
+  moviesById: { [key: string]: MovieWithShowtimesByDay };
+}) {
+  return (
+    <>
+      {week.map((day, i) => {
+        if (dayValues[i] == null || dayValues[i] === "") {
+          return null;
+        } else {
+          const movie = checkNotNull(moviesById[dayValues[i]]);
+          const showtimes = sortBy(
+            uniqBy(
+              movie.showtimes_by_day[formatYYYYMMDD(day)],
+              (showtimes_theater) => showtimes_theater.clean_name,
+            ),
+            (showtimes_theater) => showtimes_theater.clean_name,
+          );
+          return (
+            <DayMovie
+              key={i}
+              movie={movie}
+              showtimes={showtimes}
+              day={day}
+              isLast={i == week.length - 1}
+            />
+          );
+        }
+      })}
+    </>
+  );
+}
+
+export function DayMovie({
+  movie,
+  day,
+  showtimes,
+  isLast,
+}: {
+  movie: MovieWithNoShowtimes;
+  day: Date;
+  showtimes: ShowtimesTheater[];
+  isLast: boolean;
+}) {
+  return (
+    <>
+      <div>
+        <u>
+          <span
+            style={{
+              textDecoration: "underline",
+              fontWeight: 700,
+              lineHeight: 1.5,
+              color: "#4d4d4d",
+            }}
+          >
+            {capitalize(format(day, "EEEE d MMMM", { locale: fr }))}
+          </span>
+        </u>
+      </div>
+      <div style={{ lineHeight: 1.5, color: "#4d4d4d" }}>
+        <i style={{ fontWeight: 700 }}>{movie.title}</i>, {movie.directors} (
+        {movie.year})
+      </div>
+      {showtimes.map((showtimes_theater) => (
+        <div
+          style={{ lineHeight: 1.5, color: "#4d4d4d" }}
+          key={showtimes_theater.clean_name}
+        >
+          {showtimes_theater.clean_name} ({showtimes_theater.zipcode_clean}
+          )&nbsp;:{" "}
+          {showtimes_theater.showtimes
+            .map((showtime) => floatHourToString(showtime))
+            .join(", ")}
+        </div>
+      ))}
+      {!isLast && <div style={{ lineHeight: 1.5, color: "#4d4d4d" }}>•</div>}
     </>
   );
 }
