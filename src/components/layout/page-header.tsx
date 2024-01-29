@@ -31,15 +31,20 @@ export default function PageHeader({
 export function FixedHeader({
   children,
   className,
+  disableBelowPadding,
 }: {
   children: ReactNode;
   className?: string;
+  disableBelowPadding?: boolean;
 }) {
   return (
     <div
       className={clsx(
         className,
-        "z-20 flex flex-col bg-white pb-15px lg:sticky lg:top-0 lg:pb-32px lg:pt-20px",
+        {
+          "pb-15px lg:pb-32px": !(disableBelowPadding ?? false),
+        },
+        "z-20 flex flex-col bg-white lg:sticky lg:top-0 lg:pt-20px",
       )}
     >
       {children}
