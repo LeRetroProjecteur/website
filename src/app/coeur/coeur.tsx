@@ -50,7 +50,7 @@ export default function CoupsDeCoeur({
       <PageHeader text="coups de coeur">
         <SubHeader display={display} toggleDisplay={toggleDisplay} />
       </PageHeader>
-      <div className="flex grow flex-col pb-10px lg:pb-0 lg:pl-20px">
+      <div className="flex grow flex-col lg:pl-20px">
         <div className="flex pb-15px pt-15px lg:pb-20px lg:pt-0 ">
           <RetroInput
             placeholder="recherche"

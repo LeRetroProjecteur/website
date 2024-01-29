@@ -33,7 +33,7 @@ export default function Film({ movie }: { movie: MovieDetail }) {
       <PageHeader text={"Film"}>
         <MovieHeader movie={movie} />
       </PageHeader>
-      <div className="flex grow flex-col pb-15px lg:pb-0 lg:pl-20px">
+      <div className="flex grow flex-col lg:pl-20px">
         <Movie movie={movie} />
         <div className="w-1/2 border-r lg:h-100px" />
       </div>
