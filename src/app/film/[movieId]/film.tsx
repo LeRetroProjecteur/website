@@ -33,7 +33,7 @@ export default function Film({ movie }: { movie: MovieDetail }) {
       <PageHeader text={"Film"}>
         <MovieHeader movie={movie} />
       </PageHeader>
-      <div className="flex grow flex-col pb-15px lg:pb-0 lg:pl-20px">
+      <div className="flex grow flex-col lg:pl-20px">
         <Movie movie={movie} />
         <div className="w-1/2 border-r lg:h-100px" />
       </div>
@@ -64,7 +64,7 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
   return (
     <div className="flex grow flex-col lg:w-1/2 lg:border-r lg:pr-20px">
       {movie.review && movie.review_date && (
-        <div className="flex flex-col pt-15px lg:pb-20px lg:pt-0">
+        <div className="flex flex-col lg:pb-20px">
           <div className="flex">
             <div className="flex grow basis-0 pb-15px lg:pb-20px">
               <Image
@@ -78,11 +78,8 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
             </div>
           </div>
           <BodyCopy>
-            <div
-              className="lg:leading-21px"
-              dangerouslySetInnerHTML={{ __html: movie.review }}
-            ></div>
-            <div className="flex items-center pt-6px lg:leading-21px">
+            <div dangerouslySetInnerHTML={{ __html: movie.review }}></div>
+            <div className="flex items-center pt-6px">
               <div className="pr-6px">
                 <Image
                   className="w-25px"
@@ -99,7 +96,7 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
         </div>
       )}
 
-      <div className="flex pt-15px lg:pt-0">
+      <div className="flex">
         <MetaCopy>
           <div>Titre original&nbsp;: {movie.original_title}</div>
           {movie.duration == null ? (
@@ -259,7 +256,7 @@ function Tags({ movie }: { movie: MovieDetail }) {
         {tags.map((tag) => (
           <div
             key={tag}
-            className="rounded-2xl bg-retro-gray px-15px py-6px text-19px font-medium uppercase leading-20px text-white lg:px-12px lg:text-20px lg:tracking-[-0.02em]"
+            className="rounded-2xl bg-retro-gray px-15px py-6px text-19px font-medium uppercase text-white lg:px-12px lg:text-20px lg:tracking-[-0.02em]"
           >
             {TAG_MAP[tag]}
           </div>

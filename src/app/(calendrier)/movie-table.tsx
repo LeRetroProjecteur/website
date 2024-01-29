@@ -23,7 +23,7 @@ import {
 import useSWR from "swr";
 
 import { Loading, SuspenseWithLoading } from "@/components/icons/loading";
-import { BodyCopy, SousTitre2 } from "@/components/typography/typography";
+import { CalendrierCopy, SousTitre2 } from "@/components/typography/typography";
 import { Quartier, useCalendrierStore } from "@/lib/calendrier-store";
 import {
   Movie,
@@ -164,11 +164,11 @@ function TableHeader() {
 function EmptyTableState({ filter }: { filter: string }) {
   return (
     <div className="flex justify-center border-b py-13px lg:py-20px">
-      <BodyCopy>
+      <CalendrierCopy>
         {filter.length > 0
           ? "Aucun film ne correspond à cette recherche aujourd'hui. Essayez demain ?"
           : "Aucun film ne joue à cette heure-ci aujourd'hui. Essayez demain ?"}
-      </BodyCopy>
+      </CalendrierCopy>
     </div>
   );
 }
@@ -235,10 +235,10 @@ function MovieCell({ movie }: { movie: MovieWithNoShowtimes }) {
     <Link href={`/film/${movie.id}`} className="block cursor-pointer">
       <div className="flex items-center px-6px lg:px-10px">
         <div className="grow py-12px lg:py-17px">
-          <BodyCopy>
+          <CalendrierCopy>
             <i className="group-hover:underline">{movie.title}</i>,{" "}
             {movie.directors} ({movie.year})
-          </BodyCopy>
+          </CalendrierCopy>
         </div>
         {isCoupDeCoeur(movie) && (
           <div className="shrink-0">
@@ -260,11 +260,11 @@ function MultiDaySeances({ movie }: { movie: MovieWithShowtimesByDay }) {
         ([day]) => day,
       ).map(([day, theaters], i) => (
         <div key={i} className="flex grow flex-col gap-10px lg:gap-5px">
-          <BodyCopy>
+          <CalendrierCopy>
             <strong className="font-semibold">
               {capitalize(formatLundi1Janvier(day))}
             </strong>
-          </BodyCopy>
+          </CalendrierCopy>
           <div className="flex grow flex-col gap-10px lg:gap-5px">
             {sortBy(
               uniqBy(
@@ -333,9 +333,9 @@ function Seances({ movie }: { movie: Movie }) {
       )}
       {needsExpanding && (
         <div className="flex justify-end">
-          <BodyCopy className="font-semibold">
+          <CalendrierCopy className="font-semibold">
             {isExpanded ? "Moins de séances ↑" : "Plus de séances ↓"}
-          </BodyCopy>
+          </CalendrierCopy>
         </div>
       )}
     </div>
@@ -359,9 +359,9 @@ function SceancesTheater({
   return (
     <div className="flex justify-between" key={showtimesTheater.clean_name}>
       <div className="grow pr-20px">
-        <BodyCopy>
+        <CalendrierCopy>
           {showtimesTheater.clean_name} ({showtimesTheater.zipcode_clean})
-        </BodyCopy>
+        </CalendrierCopy>
       </div>
       <div className="flex flex-col">
         {groupsOfThree.map((showtimes, i) => (
@@ -377,9 +377,9 @@ function ThreeShowtimes({ threeShowtimes }: { threeShowtimes: number[] }) {
     <div className="flex flex-col lg:flex-row lg:justify-end">
       {threeShowtimes.map((showtime) => (
         <div key={showtime} className="group flex justify-end">
-          <BodyCopy>{floatHourToString(showtime)}</BodyCopy>
+          <CalendrierCopy>{floatHourToString(showtime)}</CalendrierCopy>
           <div className="hidden group-last:hidden lg:block">
-            <BodyCopy>&nbsp;•&nbsp;</BodyCopy>
+            <CalendrierCopy>&nbsp;•&nbsp;</CalendrierCopy>
           </div>
         </div>
       ))}

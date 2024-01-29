@@ -32,8 +32,8 @@ export default function Recherche({
   const [searchTerm, setSearchTerm] = useState("");
   return (
     <>
-      <FixedHeader className="lg:border-b">
-        <div className="pb-17px lg:hidden">
+      <FixedHeader disableBelowPadding className="lg:border-b lg:pb-20px">
+        <div className="lg:hidden">
           <PageHeader text={"recherche"} />
         </div>
         <div className="flex flex-col lg:pl-20px">

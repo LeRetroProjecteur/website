@@ -73,7 +73,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               </div>
               <div className="flex grow flex-col justify-between">
                 <div className="flex grow flex-col">{children}</div>
-                <div className="flex lg:pb-20px lg:pl-20px lg:pt-20px">
+                <div className="flex pt-20px lg:pb-20px lg:pl-20px lg:pt-30px">
                   <Footer />
                 </div>
               </div>
