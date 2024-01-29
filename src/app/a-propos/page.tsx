@@ -18,9 +18,9 @@ export default function AProposPage() {
         <SousTitre1>qui sommes nous ?</SousTitre1>
       </PageHeader>
       <div className="flex grow flex-col lg:pl-20px">
-        <div className="flex grow flex-col gap-y-15px lg:flex-row">
-          <div className="flex grow flex-col gap-y-15px lg:w-1/2 lg:border-r lg:pr-20px">
-            <div className="pb-15px lg:pb-25px">
+        <div className="flex grow flex-col lg:flex-row">
+          <div className="flex grow flex-col lg:w-1/2 lg:border-r lg:pr-20px">
+            <div className="pb-25px">
               <BodyCopy>
                 Le Rétro Projecteur est un média digital, en libre accès et à
                 but non lucratif qui se donne pour mission de mettre en lumière
@@ -34,7 +34,7 @@ export default function AProposPage() {
               <div className="flex justify-center border-y bg-retro-green py-15px">
                 <SousTitre2>contactez-nous</SousTitre2>
               </div>
-              <div className="py-17px lg:pt-20px">
+              <div className="pb-25px pt-17px lg:pt-20px">
                 <BodyCopy>
                   Une séance manquante, une erreur sur le site, un projet à nous
                   proposer&nbsp;?
