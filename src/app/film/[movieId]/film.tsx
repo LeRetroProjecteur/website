@@ -64,7 +64,7 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
   return (
     <div className="flex grow flex-col lg:w-1/2 lg:border-r lg:pr-20px">
       {movie.review && movie.review_date && (
-        <div className="flex flex-col pt-15px lg:pb-20px lg:pt-0">
+        <div className="flex flex-col lg:pb-20px">
           <div className="flex">
             <div className="flex grow basis-0 pb-15px lg:pb-20px">
               <Image
@@ -96,7 +96,7 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
         </div>
       )}
 
-      <div className="flex pt-15px lg:pt-0">
+      <div className="flex">
         <MetaCopy>
           <div>Titre original&nbsp;: {movie.original_title}</div>
           {movie.duration == null ? (

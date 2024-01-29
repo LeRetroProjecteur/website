@@ -51,7 +51,7 @@ export default function CoupsDeCoeur({
         <SubHeader display={display} toggleDisplay={toggleDisplay} />
       </PageHeader>
       <div className="flex grow flex-col lg:pl-20px">
-        <div className="flex pb-15px pt-15px lg:pb-20px lg:pt-0 ">
+        <div className="flex pb-15px lg:pb-20px">
           <RetroInput
             placeholder="recherche"
             value={filter}

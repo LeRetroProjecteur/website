@@ -39,7 +39,7 @@ export function FixedHeader({
     <div
       className={clsx(
         className,
-        "z-20 flex flex-col bg-white lg:sticky lg:top-0 lg:pb-20px lg:pt-20px",
+        "z-20 flex flex-col bg-white pb-15px lg:sticky lg:top-0 lg:pb-30px lg:pt-20px",
       )}
     >
       {children}
