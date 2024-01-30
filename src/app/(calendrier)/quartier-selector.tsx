@@ -53,10 +53,10 @@ function QuartierToggler({
           "text-retro-gray": !present,
         },
         {
-          "border-retro-black": present,
-          "text-retro-black": present,
+          "bg-retro-gray": present,
+          "text-white": present,
         },
-        "flex h-33px cursor-pointer items-center  justify-center border lg:h-48px",
+        "flex h-33px cursor-pointer items-center justify-center border border-retro-gray lg:h-48px",
       )}
     >
       <ButtonCopy>{quartierName}</ButtonCopy>

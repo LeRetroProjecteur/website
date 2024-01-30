@@ -421,7 +421,11 @@ function filterAndSortMovies(
             .filter(
               (theater) =>
                 theater.showtimes.length > 0 &&
-                some(quartiers, (quartier) => quartier === theater.location_2),
+                (quartiers.length === 0 ||
+                  some(
+                    quartiers,
+                    (quartier) => quartier === theater.location_2,
+                  )),
             ),
         }))
         .filter((movie) => movie.showtimes_theater.length > 0);
