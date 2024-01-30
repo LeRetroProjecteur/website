@@ -50,8 +50,8 @@ export default function GenerateNewsletter({
   return (
     <>
       <PageHeader text="Newsletter"></PageHeader>
-      <div className="flex flex-col pl-20px">
-        <SuspenseWithLoading>
+      <div className="flex grow flex-col pl-20px">
+        <SuspenseWithLoading className="flex grow items-center justify-center">
           <div className="flex flex-col border-b pb-44px">
             <Movies movies={movies} />
           </div>

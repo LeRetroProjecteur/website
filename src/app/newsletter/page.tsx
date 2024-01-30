@@ -61,7 +61,7 @@ export default function AProposPage() {
             </form>
           </div>
         </div>
-        <div className="hidden h-100px w-1/2 border-r lg:block" />
+        <div className="hidden min-h-100px w-1/2 border-r lg:block" />
       </div>
     </>
   );

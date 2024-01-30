@@ -58,7 +58,7 @@ export default function CoupsDeCoeur({
             setValue={setFilter}
           />
         </div>
-        <SuspenseWithLoading>
+        <SuspenseWithLoading className="flex grow items-center justify-center">
           <Reviews {...{ fetchedReviews, display, filter }} />
         </SuspenseWithLoading>
       </div>
@@ -177,7 +177,7 @@ function ReviewList({ reviews }: { reviews: Review[] }) {
       {reviews.map((review) => (
         <ReviewRow review={review} key={review.id} />
       ))}
-      <div className="h-100px border-r" />
+      <div className="min-h-100px border-r" />
     </div>
   );
 }

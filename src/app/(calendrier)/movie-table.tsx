@@ -82,23 +82,27 @@ export default function MovieTable({
   );
 
   return (
-    <SuspenseWithLoading>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <LoadedTable
-          {...{
-            useClientData,
-            serverMovies,
-            clientMovies,
-            minHourFilteringTodaysMissedFilms,
-            maxHour,
-            quartiers,
-            filter,
-          }}
-        />
-      )}
-    </SuspenseWithLoading>
+    <div className="flex grow flex-col">
+      <TableHeader />
+      <SuspenseWithLoading className="h-60px border-b py-10px">
+        {isLoading ? (
+          <Loading className="h-60px border-b py-10px" />
+        ) : (
+          <LoadedTable
+            {...{
+              useClientData,
+              serverMovies,
+              clientMovies,
+              minHourFilteringTodaysMissedFilms,
+              maxHour,
+              quartiers,
+              filter,
+            }}
+          />
+        )}
+      </SuspenseWithLoading>
+      <TableFooter />
+    </div>
   );
 }
 
@@ -137,13 +141,10 @@ function LoadedTable({
     [movies, minHourFilteringTodaysMissedFilms, maxHour, quartiers, filter],
   );
 
-  return (
-    <div className="flex grow flex-col">
-      <TableHeader />
-      {sortedFilteredMovies.length == 0 && <EmptyTableState filter={filter} />}
-      <MovieRows movies={sortedFilteredMovies} />
-      <TableFooter />
-    </div>
+  return sortedFilteredMovies.length == 0 ? (
+    <EmptyTableState filter={filter} />
+  ) : (
+    <MovieRows movies={sortedFilteredMovies} />
   );
 }
 
@@ -202,7 +203,7 @@ function MovieRows({
 function TableFooter() {
   return (
     <div className="flex grow">
-      <div className="h-100px w-1/2 border-r"></div>
+      <div className="min-h-100px w-1/2 border-r"></div>
     </div>
   );
 }
