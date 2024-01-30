@@ -17,7 +17,7 @@ export default function AProposPage() {
           up close, la newsletter du rétro
         </SousTitre1>
       </PageHeader>
-      <div className="flex grow flex-col pb-10px pt-10px lg:pl-20px lg:pt-0">
+      <div className="flex grow flex-col lg:pl-20px">
         <div className="flex grow flex-col gap-10px lg:flex-row lg:gap-0">
           <div className="flex flex-col lg:w-1/2 lg:border-r lg:pr-20px">
             <BodyCopy>

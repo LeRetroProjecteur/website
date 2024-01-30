@@ -128,6 +128,7 @@ const config: Config = {
         "100px": `${100 / 16}rem`,
         "44px": `${44 / 16}rem`,
         "32px": `${32 / 16}rem`,
+        "30px": `${30 / 16}rem`,
         "28px": `${28 / 16}rem`,
         "27px": `${27 / 16}rem`,
         "25px": `${25 / 16}rem`,
@@ -151,6 +152,12 @@ const config: Config = {
         "3px": `${3 / 16}rem`,
         "2px": `${2 / 16}rem`,
         "1px": `${1 / 16}rem`,
+      },
+      screens: {
+        sm: "640px",
+        md: "768px",
+        lg: "1024px",
+        xl: "1280px",
       },
       width: {
         "278px": `${278 / 16}rem`,
