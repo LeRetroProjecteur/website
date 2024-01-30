@@ -50,7 +50,7 @@ export default function CoupsDeCoeur({
       <PageHeader text="coups de coeur">
         <SubHeader display={display} toggleDisplay={toggleDisplay} />
       </PageHeader>
-      <div className="flex grow flex-col pb-10px lg:pb-0 lg:pl-20px">
+      <div className="flex grow flex-col lg:pl-20px">
         <div className="flex pb-15px pt-15px lg:pb-20px lg:pt-0 ">
           <RetroInput
             placeholder="recherche"
@@ -58,7 +58,7 @@ export default function CoupsDeCoeur({
             setValue={setFilter}
           />
         </div>
-        <SuspenseWithLoading>
+        <SuspenseWithLoading className="flex grow items-center justify-center">
           <Reviews {...{ fetchedReviews, display, filter }} />
         </SuspenseWithLoading>
       </div>
@@ -177,7 +177,7 @@ function ReviewList({ reviews }: { reviews: Review[] }) {
       {reviews.map((review) => (
         <ReviewRow review={review} key={review.id} />
       ))}
-      <div className="h-100px border-r" />
+      <div className="min-h-100px border-r" />
     </div>
   );
 }

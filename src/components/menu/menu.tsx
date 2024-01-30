@@ -90,7 +90,7 @@ export default function Menu() {
           ))}
         </div>
       </div>
-      <div className="flex pb-28px lg:pb-0">
+      <div className="flex pb-28px pt-15px lg:pb-0">
         <FooterLinks color="black" />
       </div>
     </div>

@@ -74,10 +74,12 @@ const config: Config = {
         "146px": `${146 / 16}rem`,
         "100px": `${100 / 16}rem`,
         "75px": `${75 / 16}rem`,
+        "60px": `${60 / 16}rem`,
         "57px": `${57 / 16}rem`,
         "50px": `${50 / 16}rem`,
         "48px": `${48 / 16}rem`,
         "44px": `${44 / 16}rem`,
+        "40px": `${40 / 16}rem`,
         "38px": `${38 / 16}rem`,
         "37px": `${37 / 16}rem`,
         "33px": `${33 / 16}rem`,
@@ -112,6 +114,9 @@ const config: Config = {
       margin: {
         "15px": `${15 / 16}rem`,
         "-3px": `${-3 / 16}rem`,
+      },
+      minHeight: {
+        "100px": `${100 / 16}rem`,
       },
       minWidth: {
         "340px": `${340 / 16}rem`,

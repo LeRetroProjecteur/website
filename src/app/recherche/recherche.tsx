@@ -57,7 +57,7 @@ export default function Recherche({
           ))}
         </div>
         {searchTerm.length > 0 ? (
-          <SuspenseWithLoading>
+          <SuspenseWithLoading className="flex grow items-center justify-center pt-15px">
             <Results {...{ searchTerm, allMoviesPromise }} />
           </SuspenseWithLoading>
         ) : (
@@ -101,7 +101,7 @@ function Results({
 
   return (
     searchTerm.length > 0 && (
-      <div className="flex flex-col">
+      <div className="flex grow flex-col">
         {filtered.length > 0 ? (
           filtered.map((movie) => (
             <Link
