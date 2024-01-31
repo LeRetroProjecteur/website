@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 export function Titre({ children }: { children: ReactNode }) {
   return (
-    <div className="font-degular text-51px font-black uppercase leading-none tracking-[0.01em] text-retro-gray lg:text-95px lg:leading-60px">
+    <div className="font-degular text-51px font-black uppercase leading-34px tracking-[0.01em] text-retro-gray lg:text-95px lg:leading-60px">
       {children}
     </div>
   );

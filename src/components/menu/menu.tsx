@@ -16,14 +16,7 @@ import FooterLinks from "../layout/footer-links";
 const menu: [JSX.Element, string][] = [
   [<>calendrier</>, "/"],
   [<>actualités</>, "/actualites"],
-  [
-    <>
-      coups
-      <br />
-      de coeur
-    </>,
-    "/coeur",
-  ],
+  [<>coups de coeur</>, "/coeur"],
   [<>à propos</>, "/a-propos"],
   [<>recherche</>, "/recherche"],
 ];

@@ -13,7 +13,7 @@ export default function PageHeader({
   return (
     <FixedHeader className="flex flex-col">
       <div>
-        <div className="grow whitespace-break-spaces border-y bg-retro-green py-6px text-center lg:w-max lg:whitespace-nowrap lg:border-0 lg:bg-white lg:py-0 lg:pl-20px lg:text-left">
+        <div className="grow whitespace-break-spaces border-y bg-retro-green py-18px text-center lg:w-max lg:whitespace-nowrap lg:border-0 lg:bg-white lg:py-0 lg:pl-20px lg:text-left">
           <Titre>{text}</Titre>
         </div>
       </div>
