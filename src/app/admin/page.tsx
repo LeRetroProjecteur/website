@@ -11,8 +11,8 @@ export default function Admin() {
         </Link>
       </SousTitre1>
       <SousTitre1>
-        <Link className="underline" href="/admin/semaine">
-          Semaine
+        <Link className="underline" href="/admin/semaine-prochaine">
+          Calendrier de la semaine prochaine
         </Link>
       </SousTitre1>
       <SousTitre1>

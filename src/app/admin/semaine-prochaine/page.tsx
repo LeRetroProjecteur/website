@@ -12,7 +12,7 @@ export default function SemainePage() {
 
   return (
     <>
-      <PageHeader text="semaine" />
+      <PageHeader text="La semaine prochaine" />
       <div className="flex grow flex-col pb-10px lg:pl-20px">
         <div className="flex flex-col lg:flex-row">
           <div className="flex pt-15px lg:grow lg:pt-0">
