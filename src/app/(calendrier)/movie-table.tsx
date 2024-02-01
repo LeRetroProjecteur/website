@@ -4,6 +4,8 @@ import clsx from "clsx";
 import {
   capitalize,
   orderBy,
+  pickBy,
+  size,
   some,
   sortBy,
   take,
@@ -22,8 +24,10 @@ import {
 } from "react";
 import useSWR from "swr";
 
+import { isAfter, isSameDay } from "date-fns";
+
 import { Loading, SuspenseWithLoading } from "@/components/icons/loading";
-import { BodyCopy, SousTitre2 } from "@/components/typography/typography";
+import { CalendrierCopy, SousTitre2 } from "@/components/typography/typography";
 import { Quartier, useCalendrierStore } from "@/lib/calendrier-store";
 import {
   Movie,
@@ -37,6 +41,7 @@ import {
   floatHourToString,
   formatLundi1Janvier,
   formatYYYYMMDD,
+  getStartOfTodayInParis,
   isCoupDeCoeur,
   isMovieWithShowtimesByDay,
   isMoviesWithShowtimesByDay,
@@ -82,23 +87,27 @@ export default function MovieTable({
   );
 
   return (
-    <SuspenseWithLoading>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <LoadedTable
-          {...{
-            useClientData,
-            serverMovies,
-            clientMovies,
-            minHourFilteringTodaysMissedFilms,
-            maxHour,
-            quartiers,
-            filter,
-          }}
-        />
-      )}
-    </SuspenseWithLoading>
+    <div className="flex grow flex-col">
+      <TableHeader />
+      <SuspenseWithLoading className="h-60px border-b py-10px">
+        {isLoading ? (
+          <Loading className="h-60px border-b py-10px" />
+        ) : (
+          <LoadedTable
+            {...{
+              useClientData,
+              serverMovies,
+              clientMovies,
+              minHourFilteringTodaysMissedFilms,
+              maxHour,
+              quartiers,
+              filter,
+            }}
+          />
+        )}
+      </SuspenseWithLoading>
+      <TableFooter />
+    </div>
   );
 }
 
@@ -137,13 +146,10 @@ function LoadedTable({
     [movies, minHourFilteringTodaysMissedFilms, maxHour, quartiers, filter],
   );
 
-  return (
-    <div className="flex grow flex-col">
-      <TableHeader />
-      {sortedFilteredMovies.length == 0 && <EmptyTableState filter={filter} />}
-      <MovieRows movies={sortedFilteredMovies} />
-      <TableFooter />
-    </div>
+  return sortedFilteredMovies.length == 0 ? (
+    <EmptyTableState filter={filter} />
+  ) : (
+    <MovieRows movies={sortedFilteredMovies} />
   );
 }
 
@@ -164,11 +170,11 @@ function TableHeader() {
 function EmptyTableState({ filter }: { filter: string }) {
   return (
     <div className="flex justify-center border-b py-13px lg:py-20px">
-      <BodyCopy>
+      <CalendrierCopy>
         {filter.length > 0
           ? "Aucun film ne correspond à cette recherche aujourd'hui. Essayez demain ?"
           : "Aucun film ne joue à cette heure-ci aujourd'hui. Essayez demain ?"}
-      </BodyCopy>
+      </CalendrierCopy>
     </div>
   );
 }
@@ -202,7 +208,7 @@ function MovieRows({
 function TableFooter() {
   return (
     <div className="flex grow">
-      <div className="h-100px w-1/2 border-r"></div>
+      <div className="min-h-100px w-1/2 border-r"></div>
     </div>
   );
 }
@@ -235,10 +241,10 @@ function MovieCell({ movie }: { movie: MovieWithNoShowtimes }) {
     <Link href={`/film/${movie.id}`} className="block cursor-pointer">
       <div className="flex items-center px-6px lg:px-10px">
         <div className="grow py-12px lg:py-17px">
-          <BodyCopy>
+          <CalendrierCopy>
             <i className="group-hover:underline">{movie.title}</i>,{" "}
             {movie.directors} ({movie.year})
-          </BodyCopy>
+          </CalendrierCopy>
         </div>
         {isCoupDeCoeur(movie) && (
           <div className="shrink-0">
@@ -260,11 +266,11 @@ function MultiDaySeances({ movie }: { movie: MovieWithShowtimesByDay }) {
         ([day]) => day,
       ).map(([day, theaters], i) => (
         <div key={i} className="flex grow flex-col gap-10px lg:gap-5px">
-          <BodyCopy>
+          <CalendrierCopy>
             <strong className="font-semibold">
               {capitalize(formatLundi1Janvier(day))}
             </strong>
-          </BodyCopy>
+          </CalendrierCopy>
           <div className="flex grow flex-col gap-10px lg:gap-5px">
             {sortBy(
               uniqBy(
@@ -333,9 +339,9 @@ function Seances({ movie }: { movie: Movie }) {
       )}
       {needsExpanding && (
         <div className="flex justify-end">
-          <BodyCopy className="font-semibold">
+          <CalendrierCopy className="font-semibold">
             {isExpanded ? "Moins de séances ↑" : "Plus de séances ↓"}
-          </BodyCopy>
+          </CalendrierCopy>
         </div>
       )}
     </div>
@@ -359,9 +365,9 @@ function SceancesTheater({
   return (
     <div className="flex justify-between" key={showtimesTheater.clean_name}>
       <div className="grow pr-20px">
-        <BodyCopy>
+        <CalendrierCopy>
           {showtimesTheater.clean_name} ({showtimesTheater.zipcode_clean})
-        </BodyCopy>
+        </CalendrierCopy>
       </div>
       <div className="flex flex-col">
         {groupsOfThree.map((showtimes, i) => (
@@ -377,9 +383,9 @@ function ThreeShowtimes({ threeShowtimes }: { threeShowtimes: number[] }) {
     <div className="flex flex-col lg:flex-row lg:justify-end">
       {threeShowtimes.map((showtime) => (
         <div key={showtime} className="group flex justify-end">
-          <BodyCopy>{floatHourToString(showtime)}</BodyCopy>
+          <CalendrierCopy>{floatHourToString(showtime)}</CalendrierCopy>
           <div className="hidden group-last:hidden lg:block">
-            <BodyCopy>&nbsp;•&nbsp;</BodyCopy>
+            <CalendrierCopy>&nbsp;•&nbsp;</CalendrierCopy>
           </div>
         </div>
       ))}
@@ -405,6 +411,16 @@ function filterAndSortMovies(
 ) {
   const moviesWithFilteredShowtimes = isMoviesWithShowtimesByDay(movies)
     ? movies
+        .map((movie) => ({
+          ...movie,
+          showtimes_by_day: pickBy(
+            movie.showtimes_by_day,
+            (_, date) =>
+              isSameDay(safeDate(date), getStartOfTodayInParis()) ||
+              isAfter(safeDate(date), getStartOfTodayInParis()),
+          ),
+        }))
+        .filter((movie) => size(movie.showtimes_by_day) > 0)
     : movies
         .map<Movie>((movie) => ({
           ...movie,
@@ -420,7 +436,11 @@ function filterAndSortMovies(
             .filter(
               (theater) =>
                 theater.showtimes.length > 0 &&
-                some(quartiers, (quartier) => quartier === theater.location_2),
+                (quartiers.length === 0 ||
+                  some(
+                    quartiers,
+                    (quartier) => quartier === theater.location_2,
+                  )),
             ),
         }))
         .filter((movie) => movie.showtimes_theater.length > 0);

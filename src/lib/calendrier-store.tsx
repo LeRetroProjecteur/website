@@ -33,7 +33,7 @@ export function getUseCalendrierStore() {
     minHour: 0,
     maxHour: 24,
     filter: "",
-    quartiers: [Quartier.RG, Quartier.RD, Quartier.EM],
+    quartiers: [],
     setDate: (date: Date) => {
       set({ date, dateChanged: true });
     },
@@ -55,7 +55,7 @@ export function getUseCalendrierStore() {
         minHour: 0,
         maxHour: 24,
         filter: "",
-        quartiers: [Quartier.RG, Quartier.RD, Quartier.EM],
+        quartiers: [],
       });
     },
   }));

@@ -85,9 +85,13 @@ export const getDayMovies = unstable_cache(
 export const getMovies = unstable_cache(
   async () => {
     const { db } = getFirebase();
-    const q = doc(db, "website-extra-docs", "all-movies");
-    const querySnapshot = await getDoc(q);
-    return checkNotNull(querySnapshot.data()).elements as SearchMovie[];
+    const collectionRef = collection(db, "website-extra-docs");
+    const query_docs = query(collectionRef, where("search", "==", true));
+    const querySnapshot = await getDocs(query_docs);
+    const searchMovies = querySnapshot.docs.flatMap(
+      (doc) => doc.data().elements,
+    ) as SearchMovie[];
+    return searchMovies;
   },
   ["all-movies"],
   { revalidate: 1 },

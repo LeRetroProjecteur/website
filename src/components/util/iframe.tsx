@@ -1,5 +1,6 @@
 "use client";
 
+import clsx from "clsx";
 import { MutableRefObject, useEffect, useRef } from "react";
 
 export default function IFrame({
@@ -23,5 +24,7 @@ export default function IFrame({
     }
   }, [ref, html]);
 
-  return <iframe ref={ref} className={className} />;
+  return (
+    <iframe ref={ref} className={clsx(className, "flex grow border py-10px")} />
+  );
 }

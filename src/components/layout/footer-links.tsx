@@ -13,7 +13,7 @@ export default function FooterLinks({
   newsletterGreen?: boolean;
 }) {
   return (
-    <div className="flex grow flex-col gap-y-12px lg:gap-y-10px">
+    <div className="flex grow flex-col gap-y-12px lg:gap-y-10px lg:pt-10px">
       <div className="hidden lg:block">
         <LinkBox color={color} bgGreen>
           <a className="cursor-pointer" onClick={openNewsLetter}>

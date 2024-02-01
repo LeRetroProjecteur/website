@@ -5,7 +5,7 @@ import FooterLinks from "./footer-links";
 
 export default function Footer() {
   return (
-    <div className="flex grow flex-col pt-13px lg:h-146px lg:border-t lg:pt-10px">
+    <div className="flex grow flex-col lg:h-146px lg:border-t lg:pt-10px">
       <div className="flex lg:hidden">
         <FooterLinks color="gray" />
       </div>

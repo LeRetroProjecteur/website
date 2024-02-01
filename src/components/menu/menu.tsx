@@ -16,14 +16,7 @@ import FooterLinks from "../layout/footer-links";
 const menu: [JSX.Element, string][] = [
   [<>calendrier</>, "/"],
   [<>actualités</>, "/actualites"],
-  [
-    <>
-      coups
-      <br />
-      de coeur
-    </>,
-    "/coeur",
-  ],
+  [<>coups de coeur</>, "/coeur"],
   [<>à propos</>, "/a-propos"],
   [<>recherche</>, "/recherche"],
 ];
@@ -90,7 +83,7 @@ export default function Menu() {
           ))}
         </div>
       </div>
-      <div className="flex pb-28px lg:pb-0">
+      <div className="flex pb-28px pt-15px lg:pb-0">
         <FooterLinks color="black" />
       </div>
     </div>
@@ -109,13 +102,9 @@ function MenuLink({
   const route = usePathname();
   return (
     <div
-      className={clsx(
-        className,
-        "flex justify-center border-b last:border-0 lg:py-12px lg:last:border-b",
-        {
-          "bg-retro-green": path === route,
-        },
-      )}
+      className={clsx(className, "flex justify-center border-b lg:py-12px", {
+        "bg-retro-green": path === route,
+      })}
     >
       <div className="w-min grow whitespace-break-spaces text-center">
         {children}

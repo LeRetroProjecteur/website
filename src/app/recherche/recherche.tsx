@@ -32,8 +32,8 @@ export default function Recherche({
   const [searchTerm, setSearchTerm] = useState("");
   return (
     <>
-      <FixedHeader className="lg:border-b">
-        <div className="pb-17px lg:hidden">
+      <FixedHeader disableBelowPadding className="lg:border-b lg:pb-20px">
+        <div className="lg:hidden">
           <PageHeader text={"recherche"} />
         </div>
         <div className="flex flex-col lg:pl-20px">
@@ -50,14 +50,14 @@ export default function Recherche({
           />
         </div>
       </FixedHeader>
-      <div className="flex grow flex-col pt-20px lg:py-0 lg:pl-20px">
+      <div className="flex grow flex-col lg:py-0 lg:pl-20px">
         <div className="flex hidden flex-wrap gap-10px py-10px lg:gap-x-20px lg:gap-y-16px lg:py-20px">
           {toPairs(TAG_MAP).map(([tag, displayTag]) => (
             <Tag key={tag} {...{ tag, displayTag }} />
           ))}
         </div>
         {searchTerm.length > 0 ? (
-          <SuspenseWithLoading>
+          <SuspenseWithLoading className="flex grow items-center justify-center pt-15px">
             <Results {...{ searchTerm, allMoviesPromise }} />
           </SuspenseWithLoading>
         ) : (
@@ -93,7 +93,7 @@ function Results({
               (movie) => movie.relevance_score,
               "desc",
             ),
-            5,
+            50,
           )
         : [],
     [allMovies, searchTerm, tags],
@@ -101,22 +101,21 @@ function Results({
 
   return (
     searchTerm.length > 0 && (
-      <div className="flex flex-col">
+      <div className="flex grow flex-col">
         {filtered.length > 0 ? (
           filtered.map((movie) => (
             <Link
               key={movie.id}
               href={`/film/${movie.id}`}
-              className="flex border-b py-10px pl-5px text-15px font-medium uppercase leading-20px first:border-t odd:bg-retro-green lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0 lg:last:border-0 lg:odd:bg-white lg:hover:bg-retro-pale-green"
+              className="border-b py-10px pl-5px text-15px font-medium uppercase leading-20px even:bg-retro-pale-green lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0 lg:even:bg-white lg:hover:bg-retro-pale-green"
             >
-              <u className="underline">{movie.title}</u>&nbsp;({movie.year}),{" "}
-              {movie.directors}
+              <u>{movie.title}</u>, {movie.directors} ({movie.year})
             </Link>
           ))
         ) : (
-          <div className="lg:pt-20px">
+          <div className="pt-15px lg:pt-20px">
             <MetaCopy>
-              désolé, nous n&apos;avons rien trouvé qui corresponde à votre
+              Désolé, nous n&apos;avons rien trouvé qui corresponde à votre
               recherche !
             </MetaCopy>
           </div>
