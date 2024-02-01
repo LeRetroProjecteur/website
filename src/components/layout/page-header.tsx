@@ -42,7 +42,7 @@ export function FixedHeader({
       className={clsx(
         className,
         {
-          "pb-15px lg:pb-32px": !(disableBelowPadding ?? false),
+          "pb-15px lg:pb-20px": !(disableBelowPadding ?? false),
         },
         "z-20 flex flex-col bg-white lg:sticky lg:top-0 lg:pt-20px",
       )}

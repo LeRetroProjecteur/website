@@ -116,6 +116,9 @@ const config: Config = {
         "15px": `${15 / 16}rem`,
         "-3px": `${-3 / 16}rem`,
       },
+      maxWidth: {
+        "250px": `${250 / 16}rem`,
+      },
       minHeight: {
         "100px": `${100 / 16}rem`,
       },

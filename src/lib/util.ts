@@ -30,7 +30,7 @@ export function getNextMovieWeek() {
   const startOfNextWeek = addDays(
     addWeeks(
       startOfISOWeek(today),
-      [0, 1, 2, 3, 4].includes(today.getDay()) ? 0 : 1,
+      [0, 1, 2, 3, 4, 5].includes(today.getDay()) ? 0 : 1,
     ),
     2,
   );
@@ -54,7 +54,11 @@ export function floatHourToString(hour: number) {
 }
 
 export function safeDate(date: string) {
-  return new Date(date.replaceAll("_", "-"));
+  const [year, month, day] = date.replaceAll("_", "-").split("-").map(Number);
+  return utcToZonedTime(
+    new Date(year, month - 1, day, 0, 0, 0, 0),
+    "Europe/Paris",
+  );
 }
 
 export function nowInParis() {
@@ -77,7 +81,7 @@ function clean_string(str: string) {
   str = str.replaceAll("-", " ");
   str = str.replaceAll(/['’]/g, "'");
   str = str.replaceAll("'", " ");
-  str = str.replaceAll("&", "and");
+  str = str.replaceAll("&", " and ");
   str = str.normalize("NFD").replace(/\p{Diacritic}/gu, "");
   str = str.replaceAll(/[^a-zA-Z0-9 #]/g, "");
   str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");

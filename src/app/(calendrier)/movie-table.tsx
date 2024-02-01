@@ -4,6 +4,8 @@ import clsx from "clsx";
 import {
   capitalize,
   orderBy,
+  pickBy,
+  size,
   some,
   sortBy,
   take,
@@ -22,6 +24,8 @@ import {
 } from "react";
 import useSWR from "swr";
 
+import { isAfter, isSameDay } from "date-fns";
+
 import { Loading, SuspenseWithLoading } from "@/components/icons/loading";
 import { CalendrierCopy, SousTitre2 } from "@/components/typography/typography";
 import { Quartier, useCalendrierStore } from "@/lib/calendrier-store";
@@ -37,6 +41,7 @@ import {
   floatHourToString,
   formatLundi1Janvier,
   formatYYYYMMDD,
+  getStartOfTodayInParis,
   isCoupDeCoeur,
   isMovieWithShowtimesByDay,
   isMoviesWithShowtimesByDay,
@@ -406,6 +411,16 @@ function filterAndSortMovies(
 ) {
   const moviesWithFilteredShowtimes = isMoviesWithShowtimesByDay(movies)
     ? movies
+        .map((movie) => ({
+          ...movie,
+          showtimes_by_day: pickBy(
+            movie.showtimes_by_day,
+            (_, date) =>
+              isSameDay(safeDate(date), getStartOfTodayInParis()) ||
+              isAfter(safeDate(date), getStartOfTodayInParis()),
+          ),
+        }))
+        .filter((movie) => size(movie.showtimes_by_day) > 0)
     : movies
         .map<Movie>((movie) => ({
           ...movie,

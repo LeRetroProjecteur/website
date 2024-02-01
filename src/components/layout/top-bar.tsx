@@ -20,11 +20,9 @@ export default function TopBar() {
       <div className="absolute cursor-pointer" onClick={openMenu}>
         <BurgerIcon />
       </div>
-      <div className="flex grow justify-center">
-        <Link href="/" onClick={onClickLogo}>
-          <Image src={logoAnime} alt="logo" className="w-225px" />
-        </Link>
-      </div>
+      <Link href="/" onClick={onClickLogo} className="flex grow justify-center">
+        <Image src={logoAnime} alt="logo" className="w-[70%] max-w-250px" />
+      </Link>
     </div>
   );
 }
