@@ -2,7 +2,6 @@
 
 import clsx from "clsx";
 import { MutableRefObject, useEffect, useRef } from "react";
-import { useInterval } from "usehooks-ts";
 
 export default function IFrame({
   html,
@@ -12,14 +11,6 @@ export default function IFrame({
   className?: string;
 }) {
   const ref: MutableRefObject<HTMLIFrameElement | null> = useRef(null);
-
-  useInterval(() => {
-    if (ref.current?.contentWindow?.document?.children != null) {
-      ref.current.height = `${
-        ref.current.contentWindow.document.children[0].scrollHeight + 100
-      }px`;
-    }
-  }, 500);
 
   useEffect(() => {
     if (ref.current?.contentWindow != null) {
@@ -34,10 +25,6 @@ export default function IFrame({
   }, [ref, html]);
 
   return (
-    <iframe
-      ref={ref}
-      className={clsx(className, "border py-10px")}
-      dangerouslySetInnerHTML={{ __html: "<!DOCTYPE html><body></body>" }}
-    />
+    <iframe ref={ref} className={clsx(className, "flex grow border py-10px")} />
   );
 }

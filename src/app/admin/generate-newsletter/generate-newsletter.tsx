@@ -124,7 +124,7 @@ export function Movies({
             </div>
           ))}
         </div>
-        <div className="pl-10px">
+        <div className="flex pl-10px">
           <IFrame html={html} className="w-[600px]"></IFrame>
         </div>
       </div>
