@@ -1,7 +1,6 @@
 "use client";
 
 import { orderBy } from "lodash-es";
-import Image from "next/image";
 import Link from "next/link";
 import { use, useCallback, useMemo, useState } from "react";
 
@@ -10,12 +9,12 @@ import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
 import {
   BodyCopy,
-  CoeurCopy,
+  MetaCopy,
   SousTitre1,
+  ThumbnailCopy,
 } from "@/components/typography/typography";
 import { Review } from "@/lib/types";
 import {
-  blurProps,
   formatDDMMYYWithSlashes,
   getImageUrl,
   getReviewSortKey,
@@ -62,6 +61,7 @@ export default function CoupsDeCoeur({
           <Reviews {...{ fetchedReviews, display, filter }} />
         </SuspenseWithLoading>
       </div>
+      `{" "}
     </>
   );
 }
@@ -128,46 +128,27 @@ function Reviews({
 
 function EmptyState() {
   return (
-    <div className="flex">
-      <CoeurCopy>
-        Désolé, nous n&apos;avons rien trouvé qui corresponde à votre
-        recherche&nbsp;!
-      </CoeurCopy>
-    </div>
+    <MetaCopy>
+      Désolé, nous n&apos;avons rien trouvé qui corresponde à votre
+      recherche&nbsp;!
+    </MetaCopy>
   );
 }
 
 function ReviewThumbnails({ reviews }: { reviews: Review[] }) {
   return (
-    <div className="grid grid-cols-thumbnails-sm gap-x-15px gap-y-10px lg:grid-cols-thumbnails-lg lg:gap-x-20px lg:gap-y-16px">
+    <div className="grid grid-cols-thumbnails-sm gap-15px lg:grid-cols-thumbnails-lg lg:gap-20px">
       {reviews.map((review) => (
-        <ReviewThumbnail review={review} key={review.id} />
+        <ThumbnailCopy
+          key={review.id}
+          link={`/film/${review.id}`}
+          image={getImageUrl(review)}
+          alt={review.title}
+        >
+          <u>{review.title}</u>, {review.directors} ({review.year})
+        </ThumbnailCopy>
       ))}
     </div>
-  );
-}
-
-function ReviewThumbnail({ review }: { review: Review }) {
-  return (
-    <Link href={`/film/${review.id}`}>
-      <div className="flex flex-col gap-5px">
-        <Image
-          className="h-auto w-full"
-          width={1200}
-          height={675}
-          src={getImageUrl(review)}
-          alt={review.title}
-          {...blurProps}
-        />
-        <div className="flex flex-col justify-between gap-0 lg:flex-row lg:gap-20px">
-          <div>
-            <CoeurCopy>
-              <u>{review.title}</u>, {review.directors} ({review.year})
-            </CoeurCopy>
-          </div>
-        </div>
-      </div>
-    </Link>
   );
 }
 
