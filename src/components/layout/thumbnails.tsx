@@ -9,25 +9,29 @@ export function ThumbnailCopy({
   link,
   image,
   alt,
+  width,
+  height,
   children,
 }: {
   link: string;
   image: StaticImageData | string;
   alt: string;
+  width?: number;
+  height?: number;
   children: ReactNode;
 }) {
   return (
     <Link href={link}>
       <div className="flex flex-col gap-10px">
         <Image
-          className="h-auto w-full"
+          className="width-1200 height-675 h-auto w-full"
           src={image}
           alt={alt}
-          width={1200}
-          height={675}
+          width={width}
+          height={height}
           {...blurProps}
         />
-        <div className="flex flex-col justify-between gap-10px lg:flex-row lg:gap-20px">
+        <div className="gap-10px lg:flex-row lg:gap-20px">
           <MetaCopy>{children}</MetaCopy>
         </div>
       </div>

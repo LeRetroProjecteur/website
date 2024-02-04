@@ -147,6 +147,8 @@ function ReviewThumbnails({ reviews }: { reviews: Review[] }) {
           link={`/film/${review.id}`}
           image={getImageUrl(review)}
           alt={review.title}
+          width={1200}
+          height={675}
         >
           <u>{review.title}</u>, {review.directors} ({review.year})
         </ThumbnailCopy>

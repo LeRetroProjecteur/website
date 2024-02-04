@@ -55,9 +55,10 @@ function ActualitesThumbnails() {
           image={image}
           alt={titre}
         >
-          {date} • {type}
-          <br />
-          <span className="text-retro-black">{titre}</span>
+          <div>
+            {date} • {type}
+          </div>
+          <div className="text-retro-black">{titre}</div>
         </ThumbnailCopy>
       ))}
     </ThumbnailGridCopy>
