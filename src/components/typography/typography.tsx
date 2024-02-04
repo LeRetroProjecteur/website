@@ -1,9 +1,5 @@
 import clsx from "clsx";
-import Image, { StaticImageData } from "next/image";
-import Link from "next/link";
 import { ReactNode } from "react";
-
-import { blurProps } from "@/lib/util";
 
 export function Titre({ children }: { children: ReactNode }) {
   return (
@@ -72,36 +68,6 @@ export function MetaCopy({ children }: { children: ReactNode }) {
     <div className="text-19px font-medium uppercase leading-21px text-retro-gray lg:text-20px lg:leading-22px lg:tracking-[-0.01em]">
       {children}
     </div>
-  );
-}
-
-export function ThumbnailCopy({
-  link,
-  image,
-  alt,
-  children,
-}: {
-  link: string;
-  image: StaticImageData | string;
-  alt: string;
-  children: ReactNode;
-}) {
-  return (
-    <Link href={link}>
-      <div className="flex flex-col gap-10px">
-        <Image
-          className="h-auto w-full"
-          src={image}
-          alt={alt}
-          width={1200}
-          height={675}
-          {...blurProps}
-        />
-        <div className="flex flex-col justify-between gap-10px lg:flex-row lg:gap-20px">
-          <MetaCopy>{children}</MetaCopy>
-        </div>
-      </div>
-    </Link>
   );
 }
 

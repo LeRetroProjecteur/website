@@ -8,10 +8,13 @@ import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
 import {
+  ThumbnailCopy,
+  ThumbnailGridCopy,
+} from "@/components/layout/thumbnails";
+import {
   BodyCopy,
   MetaCopy,
   SousTitre1,
-  ThumbnailCopy,
 } from "@/components/typography/typography";
 import { Review } from "@/lib/types";
 import {
@@ -137,7 +140,7 @@ function EmptyState() {
 
 function ReviewThumbnails({ reviews }: { reviews: Review[] }) {
   return (
-    <div className="grid grid-cols-thumbnails-sm gap-15px lg:grid-cols-thumbnails-lg lg:gap-20px">
+    <ThumbnailGridCopy>
       {reviews.map((review) => (
         <ThumbnailCopy
           key={review.id}
@@ -148,7 +151,7 @@ function ReviewThumbnails({ reviews }: { reviews: Review[] }) {
           <u>{review.title}</u>, {review.directors} ({review.year})
         </ThumbnailCopy>
       ))}
-    </div>
+    </ThumbnailGridCopy>
   );
 }
 

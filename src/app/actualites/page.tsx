@@ -1,5 +1,9 @@
 import PageHeader from "@/components/layout/page-header";
-import { SousTitre1, ThumbnailCopy } from "@/components/typography/typography";
+import {
+  ThumbnailCopy,
+  ThumbnailGridCopy,
+} from "@/components/layout/thumbnails";
+import { SousTitre1 } from "@/components/typography/typography";
 
 import lumiereIcon from "./festival-lumiere-2023/img/icon.jpg";
 import top2022 from "./top-2022/img/icon.jpg";
@@ -43,7 +47,7 @@ export default function ActualitesPage() {
 
 function ActualitesThumbnails() {
   return (
-    <div className="grid grid-cols-thumbnails-sm gap-15px lg:grid-cols-thumbnails-lg lg:gap-20px">
+    <ThumbnailGridCopy>
       {chroniques.map(({ titre, slug, image, date, type }) => (
         <ThumbnailCopy
           key={slug}
@@ -56,6 +60,6 @@ function ActualitesThumbnails() {
           <span className="text-retro-black">{titre}</span>
         </ThumbnailCopy>
       ))}
-    </div>
+    </ThumbnailGridCopy>
   );
 }
