@@ -6,6 +6,7 @@ import { isAfter, isEqual } from "date-fns";
 
 import coupDeCoeur from "@/assets/coup-de-coeur.png";
 import PageHeader from "@/components/layout/page-header";
+import { TwoColumnPage } from "@/components/layout/two-column-page";
 import {
   BodyCopy,
   MetaCopy,
@@ -33,20 +34,11 @@ export default function Film({ movie }: { movie: MovieDetail }) {
       <PageHeader text={"Film"}>
         <MovieHeader movie={movie} />
       </PageHeader>
-      <div className="flex grow flex-col lg:pl-20px">
-        <Movie movie={movie} />
-        <div className="w-1/2 border-r lg:min-h-100px" />
-      </div>
+      <TwoColumnPage
+        children1={<MovieInfo movie={movie} />}
+        children2={<MovieScreenings movie={movie} />}
+      />
     </>
-  );
-}
-
-function Movie({ movie }: { movie: MovieDetail }) {
-  return (
-    <div className="flex grow flex-col lg:flex-row">
-      <MovieInfo movie={movie} />
-      <MovieScreenings movie={movie} />
-    </div>
   );
 }
 
@@ -62,7 +54,7 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
 
 function MovieInfo({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="flex grow flex-col lg:w-1/2 lg:border-r lg:pr-20px">
+    <div>
       {movie.review && movie.review_date && (
         <div className="flex flex-col lg:pb-20px">
           <div className="flex">
@@ -145,7 +137,7 @@ function MovieScreenings({ movie }: { movie: MovieDetail }) {
   );
 
   return (
-    <div className="flex flex-col pt-27px lg:w-1/2 lg:pl-20px lg:pt-0">
+    <div>
       <div className="flex justify-center border-y bg-retro-green py-13px text-center lg:px-20px lg:py-16px">
         <SousTitre2>Prochaines séances à Paris</SousTitre2>
       </div>
