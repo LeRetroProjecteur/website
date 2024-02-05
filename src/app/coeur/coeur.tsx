@@ -8,8 +8,8 @@ import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
 import {
-  ThumbnailCopy,
-  ThumbnailGridCopy,
+  ThumbnailGrid,
+  ThumbnailWithBlurb,
 } from "@/components/layout/thumbnails";
 import {
   BodyCopy,
@@ -63,8 +63,7 @@ export default function CoupsDeCoeur({
         <SuspenseWithLoading className="flex grow items-center justify-center">
           <Reviews {...{ fetchedReviews, display, filter }} />
         </SuspenseWithLoading>
-      </div>
-      `{" "}
+      </div>{" "}
     </>
   );
 }
@@ -140,20 +139,22 @@ function EmptyState() {
 
 function ReviewThumbnails({ reviews }: { reviews: Review[] }) {
   return (
-    <ThumbnailGridCopy>
+    <ThumbnailGrid>
       {reviews.map((review) => (
-        <ThumbnailCopy
+        <ThumbnailWithBlurb
           key={review.id}
           link={`/film/${review.id}`}
-          image={getImageUrl(review)}
-          alt={review.title}
-          width={1200}
-          height={675}
+          image={{
+            src: getImageUrl(review),
+            alt: review.title,
+            height: 1200,
+            width: 675,
+          }}
         >
           <u>{review.title}</u>, {review.directors} ({review.year})
-        </ThumbnailCopy>
+        </ThumbnailWithBlurb>
       ))}
-    </ThumbnailGridCopy>
+    </ThumbnailGrid>
   );
 }
 

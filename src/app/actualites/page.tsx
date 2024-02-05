@@ -1,7 +1,7 @@
 import PageHeader from "@/components/layout/page-header";
 import {
-  ThumbnailCopy,
-  ThumbnailGridCopy,
+  ThumbnailGrid,
+  ThumbnailWithBlurb,
 } from "@/components/layout/thumbnails";
 import { SousTitre1 } from "@/components/typography/typography";
 
@@ -47,20 +47,22 @@ export default function ActualitesPage() {
 
 function ActualitesThumbnails() {
   return (
-    <ThumbnailGridCopy>
+    <ThumbnailGrid>
       {chroniques.map(({ titre, slug, image, date, type }) => (
-        <ThumbnailCopy
+        <ThumbnailWithBlurb
           key={slug}
           link={`/actualites/${slug}`}
-          image={image}
-          alt={titre}
+          image={{
+            src: image,
+            alt: titre,
+          }}
         >
           <div>
             {date} • {type}
           </div>
           <div className="text-retro-black">{titre}</div>
-        </ThumbnailCopy>
+        </ThumbnailWithBlurb>
       ))}
-    </ThumbnailGridCopy>
+    </ThumbnailGrid>
   );
 }

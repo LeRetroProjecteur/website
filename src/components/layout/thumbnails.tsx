@@ -5,30 +5,26 @@ import { ReactNode } from "react";
 import { MetaCopy } from "@/components/typography/typography";
 import { blurProps } from "@/lib/util";
 
-export function ThumbnailCopy({
+export function ThumbnailWithBlurb({
   link,
   image,
-  alt,
-  width,
-  height,
   children,
 }: {
   link: string;
-  image: StaticImageData | string;
-  alt: string;
-  width?: number;
-  height?: number;
+  image:
+    | { src: StaticImageData; alt: string; width?: number; height?: number }
+    | { src: string; alt: string; width: number; height: number };
   children: ReactNode;
 }) {
   return (
     <Link href={link}>
       <div className="flex flex-col gap-10px">
         <Image
-          className="width-1200 height-675 h-auto w-full"
-          src={image}
-          alt={alt}
-          width={width}
-          height={height}
+          className="h-auto w-full"
+          src={image.src}
+          alt={image.alt}
+          width={image.width}
+          height={image.height}
           {...blurProps}
         />
         <div className="gap-10px lg:flex-row lg:gap-20px">
@@ -39,7 +35,7 @@ export function ThumbnailCopy({
   );
 }
 
-export function ThumbnailGridCopy({ children }: { children: ReactNode }) {
+export function ThumbnailGrid({ children }: { children: ReactNode }) {
   return (
     <div className="grid grid-cols-thumbnails-sm gap-15px lg:grid-cols-thumbnails-lg lg:gap-20px">
       {children}
