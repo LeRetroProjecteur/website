@@ -1,9 +1,9 @@
-import Image from "next/image";
-import Link from "next/link";
-
 import PageHeader from "@/components/layout/page-header";
-import { MetaCopy, SousTitre1 } from "@/components/typography/typography";
-import { blurProps } from "@/lib/util";
+import {
+  ThumbnailGrid,
+  ThumbnailWithBlurb,
+} from "@/components/layout/thumbnails";
+import { SousTitre1 } from "@/components/typography/typography";
 
 import lumiereIcon from "./festival-lumiere-2023/img/icon.jpg";
 import top2022 from "./top-2022/img/icon.jpg";
@@ -38,35 +38,31 @@ export default function ActualitesPage() {
       <PageHeader text="actualités">
         <SousTitre1>Nos dernières chroniques</SousTitre1>
       </PageHeader>
-      <div className="grid grid-cols-thumbnails-sm gap-25px lg:grid-cols-thumbnails-lg lg:gap-20px lg:pl-20px">
-        {chroniques.map(({ titre, slug, image, date, type }) => (
-          <div key={slug} className="lg:gap-12px">
-            <Link
-              key={slug}
-              href={`/actualites/${slug}`}
-              className="cursor-pointer"
-            >
-              <div className="flex flex-col gap-10px">
-                <Image
-                  src={image}
-                  alt={titre}
-                  className="h-auto w-full"
-                  {...blurProps}
-                />
-                <div className="flex justify-between gap-10px">
-                  <div>
-                    <MetaCopy>
-                      {date} • {type}
-                      <br />
-                      <span className="text-retro-black">{titre}</span>
-                    </MetaCopy>
-                  </div>
-                </div>
-              </div>
-            </Link>
-          </div>
-        ))}
+      <div className="flex grow flex-col lg:pl-20px">
+        <ActualitesThumbnails />
       </div>
     </>
+  );
+}
+
+function ActualitesThumbnails() {
+  return (
+    <ThumbnailGrid>
+      {chroniques.map(({ titre, slug, image, date, type }) => (
+        <ThumbnailWithBlurb
+          key={slug}
+          link={`/actualites/${slug}`}
+          image={{
+            src: image,
+            alt: titre,
+          }}
+        >
+          <div>
+            {date} • {type}
+          </div>
+          <div className="text-retro-black">{titre}</div>
+        </ThumbnailWithBlurb>
+      ))}
+    </ThumbnailGrid>
   );
 }

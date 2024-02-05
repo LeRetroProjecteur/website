@@ -71,14 +71,6 @@ export function MetaCopy({ children }: { children: ReactNode }) {
   );
 }
 
-export function CoeurCopy({ children }: { children: ReactNode }) {
-  return (
-    <div className="text-14px font-medium uppercase leading-16px tracking-[-0.01em] text-retro-gray lg:text-20px lg:leading-22px">
-      {children}
-    </div>
-  );
-}
-
 export function FooterCopy({ children }: { children: ReactNode }) {
   return (
     <div className="text-19px font-medium uppercase leading-21px tracking-[-0.01em] text-retro-gray lg:text-20px lg:leading-24px">
