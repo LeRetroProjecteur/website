@@ -6,12 +6,7 @@ import { ReactNode } from "react";
 
 import { openNewsLetter } from "@/lib/newsletter-store";
 
-export default function FooterLinks({
-  color,
-}: {
-  color: "gray" | "black";
-  newsletterGreen?: boolean;
-}) {
+export default function FooterLinks({ color }: { color: "gray" | "black" }) {
   return (
     <div className="flex grow flex-col gap-y-12px lg:gap-y-10px lg:pt-10px">
       <div className="hidden lg:block">
