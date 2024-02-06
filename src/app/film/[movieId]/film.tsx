@@ -35,8 +35,8 @@ export default function Film({ movie }: { movie: MovieDetail }) {
         <MovieHeader movie={movie} />
       </PageHeader>
       <TwoColumnPage
-        children1={<MovieInfo movie={movie} />}
-        children2={<MovieScreenings movie={movie} />}
+        left={<MovieInfo movie={movie} />}
+        right={<MovieScreenings movie={movie} />}
       />
     </>
   );
@@ -54,7 +54,7 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
 
 function MovieInfo({ movie }: { movie: MovieDetail }) {
   return (
-    <div>
+    <>
       {movie.review && movie.review_date && (
         <div className="flex flex-col lg:pb-20px">
           <div className="flex">
@@ -121,7 +121,7 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
         </MetaCopy>
       </div>
       <Tags movie={movie} />
-    </div>
+    </>
   );
 }
 
@@ -137,7 +137,7 @@ function MovieScreenings({ movie }: { movie: MovieDetail }) {
   );
 
   return (
-    <div>
+    <>
       <div className="flex justify-center border-y bg-retro-green py-13px text-center lg:px-20px lg:py-16px">
         <SousTitre2>Prochaines séances à Paris</SousTitre2>
       </div>
@@ -150,7 +150,7 @@ function MovieScreenings({ movie }: { movie: MovieDetail }) {
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 }
 

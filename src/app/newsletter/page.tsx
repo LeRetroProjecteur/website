@@ -15,7 +15,7 @@ export default function AProposPage() {
           up close, la newsletter du rétro
         </SousTitre1>
       </PageHeader>
-      <TwoColumnPage children1={<Description />} children2={<SignupForm />} />
+      <TwoColumnPage left={<Description />} right={<SignupForm />} />
     </>
   );
 }
