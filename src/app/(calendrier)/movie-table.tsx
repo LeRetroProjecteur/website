@@ -8,25 +8,18 @@ import {
   size,
   some,
   sortBy,
-  take,
   toPairs,
   uniqBy,
 } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
-import {
-  ReactNode,
-  use,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import { ReactNode, use, useEffect, useMemo } from "react";
 import useSWR from "swr";
 
 import { isAfter, isSameDay } from "date-fns";
 
 import { Loading, SuspenseWithLoading } from "@/components/icons/loading";
+import Seances, { SeancesTheater } from "@/components/seances/seances";
 import { CalendrierCopy, SousTitre2 } from "@/components/typography/typography";
 import { Quartier, useCalendrierStore } from "@/lib/calendrier-store";
 import {
@@ -38,7 +31,6 @@ import {
 import {
   checkNotNull,
   fetcher,
-  floatHourToString,
   formatLundi1Janvier,
   formatYYYYMMDD,
   getStartOfTodayInParis,
@@ -49,7 +41,6 @@ import {
   movie_info_containsFilteringTerm,
   nowInParis,
   safeDate,
-  splitIntoSubArrays,
 } from "@/lib/util";
 
 import coupDeCoeur from "../../assets/coup-de-coeur.png";
@@ -197,7 +188,9 @@ function MovieRows({
               <MultiDaySeances movie={movie} />
             </div>
           ) : (
-            <Seances movie={movie} />
+            <div className="px-6px py-12px  lg:px-10px lg:py-17px">
+              <Seances showtimes_theater={movie.showtimes_theater} />
+            </div>
           )}
         </div>
       }
@@ -258,7 +251,7 @@ function MovieCell({ movie }: { movie: MovieWithNoShowtimes }) {
 
 function MultiDaySeances({ movie }: { movie: MovieWithShowtimesByDay }) {
   return (
-    <div className="multi-day flex grow flex-col gap-20px px-6px lg:gap-10px lg:px-10px">
+    <div className="flex grow flex-col gap-20px px-6px lg:gap-10px lg:px-10px">
       {orderBy(
         toPairs(movie.showtimes_by_day).map<[Date, ShowtimesTheater[]]>(
           ([day, theaters]) => [safeDate(day), theaters],
@@ -279,113 +272,12 @@ function MultiDaySeances({ movie }: { movie: MovieWithShowtimesByDay }) {
               ),
               (showtime_theater) => showtime_theater.clean_name,
             ).map((theater) => (
-              <SceancesTheater
+              <SeancesTheater
                 showtimesTheater={theater}
                 key={theater.clean_name}
                 isExpanded={true}
               />
             ))}
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function Seances({ movie }: { movie: Movie }) {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const toggleExpanded = useCallback(
-    () => setIsExpanded(!isExpanded),
-    [isExpanded, setIsExpanded],
-  );
-
-  const sortedTheaters = useMemo(
-    () =>
-      sortBy(
-        uniqBy(
-          movie.showtimes_theater,
-          (showtime_theater) => showtime_theater.clean_name,
-        ),
-        (showtime_theater) => showtime_theater.clean_name,
-      ),
-    [movie],
-  );
-
-  const needsExpanding = useMemo(
-    () =>
-      sortedTheaters.length > 3 ||
-      sortedTheaters.reduce((total, curr) => total + curr.showtimes.length, 0) >
-        6,
-    [sortedTheaters],
-  );
-
-  return (
-    <div
-      onClick={toggleExpanded}
-      className={clsx(
-        { "cursor-pointer": needsExpanding },
-        "single-day flex grow flex-col gap-10px px-6px py-12px lg:gap-5px lg:px-10px lg:py-17px",
-      )}
-    >
-      {take(sortedTheaters, isExpanded ? sortedTheaters.length : 2).map(
-        (theater) => (
-          <SceancesTheater
-            showtimesTheater={theater}
-            key={theater.clean_name}
-            isExpanded={isExpanded}
-          />
-        ),
-      )}
-      {needsExpanding && (
-        <div className="flex justify-end">
-          <CalendrierCopy className="font-semibold">
-            {isExpanded ? "Moins de séances ↑" : "Plus de séances ↓"}
-          </CalendrierCopy>
-        </div>
-      )}
-    </div>
-  );
-}
-
-function SceancesTheater({
-  showtimesTheater,
-  isExpanded,
-}: {
-  showtimesTheater: ShowtimesTheater;
-  isExpanded: boolean;
-}) {
-  const groupsOfThree = splitIntoSubArrays(
-    take(
-      sortBy(showtimesTheater.showtimes),
-      isExpanded ? showtimesTheater.showtimes.length : 3,
-    ),
-    3,
-  );
-  return (
-    <div className="flex justify-between" key={showtimesTheater.clean_name}>
-      <div className="grow pr-20px">
-        <CalendrierCopy>
-          {showtimesTheater.clean_name} ({showtimesTheater.zipcode_clean})
-        </CalendrierCopy>
-      </div>
-      <div className="flex flex-col">
-        {groupsOfThree.map((showtimes, i) => (
-          <ThreeShowtimes key={i} threeShowtimes={showtimes} />
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function ThreeShowtimes({ threeShowtimes }: { threeShowtimes: number[] }) {
-  return (
-    <div className="flex flex-col lg:flex-row lg:justify-end">
-      {threeShowtimes.map((showtime) => (
-        <div key={showtime} className="group flex justify-end">
-          <CalendrierCopy>{floatHourToString(showtime)}</CalendrierCopy>
-          <div className="hidden group-last:hidden lg:block">
-            <CalendrierCopy>&nbsp;•&nbsp;</CalendrierCopy>
           </div>
         </div>
       ))}
