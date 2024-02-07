@@ -1,7 +1,8 @@
 "use client";
 
 import clsx from "clsx";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useRef } from "react";
+import { useOnClickOutside } from "usehooks-ts";
 
 import { ButtonCopy } from "@/components/typography/typography";
 import { Quartier, useCalendrierStore } from "@/lib/calendrier-store";
@@ -12,9 +13,14 @@ const QUARTIERS: [string, Quartier][] = [
   ["extramuros", Quartier.EM],
 ];
 
-export default function QuartierSelector() {
+export default function QuartierSelector({ close }: { close: () => void }) {
+  const ref = useRef(null);
+  useOnClickOutside(ref, close);
   return (
-    <div className="grid grow grid-cols-[repeat(auto-fill,_minmax(10.75rem,_1fr))] gap-x-15px gap-y-8px lg:grid-cols-[repeat(auto-fill,_minmax(17.375rem,_1fr))] lg:gap-x-20px lg:gap-y-10px">
+    <div
+      ref={ref}
+      className="grid grow grid-cols-[repeat(auto-fill,_minmax(10.75rem,_1fr))] gap-x-15px gap-y-8px lg:grid-cols-[repeat(auto-fill,_minmax(17.375rem,_1fr))] lg:gap-x-20px lg:gap-y-10px"
+    >
       {QUARTIERS.map(([quartierName, quartier]) => (
         <QuartierToggler
           key={quartier}

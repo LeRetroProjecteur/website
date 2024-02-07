@@ -29,12 +29,9 @@ dependencies:
   clsx:
     specifier: ^2.0.0
     version: 2.0.0
-  date-fns:
-    specifier: ^2.30.0
-    version: 2.30.0
-  date-fns-tz:
-    specifier: ^2.0.0
-    version: 2.0.0(date-fns@2.30.0)
+  dayjs:
+    specifier: ^1.11.10
+    version: 1.11.10
   fast-json-stable-stringify:
     specifier: ^2.1.0
     version: 2.1.0
@@ -47,6 +44,9 @@ dependencies:
   lodash-es:
     specifier: ^4.17.21
     version: 4.17.21
+  luxon:
+    specifier: ^3.4.4
+    version: 3.4.4
   next:
     specifier: 14.0.3
     version: 14.0.3(react-dom@18.2.0)(react@18.2.0)
@@ -85,6 +85,9 @@ devDependencies:
   "@types/lodash-es":
     specifier: ^4.17.11
     version: 4.17.11
+  "@types/luxon":
+    specifier: ^3.4.2
+    version: 3.4.2
   "@types/node":
     specifier: ^20
     version: 20.8.10
@@ -250,16 +253,6 @@ packages:
     hasBin: true
     dependencies:
       "@babel/types": 7.17.0
-
-  /@babel/runtime@7.23.2:
-    resolution:
-      {
-        integrity: sha512-mM8eg4yl5D6i3lu2QKPuPH4FArvJ8KhTofbE7jwMUv9KX5mBvwPAqnV3MlyBNqdp9RyRKP6Yck8TrfYrPvX3bg==,
-      }
-    engines: { node: ">=6.9.0" }
-    dependencies:
-      regenerator-runtime: 0.14.0
-    dev: false
 
   /@babel/runtime@7.23.5:
     resolution:
@@ -1443,6 +1436,13 @@ packages:
       }
     dev: true
 
+  /@types/luxon@3.4.2:
+    resolution:
+      {
+        integrity: sha512-TifLZlFudklWlMBfhubvgqTXRzLDI5pCbGa4P8a3wPyUQSW+1xQ5eDsreP9DWHX3tjq1ke96uYG/nwundroWcA==,
+      }
+    dev: true
+
   /@types/node@20.8.10:
     resolution:
       {
@@ -2241,25 +2241,11 @@ packages:
       }
     dev: true
 
-  /date-fns-tz@2.0.0(date-fns@2.30.0):
+  /dayjs@1.11.10:
     resolution:
       {
-        integrity: sha512-OAtcLdB9vxSXTWHdT8b398ARImVwQMyjfYGkKD2zaGpHseG2UPHbHjXELReErZFxWdSLph3c2zOaaTyHfOhERQ==,
+        integrity: sha512-vjAczensTgRcqDERK0SR2XMwsF/tSvnvlv6VcF2GIhg6Sx4yOIt/irsr1RDJsKiIyBzJDpCoXiWWq28MqH2cnQ==,
       }
-    peerDependencies:
-      date-fns: ">=2.0.0"
-    dependencies:
-      date-fns: 2.30.0
-    dev: false
-
-  /date-fns@2.30.0:
-    resolution:
-      {
-        integrity: sha512-fnULvOpxnC5/Vg3NCiWelDsLiUc9bRwAPs/+LfTLNvetFCtCTN+yQz15C/fs4AwX1R9K5GLtLfn8QW+dWisaAw==,
-      }
-    engines: { node: ">=0.11" }
-    dependencies:
-      "@babel/runtime": 7.23.2
     dev: false
 
   /debug@3.2.7:
@@ -3958,6 +3944,14 @@ packages:
     dependencies:
       yallist: 4.0.0
 
+  /luxon@3.4.4:
+    resolution:
+      {
+        integrity: sha512-zobTr7akeGHnv7eBOXcRgMeCP6+uyYsczwmeRCauvpvaAltgNyTbLH/+VaEAPUeWBT+1GuNmz4wC/6jtQzbbVA==,
+      }
+    engines: { node: ">=12" }
+    dev: false
+
   /merge2@1.4.1:
     resolution:
       {
@@ -4749,6 +4743,7 @@ packages:
       {
         integrity: sha512-srw17NI0TUWHuGa5CFGGmhfNIeja30WMBfbslPNhf6JrqQlLN5gcrvig1oqPxiVaXb0oW0XRKtH6Nngs5lKCIA==,
       }
+    dev: true
 
   /regexp.prototype.flags@1.5.1:
     resolution:

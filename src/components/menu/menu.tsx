@@ -33,7 +33,7 @@ export default function Menu() {
 
   const closeMenuIfOnSamePathname = useCallback(
     (e: MouseEvent<HTMLAnchorElement>) => {
-      useCalendrierStore.getState().reset();
+      useCalendrierStore.getState().scheduleReset();
       if ((e.target as HTMLAnchorElement).href.endsWith(pathName)) {
         closeMenu();
       }
@@ -42,7 +42,7 @@ export default function Menu() {
   );
 
   const onClickLogo = useCallback(() => {
-    useCalendrierStore.getState().reset();
+    useCalendrierStore.getState().scheduleReset();
     closeMenu();
   }, []);
 

@@ -9,11 +9,9 @@ import {
   toPairs,
   uniqBy,
 } from "lodash-es";
+import { DateTime } from "luxon";
 import { Fragment, use, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-
-import { format } from "date-fns";
-import { fr } from "date-fns/locale";
 
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
@@ -28,6 +26,8 @@ import {
 import {
   checkNotNull,
   floatHourToString,
+  formatLundi,
+  formatLundi1Janvier,
   formatYYYYMMDD,
   getNextMovieWeek,
 } from "@/lib/util";
@@ -77,8 +77,7 @@ export function Movies({
   const week = useMemo(() => getNextMovieWeek(), []);
 
   const days: Array<keyof Inputs> = useMemo(
-    () =>
-      week.map((day) => format(day, "eeee", { locale: fr }) as keyof Inputs),
+    () => week.map((day) => formatLundi(day) as keyof Inputs),
     [week],
   );
 
@@ -178,7 +177,7 @@ export function DaysMovies({
   dayValues,
   moviesById,
 }: {
-  week: Date[];
+  week: DateTime[];
   dayValues: string[];
   moviesById: { [key: string]: MovieWithShowtimesByDay };
 }) {
@@ -218,7 +217,7 @@ export function DayMovie({
   isLast,
 }: {
   movie: MovieWithNoShowtimes;
-  day: Date;
+  day: DateTime;
   showtimes: ShowtimesTheater[];
   isLast: boolean;
 }) {
@@ -234,7 +233,7 @@ export function DayMovie({
               color: "#4d4d4d",
             }}
           >
-            {capitalize(format(day, "EEEE d MMMM", { locale: fr }))}
+            {capitalize(formatLundi1Janvier(day))}
           </span>
         </u>
       </div>

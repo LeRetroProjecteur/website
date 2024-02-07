@@ -7,10 +7,9 @@ import {
   where,
 } from "firebase/firestore";
 import { keyBy, omit, uniq } from "lodash-es";
+import { DateTime } from "luxon";
 import { unstable_cache } from "next/cache";
 import "server-only";
-
-import { format } from "date-fns";
 
 import { getFirebase } from "./firebase";
 import {
@@ -21,14 +20,19 @@ import {
   Review,
   SearchMovie,
 } from "./types";
-import { checkNotNull, getNextMovieWeek } from "./util";
+import {
+  checkNotNull,
+  formatYYYYMMDD,
+  formatYYYY_MM_DD,
+  getNextMovieWeek,
+} from "./util";
 
 export const getWeekMovies = async () => {
   const nextMovieWeek = getNextMovieWeek();
 
   const moviesByDay = await Promise.all(
     nextMovieWeek.map<
-      Promise<[date: Date, movies: { [index: string]: Movie }]>
+      Promise<[date: DateTime, movies: { [index: string]: Movie }]>
     >(async (day) => {
       return [day, keyBy(await getDayMovies(day), (movie) => movie.id)];
     }),
@@ -53,7 +57,7 @@ export const getWeekMovies = async () => {
         ...movieWithAllDays,
         showtimes_by_day: {
           ...movieWithAllDays.showtimes_by_day,
-          [format(day, "y-MM-dd")]:
+          [formatYYYYMMDD(day)]:
             movieOnDay[movieWithAllDays.id].showtimes_theater,
         },
       }),
@@ -63,7 +67,7 @@ export const getWeekMovies = async () => {
 };
 
 export const getDayMovies = unstable_cache(
-  async (date: Date, options?: { allMovies?: boolean }) => {
+  async (date: DateTime, options?: { allMovies?: boolean }) => {
     const { db } = getFirebase();
     const q = query(
       collection(
@@ -72,7 +76,7 @@ export const getDayMovies = unstable_cache(
           options?.allMovies ?? false ? "-all" : ""
         }`,
       ),
-      where("date", "==", format(date, "y_MM_dd")),
+      where("date", "==", formatYYYY_MM_DD(date)),
     );
     const docs: Movie[] = [];
     (await getDocs(q)).forEach((doc) => docs.push(...doc.data().movies));

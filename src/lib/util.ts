@@ -1,18 +1,8 @@
 import { every, omit, padStart, some } from "lodash-es";
+import { DateTime } from "luxon";
 import Image from "next/image";
 import { ComponentProps, useMemo } from "react";
 import { useWindowSize } from "usehooks-ts";
-
-import {
-  addDays,
-  addWeeks,
-  format,
-  isSameDay,
-  startOfDay,
-  startOfISOWeek,
-} from "date-fns";
-import { utcToZonedTime } from "date-fns-tz";
-import { fr } from "date-fns/locale";
 
 import {
   Movie,
@@ -27,15 +17,12 @@ export function isCoupDeCoeur({ category }: { category?: string }) {
 
 export function getNextMovieWeek() {
   const today = nowInParis();
-  const startOfNextWeek = addDays(
-    addWeeks(
-      startOfISOWeek(today),
-      [0, 1, 2, 3, 4, 5].includes(today.getDay()) ? 0 : 1,
-    ),
-    2,
-  );
+  const startOfNextWeek = today
+    .startOf("week")
+    .plus({ weeks: [1, 2, 3, 4, 5, 7].includes(today.weekday) ? 0 : 1 })
+    .plus({ days: 2 });
 
-  return [...Array(7)].map((_, i) => addDays(startOfNextWeek, i));
+  return [...Array(7)].map((_, i) => startOfNextWeek.plus({ days: i }));
 }
 
 export function checkNotNull<T>(check: T | null | undefined): T {
@@ -54,27 +41,18 @@ export function floatHourToString(hour: number) {
 }
 
 export function safeDate(date: string) {
-  const [year, month, day] = date.replaceAll("_", "-").split("-").map(Number);
-  return utcToZonedTime(
-    new Date(year, month - 1, day, 0, 0, 0, 0),
-    "Europe/Paris",
-  );
+  return DateTime.fromISO(date.replaceAll("_", "-"), {
+    zone: "Europe/Paris",
+    locale: "fr",
+  });
 }
 
 export function nowInParis() {
-  return utcToZonedTime(new Date(), "Europe/Paris");
+  return DateTime.local({ zone: "Europe/Paris", locale: "fr" });
 }
 
 export function getStartOfTodayInParis() {
-  return startOfDay(nowInParis());
-}
-
-export function getStartOfDayInParis(date: string) {
-  return startOfDay(utcToZonedTime(safeDate(date), "Europe/Paris"));
-}
-
-export function isTodayInParis(date: Date) {
-  return isSameDay(nowInParis(), date);
+  return nowInParis().startOf("day");
 }
 
 function clean_string(str: string) {
@@ -135,20 +113,34 @@ function get_movie_info_string(f: Record<string, string>) {
     .join(" ");
 }
 
-export function formatLundi1Janvier(date: Date) {
-  return format(date, "EEEE d MMMM", { locale: fr });
+// lundi 1 janvier
+export function formatLundi1Janvier(date: DateTime) {
+  return date.toFormat("EEEE d MMMM");
 }
 
-export function formatYYYYMMDD(date: Date) {
-  return format(date, "yyyy-MM-dd", { locale: fr });
+// 2024-12-31
+export function formatYYYYMMDD(date: DateTime) {
+  return date.toFormat("yyyy-MM-dd");
 }
 
-export function formatDDMMYYWithSlashes(date: Date) {
-  return format(date, "dd/MM/yy", { locale: fr });
+// 2024_12_31
+export function formatYYYY_MM_DD(date: DateTime) {
+  return date.toFormat("yyyy_MM_dd");
 }
 
-export function formatMerJJMM(date: Date) {
-  return format(date, "EEE dd/MM", { locale: fr });
+// 31/12/04
+export function formatDDMMYYWithSlashes(date: DateTime) {
+  return date.toFormat("dd/MM/yy");
+}
+
+// Ven. 31/12
+export function formatMerJJMM(date: DateTime) {
+  return date.toFormat("EEE dd/MM");
+}
+
+// lundi
+export function formatLundi(date: DateTime) {
+  return date.toFormat("EEEE");
 }
 
 export function splitIntoSubArrays<T>(array: T[], subArraySize: number) {

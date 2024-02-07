@@ -28,6 +28,11 @@ export default function Calendrier({
     [setQuartierSelectorOpen, isQuartierSelectorOpen],
   );
 
+  const closeQuartierSelector = useCallback(
+    () => setQuartierSelectorOpen(false),
+    [setQuartierSelectorOpen],
+  );
+
   return (
     <div className="flex grow flex-col">
       <PageHeader text={title ?? "calendrier"}>
@@ -48,7 +53,7 @@ export default function Calendrier({
           </div>
           {isQuartierSelectorOpen && (
             <div className="flex pt-8px lg:hidden">
-              <QuartierSelector />{" "}
+              <QuartierSelector close={closeQuartierSelector} />{" "}
             </div>
           )}
           <div className="flex pt-15px lg:grow lg:pt-0">
@@ -57,7 +62,7 @@ export default function Calendrier({
         </div>
         {isQuartierSelectorOpen && (
           <div className="hidden lg:flex lg:pt-20px">
-            <QuartierSelector />
+            <QuartierSelector close={closeQuartierSelector} />
           </div>
         )}
         <div className="flex grow pt-18px lg:pt-28px">
