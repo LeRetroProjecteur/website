@@ -25,7 +25,7 @@ export default function AProposPage() {
 function Project() {
   return (
     <>
-      <div className="pb-25px">
+      <div className="pb-20px">
         <BodyCopy>
           Le Rétro Projecteur est un média digital, en libre accès et à but non
           lucratif qui se donne pour mission de mettre en lumière la
@@ -39,7 +39,7 @@ function Project() {
         <div className="flex justify-center border-y bg-retro-green py-15px">
           <SousTitre2>contactez-nous</SousTitre2>
         </div>
-        <div className="pb-25px pt-17px lg:pt-20px">
+        <div className="py-20px lg:border-b">
           <BodyCopy>
             Une séance manquante, une erreur sur le site, un projet à nous
             proposer&nbsp;?
