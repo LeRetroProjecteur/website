@@ -2,8 +2,6 @@ import { capitalize, size, sortBy, toPairs } from "lodash-es";
 import Image from "next/image";
 import { useMemo } from "react";
 
-import { isAfter, isEqual } from "date-fns";
-
 import coupDeCoeur from "@/assets/coup-de-coeur.png";
 import PageHeader from "@/components/layout/page-header";
 import { TwoColumnPage } from "@/components/layout/two-column-page";
@@ -22,7 +20,6 @@ import {
   formatMerJJMM,
   getImageUrl,
   getMovieTags,
-  getStartOfDayInParis,
   getStartOfTodayInParis,
   safeDate,
 } from "@/lib/util";
@@ -128,9 +125,7 @@ function MovieScreenings({ movie }: { movie: MovieDetail }) {
   const screenings = useMemo(
     () =>
       toPairs(movie?.screenings ?? []).filter(
-        ([date]) =>
-          isAfter(getStartOfDayInParis(date), getStartOfTodayInParis()) ||
-          isEqual(getStartOfDayInParis(date), getStartOfTodayInParis()),
+        ([date]) => safeDate(date) >= getStartOfTodayInParis(),
       ),
     [movie],
   );

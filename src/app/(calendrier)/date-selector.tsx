@@ -2,8 +2,6 @@
 
 import { useCallback } from "react";
 
-import { addDays, subDays } from "date-fns";
-
 import { LeftArrow, RightArrow } from "@/components/icons/arrows";
 import { SousTitre1 } from "@/components/typography/typography";
 import { useCalendrierStore } from "@/lib/calendrier-store";
@@ -14,11 +12,11 @@ export default function DateSelector() {
   const setDate = useCalendrierStore((s) => s.setDate);
 
   const onClickLeft = useCallback(() => {
-    setDate(subDays(date, 1));
+    setDate(date.minus({ days: 1 }));
   }, [date, setDate]);
 
   const onClickRight = useCallback(() => {
-    setDate(addDays(date, 1));
+    setDate(date.plus({ days: 1 }));
   }, [date, setDate]);
 
   return (

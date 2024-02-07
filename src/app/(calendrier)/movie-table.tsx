@@ -11,12 +11,11 @@ import {
   toPairs,
   uniqBy,
 } from "lodash-es";
+import { DateTime } from "luxon";
 import Image from "next/image";
 import Link from "next/link";
 import { ReactNode, use, useEffect, useMemo } from "react";
 import useSWR from "swr";
-
-import { isAfter, isSameDay } from "date-fns";
 
 import { Loading, SuspenseWithLoading } from "@/components/icons/loading";
 import Seances, { SeancesTheater } from "@/components/seances/seances";
@@ -37,7 +36,6 @@ import {
   isCoupDeCoeur,
   isMovieWithShowtimesByDay,
   isMoviesWithShowtimesByDay,
-  isTodayInParis,
   movie_info_containsFilteringTerm,
   nowInParis,
   safeDate,
@@ -253,7 +251,7 @@ function MultiDaySeances({ movie }: { movie: MovieWithShowtimesByDay }) {
   return (
     <div className="flex grow flex-col gap-20px px-6px lg:gap-10px lg:px-10px">
       {orderBy(
-        toPairs(movie.showtimes_by_day).map<[Date, ShowtimesTheater[]]>(
+        toPairs(movie.showtimes_by_day).map<[DateTime, ShowtimesTheater[]]>(
           ([day, theaters]) => [safeDate(day), theaters],
         ),
         ([day]) => day,
@@ -285,13 +283,13 @@ function MultiDaySeances({ movie }: { movie: MovieWithShowtimesByDay }) {
   );
 }
 
-function getMinHourFilteringTodaysMissedFilms(date: Date, minHour: number) {
-  if (!isTodayInParis(date)) {
+function getMinHourFilteringTodaysMissedFilms(date: DateTime, minHour: number) {
+  if (date.hasSame(nowInParis(), "day")) {
     return minHour;
   }
 
   const now = nowInParis();
-  return Math.max(minHour, now.getHours() + now.getMinutes() / 60 - 0.3);
+  return Math.max(minHour, now.hour + now.minute / 60 - 0.3);
 }
 
 function filterAndSortMovies(
@@ -307,9 +305,7 @@ function filterAndSortMovies(
           ...movie,
           showtimes_by_day: pickBy(
             movie.showtimes_by_day,
-            (_, date) =>
-              isSameDay(safeDate(date), getStartOfTodayInParis()) ||
-              isAfter(safeDate(date), getStartOfTodayInParis()),
+            (_, date) => safeDate(date) >= getStartOfTodayInParis(),
           ),
         }))
         .filter((movie) => size(movie.showtimes_by_day) > 0)

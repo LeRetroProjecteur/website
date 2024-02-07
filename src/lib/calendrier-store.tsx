@@ -1,4 +1,5 @@
 import { without } from "lodash-es";
+import { DateTime } from "luxon";
 import { StoreApi, UseBoundStore, create } from "zustand";
 
 import { getStartOfTodayInParis } from "./util";
@@ -12,13 +13,13 @@ export enum Quartier {
 export type CalendrierStore = UseBoundStore<StoreApi<CalendrierState>>;
 
 interface CalendrierState {
-  date: Date;
+  date: DateTime;
   dateChanged: boolean;
   minHour: number;
   maxHour: number;
   filter: string;
   quartiers: Quartier[];
-  setDate: (date: Date) => void;
+  setDate: (date: DateTime) => void;
   setMinHour: (minHour: number) => void;
   setMaxHour: (maxHour: number) => void;
   setFilter: (filter: string) => void;
@@ -34,7 +35,7 @@ export function getUseCalendrierStore() {
     maxHour: 24,
     filter: "",
     quartiers: [],
-    setDate: (date: Date) => {
+    setDate: (date: DateTime) => {
       set({ date, dateChanged: true });
     },
     setMinHour: (minHour: number) => set({ minHour }),
