@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import { every, orderBy, take, toPairs, without } from "lodash-es";
 import Link from "next/link";
-import { use, useCallback, useMemo, useState } from "react";
+import { use, useCallback, useEffect, useMemo, useState } from "react";
 import { create } from "zustand";
 
 import RetroInput from "@/components/forms/retro-input";
@@ -30,6 +30,17 @@ export default function Recherche({
   allMoviesPromise: Promise<SearchMovie[]>;
 }) {
   const [searchTerm, setSearchTerm] = useState("");
+
+  const [selected, setSelected] = useState<number | undefined>(undefined);
+
+  const onChangeSearchTerm = useCallback(
+    (s: string) => {
+      setSelected(undefined);
+      setSearchTerm(s);
+    },
+    [setSelected, setSearchTerm],
+  );
+
   return (
     <>
       <FixedHeader disableBelowPadding className="lg:border-b lg:pb-20px">
@@ -40,7 +51,7 @@ export default function Recherche({
           <RetroInput
             customTypography
             value={searchTerm}
-            setValue={setSearchTerm}
+            setValue={onChangeSearchTerm}
             placeholder="film, réalisateur, année, pays..."
             leftAlignPlaceholder
             transparentPlaceholder
@@ -58,10 +69,14 @@ export default function Recherche({
         </div>
         {searchTerm.length > 0 ? (
           <SuspenseWithLoading className="flex grow items-center justify-center pt-15px">
-            <Results {...{ searchTerm, allMoviesPromise }} />
+            <Results
+              {...{ searchTerm, allMoviesPromise, selected, setSelected }}
+            />
           </SuspenseWithLoading>
         ) : (
-          <Results {...{ searchTerm, allMoviesPromise }} />
+          <Results
+            {...{ searchTerm, allMoviesPromise, selected, setSelected }}
+          />
         )}
       </div>
     </>
@@ -71,9 +86,13 @@ export default function Recherche({
 function Results({
   allMoviesPromise,
   searchTerm,
+  setSelected,
+  selected,
 }: {
   allMoviesPromise: Promise<SearchMovie[]>;
   searchTerm: string;
+  setSelected: (i: number | undefined) => void;
+  selected: number | undefined;
 }) {
   const tags = useRechercheStore((s) => s.tags);
   const allMovies = use(allMoviesPromise);
@@ -99,15 +118,36 @@ function Results({
     [allMovies, searchTerm, tags],
   );
 
+  useEffect(() => {
+    const keydown = (ev: KeyboardEvent) => {
+      if (ev.key === "ArrowDown") {
+        setSelected(Math.min((selected ?? 0) + 1, filtered.length - 1));
+      } else if (ev.key === "ArrowUp") {
+        setSelected(Math.max((selected ?? 0) - 1, 0));
+      } else if (ev.key === "Enter") {
+        // select;
+      }
+    };
+
+    addEventListener("keydown", keydown);
+    return () => removeEventListener("keydown", keydown);
+  }, [setSelected, selected, filtered]);
+
   return (
     searchTerm.length > 0 && (
       <div className="flex grow flex-col">
         {filtered.length > 0 ? (
-          filtered.map((movie) => (
+          filtered.map((movie, i) => (
             <Link
               key={movie.id}
               href={`/film/${movie.id}`}
-              className="border-b py-10px pl-5px text-15px font-medium uppercase leading-20px even:bg-retro-pale-green lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0 lg:even:bg-white lg:hover:bg-retro-pale-green"
+              className={clsx(
+                {
+                  "lg:bg-retro-pale-green, lg:odd:bg-retro-pale-green":
+                    i === selected,
+                },
+                "border-b py-10px pl-5px text-15px font-medium uppercase leading-20px even:bg-retro-pale-green lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0 lg:even:bg-white lg:hover:bg-retro-pale-green",
+              )}
             >
               <u>{movie.title}</u>, {movie.directors} ({movie.year})
             </Link>
