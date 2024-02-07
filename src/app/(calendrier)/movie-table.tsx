@@ -286,7 +286,7 @@ function MultiDaySeances({ movie }: { movie: MovieWithShowtimesByDay }) {
 }
 
 function getMinHourFilteringTodaysMissedFilms(date: DateTime, minHour: number) {
-  if (date.hasSame(nowInParis(), "day")) {
+  if (!date.hasSame(nowInParis(), "day")) {
     return minHour;
   }
 
