@@ -51,7 +51,9 @@ export default function MovieTable({
   allMovies?: boolean;
 }) {
   useEffect(() => {
-    useCalendrierStore.getState().reset();
+    if (useCalendrierStore.getState().shouldReset) {
+      useCalendrierStore.getState().reset();
+    }
   }, []);
 
   const date = useCalendrierStore((s) => s.date);
