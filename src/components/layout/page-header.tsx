@@ -19,7 +19,7 @@ export default function PageHeader({
       </div>
       {children && (
         <div className="lg:pt-20px">
-          <div className="flex items-center justify-center border-b py-14px lg:justify-start lg:border-t lg:bg-retro-green lg:pl-20px lg:pr-10px">
+          <div className="flex items-center justify-center border-b py-14px text-center lg:justify-start lg:border-t lg:bg-retro-green lg:pl-20px lg:pr-10px">
             {children}
           </div>
         </div>
