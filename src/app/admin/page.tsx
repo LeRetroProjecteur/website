@@ -1,17 +1,33 @@
+"use client";
+
 import Link from "next/link";
+import { useCallback } from "react";
 
 import { SousTitre1 } from "@/components/typography/typography";
+import { useCalendrierStore } from "@/lib/calendrier-store";
 
 export default function Admin() {
+  const resetCalendar = useCallback(() => {
+    useCalendrierStore.getState().scheduleReset();
+  }, []);
+
   return (
     <div className="flex grow flex-col items-center justify-center gap-10px">
       <SousTitre1>
-        <Link className="underline" href="/admin/tous-les-films">
+        <Link
+          onClick={resetCalendar}
+          className="underline"
+          href="/admin/tous-les-films"
+        >
           Tous les Films
         </Link>
       </SousTitre1>
       <SousTitre1>
-        <Link className="underline" href="/admin/semaine">
+        <Link
+          onClick={resetCalendar}
+          className="underline"
+          href="/admin/semaine"
+        >
           Semaine
         </Link>
       </SousTitre1>
