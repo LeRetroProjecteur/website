@@ -62,7 +62,7 @@ export default function Calendrier({
         </div>
         {isQuartierSelectorOpen && (
           <div className="hidden lg:flex lg:pt-20px">
-            <QuartierSelector />
+            <QuartierSelector close={closeQuartierSelector} />
           </div>
         )}
         <div className="flex grow pt-18px lg:pt-28px">
