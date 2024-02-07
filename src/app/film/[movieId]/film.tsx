@@ -7,6 +7,7 @@ import { isAfter, isEqual } from "date-fns";
 import coupDeCoeur from "@/assets/coup-de-coeur.png";
 import PageHeader from "@/components/layout/page-header";
 import { TwoColumnPage } from "@/components/layout/two-column-page";
+import Seances from "@/components/seances/seances";
 import {
   BodyCopy,
   MetaCopy,
@@ -17,7 +18,6 @@ import { MovieDetail, ShowtimesTheater } from "@/lib/types";
 import {
   TAG_MAP,
   blurProps,
-  floatHourToString,
   formatDDMMYYWithSlashes,
   formatMerJJMM,
   getImageUrl,
@@ -25,7 +25,6 @@ import {
   getStartOfDayInParis,
   getStartOfTodayInParis,
   safeDate,
-  splitIntoSubArrays,
 } from "@/lib/util";
 
 export default function Film({ movie }: { movie: MovieDetail }) {
@@ -190,51 +189,8 @@ function DateScreenings({
     <div className="col-span-full grid grid-cols-[subgrid] border-b py-12px lg:py-16px lg:hover:bg-retro-pale-green">
       <BodyCopy>{capitalize(formatMerJJMM(safeDate(date)))}</BodyCopy>
       <div className="flex flex-col">
-        {theaters.map((theater) => (
-          <TheaterScreenings
-            key={theater.clean_name}
-            showtimesTheater={theater}
-          />
-        ))}
+        <Seances showtimes_theater={theaters} />
       </div>
-    </div>
-  );
-}
-
-function TheaterScreenings({
-  showtimesTheater,
-}: {
-  showtimesTheater: ShowtimesTheater;
-}) {
-  return (
-    <div className="flex">
-      <div className="grow">
-        <BodyCopy>
-          {showtimesTheater.clean_name} ({showtimesTheater.zipcode_clean})
-        </BodyCopy>
-      </div>
-      <div className="flex shrink-0 flex-col lg:pl-8px">
-        {splitIntoSubArrays(showtimesTheater.showtimes, 3).map(
-          (showtimes, i) => (
-            <ThreeScreenings showtimes={showtimes} key={i} />
-          ),
-        )}
-      </div>
-    </div>
-  );
-}
-
-function ThreeScreenings({ showtimes }: { showtimes: number[] }) {
-  return (
-    <div className="flex flex-col justify-end lg:flex-row">
-      {showtimes.map((showtime) => (
-        <div key={showtime} className="group flex justify-end">
-          <BodyCopy>{floatHourToString(showtime)}</BodyCopy>
-          <div className="hidden group-last:hidden lg:block">
-            <BodyCopy>&nbsp;•&nbsp;</BodyCopy>
-          </div>
-        </div>
-      ))}
     </div>
   );
 }
