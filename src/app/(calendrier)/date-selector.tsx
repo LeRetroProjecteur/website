@@ -12,11 +12,11 @@ export default function DateSelector() {
   const setDate = useCalendrierStore((s) => s.setDate);
 
   const onClickLeft = useCallback(() => {
-    setDate(date.plus({ days: 1 }));
+    setDate(date.minus({ days: 1 }));
   }, [date, setDate]);
 
   const onClickRight = useCallback(() => {
-    setDate(date.minus({ days: 1 }));
+    setDate(date.plus({ days: 1 }));
   }, [date, setDate]);
 
   return (

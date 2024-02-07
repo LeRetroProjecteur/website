@@ -125,7 +125,7 @@ export function formatYYYYMMDD(date: DateTime) {
 
 // 2024_12_31
 export function formatYYYY_MM_DD(date: DateTime) {
-  return date.toFormat("yyyy-MM-dd");
+  return date.toFormat("yyyy_MM_dd");
 }
 
 // 31/12/04
@@ -135,7 +135,7 @@ export function formatDDMMYYWithSlashes(date: DateTime) {
 
 // Ven. 31/12
 export function formatMerJJMM(date: DateTime) {
-  return date.toFormat("EEE. dd MM");
+  return date.toFormat("EEE dd/MM");
 }
 
 // lundi
