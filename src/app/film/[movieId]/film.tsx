@@ -86,7 +86,7 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
         </div>
       )}
 
-      <div className="flex lg:border-y lg:py-20px">
+      <div className="flex pb-20px lg:border-y lg:py-20px">
         <MetaCopy>
           <div>Titre original&nbsp;: {movie.original_title}</div>
           {movie.duration == null ? (
