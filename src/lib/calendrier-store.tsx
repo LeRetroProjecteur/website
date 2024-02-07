@@ -1,7 +1,6 @@
 import { without } from "lodash-es";
 import { DateTime } from "luxon";
 import { StoreApi, UseBoundStore, create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
 
 import { getStartOfTodayInParis } from "./util";
 
@@ -31,9 +30,30 @@ interface CalendrierState {
 }
 
 export function getUseCalendrierStore() {
-  return create<CalendrierState>()(
-    persist(
-      (set, get) => ({
+  return create<CalendrierState>()((set, get) => ({
+    date: getStartOfTodayInParis(),
+    dateChanged: false,
+    minHour: 0,
+    maxHour: 24,
+    filter: "",
+    quartiers: [],
+    shouldReset: false,
+    setDate: (date: DateTime) => {
+      set({ date, dateChanged: true });
+    },
+    setMinHour: (minHour: number) => set({ minHour }),
+    setMaxHour: (maxHour: number) => set({ maxHour }),
+    setFilter: (filter: string) => set({ filter }),
+    toggleQuartier: (quartier: Quartier) => {
+      const quartiers = get().quartiers;
+      if (quartiers.includes(quartier)) {
+        set({ quartiers: without(quartiers, quartier) });
+      } else {
+        set({ quartiers: [...quartiers, quartier] });
+      }
+    },
+    reset: () => {
+      set({
         date: getStartOfTodayInParis(),
         dateChanged: false,
         minHour: 0,
@@ -41,64 +61,10 @@ export function getUseCalendrierStore() {
         filter: "",
         quartiers: [],
         shouldReset: false,
-        setDate: (date: DateTime) => {
-          set({ date, dateChanged: true });
-        },
-        setMinHour: (minHour: number) => set({ minHour }),
-        setMaxHour: (maxHour: number) => set({ maxHour }),
-        setFilter: (filter: string) => set({ filter }),
-        toggleQuartier: (quartier: Quartier) => {
-          const quartiers = get().quartiers;
-          if (quartiers.includes(quartier)) {
-            set({ quartiers: without(quartiers, quartier) });
-          } else {
-            set({ quartiers: [...quartiers, quartier] });
-          }
-        },
-        reset: () => {
-          set({
-            date: getStartOfTodayInParis(),
-            dateChanged: false,
-            minHour: 0,
-            maxHour: 24,
-            filter: "",
-            quartiers: [],
-            shouldReset: false,
-          });
-        },
-        scheduleReset: () => set({ shouldReset: true }),
-      }),
-      {
-        name: "calendrier-storage",
-        storage: createJSONStorage(() => sessionStorage, {
-          reviver: (k, v) =>
-            k === "date"
-              ? DateTime.fromISO(v as string, {
-                  zone: "Europe/Paris",
-                  locale: "fr",
-                })
-              : v,
-        }),
-        partialize: ({
-          date,
-          dateChanged,
-          minHour,
-          maxHour,
-          filter,
-          quartiers,
-          shouldReset,
-        }) => ({
-          date,
-          dateChanged,
-          minHour,
-          maxHour,
-          filter,
-          quartiers,
-          shouldReset,
-        }),
-      },
-    ),
-  );
+      });
+    },
+    scheduleReset: () => set({ shouldReset: true }),
+  }));
 }
 
 export const useCalendrierStore = getUseCalendrierStore();
