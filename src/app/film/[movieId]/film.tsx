@@ -56,20 +56,18 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
   return (
     <>
       {movie.review && movie.review_date && (
-        <div className="flex flex-col lg:pb-20px">
-          <div className="flex">
-            <div className="flex grow basis-0 pb-15px lg:pb-20px">
-              <Image
-                width={1200}
-                height={675}
-                className="h-auto w-full"
-                src={getImageUrl(movie)}
-                alt="movie-screenshot"
-                {...blurProps}
-              />
-            </div>
+        <div className="flex flex-col pb-20px">
+          <div className="flex grow basis-0 pb-15px lg:pb-20px">
+            <Image
+              width={1200}
+              height={675}
+              className="h-auto w-full"
+              src={getImageUrl(movie)}
+              alt="movie-screenshot"
+              {...blurProps}
+            />
           </div>
-          <BodyCopy>
+          <BodyCopy className="border-b pb-20px lg:border-0 lg:pb-0">
             <div dangerouslySetInnerHTML={{ __html: movie.review }}></div>
             <div className="flex items-center pt-6px">
               <div className="pr-6px">
@@ -88,7 +86,7 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
         </div>
       )}
 
-      <div className="flex pt-15px lg:border-y lg:py-20px">
+      <div className="flex lg:border-y lg:py-20px">
         <MetaCopy>
           <div>Titre original&nbsp;: {movie.original_title}</div>
           {movie.duration == null ? (

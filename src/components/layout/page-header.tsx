@@ -11,7 +11,7 @@ export default function PageHeader({
   text: string;
 }) {
   return (
-    <FixedHeader className="flex flex-col">
+    <FixedHeader>
       <div>
         <div className="grow whitespace-break-spaces border-y bg-retro-green py-14px text-center lg:w-max lg:whitespace-nowrap lg:border-0 lg:bg-white lg:py-0 lg:pl-20px lg:text-left">
           <Titre>{text}</Titre>
@@ -42,7 +42,7 @@ export function FixedHeader({
       className={clsx(
         className,
         {
-          "pb-15px lg:pb-20px": !(disableBelowPadding ?? false),
+          "pb-20px": !(disableBelowPadding ?? false),
         },
         "z-20 flex flex-col bg-white lg:sticky lg:top-0 lg:pt-20px",
       )}

@@ -13,11 +13,11 @@ export function TwoColumnPage({
         <div className="flex grow flex-col lg:w-1/2 lg:border-r lg:pr-20px">
           {left}
         </div>
-        <div className="flex flex-col pt-27px lg:w-1/2 lg:pl-20px lg:pt-0">
+        <div className="flex flex-col pt-20px lg:w-1/2 lg:pl-20px lg:pt-0">
           {right}
         </div>
       </div>
-      <div className="w-1/2 border-r lg:min-h-100px" />
+      <div className="min-h-100px w-1/2 lg:border-r" />
     </div>
   );
 }
