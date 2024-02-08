@@ -183,7 +183,7 @@ function MovieRows({
             <MultiDaySeances movie={movie} />
           </div>
         ) : (
-          <div className="px-6px py-12px  lg:px-10px lg:py-17px">
+          <div className="px-6px py-12px lg:px-10px lg:py-17px">
             <Seances showtimes_theater={movie.showtimes_theater} />
           </div>
         )
