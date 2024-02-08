@@ -14,7 +14,7 @@ import {
 import { DateTime } from "luxon";
 import Image from "next/image";
 import Link from "next/link";
-import { ReactNode, use, useEffect, useMemo } from "react";
+import { ReactNode, use, useMemo } from "react";
 import useSWR from "swr";
 
 import { Loading, SuspenseWithLoading } from "@/components/icons/loading";
@@ -50,12 +50,6 @@ export default function MovieTable({
   serverMovies: Promise<Movie[] | MovieWithShowtimesByDay[]>;
   allMovies?: boolean;
 }) {
-  useEffect(() => {
-    if (useCalendrierStore.getState().shouldReset) {
-      useCalendrierStore.getState().reset();
-    }
-  }, []);
-
   const date = useCalendrierStore((s) => s.date);
   const useClientData = useCalendrierStore((s) => s.dateChanged);
   const minHour = useCalendrierStore((s) => s.minHour);

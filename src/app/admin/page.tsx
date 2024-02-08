@@ -8,7 +8,7 @@ import { useCalendrierStore } from "@/lib/calendrier-store";
 
 export default function Admin() {
   const resetCalendar = useCallback(() => {
-    useCalendrierStore.getState().scheduleReset();
+    useCalendrierStore.getState().reset();
   }, []);
 
   return (
