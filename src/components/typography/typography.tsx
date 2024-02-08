@@ -55,7 +55,7 @@ export function ButtonCopy({
     <div
       className={clsx(
         className,
-        "text-15px font-medium uppercase leading-25px lg:text-20px lg:leading-21px",
+        "text-17px font-medium uppercase leading-25px lg:text-20px lg:leading-21px",
       )}
     >
       {children}

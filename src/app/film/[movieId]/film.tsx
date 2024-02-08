@@ -65,6 +65,7 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
           </div>
           <BodyCopy className="border-b pb-20px lg:border-0 lg:pb-0">
             <div dangerouslySetInnerHTML={{ __html: movie.review }}></div>
+            <br />
             <div className="flex items-center pt-6px">
               <div className="pr-6px">
                 <Image
@@ -73,10 +74,10 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
                   src={coupDeCoeur}
                 />
               </div>
-              <div>
+              <MetaCopy>
                 Critique du{" "}
                 {formatDDMMYYWithSlashes(safeDate(movie.review_date))}
-              </div>
+              </MetaCopy>
             </div>
           </BodyCopy>
         </div>

@@ -83,7 +83,7 @@ export default function Newsletter() {
                 <input
                   type="submit"
                   value="s'inscrire"
-                  className="h-33px grow cursor-pointer border bg-retro-gray text-center text-20px font-medium uppercase text-retro-blue hover:bg-retro-blue hover:text-retro-gray lg:h-48px"
+                  className="h-42px grow cursor-pointer border bg-retro-gray text-center text-20px font-medium uppercase text-retro-blue hover:bg-retro-blue hover:text-retro-gray lg:h-48px"
                   onClick={closeNewsLetter}
                 />
               </div>
