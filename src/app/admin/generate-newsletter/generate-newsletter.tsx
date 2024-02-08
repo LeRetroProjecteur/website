@@ -57,14 +57,16 @@ export default function GenerateNewsletter({
       <PageHeader text="Newsletter">
         <SousTitre1>Aide à la rédaction de la newsletter</SousTitre1>
       </PageHeader>
-      <SuspenseWithLoading className="flex grow items-center justify-center">
-        <Movies movies={movies} />
-      </SuspenseWithLoading>
-      <div className="flex grow flex-col border-t pl-20px">
-        <div className="flex flex-col pt-44px">
-          <Retrospectives movies={movies} />
+      <SuspenseWithLoading>
+        <div className="flex grow items-center justify-center">
+          <Movies movies={movies} />
         </div>
-      </div>
+        <div className="flex grow flex-col border-t pl-20px">
+          <div className="flex flex-col pt-44px">
+            <Retrospectives movies={movies} />
+          </div>
+        </div>
+      </SuspenseWithLoading>
     </>
   );
 }
