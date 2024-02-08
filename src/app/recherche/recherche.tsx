@@ -134,19 +134,20 @@ function Results({
   const router = useRouter();
 
   useEffect(() => {
+    const selected = () => useRechercheStore.getState().selected;
     const keydown = (ev: KeyboardEvent) => {
       if (ev.key === "ArrowDown") {
-        setSelected(Math.min((selected ?? -1) + 1, filtered.length - 1));
+        setSelected(Math.min((selected() ?? -1) + 1, filtered.length - 1));
       } else if (ev.key === "ArrowUp") {
-        setSelected(Math.max((selected ?? filtered.length) - 1, 0));
-      } else if (ev.key === "Enter" && selected != null) {
-        router.push(`/film/${filtered[selected].id}`);
+        setSelected(Math.max((selected() ?? filtered.length) - 1, 0));
+      } else if (ev.key === "Enter" && selected() != null) {
+        router.push(`/film/${filtered[selected()].id}`);
       }
     };
 
     addEventListener("keydown", keydown);
     return () => removeEventListener("keydown", keydown);
-  }, [selected, filtered, router]);
+  }, [filtered, router]);
 
   return (
     searchTerm.length > 0 && (
