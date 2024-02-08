@@ -1,3 +1,5 @@
+import { Metadata } from "next";
+
 import PageHeader from "@/components/layout/page-header";
 import {
   ThumbnailGrid,
@@ -7,6 +9,10 @@ import { SousTitre1 } from "@/components/typography/typography";
 
 import lumiereIcon from "./festival-lumiere-2023/img/icon.jpg";
 import top2022 from "./top-2022/img/icon.jpg";
+
+export const metadata: Metadata = {
+  title: "Actualités | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+};
 
 const chroniques = [
   {

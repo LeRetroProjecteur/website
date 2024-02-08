@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,6 +11,10 @@ import {
 } from "@/components/typography/typography";
 
 import coupDeCoeur from "../../assets/coup-de-coeur.png";
+
+export const metadata: Metadata = {
+  title: "A propos | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+};
 
 export default function AProposPage() {
   return (

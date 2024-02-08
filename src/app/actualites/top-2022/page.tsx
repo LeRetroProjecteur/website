@@ -1,3 +1,5 @@
+import { Metadata } from "next";
+
 import PageHeader from "@/components/layout/page-header";
 import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 
@@ -16,6 +18,11 @@ import mamanputain from "./img/mamanputain.jpg";
 import pictureshow from "./img/pictureshow.jpg";
 import silence from "./img/silence.jpg";
 import variety from "./img/variety.jpg";
+
+export const metadata: Metadata = {
+  title:
+    "Rétrospective 2022 | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+};
 
 export default function Top2022() {
   return (
