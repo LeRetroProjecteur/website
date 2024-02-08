@@ -165,7 +165,7 @@ function Screenings({
   );
 
   return (
-    <div className="grid-auto-rows grid grid-cols-[auto_1fr] gap-x-50px">
+    <div className="grid-auto-rows grid grid-cols-[auto_1fr] gap-x-20px">
       {sortedByDateAndTheater.map(([date, theaters]) => (
         <DateScreenings key={date} date={date} theaters={theaters} />
       ))}
@@ -184,7 +184,7 @@ function DateScreenings({
     <div className="col-span-full grid grid-cols-[subgrid] border-b py-12px lg:py-16px lg:hover:bg-retro-pale-green">
       <BodyCopy>{capitalize(formatMerJJMM(safeDate(date)))}</BodyCopy>
       <div className="flex flex-col">
-        <Seances showtimes_theater={theaters} />
+        <Seances showtimes_theater={theaters} timesPerLine={2} />
       </div>
     </div>
   );
