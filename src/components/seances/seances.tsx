@@ -85,12 +85,12 @@ export function SeancesTheater({
 
   return (
     <div className="flex justify-between" key={showtimesTheater.clean_name}>
-      <div className="w-min pr-20px">
+      <div className="w-min grow pr-20px">
         <CalendrierCopy>
           {showtimesTheater.clean_name} ({showtimesTheater.zipcode_clean})
         </CalendrierCopy>
       </div>
-      <div className="flex grow flex-col">
+      <div className="flex flex-col">
         {lineGroups.map((showtimes, i) => (
           <ShowtimesLine key={i} threeShowtimes={showtimes} />
         ))}
