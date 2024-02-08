@@ -8,7 +8,7 @@ export function ThreeColumnLayout({ children }: { children?: ReactNode }) {
     <div className="mx-auto my-0 block max-w-[32rem] wide-article:max-w-[37.5rem] lg:m-0 lg:grid lg:max-w-none lg:grid-cols-[0_32rem_1fr] lg:pl-20px 3col:grid-cols-[minmax(16rem,_1fr)_minmax(30rem,_32rem)_minmax(16rem,_1fr)] 3col:pl-0">
       {children}
       <div />
-      <div className="hidden lg:block lg:min-h-100px lg:border-r lg:pb-20px" />
+      <div className="min-h-100px lg:block lg:border-r lg:pb-20px" />
       <div />
     </div>
   );
@@ -83,7 +83,7 @@ export function MiddleColumnImageAndRightColumnCaption({
           <Image src={image} alt={alt} className="w-full" {...blurProps} />
         </div>
       </div>
-      <div className="self-end pb-10px lg:pb-20px lg:pl-20px">
+      <div className="self-end lg:pb-20px lg:pl-20px">
         <div className="text-center text-14px font-semibold uppercase leading-17px text-retro-gray lg:text-left lg:text-16px lg:leading-19px">
           {caption}
         </div>
@@ -125,11 +125,8 @@ export function MiddleColumnImageAndCaption({
 
 export function Section({ children }: { children: ReactNode }) {
   return (
-    <div className="group lg:pb-50px">
+    <div className="group pb-30px last:pb-0 lg:pb-50px last:lg:pb-0">
       {children}
-      <div className="pb-15px lg:hidden">
-        <div className="border-b pt-15px group-last:border-b-0 lg:hidden"></div>
-      </div>
     </div>
   );
 }
