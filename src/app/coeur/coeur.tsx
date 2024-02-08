@@ -49,7 +49,7 @@ export default function CoupsDeCoeur({
 
   return (
     <>
-      <PageHeader text="coups de coeur">
+      <PageHeader text="coups de cœur">
         <SubHeader display={display} toggleDisplay={toggleDisplay} />
       </PageHeader>
       <div className="flex grow flex-col lg:pl-20px">

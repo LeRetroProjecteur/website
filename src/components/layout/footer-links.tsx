@@ -46,7 +46,7 @@ function LinkBox({
 }) {
   return (
     <div
-      className={clsx("flex justify-center border py-14px lg:py-9px", {
+      className={clsx("flex h-42px items-center justify-center border", {
         "bg-retro-green": bgGreen ?? false,
       })}
     >

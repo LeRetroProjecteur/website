@@ -11,8 +11,10 @@ import { CalendrierCopy } from "../typography/typography";
 
 export default function Seances({
   showtimes_theater,
+  timesPerLine,
 }: {
   showtimes_theater: ShowtimesTheater[];
+  timesPerLine?: number;
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -54,7 +56,7 @@ export default function Seances({
           <SeancesTheater
             showtimesTheater={theater}
             key={theater.clean_name}
-            isExpanded={isExpanded}
+            timesPerLine={timesPerLine}
           />
         ),
       )}
@@ -71,35 +73,33 @@ export default function Seances({
 
 export function SeancesTheater({
   showtimesTheater,
-  isExpanded,
+  timesPerLine,
 }: {
   showtimesTheater: ShowtimesTheater;
-  isExpanded: boolean;
+  timesPerLine?: number;
 }) {
-  const groupsOfThree = splitIntoSubArrays(
-    take(
-      sortBy(showtimesTheater.showtimes),
-      isExpanded ? showtimesTheater.showtimes.length : 3,
-    ),
-    3,
+  const lineGroups = splitIntoSubArrays(
+    sortBy(showtimesTheater.showtimes),
+    timesPerLine ?? 3,
   );
+
   return (
     <div className="flex justify-between" key={showtimesTheater.clean_name}>
-      <div className="grow pr-20px">
+      <div className="w-min grow pr-20px">
         <CalendrierCopy>
           {showtimesTheater.clean_name} ({showtimesTheater.zipcode_clean})
         </CalendrierCopy>
       </div>
       <div className="flex flex-col">
-        {groupsOfThree.map((showtimes, i) => (
-          <ThreeShowtimes key={i} threeShowtimes={showtimes} />
+        {lineGroups.map((showtimes, i) => (
+          <ShowtimesLine key={i} threeShowtimes={showtimes} />
         ))}
       </div>
     </div>
   );
 }
 
-function ThreeShowtimes({ threeShowtimes }: { threeShowtimes: number[] }) {
+function ShowtimesLine({ threeShowtimes }: { threeShowtimes: number[] }) {
   return (
     <div className="flex flex-col lg:flex-row lg:justify-end">
       {threeShowtimes.map((showtime) => (

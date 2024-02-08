@@ -75,6 +75,7 @@ function MovieReview({ movie }: { movie: MovieDetail }) {
           </div>
           <BodyCopy className="border-b pb-20px lg:border-0 lg:pb-0">
             <div dangerouslySetInnerHTML={{ __html: movie.review }}></div>
+            <br />
             <div className="flex items-center pt-6px">
               <div className="pr-6px">
                 <Image
@@ -83,10 +84,10 @@ function MovieReview({ movie }: { movie: MovieDetail }) {
                   src={coupDeCoeur}
                 />
               </div>
-              <div>
+              <MetaCopy>
                 Critique du{" "}
                 {formatDDMMYYWithSlashes(safeDate(movie.review_date))}
-              </div>
+              </MetaCopy>
             </div>
           </BodyCopy>
         </div>
@@ -178,7 +179,7 @@ function Screenings({
   );
 
   return (
-    <div className="grid-auto-rows grid grid-cols-[auto_1fr] gap-x-50px">
+    <div className="grid-auto-rows grid grid-cols-[auto_1fr] gap-x-20px">
       {sortedByDateAndTheater.map(([date, theaters]) => (
         <DateScreenings key={date} date={date} theaters={theaters} />
       ))}
@@ -197,7 +198,7 @@ function DateScreenings({
     <div className="col-span-full grid grid-cols-[subgrid] border-b py-12px lg:py-16px lg:hover:bg-retro-pale-green">
       <BodyCopy>{capitalize(formatMerJJMM(safeDate(date)))}</BodyCopy>
       <div className="flex flex-col">
-        <Seances showtimes_theater={theaters} />
+        <Seances showtimes_theater={theaters} timesPerLine={2} />
       </div>
     </div>
   );
