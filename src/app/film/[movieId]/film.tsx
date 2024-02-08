@@ -33,14 +33,18 @@ export default function Film({ movie }: { movie: MovieDetail }) {
       <TwoColumnPage
         left={
           <>
-            <MovieReview movie={movie} />
-            <MovieInformation movie={movie} />
+            <MovieEssentials movie={movie} />
+            <br />
+            <MovieScreenings movie={movie} />
+            <br />
           </>
         }
         right={
           <>
-            <MovieScreenings movie={movie} />
+            <MovieInformation movie={movie} />
             <Tags movie={movie} />
+            <br />
+            <MovieReview movie={movie} />
           </>
         }
       />
@@ -54,6 +58,23 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
       <SousTitre1>
         <u>{movie.title}</u>, {movie.directors} ({movie.year})
       </SousTitre1>
+    </div>
+  );
+}
+
+function MovieEssentials({ movie }: { movie: MovieDetail }) {
+  return (
+    <div className="text-center">
+      <MetaCopy>
+        <span>
+          Titre original: <i>{movie.original_title}</i>
+        </span>
+        {movie.duration != null ? (
+          <div>{Math.floor(parseInt(movie.duration) / 60)} min</div>
+        ) : (
+          ""
+        )}
+      </MetaCopy>
     </div>
   );
 }
@@ -99,8 +120,11 @@ function MovieReview({ movie }: { movie: MovieDetail }) {
 function MovieInformation({ movie }: { movie: MovieDetail }) {
   return (
     <>
-      <div className="flex pb-20px lg:border-y lg:py-20px">
-        <MetaCopy>
+      <div className="flex justify-center border-y bg-retro-pale-green py-13px text-center lg:px-20px lg:py-16px">
+        <SousTitre2>Fiche technique</SousTitre2>
+      </div>
+      <div className="flex border-b py-20px lg:py-20px">
+        <BodyCopy>
           <div>Titre original&nbsp;: {movie.original_title}</div>
           {movie.duration == null ? (
             "Durée inconnue"
@@ -129,7 +153,7 @@ function MovieInformation({ movie }: { movie: MovieDetail }) {
           ) : (
             <div>Distribué par {movie.distributor}</div>
           )}
-        </MetaCopy>
+        </BodyCopy>
       </div>
     </>
   );
