@@ -6,13 +6,13 @@ import {
 import { SousTitre1 } from "@/components/typography/typography";
 
 import lumiereIcon from "./festival-lumiere-2023/img/icon.jpg";
-import top2022 from "./top-2022/img/icon.jpg";
+import placeholder from "./placeholder.png";
 
 const chroniques = [
   {
     titre: "Top 2023 : Vos plus belles découvertes de l’année",
     slug: "top-2023-sondage",
-    image: lumiereIcon,
+    image: placeholder,
     date: "22/12/2023",
     type: "retro-spective",
   },
@@ -26,7 +26,7 @@ const chroniques = [
   {
     titre: "Rétrospective 2022 — Nos meilleures séances patrimoine",
     slug: "top-2022",
-    image: top2022,
+    image: placeholder,
     date: "02/01/2023",
     type: "retro-spective",
   },
