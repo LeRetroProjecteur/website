@@ -744,17 +744,19 @@ export default function Top2023() {
         />
         <MiddleColumn>
           <Section>
-            <strong>
-              Cette année, nous avons voulu, pour la première fois, vous
-              consulter
-            </strong>{" "}
-            pour savoir quelles étaient vos plus belles découvertes de vieux
-            films. Avec un tel champ des possibles, vos réponses ont forcément
-            été extrêmement diverses. Parmi les 279 bulletins reçus, nous
-            recensons plus de 1000 différents films mentionnés (de plus de 450
-            différents réalisateurs). Malgré tout, de réelles tendances se
-            dessinent, liées à ce que nous pourrions appeler une véritable
-            actualité du cinéma de patrimoine.
+            <BodyCopy>
+              <strong>
+                Cette année, nous avons voulu, pour la première fois, vous
+                consulter
+              </strong>{" "}
+              pour savoir quelles étaient vos plus belles découvertes de vieux
+              films. Avec un tel champ des possibles, vos réponses ont forcément
+              été extrêmement diverses. Parmi les 279 bulletins reçus, nous
+              recensons plus de 1000 différents films mentionnés (de plus de 450
+              différents réalisateurs). Malgré tout, de réelles tendances se
+              dessinent, liées à ce que nous pourrions appeler une véritable
+              actualité du cinéma de patrimoine.
+            </BodyCopy>
           </Section>
           <Section>
             <div className="lg:flex">
@@ -983,7 +985,7 @@ function CritiqueTable({
 }) {
   const inside = top.map(({ titre, directorsAndYear, id }, i) => (
     <li
-      className="text-16px font-medium leading-30px tracking-[-0.01em] lg:text-16px lg:leading-30px"
+      className="leading-30px lg:leading-30px text-16px font-medium tracking-[-0.01em] lg:text-16px"
       key={i}
     >
       <span key={id}>
