@@ -125,33 +125,44 @@ function MovieInformation({ movie }: { movie: MovieDetail }) {
       </div>
       <div className="flex border-b py-20px lg:py-20px">
         <BodyCopy>
-          <div>Titre original&nbsp;: {movie.original_title}</div>
+          <div>
+            <strong>Titre original&nbsp;:</strong> <i>{movie.original_title}</i>
+          </div>
           {movie.duration == null ? (
             "Durée inconnue"
           ) : (
             <div>
-              Durée&nbsp;: {Math.floor(parseInt(movie.duration) / 60)} minutes
+              <strong>Durée&nbsp;:</strong>{" "}
+              {Math.floor(parseInt(movie.duration) / 60)} minutes
             </div>
           )}
           {movie.language == null ? (
             ""
           ) : (
-            <div>Langue&nbsp;: {movie.language}</div>
+            <div>
+              <strong>Langue&nbsp;:</strong> {movie.language}
+            </div>
           )}
           {movie.screenwriters == null ? (
             ""
           ) : (
-            <div>Scénario&nbsp;: {movie.screenwriters}</div>
+            <div>
+              <strong>Scénario&nbsp;:</strong> {movie.screenwriters}
+            </div>
           )}
           {movie.countries == null ? (
             ""
           ) : (
-            <div>Pays&nbsp;: {movie.countries}</div>
+            <div>
+              <strong>Pays&nbsp;:</strong> {movie.countries}
+            </div>
           )}
           {movie.distributor == null ? (
             ""
           ) : (
-            <div>Distribué par {movie.distributor}</div>
+            <div>
+              <strong>Distribution :</strong> {movie.distributor}
+            </div>
           )}
         </BodyCopy>
       </div>
