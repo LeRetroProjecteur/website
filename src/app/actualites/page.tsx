@@ -10,8 +10,8 @@ import placeholder from "./placeholder.png";
 
 const chroniques = [
   {
-    titre: "Top 2023 : Vos plus belles découvertes de l’année",
-    slug: "top-2023-sondage",
+    titre: "Top 2023 : Vos plus belles découvertes de l'année",
+    slug: "top-2023",
     image: placeholder,
     date: "22/12/2023",
     type: "retro-spective",

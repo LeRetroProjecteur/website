@@ -1,12 +1,11 @@
 import Image, { StaticImageData } from "next/image";
 import { ReactNode } from "react";
 
-import { SousTitre1 } from "@/components/typography/typography";
 import { blurProps } from "@/lib/util";
 
 export function ThreeColumnLayout({ children }: { children?: ReactNode }) {
   return (
-    <div className="lg:grid lg:grid-cols-[15rem_1fr_15rem]">
+    <div className="mx-auto my-0 block max-w-[30rem] lg:m-0 lg:grid lg:max-w-none lg:grid-cols-[0_30rem_1fr] lg:pl-20px xl:grid-cols-[minmax(16rem,_1fr)_minmax(30rem,_32rem)_minmax(16rem,_1fr)] xl:pl-0">
       {children}
       <div />
       <div className="hidden lg:block lg:min-h-100px lg:border-r lg:pb-20px" />
@@ -28,7 +27,7 @@ export function FirstRow({
 }) {
   return (
     <>
-      <div className="hidden self-center justify-self-center px-30px text-center lg:block">
+      <div className="invisible self-center justify-self-center px-30px text-center xl:visible">
         <div className="font-semibold uppercase text-retro-gray lg:text-20px lg:leading-18px">
           {type}
         </div>
@@ -43,7 +42,12 @@ export function FirstRow({
           />
         </div>
       </div>
-      <div className="hidden self-center justify-self-center px-30px text-center lg:block">
+      <div className="invisible self-center justify-self-center px-30px text-center lg:visible">
+        <div className="font-semibold uppercase text-retro-gray lg:text-20px lg:leading-18px xl:invisible">
+          {type}
+          <br />
+          <br />
+        </div>
         <div className="font-semibold uppercase text-retro-gray lg:text-20px lg:leading-18px">
           Publié le {date}
         </div>
@@ -57,7 +61,7 @@ export function MiddleColumn({ children }: { children: ReactNode }) {
     <>
       <div />
       <div className="lg:border-r lg:pr-20px">
-        <div className="flex flex-col">{children}</div>
+        <div>{children}</div>
       </div>
       <div />
     </>
@@ -123,10 +127,10 @@ export function MiddleColumnSection({ children }: { children: ReactNode }) {
 
 export function Section({ children }: { children: ReactNode }) {
   return (
-    <div className="lg:pb-50px">
+    <div className="group lg:pb-50px">
       {children}
       <div className="pb-15px lg:hidden">
-        <div className="border-b pt-15px lg:hidden"></div>
+        <div className="border-b pt-15px group-last:border-b-0 lg:hidden"></div>
       </div>
     </div>
   );
@@ -135,8 +139,10 @@ export function Section({ children }: { children: ReactNode }) {
 export function SectionHeader({ children }: { children: ReactNode }) {
   return (
     <div className="pb-15px lg:pb-20px">
-      <div className="flex items-center justify-center border-y bg-retro-green py-10px text-center lg:py-20px">
-        <SousTitre1>{children}</SousTitre1>
+      <div className="flex items-center justify-center border-y bg-retro-green py-10px text-center lg:py-15px">
+        <h2 className="text-center text-21px uppercase leading-24px tracking-[-0.01em] text-retro-gray lg:text-25px lg:font-semibold lg:leading-25px">
+          {children}
+        </h2>
       </div>
     </div>
   );
