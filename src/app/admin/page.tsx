@@ -23,7 +23,11 @@ export default function Admin() {
         </Link>
       </SousTitre1>
       <SousTitre1>
-        <Link onClick={resetCalendar} className="underline" href="/admin/semaine-prochaine">
+        <Link
+          onClick={resetCalendar}
+          className="underline"
+          href="/admin/semaine-prochaine"
+        >
           Calendrier de la semaine prochaine
         </Link>
       </SousTitre1>
