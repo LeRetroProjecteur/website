@@ -12,7 +12,7 @@ import BurgerIcon from "../menu/burger-icon";
 
 export default function TopBar() {
   const onClickLogo = useCallback(() => {
-    useCalendrierStore.getState().scheduleReset();
+    useCalendrierStore.getState().reset();
   }, []);
 
   return (

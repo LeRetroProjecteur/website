@@ -19,14 +19,12 @@ interface CalendrierState {
   maxHour: number;
   filter: string;
   quartiers: Quartier[];
-  shouldReset: boolean;
   setDate: (date: DateTime) => void;
   setMinHour: (minHour: number) => void;
   setMaxHour: (maxHour: number) => void;
   setFilter: (filter: string) => void;
   toggleQuartier: (quartier: Quartier) => void;
   reset: () => void;
-  scheduleReset: () => void;
 }
 
 export function getUseCalendrierStore() {
@@ -37,7 +35,6 @@ export function getUseCalendrierStore() {
     maxHour: 24,
     filter: "",
     quartiers: [],
-    shouldReset: false,
     setDate: (date: DateTime) => {
       set({ date, dateChanged: true });
     },
@@ -60,10 +57,8 @@ export function getUseCalendrierStore() {
         maxHour: 24,
         filter: "",
         quartiers: [],
-        shouldReset: false,
       });
     },
-    scheduleReset: () => set({ shouldReset: true }),
   }));
 }
 
