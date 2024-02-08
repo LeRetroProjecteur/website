@@ -260,9 +260,7 @@ function MultiDaySeances({ movie }: { movie: MovieWithShowtimesByDay }) {
       ).map(([day, theaters], i) => (
         <div key={i} className="flex grow flex-col gap-10px lg:gap-5px">
           <CalendrierCopy>
-            <strong className="font-semibold">
-              {capitalize(formatLundi1Janvier(day))}
-            </strong>
+            <strong>{capitalize(formatLundi1Janvier(day))}</strong>
           </CalendrierCopy>
           <div className="flex grow flex-col gap-10px lg:gap-5px">
             {sortBy(

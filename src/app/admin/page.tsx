@@ -26,9 +26,9 @@ export default function Admin() {
         <Link
           onClick={resetCalendar}
           className="underline"
-          href="/admin/semaine"
+          href="/admin/semaine-prochaine"
         >
-          Semaine
+          Calendrier de la semaine prochaine
         </Link>
       </SousTitre1>
       <SousTitre1>
