@@ -1,12 +1,11 @@
 import Image, { StaticImageData } from "next/image";
 import { ReactNode } from "react";
 
-import { SousTitre1 } from "@/components/typography/typography";
 import { blurProps } from "@/lib/util";
 
 export function ThreeColumnLayout({ children }: { children?: ReactNode }) {
   return (
-    <div className="lg:grid lg:grid-cols-[15rem_1fr_15rem]">
+    <div className="lg:grid lg:grid-cols-[1fr_38rem_1fr]">
       {children}
       <div />
       <div className="hidden lg:block lg:min-h-100px lg:border-r lg:pb-20px" />
@@ -57,7 +56,7 @@ export function MiddleColumn({ children }: { children: ReactNode }) {
     <>
       <div />
       <div className="lg:border-r lg:pr-20px">
-        <div className="flex flex-col">{children}</div>
+        <div>{children}</div>
       </div>
       <div />
     </>
@@ -135,8 +134,10 @@ export function Section({ children }: { children: ReactNode }) {
 export function SectionHeader({ children }: { children: ReactNode }) {
   return (
     <div className="pb-15px lg:pb-20px">
-      <div className="flex items-center justify-center border-y bg-retro-green py-10px text-center lg:py-20px">
-        <SousTitre1>{children}</SousTitre1>
+      <div className="flex items-center justify-center border-y bg-retro-green py-10px text-center lg:py-15px">
+        <h2 className="text-center text-21px uppercase leading-24px tracking-[-0.01em] text-retro-gray lg:text-25px lg:font-semibold lg:leading-25px">
+          {children}
+        </h2>
       </div>
     </div>
   );

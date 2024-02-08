@@ -22,7 +22,7 @@ export default function Top2022() {
       </PageHeader>
       <ThreeColumnLayout>
         <FirstRow
-          type="chronique"
+          type="retour de festival"
           date="31/10/2023"
           image={icon}
           alt="lumiere"
