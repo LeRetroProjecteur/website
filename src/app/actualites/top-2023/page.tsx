@@ -985,7 +985,7 @@ function CritiqueTable({
 }) {
   const inside = top.map(({ titre, directorsAndYear, id }, i) => (
     <li
-      className="leading-30px lg:leading-30px text-16px font-medium tracking-[-0.01em] lg:text-16px"
+      className="text-16px font-medium leading-30px tracking-[-0.01em] lg:text-16px lg:leading-30px"
       key={i}
     >
       <span key={id}>
