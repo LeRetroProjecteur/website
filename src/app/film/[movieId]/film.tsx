@@ -2,10 +2,10 @@ import { capitalize, size, sortBy, toPairs } from "lodash-es";
 import Image from "next/image";
 import { useMemo } from "react";
 
-import { isAfter, isEqual } from "date-fns";
-
 import coupDeCoeur from "@/assets/coup-de-coeur.png";
 import PageHeader from "@/components/layout/page-header";
+import { TwoColumnPage } from "@/components/layout/two-column-page";
+import Seances from "@/components/seances/seances";
 import {
   BodyCopy,
   MetaCopy,
@@ -16,15 +16,12 @@ import { MovieDetail, ShowtimesTheater } from "@/lib/types";
 import {
   TAG_MAP,
   blurProps,
-  floatHourToString,
   formatDDMMYYWithSlashes,
   formatMerJJMM,
   getImageUrl,
   getMovieTags,
-  getStartOfDayInParis,
   getStartOfTodayInParis,
   safeDate,
-  splitIntoSubArrays,
 } from "@/lib/util";
 
 export default function Film({ movie }: { movie: MovieDetail }) {
@@ -33,20 +30,11 @@ export default function Film({ movie }: { movie: MovieDetail }) {
       <PageHeader text={"Film"}>
         <MovieHeader movie={movie} />
       </PageHeader>
-      <div className="flex grow flex-col lg:pl-20px">
-        <Movie movie={movie} />
-        <div className="w-1/2 border-r lg:min-h-100px" />
-      </div>
+      <TwoColumnPage
+        left={<MovieInfo movie={movie} />}
+        right={<MovieScreenings movie={movie} />}
+      />
     </>
-  );
-}
-
-function Movie({ movie }: { movie: MovieDetail }) {
-  return (
-    <div className="flex grow flex-col lg:flex-row">
-      <MovieInfo movie={movie} />
-      <MovieScreenings movie={movie} />
-    </div>
   );
 }
 
@@ -62,22 +50,20 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
 
 function MovieInfo({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="flex grow flex-col lg:w-1/2 lg:border-r lg:pr-20px">
+    <>
       {movie.review && movie.review_date && (
-        <div className="flex flex-col lg:pb-20px">
-          <div className="flex">
-            <div className="flex grow basis-0 pb-15px lg:pb-20px">
-              <Image
-                width={1200}
-                height={675}
-                className="h-auto w-full"
-                src={getImageUrl(movie)}
-                alt="movie-screenshot"
-                {...blurProps}
-              />
-            </div>
+        <div className="flex flex-col pb-20px">
+          <div className="flex grow basis-0 pb-15px lg:pb-20px">
+            <Image
+              width={1200}
+              height={675}
+              className="h-auto w-full"
+              src={getImageUrl(movie)}
+              alt="movie-screenshot"
+              {...blurProps}
+            />
           </div>
-          <BodyCopy>
+          <BodyCopy className="border-b pb-20px lg:border-0 lg:pb-0">
             <div dangerouslySetInnerHTML={{ __html: movie.review }}></div>
             <div className="flex items-center pt-6px">
               <div className="pr-6px">
@@ -96,7 +82,7 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
         </div>
       )}
 
-      <div className="flex">
+      <div className="flex pb-20px lg:border-y lg:py-20px">
         <MetaCopy>
           <div>Titre original&nbsp;: {movie.original_title}</div>
           {movie.duration == null ? (
@@ -129,7 +115,7 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
         </MetaCopy>
       </div>
       <Tags movie={movie} />
-    </div>
+    </>
   );
 }
 
@@ -137,15 +123,13 @@ function MovieScreenings({ movie }: { movie: MovieDetail }) {
   const screenings = useMemo(
     () =>
       toPairs(movie?.screenings ?? []).filter(
-        ([date]) =>
-          isAfter(getStartOfDayInParis(date), getStartOfTodayInParis()) ||
-          isEqual(getStartOfDayInParis(date), getStartOfTodayInParis()),
+        ([date]) => safeDate(date) >= getStartOfTodayInParis(),
       ),
     [movie],
   );
 
   return (
-    <div className="flex flex-col pt-27px lg:w-1/2 lg:pl-20px lg:pt-0">
+    <>
       <div className="flex justify-center border-y bg-retro-green py-13px text-center lg:px-20px lg:py-16px">
         <SousTitre2>Prochaines séances à Paris</SousTitre2>
       </div>
@@ -158,7 +142,7 @@ function MovieScreenings({ movie }: { movie: MovieDetail }) {
           </div>
         )}
       </div>
-    </div>
+    </>
   );
 }
 
@@ -198,51 +182,8 @@ function DateScreenings({
     <div className="col-span-full grid grid-cols-[subgrid] border-b py-12px lg:py-16px lg:hover:bg-retro-pale-green">
       <BodyCopy>{capitalize(formatMerJJMM(safeDate(date)))}</BodyCopy>
       <div className="flex flex-col">
-        {theaters.map((theater) => (
-          <TheaterScreenings
-            key={theater.clean_name}
-            showtimesTheater={theater}
-          />
-        ))}
+        <Seances showtimes_theater={theaters} />
       </div>
-    </div>
-  );
-}
-
-function TheaterScreenings({
-  showtimesTheater,
-}: {
-  showtimesTheater: ShowtimesTheater;
-}) {
-  return (
-    <div className="flex">
-      <div className="grow">
-        <BodyCopy>
-          {showtimesTheater.clean_name} ({showtimesTheater.zipcode_clean})
-        </BodyCopy>
-      </div>
-      <div className="flex shrink-0 flex-col lg:pl-8px">
-        {splitIntoSubArrays(showtimesTheater.showtimes, 3).map(
-          (showtimes, i) => (
-            <ThreeScreenings showtimes={showtimes} key={i} />
-          ),
-        )}
-      </div>
-    </div>
-  );
-}
-
-function ThreeScreenings({ showtimes }: { showtimes: number[] }) {
-  return (
-    <div className="flex flex-col justify-end lg:flex-row">
-      {showtimes.map((showtime) => (
-        <div key={showtime} className="group flex justify-end">
-          <BodyCopy>{floatHourToString(showtime)}</BodyCopy>
-          <div className="hidden group-last:hidden lg:block">
-            <BodyCopy>&nbsp;•&nbsp;</BodyCopy>
-          </div>
-        </div>
-      ))}
     </div>
   );
 }

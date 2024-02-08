@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 
 export function Titre({ children }: { children: ReactNode }) {
   return (
-    <div className="font-degular text-51px font-black uppercase leading-none tracking-[0.01em] text-retro-gray lg:text-95px lg:leading-60px">
+    <div className="font-degular text-51px font-black uppercase leading-34px tracking-[0.01em] text-retro-gray lg:text-95px lg:leading-60px">
       {children}
     </div>
   );
@@ -66,14 +66,6 @@ export function ButtonCopy({
 export function MetaCopy({ children }: { children: ReactNode }) {
   return (
     <div className="text-19px font-medium uppercase leading-21px text-retro-gray lg:text-20px lg:leading-22px lg:tracking-[-0.01em]">
-      {children}
-    </div>
-  );
-}
-
-export function CoeurCopy({ children }: { children: ReactNode }) {
-  return (
-    <div className="text-14px font-medium uppercase leading-16px tracking-[-0.01em] text-retro-gray lg:text-20px lg:leading-22px">
       {children}
     </div>
   );
