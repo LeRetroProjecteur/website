@@ -3,7 +3,8 @@
 import clsx from "clsx";
 import { every, orderBy, take, toPairs, without } from "lodash-es";
 import Link from "next/link";
-import { use, useCallback, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
+import { use, useCallback, useEffect, useMemo } from "react";
 import { create } from "zustand";
 
 import RetroInput from "@/components/forms/retro-input";
@@ -11,13 +12,27 @@ import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader, { FixedHeader } from "@/components/layout/page-header";
 import { MetaCopy } from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
-import { TAG_MAP, string_match } from "@/lib/util";
+import {
+  TAG_MAP,
+  clean_string,
+  string_match,
+  string_match_fields,
+} from "@/lib/util";
 
 const useRechercheStore = create<{
   tags: string[];
+  selected: number | undefined;
+  searchTerm: string;
 }>()(() => ({
   tags: Object.keys(TAG_MAP),
+  searchTerm: "",
+  selected: undefined,
 }));
+
+const setSelected = (selected: number | undefined) =>
+  useRechercheStore.setState({ selected });
+const setSearchTerm = (searchTerm: string) =>
+  useRechercheStore.setState({ searchTerm });
 
 const toggleTag = (tag: string) =>
   useRechercheStore.setState((s) => ({
@@ -29,7 +44,18 @@ export default function Recherche({
 }: {
   allMoviesPromise: Promise<SearchMovie[]>;
 }) {
-  const [searchTerm, setSearchTerm] = useState("");
+  useEffect(() => {
+    setSelected(undefined);
+    setSearchTerm("");
+  }, []);
+
+  const onChangeSearchTerm = useCallback((s: string) => {
+    setSelected(undefined);
+    setSearchTerm(s);
+  }, []);
+
+  const searchTerm = useRechercheStore((s) => s.searchTerm);
+
   return (
     <>
       <FixedHeader disableBelowPadding className="lg:border-b lg:pb-20px">
@@ -40,7 +66,7 @@ export default function Recherche({
           <RetroInput
             customTypography
             value={searchTerm}
-            setValue={setSearchTerm}
+            setValue={onChangeSearchTerm}
             placeholder="film, réalisateur, année, pays..."
             leftAlignPlaceholder
             transparentPlaceholder
@@ -75,39 +101,69 @@ function Results({
   allMoviesPromise: Promise<SearchMovie[]>;
   searchTerm: string;
 }) {
+  const selected = useRechercheStore((s) => s.selected);
   const tags = useRechercheStore((s) => s.tags);
   const allMovies = use(allMoviesPromise);
+  const allMoviesFields = allMovies.map<[SearchMovie, string[]]>((movie) => [
+    movie,
+    clean_string(
+      `${movie.directors} ${movie.title} ${movie.original_title}`,
+    ).split(" "),
+  ]);
   const filtered = useMemo(
     () =>
       searchTerm.length > 0
         ? take(
             orderBy(
-              allMovies.filter(
-                (movie) =>
-                  string_match(
-                    searchTerm,
-                    `${movie.directors} ${movie.title} ${movie.original_title}`,
-                  ) &&
-                  (tags.length === 0 || every(tags, () => true)),
-              ),
+              allMoviesFields
+                .filter(
+                  ([_, fields]) =>
+                    string_match_fields(searchTerm, fields) &&
+                    (tags.length === 0 || every(tags, () => true)),
+                )
+                .map(([movie]) => movie),
               (movie) => movie.relevance_score,
               "desc",
             ),
             50,
           )
         : [],
-    [allMovies, searchTerm, tags],
+    [allMoviesFields, searchTerm, tags],
   );
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const keydown = (ev: KeyboardEvent) => {
+      const selected = useRechercheStore.getState().selected;
+      if (ev.key === "ArrowDown") {
+        setSelected(Math.min((selected ?? -1) + 1, filtered.length - 1));
+      } else if (ev.key === "ArrowUp") {
+        setSelected(Math.max((selected ?? filtered.length) - 1, 0));
+      } else if (ev.key === "Enter" && selected != null) {
+        router.push(`/film/${filtered[selected].id}`);
+      }
+    };
+
+    addEventListener("keydown", keydown);
+    return () => removeEventListener("keydown", keydown);
+  }, [filtered, router]);
 
   return (
     searchTerm.length > 0 && (
       <div className="flex grow flex-col">
         {filtered.length > 0 ? (
-          filtered.map((movie) => (
+          filtered.map((movie, i) => (
             <Link
               key={movie.id}
               href={`/film/${movie.id}`}
-              className="border-b py-10px pl-5px text-15px font-medium uppercase leading-20px even:bg-retro-pale-green lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0 lg:even:bg-white lg:hover:bg-retro-pale-green"
+              className={clsx(
+                {
+                  "lg:bg-retro-pale-green": i === selected,
+                  "lg:even:bg-white": i !== selected,
+                },
+                "border-b py-10px pl-5px text-15px font-medium uppercase leading-20px even:bg-retro-pale-green lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0 lg:hover:bg-retro-pale-green",
+              )}
             >
               <u>{movie.title}</u>, {movie.directors} ({movie.year})
             </Link>

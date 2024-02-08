@@ -55,7 +55,7 @@ export function getStartOfTodayInParis() {
   return nowInParis().startOf("day");
 }
 
-function clean_string(str: string) {
+export function clean_string(str: string) {
   str = str.replaceAll("-", " ");
   str = str.replaceAll(/['’]/g, "'");
   str = str.replaceAll("'", " ");
@@ -74,8 +74,16 @@ function at_least_one_word_starts_with_substring(
   return some(list, (word) => word.startsWith(substring));
 }
 
-export function string_match(term: string, search_field: string) {
-  const fields = clean_string(search_field).split(" ");
+export function string_match(term: string, searchField: string) {
+  const fields = getFields(searchField);
+  return string_match_fields(term, fields);
+}
+
+export function getFields(searchField: string) {
+  return clean_string(searchField).split(" ");
+}
+
+export function string_match_fields(term: string, fields: string[]) {
   const keywords = clean_string(term).split(" ");
   return every(keywords, (keyword) =>
     at_least_one_word_starts_with_substring(fields, keyword),

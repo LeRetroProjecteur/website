@@ -24,9 +24,19 @@ const suisse = localFont({
       style: "normal",
     },
     {
+      path: "../assets/SuisseIntl-RegularItalic.woff2",
+      weight: "400",
+      style: "italic",
+    },
+    {
       path: "../assets/SuisseIntl-Book.woff2",
       weight: "500",
       style: "normal",
+    },
+    {
+      path: "../assets/SuisseIntl-BookItalic.woff2",
+      weight: "500",
+      style: "italic",
     },
     {
       path: "../assets/SuisseIntl-Medium.woff2",
@@ -34,14 +44,29 @@ const suisse = localFont({
       style: "normal",
     },
     {
+      path: "../assets/SuisseIntl-MediumItalic.woff2",
+      weight: "600",
+      style: "italic",
+    },
+    {
       path: "../assets/SuisseIntl-Bold.woff2",
       weight: "700",
       style: "normal",
     },
     {
+      path: "../assets/SuisseIntl-BoldItalic.woff2",
+      weight: "700",
+      style: "italic",
+    },
+    {
       path: "../assets/SuisseIntl-Bold.woff2",
       weight: "800",
       style: "normal",
+    },
+    {
+      path: "../assets/SuisseIntl-BoldItalic.woff2",
+      weight: "800",
+      style: "italic",
     },
   ],
   variable: "--font-suisse",
