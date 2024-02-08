@@ -22,7 +22,7 @@ export default function AProposPage() {
 
 function Description() {
   return (
-    <BodyCopy>
+    <BodyCopy className="pb-20px lg:pb-0">
       Chaque semaine dans votre boîte mail quo cognito Constantius ultra
       mortalem modum exarsit ac nequo casu idem Gallus de futuris incertus
       agitare quaedam conducentia saluti suae per itinera conaretur, remoti sunt
@@ -59,7 +59,7 @@ function SignupForm() {
       <input
         type="submit"
         value="s'inscrire"
-        className="h-33px cursor-pointer border bg-retro-gray text-center text-15px font-medium uppercase text-white hover:bg-white hover:text-retro-gray lg:h-48px lg:text-20px"
+        className="h-42px cursor-pointer border bg-retro-gray text-center text-15px font-medium uppercase text-white hover:bg-white hover:text-retro-gray lg:h-48px lg:text-20px"
       />
       <div className="font-medium leading-20px text-retro-gray">
         *champs obligatoires

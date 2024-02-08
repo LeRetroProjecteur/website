@@ -62,7 +62,7 @@ function QuartierToggler({
           "bg-retro-gray": present,
           "text-white": present,
         },
-        "flex h-33px cursor-pointer items-center justify-center border border-retro-gray lg:h-48px",
+        "h-42px flex cursor-pointer items-center justify-center border border-retro-gray lg:h-48px",
       )}
     >
       <ButtonCopy>{quartierName}</ButtonCopy>
