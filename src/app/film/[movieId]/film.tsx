@@ -43,7 +43,6 @@ export default function Film({ movie }: { movie: MovieDetail }) {
           <>
             <MovieInformation movie={movie} />
             <Tags movie={movie} />
-            <br />
             <MovieReview movie={movie} />
           </>
         }
@@ -58,6 +57,13 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
       <SousTitre1>
         <u>{movie.title}</u>, {movie.directors} ({movie.year})
       </SousTitre1>
+      <MetaCopy>
+        {movie.duration != null ? (
+          <div>{Math.floor(parseInt(movie.duration) / 60)} min</div>
+        ) : (
+          ""
+        )}
+      </MetaCopy>
     </div>
   );
 }
@@ -67,10 +73,10 @@ function MovieEssentials({ movie }: { movie: MovieDetail }) {
     <div className="text-center">
       <MetaCopy>
         <span>
-          Titre original: <i>{movie.original_title}</i>
+          Titre original : <i>{movie.original_title}</i>
         </span>
         {movie.duration != null ? (
-          <div>{Math.floor(parseInt(movie.duration) / 60)} min</div>
+          <span> • {Math.floor(parseInt(movie.duration) / 60)} min</span>
         ) : (
           ""
         )}
