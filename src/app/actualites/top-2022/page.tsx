@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import PageHeader from "@/components/layout/page-header";
 import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 
@@ -47,13 +49,22 @@ export default function Top2022() {
               <br />
               <br />
               Si l&apos;année a indéniablement été marquée par la ressortie
-              massive de <i className="italic">La maman et la putain</i>, elle a
-              aussi été riche en découvertes d&apos;œuvres moins connues (comme
-              le merveilleux <i className="italic">Variety</i> de Bette Gordon
-              ou <i className="italic">Le grand silence</i> de Sergio Corbucci).
-              À cela se rajoutent les rétrospectives de Fassbinder, de Pasolini,
-              de Kinuyo Tanaka ou encore de Jean-Luc Godard et Peter Bogdanovich
-              à la suite de leur décès.
+              massive de{" "}
+              <Link className="underline" href="/film/maman-putain-1972">
+                La maman et la putain
+              </Link>
+              , elle a aussi été riche en découvertes d&apos;œuvres moins
+              connues (comme le merveilleux
+              <Link className="underline" href="/film/variety-1983">
+                Variety
+              </Link>{" "}
+              de Bette Gordon ou{" "}
+              <Link className="underline" href="/film/grand-silence-1968">
+                Le grand silence
+              </Link>{" "}
+              de Sergio Corbucci). À cela se rajoutent les rétrospectives de
+              Fassbinder, de Pasolini, de Kinuyo Tanaka ou encore de Jean-Luc
+              Godard et Peter Bogdanovich à la suite de leur décès.
               <br />
               <br />
               Suivre de près l&apos;actualité du cinéma de patrimoine en salles
@@ -97,20 +108,25 @@ export default function Top2022() {
               alt="Variety"
               caption={
                 <>
-                  <i className="italic">Variety</i> de Bette Gordon (1983), vu
-                  le 16 juin au Christine
+                  <Link className="underline" href="/film/variety-1983">
+                    Variety
+                  </Link>{" "}
+                  de Bette Gordon (1983), vu le 16 juin au Christine
                 </>
               }
             />
             <BodyCopy>
               Le plaisir de découvrir ce film en version restaurée a été
               d&apos;autant plus grand que nous ne connaissions pas l&apos;œuvre
-              de Bette Gordon. <i className="italic">Variety</i> est un film qui
-              a pour sujet le fait-même de se faire des films. Qui plus est :
-              une bonne partie du récit se déroule carrément dans un cinéma
-              (porno)&nbsp;! La réalisatrice nous plonge dans une ambiance
-              mystérieuse, qui sollicite constamment notre imagination… Un chef
-              d&apos;œuvre de suggestion.
+              de Bette Gordon.{" "}
+              <Link className="underline" href="/film/variety-1983">
+                Variety
+              </Link>{" "}
+              est un film qui a pour sujet le fait-même de se faire des films.
+              Qui plus est : une bonne partie du récit se déroule carrément dans
+              un cinéma (porno)&nbsp;! La réalisatrice nous plonge dans une
+              ambiance mystérieuse, qui sollicite constamment notre imagination…
+              Un chef d&apos;œuvre de suggestion.
             </BodyCopy>
           </Section>
           <Section>
@@ -119,8 +135,10 @@ export default function Top2022() {
               alt="La maman et la putain"
               caption={
                 <>
-                  <i className="italic">La maman et la putain</i> de Jean
-                  Eustache (1983), vu le 18 juin au Mk2 Bastille
+                  <Link className="underline" href="/film/maman-putain-1972">
+                    La maman et la putain
+                  </Link>{" "}
+                  de Jean Eustache (1983), vu le 18 juin au Mk2 Bastille
                 </>
               }
             />
@@ -144,9 +162,14 @@ export default function Top2022() {
               alt="Lola, une femme allemande"
               caption={
                 <>
-                  <i className="italic">Lola, une femme allemande</i> de Rainer
-                  Werner Fassbinder (1981), vu le 18 août à l&apos;Espace
-                  Saint-Michel
+                  <Link
+                    className="underline"
+                    href="/film/lola-femme-allemande-1981"
+                  >
+                    Lola, une femme allemande
+                  </Link>{" "}
+                  de Rainer Werner Fassbinder (1981), vu le 18 août à
+                  l&apos;Espace Saint-Michel
                 </>
               }
             />
@@ -158,9 +181,14 @@ export default function Top2022() {
               impertinence se sont tristement raréfiés dans le paysage
               cinématographique contemporain. Poil à gratter jusque dans sa mise
               en scène, Fassbinder fonde l&apos;un de ses plus beaux films,{" "}
-              <i className="italic">Lola, une femme allemande</i>, sur un
-              magnifique contrepied en nichant dans une légère comédie de mœurs
-              un véritable brûlot politique au cynisme dévorant.
+              <Link
+                className="underline"
+                href="/film/lola-femme-allemande-1981"
+              >
+                Lola, une femme allemande
+              </Link>
+              , sur un magnifique contrepied en nichant dans une légère comédie
+              de mœurs un véritable brûlot politique au cynisme dévorant.
             </BodyCopy>
           </Section>
           <Section>
@@ -169,7 +197,12 @@ export default function Top2022() {
               alt="L'Évangile selon Saint Matthieu"
               caption={
                 <>
-                  <i className="italic">L&apos;Évangile selon Saint Matthieu</i>{" "}
+                  <Link
+                    className="underline"
+                    href="/film/evangile-selon-saint-matthieu-1964"
+                  >
+                    L'Evangile selon Saint Matthieu
+                  </Link>{" "}
                   de Pier Paolo Pasolini (1964), vu le 4 septembre au Champo
                 </>
               }
@@ -181,11 +214,17 @@ export default function Top2022() {
               par l&apos;omniprésence de thèmes en lien avec le christianisme
               dans son œuvre. Son traitement de ceux-ci peut relever aussi bien
               de la subversion que de la revitalisation. Dans{" "}
-              <i className="italic">L&apos;Evangile selon Saint Matthieu</i>, le
-              déplacement des représentations habituelles de scènes bibliques
-              est double&nbsp;: Jésus est interprété par un syndicaliste catalan
-              en lutte contre le franquisme et le style est bien plus proche de
-              celui du documentaire que du péplum ou de l&apos;hagiographie.
+              <Link
+                className="underline"
+                href="/film/evangile-selon-saint-matthieu-1964"
+              >
+                L'Evangile selon Saint Matthieu
+              </Link>
+              , le déplacement des représentations habituelles de scènes
+              bibliques est double&nbsp;: Jésus est interprété par un
+              syndicaliste catalan en lutte contre le franquisme et le style est
+              bien plus proche de celui du documentaire que du péplum ou de
+              l&apos;hagiographie.
             </BodyCopy>
           </Section>
           <Section>
@@ -194,8 +233,13 @@ export default function Top2022() {
               alt="La Dernière séance"
               caption={
                 <>
-                  <i className="italic">La Dernière séance</i> de Peter
-                  Bogdanovich (1971), vu le 18 mai au Forum des Images
+                  <Link
+                    className="underline"
+                    href="/film/la-derniere-seance-1971"
+                  >
+                    La Dernière séance
+                  </Link>{" "}
+                  de Peter Bogdanovich (1971), vu le 18 mai au Forum des Images
                 </>
               }
             />
@@ -207,7 +251,10 @@ export default function Top2022() {
               petite ville d&apos;Anarene, Texas, en plein dépeuplement, les
               parents cherchent à délester leur mélancolie sur la fringante
               jeunesse, la rendant nostalgique de souvenirs qu&apos;elle ne
-              vivra jamais. Revoir <i className="italic">La dernière séance</i>{" "}
+              vivra jamais. Revoir{" "}
+              <Link className="underline" href="/film/la-derniere-seance-1971">
+                La Dernière séance
+              </Link>{" "}
               dans une salle de cinéma à l&apos;heure où les oiseaux de mauvais
               augure nous prédisent les “dernières séances” de celles-ci, donne
               au film une épaisseur toute particulière...
@@ -219,24 +266,29 @@ export default function Top2022() {
               alt="Le Grand Silence"
               caption={
                 <>
-                  <i className="italic">Le Grand Silence</i> de Sergio Corbucci
-                  (1968), vu le 10 avril au Max Linder
+                  <Link className="underline" href="/film/grand-silence-1968">
+                    Le grand silence
+                  </Link>{" "}
+                  de Sergio Corbucci (1968), vu le 10 avril au Max Linder
                 </>
               }
             />
             <BodyCopy>
               Aux côtés de Leone et Sollima, Corbucci est l&apos;un des “trois
               Sergio” à avoir durablement marqué le genre du western spaghetti.
-              Avec <i className="italic">Le Grand Silence</i>, il réalise son
-              chef-d&apos;œuvre mêlant les paysages hivernaux grandioses de
-              l&apos;Utah à la musique envoûtante d&apos;Ennio Morricone. Le
-              duel au sommet de deux pistoleros (Klaus Kinsky en cruel chasseur
-              de prime et Jean-Louis Trintignant en cowboy bienveillant qui a
-              perdu l&apos;usage de la parole) tient en haleine pendant tout le
-              film, mais c&apos;est surtout le cynisme du final que l&apos;on
-              garde en tête, tant il n&apos;avait rien à envier à celui de
-              l&apos;exercice électoral auquel on s&apos;était soumis quelques
-              heures plus tôt...
+              Avec{" "}
+              <Link className="underline" href="/film/grand-silence-1968">
+                Le grand silence
+              </Link>
+              , il réalise son chef-d&apos;œuvre mêlant les paysages hivernaux
+              grandioses de l&apos;Utah à la musique envoûtante d&apos;Ennio
+              Morricone. Le duel au sommet de deux pistoleros (Klaus Kinsky en
+              cruel chasseur de prime et Jean-Louis Trintignant en cowboy
+              bienveillant qui a perdu l&apos;usage de la parole) tient en
+              haleine pendant tout le film, mais c&apos;est surtout le cynisme
+              du final que l&apos;on garde en tête, tant il n&apos;avait rien à
+              envier à celui de l&apos;exercice électoral auquel on s&apos;était
+              soumis quelques heures plus tôt...
             </BodyCopy>
           </Section>
           <Section>
@@ -245,8 +297,13 @@ export default function Top2022() {
               alt="Adieu au langage"
               caption={
                 <>
-                  <i className="italic">Adieu au langage</i> de Jean-Luc Godard
-                  (2014), vu le 23 septembre au Mk2 Beaubourg
+                  <Link
+                    className="underline"
+                    href="/film/adieu-au-langage-2014"
+                  >
+                    Adieu au langage
+                  </Link>{" "}
+                  de Jean-Luc Godard (2014), vu le 23 septembre au Mk2 Beaubourg
                 </>
               }
             />
