@@ -85,7 +85,7 @@ export function stringMatchFields(keywords: string[], searchFields: string[]) {
   );
 }
 
-export function movie_info_containsFilteringTerm(
+export function movieInfoContainsFilteringTerm(
   movie: MovieWithNoShowtimes | Review,
   filteringTerm: string,
 ) {
