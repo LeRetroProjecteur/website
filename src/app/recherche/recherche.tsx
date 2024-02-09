@@ -90,7 +90,7 @@ export default function Recherche({
           ))}
         </div>
         <SuspenseWithLoading
-          showLoading={searchTerm.length > 0}
+          hideLoading={searchTerm.length === 0}
           className="flex grow items-center justify-center pt-15px"
         >
           <Results {...{ searchTerm, allMoviesPromise }} />
