@@ -3,9 +3,6 @@ import { getMovie } from "@/lib/movies";
 
 import Film from "./film";
 
-export const dynamic = "force-static";
-export const revalidate = 1;
-
 export default function FilmPage({
   params: { movieId },
 }: {
