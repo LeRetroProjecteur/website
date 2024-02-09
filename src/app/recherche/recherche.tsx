@@ -127,8 +127,8 @@ function Results({
     const curr = selectedRef.current;
     if (
       curr != null &&
-      (curr.getBoundingClientRect().bottom > window.innerHeight ||
-        curr.getBoundingClientRect().top < 0)
+      (curr.getBoundingClientRect().bottom + 100 > window.innerHeight ||
+        curr.getBoundingClientRect().top - 100 < 0)
     ) {
       curr.scrollIntoView({ block: "center" });
     }
