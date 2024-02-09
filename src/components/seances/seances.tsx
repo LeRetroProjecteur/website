@@ -71,6 +71,26 @@ export default function Seances({
   );
 }
 
+function transformZipcode(inZip: string) {
+  if (inZip.substring(inZip.length - 3) == "ème") {
+    return (
+      <span>
+        {inZip.replace("ème", "")}
+        <sup>e</sup>
+      </span>
+    );
+  } else if (inZip.substring(inZip.length - 2) == "er") {
+    return (
+      <span>
+        {inZip.replace("er", "")}
+        <sup>er</sup>
+      </span>
+    );
+  } else {
+    return <span>{inZip}</span>;
+  }
+}
+
 export function SeancesTheater({
   showtimesTheater,
   timesPerLine,
@@ -94,7 +114,8 @@ export function SeancesTheater({
     <div className="flex justify-between" key={showtimesTheater.clean_name}>
       <div className="w-min grow pr-10px">
         <CalendrierCopy>
-          {showtimesTheater.clean_name} ({showtimesTheater.zipcode_clean})
+          {showtimesTheater.clean_name} (
+          {transformZipcode(showtimesTheater.zipcode_clean)})
         </CalendrierCopy>
       </div>
       <div className="flex flex-col">
