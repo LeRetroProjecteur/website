@@ -1,5 +1,3 @@
-import { setTimeout } from "timers/promises";
-
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import { getMovie } from "@/lib/movies";
 
@@ -23,5 +21,5 @@ export default function FilmPage({
 }
 
 async function FilmPageLoader({ movieId }: { movieId: string }) {
-  return <Film movie={await setTimeout(5000).then(() => getMovie(movieId))} />;
+  return <Film movie={await getMovie(movieId)} />;
 }
