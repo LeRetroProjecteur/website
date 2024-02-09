@@ -959,7 +959,7 @@ function TopTable({
 }) {
   return (
     <>
-      <div className="flex flex-col border-y bg-retro-green py-10px text-center text-22px font-semibold uppercase leading-22px tracking-[-0.01em] text-retro-gray lg:py-20px lg:text-22px lg:leading-22px">
+      <div className="flex flex-col border-y bg-retro-green px-10px py-10px text-center text-22px font-semibold uppercase leading-22px tracking-[-0.01em] text-retro-gray lg:py-20px lg:text-22px lg:leading-22px">
         {titre}
       </div>
       {children.map((child, i) => (
@@ -998,7 +998,7 @@ function CritiqueTable({
   ));
   return (
     <>
-      <div className="border-y bg-retro-pale-green py-10px text-center text-25px font-semibold leading-25px tracking-[-0.01em] text-retro-gray lg:py-15px lg:text-25px lg:leading-25px">
+      <div className="border-y bg-retro-pale-green px-10px py-10px text-center text-25px font-semibold leading-25px tracking-[-0.01em] text-retro-gray lg:py-15px lg:text-25px lg:leading-25px">
         <span className="uppercase">{nom}</span>
         {references.length > 0 && " ("}
         {references.map(({ nom, href }, i) => (

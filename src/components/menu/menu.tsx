@@ -103,7 +103,9 @@ function MenuLink({
   return (
     <div
       className={clsx(className, "flex justify-center border-b lg:py-12px", {
-        "bg-retro-green": path === route,
+        "bg-retro-green":
+          (path === "/" && route === "/") ||
+          (path != null && path !== "/" && route.startsWith(path)),
       })}
     >
       <div className="w-min grow whitespace-break-spaces text-center">
