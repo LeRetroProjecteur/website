@@ -19,11 +19,19 @@ export function Loading({ className }: { className?: string }) {
 export function SuspenseWithLoading({
   className,
   children,
+  showLoading,
 }: {
   className?: string;
   children?: ReactNode;
+  showLoading?: boolean;
 }) {
   return (
-    <Suspense fallback={<Loading className={className} />}>{children}</Suspense>
+    <Suspense
+      fallback={
+        showLoading ?? false ? <Loading className={className} /> : <></>
+      }
+    >
+      {children}
+    </Suspense>
   );
 }

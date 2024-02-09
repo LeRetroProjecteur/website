@@ -14,9 +14,9 @@ import { MetaCopy } from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
 import {
   TAG_MAP,
-  clean_string,
-  string_match,
-  string_match_fields,
+  getFields,
+  getMovieInfoString,
+  stringMatchFields,
 } from "@/lib/util";
 
 const useRechercheStore = create<{
@@ -82,13 +82,12 @@ export default function Recherche({
             <Tag key={tag} {...{ tag, displayTag }} />
           ))}
         </div>
-        {searchTerm.length > 0 ? (
-          <SuspenseWithLoading className="flex grow items-center justify-center pt-15px">
-            <Results {...{ searchTerm, allMoviesPromise }} />
-          </SuspenseWithLoading>
-        ) : (
+        <SuspenseWithLoading
+          showLoading={searchTerm.length > 0}
+          className="flex grow items-center justify-center pt-15px"
+        >
           <Results {...{ searchTerm, allMoviesPromise }} />
-        )}
+        </SuspenseWithLoading>
       </div>
     </>
   );
@@ -104,31 +103,33 @@ function Results({
   const selected = useRechercheStore((s) => s.selected);
   const tags = useRechercheStore((s) => s.tags);
   const allMovies = use(allMoviesPromise);
-  const allMoviesFields = allMovies.map<[SearchMovie, string[]]>((movie) => [
-    movie,
-    clean_string(
-      `${movie.directors} ${movie.title} ${movie.original_title}`,
-    ).split(" "),
-  ]);
+  const allMoviesFields = useMemo(() => {
+    return orderBy(
+      allMovies.map<[SearchMovie, string[]]>((movie) => [
+        movie,
+        getFields(getMovieInfoString(movie)),
+      ]),
+      ([movie]) => movie.relevance_score,
+      "desc",
+    );
+  }, [allMovies]);
+  const keywords = useMemo(() => getFields(searchTerm), [searchTerm]);
+
   const filtered = useMemo(
     () =>
       searchTerm.length > 0
         ? take(
-            orderBy(
-              allMoviesFields
-                .filter(
-                  ([_, fields]) =>
-                    string_match_fields(searchTerm, fields) &&
-                    (tags.length === 0 || every(tags, () => true)),
-                )
-                .map(([movie]) => movie),
-              (movie) => movie.relevance_score,
-              "desc",
-            ),
+            allMoviesFields
+              .filter(
+                ([_, fields]) =>
+                  stringMatchFields(keywords, fields) &&
+                  (tags.length === 0 || every(tags, () => true)),
+              )
+              .map(([movie]) => movie),
             50,
           )
         : [],
-    [allMoviesFields, searchTerm, tags],
+    [allMoviesFields, searchTerm, keywords, tags],
   );
 
   const router = useRouter();
