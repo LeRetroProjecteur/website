@@ -12,12 +12,15 @@ import BurgerIcon from "../menu/burger-icon";
 
 export default function TopBar() {
   const onClickLogo = useCallback(() => {
-    useCalendrierStore.getState().scheduleReset();
+    useCalendrierStore.getState().reset();
   }, []);
 
   return (
-    <div className="relative flex grow items-center">
-      <div className="absolute cursor-pointer" onClick={openMenu}>
+    <div className="flex grow items-center">
+      <div
+        className="flex cursor-pointer items-center justify-start"
+        onClick={openMenu}
+      >
         <BurgerIcon />
       </div>
       <Link href="/" onClick={onClickLogo} className="flex grow justify-center">

@@ -33,7 +33,7 @@ export default function Menu() {
 
   const closeMenuIfOnSamePathname = useCallback(
     (e: MouseEvent<HTMLAnchorElement>) => {
-      useCalendrierStore.getState().scheduleReset();
+      useCalendrierStore.getState().reset();
       if ((e.target as HTMLAnchorElement).href.endsWith(pathName)) {
         closeMenu();
       }
@@ -42,7 +42,7 @@ export default function Menu() {
   );
 
   const onClickLogo = useCallback(() => {
-    useCalendrierStore.getState().scheduleReset();
+    useCalendrierStore.getState().reset();
     closeMenu();
   }, []);
 
@@ -103,7 +103,9 @@ function MenuLink({
   return (
     <div
       className={clsx(className, "flex justify-center border-b lg:py-12px", {
-        "bg-retro-green": path === route,
+        "bg-retro-green":
+          (path === "/" && route === "/") ||
+          (path != null && path !== "/" && route.startsWith(path)),
       })}
     >
       <div className="w-min grow whitespace-break-spaces text-center">

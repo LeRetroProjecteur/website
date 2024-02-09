@@ -48,8 +48,9 @@ const config: Config = {
       screens: {
         sm: "640px",
         md: "768px",
+        "wide-article": "900px",
         lg: "1024px",
-        xl: "1280px",
+        "3col": "1249px",
       },
       width: ALL_PX,
     },

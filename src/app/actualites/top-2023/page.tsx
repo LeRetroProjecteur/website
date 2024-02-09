@@ -744,17 +744,19 @@ export default function Top2023() {
         />
         <MiddleColumn>
           <Section>
-            <strong>
-              Cette année, nous avons voulu, pour la première fois, vous
-              consulter
-            </strong>{" "}
-            pour savoir quelles étaient vos plus belles découvertes de vieux
-            films. Avec un tel champ des possibles, vos réponses ont forcément
-            été extrêmement diverses. Parmi les 279 bulletins reçus, nous
-            recensons plus de 1000 différents films mentionnés (de plus de 450
-            différents réalisateurs). Malgré tout, de réelles tendances se
-            dessinent, liées à ce que nous pourrions appeler une véritable
-            actualité du cinéma de patrimoine.
+            <BodyCopy>
+              <strong>
+                Cette année, nous avons voulu, pour la première fois, vous
+                consulter
+              </strong>{" "}
+              pour savoir quelles étaient vos plus belles découvertes de vieux
+              films. Avec un tel champ des possibles, vos réponses ont forcément
+              été extrêmement diverses. Parmi les 279 bulletins reçus, nous
+              recensons plus de 1000 différents films mentionnés (de plus de 450
+              différents réalisateurs). Malgré tout, de réelles tendances se
+              dessinent, liées à ce que nous pourrions appeler une véritable
+              actualité du cinéma de patrimoine.
+            </BodyCopy>
           </Section>
           <Section>
             <div className="lg:flex">
@@ -957,7 +959,7 @@ function TopTable({
 }) {
   return (
     <>
-      <div className="flex flex-col border-y bg-retro-green py-10px text-center text-22px font-semibold uppercase leading-22px tracking-[-0.01em] text-retro-gray lg:py-20px lg:text-22px lg:leading-22px">
+      <div className="flex flex-col border-y bg-retro-green px-10px py-10px text-center text-22px font-semibold uppercase leading-22px tracking-[-0.01em] text-retro-gray lg:py-20px lg:text-22px lg:leading-22px">
         {titre}
       </div>
       {children.map((child, i) => (
@@ -996,7 +998,7 @@ function CritiqueTable({
   ));
   return (
     <>
-      <div className="border-y bg-retro-pale-green py-10px text-center text-25px font-semibold leading-25px tracking-[-0.01em] text-retro-gray lg:py-15px lg:text-25px lg:leading-25px">
+      <div className="border-y bg-retro-pale-green px-10px py-10px text-center text-25px font-semibold leading-25px tracking-[-0.01em] text-retro-gray lg:py-15px lg:text-25px lg:leading-25px">
         <span className="uppercase">{nom}</span>
         {references.length > 0 && " ("}
         {references.map(({ nom, href }, i) => (
