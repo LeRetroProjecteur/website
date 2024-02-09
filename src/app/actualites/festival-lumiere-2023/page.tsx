@@ -1,18 +1,14 @@
 import PageHeader from "@/components/layout/page-header";
-import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
+import {BodyCopy, SousTitre1} from "@/components/typography/typography";
 
-import {
-  FirstRow,
-  MiddleColumn,
-  MiddleColumnImageAndRightColumnCaption,
-  ThreeColumnLayout,
-} from "../components";
+import {FirstRow, MiddleColumn, MiddleColumnImageAndRightColumnCaption, ThreeColumnLayout,} from "../components";
 import altman from "./img/altman.jpg";
 import cuaronAnderson from "./img/cuaron-anderson.jpg";
 import icon from "./img/icon.jpg";
 import lyon from "./img/lyon.jpeg";
 import mareeNoire from "./img/maree_noire.jpg";
 import ozuRay from "./img/ozu-ray.jpg";
+import Link from "next/link";
 
 export default function Top2022() {
   return (
@@ -62,13 +58,18 @@ export default function Top2022() {
             <strong>Alfonso Cuarón</strong> qui fait le déplacement uniquement
             pour présenter trois films du suisse Alain Tanner, réalisateur
             radical et profondément anti-système. Découvrir{" "}
-            <i className="italic">Charles mort ou vif</i> juste après le
-            visionnage d&apos;un clip-hommage au réalisateur mexicain incluant
+            <Link className="underline"
+                  href="/film/charles-mort-vif-1969"
+            >
+              Charles mort ou vif
+            </Link> juste après le visionnage d&apos;un clip-hommage au réalisateur mexicain incluant
             de nombreuses scènes de{" "}
-            <i className="italic">
+            <Link
+                className="underline"
+                href="/film/harry-potter-prisonnier-azkaban-2004"
+            >
               Harry Potter et le Prisonnier d&apos;Azkaban
-            </i>{" "}
-            était une expérience empreinte d&apos;une joyeuse ironie.
+            </Link> était une expérience empreinte d&apos;une joyeuse ironie.
           </BodyCopy>
         </MiddleColumn>
         <MiddleColumnImageAndRightColumnCaption
@@ -77,7 +78,11 @@ export default function Top2022() {
           caption={
             <>
               À gauche&nbsp;: Alfonso Cuarón présente{" "}
-              <i className="italic">Charles mort ou vif</i> d&apos;Alain Tanner
+              <Link className="underline"
+                  href="/film/charles-mort-vif-1969"
+            >
+              Charles mort ou vif
+            </Link> d&apos;Alain Tanner
               avec Thierry Frémaux.
               <br />À droite&nbsp;: Wes Anderson présente{" "}
               <i className="italic">La Complainte du sentier</i> de Satyajit
@@ -95,12 +100,24 @@ export default function Top2022() {
             déjà trouvé le chemin des écrans de la capitale (depuis le 25
             octobre). Pour nous, cela a été l&apos;occasion de se faire recaler
             de justesse pour une séance de{" "}
-            <i className="italic">Paris, Texas</i>, mais aussi de profiter de la
+            <Link className="underline"
+                  href="/film/paris-texas-1984"
+            >
+              Paris, Texas
+            </Link>, mais aussi de profiter de la
             ‘Carte blanche à Wim Wenders&apos;. Idée géniale&nbsp;: tous les
             ans, le récipiendaire du prix s&apos;improvise aussi programmateur.
             Le choix de Wenders de projeter notamment{" "}
-            <i className="italic">Beau Travail</i> (Claire Denis) et{" "}
-            <i className="italic">Enter The Void</i> (Gaspar Noé), deux œuvres
+            <Link className="underline"
+                  href="/film/beau-travail-1999"
+            >
+              Beau travail
+            </Link> (Claire Denis) et{" "}
+            <Link className="underline"
+                  href="/film/enter-the-void-2009"
+            >
+              Enter the void
+            </Link> (Gaspar Noé), deux œuvres
             ultra stylisées et sensorielles, avait de quoi surprendre quelque
             peu. Une invitation à envisager différemment sa propre œuvre&nbsp;?
             <br />
@@ -109,7 +126,11 @@ export default function Top2022() {
             l&apos;improviste pour présenter{" "}
             <strong>
               un des six films nouvellement restaurés d&apos;Ozu
-            </strong>, <i className="italic">Une femme dans le vent</i> (1948).
+            </strong>, <Link className="underline"
+                  href="/film/femme-vent-1948"
+            >
+              Une femme dans le vent
+            </Link> (1948).
             Il conclut sa présentation en s&apos;installant carrément avec le
             public du cinéma Lumière Terreaux, cédant à la tentation de revoir
             le film dans une salle comble. Totalement inédit en France, ce
@@ -129,15 +150,30 @@ export default function Top2022() {
             Festival qui auront droit à une ressortie nationale prochaine. On
             mentionnera notamment{" "}
             <strong>la fameuse trilogie d&apos;Apu de Satyajit Ray</strong>
-            &nbsp;- <i className="italic">
-              La Complainte du sentier
-            </i> (1955), <i className="italic">L&apos;invaincu</i> (1956) et{" "}
-            <i className="italic">Le Monde d&apos;Apu</i> (1959)&nbsp;- prévue
+            &nbsp;- <Link className="underline"
+                  href="/film/trilogie-apu-complainte-sentier-1955"
+            >
+              La complainte du sentier
+            </Link> (1955),
+            <Link className="underline"
+                  href="/film/trilogie-apu-invaincu-1956"
+            >
+              L&apos;invaincu
+            </Link> (1956) et{" "}
+            <Link className="underline"
+                  href="/film/trilogie-apu-monde-apu-1959"
+            >
+              Le monde d&apos;Apu
+            </Link> (1959)&nbsp;- prévue
             en salles le 6 décembre prochain. Le plaisir du festivalier est en
             bonne partie imputable aux secrètes correspondances que les films
             nous permettent de tisser entre eux. Ainsi ne peut-on pas
-            s&apos;empêcher de rapprocher les films du réalisateur indien de la{" "}
-            <i className="italic">Femme dans le vent</i> d&apos;Ozu tant toutes
+            s&apos;empêcher de rapprocher les films du réalisateur indien d&apos;{" "}
+            <Link className="underline"
+                  href="/film/femme-vent-1948"
+            >
+              Une femme dans le vent
+            </Link> d&apos;Ozu tant toutes
             ces œuvres semblent profondément mues par des préoccupations
             analogues au néoréalisme européen tout en assumant pleinement un
             penchant mélodramatique appuyé.
@@ -149,9 +185,17 @@ export default function Top2022() {
           caption={
             <>
               À gauche&nbsp;: Wenders présente{" "}
-              <i className="italic">Une femme dans le vent</i> d&apos;Ozu.
+              <Link className="underline"
+                  href="/film/femme-vent-1948"
+            >
+              Une femme dans le vent
+            </Link> d&apos;Ozu.
               <br />À droite&nbsp;: Ray sur le tournage de{" "}
-              <i className="italic">L&apos;invaincu</i>, photographié par Marc
+              <Link className="underline"
+                  href="/film/trilogie-apu-invaincu-1956"
+            >
+              L&apos;invaincu
+            </Link>, photographié par Marc
               Riboud et exposé au Musée des Confluences.
             </>
           }
@@ -163,7 +207,11 @@ export default function Top2022() {
             l&apos;on court du deuxième volet de la trilogie de Satyajit Ray à
             la projection de{" "}
             <strong>
-              <i className="italic">Lune froide</i> de Patrick Bouchitey
+              <Link className="underline"
+                  href="/film/lune-froide-1991"
+            >
+              Lune froide
+            </Link> de Patrick Bouchitey
             </strong>{" "}
             (sortie nationale le 15 novembre). Difficile en effet de trouver, à
             part le noir & blanc, des similitudes entre ces deux films.
@@ -239,8 +287,16 @@ export default function Top2022() {
             studios, ce qui rend très compliqué le fait de réunir tous les
             différents droits d&apos;exploitation de ses films. La rétrospective
             de douze de ses œuvres les plus connues (de{" "}
-            <i className="italic">M*A*S*H</i> en 1970 à{" "}
-            <i className="italic">Gosford Park</i> en 2001) était donc
+            <Link className="underline"
+                  href="/film/mash-1970"
+            >
+              M*A*S*H
+            </Link> en 1970 à{" "}
+            <Link className="underline"
+                  href="/film/gosford-park-2001"
+            >
+              M*A*S*H
+            </Link> en 2001) était donc
             historique. Des réalisateurs du Nouvel Hollywood, Altman est
             peut-être celui dont les cinéastes américains contemporains se
             revendiquent le plus ouvertement (à commencer évidemment par Paul
@@ -250,10 +306,26 @@ export default function Top2022() {
             ou Scorsese), un réalisateur irréductiblement américain. Les quatre
             de ses films qu&apos;on a vus à Lyon montrent déjà les différents
             bouts par lesquels il a cherché à analyser ce pays&nbsp;: Hollywood
-            (<i className="italic">The Player</i>) et plus généralement Los
-            Angeles (<i className="italic">Short Cuts</i>), la Grande Dépression
-            (<i className="italic">Nous sommes tous des voleurs</i>) et la
-            conquête de l&apos;ouest (<i className="italic">John McCabe</i>).
+            (<Link className="underline"
+                  href="/film/the-player-1992"
+            >
+              The player
+            </Link>) et plus généralement Los
+            Angeles (<Link className="underline"
+                  href="/film/short-cuts-1993"
+            >
+              Short Cuts
+            </Link>), la Grande Dépression
+            (<Link className="underline"
+                  href="/film/tous-voleurs-1974"
+            >
+              Nous sommes tous des voleurs
+            </Link>) et la
+            conquête de l&apos;(<Link className="underline"
+                  href="/film/ouest john-mccabe-1971"
+            >
+              John McCabe
+            </Link>).
           </BodyCopy>
         </MiddleColumn>
         <MiddleColumnImageAndRightColumnCaption
@@ -269,7 +341,11 @@ export default function Top2022() {
           <BodyCopy>
             Le visionnage de{" "}
             <strong>
-              <i className="italic">John McCabe</i>
+              <Link className="underline"
+                  href="/film/ouest john-mccabe-1971"
+            >
+              John McCabe
+            </Link>
             </strong>{" "}
             fut peut-être l&apos;expérience la plus éclatante du festival.
             Prenant le contrepied formel de la grande tradition du western
@@ -278,7 +354,11 @@ export default function Top2022() {
             récit n&apos;est pas particulièrement beau. Niché entre des arbres,
             on y est claustrophobe même en extérieur. On l&apos;est encore plus
             dans le bordel et le saloon où l&apos;on passe la majeure partie du
-            film. Récit de fondation, <i className="italic">John McCabe</i> fait
+            film. Récit de fondation, <Link className="underline"
+                  href="/film/ouest john-mccabe-1971"
+            >
+              John McCabe
+            </Link> fait
             état d&apos;un désenchantement immédiat. Le personnage apparaît au
             début du film comme l&apos;incarnation de la figure charismatique et
             mystérieuse dont le genre est particulièrement friand. Mais ce
@@ -301,7 +381,11 @@ export default function Top2022() {
             En guise de conclusion, un dernier petit souvenir absolument
             inoubliable du festival&nbsp;: le visionnage de{" "}
             <strong>
-              <i className="italic">Maine-Océan</i> de Jacques Rozier
+              <Link className="underline"
+                  href="/film/maine-ocean-1986"
+              >
+              Maine Océan
+            </Link> de Jacques Rozier
             </strong>
             . Le film était projeté en forme d&apos;hommage à l&apos;intempestif
             réalisateur français décédé au début de l&apos;été. On y retrouve
