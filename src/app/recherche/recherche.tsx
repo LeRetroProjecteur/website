@@ -4,7 +4,14 @@ import clsx from "clsx";
 import { every, orderBy, take, toPairs, without } from "lodash-es";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { use, useCallback, useEffect, useMemo } from "react";
+import {
+  MutableRefObject,
+  use,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
 import { create } from "zustand";
 
 import RetroInput from "@/components/forms/retro-input";
@@ -14,9 +21,9 @@ import { MetaCopy } from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
 import {
   TAG_MAP,
-  clean_string,
-  string_match,
-  string_match_fields,
+  getFields,
+  getMovieInfoString,
+  stringMatchFields,
 } from "@/lib/util";
 
 const useRechercheStore = create<{
@@ -82,13 +89,12 @@ export default function Recherche({
             <Tag key={tag} {...{ tag, displayTag }} />
           ))}
         </div>
-        {searchTerm.length > 0 ? (
-          <SuspenseWithLoading className="flex grow items-center justify-center pt-15px">
-            <Results {...{ searchTerm, allMoviesPromise }} />
-          </SuspenseWithLoading>
-        ) : (
+        <SuspenseWithLoading
+          hideLoading={searchTerm.length === 0}
+          className="flex grow items-center justify-center pt-15px"
+        >
           <Results {...{ searchTerm, allMoviesPromise }} />
-        )}
+        </SuspenseWithLoading>
       </div>
     </>
   );
@@ -104,31 +110,45 @@ function Results({
   const selected = useRechercheStore((s) => s.selected);
   const tags = useRechercheStore((s) => s.tags);
   const allMovies = use(allMoviesPromise);
-  const allMoviesFields = allMovies.map<[SearchMovie, string[]]>((movie) => [
-    movie,
-    clean_string(
-      `${movie.directors} ${movie.title} ${movie.original_title}`,
-    ).split(" "),
-  ]);
+  const allMoviesFields = useMemo(() => {
+    return orderBy(
+      allMovies.map<[SearchMovie, string[]]>((movie) => [
+        movie,
+        getFields(getMovieInfoString(movie)),
+      ]),
+      ([movie]) => movie.relevance_score,
+      "desc",
+    );
+  }, [allMovies]);
+  const keywords = useMemo(() => getFields(searchTerm), [searchTerm]);
+  const selectedRef: MutableRefObject<HTMLAnchorElement | null> = useRef(null);
+
+  useEffect(() => {
+    const curr = selectedRef.current;
+    if (
+      curr != null &&
+      (curr.getBoundingClientRect().bottom + 100 > window.innerHeight ||
+        curr.getBoundingClientRect().top - 100 < 0)
+    ) {
+      curr.scrollIntoView({ block: "center" });
+    }
+  }, [selected]);
+
   const filtered = useMemo(
     () =>
       searchTerm.length > 0
         ? take(
-            orderBy(
-              allMoviesFields
-                .filter(
-                  ([_, fields]) =>
-                    string_match_fields(searchTerm, fields) &&
-                    (tags.length === 0 || every(tags, () => true)),
-                )
-                .map(([movie]) => movie),
-              (movie) => movie.relevance_score,
-              "desc",
-            ),
+            allMoviesFields
+              .filter(
+                ([_, fields]) =>
+                  stringMatchFields(keywords, fields) &&
+                  (tags.length === 0 || every(tags, () => true)),
+              )
+              .map(([movie]) => movie),
             50,
           )
         : [],
-    [allMoviesFields, searchTerm, tags],
+    [allMoviesFields, searchTerm, keywords, tags],
   );
 
   const router = useRouter();
@@ -155,6 +175,7 @@ function Results({
         {filtered.length > 0 ? (
           filtered.map((movie, i) => (
             <Link
+              ref={selected === i ? selectedRef : null}
               key={movie.id}
               href={`/film/${movie.id}`}
               className={clsx(

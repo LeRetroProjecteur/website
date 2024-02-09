@@ -4,9 +4,21 @@ import { ReactNode, Suspense } from "react";
 
 import loading from "../../assets/loading.gif";
 
-export function Loading({ className }: { className?: string }) {
+export function Loading({
+  className,
+  grow,
+}: {
+  className?: string;
+  grow?: boolean;
+}) {
   return (
-    <div className={clsx(className, "flex items-center justify-center")}>
+    <div
+      className={clsx(
+        className,
+        { grow: grow ?? false },
+        "flex items-center justify-center",
+      )}
+    >
       <Image
         src={loading}
         alt="loading"
@@ -19,11 +31,25 @@ export function Loading({ className }: { className?: string }) {
 export function SuspenseWithLoading({
   className,
   children,
+  hideLoading,
+  grow,
 }: {
   className?: string;
   children?: ReactNode;
+  hideLoading?: boolean;
+  grow?: boolean;
 }) {
   return (
-    <Suspense fallback={<Loading className={className} />}>{children}</Suspense>
+    <Suspense
+      fallback={
+        hideLoading ?? false ? (
+          <></>
+        ) : (
+          <Loading grow={grow} className={className} />
+        )
+      }
+    >
+      {children}
+    </Suspense>
   );
 }

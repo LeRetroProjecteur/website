@@ -14,7 +14,7 @@ import {
 import { DateTime } from "luxon";
 import Image from "next/image";
 import Link from "next/link";
-import { ReactNode, use, useEffect, useMemo } from "react";
+import { ReactNode, use, useMemo } from "react";
 import useSWR from "swr";
 
 import { Loading, SuspenseWithLoading } from "@/components/icons/loading";
@@ -36,7 +36,7 @@ import {
   isCoupDeCoeur,
   isMovieWithShowtimesByDay,
   isMoviesWithShowtimesByDay,
-  movie_info_containsFilteringTerm,
+  movieInfoContainsFilteringTerm,
   nowInParis,
   safeDate,
 } from "@/lib/util";
@@ -50,12 +50,6 @@ export default function MovieTable({
   serverMovies: Promise<Movie[] | MovieWithShowtimesByDay[]>;
   allMovies?: boolean;
 }) {
-  useEffect(() => {
-    if (useCalendrierStore.getState().shouldReset) {
-      useCalendrierStore.getState().reset();
-    }
-  }, []);
-
   const date = useCalendrierStore((s) => s.date);
   const useClientData = useCalendrierStore((s) => s.dateChanged);
   const minHour = useCalendrierStore((s) => s.minHour);
@@ -267,6 +261,7 @@ function MultiDaySeances({ movie }: { movie: MovieWithShowtimesByDay }) {
               <SeancesTheater
                 showtimesTheater={theater}
                 key={theater.clean_name}
+                isExpanded={false}
               />
             ))}
           </div>
@@ -327,7 +322,7 @@ function filterAndSortMovies(
         .filter((movie) => movie.showtimes_theater.length > 0);
 
   const filteredMovies = moviesWithFilteredShowtimes.filter(
-    (movie) => filter == "" || movie_info_containsFilteringTerm(movie, filter),
+    (movie) => filter == "" || movieInfoContainsFilteringTerm(movie, filter),
   );
 
   const sortedFilteredMovies = sortBy(filteredMovies, (movie) => [

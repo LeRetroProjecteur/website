@@ -3,8 +3,8 @@ import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 
 import {
   FirstRow,
+  MiddleColumn,
   MiddleColumnImageAndRightColumnCaption,
-  MiddleColumnSection,
   ThreeColumnLayout,
 } from "../components";
 import altman from "./img/altman.jpg";
@@ -22,12 +22,12 @@ export default function Top2022() {
       </PageHeader>
       <ThreeColumnLayout>
         <FirstRow
-          type="chronique"
+          type="retour de festival"
           date="31/10/2023"
           image={icon}
           alt="lumiere"
         />
-        <MiddleColumnSection>
+        <MiddleColumn>
           <BodyCopy>
             <strong>
               Créer l&apos;événement autour du cinéma de patrimoine.
@@ -70,7 +70,7 @@ export default function Top2022() {
             </i>{" "}
             était une expérience empreinte d&apos;une joyeuse ironie.
           </BodyCopy>
-        </MiddleColumnSection>
+        </MiddleColumn>
         <MiddleColumnImageAndRightColumnCaption
           image={cuaronAnderson}
           alt="Cuaron et Anderson"
@@ -85,7 +85,7 @@ export default function Top2022() {
             </>
           }
         />
-        <MiddleColumnSection>
+        <MiddleColumn>
           <BodyCopy>
             Cette année, le Prix Lumière (hommage rendu à une figure majeure du
             septième art) était remis à <strong>Wim Wenders</strong>.
@@ -142,7 +142,7 @@ export default function Top2022() {
             analogues au néoréalisme européen tout en assumant pleinement un
             penchant mélodramatique appuyé.
           </BodyCopy>
-        </MiddleColumnSection>
+        </MiddleColumn>
         <MiddleColumnImageAndRightColumnCaption
           image={ozuRay}
           alt="Ozu et Ray"
@@ -156,7 +156,7 @@ export default function Top2022() {
             </>
           }
         />
-        <MiddleColumnSection>
+        <MiddleColumn>
           <BodyCopy>
             Si un festival suggère des correspondances, il propose également
             beaucoup de ruptures de ton. Ainsi en est-il d&apos;une journée où
@@ -216,7 +216,7 @@ export default function Top2022() {
             sortie prévue pour ce petit bijou, mais nous surveillerons cela de
             près.
           </BodyCopy>
-        </MiddleColumnSection>
+        </MiddleColumn>
         <MiddleColumnImageAndRightColumnCaption
           image={mareeNoire}
           alt="Marée noire et colère rouge"
@@ -227,7 +227,7 @@ export default function Top2022() {
             </>
           }
         />
-        <MiddleColumnSection>
+        <MiddleColumn>
           <BodyCopy>
             Le Festival Lumière se targue de ne pas être un événement
             compétitif. Cela n&apos;a pas empêché un événement particulier
@@ -255,7 +255,7 @@ export default function Top2022() {
             (<i className="italic">Nous sommes tous des voleurs</i>) et la
             conquête de l&apos;ouest (<i className="italic">John McCabe</i>).
           </BodyCopy>
-        </MiddleColumnSection>
+        </MiddleColumn>
         <MiddleColumnImageAndRightColumnCaption
           image={altman}
           alt="John McCage"
@@ -265,7 +265,7 @@ export default function Top2022() {
             </>
           }
         />
-        <MiddleColumnSection>
+        <MiddleColumn>
           <BodyCopy>
             Le visionnage de{" "}
             <strong>
@@ -290,13 +290,13 @@ export default function Top2022() {
             d&apos;autres. Le film confirme en tout cas que l&apos;effronterie
             altmanienne n&apos;a pas pris la moindre ride.
           </BodyCopy>
-        </MiddleColumnSection>
+        </MiddleColumn>
         <MiddleColumnImageAndRightColumnCaption
           image={lyon}
           alt="Lyon"
           caption={<>Lyon, la vraie Ville Lumière&nbsp;?</>}
         />
-        <MiddleColumnSection>
+        <MiddleColumn>
           <BodyCopy>
             En guise de conclusion, un dernier petit souvenir absolument
             inoubliable du festival&nbsp;: le visionnage de{" "}
@@ -314,7 +314,7 @@ export default function Top2022() {
             l&apos;exploitation de vieux films en salles n&apos;a pas dit son
             dernier mot&nbsp;!
           </BodyCopy>
-        </MiddleColumnSection>
+        </MiddleColumn>
       </ThreeColumnLayout>
     </>
   );
