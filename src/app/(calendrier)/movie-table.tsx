@@ -36,7 +36,7 @@ import {
   isCoupDeCoeur,
   isMovieWithShowtimesByDay,
   isMoviesWithShowtimesByDay,
-  movie_info_containsFilteringTerm,
+  movieInfoContainsFilteringTerm,
   nowInParis,
   safeDate,
 } from "@/lib/util";
@@ -321,7 +321,7 @@ function filterAndSortMovies(
         .filter((movie) => movie.showtimes_theater.length > 0);
 
   const filteredMovies = moviesWithFilteredShowtimes.filter(
-    (movie) => filter == "" || movie_info_containsFilteringTerm(movie, filter),
+    (movie) => filter == "" || movieInfoContainsFilteringTerm(movie, filter),
   );
 
   const sortedFilteredMovies = sortBy(filteredMovies, (movie) => [

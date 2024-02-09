@@ -10,6 +10,15 @@ export interface MovieWithNoShowtimes {
   category?: string;
 }
 
+export interface MovieInfo {
+  language?: string;
+  title: string;
+  original_title?: string;
+  directors: string;
+  countries?: string;
+  tags?: string;
+}
+
 export interface Movie extends MovieWithNoShowtimes {
   showtimes_theater: ShowtimesTheater[];
 }
