@@ -1,5 +1,6 @@
-import { Suspense } from "react";
+import { setTimeout } from "timers/promises";
 
+import { SuspenseWithLoading } from "@/components/icons/loading";
 import { getMovie } from "@/lib/movies";
 
 import Film from "./film";
@@ -13,12 +14,14 @@ export default function FilmPage({
   params: { movieId: string };
 }) {
   return (
-    <Suspense fallback={<></>}>
-      <FilmPageLoader movieId={movieId} />
-    </Suspense>
+    <div className="flex grow flex-col">
+      <SuspenseWithLoading grow>
+        <FilmPageLoader movieId={movieId} />
+      </SuspenseWithLoading>
+    </div>
   );
 }
 
 async function FilmPageLoader({ movieId }: { movieId: string }) {
-  return <Film movie={await getMovie(movieId)} />;
+  return <Film movie={await setTimeout(5000).then(() => getMovie(movieId))} />;
 }
