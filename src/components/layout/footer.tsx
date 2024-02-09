@@ -26,7 +26,7 @@ export default function Footer() {
           <FooterCopy>
             <Link href="/admin">©</Link> Le Rétro Projecteur 2021–2024
             <br />
-            Design graphique par{" "}
+            Design par{" "}
             <a
               href="https://clairemalot.com/"
               className="underline"
@@ -34,9 +34,9 @@ export default function Footer() {
             >
               claire malot
             </a>
-            .<span className="hidden lg:inline"> </span>
-            <br className="lg:hidden" />
-            Développé par Jonathan Roitgrund.
+            .{/*<span className="hidden lg:inline"> </span>*/}
+            {/*<br className="lg:hidden" />*/}
+            {/*Développé par Jonathan Roitgrund.*/}
           </FooterCopy>
         </div>
         <div className="py-25px text-center lg:py-0 lg:text-left">

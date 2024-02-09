@@ -27,7 +27,7 @@ export default function DateSelector() {
       >
         <LeftArrow />
       </div>
-      <div>
+      <div className="px-10px">
         <SousTitre1>{formatLundi1Janvier(date)}</SousTitre1>
       </div>
       <div

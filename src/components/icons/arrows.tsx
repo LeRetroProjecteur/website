@@ -10,10 +10,9 @@ export function LeftArrow({
   return (
     <svg
       onClick={onClick}
-      className={clsx(
-        "h-14px w-14px cursor-pointer fill-retro-gray stroke-retro-gray",
-        { "lg:h-19px lg:w-19px": !(small ?? false) },
-      )}
+      className={clsx("h-14px w-14px cursor-pointer fill-black stroke-black", {
+        "lg:h-19px lg:w-19px": !(small ?? false),
+      })}
       viewBox="0 0 14 14"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
@@ -49,10 +48,9 @@ export function RightArrow({
   return (
     <svg
       onClick={onClick}
-      className={clsx(
-        "h-14px w-14px cursor-pointer fill-retro-gray stroke-retro-gray",
-        { "lg:h-19px lg:w-19px": !(small ?? false) },
-      )}
+      className={clsx("h-14px w-14px cursor-pointer fill-black stroke-black", {
+        "lg:h-19px lg:w-19px": !(small ?? false),
+      })}
       viewBox="0 0 14 14"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
