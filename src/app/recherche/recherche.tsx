@@ -4,7 +4,14 @@ import clsx from "clsx";
 import { every, orderBy, take, toPairs, without } from "lodash-es";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { use, useCallback, useEffect, useMemo } from "react";
+import {
+  MutableRefObject,
+  use,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+} from "react";
 import { create } from "zustand";
 
 import RetroInput from "@/components/forms/retro-input";
@@ -114,6 +121,18 @@ function Results({
     );
   }, [allMovies]);
   const keywords = useMemo(() => getFields(searchTerm), [searchTerm]);
+  const selectedRef: MutableRefObject<HTMLAnchorElement | null> = useRef(null);
+
+  useEffect(() => {
+    const curr = selectedRef.current;
+    if (
+      curr != null &&
+      (curr.getBoundingClientRect().bottom > window.innerHeight ||
+        curr.getBoundingClientRect().top < 0)
+    ) {
+      curr.scrollIntoView({ block: "center" });
+    }
+  }, [selected]);
 
   const filtered = useMemo(
     () =>
@@ -156,6 +175,7 @@ function Results({
         {filtered.length > 0 ? (
           filtered.map((movie, i) => (
             <Link
+              ref={selected === i ? selectedRef : null}
               key={movie.id}
               href={`/film/${movie.id}`}
               className={clsx(
