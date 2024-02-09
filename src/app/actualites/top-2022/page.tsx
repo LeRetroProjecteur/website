@@ -201,7 +201,7 @@ export default function Top2022() {
                     className="underline"
                     href="/film/evangile-selon-saint-matthieu-1964"
                   >
-                    L'Evangile selon Saint Matthieu
+                    L&apos;Evangile selon Saint Matthieu
                   </Link>{" "}
                   de Pier Paolo Pasolini (1964), vu le 4 septembre au Champo
                 </>
@@ -218,7 +218,7 @@ export default function Top2022() {
                 className="underline"
                 href="/film/evangile-selon-saint-matthieu-1964"
               >
-                L'Evangile selon Saint Matthieu
+                L&apos;Evangile selon Saint Matthieu
               </Link>
               , le déplacement des représentations habituelles de scènes
               bibliques est double&nbsp;: Jésus est interprété par un
