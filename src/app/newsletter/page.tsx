@@ -42,7 +42,7 @@ function SignupForm() {
       action="https://leretroprojecteur.us6.list-manage.com/subscribe/post?u=00a9245e71d3375ef4542a588&amp;id=3270cdb251&amp;f_id=00e804e3f0"
       method="post"
       target="_blank"
-      className="flex flex-col gap-10px lg:gap-15px"
+      className="flex flex-col gap-10px pb-10px lg:gap-15px lg:pb-0"
     >
       <RetroInput
         value={email}
