@@ -92,7 +92,7 @@ export function SeancesTheater({
 
   return (
     <div className="flex justify-between" key={showtimesTheater.clean_name}>
-      <div className="w-min grow pr-20px">
+      <div className="w-min grow pr-10px">
         <CalendrierCopy>
           {showtimesTheater.clean_name} ({showtimesTheater.zipcode_clean})
         </CalendrierCopy>
