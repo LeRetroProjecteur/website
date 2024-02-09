@@ -1,4 +1,4 @@
-import { every, omit, padStart, some } from "lodash-es";
+import { every, padStart, some } from "lodash-es";
 import { DateTime } from "luxon";
 import Image from "next/image";
 import { ComponentProps, useMemo } from "react";
@@ -6,6 +6,7 @@ import { useWindowSize } from "usehooks-ts";
 
 import {
   Movie,
+  MovieInfo,
   MovieWithNoShowtimes,
   MovieWithShowtimesByDay,
   Review,
@@ -55,56 +56,50 @@ export function getStartOfTodayInParis() {
   return nowInParis().startOf("day");
 }
 
-export function clean_string(str: string) {
-  str = str.replaceAll("-", " ");
-  str = str.replaceAll(/['’]/g, "'");
-  str = str.replaceAll("'", " ");
-  str = str.replaceAll("&", " and ");
-  str = str.normalize("NFD").replace(/\p{Diacritic}/gu, "");
-  str = str.replaceAll(/[^a-zA-Z0-9 #]/g, "");
-  str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  str = str.toLowerCase();
+export function cleanString(str: string) {
+  str = str
+    .normalize("NFD")
+    .replaceAll("&", " and ")
+    .replaceAll("’", "'")
+    .replaceAll(/[^a-zA-Z0-9 #]|[\u0300-\u036f]/g, "")
+    .replaceAll(/\p{Diacritic}/gu, "")
+    .toLowerCase();
   return str;
 }
 
-function at_least_one_word_starts_with_substring(
-  list: string[],
-  substring: string,
-) {
+function atLeastOneWordStartsWithSubstring(list: string[], substring: string) {
   return some(list, (word) => word.startsWith(substring));
 }
 
-export function string_match(term: string, searchField: string) {
-  const fields = getFields(searchField);
-  return string_match_fields(term, fields);
+export function stringMatch(term: string, searchField: string) {
+  return stringMatchFields(getFields(term), getFields(searchField));
 }
 
 export function getFields(searchField: string) {
-  return clean_string(searchField).split(" ");
+  return cleanString(searchField).split(" ");
 }
 
-export function string_match_fields(term: string, fields: string[]) {
-  const keywords = clean_string(term).split(" ");
+export function stringMatchFields(keywords: string[], searchFields: string[]) {
   return every(keywords, (keyword) =>
-    at_least_one_word_starts_with_substring(fields, keyword),
+    atLeastOneWordStartsWithSubstring(searchFields, keyword),
   );
 }
 
-export function movie_info_containsFilteringTerm(
-  f: MovieWithNoShowtimes | Review,
+export function movieInfoContainsFilteringTerm(
+  movie: MovieWithNoShowtimes | Review,
   filteringTerm: string,
 ) {
   if (filteringTerm.slice(-1) === "|") {
     filteringTerm = filteringTerm.slice(0, -1);
   }
-  const filtering_field = get_movie_info_string(omit(f, "year"));
+  const filtering_field = getMovieInfoString(movie);
   const filteringTerms = filteringTerm.split("|");
   return some(filteringTerms, (filteringTerm) =>
-    string_match(filteringTerm, filtering_field),
+    stringMatch(filteringTerm, filtering_field),
   );
 }
 
-function get_movie_info_string(f: Record<string, string>) {
+export function getMovieInfoString(info: MovieInfo) {
   return (
     [
       "language",
@@ -113,10 +108,10 @@ function get_movie_info_string(f: Record<string, string>) {
       "directors",
       "countries",
       "tags",
-    ] as Array<keyof MovieWithNoShowtimes>
+    ] as Array<keyof MovieInfo>
   )
     .map((key) => {
-      return f[key] == null ? "" : `${f[key]}`;
+      return info[key] == null ? "" : `${info[key]}`;
     })
     .join(" ");
 }

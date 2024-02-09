@@ -31,8 +31,18 @@ export default function Film({ movie }: { movie: MovieDetail }) {
         <MovieHeader movie={movie} />
       </PageHeader>
       <TwoColumnPage
-        left={<MovieInfo movie={movie} />}
-        right={<MovieScreenings movie={movie} />}
+        left={
+          <>
+            <MovieReview movie={movie} />
+            <MovieInformation movie={movie} />
+          </>
+        }
+        right={
+          <>
+            <MovieScreenings movie={movie} />
+            <Tags movie={movie} />
+          </>
+        }
       />
     </>
   );
@@ -48,7 +58,7 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
   );
 }
 
-function MovieInfo({ movie }: { movie: MovieDetail }) {
+function MovieReview({ movie }: { movie: MovieDetail }) {
   return (
     <>
       {movie.review && movie.review_date && (
@@ -65,6 +75,7 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
           </div>
           <BodyCopy className="border-b pb-20px lg:border-0 lg:pb-0">
             <div dangerouslySetInnerHTML={{ __html: movie.review }}></div>
+            <br />
             <div className="flex items-center pt-6px">
               <div className="pr-6px">
                 <Image
@@ -73,15 +84,21 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
                   src={coupDeCoeur}
                 />
               </div>
-              <div>
+              <MetaCopy>
                 Critique du{" "}
                 {formatDDMMYYWithSlashes(safeDate(movie.review_date))}
-              </div>
+              </MetaCopy>
             </div>
           </BodyCopy>
         </div>
       )}
+    </>
+  );
+}
 
+function MovieInformation({ movie }: { movie: MovieDetail }) {
+  return (
+    <>
       <div className="flex pb-20px lg:border-y lg:py-20px">
         <MetaCopy>
           <div>Titre original&nbsp;: {movie.original_title}</div>
@@ -114,7 +131,6 @@ function MovieInfo({ movie }: { movie: MovieDetail }) {
           )}
         </MetaCopy>
       </div>
-      <Tags movie={movie} />
     </>
   );
 }

@@ -11,6 +11,7 @@ import {
   SectionHeader,
   ThreeColumnLayout,
 } from "../components";
+import placeholder from "../placeholder.png";
 import adieu from "./img/adieu.jpg";
 import evangile from "./img/evangile.jpg";
 import lola from "./img/lola.jpg";
@@ -36,8 +37,8 @@ export default function Top2022() {
         <FirstRow
           type="retro-spective"
           date="02/01/2023"
-          image={variety}
-          alt="variety"
+          image={placeholder}
+          alt="top 2022"
         />
         <MiddleColumn>
           <div className="pb-35px lg:pb-50px">

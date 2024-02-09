@@ -15,7 +15,12 @@ import { useForm } from "react-hook-form";
 
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
-import { BodyCopy, SousTitre2 } from "@/components/typography/typography";
+import { TwoColumnPage } from "@/components/layout/two-column-page";
+import {
+  BodyCopy,
+  SousTitre1,
+  SousTitre2,
+} from "@/components/typography/typography";
 import GetHTML from "@/components/util/get-html";
 import IFrame from "@/components/util/iframe";
 import {
@@ -49,17 +54,19 @@ export default function GenerateNewsletter({
 }) {
   return (
     <>
-      <PageHeader text="Newsletter"></PageHeader>
-      <div className="flex grow flex-col pl-20px">
-        <SuspenseWithLoading className="flex grow items-center justify-center">
-          <div className="flex flex-col border-b pb-44px">
-            <Movies movies={movies} />
-          </div>
+      <PageHeader text="Newsletter">
+        <SousTitre1>Aide à la rédaction de la newsletter</SousTitre1>
+      </PageHeader>
+      <SuspenseWithLoading>
+        <div className="flex grow items-center justify-center">
+          <Movies movies={movies} />
+        </div>
+        <div className="flex grow flex-col border-t pl-20px">
           <div className="flex flex-col pt-44px">
             <Retrospectives movies={movies} />
           </div>
-        </SuspenseWithLoading>
-      </div>
+        </div>
+      </SuspenseWithLoading>
     </>
   );
 }
@@ -101,73 +108,78 @@ export function Movies({
 
   return (
     <>
-      <div className="pb-20px">
-        <SousTitre2>Semaine de cinéma</SousTitre2>
-      </div>
-      <div className="flex">
-        <div className="flex w-1/2 grow flex-col gap-10px border-r pr-10px">
-          {days.map((day, i) => (
-            <div key={day} className="flex flex-col gap-5px">
-              <BodyCopy>{capitalize(day)}</BodyCopy>
-              <select id={day} {...register(day)}>
-                [<option value="">-----</option>
-                {sortBy(moviesByDay[i], (movie) => [movie.title]).map(
-                  (movie) => (
-                    <option value={movie.id} key={movie.id}>
-                      {movie.title}, {movie.directors} ({movie.year})
-                    </option>
-                  ),
-                )}
-                ]
-              </select>
+      <TwoColumnPage
+        title={"Une semaine au cinéma"}
+        left={
+          <>
+            {days.map((day, i) => (
+              <div key={day} className="flex flex-col pb-10px">
+                <BodyCopy>{capitalize(day)}</BodyCopy>
+                <select id={day} {...register(day)}>
+                  [<option value="">-----</option>
+                  {sortBy(moviesByDay[i], (movie) => [movie.title]).map(
+                    (movie) => (
+                      <option value={movie.id} key={movie.id}>
+                        {movie.title}, {movie.directors} ({movie.year})
+                      </option>
+                    ),
+                  )}
+                  ]
+                </select>
+              </div>
+            ))}
+          </>
+        }
+        right={
+          <>
+            <div className="flex grow">
+              <IFrame html={html}></IFrame>
             </div>
-          ))}
-        </div>
-        <div className="flex pl-10px">
-          <IFrame html={html} className="w-[600px]"></IFrame>
-        </div>
-      </div>
-      <div className="py-20px font-mono">{html}</div>
-      <GetHTML onChange={setHtml}>
-        <div
-          style={{
-            padding: "12px 0",
-          }}
-        >
-          <table style={{ width: "100%" }}>
-            <tbody>
-              <tr>
-                <td
-                  style={{
-                    width: "50%",
-                    textAlign: "center",
-                    verticalAlign: "top",
-                  }}
-                >
-                  <DaysMovies
-                    week={week.slice(0, 4)}
-                    dayValues={dayValues.slice(0, 4)}
-                    moviesById={moviesById}
-                  />
-                </td>
-                <td
-                  style={{
-                    width: "50%",
-                    textAlign: "center",
-                    verticalAlign: "top",
-                  }}
-                >
-                  <DaysMovies
-                    week={week.slice(4)}
-                    dayValues={dayValues.slice(4)}
-                    moviesById={moviesById}
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </GetHTML>
+          </>
+        }
+      >
+        <div className="py-20px font-mono">{html}</div>
+        <GetHTML onChange={setHtml}>
+          <div
+            style={{
+              padding: "12px 0",
+            }}
+          >
+            <table style={{ width: "100%" }}>
+              <tbody>
+                <tr>
+                  <td
+                    style={{
+                      width: "50%",
+                      textAlign: "center",
+                      verticalAlign: "top",
+                    }}
+                  >
+                    <DaysMovies
+                      week={week.slice(0, 4)}
+                      dayValues={dayValues.slice(0, 4)}
+                      moviesById={moviesById}
+                    />
+                  </td>
+                  <td
+                    style={{
+                      width: "50%",
+                      textAlign: "center",
+                      verticalAlign: "top",
+                    }}
+                  >
+                    <DaysMovies
+                      week={week.slice(4)}
+                      dayValues={dayValues.slice(4)}
+                      moviesById={moviesById}
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </GetHTML>
+      </TwoColumnPage>
     </>
   );
 }

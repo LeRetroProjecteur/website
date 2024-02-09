@@ -14,7 +14,7 @@ import {
 import { DateTime } from "luxon";
 import Image from "next/image";
 import Link from "next/link";
-import { ReactNode, use, useEffect, useMemo } from "react";
+import { ReactNode, use, useMemo } from "react";
 import useSWR from "swr";
 
 import { Loading, SuspenseWithLoading } from "@/components/icons/loading";
@@ -36,7 +36,7 @@ import {
   isCoupDeCoeur,
   isMovieWithShowtimesByDay,
   isMoviesWithShowtimesByDay,
-  movie_info_containsFilteringTerm,
+  movieInfoContainsFilteringTerm,
   nowInParis,
   safeDate,
 } from "@/lib/util";
@@ -50,12 +50,6 @@ export default function MovieTable({
   serverMovies: Promise<Movie[] | MovieWithShowtimesByDay[]>;
   allMovies?: boolean;
 }) {
-  useEffect(() => {
-    if (useCalendrierStore.getState().shouldReset) {
-      useCalendrierStore.getState().reset();
-    }
-  }, []);
-
   const date = useCalendrierStore((s) => s.date);
   const useClientData = useCalendrierStore((s) => s.dateChanged);
   const minHour = useCalendrierStore((s) => s.minHour);
@@ -149,11 +143,7 @@ function TableHeader() {
     <Row
       cellClassName="bg-retro-green lg:px-20px border-t lg:py-17px p-6px"
       leftCol={<SousTitre2>Films</SousTitre2>}
-      rightCol={
-        <div className="pl-4px lg:pl-5px">
-          <SousTitre2>Séances</SousTitre2>
-        </div>
-      }
+      rightCol={<SousTitre2>Séances</SousTitre2>}
     />
   );
 }
@@ -179,20 +169,18 @@ function MovieRows({
     <Row
       key={movie.id}
       rowClassName="group"
-      cellClassName="group-odd:bg-retro-pale-green group-odd:lg:bg-white lg:group-hover:bg-retro-pale-green"
+      cellClassName="px-6px lg:px-10px group-odd:bg-retro-pale-green group-odd:lg:bg-white lg:group-hover:bg-retro-pale-green"
       leftCol={<MovieCell movie={movie} />}
       rightCol={
-        <div className="pl-4px lg:pl-5px">
-          {isMovieWithShowtimesByDay(movie) ? (
-            <div className="py-12px lg:py-17px">
-              <MultiDaySeances movie={movie} />
-            </div>
-          ) : (
-            <div className="px-6px py-12px  lg:px-10px lg:py-17px">
-              <Seances showtimes_theater={movie.showtimes_theater} />
-            </div>
-          )}
-        </div>
+        isMovieWithShowtimesByDay(movie) ? (
+          <div className="py-12px lg:py-17px">
+            <MultiDaySeances movie={movie} />
+          </div>
+        ) : (
+          <div className="py-12px lg:py-17px">
+            <Seances showtimes_theater={movie.showtimes_theater} />
+          </div>
+        )
       }
     />
   ));
@@ -232,10 +220,10 @@ function Row({
 function MovieCell({ movie }: { movie: MovieWithNoShowtimes }) {
   return (
     <Link href={`/film/${movie.id}`} className="block cursor-pointer">
-      <div className="flex items-center px-6px lg:px-10px">
+      <div className="flex items-center">
         <div className="grow py-12px lg:py-17px">
           <CalendrierCopy>
-            <i className="group-hover:underline">{movie.title}</i>,{" "}
+            <i className="uppercase group-hover:underline">{movie.title}</i>,{" "}
             {movie.directors} ({movie.year})
           </CalendrierCopy>
         </div>
@@ -260,9 +248,7 @@ function MultiDaySeances({ movie }: { movie: MovieWithShowtimesByDay }) {
       ).map(([day, theaters], i) => (
         <div key={i} className="flex grow flex-col gap-10px lg:gap-5px">
           <CalendrierCopy>
-            <strong className="font-semibold">
-              {capitalize(formatLundi1Janvier(day))}
-            </strong>
+            <strong>{capitalize(formatLundi1Janvier(day))}</strong>
           </CalendrierCopy>
           <div className="flex grow flex-col gap-10px lg:gap-5px">
             {sortBy(
@@ -275,6 +261,7 @@ function MultiDaySeances({ movie }: { movie: MovieWithShowtimesByDay }) {
               <SeancesTheater
                 showtimesTheater={theater}
                 key={theater.clean_name}
+                isExpanded={false}
               />
             ))}
           </div>
@@ -335,7 +322,7 @@ function filterAndSortMovies(
         .filter((movie) => movie.showtimes_theater.length > 0);
 
   const filteredMovies = moviesWithFilteredShowtimes.filter(
-    (movie) => filter == "" || movie_info_containsFilteringTerm(movie, filter),
+    (movie) => filter == "" || movieInfoContainsFilteringTerm(movie, filter),
   );
 
   const sortedFilteredMovies = sortBy(filteredMovies, (movie) => [

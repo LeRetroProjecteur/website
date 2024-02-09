@@ -1,12 +1,13 @@
 import { Metadata } from "next";
+import Link from "next/link";
 
 import PageHeader from "@/components/layout/page-header";
 import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 
 import {
   FirstRow,
+  MiddleColumn,
   MiddleColumnImageAndRightColumnCaption,
-  MiddleColumnSection,
   ThreeColumnLayout,
 } from "../components";
 import altman from "./img/altman.jpg";
@@ -29,12 +30,12 @@ export default function Lumiere2023() {
       </PageHeader>
       <ThreeColumnLayout>
         <FirstRow
-          type="chronique"
+          type="retour de festival"
           date="31/10/2023"
           image={icon}
           alt="lumiere"
         />
-        <MiddleColumnSection>
+        <MiddleColumn>
           <BodyCopy>
             <strong>
               Créer l&apos;événement autour du cinéma de patrimoine.
@@ -69,30 +70,37 @@ export default function Lumiere2023() {
             <strong>Alfonso Cuarón</strong> qui fait le déplacement uniquement
             pour présenter trois films du suisse Alain Tanner, réalisateur
             radical et profondément anti-système. Découvrir{" "}
-            <i className="italic">Charles mort ou vif</i> juste après le
-            visionnage d&apos;un clip-hommage au réalisateur mexicain incluant
-            de nombreuses scènes de{" "}
-            <i className="italic">
+            <Link className="underline" href="/film/charles-mort-vif-1969">
+              Charles mort ou vif
+            </Link>{" "}
+            juste après le visionnage d&apos;un clip-hommage au réalisateur
+            mexicain incluant de nombreuses scènes de{" "}
+            <Link
+              className="underline"
+              href="/film/harry-potter-prisonnier-azkaban-2004"
+            >
               Harry Potter et le Prisonnier d&apos;Azkaban
-            </i>{" "}
+            </Link>{" "}
             était une expérience empreinte d&apos;une joyeuse ironie.
           </BodyCopy>
-        </MiddleColumnSection>
+        </MiddleColumn>
         <MiddleColumnImageAndRightColumnCaption
           image={cuaronAnderson}
           alt="Cuaron et Anderson"
           caption={
             <>
               À gauche&nbsp;: Alfonso Cuarón présente{" "}
-              <i className="italic">Charles mort ou vif</i> d&apos;Alain Tanner
-              avec Thierry Frémaux.
+              <Link className="underline" href="/film/charles-mort-vif-1969">
+                Charles mort ou vif
+              </Link>{" "}
+              d&apos;Alain Tanner avec Thierry Frémaux.
               <br />À droite&nbsp;: Wes Anderson présente{" "}
               <i className="italic">La Complainte du sentier</i> de Satyajit
               Ray.
             </>
           }
         />
-        <MiddleColumnSection>
+        <MiddleColumn>
           <BodyCopy>
             Cette année, le Prix Lumière (hommage rendu à une figure majeure du
             septième art) était remis à <strong>Wim Wenders</strong>.
@@ -102,27 +110,39 @@ export default function Lumiere2023() {
             déjà trouvé le chemin des écrans de la capitale (depuis le 25
             octobre). Pour nous, cela a été l&apos;occasion de se faire recaler
             de justesse pour une séance de{" "}
-            <i className="italic">Paris, Texas</i>, mais aussi de profiter de la
-            ‘Carte blanche à Wim Wenders&apos;. Idée géniale&nbsp;: tous les
-            ans, le récipiendaire du prix s&apos;improvise aussi programmateur.
-            Le choix de Wenders de projeter notamment{" "}
-            <i className="italic">Beau Travail</i> (Claire Denis) et{" "}
-            <i className="italic">Enter The Void</i> (Gaspar Noé), deux œuvres
-            ultra stylisées et sensorielles, avait de quoi surprendre quelque
-            peu. Une invitation à envisager différemment sa propre œuvre&nbsp;?
+            <Link className="underline" href="/film/paris-texas-1984">
+              Paris, Texas
+            </Link>
+            , mais aussi de profiter de la ‘Carte blanche à Wim Wenders&apos;.
+            Idée géniale&nbsp;: tous les ans, le récipiendaire du prix
+            s&apos;improvise aussi programmateur. Le choix de Wenders de
+            projeter notamment{" "}
+            <Link className="underline" href="/film/beau-travail-1999">
+              Beau travail
+            </Link>{" "}
+            (Claire Denis) et{" "}
+            <Link className="underline" href="/film/enter-the-void-2009">
+              Enter the void
+            </Link>{" "}
+            (Gaspar Noé), deux œuvres ultra stylisées et sensorielles, avait de
+            quoi surprendre quelque peu. Une invitation à envisager différemment
+            sa propre œuvre&nbsp;?
             <br />
             <br />
             Plus sympathique encore, on a vu Wenders débarquer à
             l&apos;improviste pour présenter{" "}
             <strong>
               un des six films nouvellement restaurés d&apos;Ozu
-            </strong>, <i className="italic">Une femme dans le vent</i> (1948).
-            Il conclut sa présentation en s&apos;installant carrément avec le
-            public du cinéma Lumière Terreaux, cédant à la tentation de revoir
-            le film dans une salle comble. Totalement inédit en France, ce
-            dernier a fait l&apos;objet d&apos;une ressortie nationale dans la
-            foulée (le 25 octobre). C&apos;est l&apos;histoire d&apos;une femme
-            dont le mari tarde à rentrer de la guerre et qui, pour
+            </strong>,{" "}
+            <Link className="underline" href="/film/femme-vent-1948">
+              Une femme dans le vent
+            </Link>{" "}
+            (1948). Il conclut sa présentation en s&apos;installant carrément
+            avec le public du cinéma Lumière Terreaux, cédant à la tentation de
+            revoir le film dans une salle comble. Totalement inédit en France,
+            ce dernier a fait l&apos;objet d&apos;une ressortie nationale dans
+            la foulée (le 25 octobre). C&apos;est l&apos;histoire d&apos;une
+            femme dont le mari tarde à rentrer de la guerre et qui, pour
             s&apos;occuper de son enfant malade, se trouve contrainte de se
             prostituer. On comprendra pourquoi le film n&apos;est pas dans le
             canon de son réalisateur (curseurs mélodramatiques poussés un peu
@@ -136,41 +156,69 @@ export default function Lumiere2023() {
             Festival qui auront droit à une ressortie nationale prochaine. On
             mentionnera notamment{" "}
             <strong>la fameuse trilogie d&apos;Apu de Satyajit Ray</strong>
-            &nbsp;- <i className="italic">
-              La Complainte du sentier
-            </i> (1955), <i className="italic">L&apos;invaincu</i> (1956) et{" "}
-            <i className="italic">Le Monde d&apos;Apu</i> (1959)&nbsp;- prévue
-            en salles le 6 décembre prochain. Le plaisir du festivalier est en
-            bonne partie imputable aux secrètes correspondances que les films
-            nous permettent de tisser entre eux. Ainsi ne peut-on pas
-            s&apos;empêcher de rapprocher les films du réalisateur indien de la{" "}
-            <i className="italic">Femme dans le vent</i> d&apos;Ozu tant toutes
-            ces œuvres semblent profondément mues par des préoccupations
-            analogues au néoréalisme européen tout en assumant pleinement un
-            penchant mélodramatique appuyé.
+            &nbsp;-{" "}
+            <Link
+              className="underline"
+              href="/film/trilogie-apu-complainte-sentier-1955"
+            >
+              La complainte du sentier
+            </Link>{" "}
+            (1955),
+            <Link className="underline" href="/film/trilogie-apu-invaincu-1956">
+              L&apos;invaincu
+            </Link>{" "}
+            (1956) et{" "}
+            <Link
+              className="underline"
+              href="/film/trilogie-apu-monde-apu-1959"
+            >
+              Le monde d&apos;Apu
+            </Link>{" "}
+            (1959)&nbsp;- prévue en salles le 6 décembre prochain. Le plaisir du
+            festivalier est en bonne partie imputable aux secrètes
+            correspondances que les films nous permettent de tisser entre eux.
+            Ainsi ne peut-on pas s&apos;empêcher de rapprocher les films du
+            réalisateur indien d&apos;{" "}
+            <Link className="underline" href="/film/femme-vent-1948">
+              Une femme dans le vent
+            </Link>{" "}
+            d&apos;Ozu tant toutes ces œuvres semblent profondément mues par des
+            préoccupations analogues au néoréalisme européen tout en assumant
+            pleinement un penchant mélodramatique appuyé.
           </BodyCopy>
-        </MiddleColumnSection>
+        </MiddleColumn>
         <MiddleColumnImageAndRightColumnCaption
           image={ozuRay}
           alt="Ozu et Ray"
           caption={
             <>
               À gauche&nbsp;: Wenders présente{" "}
-              <i className="italic">Une femme dans le vent</i> d&apos;Ozu.
+              <Link className="underline" href="/film/femme-vent-1948">
+                Une femme dans le vent
+              </Link>{" "}
+              d&apos;Ozu.
               <br />À droite&nbsp;: Ray sur le tournage de{" "}
-              <i className="italic">L&apos;invaincu</i>, photographié par Marc
-              Riboud et exposé au Musée des Confluences.
+              <Link
+                className="underline"
+                href="/film/trilogie-apu-invaincu-1956"
+              >
+                L&apos;invaincu
+              </Link>
+              , photographié par Marc Riboud et exposé au Musée des Confluences.
             </>
           }
         />
-        <MiddleColumnSection>
+        <MiddleColumn>
           <BodyCopy>
             Si un festival suggère des correspondances, il propose également
             beaucoup de ruptures de ton. Ainsi en est-il d&apos;une journée où
             l&apos;on court du deuxième volet de la trilogie de Satyajit Ray à
             la projection de{" "}
             <strong>
-              <i className="italic">Lune froide</i> de Patrick Bouchitey
+              <Link className="underline" href="/film/lune-froide-1991">
+                Lune froide
+              </Link>{" "}
+              de Patrick Bouchitey
             </strong>{" "}
             (sortie nationale le 15 novembre). Difficile en effet de trouver, à
             part le noir & blanc, des similitudes entre ces deux films.
@@ -223,7 +271,7 @@ export default function Lumiere2023() {
             sortie prévue pour ce petit bijou, mais nous surveillerons cela de
             près.
           </BodyCopy>
-        </MiddleColumnSection>
+        </MiddleColumn>
         <MiddleColumnImageAndRightColumnCaption
           image={mareeNoire}
           alt="Marée noire et colère rouge"
@@ -234,7 +282,7 @@ export default function Lumiere2023() {
             </>
           }
         />
-        <MiddleColumnSection>
+        <MiddleColumn>
           <BodyCopy>
             Le Festival Lumière se targue de ne pas être un événement
             compétitif. Cela n&apos;a pas empêché un événement particulier
@@ -246,23 +294,41 @@ export default function Lumiere2023() {
             studios, ce qui rend très compliqué le fait de réunir tous les
             différents droits d&apos;exploitation de ses films. La rétrospective
             de douze de ses œuvres les plus connues (de{" "}
-            <i className="italic">M*A*S*H</i> en 1970 à{" "}
-            <i className="italic">Gosford Park</i> en 2001) était donc
-            historique. Des réalisateurs du Nouvel Hollywood, Altman est
-            peut-être celui dont les cinéastes américains contemporains se
-            revendiquent le plus ouvertement (à commencer évidemment par Paul
-            Thomas Anderson). Il demeure cependant relativement peu connu en
-            France et revoir certains de ses films permet de mesurer combien
-            Altman est resté, sans doute plus que ses pairs (Coppola, Spielberg
-            ou Scorsese), un réalisateur irréductiblement américain. Les quatre
-            de ses films qu&apos;on a vus à Lyon montrent déjà les différents
-            bouts par lesquels il a cherché à analyser ce pays&nbsp;: Hollywood
-            (<i className="italic">The Player</i>) et plus généralement Los
-            Angeles (<i className="italic">Short Cuts</i>), la Grande Dépression
-            (<i className="italic">Nous sommes tous des voleurs</i>) et la
-            conquête de l&apos;ouest (<i className="italic">John McCabe</i>).
+            <Link className="underline" href="/film/mash-1970">
+              M*A*S*H
+            </Link>{" "}
+            en 1970 à{" "}
+            <Link className="underline" href="/film/gosford-park-2001">
+              M*A*S*H
+            </Link>{" "}
+            en 2001) était donc historique. Des réalisateurs du Nouvel
+            Hollywood, Altman est peut-être celui dont les cinéastes américains
+            contemporains se revendiquent le plus ouvertement (à commencer
+            évidemment par Paul Thomas Anderson). Il demeure cependant
+            relativement peu connu en France et revoir certains de ses films
+            permet de mesurer combien Altman est resté, sans doute plus que ses
+            pairs (Coppola, Spielberg ou Scorsese), un réalisateur
+            irréductiblement américain. Les quatre de ses films qu&apos;on a vus
+            à Lyon montrent déjà les différents bouts par lesquels il a cherché
+            à analyser ce pays&nbsp;: Hollywood (
+            <Link className="underline" href="/film/the-player-1992">
+              The player
+            </Link>
+            ) et plus généralement Los Angeles (
+            <Link className="underline" href="/film/short-cuts-1993">
+              Short Cuts
+            </Link>
+            ), la Grande Dépression (
+            <Link className="underline" href="/film/tous-voleurs-1974">
+              Nous sommes tous des voleurs
+            </Link>
+            ) et la conquête de l&apos;(
+            <Link className="underline" href="/film/ouest john-mccabe-1971">
+              John McCabe
+            </Link>
+            ).
           </BodyCopy>
-        </MiddleColumnSection>
+        </MiddleColumn>
         <MiddleColumnImageAndRightColumnCaption
           image={altman}
           alt="John McCage"
@@ -272,11 +338,13 @@ export default function Lumiere2023() {
             </>
           }
         />
-        <MiddleColumnSection>
+        <MiddleColumn>
           <BodyCopy>
             Le visionnage de{" "}
             <strong>
-              <i className="italic">John McCabe</i>
+              <Link className="underline" href="/film/ouest john-mccabe-1971">
+                John McCabe
+              </Link>
             </strong>{" "}
             fut peut-être l&apos;expérience la plus éclatante du festival.
             Prenant le contrepied formel de la grande tradition du western
@@ -285,10 +353,13 @@ export default function Lumiere2023() {
             récit n&apos;est pas particulièrement beau. Niché entre des arbres,
             on y est claustrophobe même en extérieur. On l&apos;est encore plus
             dans le bordel et le saloon où l&apos;on passe la majeure partie du
-            film. Récit de fondation, <i className="italic">John McCabe</i> fait
-            état d&apos;un désenchantement immédiat. Le personnage apparaît au
-            début du film comme l&apos;incarnation de la figure charismatique et
-            mystérieuse dont le genre est particulièrement friand. Mais ce
+            film. Récit de fondation,{" "}
+            <Link className="underline" href="/film/ouest john-mccabe-1971">
+              John McCabe
+            </Link>{" "}
+            fait état d&apos;un désenchantement immédiat. Le personnage apparaît
+            au début du film comme l&apos;incarnation de la figure charismatique
+            et mystérieuse dont le genre est particulièrement friand. Mais ce
             n&apos;est que pour mieux révéler ses bassesses et sa veule
             insignifiance tout de suite après. Le grand rêve entrepreneurial sur
             lequel les États-Unis se targuent d&apos;être fondé est très
@@ -297,18 +368,21 @@ export default function Lumiere2023() {
             d&apos;autres. Le film confirme en tout cas que l&apos;effronterie
             altmanienne n&apos;a pas pris la moindre ride.
           </BodyCopy>
-        </MiddleColumnSection>
+        </MiddleColumn>
         <MiddleColumnImageAndRightColumnCaption
           image={lyon}
           alt="Lyon"
           caption={<>Lyon, la vraie Ville Lumière&nbsp;?</>}
         />
-        <MiddleColumnSection>
+        <MiddleColumn>
           <BodyCopy>
             En guise de conclusion, un dernier petit souvenir absolument
             inoubliable du festival&nbsp;: le visionnage de{" "}
             <strong>
-              <i className="italic">Maine-Océan</i> de Jacques Rozier
+              <Link className="underline" href="/film/maine-ocean-1986">
+                Maine Océan
+              </Link>{" "}
+              de Jacques Rozier
             </strong>
             . Le film était projeté en forme d&apos;hommage à l&apos;intempestif
             réalisateur français décédé au début de l&apos;été. On y retrouve
@@ -321,7 +395,7 @@ export default function Lumiere2023() {
             l&apos;exploitation de vieux films en salles n&apos;a pas dit son
             dernier mot&nbsp;!
           </BodyCopy>
-        </MiddleColumnSection>
+        </MiddleColumn>
       </ThreeColumnLayout>
     </>
   );

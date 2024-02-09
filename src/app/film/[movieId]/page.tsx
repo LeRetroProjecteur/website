@@ -1,12 +1,8 @@
 import { Metadata } from "next";
-import { Suspense } from "react";
 
 import { getMovie } from "@/lib/movies";
 
 import Film from "./film";
-
-export const dynamic = "force-static";
-export const revalidate = 1;
 
 export async function generateMetadata({
   params: { movieId },
@@ -25,11 +21,7 @@ export default function FilmPage({
 }: {
   params: { movieId: string };
 }) {
-  return (
-    <Suspense fallback={<></>}>
-      <FilmPageLoader movieId={movieId} />
-    </Suspense>
-  );
+  return <FilmPageLoader movieId={movieId} />;
 }
 
 async function FilmPageLoader({ movieId }: { movieId: string }) {

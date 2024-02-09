@@ -22,7 +22,7 @@ import {
   getImageUrl,
   getReviewSortKey,
   isCoupDeCoeur,
-  movie_info_containsFilteringTerm,
+  movieInfoContainsFilteringTerm,
   safeDate,
 } from "@/lib/util";
 
@@ -49,7 +49,7 @@ export default function CoupsDeCoeur({
 
   return (
     <>
-      <PageHeader text="coups de coeur">
+      <PageHeader text="coups de cœur">
         <SubHeader display={display} toggleDisplay={toggleDisplay} />
       </PageHeader>
       <div className="flex grow flex-col lg:pl-20px">
@@ -110,7 +110,7 @@ function Reviews({
       filter === ""
         ? reviews
         : reviews.filter((review) =>
-            movie_info_containsFilteringTerm(review, filter),
+            movieInfoContainsFilteringTerm(review, filter),
           ),
     [filter, reviews],
   );

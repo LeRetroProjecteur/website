@@ -40,7 +40,7 @@ export default function RetroInput({
         {
           "bg-retro-pale-green": !(blue ?? false),
           "bg-retro-blue": blue,
-          "text-15px font-medium uppercase leading-25px lg:text-20px lg:leading-21px":
+          "text-17px font-medium uppercase leading-25px lg:text-20px lg:leading-21px":
             !(customTypography ?? false),
           "placeholder:text-center": !(leftAlignPlaceholder ?? false),
           "placeholder:text-left": leftAlignPlaceholder,
@@ -48,9 +48,9 @@ export default function RetroInput({
           "placeholder:text-retro-gray-transparent": transparentPlaceholder,
           "text-retro-black": !(grayText ?? false),
           "text-retro-gray": grayText,
-          "h-33px lg:h-48px": !(customHeight ?? false),
+          "h-42px lg:h-48px": !(customHeight ?? false),
         },
-        "grow border py-1px focus:border-retro-gray focus:outline-0 focus:ring-0 focus:placeholder:opacity-0 ",
+        "flex grow items-center border focus:border-retro-gray focus:outline-0 focus:ring-0 focus:placeholder:opacity-0 ",
       )}
       onChange={onChange}
       value={value}
