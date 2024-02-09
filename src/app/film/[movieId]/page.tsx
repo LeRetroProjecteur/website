@@ -1,4 +1,3 @@
-import { SuspenseWithLoading } from "@/components/icons/loading";
 import { getMovie } from "@/lib/movies";
 
 import Film from "./film";
@@ -8,13 +7,7 @@ export default function FilmPage({
 }: {
   params: { movieId: string };
 }) {
-  return (
-    <div className="flex grow flex-col">
-      <SuspenseWithLoading grow>
-        <FilmPageLoader movieId={movieId} />
-      </SuspenseWithLoading>
-    </div>
-  );
+  return <FilmPageLoader movieId={movieId} />;
 }
 
 async function FilmPageLoader({ movieId }: { movieId: string }) {
