@@ -1,12 +1,14 @@
 "use client";
 
 import { useCallback, useState } from "react";
+import { useWindowSize } from "usehooks-ts";
 
 import DateSelector from "@/app/(calendrier)/date-selector";
 import QuartierSelector from "@/app/(calendrier)/quartier-selector";
 import TimeSlider from "@/app/(calendrier)/time-slider";
 import PageHeader from "@/components/layout/page-header";
 import { Movie, MovieWithShowtimesByDay } from "@/lib/types";
+import { getBreakpoint } from "@/lib/util";
 
 import MovieTable from "./movie-table";
 import QuartierSelectorToggler from "./quartier-selector-toggler";
@@ -22,6 +24,7 @@ export default function Calendrier({
   title?: string;
 }) {
   const [isQuartierSelectorOpen, setQuartierSelectorOpen] = useState(false);
+  const { width } = useWindowSize();
 
   const toggleQuartierSelectorOpen = useCallback(
     () => setQuartierSelectorOpen(!isQuartierSelectorOpen),
@@ -51,8 +54,8 @@ export default function Calendrier({
               isOpen={isQuartierSelectorOpen}
             />
           </div>
-          {isQuartierSelectorOpen && (
-            <div className="flex pt-8px lg:hidden">
+          {isQuartierSelectorOpen && width < getBreakpoint("lg") && (
+            <div className="flex pt-8px">
               <QuartierSelector close={closeQuartierSelector} />{" "}
             </div>
           )}
@@ -60,8 +63,8 @@ export default function Calendrier({
             <Search />
           </div>
         </div>
-        {isQuartierSelectorOpen && (
-          <div className="hidden lg:flex lg:pt-20px">
+        {isQuartierSelectorOpen && width >= getBreakpoint("lg") && (
+          <div className="flex lg:pt-20px">
             <QuartierSelector close={closeQuartierSelector} />
           </div>
         )}
