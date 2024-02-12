@@ -1,7 +1,9 @@
 "use client";
 
+import { DateTime } from "luxon";
 import { useCallback } from "react";
 
+// Import luxon DateTime library
 import { LeftArrow, RightArrow } from "@/components/icons/arrows";
 import { SousTitre1 } from "@/components/typography/typography";
 import { useCalendrierStore } from "@/lib/calendrier-store";
@@ -19,14 +21,19 @@ export default function DateSelector() {
     setDate(date.plus({ days: 1 }));
   }, [date, setDate]);
 
+  const today = DateTime.now().startOf("day");
+  const isFutureDate = date > today; // C
+
   return (
-    <>
-      <div
-        onClick={onClickLeft}
-        className="flex grow cursor-pointer justify-end pr-5px"
-      >
-        <LeftArrow />
-      </div>
+    <div className="flex items-center justify-center">
+      {isFutureDate && ( // Render LeftArrow only if the selected date is greater than today
+        <div
+          onClick={onClickLeft}
+          className="flex grow cursor-pointer justify-end pr-5px"
+        >
+          <LeftArrow />
+        </div>
+      )}
       <div>
         <SousTitre1>{formatLundi1Janvier(date)}</SousTitre1>
       </div>
@@ -36,6 +43,6 @@ export default function DateSelector() {
       >
         <RightArrow />
       </div>
-    </>
+    </div>
   );
 }
