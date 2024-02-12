@@ -10,6 +10,7 @@ import RetroInput from "../forms/retro-input";
 export default function Newsletter() {
   const isOpen = useNewsletterStore((s) => s.isOpen);
   const [email, setEmail] = useState("");
+  const [how, setHow] = useState("");
 
   useEffect(() => {
     const listener = (e: KeyboardEvent) => {
@@ -32,8 +33,8 @@ export default function Newsletter() {
           <div className="flex flex-col gap-20px">
             <div className="bg-retro-blue px-20px pb-20px">
               <div className="relative flex items-center justify-center border-b">
-                <div className="text-center text-22px font-medium uppercase leading-54px text-retro-gray">
-                  up close
+                <div className="py-10px text-center text-22px font-medium uppercase text-retro-gray">
+                  « Up Close »
                 </div>
                 <div
                   className="absolute right-0 cursor-pointer"
@@ -63,13 +64,13 @@ export default function Newsletter() {
                   </svg>
                 </div>
               </div>
-              <div className="border-b py-18px text-center font-degular text-71px font-extrabold uppercase leading-58px tracking-[0.01em] text-retro-gray">
+              <div className="border-b px-1px py-18px text-center font-degular text-71px font-extrabold uppercase leading-58px tracking-[0.01em] text-retro-gray">
                 S&apos;INSCRIRE
-                <br />À LA
+                <br />À NOTRE
                 <br />
                 NEWSLETTER
               </div>
-              <div className="flex justify-center pb-10px pt-20px">
+              <div className="flex flex-col justify-center gap-10px pb-10px pt-20px">
                 <RetroInput
                   blue
                   value={email}
@@ -77,6 +78,13 @@ export default function Newsletter() {
                   name="EMAIL"
                   placeholder="adresse@mail.com"
                   grayText
+                />
+                <RetroInput
+                  blue
+                  value={how}
+                  setValue={setHow}
+                  name="MMERGE1"
+                  placeholder="Comment nous connaissez-vous ?"
                 />
               </div>
               <div className="flex">
@@ -87,9 +95,9 @@ export default function Newsletter() {
                   onClick={closeNewsLetter}
                 />
               </div>
-              <div className="pt-15px text-center text-18px font-medium uppercase leading-25px text-retro-gray">
+              <div className="pt-15px text-center text-20px font-medium uppercase leading-25px text-retro-gray underline">
                 <Link href="/newsletter" onClick={closeNewsLetter}>
-                  Plus d’informations
+                  En savoir plus
                 </Link>
               </div>
             </div>
