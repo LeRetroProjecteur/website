@@ -38,7 +38,7 @@ export default function Seances({
   const needsExpanding = useMemo(
     () =>
       sortedTheaters.length > 3 ||
-      some(sortedTheaters, (theater) => theater.showtimes.length > 3),
+      some(sortedTheaters, (theater) => theater.showtimes.length > 6),
     [sortedTheaters],
   );
 
@@ -104,7 +104,7 @@ export function SeancesTheater({
     sortBy(
       take(
         showtimesTheater.showtimes,
-        isExpanded ? showtimesTheater.showtimes.length : 3,
+        isExpanded ? showtimesTheater.showtimes.length : 6,
       ),
     ),
     timesPerLine ?? 3,
