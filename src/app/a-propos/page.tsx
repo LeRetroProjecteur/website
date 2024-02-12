@@ -13,7 +13,7 @@ import {
 import coupDeCoeur from "../../assets/coup-de-coeur.png";
 
 export const metadata: Metadata = {
-  title: "A propos | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+  title: "À propos | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
 };
 
 export default function AProposPage() {
