@@ -24,7 +24,8 @@ export default function Footer() {
         </div>
         <div className="pt-25px text-center lg:pt-0 lg:text-left">
           <FooterCopy>
-            <Link href="/admin">©</Link> Le Rétro Projecteur 2021–2024
+            <Link href="/admin/tous-les-films">©</Link> Le Rétro Projecteur
+            2021–2024
             <br />
             Designé par{" "}
             <a
