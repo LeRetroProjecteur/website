@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { MutableRefObject, useCallback, useRef, useState } from "react";
 import { useWindowSize } from "usehooks-ts";
 
 import DateSelector from "@/app/(calendrier)/date-selector";
@@ -23,6 +23,7 @@ export default function Calendrier({
   allMovies?: boolean;
   title?: string;
 }) {
+  const togglerRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
   const [isQuartierSelectorOpen, setQuartierSelectorOpen] = useState(false);
   const { width } = useWindowSize();
 
@@ -32,7 +33,12 @@ export default function Calendrier({
   );
 
   const closeQuartierSelector = useCallback(
-    () => setQuartierSelectorOpen(false),
+    (e: MouseEvent) => {
+      const toggler = togglerRef.current;
+      if (toggler != null && !toggler.contains(e.target as unknown as Node)) {
+        setQuartierSelectorOpen(false);
+      }
+    },
     [setQuartierSelectorOpen],
   );
 
@@ -50,6 +56,7 @@ export default function Calendrier({
         <div className="flex flex-col lg:flex-row">
           <div className="flex lg:pr-20px">
             <QuartierSelectorToggler
+              togglerRef={togglerRef}
               toggleOpen={toggleQuartierSelectorOpen}
               isOpen={isQuartierSelectorOpen}
             />
