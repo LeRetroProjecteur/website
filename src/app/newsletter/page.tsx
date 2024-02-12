@@ -12,9 +12,9 @@ export const metadata: Metadata = {
 export default function AProposPage() {
   return (
     <>
-      <PageHeader text="newsletter">
+      <PageHeader text="«&nbsp;Up Close&nbsp;»">
         <SousTitre1 className="text-center lg:text-left">
-          up close, la newsletter du rétro
+          Abonnez-vous à notre newsletter hebdomadaire&nbsp;!
         </SousTitre1>
       </PageHeader>
       <NewsletterPage />
