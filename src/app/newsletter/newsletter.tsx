@@ -1,15 +1,10 @@
 "use client";
 
-import { Metadata } from "next";
 import { useState } from "react";
 
 import RetroInput from "@/components/forms/retro-input";
 import { TwoColumnPage } from "@/components/layout/two-column-page";
 import { BodyCopy } from "@/components/typography/typography";
-
-export const metadata: Metadata = {
-  title: "Newsletter | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
-};
 
 export default function NewsletterPage() {
   return <TwoColumnPage left={<Description />} right={<SignupForm />} />;
