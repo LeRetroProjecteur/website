@@ -10,7 +10,7 @@ import { MouseEvent, ReactNode, useCallback, useEffect } from "react";
 import { useCalendrierStore } from "@/lib/calendrier-store";
 import { closeMenu } from "@/lib/menu-store";
 
-import logoCarre from "../../assets/logo-carre.png";
+import logoCarre from "../../assets/logo-carre.gif";
 import FooterLinks from "../layout/footer-links";
 
 const menu: [JSX.Element, string][] = [
