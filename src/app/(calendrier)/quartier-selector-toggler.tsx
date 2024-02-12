@@ -1,16 +1,21 @@
 "use client";
 
+import { MutableRefObject } from "react";
+
 import { ButtonCopy } from "@/components/typography/typography";
 
 export default function QuartierSelectorToggler({
   isOpen,
   toggleOpen,
+  togglerRef,
 }: {
   isOpen: boolean;
   toggleOpen: () => void;
+  togglerRef: MutableRefObject<HTMLDivElement | null>;
 }) {
   return (
     <div
+      ref={togglerRef}
       className="flex h-42px grow cursor-pointer items-center justify-center border lg:h-48px lg:w-278px "
       onClick={toggleOpen}
     >

@@ -2,8 +2,10 @@ import { every, padStart, some } from "lodash-es";
 import { DateTime } from "luxon";
 import Image from "next/image";
 import { ComponentProps, useMemo } from "react";
+import resolveConfig from "tailwindcss/resolveConfig";
 import { useWindowSize } from "usehooks-ts";
 
+import tailwindConfig from "../../tailwind.config";
 import {
   Movie,
   MovieInfo,
@@ -11,6 +13,8 @@ import {
   MovieWithShowtimesByDay,
   Review,
 } from "./types";
+
+const resolvedTailwindConfig = resolveConfig(tailwindConfig);
 
 export function isCoupDeCoeur({ category }: { category?: string }) {
   return category === "COUP DE CŒUR";
@@ -160,8 +164,8 @@ export function useIsMobile() {
 export const fetcher = (...args: Parameters<typeof fetch>) =>
   fetch(...args).then((res) => res.json());
 
-export function getMovieTags({ tags }: { tags: string }) {
-  return Array.from(tags.matchAll(/#([^\s]+)/g)).map(([_, tag]) => tag);
+export function getMovieTags({ tags }: { tags?: string }) {
+  return Array.from((tags ?? "").matchAll(/#([^\s]+)/g)).map(([_, tag]) => tag);
 }
 
 export const TAG_MAP: Record<string, string> = {
@@ -203,4 +207,15 @@ export function isMoviesWithShowtimesByDay(
   movies: Movie[] | MovieWithShowtimesByDay[],
 ): movies is MovieWithShowtimesByDay[] {
   return some(movies, isMovieWithShowtimesByDay);
+}
+
+export function getBreakpoint(breakpointName: string) {
+  const breakpointString = (
+    checkNotNull(resolvedTailwindConfig.theme?.screens) as Record<
+      string,
+      string
+    >
+  )[breakpointName];
+  const [_, breakpoint] = checkNotNull(breakpointString.match(/^([0-9]+)px$/));
+  return Number(breakpoint);
 }
