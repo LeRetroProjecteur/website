@@ -104,10 +104,10 @@ export function SeancesTheater({
     sortBy(
       take(
         showtimesTheater.showtimes,
-        isExpanded ? showtimesTheater.showtimes.length : 3,
+        isExpanded ? showtimesTheater.showtimes.length : 4,
       ),
     ),
-    timesPerLine ?? 3,
+    timesPerLine ?? 4,
   );
 
   return (
