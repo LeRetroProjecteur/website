@@ -73,7 +73,7 @@ const suisse = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Calendrier | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+  title: "Le Rétro Projecteur - Cinéma de patrimoine à Paris",
   description:
     "Venez découvrir toutes les ressorties de films dans les salles parisiennes.",
   metadataBase: new URL("https://leretroprojecteur-beta.fly.dev/"),
