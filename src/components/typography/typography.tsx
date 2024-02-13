@@ -3,9 +3,9 @@ import { ReactNode } from "react";
 
 export function Titre({ children }: { children: ReactNode }) {
   return (
-    <div className="font-degular text-51px font-black uppercase leading-34px tracking-[0.01em] text-retro-gray lg:text-95px lg:leading-60px">
+    <h1 className="font-degular text-51px font-black uppercase leading-34px tracking-[0.01em] text-retro-gray lg:text-95px lg:leading-60px">
       {children}
-    </div>
+    </h1>
   );
 }
 
@@ -17,14 +17,14 @@ export function SousTitre1({
   className?: string;
 }) {
   return (
-    <div
+    <h2
       className={clsx(
         className,
         "text-21px font-semibold uppercase leading-25px tracking-[-0.01em] text-retro-gray lg:text-29px lg:font-medium lg:leading-31px",
       )}
     >
       {children}
-    </div>
+    </h2>
   );
 }
 
