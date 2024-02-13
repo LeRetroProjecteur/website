@@ -47,7 +47,7 @@ function SignupForm() {
         value={email}
         setValue={setEmail}
         name="EMAIL"
-        placeholder="adresse@mail.com*"
+        placeholder="adresse@mail.com"
       />
       <RetroInput
         value={how}
@@ -60,9 +60,6 @@ function SignupForm() {
         value="s'inscrire"
         className="h-42px cursor-pointer border bg-retro-gray text-center text-15px font-medium uppercase text-white hover:bg-white hover:text-retro-gray lg:h-48px lg:text-20px"
       />
-      <div className="font-medium leading-20px text-retro-gray">
-        *champ obligatoire
-      </div>
     </form>
   );
 }
