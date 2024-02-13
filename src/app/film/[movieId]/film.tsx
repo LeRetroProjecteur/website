@@ -129,6 +129,12 @@ function MovieInformation({ movie }: { movie: MovieDetail }) {
           ) : (
             <div>Distribué par {movie.distributor}</div>
           )}
+          {movie.actors == null ? (
+            ""
+          ) : (
+            <div>Interprètes&nbsp;: {movie.actors}</div>
+          )}
+          {movie.genre == null ? "" : <div>Genre&nbsp;: {movie["genre"]}</div>}
         </MetaCopy>
       </div>
     </>
