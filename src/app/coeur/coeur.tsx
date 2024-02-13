@@ -22,7 +22,7 @@ import {
   getImageUrl,
   getReviewSortKey,
   isCoupDeCoeur,
-  movie_info_containsFilteringTerm,
+  movieInfoContainsFilteringTerm,
   safeDate,
 } from "@/lib/util";
 
@@ -110,7 +110,7 @@ function Reviews({
       filter === ""
         ? reviews
         : reviews.filter((review) =>
-            movie_info_containsFilteringTerm(review, filter),
+            movieInfoContainsFilteringTerm(review, filter),
           ),
     [filter, reviews],
   );

@@ -10,7 +10,7 @@ import { MouseEvent, ReactNode, useCallback, useEffect } from "react";
 import { useCalendrierStore } from "@/lib/calendrier-store";
 import { closeMenu } from "@/lib/menu-store";
 
-import logoCarre from "../../assets/logo-carre.png";
+import logoCarre from "../../assets/logo-carre.gif";
 import FooterLinks from "../layout/footer-links";
 
 const menu: [JSX.Element, string][] = [
@@ -47,7 +47,7 @@ export default function Menu() {
   }, []);
 
   return (
-    <div className="flex grow flex-col px-15px lg:justify-between lg:border-r lg:pl-0 lg:pr-20px">
+    <div className="flex grow flex-col px-10px sm:px-15px lg:justify-between lg:border-r lg:pl-0 lg:pr-20px">
       <div className="flex grow flex-col lg:grow-0">
         <div className="flex justify-center py-18px lg:hidden">
           <div className="cursor-pointer" onClick={closeMenu}>

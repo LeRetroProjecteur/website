@@ -10,6 +10,15 @@ export interface MovieWithNoShowtimes {
   category?: string;
 }
 
+export interface MovieInfo {
+  language?: string;
+  title: string;
+  original_title?: string;
+  directors: string;
+  countries?: string;
+  tags?: string;
+}
+
 export interface Movie extends MovieWithNoShowtimes {
   showtimes_theater: ShowtimesTheater[];
 }
@@ -47,10 +56,10 @@ export interface Review {
 
 export interface MovieDetail {
   // Movie information
-  actors: string;
+  actors?: string;
   countries: string;
   directors: string;
-  distributor: string;
+  distributor?: string;
   duration: string;
   genre?: string;
   id: string;
@@ -58,7 +67,7 @@ export interface MovieDetail {
   original_title: string;
   screenings: { [date: string]: ShowtimesTheater[] };
   screenwriters: string;
-  tags: string;
+  tags?: string;
   title: string;
   year: string;
   // Review information

@@ -33,17 +33,14 @@ export default function Film({ movie }: { movie: MovieDetail }) {
       <TwoColumnPage
         left={
           <>
-            <MovieEssentials movie={movie} />
-            <br />
-            <MovieScreenings movie={movie} />
-            <br />
+            <MovieReview movie={movie} />
+            <MovieInformation movie={movie} />
           </>
         }
         right={
           <>
-            <MovieInformation movie={movie} />
+            <MovieScreenings movie={movie} />
             <Tags movie={movie} />
-            <MovieReview movie={movie} />
           </>
         }
       />
@@ -57,30 +54,6 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
       <SousTitre1>
         <u>{movie.title}</u>, {movie.directors} ({movie.year})
       </SousTitre1>
-      <MetaCopy>
-        {movie.duration != null ? (
-          <div>{Math.floor(parseInt(movie.duration) / 60)} min</div>
-        ) : (
-          ""
-        )}
-      </MetaCopy>
-    </div>
-  );
-}
-
-function MovieEssentials({ movie }: { movie: MovieDetail }) {
-  return (
-    <div className="text-center">
-      <MetaCopy>
-        <span>
-          Titre original : <i>{movie.original_title}</i>
-        </span>
-        {movie.duration != null ? (
-          <span> • {Math.floor(parseInt(movie.duration) / 60)} min</span>
-        ) : (
-          ""
-        )}
-      </MetaCopy>
     </div>
   );
 }
@@ -126,51 +99,40 @@ function MovieReview({ movie }: { movie: MovieDetail }) {
 function MovieInformation({ movie }: { movie: MovieDetail }) {
   return (
     <>
-      <div className="flex justify-center border-y bg-retro-pale-green py-13px text-center lg:px-20px lg:py-16px">
-        <SousTitre2>Fiche technique</SousTitre2>
-      </div>
-      <div className="flex border-b py-20px lg:py-20px">
-        <BodyCopy>
+      <div className="flex pb-20px lg:border-y lg:py-20px">
+        <MetaCopy>
           <div>
-            <strong>Titre original&nbsp;:</strong> <i>{movie.original_title}</i>
+            Titre original&nbsp;: <i>{movie.original_title}</i>
           </div>
           {movie.duration == null ? (
             "Durée inconnue"
           ) : (
             <div>
-              <strong>Durée&nbsp;:</strong>{" "}
-              {Math.floor(parseInt(movie.duration) / 60)} minutes
+              Durée&nbsp;: {Math.floor(parseInt(movie.duration) / 60)} minutes
             </div>
           )}
           {movie.language == null ? (
             ""
           ) : (
-            <div>
-              <strong>Langue&nbsp;:</strong> {movie.language}
-            </div>
+            <div>Langue&nbsp;: {movie.language}</div>
           )}
           {movie.screenwriters == null ? (
             ""
           ) : (
-            <div>
-              <strong>Scénario&nbsp;:</strong> {movie.screenwriters}
-            </div>
+            <div>Scénario&nbsp;: {movie.screenwriters}</div>
           )}
           {movie.countries == null ? (
             ""
           ) : (
-            <div>
-              <strong>Pays&nbsp;:</strong> {movie.countries}
-            </div>
+            <div>Pays&nbsp;: {movie.countries}</div>
           )}
           {movie.distributor == null ? (
             ""
           ) : (
-            <div>
-              <strong>Distribution :</strong> {movie.distributor}
-            </div>
+            <div>Distribution&nbsp;: {movie.distributor}</div>
           )}
-        </BodyCopy>
+          {movie.genre == null ? "" : <div>Genre&nbsp;: {movie["genre"]}</div>}
+        </MetaCopy>
       </div>
     </>
   );

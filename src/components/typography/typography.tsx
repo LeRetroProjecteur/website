@@ -90,7 +90,7 @@ export function BodyCopy({
     <div
       className={clsx(
         className,
-        "text-15px font-medium leading-20px text-retro-black lg:text-16px lg:leading-22px",
+        "text-15px font-medium leading-20px text-retro-black lg:text-16px lg:leading-23px",
       )}
     >
       {children}

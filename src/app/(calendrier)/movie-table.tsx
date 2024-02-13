@@ -36,7 +36,7 @@ import {
   isCoupDeCoeur,
   isMovieWithShowtimesByDay,
   isMoviesWithShowtimesByDay,
-  movie_info_containsFilteringTerm,
+  movieInfoContainsFilteringTerm,
   nowInParis,
   safeDate,
 } from "@/lib/util";
@@ -261,6 +261,7 @@ function MultiDaySeances({ movie }: { movie: MovieWithShowtimesByDay }) {
               <SeancesTheater
                 showtimesTheater={theater}
                 key={theater.clean_name}
+                isExpanded={false}
               />
             ))}
           </div>
@@ -321,7 +322,7 @@ function filterAndSortMovies(
         .filter((movie) => movie.showtimes_theater.length > 0);
 
   const filteredMovies = moviesWithFilteredShowtimes.filter(
-    (movie) => filter == "" || movie_info_containsFilteringTerm(movie, filter),
+    (movie) => filter == "" || movieInfoContainsFilteringTerm(movie, filter),
   );
 
   const sortedFilteredMovies = sortBy(filteredMovies, (movie) => [

@@ -6,7 +6,7 @@ import CoupsDeCoeur from "./coeur";
 
 export const dynamic = "force-dynamic";
 
-export default async function CoupsDeCoeurPage() {
+export default function CoupsDeCoeurPage() {
   const reviews = getReviewedMovies();
   const cdcDisplay = (cookies().get("cdc-display")?.value ?? "thumbnails") as
     | "thumbnails"

@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { sortBy, take, uniqBy } from "lodash-es";
+import { some, sortBy, take, uniqBy } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
 
 import { ShowtimesTheater } from "@/lib/types";
@@ -38,8 +38,7 @@ export default function Seances({
   const needsExpanding = useMemo(
     () =>
       sortedTheaters.length > 3 ||
-      sortedTheaters.reduce((total, curr) => total + curr.showtimes.length, 0) >
-        6,
+      some(sortedTheaters, (theater) => theater.showtimes.length > 3),
     [sortedTheaters],
   );
 
@@ -56,6 +55,7 @@ export default function Seances({
           <SeancesTheater
             showtimesTheater={theater}
             key={theater.clean_name}
+            isExpanded={isExpanded}
             timesPerLine={timesPerLine}
           />
         ),
@@ -71,23 +71,51 @@ export default function Seances({
   );
 }
 
+function transformZipcode(inZip: string) {
+  if (inZip.substring(inZip.length - 3) == "ème") {
+    return (
+      <span>
+        {inZip.replace("ème", "")}
+        <sup>e</sup>
+      </span>
+    );
+  } else if (inZip.substring(inZip.length - 2) == "er") {
+    return (
+      <span>
+        {inZip.replace("er", "")}
+        <sup>er</sup>
+      </span>
+    );
+  } else {
+    return <span>{inZip}</span>;
+  }
+}
+
 export function SeancesTheater({
   showtimesTheater,
   timesPerLine,
+  isExpanded,
 }: {
   showtimesTheater: ShowtimesTheater;
   timesPerLine?: number;
+  isExpanded: boolean;
 }) {
   const lineGroups = splitIntoSubArrays(
-    sortBy(showtimesTheater.showtimes),
+    sortBy(
+      take(
+        showtimesTheater.showtimes,
+        isExpanded ? showtimesTheater.showtimes.length : 3,
+      ),
+    ),
     timesPerLine ?? 3,
   );
 
   return (
     <div className="flex justify-between" key={showtimesTheater.clean_name}>
-      <div className="w-min grow pr-20px">
+      <div className="w-min grow pr-10px">
         <CalendrierCopy>
-          {showtimesTheater.clean_name} ({showtimesTheater.zipcode_clean})
+          {showtimesTheater.clean_name} (
+          {transformZipcode(showtimesTheater.zipcode_clean)})
         </CalendrierCopy>
       </div>
       <div className="flex flex-col">

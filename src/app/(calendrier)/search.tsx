@@ -8,6 +8,10 @@ export default function Search() {
   const setFilter = useCalendrierStore((s) => s.setFilter);
 
   return (
-    <RetroInput setValue={setFilter} value={filter} placeholder="recherche" />
+    <RetroInput
+      setValue={setFilter}
+      value={filter}
+      placeholder="Réalisateur, pays, titre..."
+    />
   );
 }
