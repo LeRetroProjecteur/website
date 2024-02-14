@@ -31,13 +31,13 @@ function SignupForm() {
       action="https://leretroprojecteur.us6.list-manage.com/subscribe/post?u=00a9245e71d3375ef4542a588&amp;id=3270cdb251&amp;f_id=00e804e3f0"
       method="post"
       target="_blank"
-      className="flex flex-col gap-10px lg:gap-15px"
+      className="flex flex-col gap-10px pb-10px lg:gap-15px lg:pb-0"
     >
       <RetroInput
         value={email}
         setValue={setEmail}
         name="EMAIL"
-        placeholder="adresse@mail.com*"
+        placeholder="adresse@mail.com"
       />
       <RetroInput
         value={how}
@@ -50,9 +50,6 @@ function SignupForm() {
         value="s'inscrire"
         className="h-42px cursor-pointer border bg-retro-gray text-center text-15px font-medium uppercase text-white hover:bg-white hover:text-retro-gray lg:h-48px lg:text-20px"
       />
-      <div className="font-medium leading-20px text-retro-gray">
-        *champ obligatoire
-      </div>
     </form>
   );
 }
