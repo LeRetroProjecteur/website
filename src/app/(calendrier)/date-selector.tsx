@@ -32,7 +32,7 @@ export default function DateSelector() {
           <LeftArrow />
         </div>
       ) : (
-        <div className="flex grow justify-end pr-5px" />
+        <div className="grow" />
       )}
       <div>
         <SousTitre1 className={canGoBackInTime ? "ml-5px" : ""}>
