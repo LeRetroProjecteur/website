@@ -27,7 +27,7 @@ export function TwoColumnPage({
         <div className="flex flex-col lg:w-1/2 lg:pl-20px">{right}</div>
       </div>
       {children}
-      <div className="min-h-100px w-1/2 grow lg:border-r" />
+      <div className="min-h-100px w-1/2 grow border-r" />
     </div>
   );
 }

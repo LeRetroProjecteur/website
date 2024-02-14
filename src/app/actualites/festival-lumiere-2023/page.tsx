@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import Link from "next/link";
 
 import PageHeader from "@/components/layout/page-header";
@@ -16,7 +17,12 @@ import lyon from "./img/lyon.jpeg";
 import mareeNoire from "./img/maree_noire.jpg";
 import ozuRay from "./img/ozu-ray.jpg";
 
-export default function Top2022() {
+export const metadata: Metadata = {
+  title:
+    "Retour sur le Festival Lumière 2023 | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+};
+
+export default function Lumiere2023() {
   return (
     <>
       <PageHeader text="actualités">
