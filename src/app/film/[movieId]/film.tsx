@@ -100,7 +100,7 @@ function MovieInformation({ movie }: { movie: MovieDetail }) {
   return (
     <>
       <div className="flex pb-20px lg:border-y lg:py-20px">
-        <MetaCopy lowercase={true}>
+        <MetaCopy lowercase>
           {movie.duration == null ? (
             "Durée inconnue"
           ) : (
