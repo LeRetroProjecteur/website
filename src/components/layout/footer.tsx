@@ -22,7 +22,7 @@ export default function Footer() {
             </a>
           </FooterCopy>
         </div>
-        <div className="pt-25px text-center lg:pt-0 lg:text-left">
+        <div className="pt-20px text-center lg:pt-0 lg:text-left">
           <FooterCopy>
             <Link href="/admin/tous-les-films">©</Link> Le Rétro Projecteur
             2021–2024
@@ -40,7 +40,7 @@ export default function Footer() {
             Développé par jroitgrund.
           </FooterCopy>
         </div>
-        <div className="py-25px text-center lg:py-0 lg:text-left">
+        <div className="py-20px text-center lg:py-0 lg:text-left">
           <FooterCopy>
             «&nbsp;Pour le grand écran, pas la p&apos;tite lucarne&nbsp;!&nbsp;»
           </FooterCopy>
