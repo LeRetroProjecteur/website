@@ -100,38 +100,31 @@ function MovieInformation({ movie }: { movie: MovieDetail }) {
   return (
     <>
       <div className="flex pb-20px lg:border-y lg:py-20px">
-        <MetaCopy>
-          <div>
-            Titre original&nbsp;: <i>{movie.original_title}</i>
-          </div>
+        <MetaCopy lowercase={true}>
           {movie.duration == null ? (
             "Durée inconnue"
           ) : (
             <div>
-              Durée&nbsp;: {Math.floor(parseInt(movie.duration) / 60)} minutes
+              {Math.floor(parseInt(movie.duration) / 60)} min • en{" "}
+              <span className={"lowercase"}>{movie.language}</span>
             </div>
           )}
-          {movie.language == null ? (
-            ""
-          ) : (
-            <div>Langue&nbsp;: {movie.language}</div>
-          )}
-          {movie.screenwriters == null ? (
-            ""
-          ) : (
-            <div>Scénario&nbsp;: {movie.screenwriters}</div>
-          )}
+          <br />
+          <div>
+            TITRE ORIGINAL&nbsp;:{" "}
+            <i className={"uppercase"}>{movie.original_title}</i>
+          </div>
           {movie.countries == null ? (
             ""
           ) : (
-            <div>Pays&nbsp;: {movie.countries}</div>
+            <div>PAYS&nbsp;: {movie.countries}</div>
           )}
           {movie.distributor == null ? (
             ""
           ) : (
-            <div>Distribution&nbsp;: {movie.distributor}</div>
+            <div>DISTRIBUTION&nbsp;: {movie.distributor}</div>
           )}
-          {movie.genre == null ? "" : <div>Genre&nbsp;: {movie["genre"]}</div>}
+          {movie.genre == null ? "" : <div>GENRE&nbsp;: {movie["genre"]}</div>}
         </MetaCopy>
       </div>
     </>
