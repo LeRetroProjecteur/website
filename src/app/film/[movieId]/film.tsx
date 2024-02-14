@@ -105,9 +105,13 @@ function MovieInformation({ movie }: { movie: MovieDetail }) {
             "Durée inconnue"
           ) : (
             <div>
-              {Math.floor(parseInt(movie.duration) / 60)} min • en{" "}
-              <span className={"lowercase"}>{movie.language}</span>
+              DURÉE&nbsp;: {Math.floor(parseInt(movie.duration) / 60)} minutes
             </div>
+          )}
+          {movie.duration == null ? (
+            ""
+          ) : (
+            <div>LANGUE&nbsp;: {movie.language}</div>
           )}
           <br />
           <div>
@@ -124,7 +128,6 @@ function MovieInformation({ movie }: { movie: MovieDetail }) {
           ) : (
             <div>DISTRIBUTION&nbsp;: {movie.distributor}</div>
           )}
-          {movie.genre == null ? "" : <div>GENRE&nbsp;: {movie["genre"]}</div>}
         </MetaCopy>
       </div>
     </>
