@@ -261,7 +261,6 @@ function MultiDaySeances({ movie }: { movie: MovieWithShowtimesByDay }) {
               <SeancesTheater
                 showtimesTheater={theater}
                 key={theater.clean_name}
-                isExpanded={false}
               />
             ))}
           </div>

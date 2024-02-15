@@ -8,7 +8,8 @@ import {
 import { SousTitre1 } from "@/components/typography/typography";
 
 import lumiereIcon from "./festival-lumiere-2023/img/icon.jpg";
-import placeholder from "./placeholder.png";
+import top2022Icon from "./top-2022/opengraph-image.jpg";
+import top2023Icon from "./top-2023/icon.png";
 
 export const metadata: Metadata = {
   title: "Actualités | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
@@ -18,7 +19,7 @@ const chroniques = [
   {
     titre: "Top 2023 : Vos plus belles découvertes de l'année",
     slug: "top-2023",
-    image: placeholder,
+    image: top2023Icon,
     date: "22/12/2023",
     type: "retro-spective",
   },
@@ -32,7 +33,7 @@ const chroniques = [
   {
     titre: "Rétrospective 2022 — Nos meilleures séances patrimoine",
     slug: "top-2022",
-    image: placeholder,
+    image: top2022Icon,
     date: "02/01/2023",
     type: "retro-spective",
   },
