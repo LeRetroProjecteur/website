@@ -235,7 +235,7 @@ export function DayMovie({
 }) {
   return (
     <>
-      <div>
+      <div style={{ textAlign: "center" }}>
         <u>
           <span
             style={{
@@ -249,13 +249,13 @@ export function DayMovie({
           </span>
         </u>
       </div>
-      <div style={{ lineHeight: 1.5, color: "#4d4d4d" }}>
+      <div style={{ lineHeight: 1.5, color: "#4d4d4d", textAlign: "center" }}>
         <i style={{ fontWeight: 700 }}>{movie.title}</i>, {movie.directors} (
         {movie.year})
       </div>
       {showtimes.map((showtimes_theater) => (
         <div
-          style={{ lineHeight: 1.5, color: "#4d4d4d" }}
+          style={{ lineHeight: 1.5, color: "#4d4d4d", textAlign: "center" }}
           key={showtimes_theater.clean_name}
         >
           {showtimes_theater.clean_name} ({showtimes_theater.zipcode_clean}
@@ -265,7 +265,11 @@ export function DayMovie({
             .join(", ")}
         </div>
       ))}
-      {!isLast && <div style={{ lineHeight: 1.5, color: "#4d4d4d" }}>•</div>}
+      {!isLast && (
+        <div style={{ lineHeight: 1.5, color: "#4d4d4d", textAlign: "center" }}>
+          •
+        </div>
+      )}
     </>
   );
 }
