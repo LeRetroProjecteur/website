@@ -173,22 +173,25 @@ function Results({
     searchTerm.length > 0 && (
       <div className="flex grow flex-col">
         {filtered.length > 0 ? (
-          filtered.map((movie, i) => (
-            <Link
-              ref={selected === i ? selectedRef : null}
-              key={movie.id}
-              href={`/film/${movie.id}`}
-              className={clsx(
-                {
-                  "lg:bg-retro-pale-green": i === selected,
-                  "lg:even:bg-white": i !== selected,
-                },
-                "border-b py-10px pl-5px text-15px font-medium uppercase leading-20px even:bg-retro-pale-green lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0 lg:hover:bg-retro-pale-green",
-              )}
-            >
-              <u>{movie.title}</u>, {movie.directors} ({movie.year})
-            </Link>
-          ))
+          <>
+            {filtered.map((movie, i) => (
+              <Link
+                ref={selected === i ? selectedRef : null}
+                key={movie.id}
+                href={`/film/${movie.id}`}
+                className={clsx(
+                  {
+                    "lg:bg-retro-pale-green": i === selected,
+                    "lg:even:bg-white": i !== selected,
+                  },
+                  "border-b py-10px pl-5px text-15px font-medium uppercase leading-20px even:bg-retro-pale-green lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0 lg:hover:bg-retro-pale-green",
+                )}
+              >
+                <u>{movie.title}</u>, {movie.directors} ({movie.year})
+              </Link>
+            ))}
+            <div className="min-h-100px w-1/2 grow border-r lg:hidden" />
+          </>
         ) : (
           <div className="pt-15px lg:pt-20px">
             <MetaCopy>

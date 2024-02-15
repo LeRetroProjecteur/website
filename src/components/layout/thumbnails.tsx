@@ -37,8 +37,11 @@ export function ThumbnailWithBlurb({
 
 export function ThumbnailGrid({ children }: { children: ReactNode }) {
   return (
-    <div className="grid grid-cols-thumbnails-sm gap-15px lg:grid-cols-thumbnails-lg lg:gap-20px">
-      {children}
-    </div>
+    <>
+      <div className="grid grid-cols-thumbnails-sm gap-15px border-b pb-15px lg:grid-cols-thumbnails-lg lg:gap-20px lg:border-0">
+        {children}
+      </div>
+      <div className="min-h-100px w-1/2 grow border-r lg:hidden" />
+    </>
   );
 }

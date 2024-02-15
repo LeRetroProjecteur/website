@@ -63,9 +63,22 @@ export function ButtonCopy({
   );
 }
 
-export function MetaCopy({ children }: { children: ReactNode }) {
+export function MetaCopy({
+  children,
+  lowercase,
+}: {
+  children: ReactNode;
+  lowercase?: boolean;
+}) {
   return (
-    <div className="text-19px font-medium uppercase leading-21px text-retro-gray lg:text-20px lg:leading-22px lg:tracking-[-0.01em]">
+    <div
+      className={clsx(
+        {
+          uppercase: !(lowercase ?? false),
+        },
+        "text-19px font-medium leading-21px text-retro-gray lg:text-20px lg:leading-22px lg:tracking-[-0.01em]",
+      )}
+    >
       {children}
     </div>
   );
