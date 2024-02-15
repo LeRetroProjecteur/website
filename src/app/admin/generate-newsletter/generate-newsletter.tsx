@@ -153,6 +153,8 @@ export function Movies({
                       width: "50%",
                       textAlign: "center",
                       verticalAlign: "top",
+                      paddingLeft: "18px",
+                      paddingRight: "18px",
                     }}
                   >
                     <DaysMovies
@@ -166,6 +168,8 @@ export function Movies({
                       width: "50%",
                       textAlign: "center",
                       verticalAlign: "top",
+                      paddingLeft: "18px",
+                      paddingRight: "18px",
                     }}
                   >
                     <DaysMovies
