@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { some, sortBy, take, uniqBy } from "lodash-es";
+import { sortBy, take, uniqBy } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
 
 import { ShowtimesTheater } from "@/lib/types";
@@ -35,12 +35,12 @@ export default function Seances({
     [showtimes_theater],
   );
 
-  const needsExpanding = useMemo(
-    () =>
-      sortedTheaters.length > 3 ||
-      some(sortedTheaters, (theater) => theater.showtimes.length > 3),
+  const unexpandedTheaters = useMemo(
+    () => take(sortedTheaters, 3),
     [sortedTheaters],
   );
+
+  const needsExpanding = sortedTheaters.length !== unexpandedTheaters.length;
 
   return (
     <div
@@ -50,16 +50,13 @@ export default function Seances({
         "flex grow flex-col gap-10px lg:gap-5px",
       )}
     >
-      {take(sortedTheaters, isExpanded ? sortedTheaters.length : 2).map(
-        (theater) => (
-          <SeancesTheater
-            showtimesTheater={theater}
-            key={theater.clean_name}
-            isExpanded={isExpanded}
-            timesPerLine={timesPerLine}
-          />
-        ),
-      )}
+      {(isExpanded ? sortedTheaters : unexpandedTheaters).map((theater) => (
+        <SeancesTheater
+          showtimesTheater={theater}
+          key={theater.clean_name}
+          timesPerLine={timesPerLine}
+        />
+      ))}
       {needsExpanding && (
         <div className="flex justify-end">
           <CalendrierCopy className="font-semibold">
@@ -94,20 +91,13 @@ function transformZipcode(inZip: string) {
 export function SeancesTheater({
   showtimesTheater,
   timesPerLine,
-  isExpanded,
 }: {
   showtimesTheater: ShowtimesTheater;
   timesPerLine?: number;
-  isExpanded: boolean;
 }) {
   const lineGroups = splitIntoSubArrays(
-    sortBy(
-      take(
-        showtimesTheater.showtimes,
-        isExpanded ? showtimesTheater.showtimes.length : 3,
-      ),
-    ),
-    timesPerLine ?? 3,
+    sortBy(showtimesTheater.showtimes),
+    timesPerLine ?? 4,
   );
 
   return (
