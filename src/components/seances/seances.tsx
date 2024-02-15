@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { isEqual, sortBy, take, uniqBy } from "lodash-es";
+import { sortBy, take, uniqBy } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
 
 import { ShowtimesTheater } from "@/lib/types";
@@ -40,10 +40,7 @@ export default function Seances({
     [sortedTheaters],
   );
 
-  const needsExpanding = useMemo(
-    () => !isEqual(sortedTheaters, unexpandedTheaters),
-    [sortedTheaters, unexpandedTheaters],
-  );
+  const needsExpanding = sortedTheaters.length === unexpandedTheaters.length;
 
   return (
     <div
