@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { sortBy, take, uniqBy } from "lodash-es";
+import { isEqual, sortBy, take, uniqBy } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
 
 import { ShowtimesTheater } from "@/lib/types";
@@ -35,9 +35,14 @@ export default function Seances({
     [showtimes_theater],
   );
 
-  const needsExpanding = useMemo(
-    () => sortedTheaters.length > 3,
+  const unexpandedTheaters = useMemo(
+    () => take(sortedTheaters, 3),
     [sortedTheaters],
+  );
+
+  const needsExpanding = useMemo(
+    () => !isEqual(sortedTheaters, unexpandedTheaters),
+    [sortedTheaters, unexpandedTheaters],
   );
 
   return (
@@ -48,16 +53,13 @@ export default function Seances({
         "flex grow flex-col gap-10px lg:gap-5px",
       )}
     >
-      {take(sortedTheaters, isExpanded ? sortedTheaters.length : 2).map(
-        (theater) => (
-          <SeancesTheater
-            showtimesTheater={theater}
-            key={theater.clean_name}
-            isExpanded={isExpanded}
-            timesPerLine={timesPerLine}
-          />
-        ),
-      )}
+      {(isExpanded ? sortedTheaters : unexpandedTheaters).map((theater) => (
+        <SeancesTheater
+          showtimesTheater={theater}
+          key={theater.clean_name}
+          timesPerLine={timesPerLine}
+        />
+      ))}
       {needsExpanding && (
         <div className="flex justify-end">
           <CalendrierCopy className="font-semibold">
