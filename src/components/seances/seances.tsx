@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { some, sortBy, take, uniqBy } from "lodash-es";
+import { sortBy, take, uniqBy } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
 
 import { ShowtimesTheater } from "@/lib/types";
@@ -36,9 +36,7 @@ export default function Seances({
   );
 
   const needsExpanding = useMemo(
-    () =>
-      sortedTheaters.length > 3 ||
-      some(sortedTheaters, (theater) => theater.showtimes.length > 6),
+    () => sortedTheaters.length > 3,
     [sortedTheaters],
   );
 
@@ -94,20 +92,13 @@ function transformZipcode(inZip: string) {
 export function SeancesTheater({
   showtimesTheater,
   timesPerLine,
-  isExpanded,
 }: {
   showtimesTheater: ShowtimesTheater;
   timesPerLine?: number;
-  isExpanded: boolean;
 }) {
   const lineGroups = splitIntoSubArrays(
-    sortBy(
-      take(
-        showtimesTheater.showtimes,
-        isExpanded ? showtimesTheater.showtimes.length : 6,
-      ),
-    ),
-    timesPerLine ?? 3,
+    sortBy(showtimesTheater.showtimes),
+    timesPerLine ?? 4,
   );
 
   return (
