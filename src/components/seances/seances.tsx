@@ -40,7 +40,7 @@ export default function Seances({
     [sortedTheaters],
   );
 
-  const needsExpanding = sortedTheaters.length === unexpandedTheaters.length;
+  const needsExpanding = sortedTheaters.length !== unexpandedTheaters.length;
 
   return (
     <div
