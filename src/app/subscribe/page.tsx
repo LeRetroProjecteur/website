@@ -83,7 +83,6 @@ export default function Newsletter() {
                     name="MMERGE1"
                     className=" text"
                     id="mce-MMERGE1"
-                    value=""
                   />
                 </div>
                 <div id="mce-responses" className="clear">
