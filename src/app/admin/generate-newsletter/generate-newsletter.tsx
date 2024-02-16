@@ -2,11 +2,14 @@
 
 import {
   capitalize,
+  flatten,
   fromPairs,
   groupBy,
   includes,
+  orderBy,
   sortBy,
   toPairs,
+  uniq,
   uniqBy,
 } from "lodash-es";
 import { DateTime } from "luxon";
@@ -303,7 +306,9 @@ export function Retrospectives({
       <div>
         {retrospectives.map(([director, movies], i, directors) => (
           <Fragment key={director}>
-            <div>{director}</div>
+            <div>
+              {director} ({getCinemas(movies)})
+            </div>
             <>
               {sortBy(movies, (movie) => [
                 movie.year,
@@ -327,4 +332,26 @@ export function Retrospectives({
       </div>
     </>
   );
+}
+
+function getCinemas(movies: MovieWithShowtimesByDay[]) {
+  const movieCinemas = movies.map<[MovieWithShowtimesByDay, string[]]>(
+    (movie) => [
+      movie,
+      flatten(Object.values(movie.showtimes_by_day)).map(
+        ({ clean_name }) => clean_name,
+      ),
+    ],
+  );
+  const cinemas = uniq(
+    flatten(Object.values(movieCinemas.map(([_, cinemas]) => cinemas))),
+  );
+  const cinemasAndNumberOfMovies = cinemas.map<[string, number]>((cinema) => [
+    cinema,
+    movieCinemas.filter(([_, cinemas]) => cinemas.includes(cinema)).length,
+  ]);
+
+  return orderBy(cinemasAndNumberOfMovies, ([_, num]) => num, "desc")
+    .map(([cinema, num]) => `${cinema} (${num})`)
+    .join(", ");
 }
