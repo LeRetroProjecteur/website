@@ -1,21 +1,28 @@
 "use client";
 
-import {capitalize, sortBy, toPairs, uniqBy} from "lodash-es";
+import { capitalize, sortBy, toPairs, uniqBy } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
-import {useSearchParams} from "next/navigation";
-import {ChangeEvent, Fragment, useCallback, useEffect, useMemo, useState,} from "react";
+import { useSearchParams } from "next/navigation";
+import {
+  ChangeEvent,
+  Fragment,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 
-import {format, isSameMonth, parse} from "date-fns";
-import {fr} from "date-fns/locale";
+import { format, isSameMonth, parse } from "date-fns";
+import { fr } from "date-fns/locale";
 
 import MovieTable from "@/components/movie-table";
-import {MovieWithShowtimesByDay} from "@/lib/types";
+import { MovieWithShowtimesByDay } from "@/lib/types";
 import {
-    floatHourToString,
-    getNextMovieWeek,
-    movie_info_containsFilteringTerm,
-    movie_plays_after_today,
+  floatHourToString,
+  getNextMovieWeek,
+  movie_info_containsFilteringTerm,
+  movie_plays_after_today,
 } from "@/lib/util";
 
 import logo_square from "../../../assets/logo_square.png";
@@ -108,52 +115,42 @@ export function Retrospectives({
 }: {
   movies?: MovieWithShowtimesByDay[];
 }) {
-  // const retrospectives = useMemo(
-  //   () =>
-  //     movies == null
-  //       ? []
-  //       : sortBy(
-  //           toPairs(groupBy(movies, (movie) => movie.directors)).filter(
-  //             ([_, movies]) => movies.length > 3,
-  //           ),
-  //           ([director]) => director,
-  //         ),
-  //   [movies],
-  // );
-
-
   const retrospectives = useMemo(() => {
-  if (movies == null) return [];
+    if (movies == null) return [];
 
-  const retrospectivesMap = new Map();
+    const retrospectivesMap = new Map();
 
-  movies.forEach((movie) => {
-    const directors = movie.directors.trim().split(", ");
-    directors.forEach((director) => {
-      Object.entries(movie.showtimes_by_day).forEach(([day, theaters]) => {
-        theaters.forEach((theaterEntry) => {
-          const theater = theaterEntry.clean_name.trim();
-          const key = `${director}-${theater}`.trim();
-          if (!retrospectivesMap.has(key)) {
-            retrospectivesMap.set(key, {
-              director,
-              theater,
-              movies: new Set(),
-            });
-          }
-          const entry = retrospectivesMap.get(key);
-          entry.movies.add(movie);
+    movies.forEach((movie) => {
+      const directors = movie.directors.trim().split(", ");
+      directors.forEach((director) => {
+        Object.entries(movie.showtimes_by_day).forEach(([_, theaters]) => {
+          theaters.forEach((theaterEntry) => {
+            const theater = theaterEntry.clean_name.trim();
+            const key = `${director}-${theater}`.trim();
+            if (!retrospectivesMap.has(key)) {
+              retrospectivesMap.set(key, {
+                director,
+                theater,
+                movies: new Set(),
+              });
+            }
+            const entry = retrospectivesMap.get(key);
+            entry.movies.add(movie);
+          });
         });
       });
     });
-  });
 
-  const retrospectivesArray = Array.from(retrospectivesMap.values())
-    .filter(({ movies }) => movies.size >= 4)
-    .map(({ director, theater, movies }) => [director, theater, Array.from(movies)]);
+    const retrospectivesArray = Array.from(retrospectivesMap.values())
+      .filter(({ movies }) => movies.size >= 4)
+      .map(({ director, theater, movies }) => [
+        director,
+        theater,
+        Array.from(movies),
+      ]);
 
-  return retrospectivesArray;
-}, [movies]);
+    return retrospectivesArray;
+  }, [movies]);
 
   return (
     <>
