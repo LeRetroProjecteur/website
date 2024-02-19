@@ -3,8 +3,7 @@ import { getStartOfTodayInParis } from "@/lib/util";
 
 import Calendrier from "../../(calendrier)/calendrier";
 
-export const dynamic = "force-static";
-export const revalidate = 1;
+export const dynamic = "force-dynamic";
 
 export default function TousLesFilmsPage() {
   return (
