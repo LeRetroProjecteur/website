@@ -6,8 +6,7 @@ import { formatLundi1Janvier, getNextMovieWeek } from "@/lib/util";
 
 import MovieTable from "../../(calendrier)/movie-table";
 
-export const dynamic = "force-static";
-export const revalidate = 1;
+export const dynamic = "force-dynamic";
 
 export default function SemainePage() {
   const movieWeek = getNextMovieWeek();
