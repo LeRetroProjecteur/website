@@ -19,6 +19,7 @@ import { fr } from "date-fns/locale";
 import MovieTable from "@/components/movie-table";
 import { MovieWithShowtimesByDay } from "@/lib/types";
 import {
+  checkNotNull,
   floatHourToString,
   getNextMovieWeek,
   movie_info_containsFilteringTerm,
@@ -118,7 +119,14 @@ export function Retrospectives({
   const retrospectives = useMemo(() => {
     if (movies == null) return [];
 
-    const retrospectivesMap = new Map();
+    const retrospectivesMap = new Map<
+      string,
+      {
+        director: string;
+        theater: string;
+        movies: Set<MovieWithShowtimesByDay>;
+      }
+    >();
 
     movies.forEach((movie) => {
       const directors = movie.directors.trim().split(", ");
@@ -134,7 +142,7 @@ export function Retrospectives({
                 movies: new Set(),
               });
             }
-            const entry = retrospectivesMap.get(key);
+            const entry = checkNotNull(retrospectivesMap.get(key));
             entry.movies.add(movie);
           });
         });
@@ -143,11 +151,11 @@ export function Retrospectives({
 
     const retrospectivesArray = Array.from(retrospectivesMap.values())
       .filter(({ movies }) => movies.size >= 4)
-      .map(({ director, theater, movies }) => [
+      .map(({ director, theater, movies }) => ({
         director,
         theater,
-        Array.from(movies),
-      ]);
+        movies: Array.from(movies),
+      }));
 
     return retrospectivesArray;
   }, [movies]);
@@ -157,18 +165,18 @@ export function Retrospectives({
       <h2>Retrospectives :</h2>
       <div id="retrospectives">
         <br />
-        {retrospectives.map(([director, theater, movies], i, directors) => (
-          <Fragment key={director}>
+        {retrospectives.map(({ director, theater, movies }, i, directors) => (
+          <Fragment key={`${director}-${theater}`}>
             <h3 style={{ textAlign: "left" }}>{`${director} - ${theater}`}</h3>
             <>
               {sortBy(movies, (movie) => [
                 movie.year,
                 movie.directors,
                 movie.title,
-              ]).map((movie, i, movies) => (
+              ]).map((movie, i, sortedMovies) => (
                 <Fragment key={movie.title}>
                   <i>{movie.title}</i> ({movie.year})
-                  {i < movies.length - 1 ? ", " : ""}
+                  {i < sortedMovies.length - 1 ? ", " : ""}
                 </Fragment>
               ))}
             </>
