@@ -4,7 +4,6 @@ import { orderBy } from "lodash-es";
 import Link from "next/link";
 import { use, useCallback, useMemo, useState } from "react";
 
-import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
 import {
@@ -22,7 +21,6 @@ import {
   getImageUrl,
   getReviewSortKey,
   isCoupDeCoeur,
-  movieInfoContainsFilteringTerm,
   safeDate,
 } from "@/lib/util";
 
@@ -35,8 +33,6 @@ export default function CoupsDeCoeur({
   fetchedReviews: Promise<Review[]>;
   displayPreference: "thumbnails" | "list";
 }) {
-  const [filter, setFilter] = useState("");
-
   const [display, setDisplay] = useState<"thumbnails" | "list">(
     displayPreference,
   );
@@ -53,15 +49,8 @@ export default function CoupsDeCoeur({
         <SubHeader display={display} toggleDisplay={toggleDisplay} />
       </PageHeader>
       <div className="flex grow flex-col lg:pl-20px">
-        <div className="flex pb-15px lg:pb-20px">
-          <RetroInput
-            placeholder="recherche"
-            value={filter}
-            setValue={setFilter}
-          />
-        </div>
         <SuspenseWithLoading className="flex grow items-center justify-center">
-          <Reviews {...{ fetchedReviews, display, filter }} />
+          <Reviews {...{ fetchedReviews, display }} />
         </SuspenseWithLoading>
       </div>{" "}
     </>
@@ -90,11 +79,9 @@ function SubHeader({
 
 function Reviews({
   fetchedReviews: fetchedReviewsPromise,
-  filter,
   display,
 }: {
   fetchedReviews: Promise<Review[]>;
-  filter: string;
   display: "thumbnails" | "list";
 }) {
   const fetchedReviews = use(fetchedReviewsPromise);
@@ -105,24 +92,14 @@ function Reviews({
     [fetchedReviews],
   );
 
-  const filteredReviews = useMemo(
-    () =>
-      filter === ""
-        ? reviews
-        : reviews.filter((review) =>
-            movieInfoContainsFilteringTerm(review, filter),
-          ),
-    [filter, reviews],
-  );
-
   return (
     <>
-      {filteredReviews.length === 0 && <EmptyState />}
-      {filteredReviews.length > 0 && display === "list" && (
-        <ReviewList reviews={filteredReviews} />
+      {reviews.length === 0 && <EmptyState />}
+      {reviews.length > 0 && display === "list" && (
+        <ReviewList reviews={reviews} />
       )}
-      {filteredReviews.length > 0 && display === "thumbnails" && (
-        <ReviewThumbnails reviews={filteredReviews} />
+      {reviews.length > 0 && display === "thumbnails" && (
+        <ReviewThumbnails reviews={reviews} />
       )}
     </>
   );
@@ -175,12 +152,12 @@ function ReviewRow({ review }: { review: Review }) {
       href={`/film/${review.id}`}
       className="group col-span-full grid grid-cols-[subgrid]"
     >
-      <div className="border-b border-r px-6px py-10px group-first:border-t group-odd:bg-retro-green lg:px-10px lg:py-16px lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
+      <div className="border-b border-r px-6px py-10px group-first:border-t group-odd:bg-retro-pale-green lg:px-10px lg:py-16px lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
         <BodyCopy>
           {formatDDMMYYWithSlashes(safeDate(review.review_date))}
         </BodyCopy>
       </div>
-      <div className="border-b px-6px py-10px group-first:border-t group-odd:bg-retro-green lg:px-10px lg:py-16px lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
+      <div className="border-b px-6px py-10px group-first:border-t group-odd:bg-retro-pale-green lg:px-10px lg:py-16px lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
         <BodyCopy className="uppercase">
           <u>{review.title}</u>, {review.directors} ({review.year})
         </BodyCopy>
