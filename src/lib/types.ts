@@ -41,7 +41,7 @@ export interface ShowtimesTheater {
   showtimes: number[];
   neighborhood: string;
   zipcode: string;
-  clean_name: string;
+  name: string;
 }
 
 export interface Review {

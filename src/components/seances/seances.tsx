@@ -26,11 +26,8 @@ export default function Seances({
   const sortedTheaters = useMemo(
     () =>
       sortBy(
-        uniqBy(
-          showtimes_theater,
-          (showtime_theater) => showtime_theater.clean_name,
-        ),
-        (showtime_theater) => showtime_theater.clean_name,
+        uniqBy(showtimes_theater, (showtime_theater) => showtime_theater.name),
+        (showtime_theater) => showtime_theater.name,
       ),
     [showtimes_theater],
   );
@@ -53,7 +50,7 @@ export default function Seances({
       {(isExpanded ? sortedTheaters : unexpandedTheaters).map((theater) => (
         <SeancesTheater
           showtimesTheater={theater}
-          key={theater.clean_name}
+          key={theater.name}
           timesPerLine={timesPerLine}
         />
       ))}
@@ -104,11 +101,10 @@ export function SeancesTheater({
   );
 
   return (
-    <div className="flex justify-between" key={showtimesTheater.clean_name}>
+    <div className="flex justify-between" key={showtimesTheater.name}>
       <div className="w-min grow pr-10px">
         <CalendrierCopy>
-          {showtimesTheater.clean_name} (
-          {transformZipcode(showtimesTheater.zipcode)})
+          {showtimesTheater.name} ({transformZipcode(showtimesTheater.zipcode)})
         </CalendrierCopy>
       </div>
       <div className="flex flex-col">

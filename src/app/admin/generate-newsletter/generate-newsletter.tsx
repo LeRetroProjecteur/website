@@ -207,9 +207,9 @@ export function DaysMovies({
           const showtimes = sortBy(
             uniqBy(
               movie.showtimes_by_day[formatYYYYMMDD(day)],
-              (showtimes_theater) => showtimes_theater.clean_name,
+              (showtimes_theater) => showtimes_theater.name,
             ),
-            (showtimes_theater) => showtimes_theater.clean_name,
+            (showtimes_theater) => showtimes_theater.name,
           );
           return (
             <DayMovie
@@ -260,9 +260,9 @@ export function DayMovie({
       {showtimes.map((showtimes_theater) => (
         <div
           style={{ lineHeight: 1.5, color: "#4d4d4d", textAlign: "center" }}
-          key={showtimes_theater.clean_name}
+          key={showtimes_theater.name}
         >
-          {showtimes_theater.clean_name} ({showtimes_theater.zipcode}
+          {showtimes_theater.name} ({showtimes_theater.zipcode}
           )&nbsp;:{" "}
           {showtimes_theater.showtimes
             .map((showtime) => floatHourToString(showtime))

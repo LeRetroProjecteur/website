@@ -169,7 +169,7 @@ function Screenings({
       sortBy(screenings).map<[string, ShowtimesTheater[]]>(
         ([date, theaters]) => [
           date,
-          sortBy(theaters, (theater) => theater.clean_name),
+          sortBy(theaters, (theater) => theater.name),
         ],
       ),
     [screenings],
