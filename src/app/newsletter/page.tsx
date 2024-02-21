@@ -13,7 +13,7 @@ export default function AProposPage() {
   return (
     <>
       <PageHeader text="«&nbsp;Up Close&nbsp;»">
-        <SousTitre1>
+        <SousTitre1 className="text-center lg:text-left">
           Abonnez-vous à notre newsletter hebdomadaire&nbsp;!
         </SousTitre1>
       </PageHeader>

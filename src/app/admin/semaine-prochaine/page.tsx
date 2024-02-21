@@ -17,7 +17,7 @@ export default function SemainePage() {
   return (
     <>
       <PageHeader text="La semaine prochaine">
-        <SousTitre1>
+        <SousTitre1 className="text-center lg:text-left">
           Semaine du {movieWeekStart} au {movieWeekEnd}
         </SousTitre1>
       </PageHeader>

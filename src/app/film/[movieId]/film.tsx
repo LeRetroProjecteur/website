@@ -50,9 +50,11 @@ export default function Film({ movie }: { movie: MovieDetail }) {
 
 function MovieHeader({ movie }: { movie: MovieDetail }) {
   return (
-    <SousTitre1>
-      <u>{movie.title}</u>, {movie.directors} ({movie.year})
-    </SousTitre1>
+    <div className="text-center lg:text-left">
+      <SousTitre1>
+        <u>{movie.title}</u>, {movie.directors} ({movie.year})
+      </SousTitre1>
+    </div>
   );
 }
 
