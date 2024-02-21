@@ -26,6 +26,8 @@ import {
   safeDate,
 } from "@/lib/util";
 
+import { clearCoeurCache } from "../actions/cache";
+
 export default function CoupsDeCoeur({
   fetchedReviews,
   displayPreference,
@@ -42,9 +44,7 @@ export default function CoupsDeCoeur({
     const pref = display === "thumbnails" ? "list" : "thumbnails";
     setDisplay(pref);
     document.cookie = `cdc-display=${pref};max-age=31536000`;
-    await fetch("/api/cache/coeur", {
-      method: "DELETE",
-    });
+    clearCoeurCache();
   }, [display]);
 
   return (

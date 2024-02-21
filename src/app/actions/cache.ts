@@ -1,7 +1,7 @@
+"use server";
+
 import { revalidatePath } from "next/cache";
 
-export async function DELETE(_request: Request) {
+export async function clearCoeurCache() {
   revalidatePath("/coeur");
-
-  return new Response();
 }
