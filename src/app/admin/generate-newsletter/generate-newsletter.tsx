@@ -262,7 +262,7 @@ export function DayMovie({
           style={{ lineHeight: 1.5, color: "#4d4d4d", textAlign: "center" }}
           key={showtimes_theater.clean_name}
         >
-          {showtimes_theater.clean_name} ({showtimes_theater.zipcode_clean}
+          {showtimes_theater.clean_name} ({showtimes_theater.zipcode}
           )&nbsp;:{" "}
           {showtimes_theater.showtimes
             .map((showtime) => floatHourToString(showtime))
