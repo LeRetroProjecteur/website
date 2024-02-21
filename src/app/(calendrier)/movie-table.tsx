@@ -314,7 +314,7 @@ function filterAndSortMovies(
                 (quartiers.length === 0 ||
                   some(
                     quartiers,
-                    (quartier) => quartier === theater.location_2,
+                    (quartier) => quartier === theater.neighborhood,
                   )),
             ),
         }))
