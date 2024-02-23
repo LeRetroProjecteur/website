@@ -34,7 +34,20 @@ export default function Menu() {
   const closeMenuIfOnSamePathname = useCallback(
     (e: MouseEvent<HTMLAnchorElement>) => {
       useCalendrierStore.getState().reset();
-      if ((e.target as HTMLAnchorElement).href.endsWith(pathName)) {
+      let anchor: EventTarget | null = e.target;
+      while (
+        anchor != null &&
+        anchor instanceof Node &&
+        !(anchor instanceof HTMLAnchorElement)
+      ) {
+        anchor = anchor.parentElement;
+      }
+
+      if (
+        anchor != null &&
+        (anchor as HTMLAnchorElement).href != null &&
+        (anchor as HTMLAnchorElement).href.endsWith(pathName)
+      ) {
         closeMenu();
       }
     },
@@ -73,13 +86,13 @@ export default function Menu() {
         </Link>
         <div className="flex flex-col">
           {menu.map(([section, path]) => (
-            <MenuLink key={path} path={path} className="py-16px">
-              <div className="font-degular text-44px font-extrabold uppercase leading-29px text-retro-gray lg:text-32px lg:leading-25px">
-                <Link href={path} onClick={closeMenuIfOnSamePathname}>
+            <Link key={path} href={path} onClick={closeMenuIfOnSamePathname}>
+              <MenuLink key={path} path={path} className="py-16px">
+                <div className="font-degular text-44px font-extrabold uppercase leading-29px text-retro-gray lg:text-32px lg:leading-25px">
                   {section}
-                </Link>
-              </div>
-            </MenuLink>
+                </div>
+              </MenuLink>
+            </Link>
           ))}
         </div>
       </div>
