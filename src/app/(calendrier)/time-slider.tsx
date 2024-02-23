@@ -45,7 +45,7 @@ export default function TimeSlider() {
               <div
                 key={props.key}
                 {...omit({ ...props }, "key")}
-                className="bottom-[-24px] outline-none"
+                className="bottom-[-24px] cursor-pointer outline-none"
               >
                 <Thumb />
               </div>
