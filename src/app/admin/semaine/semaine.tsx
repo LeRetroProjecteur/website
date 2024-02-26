@@ -1,6 +1,6 @@
 "use client";
 
-import { capitalize, groupBy, sortBy, toPairs, uniqBy } from "lodash-es";
+import { capitalize, sortBy, toPairs, uniqBy } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -19,6 +19,7 @@ import { fr } from "date-fns/locale";
 import MovieTable from "@/components/movie-table";
 import { MovieWithShowtimesByDay } from "@/lib/types";
 import {
+  checkNotNull,
   floatHourToString,
   getNextMovieWeek,
   movie_info_containsFilteringTerm,
@@ -115,36 +116,67 @@ export function Retrospectives({
 }: {
   movies?: MovieWithShowtimesByDay[];
 }) {
-  const retrospectives = useMemo(
-    () =>
-      movies == null
-        ? []
-        : sortBy(
-            toPairs(groupBy(movies, (movie) => movie.directors)).filter(
-              ([_, movies]) => movies.length > 3,
-            ),
-            ([director]) => director,
-          ),
-    [movies],
-  );
+  const retrospectives = useMemo(() => {
+    if (movies == null) return [];
+
+    const retrospectivesMap = new Map<
+      string,
+      {
+        director: string;
+        theater: string;
+        movies: Set<MovieWithShowtimesByDay>;
+      }
+    >();
+
+    movies.forEach((movie) => {
+      const directors = movie.directors.trim().split(", ");
+      directors.forEach((director) => {
+        Object.entries(movie.showtimes_by_day).forEach(([_, theaters]) => {
+          theaters.forEach((theaterEntry) => {
+            const theater = theaterEntry.clean_name.trim();
+            const key = `${director}-${theater}`.trim();
+            if (!retrospectivesMap.has(key)) {
+              retrospectivesMap.set(key, {
+                director,
+                theater,
+                movies: new Set(),
+              });
+            }
+            const entry = checkNotNull(retrospectivesMap.get(key));
+            entry.movies.add(movie);
+          });
+        });
+      });
+    });
+
+    const retrospectivesArray = Array.from(retrospectivesMap.values())
+      .filter(({ movies }) => movies.size >= 4)
+      .map(({ director, theater, movies }) => ({
+        director,
+        theater,
+        movies: Array.from(movies),
+      }));
+
+    return retrospectivesArray;
+  }, [movies]);
 
   return (
     <>
       <h2>Retrospectives :</h2>
       <div id="retrospectives">
         <br />
-        {retrospectives.map(([director, movies], i, directors) => (
-          <Fragment key={director}>
-            <h3 style={{ textAlign: "left" }}>{director}</h3>
+        {retrospectives.map(({ director, theater, movies }, i, directors) => (
+          <Fragment key={`${director}-${theater}`}>
+            <h3 style={{ textAlign: "left" }}>{`${director} - ${theater}`}</h3>
             <>
               {sortBy(movies, (movie) => [
                 movie.year,
                 movie.directors,
                 movie.title,
-              ]).map((movie, i, movies) => (
+              ]).map((movie, i, sortedMovies) => (
                 <Fragment key={movie.title}>
                   <i>{movie.title}</i> ({movie.year})
-                  {i < movies.length - 1 ? ", " : ""}
+                  {i < sortedMovies.length - 1 ? ", " : ""}
                 </Fragment>
               ))}
             </>
