@@ -11,15 +11,15 @@ export default function PageHeader({
   text: string;
 }) {
   return (
-    <FixedHeader className="flex flex-col">
+    <FixedHeader>
       <div>
-        <div className="grow whitespace-break-spaces border-y bg-retro-green py-6px text-center lg:w-max lg:whitespace-nowrap lg:border-0 lg:bg-white lg:py-0 lg:pl-20px lg:text-left">
+        <div className="grow whitespace-break-spaces border-y bg-retro-green py-14px text-center lg:w-max lg:whitespace-nowrap lg:border-0 lg:bg-white lg:py-0 lg:pl-20px lg:text-left">
           <Titre>{text}</Titre>
         </div>
       </div>
       {children && (
         <div className="lg:pt-20px">
-          <div className="flex items-center justify-center border-b py-14px lg:justify-start lg:border-t lg:bg-retro-green lg:pl-20px lg:pr-10px">
+          <div className="flex items-center justify-center border-b py-14px text-center lg:justify-start lg:border-t lg:bg-retro-green lg:pl-20px lg:pr-10px">
             {children}
           </div>
         </div>
@@ -31,15 +31,20 @@ export default function PageHeader({
 export function FixedHeader({
   children,
   className,
+  disableBelowPadding,
 }: {
   children: ReactNode;
   className?: string;
+  disableBelowPadding?: boolean;
 }) {
   return (
     <div
       className={clsx(
         className,
-        "z-20 flex flex-col bg-white lg:sticky lg:top-0 lg:pb-20px lg:pt-20px",
+        {
+          "pb-20px": !(disableBelowPadding ?? false),
+        },
+        "z-20 flex flex-col bg-white lg:sticky lg:top-0 lg:pt-20px",
       )}
     >
       {children}

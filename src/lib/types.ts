@@ -10,6 +10,15 @@ export interface MovieWithNoShowtimes {
   category?: string;
 }
 
+export interface MovieInfo {
+  language?: string;
+  title: string;
+  original_title?: string;
+  directors: string;
+  countries?: string;
+  tags?: string;
+}
+
 export interface Movie extends MovieWithNoShowtimes {
   showtimes_theater: ShowtimesTheater[];
 }
@@ -46,18 +55,23 @@ export interface Review {
 }
 
 export interface MovieDetail {
-  title: string;
-  directors: string;
-  original_title: string;
-  year: string;
-  distributor: string;
-  tags: string;
-  screenings: { [date: string]: ShowtimesTheater[] };
-  id: string;
-  duration: string;
+  // Movie information
+  actors?: string;
   countries: string;
-  category?: string;
+  directors: string;
+  distributor?: string;
+  duration: string;
   genre?: string;
+  id: string;
+  language: string;
+  original_title: string;
+  screenings: { [date: string]: ShowtimesTheater[] };
+  screenwriters: string;
+  tags?: string;
+  title: string;
+  year: string;
+  // Review information
+  category?: string;
   review?: string;
   review_date?: string;
 }

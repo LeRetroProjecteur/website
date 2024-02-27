@@ -1,25 +1,20 @@
-import { every, omit, padStart, some } from "lodash-es";
+import { every, padStart, some } from "lodash-es";
+import { DateTime } from "luxon";
 import Image from "next/image";
 import { ComponentProps, useMemo } from "react";
+import resolveConfig from "tailwindcss/resolveConfig";
 import { useWindowSize } from "usehooks-ts";
 
-import {
-  addDays,
-  addWeeks,
-  format,
-  isSameDay,
-  startOfDay,
-  startOfISOWeek,
-} from "date-fns";
-import { utcToZonedTime } from "date-fns-tz";
-import { fr } from "date-fns/locale";
-
+import tailwindConfig from "../../tailwind.config";
 import {
   Movie,
+  MovieInfo,
   MovieWithNoShowtimes,
   MovieWithShowtimesByDay,
   Review,
 } from "./types";
+
+const resolvedTailwindConfig = resolveConfig(tailwindConfig);
 
 export function isCoupDeCoeur({ category }: { category?: string }) {
   return category === "COUP DE CŒUR";
@@ -27,15 +22,12 @@ export function isCoupDeCoeur({ category }: { category?: string }) {
 
 export function getNextMovieWeek() {
   const today = nowInParis();
-  const startOfNextWeek = addDays(
-    addWeeks(
-      startOfISOWeek(today),
-      [0, 1, 2, 3, 4].includes(today.getDay()) ? 0 : 1,
-    ),
-    2,
-  );
+  const startOfNextWeek = today
+    .startOf("week")
+    .plus({ weeks: [1, 2, 3, 4, 5, 7].includes(today.weekday) ? 0 : 1 })
+    .plus({ days: 2 });
 
-  return [...Array(7)].map((_, i) => addDays(startOfNextWeek, i));
+  return [...Array(7)].map((_, i) => startOfNextWeek.plus({ days: i }));
 }
 
 export function checkNotNull<T>(check: T | null | undefined): T {
@@ -54,67 +46,64 @@ export function floatHourToString(hour: number) {
 }
 
 export function safeDate(date: string) {
-  return new Date(date.replaceAll("_", "-"));
+  return DateTime.fromISO(date.replaceAll("_", "-"), {
+    zone: "Europe/Paris",
+    locale: "fr",
+  });
 }
 
 export function nowInParis() {
-  return utcToZonedTime(new Date(), "Europe/Paris");
+  return DateTime.local({ zone: "Europe/Paris", locale: "fr" });
 }
 
 export function getStartOfTodayInParis() {
-  return startOfDay(nowInParis());
+  return nowInParis().startOf("day");
 }
 
-export function getStartOfDayInParis(date: string) {
-  return startOfDay(utcToZonedTime(safeDate(date), "Europe/Paris"));
-}
-
-export function isTodayInParis(date: Date) {
-  return isSameDay(nowInParis(), date);
-}
-
-function clean_string(str: string) {
-  str = str.replaceAll("-", " ");
-  str = str.replaceAll(/['’]/g, "'");
-  str = str.replaceAll("'", " ");
-  str = str.replaceAll("&", "and");
-  str = str.normalize("NFD").replace(/\p{Diacritic}/gu, "");
-  str = str.replaceAll(/[^a-zA-Z0-9 #]/g, "");
-  str = str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-  str = str.toLowerCase();
+export function cleanString(str: string) {
+  str = str
+    .normalize("NFD")
+    .replaceAll("&", " and ")
+    .replaceAll("’", "'")
+    .replaceAll(/[^a-zA-Z0-9 #]|[\u0300-\u036f]/g, "")
+    .replaceAll(/\p{Diacritic}/gu, "")
+    .toLowerCase();
   return str;
 }
 
-function at_least_one_word_starts_with_substring(
-  list: string[],
-  substring: string,
-) {
+function atLeastOneWordStartsWithSubstring(list: string[], substring: string) {
   return some(list, (word) => word.startsWith(substring));
 }
 
-export function string_match(term: string, search_field: string) {
-  const fields = clean_string(search_field).split(" ");
-  const keywords = clean_string(term).split(" ");
+export function stringMatch(term: string, searchField: string) {
+  return stringMatchFields(getFields(term), getFields(searchField));
+}
+
+export function getFields(searchField: string) {
+  return cleanString(searchField).split(" ");
+}
+
+export function stringMatchFields(keywords: string[], searchFields: string[]) {
   return every(keywords, (keyword) =>
-    at_least_one_word_starts_with_substring(fields, keyword),
+    atLeastOneWordStartsWithSubstring(searchFields, keyword),
   );
 }
 
-export function movie_info_containsFilteringTerm(
-  f: MovieWithNoShowtimes | Review,
+export function movieInfoContainsFilteringTerm(
+  movie: MovieWithNoShowtimes | Review,
   filteringTerm: string,
 ) {
   if (filteringTerm.slice(-1) === "|") {
     filteringTerm = filteringTerm.slice(0, -1);
   }
-  const filtering_field = get_movie_info_string(omit(f, "year"));
+  const filtering_field = getMovieInfoString(movie);
   const filteringTerms = filteringTerm.split("|");
   return some(filteringTerms, (filteringTerm) =>
-    string_match(filteringTerm, filtering_field),
+    stringMatch(filteringTerm, filtering_field),
   );
 }
 
-function get_movie_info_string(f: Record<string, string>) {
+export function getMovieInfoString(info: MovieInfo) {
   return (
     [
       "language",
@@ -123,28 +112,42 @@ function get_movie_info_string(f: Record<string, string>) {
       "directors",
       "countries",
       "tags",
-    ] as Array<keyof MovieWithNoShowtimes>
+    ] as Array<keyof MovieInfo>
   )
     .map((key) => {
-      return f[key] == null ? "" : `${f[key]}`;
+      return info[key] == null ? "" : `${info[key]}`;
     })
     .join(" ");
 }
 
-export function formatLundi1Janvier(date: Date) {
-  return format(date, "EEEE d MMMM", { locale: fr });
+// lundi 1 janvier
+export function formatLundi1Janvier(date: DateTime) {
+  return date.toFormat("EEEE d MMMM");
 }
 
-export function formatYYYYMMDD(date: Date) {
-  return format(date, "yyyy-MM-dd", { locale: fr });
+// 2024-12-31
+export function formatYYYYMMDD(date: DateTime) {
+  return date.toFormat("yyyy-MM-dd");
 }
 
-export function formatDDMMYYWithSlashes(date: Date) {
-  return format(date, "dd/MM/yy", { locale: fr });
+// 2024_12_31
+export function formatYYYY_MM_DD(date: DateTime) {
+  return date.toFormat("yyyy_MM_dd");
 }
 
-export function formatMerJJMM(date: Date) {
-  return format(date, "EEE dd/MM", { locale: fr });
+// 31/12/04
+export function formatDDMMYYWithSlashes(date: DateTime) {
+  return date.toFormat("dd/MM/yy");
+}
+
+// Ven. 31/12
+export function formatMerJJMM(date: DateTime) {
+  return date.toFormat("EEE dd/MM");
+}
+
+// lundi
+export function formatLundi(date: DateTime) {
+  return date.toFormat("EEEE");
 }
 
 export function splitIntoSubArrays<T>(array: T[], subArraySize: number) {
@@ -161,8 +164,8 @@ export function useIsMobile() {
 export const fetcher = (...args: Parameters<typeof fetch>) =>
   fetch(...args).then((res) => res.json());
 
-export function getMovieTags({ tags }: { tags: string }) {
-  return Array.from(tags.matchAll(/#([^\s]+)/g)).map(([_, tag]) => tag);
+export function getMovieTags({ tags }: { tags?: string }) {
+  return Array.from((tags ?? "").matchAll(/#([^\s]+)/g)).map(([_, tag]) => tag);
 }
 
 export const TAG_MAP: Record<string, string> = {
@@ -204,4 +207,15 @@ export function isMoviesWithShowtimesByDay(
   movies: Movie[] | MovieWithShowtimesByDay[],
 ): movies is MovieWithShowtimesByDay[] {
   return some(movies, isMovieWithShowtimesByDay);
+}
+
+export function getBreakpoint(breakpointName: string) {
+  const breakpointString = (
+    checkNotNull(resolvedTailwindConfig.theme?.screens) as Record<
+      string,
+      string
+    >
+  )[breakpointName];
+  const [_, breakpoint] = checkNotNull(breakpointString.match(/^([0-9]+)px$/));
+  return Number(breakpoint);
 }

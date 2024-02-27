@@ -5,25 +5,29 @@ import FooterLinks from "./footer-links";
 
 export default function Footer() {
   return (
-    <div className="flex grow flex-col border-t pt-13px lg:h-146px lg:pt-10px">
-      <div className="flex flex-col lg:grow lg:justify-between">
+    <div className="flex grow flex-col lg:h-146px lg:border-t lg:pt-10px">
+      <div className="flex lg:hidden">
+        <FooterLinks color="gray" />
+      </div>
+      <div className="flex flex-col pt-20px lg:grow lg:justify-between lg:pt-0">
         <div className="text-center lg:text-left">
           <FooterCopy>
             Un problème sur le site ?<span className="hidden lg:inline"> </span>
-            <br className="lg:hidden" />
-            Signalez-le nous{" "}
+            <br className="lg:hidden" />{" "}
             <a
               href="mailto:contact@leretroprojecteur.com"
               className="underline"
             >
-              ICI
-            </a>{" "}
-            !
+              Signalez-le nous&nbsp;!
+            </a>
           </FooterCopy>
         </div>
-        <div className="pt-28px text-center lg:pt-0 lg:text-left">
+        <div className="pt-20px text-center lg:pt-0 lg:text-left">
           <FooterCopy>
-            Design graphique par{" "}
+            <Link href="/admin/tous-les-films">©</Link> Le Rétro Projecteur
+            2021–2024
+            <br />
+            Designé par{" "}
             <a
               href="https://clairemalot.com/"
               className="underline"
@@ -31,14 +35,16 @@ export default function Footer() {
             >
               claire malot
             </a>
-            <br />
-            <Link href="/admin">©</Link> Le Rétro Projecteur 2021–2024 <br />
+            .<span className="hidden lg:inline"> </span>
+            <br className="lg:hidden" />
+            Développé par jroitgrund.
+          </FooterCopy>
+        </div>
+        <div className="py-20px text-center lg:py-0 lg:text-left">
+          <FooterCopy>
             «&nbsp;Pour le grand écran, pas la p&apos;tite lucarne&nbsp;!&nbsp;»
           </FooterCopy>
         </div>
-      </div>
-      <div className="flex pb-28px pt-13px lg:hidden lg:py-0">
-        <FooterLinks color="gray" />
       </div>
     </div>
   );

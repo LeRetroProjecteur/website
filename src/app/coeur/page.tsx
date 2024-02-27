@@ -1,12 +1,23 @@
+import { Metadata } from "next";
+import { cookies } from "next/headers";
+
 import { getReviewedMovies } from "@/lib/movies";
 
 import CoupsDeCoeur from "./coeur";
 
-export const dynamic = "force-static";
-export const revalidate = 1;
+export const metadata: Metadata = {
+  title: "Coups de cœur | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+};
 
-export default async function CoupsDeCoeurPage() {
+export const dynamic = "force-dynamic";
+
+export default function CoupsDeCoeurPage() {
   const reviews = getReviewedMovies();
+  const cdcDisplay = (cookies().get("cdc-display")?.value ?? "thumbnails") as
+    | "thumbnails"
+    | "list";
 
-  return <CoupsDeCoeur fetchedReviews={reviews} />;
+  return (
+    <CoupsDeCoeur fetchedReviews={reviews} displayPreference={cdcDisplay} />
+  );
 }

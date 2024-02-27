@@ -10,20 +10,13 @@ import { MouseEvent, ReactNode, useCallback, useEffect } from "react";
 import { useCalendrierStore } from "@/lib/calendrier-store";
 import { closeMenu } from "@/lib/menu-store";
 
-import logoCarre from "../../assets/logo-carre.png";
+import logoCarre from "../../assets/logo-carre.gif";
 import FooterLinks from "../layout/footer-links";
 
 const menu: [JSX.Element, string][] = [
   [<>calendrier</>, "/"],
   [<>actualités</>, "/actualites"],
-  [
-    <>
-      coups
-      <br />
-      de coeur
-    </>,
-    "/coeur",
-  ],
+  [<>coups de cœur</>, "/coeur"],
   [<>à propos</>, "/a-propos"],
   [<>recherche</>, "/recherche"],
 ];
@@ -41,7 +34,20 @@ export default function Menu() {
   const closeMenuIfOnSamePathname = useCallback(
     (e: MouseEvent<HTMLAnchorElement>) => {
       useCalendrierStore.getState().reset();
-      if ((e.target as HTMLAnchorElement).href.endsWith(pathName)) {
+      let anchor: EventTarget | null = e.target;
+      while (
+        anchor != null &&
+        anchor instanceof Node &&
+        !(anchor instanceof HTMLAnchorElement)
+      ) {
+        anchor = anchor.parentElement;
+      }
+
+      if (
+        anchor != null &&
+        (anchor as HTMLAnchorElement).href != null &&
+        (anchor as HTMLAnchorElement).href.endsWith(pathName)
+      ) {
         closeMenu();
       }
     },
@@ -54,7 +60,7 @@ export default function Menu() {
   }, []);
 
   return (
-    <div className="flex grow flex-col px-15px lg:justify-between lg:border-r lg:pl-0 lg:pr-20px">
+    <div className="flex grow flex-col px-10px sm:px-15px lg:justify-between lg:border-r lg:pl-0 lg:pr-20px">
       <div className="flex grow flex-col lg:grow-0">
         <div className="flex justify-center py-18px lg:hidden">
           <div className="cursor-pointer" onClick={closeMenu}>
@@ -76,20 +82,21 @@ export default function Menu() {
               projecteur
             </div>
           </MenuLink>
+          <div className="hidden" />
         </Link>
         <div className="flex flex-col">
           {menu.map(([section, path]) => (
-            <MenuLink key={path} path={path} className="py-16px">
-              <div className="font-degular text-44px font-extrabold uppercase leading-29px text-retro-gray lg:text-32px lg:leading-25px">
-                <Link href={path} onClick={closeMenuIfOnSamePathname}>
+            <Link key={path} href={path} onClick={closeMenuIfOnSamePathname}>
+              <MenuLink key={path} path={path} className="py-16px">
+                <div className="font-degular text-44px font-extrabold uppercase leading-29px text-retro-gray lg:text-32px lg:leading-25px">
                   {section}
-                </Link>
-              </div>
-            </MenuLink>
+                </div>
+              </MenuLink>
+            </Link>
           ))}
         </div>
       </div>
-      <div className="flex pb-28px lg:pb-0">
+      <div className="flex pb-28px pt-15px lg:pb-0">
         <FooterLinks color="black" />
       </div>
     </div>
@@ -108,13 +115,11 @@ function MenuLink({
   const route = usePathname();
   return (
     <div
-      className={clsx(
-        className,
-        "flex justify-center border-b last:border-0 lg:py-12px lg:last:border-b",
-        {
-          "bg-retro-green": path === route,
-        },
-      )}
+      className={clsx(className, "flex justify-center border-b lg:py-12px", {
+        "bg-retro-green":
+          (path === "/" && route === "/") ||
+          (path != null && path !== "/" && route.startsWith(path)),
+      })}
     >
       <div className="w-min grow whitespace-break-spaces text-center">
         {children}
@@ -125,24 +130,19 @@ function MenuLink({
 
 function CloseIcon() {
   return (
-    <svg
-      className="h-29px w-28px stroke-retro-gray"
-      viewBox="0 0 28 29"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg viewBox="0 0 38 38" className="h-38px w-38px stroke-retro-gray">
       <line
-        x1="1.29289"
-        y1="27.2216"
-        x2="27.2929"
-        y2="1.2216"
+        y1="-1"
+        x2="49.3883"
+        y2="-1"
+        transform="matrix(0.708302 -0.705909 0.708302 0.705909 2.18164 37.1544)"
         strokeWidth="2"
       />
       <line
-        x1="27.2929"
-        y1="27.7071"
-        x2="1.29289"
-        y2="1.70711"
+        y1="-1"
+        x2="49.3883"
+        y2="-1"
+        transform="matrix(-0.708302 -0.705909 0.708302 -0.705909 37.1636 35.9091)"
         strokeWidth="2"
       />
     </svg>

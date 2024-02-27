@@ -24,21 +24,56 @@ const suisse = localFont({
       style: "normal",
     },
     {
+      path: "../assets/SuisseIntl-RegularItalic.woff2",
+      weight: "400",
+      style: "italic",
+    },
+    {
       path: "../assets/SuisseIntl-Book.woff2",
       weight: "500",
       style: "normal",
+    },
+    {
+      path: "../assets/SuisseIntl-BookItalic.woff2",
+      weight: "500",
+      style: "italic",
     },
     {
       path: "../assets/SuisseIntl-Medium.woff2",
       weight: "600",
       style: "normal",
     },
+    {
+      path: "../assets/SuisseIntl-MediumItalic.woff2",
+      weight: "600",
+      style: "italic",
+    },
+    {
+      path: "../assets/SuisseIntl-Bold.woff2",
+      weight: "700",
+      style: "normal",
+    },
+    {
+      path: "../assets/SuisseIntl-BoldItalic.woff2",
+      weight: "700",
+      style: "italic",
+    },
+    {
+      path: "../assets/SuisseIntl-Bold.woff2",
+      weight: "800",
+      style: "normal",
+    },
+    {
+      path: "../assets/SuisseIntl-BoldItalic.woff2",
+      weight: "800",
+      style: "italic",
+    },
   ],
   variable: "--font-suisse",
 });
 
 export const metadata: Metadata = {
-  title: "Calendrier | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+  title: "Le Rétro Projecteur - Cinéma de patrimoine à Paris",
   description:
     "Venez découvrir toutes les ressorties de films dans les salles parisiennes.",
   metadataBase: new URL("https://leretroprojecteur.com/"),
@@ -55,15 +90,15 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             "font-suisse text-retro-black",
           )}
         >
-          <Newsletter />
           <MenuWrapper>
-            <div className="flex grow flex-col pt-25px lg:pt-0">
+            <Newsletter />
+            <div className="flex grow flex-col pt-20px lg:pt-0">
               <div className="flex pb-20px lg:hidden">
                 <TopBar />
               </div>
               <div className="flex grow flex-col justify-between">
                 <div className="flex grow flex-col">{children}</div>
-                <div className="flex lg:pb-20px lg:pl-20px lg:pt-20px">
+                <div className="flex pt-20px lg:pb-20px lg:pl-20px lg:pt-30px">
                   <Footer />
                 </div>
               </div>

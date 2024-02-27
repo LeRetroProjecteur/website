@@ -12,6 +12,7 @@ export default function RetroInput({
   leftAlignPlaceholder,
   transparentPlaceholder,
   grayText,
+  customHeight,
 }: {
   value: string;
   setValue: (newValue: string) => void;
@@ -23,6 +24,7 @@ export default function RetroInput({
   leftAlignPlaceholder?: boolean;
   transparentPlaceholder?: boolean;
   grayText?: boolean;
+  customHeight?: boolean;
 }) {
   const onChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => setValue(e.target.value),
@@ -38,7 +40,7 @@ export default function RetroInput({
         {
           "bg-retro-pale-green": !(blue ?? false),
           "bg-retro-blue": blue,
-          "text-15px font-medium uppercase leading-25px lg:text-20px lg:leading-21px":
+          "text-17px font-medium uppercase leading-25px lg:text-20px lg:leading-21px":
             !(customTypography ?? false),
           "placeholder:text-center": !(leftAlignPlaceholder ?? false),
           "placeholder:text-left": leftAlignPlaceholder,
@@ -46,8 +48,9 @@ export default function RetroInput({
           "placeholder:text-retro-gray-transparent": transparentPlaceholder,
           "text-retro-black": !(grayText ?? false),
           "text-retro-gray": grayText,
+          "h-42px lg:h-48px": !(customHeight ?? false),
         },
-        "grow border py-1px focus:border-retro-gray focus:outline-0 focus:ring-0 focus:placeholder:opacity-0 lg:py-8px ",
+        "flex grow items-center border focus:border-retro-gray focus:outline-0 focus:ring-0 focus:placeholder:opacity-0 ",
       )}
       onChange={onChange}
       value={value}

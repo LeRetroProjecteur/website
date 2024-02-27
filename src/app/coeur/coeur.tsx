@@ -1,58 +1,58 @@
 "use client";
 
 import { orderBy } from "lodash-es";
-import Image from "next/image";
 import Link from "next/link";
 import { use, useCallback, useMemo, useState } from "react";
 
-import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
 import {
+  ThumbnailGrid,
+  ThumbnailWithBlurb,
+} from "@/components/layout/thumbnails";
+import {
   BodyCopy,
-  CoeurCopy,
+  MetaCopy,
   SousTitre1,
 } from "@/components/typography/typography";
 import { Review } from "@/lib/types";
 import {
-  blurProps,
   formatDDMMYYWithSlashes,
   getImageUrl,
   getReviewSortKey,
   isCoupDeCoeur,
-  movie_info_containsFilteringTerm,
   safeDate,
 } from "@/lib/util";
 
+import { clearCoeurCache } from "../actions/cache";
+
 export default function CoupsDeCoeur({
   fetchedReviews,
+  displayPreference,
 }: {
   fetchedReviews: Promise<Review[]>;
+  displayPreference: "thumbnails" | "list";
 }) {
-  const [filter, setFilter] = useState("");
-
-  const [display, setDisplay] = useState<"thumbnails" | "list">("thumbnails");
-  const toggleDisplay = useCallback(() => {
-    setDisplay(display === "thumbnails" ? "list" : "thumbnails");
+  const [display, setDisplay] = useState<"thumbnails" | "list">(
+    displayPreference,
+  );
+  const toggleDisplay = useCallback(async () => {
+    const pref = display === "thumbnails" ? "list" : "thumbnails";
+    setDisplay(pref);
+    document.cookie = `cdc-display=${pref};max-age=31536000`;
+    clearCoeurCache();
   }, [display]);
 
   return (
     <>
-      <PageHeader text="coups de coeur">
+      <PageHeader text="coups de cœur">
         <SubHeader display={display} toggleDisplay={toggleDisplay} />
       </PageHeader>
-      <div className="flex grow flex-col pb-10px lg:pb-0 lg:pl-20px">
-        <div className="flex pb-15px pt-15px lg:pb-20px lg:pt-0 ">
-          <RetroInput
-            placeholder="recherche"
-            value={filter}
-            setValue={setFilter}
-          />
-        </div>
-        <SuspenseWithLoading>
-          <Reviews {...{ fetchedReviews, display, filter }} />
+      <div className="flex grow flex-col lg:pl-20px">
+        <SuspenseWithLoading className="flex grow items-center justify-center">
+          <Reviews {...{ fetchedReviews, display }} />
         </SuspenseWithLoading>
-      </div>
+      </div>{" "}
     </>
   );
 }
@@ -66,8 +66,11 @@ function SubHeader({
 }) {
   return (
     <div className="flex grow justify-between">
-      <SousTitre1>archive des critiques</SousTitre1>
-      <div className="flex cursor-pointer items-center" onClick={toggleDisplay}>
+      <SousTitre1>Archive de nos critiques</SousTitre1>
+      <div
+        className="flex cursor-pointer items-center pl-6px"
+        onClick={toggleDisplay}
+      >
         {display === "thumbnails" ? <ListIcon /> : <ThumbnailIcon />}
       </div>
     </div>
@@ -76,11 +79,9 @@ function SubHeader({
 
 function Reviews({
   fetchedReviews: fetchedReviewsPromise,
-  filter,
   display,
 }: {
   fetchedReviews: Promise<Review[]>;
-  filter: string;
   display: "thumbnails" | "list";
 }) {
   const fetchedReviews = use(fetchedReviewsPromise);
@@ -91,24 +92,14 @@ function Reviews({
     [fetchedReviews],
   );
 
-  const filteredReviews = useMemo(
-    () =>
-      filter === ""
-        ? reviews
-        : reviews.filter((review) =>
-            movie_info_containsFilteringTerm(review, filter),
-          ),
-    [filter, reviews],
-  );
-
   return (
     <>
-      {filteredReviews.length === 0 && <EmptyState />}
-      {filteredReviews.length > 0 && display === "list" && (
-        <ReviewList reviews={filteredReviews} />
+      {reviews.length === 0 && <EmptyState />}
+      {reviews.length > 0 && display === "list" && (
+        <ReviewList reviews={reviews} />
       )}
-      {filteredReviews.length > 0 && display === "thumbnails" && (
-        <ReviewThumbnails reviews={filteredReviews} />
+      {reviews.length > 0 && display === "thumbnails" && (
+        <ReviewThumbnails reviews={reviews} />
       )}
     </>
   );
@@ -116,52 +107,31 @@ function Reviews({
 
 function EmptyState() {
   return (
-    <div className="flex">
-      <CoeurCopy>
-        désolé, nous n&apos;avons rien trouvé qui corresponde à votre recherche
-        !
-      </CoeurCopy>
-    </div>
+    <MetaCopy>
+      Désolé, nous n&apos;avons rien trouvé qui corresponde à votre
+      recherche&nbsp;!
+    </MetaCopy>
   );
 }
 
 function ReviewThumbnails({ reviews }: { reviews: Review[] }) {
   return (
-    <div className="grid grid-cols-thumbnails-sm gap-x-15px gap-y-10px lg:grid-cols-thumbnails-lg lg:gap-x-20px lg:gap-y-16px">
+    <ThumbnailGrid>
       {reviews.map((review) => (
-        <ReviewThumbnail review={review} key={review.id} />
+        <ThumbnailWithBlurb
+          key={review.id}
+          link={`/film/${review.id}`}
+          image={{
+            src: getImageUrl(review),
+            alt: review.title,
+            width: 1200,
+            height: 675,
+          }}
+        >
+          <u>{review.title}</u>, {review.directors} ({review.year})
+        </ThumbnailWithBlurb>
       ))}
-    </div>
-  );
-}
-
-function ReviewThumbnail({ review }: { review: Review }) {
-  return (
-    <Link href={`/archives/${review.id}`}>
-      <div className="flex flex-col gap-10px lg:gap-12px">
-        <Image
-          className="h-auto w-full"
-          width={1200}
-          height={675}
-          src={getImageUrl(review)}
-          alt={review.title}
-          {...blurProps}
-        />
-        <div className="flex flex-col justify-between gap-0 lg:flex-row lg:gap-20px">
-          <div>
-            <CoeurCopy>
-              <u className="underline">{review.title}</u> ({review.year}),{" "}
-              {review.directors}
-            </CoeurCopy>
-          </div>
-          <div>
-            <CoeurCopy>
-              {formatDDMMYYWithSlashes(safeDate(review.review_date))}
-            </CoeurCopy>
-          </div>
-        </div>
-      </div>
-    </Link>
+    </ThumbnailGrid>
   );
 }
 
@@ -171,7 +141,7 @@ function ReviewList({ reviews }: { reviews: Review[] }) {
       {reviews.map((review) => (
         <ReviewRow review={review} key={review.id} />
       ))}
-      <div className="h-300px border-r" />
+      <div className="min-h-100px border-r" />
     </div>
   );
 }
@@ -179,23 +149,18 @@ function ReviewList({ reviews }: { reviews: Review[] }) {
 function ReviewRow({ review }: { review: Review }) {
   return (
     <Link
-      href={`/archives/${review.id}`}
+      href={`/film/${review.id}`}
       className="group col-span-full grid grid-cols-[subgrid]"
     >
-      <div className="flex border-b border-r group-first:border-t">
-        <div className="px-6px py-10px group-odd:bg-retro-green lg:py-16px lg:pl-10px lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
-          <BodyCopy>
-            {formatDDMMYYWithSlashes(safeDate(review.review_date))}
-          </BodyCopy>
-        </div>
+      <div className="border-b border-r px-6px py-10px group-first:border-t group-odd:bg-retro-pale-green lg:px-10px lg:py-16px lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
+        <BodyCopy>
+          {formatDDMMYYWithSlashes(safeDate(review.review_date))}
+        </BodyCopy>
       </div>
-      <div className="flex grow border-b group-first:border-t">
-        <div className="grow px-6px py-10px group-odd:bg-retro-green lg:py-16px lg:pl-10px lg:pr-0 lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
-          <BodyCopy className="uppercase">
-            <u className="underline">{review.title}</u> ({review.year}),{" "}
-            {review.directors}
-          </BodyCopy>
-        </div>
+      <div className="border-b px-6px py-10px group-first:border-t group-odd:bg-retro-pale-green lg:px-10px lg:py-16px lg:group-odd:bg-white lg:group-hover:bg-retro-pale-green">
+        <BodyCopy className="uppercase">
+          <u>{review.title}</u>, {review.directors} ({review.year})
+        </BodyCopy>
       </div>
     </Link>
   );

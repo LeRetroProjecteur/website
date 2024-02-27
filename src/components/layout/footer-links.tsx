@@ -1,23 +1,26 @@
 "use client";
 
 import clsx from "clsx";
+import Link from "next/link";
 import { ReactNode } from "react";
 
 import { openNewsLetter } from "@/lib/newsletter-store";
 
-export default function FooterLinks({
-  color,
-}: {
-  color: "gray" | "black";
-  newsletterGreen?: boolean;
-}) {
+export default function FooterLinks({ color }: { color: "gray" | "black" }) {
   return (
-    <div className="flex grow flex-col gap-y-12px lg:gap-y-10px">
-      <LinkBox color={color} bgGreen>
-        <a className="cursor-pointer" onClick={openNewsLetter}>
-          newsletter
-        </a>
-      </LinkBox>
+    <div className="flex grow flex-col gap-y-12px lg:gap-y-10px lg:pt-10px">
+      <div className="hidden lg:block">
+        <LinkBox color={color} bgGreen>
+          <a className="cursor-pointer" onClick={openNewsLetter}>
+            newsletter
+          </a>
+        </LinkBox>
+      </div>
+      <div className="lg:hidden">
+        <LinkBox color={color} bgGreen>
+          <Link href={"/newsletter"}>newsletter</Link>
+        </LinkBox>
+      </div>
       <LinkBox color={color}>
         <a href="https://www.instagram.com/leretroprojecteur" target="_blank">
           instagram
@@ -43,7 +46,7 @@ function LinkBox({
 }) {
   return (
     <div
-      className={clsx("flex justify-center border py-14px lg:py-9px", {
+      className={clsx("flex h-42px items-center justify-center border", {
         "bg-retro-green": bgGreen ?? false,
       })}
     >

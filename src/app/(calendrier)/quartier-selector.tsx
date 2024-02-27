@@ -1,7 +1,8 @@
 "use client";
 
 import clsx from "clsx";
-import { useCallback, useMemo } from "react";
+import { useCallback, useMemo, useRef } from "react";
+import { useOnClickOutside } from "usehooks-ts";
 
 import { ButtonCopy } from "@/components/typography/typography";
 import { Quartier, useCalendrierStore } from "@/lib/calendrier-store";
@@ -12,9 +13,18 @@ const QUARTIERS: [string, Quartier][] = [
   ["extramuros", Quartier.EM],
 ];
 
-export default function QuartierSelector() {
+export default function QuartierSelector({
+  close,
+}: {
+  close: (e: MouseEvent) => void;
+}) {
+  const ref = useRef(null);
+  useOnClickOutside(ref, close);
   return (
-    <div className="flex grow flex-wrap gap-x-15px gap-y-8px lg:gap-x-20px lg:gap-y-10px">
+    <div
+      ref={ref}
+      className="grid grow grid-cols-[repeat(auto-fill,_minmax(10.75rem,_1fr))] gap-x-15px gap-y-8px lg:grid-cols-[repeat(auto-fill,_minmax(17.375rem,_1fr))] lg:gap-x-20px lg:gap-y-10px"
+    >
       {QUARTIERS.map(([quartierName, quartier]) => (
         <QuartierToggler
           key={quartier}
@@ -22,7 +32,6 @@ export default function QuartierSelector() {
           quartier={quartier}
         />
       ))}
-      <div className="invisible min-w-172px shrink-0 grow basis-0 border lg:hidden"></div>
     </div>
   );
 }
@@ -54,10 +63,10 @@ function QuartierToggler({
           "text-retro-gray": !present,
         },
         {
-          "border-retro-black": present,
-          "text-retro-black": present,
+          "bg-retro-gray": present,
+          "text-white": present,
         },
-        "min-w-172px shrink-0 grow basis-0 cursor-pointer border text-center lg:grow-0 lg:basis-278px lg:py-8px",
+        "flex h-42px cursor-pointer items-center justify-center border border-retro-gray lg:h-48px",
       )}
     >
       <ButtonCopy>{quartierName}</ButtonCopy>

@@ -1,20 +1,25 @@
 "use client";
 
+import { MutableRefObject } from "react";
+
 import { ButtonCopy } from "@/components/typography/typography";
 
 export default function QuartierSelectorToggler({
   isOpen,
   toggleOpen,
+  togglerRef,
 }: {
   isOpen: boolean;
   toggleOpen: () => void;
+  togglerRef: MutableRefObject<HTMLDivElement | null>;
 }) {
   return (
     <div
-      className="flex grow cursor-pointer items-center justify-center border py-1px lg:w-278px lg:py-8px"
+      ref={togglerRef}
+      className="flex h-42px grow cursor-pointer items-center justify-center border lg:h-48px lg:w-278px "
       onClick={toggleOpen}
     >
-      <div className="pr-6px">
+      <div className="flex items-center pr-6px">
         <ButtonCopy>par quartiers</ButtonCopy>
       </div>
       <div className="flex items-center">

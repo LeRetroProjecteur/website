@@ -4,6 +4,7 @@ import ReactSlider from "react-slider";
 
 import { ButtonCopy } from "@/components/typography/typography";
 import { useCalendrierStore } from "@/lib/calendrier-store";
+import { checkNotNull } from "@/lib/util";
 
 export default function TimeSlider() {
   const minHour = useCalendrierStore((s) => s.minHour);
@@ -43,8 +44,8 @@ export default function TimeSlider() {
             renderThumb={(props) => (
               <div
                 key={props.key}
-                {...omit(props, "key")}
-                className="bottom-[-5.5px] outline-none transition-all duration-200"
+                {...omit({ ...props }, "key")}
+                className="bottom-[-24px] cursor-pointer outline-none"
               >
                 <Thumb />
               </div>
@@ -52,14 +53,24 @@ export default function TimeSlider() {
             renderTrack={(props, state) => (
               <div
                 key={props.key}
-                {...omit(props, "key")}
-                className={clsx(
-                  "bottom-0 border-t transition-all duration-200",
+                {...omit(
                   {
-                    "border-dashed": state.index === 1,
-                    "z-99": state.index == 1,
+                    ...props,
+                    style: {
+                      ...props.style,
+                      ...adjustPx(
+                        props.style as { left: string; right: string },
+                        state.index === 1 || state.index == 2 ? 25 : 0,
+                        state.index === 0 || state.index === 1 ? 25 : 0,
+                      ),
+                    },
                   },
+                  "key",
                 )}
+                className={clsx("bottom-0 border-t", {
+                  "border-dotted": state.index === 1,
+                  "z-99": state.index == 1,
+                })}
               />
             )}
             value={[minHour, maxHour]}
@@ -77,12 +88,23 @@ export default function TimeSlider() {
 function Thumb() {
   return (
     <svg
-      className="h-13px w-13px fill-retro-gray"
-      viewBox="0 0 13 13"
+      className="h-50px w-50px fill-retro-gray"
+      viewBox="0 0 50 50"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="6.5" cy="6.5" r="6.5" />
+      <rect width="50" height="50" className="fill-[#FFFFFF00]" />
+      <circle cx="25" cy="25" r="6.5" />
     </svg>
   );
+}
+
+function adjustPx(
+  { left, right }: { left: string; right: string },
+  dLeft: number,
+  dRight: number,
+) {
+  const leftPx = parseInt(checkNotNull(/([0-9])+/.exec(left))[0]);
+  const rightPx = parseInt(checkNotNull(/([0-9])+/.exec(right))[0]);
+  return { left: `${leftPx + dLeft}px`, right: `${rightPx + dRight}px` };
 }
