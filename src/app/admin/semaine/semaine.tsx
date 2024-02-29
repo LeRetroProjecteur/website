@@ -86,7 +86,7 @@ export function FilterableMovies({
             type="text"
             className="filtering-box"
             id="filtering-box"
-            placeholder="Réalisateur, pays..."
+            placeholder="Cinéaste, pays..."
             onChange={onChangeFilter}
           />
         </div>
