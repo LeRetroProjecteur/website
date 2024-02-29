@@ -1,30 +1,21 @@
 "use client";
 
 import clsx from "clsx";
-import { every, orderBy, take, toPairs, without } from "lodash-es";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { toPairs, without } from "lodash-es";
 import {
-  MutableRefObject,
-  use,
   useCallback,
   useEffect,
-  useMemo,
-  useRef,
 } from "react";
 import { create } from "zustand";
 
 import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader, { FixedHeader } from "@/components/layout/page-header";
-import { MetaCopy } from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
 import {
   TAG_MAP,
-  getFields,
-  getMovieInfoString,
-  stringMatchFields,
 } from "@/lib/util";
+import {Results} from "@/components/search/search";
 
 const useRechercheStore = create<{
   tags: string[];
@@ -93,115 +84,10 @@ export default function Recherche({
           hideLoading={searchTerm.length === 0}
           className="flex grow items-center justify-center pt-15px"
         >
-          <Results {...{ searchTerm, allMoviesPromise }} />
+          <Results nb_results={50} extraClass={"border-b py-10px pl-5px text-15px font-medium uppercase leading-20px lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0"} {...{ searchTerm, allMoviesPromise }} />
         </SuspenseWithLoading>
       </div>
     </>
-  );
-}
-
-function Results({
-  allMoviesPromise,
-  searchTerm,
-}: {
-  allMoviesPromise: Promise<SearchMovie[]>;
-  searchTerm: string;
-}) {
-  const selected = useRechercheStore((s) => s.selected);
-  const tags = useRechercheStore((s) => s.tags);
-  const allMovies = use(allMoviesPromise);
-  const allMoviesFields = useMemo(() => {
-    return orderBy(
-      allMovies.map<[SearchMovie, string[]]>((movie) => [
-        movie,
-        getFields(getMovieInfoString(movie)),
-      ]),
-      ([movie]) => movie.relevance_score,
-      "desc",
-    );
-  }, [allMovies]);
-  const keywords = useMemo(() => getFields(searchTerm), [searchTerm]);
-  const selectedRef: MutableRefObject<HTMLAnchorElement | null> = useRef(null);
-
-  useEffect(() => {
-    const curr = selectedRef.current;
-    if (
-      curr != null &&
-      (curr.getBoundingClientRect().bottom + 100 > window.innerHeight ||
-        curr.getBoundingClientRect().top - 100 < 0)
-    ) {
-      curr.scrollIntoView({ block: "center" });
-    }
-  }, [selected]);
-
-  const filtered = useMemo(
-    () =>
-      searchTerm.length > 0
-        ? take(
-            allMoviesFields
-              .filter(
-                ([_, fields]) =>
-                  stringMatchFields(keywords, fields) &&
-                  (tags.length === 0 || every(tags, () => true)),
-              )
-              .map(([movie]) => movie),
-            50,
-          )
-        : [],
-    [allMoviesFields, searchTerm, keywords, tags],
-  );
-
-  const router = useRouter();
-
-  useEffect(() => {
-    const keydown = (ev: KeyboardEvent) => {
-      const selected = useRechercheStore.getState().selected;
-      if (ev.key === "ArrowDown") {
-        setSelected(Math.min((selected ?? -1) + 1, filtered.length - 1));
-      } else if (ev.key === "ArrowUp") {
-        setSelected(Math.max((selected ?? filtered.length) - 1, 0));
-      } else if (ev.key === "Enter" && selected != null) {
-        router.push(`/film/${filtered[selected].id}`);
-      }
-    };
-
-    addEventListener("keydown", keydown);
-    return () => removeEventListener("keydown", keydown);
-  }, [filtered, router]);
-
-  return (
-    searchTerm.length > 0 && (
-      <div className="flex grow flex-col">
-        {filtered.length > 0 ? (
-          <>
-            {filtered.map((movie, i) => (
-              <Link
-                ref={selected === i ? selectedRef : null}
-                key={movie.id}
-                href={`/film/${movie.id}`}
-                className={clsx(
-                  {
-                    "lg:bg-retro-pale-green": i === selected,
-                    "lg:even:bg-white": i !== selected,
-                  },
-                  "border-b py-10px pl-5px text-15px font-medium uppercase leading-20px even:bg-retro-pale-green lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0 lg:hover:bg-retro-pale-green",
-                )}
-              >
-                <u>{movie.title}</u>, {movie.directors} ({movie.year})
-              </Link>
-            ))}
-            <div className="min-h-100px w-1/2 grow border-r lg:hidden" />
-          </>
-        ) : (
-          <div className="pt-15px lg:pt-20px">
-            <MetaCopy>
-              Désolé, nous n&apos;avons rien trouvé qui corresponde à votre
-              recherche !
-            </MetaCopy>
-          </div>
-        )}
-      </div>
-    )
   );
 }
 
