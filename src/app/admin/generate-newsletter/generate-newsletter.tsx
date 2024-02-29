@@ -62,7 +62,7 @@ export default function GenerateNewsletter({
       </PageHeader>
       <SuspenseWithLoading>
         <div className="flex grow items-center justify-center">
-          <Movies movies={movies} />
+          <WeekGenerator movies={movies} />
         </div>
         <div className="flex grow flex-col border-t pl-20px">
           <div className="flex flex-col pt-44px">
@@ -74,7 +74,7 @@ export default function GenerateNewsletter({
   );
 }
 
-export function Movies({
+export function WeekGenerator({
   movies: moviesPromise,
 }: {
   movies: Promise<MovieWithShowtimesByDay[]>;
