@@ -73,7 +73,11 @@ export default function Details() {
               height={675}
               style={{ width: "100%", height: "auto" }}
             />
-            <h3 style={{ color: "grey" }}>COUP DE CŒUR</h3>
+            <h3 style={{ color: "grey" }}>
+              {movie.category === "ON EST CURIEUX"
+                ? "ON EST CURIEUX"
+                : "COUP DE CŒUR"}
+            </h3>
             <div dangerouslySetInnerHTML={{ __html: movie.review }}></div>
             <div style={{ textAlign: "right" }}>
               Critique du{" "}
