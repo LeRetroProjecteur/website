@@ -39,9 +39,9 @@ export interface SearchMovie {
 
 export interface ShowtimesTheater {
   showtimes: number[];
-  location_2: string;
-  zipcode_clean: string;
-  clean_name: string;
+  neighborhood: string;
+  zipcode: string;
+  name: string;
 }
 
 export interface Review {

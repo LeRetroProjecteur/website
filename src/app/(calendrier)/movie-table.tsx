@@ -252,16 +252,10 @@ function MultiDaySeances({ movie }: { movie: MovieWithShowtimesByDay }) {
           </CalendrierCopy>
           <div className="flex grow flex-col gap-10px lg:gap-5px">
             {sortBy(
-              uniqBy(
-                theaters,
-                (showtime_theater) => showtime_theater.clean_name,
-              ),
-              (showtime_theater) => showtime_theater.clean_name,
+              uniqBy(theaters, (showtime_theater) => showtime_theater.name),
+              (showtime_theater) => showtime_theater.name,
             ).map((theater) => (
-              <SeancesTheater
-                showtimesTheater={theater}
-                key={theater.clean_name}
-              />
+              <SeancesTheater showtimesTheater={theater} key={theater.name} />
             ))}
           </div>
         </div>
@@ -314,7 +308,7 @@ function filterAndSortMovies(
                 (quartiers.length === 0 ||
                   some(
                     quartiers,
-                    (quartier) => quartier === theater.location_2,
+                    (quartier) => quartier === theater.neighborhood,
                   )),
             ),
         }))
