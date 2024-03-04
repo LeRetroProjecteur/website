@@ -76,7 +76,7 @@ export default function Details() {
             <h3 style={{ color: "grey" }}>COUP DE CŒUR</h3>
             <div dangerouslySetInnerHTML={{ __html: movie.review }}></div>
             <div style={{ textAlign: "right" }}>
-              Critique du{" "}
+              Texte du{" "}
               {format(
                 getStartOfDayInParis(checkNotNull(movie.review_date)),
                 "d MMMM y",
