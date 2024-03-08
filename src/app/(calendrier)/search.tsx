@@ -11,7 +11,7 @@ export default function Search() {
     <RetroInput
       setValue={setFilter}
       value={filter}
-      placeholder="Réalisateur, pays, titre..."
+      placeholder="Filtrer par cinéaste, titre, pays..."
     />
   );
 }

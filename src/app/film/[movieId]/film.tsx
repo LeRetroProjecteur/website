@@ -83,7 +83,7 @@ function MovieReview({ movie }: { movie: MovieDetail }) {
                 />
               </div>
               <MetaCopy>
-                Critique du{" "}
+                Texte du{" "}
                 {formatDDMMYYWithSlashes(safeDate(movie.review_date))}
               </MetaCopy>
             </div>
