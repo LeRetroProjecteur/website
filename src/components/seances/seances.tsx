@@ -26,11 +26,8 @@ export default function Seances({
   const sortedTheaters = useMemo(
     () =>
       sortBy(
-        uniqBy(
-          showtimes_theater,
-          (showtime_theater) => showtime_theater.clean_name,
-        ),
-        (showtime_theater) => showtime_theater.clean_name,
+        uniqBy(showtimes_theater, (showtime_theater) => showtime_theater.name),
+        (showtime_theater) => showtime_theater.name,
       ),
     [showtimes_theater],
   );
@@ -53,7 +50,7 @@ export default function Seances({
       {(isExpanded ? sortedTheaters : unexpandedTheaters).map((theater) => (
         <SeancesTheater
           showtimesTheater={theater}
-          key={theater.clean_name}
+          key={theater.name}
           timesPerLine={timesPerLine}
         />
       ))}
@@ -69,18 +66,21 @@ export default function Seances({
 }
 
 function transformZipcode(inZip: string) {
-  if (inZip.substring(inZip.length - 3) == "ème") {
+  if (inZip.substring(0, 2) == "75") {
+    inZip = inZip.substring(3, 5);
+    if (inZip == "01") {
+      return (
+        <span>
+          1<sup>er</sup>
+        </span>
+      );
+    } else if (inZip.substring(0, 1) == "0") {
+      inZip = inZip.substring(1, 2);
+    }
     return (
       <span>
-        {inZip.replace("ème", "")}
+        {inZip}
         <sup>e</sup>
-      </span>
-    );
-  } else if (inZip.substring(inZip.length - 2) == "er") {
-    return (
-      <span>
-        {inZip.replace("er", "")}
-        <sup>er</sup>
       </span>
     );
   } else {
@@ -101,11 +101,10 @@ export function SeancesTheater({
   );
 
   return (
-    <div className="flex justify-between" key={showtimesTheater.clean_name}>
+    <div className="flex justify-between" key={showtimesTheater.name}>
       <div className="w-min grow pr-10px">
         <CalendrierCopy>
-          {showtimesTheater.clean_name} (
-          {transformZipcode(showtimesTheater.zipcode_clean)})
+          {showtimesTheater.name} ({transformZipcode(showtimesTheater.zipcode)})
         </CalendrierCopy>
       </div>
       <div className="flex flex-col">
