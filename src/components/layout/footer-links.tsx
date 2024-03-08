@@ -23,12 +23,7 @@ export default function FooterLinks({ color }: { color: "gray" | "black" }) {
       </div>
       <LinkBox color={color}>
         <a href="https://www.instagram.com/leretroprojecteur" target="_blank">
-          instagram
-        </a>
-      </LinkBox>
-      <LinkBox color={color}>
-        <a href="https://twitter.com/RetroProjecteur" target="_blank">
-          twitter
+          Suivez-nous !
         </a>
       </LinkBox>
     </div>
