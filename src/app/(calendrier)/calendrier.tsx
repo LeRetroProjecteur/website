@@ -50,9 +50,7 @@ export default function Calendrier({
         </div>
       </PageHeader>
       <div className="flex grow flex-col lg:pl-20px">
-        <div className="flex pb-23px lg:pb-32px">
-          <TimeSlider />
-        </div>
+        <TimeSlider />
         <div className="flex flex-col lg:flex-row">
           <div className="flex lg:pr-20px">
             <QuartierSelectorToggler

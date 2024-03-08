@@ -18,12 +18,12 @@ export default function TimeSlider() {
   };
 
   return (
-    <div className="flex grow flex-col justify-between">
+    <div className="flex grow flex-col">
       <div className="flex">
         <div className="pb-10px lg:pb-20px">
           <ButtonCopy>Horaires :&nbsp;</ButtonCopy>
         </div>
-        <div className="flex grow justify-between">
+        <div className="flex grow">
           <div className="relative left-0">
             <ButtonCopy>{`de ${padStart(
               String(minHour),
@@ -31,52 +31,50 @@ export default function TimeSlider() {
               "0",
             )}h`}</ButtonCopy>
           </div>
+          <div className="z-0 flex h-[12px] grow px-5">
+            <ReactSlider
+              className="grow"
+              renderThumb={(props) => (
+                <div
+                  key={props.key}
+                  {...omit({ ...props }, "key")}
+                  className="bottom-[-24px] cursor-pointer outline-none"
+                >
+                  <Thumb />
+                </div>
+              )}
+              renderTrack={(props, state) => (
+                <div
+                  key={props.key}
+                  {...omit(
+                    {
+                      ...props,
+                      style: {
+                        ...props.style,
+                        ...adjustPx(
+                          props.style as { left: string; right: string },
+                          state.index === 1 || state.index == 2 ? 25 : 0,
+                          state.index === 0 || state.index === 1 ? 25 : 0,
+                        ),
+                      },
+                    },
+                    "key",
+                  )}
+                  className={clsx("bottom-0 border-r border-t", {
+                    "border-dotted": state.index != 1,
+                  })}
+                />
+              )}
+              value={[minHour, maxHour]}
+              max={24}
+              min={0}
+              minDistance={1}
+              onChange={onChange}
+            />
+          </div>
           <div className="relative right-0">
             <ButtonCopy>{`à ${padStart(String(maxHour), 2, "0")}h`}</ButtonCopy>
           </div>
-        </div>
-      </div>
-      <div className="relative flex">
-        <div className="z-10 flex h-[2px] grow">
-          <ReactSlider
-            className="grow"
-            renderThumb={(props) => (
-              <div
-                key={props.key}
-                {...omit({ ...props }, "key")}
-                className="bottom-[-24px] cursor-pointer outline-none"
-              >
-                <Thumb />
-              </div>
-            )}
-            renderTrack={(props, state) => (
-              <div
-                key={props.key}
-                {...omit(
-                  {
-                    ...props,
-                    style: {
-                      ...props.style,
-                      ...adjustPx(
-                        props.style as { left: string; right: string },
-                        state.index === 1 || state.index == 2 ? 25 : 0,
-                        state.index === 0 || state.index === 1 ? 25 : 0,
-                      ),
-                    },
-                  },
-                  "key",
-                )}
-                className={clsx("bottom-0 border-t", {
-                  "border-dotted": state.index != 1,
-                })}
-              />
-            )}
-            value={[minHour, maxHour]}
-            max={24}
-            min={0}
-            minDistance={1}
-            onChange={onChange}
-          />
         </div>
       </div>
     </div>
