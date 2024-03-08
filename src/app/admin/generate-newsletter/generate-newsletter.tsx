@@ -338,9 +338,7 @@ function getCinemas(movies: MovieWithShowtimesByDay[]) {
   const movieCinemas = movies.map<[MovieWithShowtimesByDay, string[]]>(
     (movie) => [
       movie,
-      flatten(Object.values(movie.showtimes_by_day)).map(
-        ({ clean_name }) => clean_name,
-      ),
+      flatten(Object.values(movie.showtimes_by_day)).map(({ name }) => name),
     ],
   );
   const cinemas = uniq(
