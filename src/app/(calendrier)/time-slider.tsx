@@ -37,8 +37,7 @@ export default function TimeSlider() {
         </div>
       </div>
       <div className="relative flex">
-        <div className="absolute bottom-0 flex w-full grow border-t" />
-        <div className="z-10 mx-2 flex h-[2px] grow bg-white">
+        <div className="z-10 flex h-[2px] grow">
           <ReactSlider
             className="grow"
             renderThumb={(props) => (
@@ -68,8 +67,7 @@ export default function TimeSlider() {
                   "key",
                 )}
                 className={clsx("bottom-0 border-t", {
-                  "border-dotted": state.index === 1,
-                  "z-99": state.index == 1,
+                  "border-dotted": state.index != 1,
                 })}
               />
             )}
