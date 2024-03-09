@@ -67,24 +67,33 @@ export default function Menu() {
             <CloseIcon />
           </div>
         </div>
-        <Link href="/" onClick={onClickLogo}>
-          <div className="flex justify-center pb-18px lg:pb-0">
-            <Image
-              src={logoCarre}
-              alt="logo"
-              className="h-auto w-250px lg:w-207px"
-            />
-          </div>
-          <MenuLink>
-            <div className="pb-16px font-degular text-44px font-extrabold uppercase leading-29px tracking-[0.01em] text-retro-gray lg:py-3px lg:text-35px lg:leading-25px">
-              le rétro
-              <br />
-              projecteur
+        <div className="justify-center pb-10px">
+          <Link href="/" onClick={onClickLogo}>
+            <div className="flex justify-center pb-18px lg:pb-0">
+              <Image
+                src={logoCarre}
+                alt="logo"
+                className="h-auto w-250px lg:w-207px"
+              />
             </div>
-          </MenuLink>
-          <div className="hidden" />
-        </Link>
-        <div className="flex flex-col">
+            <div className="flex justify-center">
+              <div className="w-min grow whitespace-break-spaces pb-10px text-center font-degular text-44px font-extrabold uppercase leading-29px tracking-[0.01em] text-retro-gray lg:py-5px lg:text-35px lg:leading-25px">
+                le rétro
+                <br />
+                projecteur
+              </div>
+            </div>
+            <div className="hidden" />
+          </Link>
+          <div className="flex justify-center">
+            <div className="w-250px whitespace-break-spaces border border-retro-red py-5px text-center text-20px font-medium uppercase leading-21px text-retro-red lg:w-207px">
+              L&apos;actualité des
+              <br />
+              vieux films à Paris
+            </div>
+          </div>
+        </div>
+        <div className="flex flex-col border-t">
           {menu.map(([section, path]) => (
             <Link key={path} href={path} onClick={closeMenuIfOnSamePathname}>
               <MenuLink key={path} path={path} className="py-16px">
@@ -115,7 +124,7 @@ function MenuLink({
   const route = usePathname();
   return (
     <div
-      className={clsx(className, "flex justify-center border-b lg:py-12px", {
+      className={clsx(className, "flex border-b lg:py-12px", {
         "bg-retro-green":
           (path === "/" && route === "/") ||
           (path != null && path !== "/" && route.startsWith(path)),

@@ -26,6 +26,7 @@ const config: Config = {
         ["retro-green"]: "#E2FF46",
         ["retro-pale-green"]: "#E2FF4666",
         ["retro-blue"]: "#CCDAFF",
+        ["retro-red"]: "#FF4D4D",
       },
       flexBasis: ALL_PX,
       fontFamily: {
