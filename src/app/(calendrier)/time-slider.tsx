@@ -25,13 +25,13 @@ export default function TimeSlider() {
         </div>
         <div className="flex grow">
           <div className="relative left-0">
-            <ButtonCopy>{`de ${padStart(
+            <ButtonCopy className="border-r border-black pr-20px">{`de ${padStart(
               String(minHour),
               2,
               "0",
             )}h`}</ButtonCopy>
           </div>
-          <div className="z-0 flex h-[12px] grow px-5">
+          <div className="z-0 flex h-[12px] grow">
             <ReactSlider
               className="grow"
               renderThumb={(props) => (
@@ -73,7 +73,9 @@ export default function TimeSlider() {
             />
           </div>
           <div className="relative right-0">
-            <ButtonCopy>{`à ${padStart(String(maxHour), 2, "0")}h`}</ButtonCopy>
+            <ButtonCopy className="border-l border-black pl-20px">
+              {`à ${padStart(String(maxHour), 2, "0")}h`}
+            </ButtonCopy>
           </div>
         </div>
       </div>
