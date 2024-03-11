@@ -22,9 +22,7 @@ export default function FooterLinks({ color }: { color: "gray" | "black" }) {
         </LinkBox>
       </div>
       <LinkBox color={color}>
-        <a href="https://www.instagram.com/leretroprojecteur" target="_blank">
-          Suivez-nous !
-        </a>
+        <a href="/reseaux">Suivez-nous !</a>
       </LinkBox>
     </div>
   );
