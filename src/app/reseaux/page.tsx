@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   title: "Réseaux sociaux | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
 };
 
-export default function AProposPage() {
+export default function SocialMediaPage() {
   return (
     <>
       <PageHeader text="Suivez-nous&nbsp;!">
