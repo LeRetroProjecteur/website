@@ -60,14 +60,14 @@ export default function TimeSlider() {
   );
 
   return (
-    <div className="flex grow flex-col">
+    <div className="flex flex-col">
       <div className="flex">
         <div className="pb-10px lg:pb-20px">
           <ButtonCopy>Horaires :&nbsp;</ButtonCopy>
         </div>
         <div className="flex grow">
-          <div className="relative left-0">
-            <ButtonCopy className="lg:border-r lg:border-black lg:pr-20px">{`de ${padStart(
+          <div className="relative left-0 w-95px">
+            <ButtonCopy className="lg:border-r lg:border-black">{`de ${padStart(
               String(minHour),
               2,
               "0",
@@ -76,8 +76,8 @@ export default function TimeSlider() {
           <div className="invisible z-0 flex h-[12px] grow lg:visible">
             {sliderBar}
           </div>
-          <div className="relative right-0">
-            <ButtonCopy className="lg:border-l lg:border-black lg:pl-20px">
+          <div className="relative right-0 w-80px text-right">
+            <ButtonCopy className="lg:border-l lg:border-black">
               {`à ${padStart(String(maxHour), 2, "0")}h`}
             </ButtonCopy>
           </div>
