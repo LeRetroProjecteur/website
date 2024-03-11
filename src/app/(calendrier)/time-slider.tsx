@@ -17,6 +17,48 @@ export default function TimeSlider() {
     setMaxHour(newMaxHour);
   };
 
+  const sliderBar = (
+    <ReactSlider
+      className="grow"
+      renderThumb={(props) => (
+        <div
+          key={props.key}
+          {...omit({ ...props }, "key")}
+          className="bottom-[-24px] cursor-pointer outline-none"
+        >
+          <Thumb />
+        </div>
+      )}
+      renderTrack={(props, state) => (
+        <div
+          key={props.key}
+          {...omit(
+            {
+              ...props,
+              style: {
+                ...props.style,
+                ...adjustPx(
+                  props.style as { left: string; right: string },
+                  state.index === 1 || state.index == 2 ? 25 : 0,
+                  state.index === 0 || state.index === 1 ? 25 : 0,
+                ),
+              },
+            },
+            "key",
+          )}
+          className={clsx("bottom-0 border-r border-t", {
+            "border-dotted": state.index != 1,
+          })}
+        />
+      )}
+      value={[minHour, maxHour]}
+      max={24}
+      min={0}
+      minDistance={1}
+      onChange={onChange}
+    />
+  );
+
   return (
     <div className="flex grow flex-col">
       <div className="flex">
@@ -25,58 +67,25 @@ export default function TimeSlider() {
         </div>
         <div className="flex grow">
           <div className="relative left-0">
-            <ButtonCopy className="border-r border-black pr-20px">{`de ${padStart(
+            <ButtonCopy className="lg:border-r lg:border-black lg:pr-20px">{`de ${padStart(
               String(minHour),
               2,
               "0",
             )}h`}</ButtonCopy>
           </div>
-          <div className="z-0 flex h-[12px] grow">
-            <ReactSlider
-              className="grow"
-              renderThumb={(props) => (
-                <div
-                  key={props.key}
-                  {...omit({ ...props }, "key")}
-                  className="bottom-[-24px] cursor-pointer outline-none"
-                >
-                  <Thumb />
-                </div>
-              )}
-              renderTrack={(props, state) => (
-                <div
-                  key={props.key}
-                  {...omit(
-                    {
-                      ...props,
-                      style: {
-                        ...props.style,
-                        ...adjustPx(
-                          props.style as { left: string; right: string },
-                          state.index === 1 || state.index == 2 ? 25 : 0,
-                          state.index === 0 || state.index === 1 ? 25 : 0,
-                        ),
-                      },
-                    },
-                    "key",
-                  )}
-                  className={clsx("bottom-0 border-r border-t", {
-                    "border-dotted": state.index != 1,
-                  })}
-                />
-              )}
-              value={[minHour, maxHour]}
-              max={24}
-              min={0}
-              minDistance={1}
-              onChange={onChange}
-            />
+          <div className="invisible z-0 flex h-[12px] grow lg:visible">
+            {sliderBar}
           </div>
           <div className="relative right-0">
-            <ButtonCopy className="border-l border-black pl-20px">
+            <ButtonCopy className="lg:border-l lg:border-black lg:pl-20px">
               {`à ${padStart(String(maxHour), 2, "0")}h`}
             </ButtonCopy>
           </div>
+        </div>
+      </div>
+      <div className="relative flex">
+        <div className="z-10 flex h-[2px] grow bg-white pb-23px lg:invisible lg:pb-0">
+          {sliderBar}
         </div>
       </div>
     </div>
