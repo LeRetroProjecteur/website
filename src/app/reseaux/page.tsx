@@ -1,14 +1,15 @@
+"use client";
+
 import clsx from "clsx";
-import { Metadata } from "next";
-import { ReactNode } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { MouseEvent, ReactNode, useCallback } from "react";
 
 import PageHeader from "@/components/layout/page-header";
 import { TwoColumnPage } from "@/components/layout/two-column-page";
 import { SousTitre1 } from "@/components/typography/typography";
-
-export const metadata: Metadata = {
-  title: "Réseaux sociaux | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
-};
+import { useCalendrierStore } from "@/lib/calendrier-store";
+import { closeMenu } from "@/lib/menu-store";
 
 export default function SocialMediaPage() {
   return (
@@ -29,27 +30,77 @@ function Left() {
     </div>
   );
 }
+
 function Right() {
+  const pathName = usePathname();
+
+  const closeMenuIfOnSamePathname = useCallback(
+    (e: MouseEvent<HTMLAnchorElement>) => {
+      useCalendrierStore.getState().reset();
+      let anchor: EventTarget | null = e.target;
+      while (
+        anchor != null &&
+        anchor instanceof Node &&
+        !(anchor instanceof HTMLAnchorElement)
+      ) {
+        anchor = anchor.parentElement;
+      }
+
+      if (
+        anchor != null &&
+        (anchor as HTMLAnchorElement).href != null &&
+        (anchor as HTMLAnchorElement).href.endsWith(pathName)
+      ) {
+        closeMenu();
+      }
+    },
+    [pathName],
+  );
+
   return (
     <div className="flex grow flex-col gap-y-12px pb-10px lg:gap-y-10px lg:pb-0 lg:pt-10px">
-      <LinkBox color="black">
-        <a href="https://www.instagram.com/leretroprojecteur" target="_blank">
-          instagram
-        </a>
-      </LinkBox>
-      <LinkBox color="black">
-        <a href="https://twitter.com/RetroProjecteur" target="_blank">
-          twitter
-        </a>
-      </LinkBox>
-      <LinkBox color="black">
-        <a
-          href="https://www.facebook.com/profile.php?id=100086988852803"
-          target="_blank"
-        >
-          Facebook
-        </a>
-      </LinkBox>
+      <Link
+        href="https://www.instagram.com/leretroprojecteur"
+        target="_blank"
+        onClick={closeMenuIfOnSamePathname}
+        className="items-center justify-center"
+      >
+        <LinkBox color="black">
+          <div className="px-4 py-3">
+            {" "}
+            {/* Adjust padding as needed */}
+            instagram
+          </div>
+        </LinkBox>
+      </Link>
+      <Link
+        href="https://twitter.com/RetroProjecteur"
+        target="_blank"
+        onClick={closeMenuIfOnSamePathname}
+        className="items-center justify-center"
+      >
+        <LinkBox color="black">
+          <div className="px-4 py-3">
+            {" "}
+            {/* Adjust padding as needed */}
+            twitter
+          </div>
+        </LinkBox>
+      </Link>
+      <Link
+        href="https://www.facebook.com/profile.php?id=100086988852803"
+        target="_blank"
+        onClick={closeMenuIfOnSamePathname}
+        className="items-center justify-center"
+      >
+        <LinkBox color="black">
+          <div className="px-4 py-3">
+            {" "}
+            {/* Adjust padding as needed */}
+            Facebook
+          </div>
+        </LinkBox>
+      </Link>
     </div>
   );
 }
