@@ -27,7 +27,7 @@ export default function DateSelector() {
       {canGoBackInTime ? (
         <div
           onClick={onClickLeft}
-          className="flex grow cursor-pointer justify-start pr-5px pl-10px lg:pl-0"
+          className="flex grow cursor-pointer justify-start pl-10px pr-5px lg:pl-0"
         >
           <LeftArrow />
         </div>
