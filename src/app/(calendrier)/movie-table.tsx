@@ -72,7 +72,7 @@ export default function MovieTable({
   );
 
   return (
-    <div className="flex grow flex-col max-w-960px mx-auto">
+    <div className="mx-auto flex max-w-960px grow flex-col">
       <TableHeader />
       <SuspenseWithLoading className="h-60px border-b py-10px">
         {isLoading ? (
