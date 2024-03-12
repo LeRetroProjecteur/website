@@ -27,7 +27,7 @@ export default function DateSelector() {
       {canGoBackInTime ? (
         <div
           onClick={onClickLeft}
-          className="flex grow cursor-pointer justify-end pr-5px"
+          className="flex grow cursor-pointer justify-end"
         >
           <LeftArrow />
         </div>
@@ -35,13 +35,13 @@ export default function DateSelector() {
         <div className="grow" />
       )}
       <div>
-        <SousTitre1 className={canGoBackInTime ? "ml-5px" : ""}>
+        <SousTitre1 className="min-w-270px text-center lg:min-w-370px">
           {formatLundi1Janvier(date)}
         </SousTitre1>
       </div>
       <div
         onClick={onClickRight}
-        className="flex grow cursor-pointer justify-start pl-5px"
+        className="flex grow cursor-pointer justify-start"
       >
         <RightArrow />
       </div>
