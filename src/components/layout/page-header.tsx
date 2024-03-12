@@ -8,7 +8,7 @@ export default function PageHeader({
   text,
 }: {
   children?: ReactNode;
-  text: string;
+  text: ReactNode;
 }) {
   return (
     <FixedHeader>

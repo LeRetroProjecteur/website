@@ -12,11 +12,17 @@ import { closeMenu } from "@/lib/menu-store";
 
 import logoCarre from "../../assets/logo-carre.gif";
 import FooterLinks from "../layout/footer-links";
+import { CoeurWithSpacing } from "../typography/typography";
 
 const menu: [JSX.Element, string][] = [
   [<>calendrier</>, "/"],
   [<>actualités</>, "/actualites"],
-  [<>coups de cœur</>, "/coeur"],
+  [
+    <>
+      coups de <CoeurWithSpacing />
+    </>,
+    "/coeur",
+  ],
   [<>à propos</>, "/a-propos"],
   [<>recherche</>, "/recherche"],
 ];
