@@ -1,10 +1,11 @@
 import clsx from "clsx";
 import { omit, padStart } from "lodash-es";
 import ReactSlider from "react-slider";
+import { useWindowSize } from "usehooks-ts";
 
 import { ButtonCopy } from "@/components/typography/typography";
 import { useCalendrierStore } from "@/lib/calendrier-store";
-import { checkNotNull } from "@/lib/util";
+import { checkNotNull, getBreakpoint } from "@/lib/util";
 
 export default function TimeSlider() {
   const minHour = useCalendrierStore((s) => s.minHour);
@@ -16,6 +17,7 @@ export default function TimeSlider() {
     setMinHour(newMinHour);
     setMaxHour(newMaxHour);
   };
+  const { width } = useWindowSize();
 
   const sliderBar = (
     <ReactSlider
@@ -62,10 +64,10 @@ export default function TimeSlider() {
   return (
     <div className="flex flex-col">
       <div className="flex">
-        <div className="pb-10px lg:pb-20px">
-          <ButtonCopy>Horaires :&nbsp;</ButtonCopy>
-        </div>
-        <div className="flex grow">
+        <div className="grid-container flex grow">
+          <div className="pb-10px lg:pb-20px">
+            <ButtonCopy>Horaires :&nbsp;</ButtonCopy>
+          </div>
           <div className="relative left-0 w-95px">
             <ButtonCopy className="lg:border-r lg:border-retro-gray">{`de ${padStart(
               String(minHour),
@@ -73,8 +75,8 @@ export default function TimeSlider() {
               "0",
             )}h`}</ButtonCopy>
           </div>
-          <div className="invisible z-0 flex h-[12px] grow lg:visible">
-            {sliderBar}
+          <div className="z-0 flex h-[12px] grow">
+            {width >= getBreakpoint("lg") && sliderBar}
           </div>
           <div className="relative right-0 w-80px text-right">
             <ButtonCopy className="lg:border-l lg:border-retro-gray">
@@ -83,11 +85,11 @@ export default function TimeSlider() {
           </div>
         </div>
       </div>
-      <div className="relative flex">
-        <div className="z-10 flex h-[2px] grow bg-white pb-23px lg:invisible lg:pb-0">
+      {width < getBreakpoint("lg") && (
+        <div className="z-10 flex h-[2px] grow bg-white pb-23px">
           {sliderBar}
         </div>
-      </div>
+      )}
     </div>
   );
 }
