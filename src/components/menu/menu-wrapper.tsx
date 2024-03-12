@@ -23,7 +23,7 @@ export default function MenuWrapper({
 
   return (
     <>
-      <div className="relative lg:static lg:flex lg:items-start">
+      <div className="relative mx-auto max-w-1366px lg:static lg:flex lg:items-start">
         <motion.div
           className="absolute left-0 z-10 hidden min-h-screen w-full bg-white lg:sticky lg:top-0 lg:flex lg:w-max lg:p-20px lg:pr-0"
           animate={
