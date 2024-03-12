@@ -129,3 +129,11 @@ export function CalendrierCopy({
     </div>
   );
 }
+
+export function CoeurWithSpacing() {
+  return (
+    <>
+      c<span className="tracking-[-0.08em]">o</span>eur
+    </>
+  );
+}

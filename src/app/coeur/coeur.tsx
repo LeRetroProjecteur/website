@@ -12,6 +12,7 @@ import {
 } from "@/components/layout/thumbnails";
 import {
   BodyCopy,
+  CoeurWithSpacing,
   MetaCopy,
   SousTitre1,
 } from "@/components/typography/typography";
@@ -45,7 +46,13 @@ export default function CoupsDeCoeur({
 
   return (
     <>
-      <PageHeader text="coups de cœur">
+      <PageHeader
+        text={
+          <>
+            coups de <CoeurWithSpacing />
+          </>
+        }
+      >
         <SubHeader display={display} toggleDisplay={toggleDisplay} />
       </PageHeader>
       <div className="flex grow flex-col lg:pl-20px">
