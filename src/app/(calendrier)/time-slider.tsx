@@ -73,9 +73,8 @@ export default function TimeSlider() {
               "0",
             )}h`}</ButtonCopy>
           </div>
-          <div className="invisible z-0 flex h-[12px] grow lg:visible">
-            {sliderBar}
-          </div>
+          <div className="block grow lg:hidden" />
+          <div className="z-0 hidden h-[12px] grow lg:flex">{sliderBar}</div>
           <div className="relative right-0 w-80px text-right">
             <ButtonCopy className="lg:border-l lg:border-retro-gray">
               {`à ${padStart(String(maxHour), 2, "0")}h`}
@@ -83,8 +82,8 @@ export default function TimeSlider() {
           </div>
         </div>
       </div>
-      <div className="relative flex">
-        <div className="z-10 flex h-[2px] grow bg-white pb-23px lg:invisible lg:pb-0">
+      <div className="relative flex lg:hidden">
+        <div className="z-10 flex h-[2px] grow bg-white pb-23px lg:pb-0">
           {sliderBar}
         </div>
       </div>
