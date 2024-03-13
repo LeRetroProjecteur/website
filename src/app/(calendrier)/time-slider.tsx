@@ -60,7 +60,7 @@ export default function TimeSlider() {
   );
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col lg:pt-14px">
       <div className="flex">
         <div className="pb-10px lg:pb-20px">
           <ButtonCopy>Horaires :&nbsp;</ButtonCopy>
