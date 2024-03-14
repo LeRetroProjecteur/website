@@ -24,9 +24,12 @@ export default function TopBar() {
         <BurgerIcon />
       </div>
       <div className="flex grow justify-center">
-        <Link href="/" onClick={onClickLogo} className="w-[70%] max-w-250px">
+        <Link href="/" onClick={onClickLogo} className="w-[90%] max-w-250px">
           <Image src={logoAnime} alt="logo" />
         </Link>
+      </div>
+      <div className="invisible flex items-center justify-start">
+        <BurgerIcon />
       </div>
     </div>
   );
