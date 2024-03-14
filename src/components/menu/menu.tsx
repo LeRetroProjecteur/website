@@ -7,6 +7,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MouseEvent, ReactNode, useCallback, useEffect } from "react";
 
+import { TextBox } from "@/components/layout/text-boxes";
 import { useCalendrierStore } from "@/lib/calendrier-store";
 import { closeMenu } from "@/lib/menu-store";
 
@@ -82,8 +83,8 @@ export default function Menu() {
                 className="h-auto w-250px lg:w-207px"
               />
             </div>
-            <div className="flex justify-center">
-              <div className="w-min grow whitespace-break-spaces pb-10px text-center font-degular text-44px font-extrabold uppercase leading-29px tracking-[0.01em] text-retro-gray lg:py-5px lg:text-35px lg:leading-25px">
+            <div className="flex justify-center pb-10px">
+              <div className="w-min grow whitespace-break-spaces border-b py-12px text-center font-degular text-44px font-extrabold uppercase leading-29px tracking-[0.01em] text-retro-gray lg:text-35px lg:leading-25px">
                 le rétro
                 <br />
                 projecteur
@@ -91,12 +92,15 @@ export default function Menu() {
             </div>
             <div className="hidden" />
           </Link>
-          <div className="flex justify-center">
-            <div className="w-250px whitespace-break-spaces border border-retro-red py-5px text-center text-20px font-medium uppercase leading-21px text-retro-red lg:w-207px">
-              L&apos;actualité des
+          <div className="flex grow flex-col justify-center">
+            <TextBox
+              textColor={"retro-dark-blue"}
+              borderColor={"retro-dark-blue"}
+            >
+              Ressorties
               <br />
-              vieux films à Paris
-            </div>
+              cinéma à Paris
+            </TextBox>
           </div>
         </div>
         <div className="flex flex-col border-t">
@@ -112,7 +116,7 @@ export default function Menu() {
         </div>
       </div>
       <div className="flex pb-28px pt-15px lg:pb-0">
-        <FooterLinks color="black" />
+        <FooterLinks color="retro-black" />
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ export default function Footer() {
   return (
     <div className="flex grow flex-col lg:h-146px lg:border-t lg:pt-10px">
       <div className="flex lg:hidden">
-        <FooterLinks color="gray" />
+        <FooterLinks color="retro-gray" />
       </div>
       <div className="flex flex-col pt-20px lg:grow lg:justify-between lg:pt-0">
         <div className="text-center lg:text-left">
