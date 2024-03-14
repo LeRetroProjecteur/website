@@ -223,8 +223,10 @@ function MovieCell({ movie }: { movie: MovieWithNoShowtimes }) {
       <div className="flex items-center">
         <div className="grow py-12px lg:py-17px">
           <CalendrierCopy>
-            <i className="uppercase group-hover:underline">{movie.title}</i>,{" "}
-            {movie.directors} ({movie.year})
+            <i className="font-semibold uppercase group-hover:underline">
+              {movie.title}
+            </i>
+            , {movie.directors} ({movie.year})
           </CalendrierCopy>
         </div>
         {isCoupDeCoeur(movie) && (

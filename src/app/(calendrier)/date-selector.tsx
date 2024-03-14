@@ -1,5 +1,6 @@
 "use client";
 
+import clsx from "clsx";
 import { useCallback } from "react";
 
 import { LeftArrow, RightArrow } from "@/components/icons/arrows";
@@ -24,24 +25,22 @@ export default function DateSelector() {
 
   return (
     <>
-      {canGoBackInTime ? (
-        <div
-          onClick={onClickLeft}
-          className="flex grow cursor-pointer justify-end pr-5px"
-        >
-          <LeftArrow />
-        </div>
-      ) : (
-        <div className="grow" />
-      )}
+      <div
+        onClick={onClickLeft}
+        className={clsx("flex grow cursor-pointer justify-end", {
+          invisible: !canGoBackInTime,
+        })}
+      >
+        <LeftArrow />
+      </div>
       <div>
-        <SousTitre1 className={canGoBackInTime ? "ml-5px" : ""}>
+        <SousTitre1 className="min-w-270px text-center lg:min-w-370px">
           {formatLundi1Janvier(date)}
         </SousTitre1>
       </div>
       <div
         onClick={onClickRight}
-        className="flex grow cursor-pointer justify-start pl-5px"
+        className="flex grow cursor-pointer justify-start"
       >
         <RightArrow />
       </div>
