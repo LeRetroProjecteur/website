@@ -208,7 +208,9 @@ function Row({
   return (
     <div className={clsx("flex", rowClassName)}>
       <div className="flex w-1/2 border-r">
-        <div className={clsx("grow border-b", cellClassName)}>{leftCol}</div>
+        <div className={clsx("flex grow border-b", cellClassName)}>
+          {leftCol}
+        </div>
       </div>
       <div className="flex w-1/2">
         <div className={clsx("grow border-b", cellClassName)}>{rightCol}</div>
@@ -221,6 +223,11 @@ function MovieCell({ movie }: { movie: MovieWithNoShowtimes }) {
   return (
     <Link href={`/film/${movie.id}`} className="block cursor-pointer">
       <div className="flex items-center">
+        {isCoupDeCoeur(movie) && (
+          <div className="shrink-0 pr-10px">
+            <Image className="w-25px" alt="coup de coeur" src={coupDeCoeur} />
+          </div>
+        )}
         <div className="grow py-12px lg:py-17px">
           <CalendrierCopy>
             <i className="font-semibold uppercase group-hover:underline">
@@ -229,11 +236,6 @@ function MovieCell({ movie }: { movie: MovieWithNoShowtimes }) {
             , {movie.directors} ({movie.year})
           </CalendrierCopy>
         </div>
-        {isCoupDeCoeur(movie) && (
-          <div className="shrink-0">
-            <Image className="w-25px" alt="coup de coeur" src={coupDeCoeur} />
-          </div>
-        )}
       </div>
     </Link>
   );
