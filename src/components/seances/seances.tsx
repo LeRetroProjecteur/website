@@ -87,9 +87,7 @@ export function SeancesTheater({
 }: {
   showtimesTheater: ShowtimesTheater;
 }) {
-  const showTimes = sortBy(
-    concat(showtimesTheater.showtimes, showtimesTheater.showtimes),
-  );
+  const showTimes = sortBy(showtimesTheater.showtimes);
 
   return (
     <div
