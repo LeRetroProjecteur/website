@@ -5,16 +5,14 @@ import { concat, sortBy, take, uniqBy } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
 
 import { ShowtimesTheater } from "@/lib/types";
-import { floatHourToString, splitIntoSubArrays } from "@/lib/util";
+import { floatHourToString } from "@/lib/util";
 
 import { CalendrierCopy } from "../typography/typography";
 
 export default function Seances({
   showtimes_theater,
-  timesPerLine,
 }: {
   showtimes_theater: ShowtimesTheater[];
-  timesPerLine?: number;
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -48,11 +46,7 @@ export default function Seances({
       )}
     >
       {(isExpanded ? sortedTheaters : unexpandedTheaters).map((theater) => (
-        <SeancesTheater
-          showtimesTheater={theater}
-          key={theater.name}
-          timesPerLine={timesPerLine}
-        />
+        <SeancesTheater showtimesTheater={theater} key={theater.name} />
       ))}
       {needsExpanding && (
         <div className="flex justify-end">
@@ -90,10 +84,8 @@ function transformZipcode(inZip: string) {
 
 export function SeancesTheater({
   showtimesTheater,
-  timesPerLine,
 }: {
   showtimesTheater: ShowtimesTheater;
-  timesPerLine?: number;
 }) {
   const showTimes = sortBy(
     concat(showtimesTheater.showtimes, showtimesTheater.showtimes),
