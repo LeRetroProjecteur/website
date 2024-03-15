@@ -97,7 +97,7 @@ export function SeancesTheater({
       key={showtimesTheater.name}
     >
       <div className="w-min grow pr-50px">
-        <CalendrierCopy>
+        <CalendrierCopy className="group-hover/cinema:underline">
           {showtimesTheater.name} ({transformZipcode(showtimesTheater.zipcode)})
         </CalendrierCopy>
       </div>
