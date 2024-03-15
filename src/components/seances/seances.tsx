@@ -101,7 +101,10 @@ export function SeancesTheater({
   );
 
   return (
-    <div className="flex justify-between" key={showtimesTheater.name}>
+    <div
+      className="group/cinema flex justify-between"
+      key={showtimesTheater.name}
+    >
       <div className="w-min grow pr-10px">
         <CalendrierCopy>
           {showtimesTheater.name} ({transformZipcode(showtimesTheater.zipcode)})
@@ -120,9 +123,12 @@ function ShowtimesLine({ threeShowtimes }: { threeShowtimes: number[] }) {
   return (
     <div className="flex flex-col lg:flex-row lg:justify-end">
       {threeShowtimes.map((showtime) => (
-        <div key={showtime} className="group flex justify-end">
+        <div
+          key={showtime}
+          className="group/seances flex justify-end group-hover/cinema:underline"
+        >
           <CalendrierCopy>{floatHourToString(showtime)}</CalendrierCopy>
-          <div className="hidden group-last:hidden lg:block">
+          <div className="hidden group-last/seances:hidden lg:block">
             <CalendrierCopy>&nbsp;•&nbsp;</CalendrierCopy>
           </div>
         </div>
