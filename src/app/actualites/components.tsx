@@ -5,10 +5,16 @@ import { blurProps } from "@/lib/util";
 
 export function ThreeColumnLayout({ children }: { children?: ReactNode }) {
   return (
-    <div className="3co1l:pl-0 mx-auto my-0 block max-w-[32rem] wide-article:max-w-[37.5rem] lg:m-0 lg:grid lg:max-w-none lg:grid-cols-[0_32rem_1fr] lg:pl-20px 3col:grid-cols-[minmax(16rem,_1fr)_minmax(30rem,_32rem)_minmax(16rem,_1fr)]">
+    <div className="3co1l:pl-0 mx-auto my-0 block max-w-[32rem] wide-article:max-w-[37.5rem] lg:m-0 lg:grid lg:max-w-none lg:grid-cols-[0_32rem_1fr] lg:pl-20px 3col:grid-cols-[minmax(13rem,_1fr)_minmax(30rem,_40rem)_minmax(13rem,_1fr)]">
       {children}
       <div />
-      <div className="min-h-100px lg:block lg:border-r lg:pb-20px" />
+      <div className="pt-15px lg:border-r lg:pr-20px lg:pt-20px">
+        <div className="border-b" />
+      </div>
+      <div />
+      <div />
+      <div className="hidden min-h-100px border-r lg:block" />
+      <div className="min-h-100px w-1/2 border-r lg:hidden" />
       <div />
     </div>
   );
@@ -78,22 +84,16 @@ export function MiddleColumnImageAndRightColumnCaption({
   return (
     <>
       <div />
-      <div className="pt-10px lg:border-r lg:pr-20px">
-        <div className="pb-10px lg:pb-20px">
+      <div className="lg:border-r lg:pr-20px">
+        <div className="py-10px lg:py-30px">
           <Image src={image} alt={alt} className="w-full" {...blurProps} />
         </div>
       </div>
-      <div className="self-end lg:pb-20px lg:pl-20px">
-        <div className="text-center text-14px font-semibold uppercase leading-17px text-retro-gray lg:text-left lg:text-16px lg:leading-19px">
+      <div className="self-end lg:pl-20px">
+        <div className="pb-10px text-center text-14px font-semibold uppercase leading-17px text-retro-gray lg:pb-30px lg:text-left lg:text-16px lg:leading-19px">
           {caption}
         </div>
       </div>
-
-      <div />
-      <div>
-        <div className="pb-15px pt-35px lg:border-r lg:pb-50px" />
-      </div>
-      <div />
     </>
   );
 }
