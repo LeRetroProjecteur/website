@@ -8,23 +8,30 @@ export function TextBox({
   bgColor,
 }: {
   children: ReactNode;
-  textColor?: string;
-  borderColor?: string;
-  bgColor?: string;
+  textColor?: "retro-gray" | "retro-black" | "retro-dark-blue";
+  borderColor?: "retro-gray" | "retro-black" | "retro-dark-blue";
+  bgColor?: "retro-blue";
 }) {
-  bgColor = "bg-" + bgColor;
-  textColor = "text-" + textColor;
-  borderColor = "border-" + borderColor;
   return (
     <div
       className={clsx(
         "flex items-center justify-center border py-9px",
-        bgColor,
-        borderColor,
+        {
+          "bg-retro-blue": bgColor === "retro-blue",
+        },
+        {
+          "border-retro-gray": borderColor === "retro-gray",
+          "border-retro-black": borderColor === "retro-black",
+          "border-retro-dark-blue": borderColor === "retro-dark-blue",
+        },
       )}
     >
       <div
-        className={clsx("grow whitespace-break-spaces text-center", textColor)}
+        className={clsx("grow whitespace-break-spaces text-center", {
+          "text-retro-gray": textColor === "retro-gray",
+          "text-retro-black": textColor === "retro-black",
+          "text-retro-dark-blue": textColor === "retro-dark-blue",
+        })}
       >
         <div className="text-20px font-medium uppercase leading-21px">
           {children}

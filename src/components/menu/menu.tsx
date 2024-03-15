@@ -93,10 +93,7 @@ export default function Menu() {
             <div className="hidden" />
           </Link>
           <div className="flex grow flex-col justify-center">
-            <TextBox
-              textColor={"retro-dark-blue"}
-              borderColor={"retro-dark-blue"}
-            >
+            <TextBox textColor="retro-dark-blue" borderColor="retro-dark-blue">
               Ressorties
               <br />
               cinéma à Paris
