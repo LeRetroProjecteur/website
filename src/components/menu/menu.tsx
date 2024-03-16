@@ -7,7 +7,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MouseEvent, ReactNode, useCallback, useEffect } from "react";
 
-import { TextBox } from "@/components/layout/text-boxes";
 import { useCalendrierStore } from "@/lib/calendrier-store";
 import { closeMenu } from "@/lib/menu-store";
 
