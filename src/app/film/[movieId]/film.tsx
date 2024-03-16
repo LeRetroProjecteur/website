@@ -50,11 +50,9 @@ export default function Film({ movie }: { movie: MovieDetail }) {
 
 function MovieHeader({ movie }: { movie: MovieDetail }) {
   return (
-    <div className="text-center lg:text-left">
-      <SousTitre1>
-        <u>{movie.title}</u>, {movie.directors} ({movie.year})
-      </SousTitre1>
-    </div>
+    <SousTitre1>
+      <u>{movie.title}</u>, {movie.directors} ({movie.year})
+    </SousTitre1>
   );
 }
 
@@ -85,8 +83,7 @@ function MovieReview({ movie }: { movie: MovieDetail }) {
                 />
               </div>
               <MetaCopy>
-                Critique du{" "}
-                {formatDDMMYYWithSlashes(safeDate(movie.review_date))}
+                Texte du {formatDDMMYYWithSlashes(safeDate(movie.review_date))}
               </MetaCopy>
             </div>
           </BodyCopy>
@@ -171,7 +168,7 @@ function Screenings({
       sortBy(screenings).map<[string, ShowtimesTheater[]]>(
         ([date, theaters]) => [
           date,
-          sortBy(theaters, (theater) => theater.clean_name),
+          sortBy(theaters, (theater) => theater.name),
         ],
       ),
     [screenings],
@@ -197,7 +194,7 @@ function DateScreenings({
     <div className="col-span-full grid grid-cols-[subgrid] border-b py-12px lg:py-16px lg:hover:bg-retro-pale-green">
       <BodyCopy>{capitalize(formatMerJJMM(safeDate(date)))}</BodyCopy>
       <div className="flex flex-col">
-        <Seances showtimes_theater={theaters} timesPerLine={2} />
+        <Seances showtimes_theater={theaters} />
       </div>
     </div>
   );

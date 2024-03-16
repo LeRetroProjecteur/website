@@ -7,16 +7,23 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { MouseEvent, ReactNode, useCallback, useEffect } from "react";
 
+import { TextBox } from "@/components/layout/text-boxes";
 import { useCalendrierStore } from "@/lib/calendrier-store";
 import { closeMenu } from "@/lib/menu-store";
 
 import logoCarre from "../../assets/logo-carre.gif";
 import FooterLinks from "../layout/footer-links";
+import { CoeurWithSpacing } from "../typography/typography";
 
 const menu: [JSX.Element, string][] = [
   [<>calendrier</>, "/"],
   [<>actualités</>, "/actualites"],
-  [<>coups de cœur</>, "/coeur"],
+  [
+    <>
+      coups de <CoeurWithSpacing />
+    </>,
+    "/coeur",
+  ],
   [<>à propos</>, "/a-propos"],
   [<>recherche</>, "/recherche"],
 ];
@@ -34,7 +41,20 @@ export default function Menu() {
   const closeMenuIfOnSamePathname = useCallback(
     (e: MouseEvent<HTMLAnchorElement>) => {
       useCalendrierStore.getState().reset();
-      if ((e.target as HTMLAnchorElement).href.endsWith(pathName)) {
+      let anchor: EventTarget | null = e.target;
+      while (
+        anchor != null &&
+        anchor instanceof Node &&
+        !(anchor instanceof HTMLAnchorElement)
+      ) {
+        anchor = anchor.parentElement;
+      }
+
+      if (
+        anchor != null &&
+        (anchor as HTMLAnchorElement).href != null &&
+        (anchor as HTMLAnchorElement).href.endsWith(pathName)
+      ) {
         closeMenu();
       }
     },
@@ -54,37 +74,39 @@ export default function Menu() {
             <CloseIcon />
           </div>
         </div>
-        <Link href="/" onClick={onClickLogo}>
-          <div className="flex justify-center pb-18px lg:pb-0">
-            <Image
-              src={logoCarre}
-              alt="logo"
-              className="h-auto w-250px lg:w-207px"
-            />
-          </div>
-          <MenuLink>
-            <div className="pb-16px font-degular text-44px font-extrabold uppercase leading-29px tracking-[0.01em] text-retro-gray lg:py-3px lg:text-35px lg:leading-25px">
-              le rétro
-              <br />
-              projecteur
+        <div className="justify-center">
+          <Link href="/" onClick={onClickLogo}>
+            <div className="flex justify-center pb-18px lg:pb-0">
+              <Image
+                src={logoCarre}
+                alt="logo"
+                className="h-auto w-250px lg:w-207px"
+              />
             </div>
-          </MenuLink>
-          <div className="hidden" />
-        </Link>
-        <div className="flex flex-col">
-          {menu.map(([section, path]) => (
-            <MenuLink key={path} path={path} className="py-16px">
-              <div className="font-degular text-44px font-extrabold uppercase leading-29px text-retro-gray lg:text-32px lg:leading-25px">
-                <Link href={path} onClick={closeMenuIfOnSamePathname}>
-                  {section}
-                </Link>
+            <div className="flex justify-center">
+              <div className="w-min grow whitespace-break-spaces py-12px text-center font-degular text-44px font-extrabold uppercase leading-29px tracking-[0.01em] text-retro-gray lg:text-35px lg:leading-25px">
+                le rétro
+                <br />
+                projecteur
               </div>
-            </MenuLink>
+            </div>
+            <div className="hidden" />
+          </Link>
+        </div>
+        <div className="flex flex-col border-t">
+          {menu.map(([section, path]) => (
+            <Link key={path} href={path} onClick={closeMenuIfOnSamePathname}>
+              <MenuLink key={path} path={path} className="py-16px">
+                <div className="font-degular text-44px font-extrabold uppercase leading-29px text-retro-gray lg:text-32px lg:leading-25px">
+                  {section}
+                </div>
+              </MenuLink>
+            </Link>
           ))}
         </div>
       </div>
       <div className="flex pb-28px pt-15px lg:pb-0">
-        <FooterLinks color="black" />
+        <FooterLinks color="retro-black" />
       </div>
     </div>
   );
@@ -102,7 +124,7 @@ function MenuLink({
   const route = usePathname();
   return (
     <div
-      className={clsx(className, "flex justify-center border-b lg:py-12px", {
+      className={clsx(className, "flex border-b lg:py-12px", {
         "bg-retro-green":
           (path === "/" && route === "/") ||
           (path != null && path !== "/" && route.startsWith(path)),
