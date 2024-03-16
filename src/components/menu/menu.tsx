@@ -74,7 +74,7 @@ export default function Menu() {
             <CloseIcon />
           </div>
         </div>
-        <div className="justify-center pb-10px">
+        <div className="justify-center">
           <Link href="/" onClick={onClickLogo}>
             <div className="flex justify-center pb-18px lg:pb-0">
               <Image
@@ -83,8 +83,8 @@ export default function Menu() {
                 className="h-auto w-250px lg:w-207px"
               />
             </div>
-            <div className="flex justify-center pb-10px">
-              <div className="w-min grow whitespace-break-spaces border-b py-12px text-center font-degular text-44px font-extrabold uppercase leading-29px tracking-[0.01em] text-retro-gray lg:text-35px lg:leading-25px">
+            <div className="flex justify-center">
+              <div className="w-min grow whitespace-break-spaces py-12px text-center font-degular text-44px font-extrabold uppercase leading-29px tracking-[0.01em] text-retro-gray lg:text-35px lg:leading-25px">
                 le rétro
                 <br />
                 projecteur
@@ -92,13 +92,6 @@ export default function Menu() {
             </div>
             <div className="hidden" />
           </Link>
-          <div className="flex grow flex-col justify-center">
-            <TextBox textColor="retro-dark-blue" borderColor="retro-dark-blue">
-              Ressorties
-              <br />
-              cinéma à Paris
-            </TextBox>
-          </div>
         </div>
         <div className="flex flex-col border-t">
           {menu.map(([section, path]) => (
