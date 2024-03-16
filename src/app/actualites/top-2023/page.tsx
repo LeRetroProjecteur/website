@@ -1036,13 +1036,13 @@ function TopTable({
 }) {
   return (
     <>
-      <div className="flex flex-col border-y bg-retro-green px-10px py-10px text-center text-22px font-semibold uppercase leading-22px tracking-[-0.01em] text-retro-gray lg:py-20px lg:text-22px lg:leading-22px">
+      <div className="flex flex-col border-y bg-retro-green px-10px py-10px text-center text-22px font-semibold uppercase leading-22px tracking-[-0.01em] text-retro-gray lg:py-20px">
         {titre}
       </div>
       {children.map((child, i) => (
         <ol
           key={i}
-          className="flex grow items-center justify-center border-b px-5px py-5px text-center text-14px font-medium leading-18px tracking-[-0.01em] lg:py-10px lg:text-14px lg:leading-18px"
+          className="flex grow items-center justify-center border-b px-5px py-5px text-center text-15px font-medium leading-18px tracking-[-0.01em] lg:py-10px"
         >
           <li>
             {i + 1}.&nbsp;{child}
@@ -1062,7 +1062,7 @@ function CritiqueTable({
 }) {
   const inside = top.map(({ titre, directorsAndYear, id }, i) => (
     <li
-      className="text-16px font-medium leading-30px tracking-[-0.01em] lg:text-16px lg:leading-30px"
+      className="text-16px font-medium leading-30px tracking-[-0.01em]"
       key={i}
     >
       <span key={id}>
