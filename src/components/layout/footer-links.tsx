@@ -1,65 +1,39 @@
 "use client";
 
-import clsx from "clsx";
 import Link from "next/link";
-import { ReactNode } from "react";
 
+import { TextBox } from "@/components/layout/text-boxes";
 import { openNewsLetter } from "@/lib/newsletter-store";
 
-export default function FooterLinks({ color }: { color: "gray" | "black" }) {
+export default function FooterLinks({
+  color,
+}: {
+  color: "retro-gray" | "retro-black";
+}) {
   return (
     <div className="flex grow flex-col gap-y-12px lg:gap-y-10px lg:pt-10px">
       <div className="hidden lg:block">
-        <LinkBox color={color} bgGreen>
+        <TextBox textColor={color} bgColor="retro-blue">
           <a className="cursor-pointer" onClick={openNewsLetter}>
             newsletter
           </a>
-        </LinkBox>
+        </TextBox>
       </div>
       <div className="lg:hidden">
-        <LinkBox color={color} bgGreen>
+        <TextBox textColor={color} bgColor="retro-blue">
           <Link href={"/newsletter"}>newsletter</Link>
-        </LinkBox>
+        </TextBox>
       </div>
-      <LinkBox color={color}>
+      <TextBox textColor={color}>
         <a href="https://www.instagram.com/leretroprojecteur" target="_blank">
           instagram
         </a>
-      </LinkBox>
-      <LinkBox color={color}>
+      </TextBox>
+      <TextBox textColor={color}>
         <a href="https://twitter.com/RetroProjecteur" target="_blank">
           twitter
         </a>
-      </LinkBox>
-    </div>
-  );
-}
-
-function LinkBox({
-  children,
-  color,
-  bgGreen,
-}: {
-  children: ReactNode;
-  color: "gray" | "black";
-  bgGreen?: boolean;
-}) {
-  return (
-    <div
-      className={clsx("flex h-42px items-center justify-center border", {
-        "bg-retro-green": bgGreen ?? false,
-      })}
-    >
-      <div
-        className={clsx("grow whitespace-break-spaces text-center", {
-          "text-retro-gray": color === "gray",
-          "text-retro-black": color === "black",
-        })}
-      >
-        <div className="text-20px font-medium uppercase leading-21px">
-          {children}
-        </div>
-      </div>
+      </TextBox>
     </div>
   );
 }
