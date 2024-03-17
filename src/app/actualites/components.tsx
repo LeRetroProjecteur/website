@@ -5,7 +5,7 @@ import { blurProps } from "@/lib/util";
 
 export function ThreeColumnLayout({ children }: { children?: ReactNode }) {
   return (
-    <div className="3co1l:pl-0 mx-auto my-0 block max-w-[32rem] wide-article:max-w-[37.5rem] lg:m-0 lg:grid lg:max-w-none lg:grid-cols-[0_32rem_1fr] lg:pl-20px 3col:grid-cols-[minmax(13rem,_1fr)_minmax(30rem,_40rem)_minmax(13rem,_1fr)]">
+    <div className="mx-auto my-0 block max-w-[32rem] wide-article:max-w-[37.5rem] lg:m-0 lg:grid lg:max-w-none lg:grid-cols-[0_32rem_1fr] lg:pl-20px 3col:grid-cols-[minmax(13rem,_1fr)_minmax(30rem,_40rem)_minmax(13rem,_1fr)] 3col:pl-0">
       {children}
       <div />
       <div className="pt-15px lg:border-r lg:pr-20px lg:pt-20px">
