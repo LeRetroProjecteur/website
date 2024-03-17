@@ -1,4 +1,4 @@
-import Search from "@/app/(calendrier)/search";
+import Search from "@/app/(calendrier)/filter";
 import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
 import { getWeekMovies } from "@/lib/movies";
