@@ -46,10 +46,17 @@ export default function TimeSlider() {
             },
             "key",
           )}
-          className={clsx("bottom-0 border-r border-t", {
+          className={clsx("relative bottom-0 border-r border-t", {
             "border-dotted": state.index != 1,
           })}
-        />
+        >
+          {state.index == 0 && (
+            <div className="absolute bottom-[-0.4375rem] left-0 h-15px w-1px bg-retro-gray lg:hidden" />
+          )}
+          {state.index == 2 && (
+            <div className="absolute bottom-[-0.4375rem] right-[-0.09375rem] h-15px w-1px bg-retro-gray lg:hidden" />
+          )}
+        </div>
       )}
       value={[minHour, maxHour]}
       max={24}
