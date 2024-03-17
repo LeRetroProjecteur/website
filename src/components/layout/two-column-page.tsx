@@ -19,7 +19,7 @@ export function TwoColumnPage({
   return (
     <div
       className={clsx("flex grow flex-col lg:pl-20px", {
-        "mx-auto max-w-[32rem] lg:max-w-none": narrow,
+        "mx-auto max-w-[32rem] lg:mx-0 lg:max-w-none": narrow,
       })}
     >
       {title && (

@@ -61,13 +61,10 @@ export default function TimeSlider() {
 
   return (
     <div className="flex flex-col lg:pt-14px">
-      <div className="flex">
-        <div className="pb-10px lg:pb-20px">
-          <ButtonCopy>Horaires :&nbsp;</ButtonCopy>
-        </div>
+      <div className="flex pb-10px lg:pb-20px">
         <div className="flex grow">
-          <div className="relative left-0 w-95px">
-            <ButtonCopy className="lg:border-r lg:border-retro-gray">{`de ${padStart(
+          <div className="relative left-0 lg:w-230px">
+            <ButtonCopy className="lg:border-r lg:border-retro-gray">{`Séances entre ${padStart(
               String(minHour),
               2,
               "0",
@@ -75,9 +72,9 @@ export default function TimeSlider() {
           </div>
           <div className="block grow lg:hidden" />
           <div className="z-0 hidden h-[12px] grow lg:flex">{sliderBar}</div>
-          <div className="relative right-0 w-80px text-right">
+          <div className="relative right-0 text-right lg:w-88px">
             <ButtonCopy className="lg:border-l lg:border-retro-gray">
-              {`à ${padStart(String(maxHour), 2, "0")}h`}
+              {`et ${padStart(String(maxHour), 2, "0")}h`}
             </ButtonCopy>
           </div>
         </div>
