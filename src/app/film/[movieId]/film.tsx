@@ -31,6 +31,7 @@ export default function Film({ movie }: { movie: MovieDetail }) {
         <MovieHeader movie={movie} />
       </PageHeader>
       <TwoColumnPage
+        narrow
         left={
           <>
             <MovieReview movie={movie} />
