@@ -44,7 +44,7 @@ export default function Calendrier({
 
   return (
     <div className="flex grow flex-col">
-      <PageHeader text={title ?? "calendrier"}>
+      <PageHeader text={title ?? "calendrier"} className="group/date">
         <div className="flex grow items-center justify-center">
           <DateSelector />
         </div>

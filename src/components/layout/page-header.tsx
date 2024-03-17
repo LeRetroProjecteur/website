@@ -5,9 +5,11 @@ import { Titre } from "../typography/typography";
 
 export default function PageHeader({
   children,
+  className,
   text,
 }: {
   children?: ReactNode;
+  className?: string;
   text: ReactNode;
 }) {
   return (
@@ -18,7 +20,7 @@ export default function PageHeader({
         </div>
       </div>
       {children && (
-        <div className="lg:pt-20px">
+        <div className={clsx(className, "lg:pt-20px")}>
           <div className="flex items-center justify-center border-b py-14px text-center lg:justify-start lg:border-t lg:bg-retro-green lg:pl-20px lg:pr-10px lg:text-start">
             {children}
           </div>
