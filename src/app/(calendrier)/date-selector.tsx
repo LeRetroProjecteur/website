@@ -24,14 +24,14 @@ export default function DateSelector() {
   const canGoBackInTime = date > today; // C
 
   return (
-    <div className="group/date flex grow items-center justify-center">
+    <div className="flex grow items-center justify-center">
       <div
         onClick={onClickLeft}
         className={clsx("flex grow cursor-pointer justify-end", {
           invisible: !canGoBackInTime,
         })}
       >
-        <div className="border border-[#00000000] p-5px group-hover/date:border-retro-gray">
+        <div className="rounded-sm border border-[#00000000] p-5px pr-3px group-hover/date:border-retro-gray">
           <LeftArrow />
         </div>
       </div>
@@ -44,7 +44,7 @@ export default function DateSelector() {
         onClick={onClickRight}
         className="flex grow cursor-pointer justify-start"
       >
-        <div className="border border-[#00000000] p-5px group-hover/date:border-retro-gray">
+        <div className="rounded-sm border border-[#00000000] p-5px pl-3px group-hover/date:border-retro-gray">
           <RightArrow />
         </div>
       </div>
