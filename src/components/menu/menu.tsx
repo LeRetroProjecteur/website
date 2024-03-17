@@ -83,7 +83,7 @@ export default function Menu() {
               />
             </div>
             <div className="flex justify-center">
-              <div className="w-min grow whitespace-break-spaces py-12px text-center font-degular text-44px font-extrabold uppercase leading-29px tracking-[0.01em] text-retro-gray lg:text-35px lg:leading-25px">
+              <div className="w-min grow whitespace-break-spaces py-12px text-center font-degular text-44px font-black uppercase leading-29px tracking-[0.01em] text-retro-gray lg:text-35px lg:leading-25px">
                 le rétro
                 <br />
                 projecteur
@@ -96,7 +96,7 @@ export default function Menu() {
           {menu.map(([section, path]) => (
             <Link key={path} href={path} onClick={closeMenuIfOnSamePathname}>
               <MenuLink key={path} path={path} className="py-16px">
-                <div className="font-degular text-44px font-extrabold uppercase leading-29px text-retro-gray lg:text-32px lg:leading-25px">
+                <div className="font-degular text-44px font-black uppercase leading-29px text-retro-gray lg:text-32px lg:leading-25px">
                   {section}
                 </div>
               </MenuLink>

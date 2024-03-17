@@ -91,7 +91,7 @@ export function SeancesTheater({
 
   return (
     <div
-      className="group/cinema flex justify-between"
+      className="group/cinema flex items-start justify-between"
       key={showtimesTheater.name}
     >
       <div className="w-min grow pr-10px lg:pr-50px">

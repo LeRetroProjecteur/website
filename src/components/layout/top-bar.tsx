@@ -18,13 +18,13 @@ export default function TopBar() {
   return (
     <div className="flex grow items-center">
       <div
-        className="flex cursor-pointer items-center justify-start"
+        className="absolute flex cursor-pointer items-center justify-start"
         onClick={openMenu}
       >
         <BurgerIcon />
       </div>
       <div className="flex grow justify-center">
-        <Link href="/" onClick={onClickLogo} className="w-[70%] max-w-250px">
+        <Link href="/" onClick={onClickLogo} className="w-[65%] max-w-300px">
           <Image src={logoAnime} alt="logo" />
         </Link>
       </div>

@@ -23,7 +23,7 @@ export default function QuartierSelector({
   return (
     <div
       ref={ref}
-      className="grid grow grid-cols-[repeat(auto-fill,_minmax(10.75rem,_1fr))] gap-x-15px gap-y-8px lg:grid-cols-[repeat(auto-fill,_minmax(17.375rem,_1fr))] lg:gap-x-20px lg:gap-y-10px"
+      className="grid grow grid-cols-[repeat(auto-fill,_minmax(40%,_1fr))] gap-x-8px gap-y-8px lg:grid-cols-[repeat(auto-fill,_minmax(25%,_1fr))] lg:gap-x-20px lg:gap-y-10px"
     >
       {QUARTIERS.map(([quartierName, quartier]) => (
         <QuartierToggler
