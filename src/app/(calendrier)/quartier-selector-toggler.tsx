@@ -20,7 +20,7 @@ export default function QuartierSelectorToggler({
       onClick={toggleOpen}
     >
       <div className="flex items-center pr-6px">
-        <ButtonCopy>par quartiers</ButtonCopy>
+        <ButtonCopy>Quartiers</ButtonCopy>
       </div>
       <div className="flex items-center">
         {isOpen ? <ArrowUp /> : <ArrowDown />}
