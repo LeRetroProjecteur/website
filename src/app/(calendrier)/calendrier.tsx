@@ -64,7 +64,7 @@ export default function Calendrier({
               <QuartierSelector close={closeQuartierSelector} />{" "}
             </div>
           )}
-          <div className="flex pt-15px grow lg:pt-0">
+          <div className="flex grow pt-15px lg:pt-0">
             <Filter />
           </div>
         </div>
