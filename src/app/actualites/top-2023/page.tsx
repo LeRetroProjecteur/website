@@ -197,7 +197,6 @@ const CRITIQUES: Critique[] = [
       },
     ],
   },
-
   {
     nom: "Victor Courgeon",
     references: [
@@ -354,7 +353,7 @@ const CRITIQUES: Critique[] = [
   {
     nom: "Sylvain Lefort",
     references: [
-      { nom: "Revus &amp; Corrigés", href: "https://revusetcorriges.com/" },
+      { nom: "Revus & Corrigés", href: "https://revusetcorriges.com/" },
     ],
     top: [
       {
@@ -841,11 +840,10 @@ export default function Top2023() {
                 <TopTable titre="le top films">
                   {TOP_FILMS.map(({ titre, directorsAndYear, id }) => (
                     <span key={id}>
-                      <Link
-                        className="uppercase underline"
-                        href={`/film/${id}`}
-                      >
-                        {titre}
+                      <Link href={`/film/${id}`}>
+                        <i className="font-semibold uppercase underline">
+                          {titre}
+                        </i>
                       </Link>
                       , {directorsAndYear}
                     </span>
@@ -854,16 +852,18 @@ export default function Top2023() {
               </div>
               <div className="flex flex-col lg:w-1/2 lg:pl-10px">
                 <TopTable titre="le top cinéastes">
-                  <span>Chantal Akerman</span>
-                  <span>Yasujirô Ozu</span>
-                  <span>Jean Eustache</span>
-                  <span>Lars von Trier</span>
-                  <span>David Lynch</span>
-                  <span>Sidney Lumet</span>
-                  <span>Hou Hsiao-Hsien</span>
-                  <span>Louis Malle</span>
-                  <span>Robert Altman</span>
-                  <span>Stanley Kubrick et Billy Wilder (ex-aequo)</span>
+                  <span className="font-semibold">Chantal Akerman</span>
+                  <span className="font-semibold">Yasujirô Ozu</span>
+                  <span className="font-semibold">Jean Eustache</span>
+                  <span className="font-semibold">Lars von Trier</span>
+                  <span className="font-semibold">David Lynch</span>
+                  <span className="font-semibold">Sidney Lumet</span>
+                  <span className="font-semibold">Hou Hsiao-Hsien</span>
+                  <span className="font-semibold">Louis Malle</span>
+                  <span className="font-semibold">Robert Altman</span>
+                  <span className="font-semibold">
+                    Stanley Kubrick et Billy Wilder (ex-aequo)
+                  </span>
                 </TopTable>
               </div>
             </div>
@@ -969,7 +969,7 @@ export default function Top2023() {
               <a
                 target="_blank"
                 className="underline"
-                href="https://leretroprojecteur.com/details/variety-1983"
+                href="/film/variety-1983"
               >
                 <i>Variety</i> de Bette Gordon
               </a>
@@ -1067,7 +1067,7 @@ function CritiqueTable({
     >
       <span key={id}>
         <Link className="uppercase underline" href={`/film/${id}`}>
-          {titre}
+          <i>{titre}</i>
         </Link>
         , {directorsAndYear}
       </span>
@@ -1081,12 +1081,12 @@ function CritiqueTable({
         {references.map(({ nom, href }, i) => (
           <>
             {i > 0 && ", "}
-            {href != null ? (
-              <a target="_blank" href={href}>
+            {href != "" ? (
+              <a className="underline" target="_blank" href={href}>
                 {nom}
               </a>
             ) : (
-              { nom }
+              <a>{nom}</a>
             )}
           </>
         ))}

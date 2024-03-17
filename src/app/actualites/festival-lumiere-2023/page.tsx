@@ -240,7 +240,10 @@ export default function Lumiere2023() {
             En ce qui concerne les autres films qui bénéficieront d&apos;une
             sortie prochaine, on mentionnera également le fascinant{" "}
             <strong>
-              <i>Bushman</i> de David Schikele
+              <Link className="underline" href="/film/bushman-1971">
+                <i>Bushman</i>
+              </Link>{" "}
+              de David Schikele
             </strong>
             . Le film suit les aventures d&apos;un jeune Nigérian, Gabriel, qui
             s&apos;installe à San Francisco dans les années 1960 et subit de
