@@ -21,52 +21,52 @@ const degular = localFont({
 const suisse = localFont({
   src: [
     {
-      path: "../assets/SuisseIntl-Regular.otf",
+      path: "../assets/SuisseIntl-Regular-WebS.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../assets/SuisseIntl-RegularItalic.otf",
+      path: "../assets/SuisseIntl-RegularItalic-WebS.woff2",
       weight: "400",
       style: "italic",
     },
     {
-      path: "../assets/SuisseIntl-Book.otf",
+      path: "../assets/SuisseIntl-Book-WebS.woff2",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../assets/SuisseIntl-BookItalic.otf",
+      path: "../assets/SuisseIntl-BookItalic-WebS.woff2",
       weight: "500",
       style: "italic",
     },
     {
-      path: "../assets/SuisseIntl-Medium.otf",
+      path: "../assets/SuisseIntl-Medium-WebS.woff2",
       weight: "600",
       style: "normal",
     },
     {
-      path: "../assets/SuisseIntl-MediumItalic.otf",
+      path: "../assets/SuisseIntl-MediumItalic-WebS.woff2",
       weight: "600",
       style: "italic",
     },
     {
-      path: "../assets/SuisseIntl-Bold.otf",
+      path: "../assets/SuisseIntl-Bold-WebS.woff2",
       weight: "700",
       style: "normal",
     },
     {
-      path: "../assets/SuisseIntl-BoldItalic.otf",
+      path: "../assets/SuisseIntl-BoldItalic-WebS.woff2",
       weight: "700",
       style: "italic",
     },
     {
-      path: "../assets/SuisseIntl-Bold.otf",
+      path: "../assets/SuisseIntl-Bold-WebS.woff2",
       weight: "800",
       style: "normal",
     },
     {
-      path: "../assets/SuisseIntl-BoldItalic.otf",
+      path: "../assets/SuisseIntl-BoldItalic-WebS.woff2",
       weight: "800",
       style: "italic",
     },
