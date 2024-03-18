@@ -5,7 +5,7 @@ import Link from "next/link";
 import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
 import { TwoColumnPage } from "@/components/layout/two-column-page";
-import { SousTitre1 } from "@/components/typography/typography";
+import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 
 export default function SocialMediaPage() {
   return (
@@ -21,8 +21,10 @@ export default function SocialMediaPage() {
 function Left() {
   return (
     <div className="pb-10px">
-      Nous partageons régulièrement du contenu sur les réseaux sociaux&nbsp;–
-      suivez-nous pour en savoir plus&nbsp;!
+      <BodyCopy>
+        Nous partageons régulièrement du contenu sur les réseaux sociaux&nbsp;–
+        suivez-nous pour en savoir plus&nbsp;!
+      </BodyCopy>
     </div>
   );
 }
