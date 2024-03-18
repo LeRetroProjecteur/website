@@ -259,7 +259,11 @@ function MultiDaySeances({ movie }: { movie: MovieWithShowtimesByDay }) {
               uniqBy(theaters, (showtime_theater) => showtime_theater.name),
               (showtime_theater) => showtime_theater.name,
             ).map((theater) => (
-              <SeancesTheater showtimesTheater={theater} key={theater.name} />
+              <SeancesTheater
+                showtimesTheater={theater}
+                key={theater.name}
+                isExpanded={false}
+              />
             ))}
           </div>
         </div>
