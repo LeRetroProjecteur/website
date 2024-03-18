@@ -20,8 +20,8 @@ export default function DateSelector() {
     setDate(date.plus({ days: 1 }));
   }, [date, setDate]);
 
-  const today = getStartOfTodayInParis(); // A
-  const canGoBackInTime = date > today; // C
+  const today = getStartOfTodayInParis();
+  const canGoBackInTime = date > today;
 
   return (
     <div className="flex grow items-center justify-center">
