@@ -13,7 +13,7 @@ export default function SocialMediaPage() {
       <PageHeader text="Suivez-nous&nbsp;!">
         <SousTitre1>Nos réseaux sociaux</SousTitre1>
       </PageHeader>
-      <TwoColumnPage left={<Left />} right={<Right color="retro-gray" />} />
+      <TwoColumnPage left={<Left />} right={<Right />} />
     </>
   );
 }
@@ -29,33 +29,21 @@ function Left() {
   );
 }
 
-function Right({ color }: { color: "retro-gray" | "retro-black" }) {
+function Right() {
   return (
-    <div className="flex grow flex-col gap-y-12px pb-10px lg:gap-y-10px lg:pb-0 lg:pt-10px">
-      <Link
-        href="https://www.instagram.com/leretroprojecteur"
-        target="_blank"
-        className="items-center justify-center"
-      >
-        <TextBox textColor={color}>
+    <div className="flex grow flex-col gap-y-12px pb-10px lg:gap-y-10px lg:pb-0">
+      <Link href="https://www.instagram.com/leretroprojecteur">
+        <TextBox textColor={"retro-gray"}>
           <div>instagram</div>
         </TextBox>
       </Link>
-      <Link
-        href="https://twitter.com/RetroProjecteur"
-        target="_blank"
-        className="items-center justify-center"
-      >
-        <TextBox textColor={color}>
+      <Link href="https://twitter.com/RetroProjecteur">
+        <TextBox textColor={"retro-gray"}>
           <div>twitter</div>
         </TextBox>
       </Link>
-      <Link
-        href="https://www.facebook.com/profile.php?id=100086988852803"
-        target="_blank"
-        className="items-center justify-center"
-      >
-        <TextBox textColor={color}>
+      <Link href="https://www.facebook.com/profile.php?id=100086988852803">
+        <TextBox textColor={"retro-gray"}>
           <div>Facebook</div>
         </TextBox>
       </Link>
