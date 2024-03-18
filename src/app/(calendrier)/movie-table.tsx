@@ -14,7 +14,7 @@ import {
 import { DateTime } from "luxon";
 import Image from "next/image";
 import Link from "next/link";
-import { ReactNode, use, useMemo } from "react";
+import { ReactNode, use, useEffect, useMemo } from "react";
 import useSWR from "swr";
 
 import { Loading, SuspenseWithLoading } from "@/components/icons/loading";
@@ -51,6 +51,7 @@ export default function MovieTable({
   allMovies?: boolean;
 }) {
   const date = useCalendrierStore((s) => s.date);
+  const setDate = useCalendrierStore((s) => s.setDate);
   const useClientData = useCalendrierStore((s) => s.dateChanged);
   const minHour = useCalendrierStore((s) => s.minHour);
   const maxHour = useCalendrierStore((s) => s.maxHour);
@@ -70,6 +71,22 @@ export default function MovieTable({
     () => getMinHourFilteringTodaysMissedFilms(date, minHour),
     [minHour, date],
   );
+
+  useEffect(() => {
+    const keydown = (ev: KeyboardEvent) => {
+      if (ev.key === "ArrowLeft") {
+        const today = getStartOfTodayInParis();
+        if (date > today) {
+          setDate(date.minus({ days: 1 }));
+        }
+      } else if (ev.key === "ArrowRight") {
+        setDate(date.plus({ days: 1 }));
+      }
+    };
+
+    addEventListener("keydown", keydown);
+    return () => removeEventListener("keydown", keydown);
+  }, [date, setDate]);
 
   return (
     <div className="flex grow flex-col">
@@ -259,7 +276,11 @@ function MultiDaySeances({ movie }: { movie: MovieWithShowtimesByDay }) {
               uniqBy(theaters, (showtime_theater) => showtime_theater.name),
               (showtime_theater) => showtime_theater.name,
             ).map((theater) => (
-              <SeancesTheater showtimesTheater={theater} key={theater.name} />
+              <SeancesTheater
+                showtimesTheater={theater}
+                key={theater.name}
+                isExpanded={false}
+              />
             ))}
           </div>
         </div>

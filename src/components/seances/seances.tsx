@@ -38,18 +38,21 @@ export default function Seances({
   const needsExpanding = sortedTheaters.length !== unexpandedTheaters.length;
 
   return (
-    <div
-      onClick={toggleExpanded}
-      className={clsx(
-        { "cursor-pointer": needsExpanding },
-        "flex grow flex-col gap-10px lg:gap-5px",
-      )}
-    >
+    <div className={clsx("flex grow flex-col gap-10px lg:gap-5px")}>
       {(isExpanded ? sortedTheaters : unexpandedTheaters).map((theater) => (
-        <SeancesTheater showtimesTheater={theater} key={theater.name} />
+        <SeancesTheater
+          showtimesTheater={theater}
+          key={theater.name}
+          isExpanded={isExpanded}
+        />
       ))}
       {needsExpanding && (
-        <div className="flex justify-end">
+        <div
+          className={clsx("flex justify-end", {
+            "cursor-pointer": needsExpanding,
+          })}
+          onClick={toggleExpanded}
+        >
           <CalendrierCopy className="font-semibold">
             {isExpanded ? "Moins de séances ↑" : "Plus de séances ↓"}
           </CalendrierCopy>
@@ -84,8 +87,10 @@ function transformZipcode(inZip: string) {
 
 export function SeancesTheater({
   showtimesTheater,
+  isExpanded,
 }: {
   showtimesTheater: ShowtimesTheater;
+  isExpanded: boolean;
 }) {
   const showTimes = sortBy(showtimesTheater.showtimes);
 
@@ -95,7 +100,9 @@ export function SeancesTheater({
       key={showtimesTheater.name}
     >
       <div className="w-min grow pr-10px lg:pr-30px">
-        <CalendrierCopy className="group-hover/cinema:underline">
+        <CalendrierCopy
+          className={clsx({ "group-hover/cinema:underline": isExpanded })}
+        >
           {showtimesTheater.name} ({transformZipcode(showtimesTheater.zipcode)})
         </CalendrierCopy>
       </div>
@@ -103,7 +110,9 @@ export function SeancesTheater({
         {showTimes.map((showtime) => (
           <div
             key={showtime}
-            className="group/seances flex justify-end group-hover/cinema:underline"
+            className={clsx("group/seances flex justify-end", {
+              "group-hover/cinema:underline": isExpanded,
+            })}
           >
             <CalendrierCopy>{floatHourToString(showtime)}</CalendrierCopy>
             <div className="hidden group-last/seances:hidden lg:block">

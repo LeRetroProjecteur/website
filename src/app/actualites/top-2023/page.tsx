@@ -11,7 +11,7 @@ import {
   SectionHeader,
   ThreeColumnLayout,
 } from "../components";
-import placeholder from "../placeholder.png";
+import icon from "./icon.jpg";
 
 const TOP_FILMS: {
   titre: string;
@@ -815,7 +815,7 @@ export default function Top2023() {
         <FirstRow
           type="retro-spective"
           date="28/12/2023"
-          image={placeholder}
+          image={icon}
           alt="top 2023"
         />
         <MiddleColumn>

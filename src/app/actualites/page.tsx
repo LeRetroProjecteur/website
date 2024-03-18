@@ -8,8 +8,8 @@ import {
 import { SousTitre1 } from "@/components/typography/typography";
 
 import lumiereIcon from "./festival-lumiere-2023/img/icon.jpg";
-import top2022Icon from "./top-2022/opengraph-image.jpg";
-import top2023Icon from "./top-2023/icon.png";
+import top2022Icon from "./top-2022/img/icon.jpg";
+import top2023Icon from "./top-2023/icon.jpg";
 
 export const metadata: Metadata = {
   title: "Actualités | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
