@@ -10,9 +10,9 @@ import PageHeader from "@/components/layout/page-header";
 import { Movie, MovieWithShowtimesByDay } from "@/lib/types";
 import { getBreakpoint } from "@/lib/util";
 
+import Filter from "./filter";
 import MovieTable from "./movie-table";
 import QuartierSelectorToggler from "./quartier-selector-toggler";
-import Search from "./search";
 
 export default function Calendrier({
   serverMovies,
@@ -44,15 +44,13 @@ export default function Calendrier({
 
   return (
     <div className="flex grow flex-col">
-      <PageHeader text={title ?? "calendrier"}>
+      <PageHeader text={title ?? "calendrier"} className="group/date">
         <div className="flex grow items-center justify-center">
           <DateSelector />
         </div>
       </PageHeader>
       <div className="flex grow flex-col lg:pl-20px">
-        <div className="flex pb-23px lg:pb-32px lg:pt-14px">
-          <TimeSlider />
-        </div>
+        <TimeSlider />
         <div className="flex flex-col lg:flex-row">
           <div className="flex lg:pr-20px">
             <QuartierSelectorToggler
@@ -66,8 +64,8 @@ export default function Calendrier({
               <QuartierSelector close={closeQuartierSelector} />{" "}
             </div>
           )}
-          <div className="flex pt-15px lg:grow lg:pt-0">
-            <Search />
+          <div className="flex grow pt-15px lg:pt-0">
+            <Filter />
           </div>
         </div>
         {isQuartierSelectorOpen && width >= getBreakpoint("lg") && (

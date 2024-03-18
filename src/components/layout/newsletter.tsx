@@ -64,7 +64,7 @@ export default function Newsletter() {
                   </svg>
                 </div>
               </div>
-              <div className="border-b px-1px py-18px text-center font-degular text-71px font-extrabold uppercase leading-58px tracking-[0.01em] text-retro-gray">
+              <div className="border-b px-1px py-18px text-center font-degular text-71px font-black uppercase leading-58px tracking-[0.01em] text-retro-gray">
                 S&apos;INSCRIRE
                 <br />À NOTRE
                 <br />

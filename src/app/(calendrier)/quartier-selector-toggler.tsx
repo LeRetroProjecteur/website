@@ -16,11 +16,11 @@ export default function QuartierSelectorToggler({
   return (
     <div
       ref={togglerRef}
-      className="flex h-42px grow cursor-pointer items-center justify-center border lg:h-48px lg:w-278px "
+      className="flex h-42px grow cursor-pointer items-center justify-center border lg:h-48px lg:w-278px"
       onClick={toggleOpen}
     >
       <div className="flex items-center pr-6px">
-        <ButtonCopy>par quartiers</ButtonCopy>
+        <ButtonCopy>Quartiers</ButtonCopy>
       </div>
       <div className="flex items-center">
         {isOpen ? <ArrowUp /> : <ArrowDown />}

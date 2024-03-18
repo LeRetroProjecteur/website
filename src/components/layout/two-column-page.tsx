@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { ReactNode } from "react";
 
 import { SousTitre2 } from "@/components/typography/typography";
@@ -7,14 +8,20 @@ export function TwoColumnPage({
   left,
   right,
   children,
+  narrow,
 }: {
   title?: ReactNode;
   left: ReactNode;
   right: ReactNode;
   children?: ReactNode;
+  narrow?: boolean;
 }) {
   return (
-    <div className="flex grow flex-col lg:pl-20px">
+    <div
+      className={clsx("flex grow flex-col lg:pl-20px", {
+        "mx-auto max-w-[32rem] lg:mx-0 lg:max-w-none": narrow,
+      })}
+    >
       {title && (
         <div className="pb-20px">
           <SousTitre2>{title}</SousTitre2>

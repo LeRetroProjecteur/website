@@ -1,4 +1,4 @@
-import Search from "@/app/(calendrier)/search";
+import Filter from "@/app/(calendrier)/filter";
 import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
 import { getWeekMovies } from "@/lib/movies";
@@ -24,7 +24,7 @@ export default function SemainePage() {
       <div className="flex grow flex-col pb-10px lg:pl-20px">
         <div className="flex flex-col lg:flex-row">
           <div className="flex pt-15px lg:grow lg:pt-0">
-            <Search />
+            <Filter />
           </div>
         </div>
         <div className="flex grow pt-18px lg:pt-28px">

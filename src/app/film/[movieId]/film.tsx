@@ -31,6 +31,7 @@ export default function Film({ movie }: { movie: MovieDetail }) {
         <MovieHeader movie={movie} />
       </PageHeader>
       <TwoColumnPage
+        narrow
         left={
           <>
             <MovieReview movie={movie} />
@@ -194,7 +195,7 @@ function DateScreenings({
     <div className="col-span-full grid grid-cols-[subgrid] border-b py-12px lg:py-16px lg:hover:bg-retro-pale-green">
       <BodyCopy>{capitalize(formatMerJJMM(safeDate(date)))}</BodyCopy>
       <div className="flex flex-col">
-        <Seances showtimes_theater={theaters} timesPerLine={2} />
+        <Seances showtimes_theater={theaters} />
       </div>
     </div>
   );

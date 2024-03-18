@@ -17,68 +17,78 @@ export default function TimeSlider() {
     setMaxHour(newMaxHour);
   };
 
-  return (
-    <div className="flex grow flex-col justify-between">
-      <div className="flex">
-        <div className="pb-10px lg:pb-20px">
-          <ButtonCopy>Horaires :&nbsp;</ButtonCopy>
+  const sliderBar = (
+    <ReactSlider
+      className="grow"
+      renderThumb={(props) => (
+        <div
+          key={props.key}
+          {...omit({ ...props }, "key")}
+          className="bottom-[-24px] cursor-pointer outline-none"
+        >
+          <Thumb />
         </div>
-        <div className="flex grow justify-between">
-          <div className="relative left-0">
-            <ButtonCopy>{`de ${padStart(
+      )}
+      renderTrack={(props, state) => (
+        <div
+          key={props.key}
+          {...omit(
+            {
+              ...props,
+              style: {
+                ...props.style,
+                ...adjustPx(
+                  props.style as { left: string; right: string },
+                  state.index === 1 || state.index == 2 ? 25 : 0,
+                  state.index === 0 || state.index === 1 ? 25 : 0,
+                ),
+              },
+            },
+            "key",
+          )}
+          className={clsx("relative bottom-0 border-r border-t", {
+            "border-dotted": state.index != 1,
+          })}
+        >
+          {state.index == 0 && (
+            <div className="absolute bottom-[-0.4375rem] left-0 h-15px w-1px bg-retro-gray lg:hidden" />
+          )}
+          {state.index == 2 && (
+            <div className="absolute bottom-[-0.4375rem] right-[-0.09375rem] h-15px w-1px bg-retro-gray lg:hidden" />
+          )}
+        </div>
+      )}
+      value={[minHour, maxHour]}
+      max={24}
+      min={0}
+      minDistance={1}
+      onChange={onChange}
+    />
+  );
+
+  return (
+    <div className="flex flex-col lg:pt-14px">
+      <div className="flex pb-10px lg:pb-20px">
+        <div className="flex grow">
+          <div className="relative left-0 lg:w-230px">
+            <ButtonCopy className="lg:border-r lg:border-retro-gray">{`Séances entre ${padStart(
               String(minHour),
               2,
               "0",
             )}h`}</ButtonCopy>
           </div>
-          <div className="relative right-0">
-            <ButtonCopy>{`à ${padStart(String(maxHour), 2, "0")}h`}</ButtonCopy>
+          <div className="block grow lg:hidden" />
+          <div className="z-0 hidden h-[12px] grow lg:flex">{sliderBar}</div>
+          <div className="relative right-0 text-right lg:w-88px">
+            <ButtonCopy className="lg:border-l lg:border-retro-gray">
+              {`et ${padStart(String(maxHour), 2, "0")}h`}
+            </ButtonCopy>
           </div>
         </div>
       </div>
-      <div className="relative flex">
-        <div className="absolute bottom-0 flex w-full grow border-t" />
-        <div className="z-10 mx-2 flex h-[2px] grow bg-white">
-          <ReactSlider
-            className="grow"
-            renderThumb={(props) => (
-              <div
-                key={props.key}
-                {...omit({ ...props }, "key")}
-                className="bottom-[-24px] cursor-pointer outline-none"
-              >
-                <Thumb />
-              </div>
-            )}
-            renderTrack={(props, state) => (
-              <div
-                key={props.key}
-                {...omit(
-                  {
-                    ...props,
-                    style: {
-                      ...props.style,
-                      ...adjustPx(
-                        props.style as { left: string; right: string },
-                        state.index === 1 || state.index == 2 ? 25 : 0,
-                        state.index === 0 || state.index === 1 ? 25 : 0,
-                      ),
-                    },
-                  },
-                  "key",
-                )}
-                className={clsx("bottom-0 border-t", {
-                  "border-dotted": state.index === 1,
-                  "z-99": state.index == 1,
-                })}
-              />
-            )}
-            value={[minHour, maxHour]}
-            max={24}
-            min={0}
-            minDistance={1}
-            onChange={onChange}
-          />
+      <div className="relative flex lg:hidden">
+        <div className="z-10 flex h-[2px] grow bg-white pb-23px lg:pb-0">
+          {sliderBar}
         </div>
       </div>
     </div>

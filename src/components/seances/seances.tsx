@@ -5,16 +5,14 @@ import { sortBy, take, uniqBy } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
 
 import { ShowtimesTheater } from "@/lib/types";
-import { floatHourToString, splitIntoSubArrays } from "@/lib/util";
+import { floatHourToString } from "@/lib/util";
 
 import { CalendrierCopy } from "../typography/typography";
 
 export default function Seances({
   showtimes_theater,
-  timesPerLine,
 }: {
   showtimes_theater: ShowtimesTheater[];
-  timesPerLine?: number;
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -40,22 +38,21 @@ export default function Seances({
   const needsExpanding = sortedTheaters.length !== unexpandedTheaters.length;
 
   return (
-    <div
-      onClick={toggleExpanded}
-      className={clsx(
-        { "cursor-pointer": needsExpanding },
-        "flex grow flex-col gap-10px lg:gap-5px",
-      )}
-    >
+    <div className={clsx("flex grow flex-col gap-10px lg:gap-5px")}>
       {(isExpanded ? sortedTheaters : unexpandedTheaters).map((theater) => (
         <SeancesTheater
           showtimesTheater={theater}
           key={theater.name}
-          timesPerLine={timesPerLine}
+          isExpanded={isExpanded}
         />
       ))}
       {needsExpanding && (
-        <div className="flex justify-end">
+        <div
+          className={clsx("flex justify-end", {
+            "cursor-pointer": needsExpanding,
+          })}
+          onClick={toggleExpanded}
+        >
           <CalendrierCopy className="font-semibold">
             {isExpanded ? "Moins de séances ↑" : "Plus de séances ↓"}
           </CalendrierCopy>
@@ -90,43 +87,40 @@ function transformZipcode(inZip: string) {
 
 export function SeancesTheater({
   showtimesTheater,
-  timesPerLine,
+  isExpanded,
 }: {
   showtimesTheater: ShowtimesTheater;
-  timesPerLine?: number;
+  isExpanded: boolean;
 }) {
-  const lineGroups = splitIntoSubArrays(
-    sortBy(showtimesTheater.showtimes),
-    timesPerLine ?? 4,
-  );
+  const showTimes = sortBy(showtimesTheater.showtimes);
 
   return (
-    <div className="flex justify-between" key={showtimesTheater.name}>
-      <div className="w-min grow pr-10px">
-        <CalendrierCopy>
+    <div
+      className="group/cinema flex items-start justify-between"
+      key={showtimesTheater.name}
+    >
+      <div className="w-min grow pr-10px lg:pr-50px">
+        <CalendrierCopy
+          className={clsx({ "group-hover/cinema:underline": isExpanded })}
+        >
           {showtimesTheater.name} ({transformZipcode(showtimesTheater.zipcode)})
         </CalendrierCopy>
       </div>
-      <div className="flex flex-col">
-        {lineGroups.map((showtimes, i) => (
-          <ShowtimesLine key={i} threeShowtimes={showtimes} />
+      <div className="flex flex-col justify-end lg:flex-row lg:flex-wrap lg:self-start">
+        {showTimes.map((showtime) => (
+          <div
+            key={showtime}
+            className={clsx("group/seances flex justify-end", {
+              "group-hover/cinema:underline": isExpanded,
+            })}
+          >
+            <CalendrierCopy>{floatHourToString(showtime)}</CalendrierCopy>
+            <div className="hidden group-last/seances:hidden lg:block">
+              <CalendrierCopy>&nbsp;•&nbsp;</CalendrierCopy>
+            </div>
+          </div>
         ))}
       </div>
-    </div>
-  );
-}
-
-function ShowtimesLine({ threeShowtimes }: { threeShowtimes: number[] }) {
-  return (
-    <div className="flex flex-col lg:flex-row lg:justify-end">
-      {threeShowtimes.map((showtime) => (
-        <div key={showtime} className="group flex justify-end">
-          <CalendrierCopy>{floatHourToString(showtime)}</CalendrierCopy>
-          <div className="hidden group-last:hidden lg:block">
-            <CalendrierCopy>&nbsp;•&nbsp;</CalendrierCopy>
-          </div>
-        </div>
-      ))}
     </div>
   );
 }

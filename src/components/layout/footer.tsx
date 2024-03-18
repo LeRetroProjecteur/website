@@ -7,10 +7,10 @@ export default function Footer() {
   return (
     <div className="flex grow flex-col lg:h-146px lg:border-t lg:pt-10px">
       <div className="flex lg:hidden">
-        <FooterLinks color="gray" />
+        <FooterLinks color="retro-gray" />
       </div>
       <div className="flex flex-col pt-20px lg:grow lg:justify-between lg:pt-0">
-        <div className="text-center lg:text-left">
+        <div className="hidden text-center lg:block lg:text-left">
           <FooterCopy>
             Un problème sur le site ?<span className="hidden lg:inline"> </span>
             <br className="lg:hidden" />{" "}
@@ -22,12 +22,12 @@ export default function Footer() {
             </a>
           </FooterCopy>
         </div>
-          <div className="pt-20px text-center lg:pt-0 lg:text-left">
+        <div className="pt-20px text-center lg:pt-0 lg:text-left">
           <FooterCopy>
             <Link href="/admin/tous-les-films">©</Link> Le Rétro Projecteur
             2021–2024
             <br />
-            Designé par{" "}
+            Graphisme par{" "}
             <a
               href="https://clairemalot.com/"
               className="underline"
@@ -37,7 +37,7 @@ export default function Footer() {
             </a>
             .<span className="hidden lg:inline"> </span>
             <br className="lg:hidden" />
-            Développé par jroitgrund.
+            Développement par jroitgrund.
           </FooterCopy>
         </div>
         <div className="py-20px text-center lg:py-0 lg:text-left">

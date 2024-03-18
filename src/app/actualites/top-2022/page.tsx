@@ -12,9 +12,9 @@ import {
   SectionHeader,
   ThreeColumnLayout,
 } from "../components";
-import placeholder from "../placeholder.png";
 import adieu from "./img/adieu.jpg";
 import evangile from "./img/evangile.jpg";
+import icon from "./img/icon.jpg";
 import lola from "./img/lola.jpg";
 import mamanputain from "./img/mamanputain.jpg";
 import pictureshow from "./img/pictureshow.jpg";
@@ -38,7 +38,7 @@ export default function Top2022() {
         <FirstRow
           type="retro-spective"
           date="02/01/2023"
-          image={placeholder}
+          image={icon}
           alt="top 2022"
         />
         <MiddleColumn>
@@ -57,16 +57,16 @@ export default function Top2022() {
               Si l&apos;année a indéniablement été marquée par la ressortie
               massive de{" "}
               <Link className="underline" href="/film/maman-putain-1972">
-                La maman et la putain
+                <i>La maman et la putain</i>
               </Link>
               , elle a aussi été riche en découvertes d&apos;œuvres moins
-              connues (comme le merveilleux
+              connues (comme le merveilleux{" "}
               <Link className="underline" href="/film/variety-1983">
-                Variety
+                <i>Variety</i>
               </Link>{" "}
               de Bette Gordon ou{" "}
               <Link className="underline" href="/film/grand-silence-1968">
-                Le grand silence
+                <i>Le grand silence</i>
               </Link>{" "}
               de Sergio Corbucci). À cela se rajoutent les rétrospectives de
               Fassbinder, de Pasolini, de Kinuyo Tanaka ou encore de Jean-Luc
@@ -115,7 +115,7 @@ export default function Top2022() {
               caption={
                 <>
                   <Link className="underline" href="/film/variety-1983">
-                    Variety
+                    <i>Variety</i>
                   </Link>{" "}
                   de Bette Gordon (1983), vu le 16 juin au Christine
                 </>
@@ -126,7 +126,7 @@ export default function Top2022() {
               d&apos;autant plus grand que nous ne connaissions pas l&apos;œuvre
               de Bette Gordon.{" "}
               <Link className="underline" href="/film/variety-1983">
-                Variety
+                <i>Variety</i>
               </Link>{" "}
               est un film qui a pour sujet le fait-même de se faire des films.
               Qui plus est : une bonne partie du récit se déroule carrément dans
@@ -142,7 +142,7 @@ export default function Top2022() {
               caption={
                 <>
                   <Link className="underline" href="/film/maman-putain-1972">
-                    La maman et la putain
+                    <i>La maman et la putain</i>
                   </Link>{" "}
                   de Jean Eustache (1983), vu le 18 juin au Mk2 Bastille
                 </>
@@ -172,7 +172,7 @@ export default function Top2022() {
                     className="underline"
                     href="/film/lola-femme-allemande-1981"
                   >
-                    Lola, une femme allemande
+                    <i>Lola, une femme allemande</i>
                   </Link>{" "}
                   de Rainer Werner Fassbinder (1981), vu le 18 août à
                   l&apos;Espace Saint-Michel
@@ -191,7 +191,7 @@ export default function Top2022() {
                 className="underline"
                 href="/film/lola-femme-allemande-1981"
               >
-                Lola, une femme allemande
+                <i>Lola, une femme allemande</i>
               </Link>
               , sur un magnifique contrepied en nichant dans une légère comédie
               de mœurs un véritable brûlot politique au cynisme dévorant.
@@ -207,7 +207,7 @@ export default function Top2022() {
                     className="underline"
                     href="/film/evangile-selon-saint-matthieu-1964"
                   >
-                    L&apos;Evangile selon Saint Matthieu
+                    <i>L&apos;Evangile selon Saint Matthieu</i>
                   </Link>{" "}
                   de Pier Paolo Pasolini (1964), vu le 4 septembre au Champo
                 </>
@@ -224,7 +224,7 @@ export default function Top2022() {
                 className="underline"
                 href="/film/evangile-selon-saint-matthieu-1964"
               >
-                L&apos;Evangile selon Saint Matthieu
+                <i>L&apos;Evangile selon Saint Matthieu</i>
               </Link>
               , le déplacement des représentations habituelles de scènes
               bibliques est double&nbsp;: Jésus est interprété par un
@@ -243,7 +243,7 @@ export default function Top2022() {
                     className="underline"
                     href="/film/la-derniere-seance-1971"
                   >
-                    La Dernière séance
+                    <i>La Dernière séance</i>
                   </Link>{" "}
                   de Peter Bogdanovich (1971), vu le 18 mai au Forum des Images
                 </>
@@ -259,7 +259,7 @@ export default function Top2022() {
               jeunesse, la rendant nostalgique de souvenirs qu&apos;elle ne
               vivra jamais. Revoir{" "}
               <Link className="underline" href="/film/la-derniere-seance-1971">
-                La Dernière séance
+                <i>La Dernière séance</i>
               </Link>{" "}
               dans une salle de cinéma à l&apos;heure où les oiseaux de mauvais
               augure nous prédisent les “dernières séances” de celles-ci, donne
@@ -273,7 +273,7 @@ export default function Top2022() {
               caption={
                 <>
                   <Link className="underline" href="/film/grand-silence-1968">
-                    Le grand silence
+                    <i>Le grand silence</i>
                   </Link>{" "}
                   de Sergio Corbucci (1968), vu le 10 avril au Max Linder
                 </>
@@ -284,7 +284,7 @@ export default function Top2022() {
               Sergio” à avoir durablement marqué le genre du western spaghetti.
               Avec{" "}
               <Link className="underline" href="/film/grand-silence-1968">
-                Le grand silence
+                <i>Le grand silence</i>
               </Link>
               , il réalise son chef-d&apos;œuvre mêlant les paysages hivernaux
               grandioses de l&apos;Utah à la musique envoûtante d&apos;Ennio
@@ -307,7 +307,7 @@ export default function Top2022() {
                     className="underline"
                     href="/film/adieu-au-langage-2014"
                   >
-                    Adieu au langage
+                    <i>Adieu au langage</i>
                   </Link>{" "}
                   de Jean-Luc Godard (2014), vu le 23 septembre au Mk2 Beaubourg
                 </>

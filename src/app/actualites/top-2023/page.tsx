@@ -11,7 +11,7 @@ import {
   SectionHeader,
   ThreeColumnLayout,
 } from "../components";
-import placeholder from "../placeholder.png";
+import icon from "./icon.jpg";
 
 const TOP_FILMS: {
   titre: string;
@@ -197,7 +197,6 @@ const CRITIQUES: Critique[] = [
       },
     ],
   },
-
   {
     nom: "Victor Courgeon",
     references: [
@@ -354,7 +353,7 @@ const CRITIQUES: Critique[] = [
   {
     nom: "Sylvain Lefort",
     references: [
-      { nom: "Revus &amp; Corrigés", href: "https://revusetcorriges.com/" },
+      { nom: "Revus & Corrigés", href: "https://revusetcorriges.com/" },
     ],
     top: [
       {
@@ -816,7 +815,7 @@ export default function Top2023() {
         <FirstRow
           type="retro-spective"
           date="28/12/2023"
-          image={placeholder}
+          image={icon}
           alt="top 2023"
         />
         <MiddleColumn>
@@ -841,11 +840,10 @@ export default function Top2023() {
                 <TopTable titre="le top films">
                   {TOP_FILMS.map(({ titre, directorsAndYear, id }) => (
                     <span key={id}>
-                      <Link
-                        className="uppercase underline"
-                        href={`/film/${id}`}
-                      >
-                        {titre}
+                      <Link href={`/film/${id}`}>
+                        <i className="font-semibold uppercase underline">
+                          {titre}
+                        </i>
                       </Link>
                       , {directorsAndYear}
                     </span>
@@ -854,16 +852,18 @@ export default function Top2023() {
               </div>
               <div className="flex flex-col lg:w-1/2 lg:pl-10px">
                 <TopTable titre="le top cinéastes">
-                  <span>Chantal Akerman</span>
-                  <span>Yasujirô Ozu</span>
-                  <span>Jean Eustache</span>
-                  <span>Lars von Trier</span>
-                  <span>David Lynch</span>
-                  <span>Sidney Lumet</span>
-                  <span>Hou Hsiao-Hsien</span>
-                  <span>Louis Malle</span>
-                  <span>Robert Altman</span>
-                  <span>Stanley Kubrick et Billy Wilder (ex-aequo)</span>
+                  <span className="font-semibold">Chantal Akerman</span>
+                  <span className="font-semibold">Yasujirô Ozu</span>
+                  <span className="font-semibold">Jean Eustache</span>
+                  <span className="font-semibold">Lars von Trier</span>
+                  <span className="font-semibold">David Lynch</span>
+                  <span className="font-semibold">Sidney Lumet</span>
+                  <span className="font-semibold">Hou Hsiao-Hsien</span>
+                  <span className="font-semibold">Louis Malle</span>
+                  <span className="font-semibold">Robert Altman</span>
+                  <span className="font-semibold">
+                    Stanley Kubrick et Billy Wilder (ex-aequo)
+                  </span>
                 </TopTable>
               </div>
             </div>
@@ -969,7 +969,7 @@ export default function Top2023() {
               <a
                 target="_blank"
                 className="underline"
-                href="https://leretroprojecteur.com/details/variety-1983"
+                href="/film/variety-1983"
               >
                 <i>Variety</i> de Bette Gordon
               </a>
@@ -1036,13 +1036,13 @@ function TopTable({
 }) {
   return (
     <>
-      <div className="flex flex-col border-y bg-retro-green px-10px py-10px text-center text-22px font-semibold uppercase leading-22px tracking-[-0.01em] text-retro-gray lg:py-20px lg:text-22px lg:leading-22px">
+      <div className="flex flex-col border-y bg-retro-green px-10px py-10px text-center text-22px font-semibold uppercase leading-22px tracking-[-0.01em] text-retro-gray lg:py-20px">
         {titre}
       </div>
       {children.map((child, i) => (
         <ol
           key={i}
-          className="flex grow items-center justify-center border-b px-5px py-5px text-center text-14px font-medium leading-18px tracking-[-0.01em] lg:py-10px lg:text-14px lg:leading-18px"
+          className="flex grow items-center justify-center border-b px-5px py-5px text-center text-15px font-medium leading-18px tracking-[-0.01em] lg:py-10px"
         >
           <li>
             {i + 1}.&nbsp;{child}
@@ -1062,12 +1062,12 @@ function CritiqueTable({
 }) {
   const inside = top.map(({ titre, directorsAndYear, id }, i) => (
     <li
-      className="text-16px font-medium leading-30px tracking-[-0.01em] lg:text-16px lg:leading-30px"
+      className="text-16px font-medium leading-30px tracking-[-0.01em]"
       key={i}
     >
       <span key={id}>
         <Link className="uppercase underline" href={`/film/${id}`}>
-          {titre}
+          <i>{titre}</i>
         </Link>
         , {directorsAndYear}
       </span>
@@ -1081,12 +1081,12 @@ function CritiqueTable({
         {references.map(({ nom, href }, i) => (
           <>
             {i > 0 && ", "}
-            {href != null ? (
-              <a target="_blank" href={href}>
+            {href != "" ? (
+              <a className="underline" target="_blank" href={href}>
                 {nom}
               </a>
             ) : (
-              { nom }
+              <a>{nom}</a>
             )}
           </>
         ))}
