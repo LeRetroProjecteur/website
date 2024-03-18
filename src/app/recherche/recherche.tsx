@@ -184,13 +184,10 @@ function Results({
                     "lg:bg-retro-pale-green": i === selected,
                     "lg:even:bg-white": i !== selected,
                   },
-                  "group border-b py-10px pl-5px text-15px font-medium leading-20px even:bg-retro-pale-green lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0 lg:hover:bg-retro-pale-green",
+                  "border-b py-10px pl-5px text-15px font-medium uppercase leading-20px even:bg-retro-pale-green lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0 lg:hover:bg-retro-pale-green",
                 )}
               >
-                <i className="font-semibold uppercase group-hover:underline">
-                  {movie.title}
-                </i>
-                , {movie.directors} ({movie.year})
+                <u>{movie.title}</u>, {movie.directors} ({movie.year})
               </Link>
             ))}
             <div className="min-h-100px w-1/2 grow border-r lg:hidden" />
