@@ -94,7 +94,7 @@ export function SeancesTheater({
       className="group/cinema flex items-start justify-between"
       key={showtimesTheater.name}
     >
-      <div className="w-min grow pr-10px lg:pr-50px">
+      <div className="w-min grow pr-10px lg:pr-30px">
         <CalendrierCopy className="group-hover/cinema:underline">
           {showtimesTheater.name} ({transformZipcode(showtimesTheater.zipcode)})
         </CalendrierCopy>
