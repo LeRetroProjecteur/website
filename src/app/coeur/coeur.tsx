@@ -126,6 +126,7 @@ function ReviewThumbnails({ reviews }: { reviews: Review[] }) {
     <ThumbnailGrid>
       {reviews.map((review) => (
         <ThumbnailWithBlurb
+          className="group"
           key={review.id}
           link={`/film/${review.id}`}
           image={{
@@ -135,7 +136,10 @@ function ReviewThumbnails({ reviews }: { reviews: Review[] }) {
             height: 675,
           }}
         >
-          <u>{review.title}</u>, {review.directors} ({review.year})
+          <div className="text-retro-black">
+            <i className="group-hover:underline">{review.title}</i>,{" "}
+            {review.directors} ({review.year})
+          </div>
         </ThumbnailWithBlurb>
       ))}
     </ThumbnailGrid>

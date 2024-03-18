@@ -57,6 +57,7 @@ function ActualitesThumbnails() {
     <ThumbnailGrid>
       {chroniques.map(({ titre, slug, image, date, type }) => (
         <ThumbnailWithBlurb
+          className="group"
           key={slug}
           link={`/actualites/${slug}`}
           image={{
@@ -67,7 +68,7 @@ function ActualitesThumbnails() {
           <div>
             {date} • {type}
           </div>
-          <div className="text-retro-black">{titre}</div>
+          <div className="text-retro-black group-hover:underline">{titre}</div>
         </ThumbnailWithBlurb>
       ))}
     </ThumbnailGrid>

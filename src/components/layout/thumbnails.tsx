@@ -9,15 +9,17 @@ export function ThumbnailWithBlurb({
   link,
   image,
   children,
+  className,
 }: {
   link: string;
   image:
     | { src: StaticImageData; alt: string; width?: number; height?: number }
     | { src: string; alt: string; width: number; height: number };
   children: ReactNode;
+  className?: string;
 }) {
   return (
-    <Link href={link}>
+    <Link href={link} className={className}>
       <div className="flex flex-col gap-10px">
         <Image
           className="h-auto w-full"
