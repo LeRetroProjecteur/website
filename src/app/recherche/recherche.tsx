@@ -74,7 +74,7 @@ export default function Recherche({
             customTypography
             value={searchTerm}
             setValue={onChangeSearchTerm}
-            placeholder="film, réalisateur..."
+            placeholder="Recherchez un film"
             leftAlignPlaceholder
             transparentPlaceholder
             grayText

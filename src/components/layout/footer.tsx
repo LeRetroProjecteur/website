@@ -9,8 +9,8 @@ export default function Footer() {
       <div className="flex lg:hidden">
         <FooterLinks color="retro-gray" />
       </div>
-      <div className="flex flex-col pt-20px lg:grow lg:justify-between lg:pt-0">
-        <div className="text-center lg:text-left">
+      <div className="flex flex-col lg:grow lg:justify-between">
+        <div className="hidden text-center lg:block lg:text-left">
           <FooterCopy>
             Un problème sur le site ?<span className="hidden lg:inline"> </span>
             <br className="lg:hidden" />{" "}
