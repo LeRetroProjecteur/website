@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { sortBy, take, uniqBy } from "lodash-es";
-import { useCallback, useMemo, useState } from "react";
+import { ReactNode, useCallback, useMemo, useState } from "react";
 
 import { ShowtimesTheater } from "@/lib/types";
 import { floatHourToString } from "@/lib/util";
@@ -103,7 +103,8 @@ export function SeancesTheater({
         <CalendrierCopy
           className={clsx({ "group-hover/cinema:underline": isExpanded })}
         >
-          {showtimesTheater.name} ({transformZipcode(showtimesTheater.zipcode)})
+          {insertNbsp(showtimesTheater.name)}&nbsp;(
+          {transformZipcode(showtimesTheater.zipcode)})
         </CalendrierCopy>
       </div>
       <div className="flex flex-col justify-end lg:flex-row lg:flex-wrap lg:self-start">
@@ -123,4 +124,17 @@ export function SeancesTheater({
       </div>
     </div>
   );
+}
+
+function insertNbsp(name: string) {
+  const words = name.split(" ");
+  const parts: ReactNode[] = [words[0]];
+  for (let i = 0; i < words.length - 1; i++) {
+    parts.push(
+      words[i].length > 3 && words[i + 1].length > 3 ? " " : <>&nbsp;</>,
+    );
+    parts.push(words[i + 1]);
+  }
+
+  return parts;
 }
