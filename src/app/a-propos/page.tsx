@@ -123,7 +123,7 @@ const teamMembers: TMembers[] = [
       { name: "mon site personnel", link: "https://clairemalot.com/" },
     ],
     films: [
-      { name: "L'un chante, l'autre pas", id: "chante-autre-1977" },
+      { name: "L'une chante, l'autre pas", id: "chante-autre-1977" },
       { name: "Conte d'été", id: "conte-d-ete-1996" },
       { name: "First Cow", id: "first-cow-2020" },
     ],
