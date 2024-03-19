@@ -3,7 +3,6 @@
 import Link from "next/link";
 
 import { TextBox } from "@/components/layout/text-boxes";
-import { openNewsLetter } from "@/lib/newsletter-store";
 
 export default function FooterLinks({
   color,
@@ -13,27 +12,40 @@ export default function FooterLinks({
   return (
     <div className="flex grow flex-col gap-y-12px lg:gap-y-10px lg:pt-10px">
       <div className="hidden lg:block">
-        <TextBox textColor={color} bgColor="retro-blue">
-          <a className="cursor-pointer" onClick={openNewsLetter}>
-            newsletter
-          </a>
-        </TextBox>
+        <Link href={"/newsletter"}>
+          <TextBox textColor={color} bgColor="retro-blue">
+            <div>newsletter</div>
+          </TextBox>
+        </Link>
       </div>
       <div className="lg:hidden">
-        <TextBox textColor={color} bgColor="retro-blue">
-          <Link href={"/newsletter"}>newsletter</Link>
-        </TextBox>
+        <Link href={"/newsletter"}>
+          <TextBox textColor={color} bgColor="retro-blue">
+            <div>newsletter</div>
+          </TextBox>
+        </Link>
       </div>
-      <TextBox textColor={color}>
-        <a href="https://www.instagram.com/leretroprojecteur" target="_blank">
-          instagram
-        </a>
-      </TextBox>
-      <TextBox textColor={color}>
-        <a href="https://twitter.com/RetroProjecteur" target="_blank">
-          twitter
-        </a>
-      </TextBox>
+      <div className="hidden lg:block">
+        <Link href="https://www.instagram.com/leretroprojecteur">
+          <TextBox textColor={color}>
+            <div>instagram</div>
+          </TextBox>
+        </Link>
+      </div>
+      <div className="hidden lg:block">
+        <Link href="https://twitter.com/RetroProjecteur">
+          <TextBox textColor={color}>
+            <div>twitter</div>
+          </TextBox>
+        </Link>
+      </div>
+      <div className="lg:hidden">
+        <Link href={"/reseaux"}>
+          <TextBox textColor={color}>
+            <div>Suivez-nous !</div>
+          </TextBox>
+        </Link>
+      </div>
     </div>
   );
 }
