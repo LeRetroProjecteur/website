@@ -76,7 +76,7 @@ export default function Menu() {
         </div>
         <div className="justify-center pb-10px">
           <Link href="/" onClick={onClickLogo}>
-            <div className="flex justify-center pb-18px lg:pb-0">
+            <div className="flex justify-center">
               <Image
                 src={logoCarre}
                 alt="logo"

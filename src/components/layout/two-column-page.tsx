@@ -17,7 +17,7 @@ export function TwoColumnPage({
   narrow?: boolean;
 }) {
   return (
-    <div className="flex grow justify-center lg:pl-20px">
+    <div className="flex grow justify-center">
       <div
         className={clsx("flex grow flex-col lg:pl-20px", {
           "max-w-[32rem] lg:max-w-none": narrow,
