@@ -17,24 +17,26 @@ export function TwoColumnPage({
   narrow?: boolean;
 }) {
   return (
-    <div
-      className={clsx("flex grow flex-col lg:pl-20px", {
-        "mx-auto max-w-[32rem] lg:mx-0 lg:max-w-none": narrow,
-      })}
-    >
-      {title && (
-        <div className="pb-20px">
-          <SousTitre2>{title}</SousTitre2>
+    <div className="flex grow justify-center lg:pl-20px">
+      <div
+        className={clsx("flex grow flex-col lg:pl-20px", {
+          "max-w-[32rem] lg:max-w-none": narrow,
+        })}
+      >
+        {title && (
+          <div className="pb-20px">
+            <SousTitre2>{title}</SousTitre2>
+          </div>
+        )}
+        <div className="flex flex-col lg:flex-row">
+          <div className="flex flex-col lg:w-1/2 lg:border-r lg:pr-20px">
+            {left}
+          </div>
+          <div className="flex flex-col lg:w-1/2 lg:pl-20px">{right}</div>
         </div>
-      )}
-      <div className="flex flex-col lg:flex-row">
-        <div className="flex flex-col lg:w-1/2 lg:border-r lg:pr-20px">
-          {left}
-        </div>
-        <div className="flex flex-col lg:w-1/2 lg:pl-20px">{right}</div>
+        {children}
+        <div className="min-h-100px w-1/2 grow border-r" />
       </div>
-      {children}
-      <div className="min-h-100px w-1/2 grow border-r" />
     </div>
   );
 }
