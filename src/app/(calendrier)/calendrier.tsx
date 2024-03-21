@@ -1,14 +1,12 @@
 "use client";
 
-import { MutableRefObject, useCallback, useRef, useState } from "react";
-import { useWindowSize } from "usehooks-ts";
+import { useCallback, useState } from "react";
 
 import DateSelector from "@/app/(calendrier)/date-selector";
 import QuartierSelector from "@/app/(calendrier)/quartier-selector";
 import TimeSlider from "@/app/(calendrier)/time-slider";
 import PageHeader from "@/components/layout/page-header";
 import { Movie, MovieWithShowtimesByDay } from "@/lib/types";
-import { getBreakpoint } from "@/lib/util";
 
 import Filter from "./filter";
 import MovieTable from "./movie-table";
@@ -23,23 +21,11 @@ export default function Calendrier({
   allMovies?: boolean;
   title?: string;
 }) {
-  const togglerRef: MutableRefObject<HTMLDivElement | null> = useRef(null);
   const [isQuartierSelectorOpen, setQuartierSelectorOpen] = useState(false);
-  const { width } = useWindowSize();
 
   const toggleQuartierSelectorOpen = useCallback(
     () => setQuartierSelectorOpen(!isQuartierSelectorOpen),
     [setQuartierSelectorOpen, isQuartierSelectorOpen],
-  );
-
-  const closeQuartierSelector = useCallback(
-    (e: MouseEvent) => {
-      const toggler = togglerRef.current;
-      if (toggler != null && !toggler.contains(e.target as unknown as Node)) {
-        setQuartierSelectorOpen(false);
-      }
-    },
-    [setQuartierSelectorOpen],
   );
 
   return (
@@ -54,23 +40,22 @@ export default function Calendrier({
         <div className="flex flex-col lg:flex-row">
           <div className="flex lg:pr-20px">
             <QuartierSelectorToggler
-              togglerRef={togglerRef}
               toggleOpen={toggleQuartierSelectorOpen}
               isOpen={isQuartierSelectorOpen}
             />
           </div>
-          {isQuartierSelectorOpen && width < getBreakpoint("lg") && (
-            <div className="flex pt-8px">
-              <QuartierSelector close={closeQuartierSelector} />{" "}
+          {isQuartierSelectorOpen && (
+            <div className="flex pt-8px lg:hidden">
+              <QuartierSelector />{" "}
             </div>
           )}
           <div className="flex grow pt-15px lg:pt-0">
             <Filter />
           </div>
         </div>
-        {isQuartierSelectorOpen && width >= getBreakpoint("lg") && (
-          <div className="flex lg:pt-20px">
-            <QuartierSelector close={closeQuartierSelector} />
+        {isQuartierSelectorOpen && (
+          <div className="hidden lg:flex lg:pt-20px">
+            <QuartierSelector />
           </div>
         )}
         <div className="flex grow pt-18px lg:pt-28px">
