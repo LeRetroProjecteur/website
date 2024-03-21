@@ -5,11 +5,12 @@ import "server-only";
 
 const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
-  authDomain: "le-retro-projecteur.firebaseapp.com",
-  projectId: "le-retro-projecteur",
-  storageBucket: "le-retro-projecteur.appspot.com",
-  messagingSenderId: "257489536789",
-  appId: "1:257489536789:web:5ef8b534d7d62b0d424b1c",
+  authDomain: "website-cine.firebaseapp.com",
+  projectId: "website-cine",
+  storageBucket: "website-cine.appspot.com",
+  messagingSenderId: "1060388636946",
+  appId: "1:1060388636946:web:ea3752ae94d0ab56e68bcb",
+  measurementId: "G-4WMMLJ5YSS",
 };
 
 export const getFirebase = memoize(() => {
