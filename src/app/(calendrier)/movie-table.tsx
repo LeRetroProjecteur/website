@@ -74,6 +74,13 @@ export default function MovieTable({
 
   useEffect(() => {
     const keydown = (ev: KeyboardEvent) => {
+      if (
+        document?.activeElement?.tagName?.toLowerCase() === "input" ||
+        document?.activeElement?.tagName?.toLowerCase() === "textarea"
+      ) {
+        return;
+      }
+
       if (ev.key === "ArrowLeft") {
         const today = getStartOfTodayInParis();
         if (date > today) {
