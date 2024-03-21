@@ -1,14 +1,12 @@
 "use client";
 
 import { useCallback, useState } from "react";
-import { useWindowSize } from "usehooks-ts";
 
 import DateSelector from "@/app/(calendrier)/date-selector";
 import QuartierSelector from "@/app/(calendrier)/quartier-selector";
 import TimeSlider from "@/app/(calendrier)/time-slider";
 import PageHeader from "@/components/layout/page-header";
 import { Movie, MovieWithShowtimesByDay } from "@/lib/types";
-import { getBreakpoint } from "@/lib/util";
 
 import Filter from "./filter";
 import MovieTable from "./movie-table";
@@ -24,16 +22,10 @@ export default function Calendrier({
   title?: string;
 }) {
   const [isQuartierSelectorOpen, setQuartierSelectorOpen] = useState(false);
-  const { width } = useWindowSize();
 
   const toggleQuartierSelectorOpen = useCallback(
     () => setQuartierSelectorOpen(!isQuartierSelectorOpen),
     [setQuartierSelectorOpen, isQuartierSelectorOpen],
-  );
-
-  const closeQuartierSelector = useCallback(
-    () => setQuartierSelectorOpen(false),
-    [setQuartierSelectorOpen],
   );
 
   return (
@@ -52,18 +44,18 @@ export default function Calendrier({
               isOpen={isQuartierSelectorOpen}
             />
           </div>
-          {isQuartierSelectorOpen && width < getBreakpoint("lg") && (
-            <div className="flex pt-8px">
-              <QuartierSelector close={closeQuartierSelector} />{" "}
+          {isQuartierSelectorOpen && (
+            <div className="flex pt-8px lg:hidden">
+              <QuartierSelector />{" "}
             </div>
           )}
           <div className="flex grow pt-15px lg:pt-0">
             <Filter />
           </div>
         </div>
-        {isQuartierSelectorOpen && width >= getBreakpoint("lg") && (
-          <div className="flex lg:pt-20px">
-            <QuartierSelector close={closeQuartierSelector} />
+        {isQuartierSelectorOpen && (
+          <div className="hidden lg:flex lg:pt-20px">
+            <QuartierSelector />
           </div>
         )}
         <div className="flex grow pt-18px lg:pt-28px">
