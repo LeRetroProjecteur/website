@@ -74,21 +74,21 @@ interface TMembers {
 const teamMembers: TMembers[] = [
   {
     name: "Nicolas Guetta-Jeanrenaud",
-    role: "Rédacteur",
+    role: "Rédacteur en chef",
     socials: [
       { name: "Twitter", link: "https://twitter.com/nicogj_" },
       { name: "Letterboxd", link: "https://letterboxd.com/nicogj/" },
     ],
     films: [
-      { name: "Metropolis", id: "metropolis-1927" },
-      { name: "Ma Nuit chez Maud", id: "nuit-chez-maud-1969" },
       { name: "Printemps Tardif", id: "printemps-tardif-1949" },
+      { name: "Ma Nuit chez Maud", id: "nuit-chez-maud-1969" },
+      { name: "Close-Up", id: "close-up-1990" },
       { name: "Old Joy", id: "old-joy-2006" },
     ],
   },
   {
     name: "Lionel Guetta-Jeanrenaud",
-    role: "Rédacteur",
+    role: "Rédacteur newsletter et site-web",
     socials: [
       { name: "Twitter", link: "https://twitter.com/liojeanrenaud" },
       { name: "Letterboxd", link: "https://letterboxd.com/lioguetta/" },
@@ -120,7 +120,7 @@ const teamMembers: TMembers[] = [
     socialsIntro: "Retrouvez mon travail sur ",
     socials: [
       { name: "Instagram", link: "https://www.instagram.com/clairon.malot/" },
-      { name: "mon site personnel", link: "https://clairemalot.com/" },
+      { name: "mon portfolio", link: "https://clairemalot.com/" },
     ],
     films: [
       { name: "L'une chante, l'autre pas", id: "chante-autre-1977" },
@@ -165,9 +165,9 @@ function TeamMember({ member }: { member: TMembers }) {
           <div>
             {member.socialsIntro != null
               ? member.socialsIntro
-              : "Retrouvez moi sur "}
+              : "Retrouvez-moi sur "}
             {member.socials.map((social, i) => [
-              i > 0 && ", ",
+              i > 0 && " & ",
               <a
                 key={social.name}
                 href={social.link}
