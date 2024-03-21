@@ -132,5 +132,5 @@ function get_movie_info_string(f: MovieWithNoShowtimes) {
 }
 
 export function getImageUrl({ id }: { id: string }) {
-  return `https://firebasestorage.googleapis.com/v0/b/le-retro-projecteur.appspot.com/o/images%2F${id}.jpg?alt=media`;
+  return `https://firebasestorage.googleapis.com/v0/b/website-cine.appspot.com/o/images%2F${id}.jpg?alt=media`;
 }
