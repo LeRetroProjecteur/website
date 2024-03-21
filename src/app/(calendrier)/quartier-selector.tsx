@@ -13,11 +13,7 @@ const QUARTIERS: [string, Quartier][] = [
   ["extramuros", Quartier.EM],
 ];
 
-export default function QuartierSelector({
-  close,
-}: {
-  close: (e: MouseEvent) => void;
-}) {
+export default function QuartierSelector({ close }: { close: () => void }) {
   const ref = useRef(null);
   useOnClickOutside(ref, close);
   return (
