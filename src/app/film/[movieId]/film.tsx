@@ -106,23 +106,32 @@ function MovieInformation({ movie }: { movie: MovieDetail }) {
               DURÉE&nbsp;: {Math.floor(parseInt(movie.duration) / 60)} minutes
             </div>
           )}
-          {movie.duration == null ? (
-            ""
+          {movie.language == null || movie.language == "-" ? (
+            <></>
+          ) : movie.language == "Silencieux" || movie.language == "Muet" ? (
+            <div>Film muet</div>
           ) : (
             <div>LANGUE&nbsp;: {movie.language}</div>
           )}
           <br />
-          <div>
-            TITRE ORIGINAL&nbsp;:{" "}
-            <i className={"uppercase"}>{movie.original_title}</i>
-          </div>
-          {movie.countries == null ? (
-            ""
+          {movie.original_title == null ||
+          movie.original_title == movie.title ? (
+            <></>
+          ) : (
+            <div>
+              TITRE ORIGINAL&nbsp;:{" "}
+              <i className={"uppercase"}>{movie.original_title}</i>
+            </div>
+          )}
+          {movie.countries == null || movie.countries == "inconnue" ? (
+            <></>
+          ) : movie.countries == "U.S.A." ? (
+            <div>PAYS&nbsp;: États-Unis</div>
           ) : (
             <div>PAYS&nbsp;: {movie.countries}</div>
           )}
           {movie.distributor == null ? (
-            ""
+            <></>
           ) : (
             <div>DISTRIBUTION&nbsp;: {movie.distributor}</div>
           )}
