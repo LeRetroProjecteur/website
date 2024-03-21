@@ -10,7 +10,6 @@ const firebaseConfig = {
   storageBucket: "website-cine.appspot.com",
   messagingSenderId: "1060388636946",
   appId: "1:1060388636946:web:ea3752ae94d0ab56e68bcb",
-  measurementId: "G-4WMMLJ5YSS",
 };
 
 export const getFirebase = memoize(() => {
