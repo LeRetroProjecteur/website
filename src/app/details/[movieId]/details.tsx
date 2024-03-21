@@ -55,8 +55,15 @@ export default function Details() {
       </h2>
       <div style={{ textAlign: "center" }}>
         <span id="fiche-technique">
-          Titre original&nbsp;: <i>{movie.original_title}</i>
-          <br />
+          {movie.original_title == null ||
+          movie.original_title == movie.title ? (
+            <></>
+          ) : (
+            <>
+              Titre original&nbsp;: <i>{movie.original_title}</i>
+              <br />
+            </>
+          )}
           {movie.duration == null
             ? "Durée inconnue"
             : `Durée : ${Math.floor(parseInt(movie.duration) / 60)} minutes`}
