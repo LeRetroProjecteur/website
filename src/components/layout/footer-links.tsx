@@ -13,11 +13,13 @@ export default function FooterLinks({
   return (
     <div className="flex grow flex-col gap-y-12px lg:gap-y-10px lg:pt-10px">
       <div className="hidden lg:block">
-        <Link href={""}>
-          <TextBox textColor={color} bgColor="retro-blue">
-            <div onClick={openNewsLetter}>newsletter</div>
-          </TextBox>
-        </Link>
+        <TextBox
+          textColor={color}
+          bgColor="retro-blue"
+          onClick={openNewsLetter}
+        >
+          <div>newsletter</div>
+        </TextBox>
       </div>
       <div className="lg:hidden">
         <Link href={"/newsletter"}>

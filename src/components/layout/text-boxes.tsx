@@ -6,16 +6,18 @@ export function TextBox({
   textColor,
   borderColor,
   bgColor,
+  onClick, // Add onClick as a prop
 }: {
   children: ReactNode;
   textColor?: "retro-gray" | "retro-black" | "retro-dark-blue";
   borderColor?: "retro-gray" | "retro-black" | "retro-dark-blue";
   bgColor?: "retro-blue";
+  onClick?: () => void; // Define the type for onClick
 }) {
   return (
     <div
       className={clsx(
-        "flex items-center justify-center border py-9px",
+        "flex cursor-pointer items-center justify-center border py-9px",
         {
           "bg-retro-blue": bgColor === "retro-blue",
         },
@@ -25,6 +27,7 @@ export function TextBox({
           "border-retro-dark-blue": borderColor === "retro-dark-blue",
         },
       )}
+      onClick={onClick} // Add onClick handler to the div
     >
       <div
         className={clsx("grow whitespace-break-spaces text-center", {
