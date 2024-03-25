@@ -2,7 +2,11 @@ import Link from "next/link";
 import { ReactNode } from "react";
 
 import PageHeader from "@/components/layout/page-header";
-import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
+import {
+  BodyCopy,
+  SectionTitle,
+  SousTitre1,
+} from "@/components/typography/typography";
 
 import {
   FirstRow,
@@ -837,7 +841,7 @@ export default function Top2023() {
           <Section>
             <div className="lg:flex">
               <div className="flex flex-col pb-20px lg:w-1/2 lg:border-r lg:pb-0 lg:pr-10px">
-                <TopTable titre="le top films">
+                <TopTable titre="top films">
                   {TOP_FILMS.map(({ titre, directorsAndYear, id }) => (
                     <span key={id}>
                       <Link href={`/film/${id}`}>
@@ -851,7 +855,7 @@ export default function Top2023() {
                 </TopTable>
               </div>
               <div className="flex flex-col lg:w-1/2 lg:pl-10px">
-                <TopTable titre="le top cinéastes">
+                <TopTable titre="top cinéastes">
                   <span className="font-semibold">Chantal Akerman</span>
                   <span className="font-semibold">Yasujirô Ozu</span>
                   <span className="font-semibold">Jean Eustache</span>
@@ -1036,9 +1040,7 @@ function TopTable({
 }) {
   return (
     <>
-      <div className="flex flex-col border-y bg-retro-green px-10px py-10px text-center text-22px font-semibold uppercase leading-22px tracking-[-0.01em] text-retro-gray lg:py-20px">
-        {titre}
-      </div>
+      <SectionTitle className="lg:text-15px">{titre}</SectionTitle>
       {children.map((child, i) => (
         <ol
           key={i}
@@ -1075,7 +1077,7 @@ function CritiqueTable({
   ));
   return (
     <>
-      <div className="border-y bg-retro-pale-green px-10px py-10px text-center text-25px font-semibold leading-25px tracking-[-0.01em] text-retro-gray lg:py-15px lg:text-25px lg:leading-25px">
+      <div className="border-y bg-retro-pale-green px-10px py-10px text-center text-20px font-semibold leading-25px tracking-[-0.01em] text-retro-gray lg:py-15px lg:text-25px lg:leading-25px">
         <span className="uppercase">{nom}</span>
         {references.length > 0 && " ("}
         {references.map(({ nom, href }, i) => (

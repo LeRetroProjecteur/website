@@ -88,8 +88,10 @@ export default function Lumiere2023() {
               <Link className="underline" href="/film/charles-mort-vif-1969">
                 <i>Charles mort ou vif</i>
               </Link>{" "}
-              d&apos;Alain Tanner avec Thierry Frémaux.
-              <br />À droite&nbsp;: Wes Anderson présente{" "}
+              d&apos;Alain Tanner avec Thierry Frémaux.{" "}
+              <br className="hidden lg:block" />
+              <br className="hidden lg:block" />À droite&nbsp;: Wes Anderson
+              présente{" "}
               <Link
                 className="underline"
                 href="/film/trilogie-apu-complainte-sentier-1955"
@@ -196,8 +198,9 @@ export default function Lumiere2023() {
               <Link className="underline" href="/film/femme-vent-1948">
                 <i>Une femme dans le vent</i>
               </Link>{" "}
-              d&apos;Ozu.
-              <br />À droite&nbsp;: Ray sur le tournage de{" "}
+              d&apos;Ozu. <br className="hidden lg:block" />
+              <br className="hidden lg:block" />À droite&nbsp;: Ray sur le
+              tournage de{" "}
               <Link
                 className="underline"
                 href="/film/trilogie-apu-invaincu-1956"

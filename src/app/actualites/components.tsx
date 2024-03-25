@@ -1,6 +1,7 @@
 import Image, { StaticImageData } from "next/image";
 import { ReactNode } from "react";
 
+import { SectionTitle } from "@/components/typography/typography";
 import { blurProps } from "@/lib/util";
 
 export function ThreeColumnLayout({ children }: { children?: ReactNode }) {
@@ -132,11 +133,7 @@ export function Section({ children }: { children: ReactNode }) {
 export function SectionHeader({ children }: { children: ReactNode }) {
   return (
     <div className="pb-15px lg:pb-20px">
-      <div className="flex  items-center justify-center border-y bg-retro-green px-10px py-10px text-center lg:py-15px">
-        <h2 className="text-center text-21px uppercase leading-24px tracking-[-0.01em] text-retro-gray lg:text-25px lg:font-semibold lg:leading-25px">
-          {children}
-        </h2>
-      </div>
+      <SectionTitle>{children}</SectionTitle>
     </div>
   );
 }
