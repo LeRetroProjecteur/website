@@ -891,7 +891,7 @@ export default function Top2023() {
               patrimoine. Le film, qui venait d&apos;être consacré
               «&nbsp;meilleur film de tous les temps&nbsp;» par le fameux{" "}
               <a
-                target="blank"
+                target="_blank"
                 className="underline"
                 href="https://www.bfi.org.uk/sight-and-sound/greatest-films-all-time"
               >
