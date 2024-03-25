@@ -6,11 +6,13 @@ export function TextBox({
   textColor,
   borderColor,
   bgColor,
+  onClick,
 }: {
   children: ReactNode;
   textColor?: "retro-gray" | "retro-black" | "retro-dark-blue";
   borderColor?: "retro-gray" | "retro-black" | "retro-dark-blue";
   bgColor?: "retro-blue";
+  onClick?: () => void;
 }) {
   return (
     <div
@@ -24,7 +26,9 @@ export function TextBox({
           "border-retro-black": borderColor === "retro-black",
           "border-retro-dark-blue": borderColor === "retro-dark-blue",
         },
+        onClick && "cursor-pointer",
       )}
+      onClick={onClick}
     >
       <div
         className={clsx("grow whitespace-break-spaces text-center", {

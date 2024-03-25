@@ -3,6 +3,7 @@
 import Link from "next/link";
 
 import { TextBox } from "@/components/layout/text-boxes";
+import { openNewsLetter } from "@/lib/newsletter-store";
 
 export default function FooterLinks({
   color,
@@ -12,11 +13,13 @@ export default function FooterLinks({
   return (
     <div className="flex grow flex-col gap-y-12px lg:gap-y-10px lg:pt-10px">
       <div className="hidden lg:block">
-        <Link href={"/newsletter"}>
-          <TextBox textColor={color} bgColor="retro-blue">
-            <div>newsletter</div>
-          </TextBox>
-        </Link>
+        <TextBox
+          textColor={color}
+          bgColor="retro-blue"
+          onClick={openNewsLetter}
+        >
+          <div>newsletter</div>
+        </TextBox>
       </div>
       <div className="lg:hidden">
         <Link href={"/newsletter"}>
