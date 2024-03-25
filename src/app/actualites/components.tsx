@@ -1,7 +1,10 @@
 import Image, { StaticImageData } from "next/image";
 import { ReactNode } from "react";
 
-import { SectionTitle } from "@/components/typography/typography";
+import {
+  SectionTitle,
+  SubsectionTitle,
+} from "@/components/typography/typography";
 import { blurProps } from "@/lib/util";
 
 export function ThreeColumnLayout({ children }: { children?: ReactNode }) {
@@ -99,25 +102,19 @@ export function MiddleColumnImageAndRightColumnCaption({
   );
 }
 
-export function MiddleColumnImageAndCaption({
+export function MiddleColumnImageAndTitle({
   image,
   alt,
-  caption,
+  title,
 }: {
   image: StaticImageData;
   alt: string;
-  caption: ReactNode;
+  title: ReactNode;
 }) {
   return (
-    <div className="lg:pb-20px">
-      <div className="lg:pb-20px">
-        <Image src={image} alt={alt} className="w-full" {...blurProps} />
-      </div>
-      <div className="flex items-center justify-center border-retro-black py-10px text-center lg:border-y lg:py-15px">
-        <div className="font-semibold uppercase text-retro-gray lg:text-20px lg:leading-23px">
-          {caption}
-        </div>
-      </div>
+    <div className="pb-10px">
+      <Image src={image} alt={alt} className="w-full pb-10px" {...blurProps} />
+      <SubsectionTitle>{title}</SubsectionTitle>
     </div>
   );
 }

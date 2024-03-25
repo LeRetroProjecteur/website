@@ -6,6 +6,7 @@ import {
   BodyCopy,
   SectionTitle,
   SousTitre1,
+  SubsectionTitle,
 } from "@/components/typography/typography";
 
 import {
@@ -970,11 +971,7 @@ export default function Top2023() {
               l&apos;arbre qui cachait la forêt en cette année 2023
               (réalisatrice la plus citée mais seule femme du top 10). En 2022,
               nous découvrions en salles l&apos;extraordinaire{" "}
-              <a
-                target="_blank"
-                className="underline"
-                href="/film/variety-1983"
-              >
+              <a className="underline" href="/film/variety-1983">
                 <i>Variety</i> de Bette Gordon
               </a>
               , ou encore l&apos;œuvre de Kinuyo Tanako, confirmant que le
@@ -1044,7 +1041,7 @@ function TopTable({
       {children.map((child, i) => (
         <ol
           key={i}
-          className="flex grow items-center justify-center border-b px-5px py-5px text-center text-15px font-medium leading-18px tracking-[-0.01em] lg:py-10px"
+          className="flex grow items-center justify-center border-b py-5px text-center text-16px font-medium leading-20px tracking-[-0.01em] lg:py-10px"
         >
           <li>
             {i + 1}.&nbsp;{child}
@@ -1064,7 +1061,7 @@ function CritiqueTable({
 }) {
   const inside = top.map(({ titre, directorsAndYear, id }, i) => (
     <li
-      className="text-16px font-medium leading-30px tracking-[-0.01em]"
+      className="py-5px text-16px font-medium leading-20px tracking-[-0.01em]"
       key={i}
     >
       <span key={id}>
@@ -1076,8 +1073,8 @@ function CritiqueTable({
     </li>
   ));
   return (
-    <>
-      <div className="border-y bg-retro-pale-green px-10px py-10px text-center text-20px font-semibold leading-25px tracking-[-0.01em] text-retro-gray lg:py-15px lg:text-25px lg:leading-25px">
+    <div className="py-10px">
+      <SubsectionTitle>
         <span className="uppercase">{nom}</span>
         {references.length > 0 && " ("}
         {references.map(({ nom, href }, i) => (
@@ -1093,17 +1090,17 @@ function CritiqueTable({
           </>
         ))}
         {references.length > 0 && ")"}
-      </div>
+      </SubsectionTitle>
       {unordered ?? false ? (
-        <ol className="list-inside list-decimal py-10px pl-25px pr-5px lg:py-20px">
+        <ol className="list-inside list-decimal py-5px pl-25px pr-5px lg:py-10px">
           {" "}
           {inside}
         </ol>
       ) : (
-        <ul className="list-inside list-decimal py-10px pl-25px pr-5px lg:py-20px">
+        <ul className="list-inside list-decimal py-5px pl-25px pr-5px lg:py-10px">
           {inside}
         </ul>
       )}
-    </>
+    </div>
   );
 }

@@ -55,10 +55,21 @@ export function SectionTitle({
   );
 }
 
-export function SousTitre3({ children }: { children: ReactNode }) {
+export function SubsectionTitle({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   return (
-    <div className="text-21px font-semibold leading-26px text-retro-gray">
-      {children}
+    <div
+      className={clsx(
+        className,
+        "flex flex-col border-y bg-retro-pale-green px-10px py-10px text-center text-20px font-semibold leading-25px tracking-[-0.01em] text-retro-gray",
+      )}
+    >
+      <div>{children}</div>
     </div>
   );
 }
