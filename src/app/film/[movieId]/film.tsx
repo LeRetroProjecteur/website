@@ -9,8 +9,8 @@ import Seances from "@/components/seances/seances";
 import {
   BodyCopy,
   MetaCopy,
+  SectionTitle,
   SousTitre1,
-  SousTitre2,
 } from "@/components/typography/typography";
 import { MovieDetail, ShowtimesTheater } from "@/lib/types";
 import {
@@ -148,9 +148,7 @@ function MovieScreenings({ movie }: { movie: MovieDetail }) {
 
   return (
     <>
-      <div className="flex justify-center border-y bg-retro-green py-13px text-center lg:px-20px lg:py-16px">
-        <SousTitre2>Prochaines séances à Paris</SousTitre2>
-      </div>
+      <SectionTitle>Prochaines séances à Paris</SectionTitle>
       <div className="flex flex-col">
         {size(screenings) > 0 ? (
           <Screenings screenings={screenings} />

@@ -6,8 +6,8 @@ import PageHeader from "@/components/layout/page-header";
 import { TwoColumnPage } from "@/components/layout/two-column-page";
 import {
   BodyCopy,
+  SectionTitle,
   SousTitre1,
-  SousTitre2,
 } from "@/components/typography/typography";
 
 import coupDeCoeur from "../../assets/coup-de-coeur.png";
@@ -41,9 +41,7 @@ function Project() {
         </BodyCopy>
       </div>
       <div>
-        <div className="flex justify-center border-y bg-retro-green py-15px">
-          <SousTitre2>contactez-nous</SousTitre2>
-        </div>
+        <SectionTitle>contactez-nous</SectionTitle>
         <div className="py-20px lg:border-b">
           <BodyCopy>
             Une séance manquante, une erreur sur le site, un projet à nous
@@ -143,9 +141,7 @@ const teamMembers: TMembers[] = [
 function Team() {
   return (
     <>
-      <div className="flex justify-center border-y bg-retro-green py-15px">
-        <SousTitre2>l&apos;équipe du rétro</SousTitre2>
-      </div>
+      <SectionTitle>l&apos;équipe du rétro</SectionTitle>
       <div>
         {teamMembers.map((teamMember) => (
           <TeamMember key={teamMember.name} member={teamMember} />

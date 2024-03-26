@@ -7,7 +7,7 @@ import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 import {
   FirstRow,
   MiddleColumn,
-  MiddleColumnImageAndCaption,
+  MiddleColumnImageAndTitle,
   Section,
   SectionHeader,
   ThreeColumnLayout,
@@ -109,10 +109,10 @@ export default function Top2022() {
           </div>
           <Section>
             <SectionHeader>Notre top 2022</SectionHeader>
-            <MiddleColumnImageAndCaption
+            <MiddleColumnImageAndTitle
               image={variety}
               alt="Variety"
-              caption={
+              title={
                 <>
                   <Link className="underline" href="/film/variety-1983">
                     <i>Variety</i>
@@ -136,10 +136,10 @@ export default function Top2022() {
             </BodyCopy>
           </Section>
           <Section>
-            <MiddleColumnImageAndCaption
+            <MiddleColumnImageAndTitle
               image={mamanputain}
               alt="La maman et la putain"
-              caption={
+              title={
                 <>
                   <Link className="underline" href="/film/maman-putain-1972">
                     <i>La maman et la putain</i>
@@ -163,10 +163,10 @@ export default function Top2022() {
             </BodyCopy>
           </Section>
           <Section>
-            <MiddleColumnImageAndCaption
+            <MiddleColumnImageAndTitle
               image={lola}
               alt="Lola, une femme allemande"
-              caption={
+              title={
                 <>
                   <Link
                     className="underline"
@@ -198,10 +198,10 @@ export default function Top2022() {
             </BodyCopy>
           </Section>
           <Section>
-            <MiddleColumnImageAndCaption
+            <MiddleColumnImageAndTitle
               image={evangile}
               alt="L'Évangile selon Saint Matthieu"
-              caption={
+              title={
                 <>
                   <Link
                     className="underline"
@@ -234,10 +234,10 @@ export default function Top2022() {
             </BodyCopy>
           </Section>
           <Section>
-            <MiddleColumnImageAndCaption
+            <MiddleColumnImageAndTitle
               image={pictureshow}
               alt="La Dernière séance"
-              caption={
+              title={
                 <>
                   <Link
                     className="underline"
@@ -267,10 +267,10 @@ export default function Top2022() {
             </BodyCopy>
           </Section>
           <Section>
-            <MiddleColumnImageAndCaption
+            <MiddleColumnImageAndTitle
               image={silence}
               alt="Le Grand Silence"
-              caption={
+              title={
                 <>
                   <Link className="underline" href="/film/grand-silence-1968">
                     <i>Le grand silence</i>
@@ -298,10 +298,10 @@ export default function Top2022() {
             </BodyCopy>
           </Section>
           <Section>
-            <MiddleColumnImageAndCaption
+            <MiddleColumnImageAndTitle
               image={adieu}
               alt="Adieu au langage"
-              caption={
+              title={
                 <>
                   <Link
                     className="underline"

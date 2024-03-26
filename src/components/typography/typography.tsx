@@ -36,10 +36,40 @@ export function SousTitre2({ children }: { children: ReactNode }) {
   );
 }
 
-export function SousTitre3({ children }: { children: ReactNode }) {
+export function SectionTitle({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   return (
-    <div className="text-21px font-semibold leading-26px text-retro-gray">
-      {children}
+    <div
+      className={clsx(
+        className,
+        "flex flex-col border-y bg-retro-green px-10px py-10px text-center text-22px font-semibold uppercase leading-22px tracking-[-0.01em] text-retro-gray lg:py-20px",
+      )}
+    >
+      <SousTitre2>{children}</SousTitre2>
+    </div>
+  );
+}
+
+export function SubsectionTitle({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={clsx(
+        className,
+        "flex flex-col border-y bg-retro-pale-green px-10px py-10px text-center text-20px font-semibold leading-25px tracking-[-0.01em] text-retro-gray",
+      )}
+    >
+      <div>{children}</div>
     </div>
   );
 }
