@@ -105,7 +105,7 @@ const teamMembers: TMembers[] = [
   },
   {
     name: "Ugo Tanielian",
-    role: "Technologiste",
+    role: "Rédacteur et Technologiste",
     socials: [],
     films: [
       { name: "Il était une fois dans l'Ouest", id: "etait-fois-ouest-1968" },
