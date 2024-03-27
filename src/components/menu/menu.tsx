@@ -65,6 +65,16 @@ export default function Menu() {
     closeMenu();
   }, []);
 
+  const playLogo = useCallback(() => {
+    const logo = document.getElementById("logo") as HTMLImageElement | null;
+    if (logo) {
+      logo.src = ""; // Resetting the src to force reload and play the GIF
+      setTimeout(() => {
+        logo.src = logoCarre.src; // Access the src property of the StaticImageData object
+      }, 10); // Delay to ensure the reset happens before setting the src
+    }
+  }, []);
+
   return (
     <div className="flex grow flex-col px-10px sm:px-15px lg:justify-between lg:border-r lg:pl-0 lg:pr-20px">
       <div className="flex grow flex-col lg:grow-0">
@@ -77,9 +87,11 @@ export default function Menu() {
           <Link href="/" onClick={onClickLogo}>
             <div className="flex justify-center">
               <Image
+                id="logo" // Adding an id for easier reference
                 src={logoCarre}
                 alt="logo"
                 className="h-auto w-250px lg:w-207px"
+                onClick={playLogo} // Attach onClick event to play the logo GIF
               />
             </div>
             <div className="flex justify-center">
