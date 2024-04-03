@@ -1,29 +1,14 @@
 "use client";
 
-import {
-  capitalize,
-  flatten,
-  fromPairs,
-  groupBy,
-  includes,
-  orderBy,
-  sortBy,
-  toPairs,
-  uniq,
-  uniqBy,
-} from "lodash-es";
+import { capitalize, fromPairs, includes, sortBy, uniqBy } from "lodash-es";
 import { DateTime } from "luxon";
-import { Fragment, use, useMemo, useState } from "react";
+import { use, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
 import { TwoColumnPage } from "@/components/layout/two-column-page";
-import {
-  BodyCopy,
-  SousTitre1,
-  SousTitre2,
-} from "@/components/typography/typography";
+import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 import GetHTML from "@/components/util/get-html";
 import IFrame from "@/components/util/iframe";
 import {
@@ -63,11 +48,6 @@ export default function GenerateNewsletter({
       <SuspenseWithLoading>
         <div className="flex grow items-center justify-center">
           <Movies movies={movies} />
-        </div>
-        <div className="flex grow flex-col border-t pl-20px">
-          <div className="flex flex-col pt-44px">
-            <Retrospectives movies={movies} />
-          </div>
         </div>
       </SuspenseWithLoading>
     </>
@@ -279,77 +259,4 @@ export function DayMovie({
       )}
     </>
   );
-}
-
-export function Retrospectives({
-  movies: moviesPromise,
-}: {
-  movies: Promise<MovieWithShowtimesByDay[]>;
-}) {
-  const movies = use(moviesPromise);
-  const retrospectives = useMemo(
-    () =>
-      sortBy(
-        toPairs(groupBy(movies, (movie) => movie.directors)).filter(
-          ([_, movies]) => movies.length > 3,
-        ),
-        ([director]) => director,
-      ),
-    [movies],
-  );
-
-  return (
-    <>
-      <div className="pb-20px">
-        <SousTitre2>Rétrospectives</SousTitre2>
-      </div>
-      <div>
-        {retrospectives.map(([director, movies], i, directors) => (
-          <Fragment key={director}>
-            <div>
-              {director} ({getCinemas(movies)})
-            </div>
-            <>
-              {sortBy(movies, (movie) => [
-                movie.year,
-                movie.directors,
-                movie.title,
-              ]).map((movie, i, movies) => (
-                <Fragment key={movie.title}>
-                  <i>{movie.title}</i> ({movie.year})
-                  {i < movies.length - 1 ? ", " : ""}
-                </Fragment>
-              ))}
-            </>
-            {i < directors.length - 1 ? (
-              <>
-                <br />
-                <br />
-              </>
-            ) : null}
-          </Fragment>
-        ))}
-      </div>
-    </>
-  );
-}
-
-function getCinemas(movies: MovieWithShowtimesByDay[]) {
-  const movieCinemas = movies.map<[MovieWithShowtimesByDay, string[]]>(
-    (movie) => [
-      movie,
-      flatten(Object.values(movie.showtimes_by_day)).map(({ name }) => name),
-    ],
-  );
-  const cinemas = uniq(
-    flatten(Object.values(movieCinemas.map(([_, cinemas]) => cinemas))),
-  );
-  const cinemasAndNumberOfMovies = cinemas.map<[string, number]>((cinema) => [
-    cinema,
-    movieCinemas.filter(([_, cinemas]) => cinemas.includes(cinema)).length,
-  ]);
-
-  return orderBy(cinemasAndNumberOfMovies, ([_, num]) => num, "desc")
-    .map(([cinema, num]) => `${cinema} (${num})`)
-    .join(", ");
 }
