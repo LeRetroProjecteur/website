@@ -69,8 +69,8 @@ export function Retrospectives({
       <div>
         {retrospectives.map(([director, movies], i, directors) => (
           <Fragment key={director}>
-            <div>
-              {director} ({getCinemas(movies)})
+            <div className="font-bold">
+              {director}&nbsp;: {getCinemas(movies)}
             </div>
             <>
               {sortBy(movies, (movie) => [
