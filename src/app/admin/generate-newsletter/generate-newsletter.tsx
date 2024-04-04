@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
 import { TwoColumnPage } from "@/components/layout/two-column-page";
+import { transformZipcode } from "@/components/seances/seances";
 import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 import GetHTML from "@/components/util/get-html";
 import IFrame from "@/components/util/iframe";
@@ -47,14 +48,14 @@ export default function GenerateNewsletter({
       </PageHeader>
       <SuspenseWithLoading>
         <div className="flex grow items-center justify-center">
-          <Movies movies={movies} />
+          <Semaine movies={movies} />
         </div>
       </SuspenseWithLoading>
     </>
   );
 }
 
-export function Movies({
+export function Semaine({
   movies: moviesPromise,
 }: {
   movies: Promise<MovieWithShowtimesByDay[]>;
@@ -121,49 +122,16 @@ export function Movies({
           </>
         }
       >
-        <div className="py-20px font-mono">{html}</div>
+        <div className="border-b py-20px font-mono">{html}</div>
         <GetHTML onChange={setHtml}>
           <div
-            style={{
-              padding: "12px 0",
-            }}
+            style={{ textAlign: "center", color: "#4d4d4d", lineHeight: 1.5 }}
           >
-            <table style={{ width: "100%" }}>
-              <tbody>
-                <tr>
-                  <td
-                    style={{
-                      width: "50%",
-                      textAlign: "center",
-                      verticalAlign: "top",
-                      paddingLeft: "18px",
-                      paddingRight: "18px",
-                    }}
-                  >
-                    <DaysMovies
-                      week={week.slice(0, 4)}
-                      dayValues={dayValues.slice(0, 4)}
-                      moviesById={moviesById}
-                    />
-                  </td>
-                  <td
-                    style={{
-                      width: "50%",
-                      textAlign: "center",
-                      verticalAlign: "top",
-                      paddingLeft: "18px",
-                      paddingRight: "18px",
-                    }}
-                  >
-                    <DaysMovies
-                      week={week.slice(4)}
-                      dayValues={dayValues.slice(4)}
-                      moviesById={moviesById}
-                    />
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+            <DaysMovies
+              week={week}
+              dayValues={dayValues}
+              moviesById={moviesById}
+            />
           </div>
         </GetHTML>
       </TwoColumnPage>
@@ -222,41 +190,23 @@ export function DayMovie({
 }) {
   return (
     <>
-      <div style={{ textAlign: "center" }}>
-        <u>
-          <span
-            style={{
-              textDecoration: "underline",
-              fontWeight: 700,
-              lineHeight: 1.5,
-              color: "#4d4d4d",
-            }}
-          >
-            {capitalize(formatLundi1Janvier(day))}
-          </span>
-        </u>
+      <div style={{ fontWeight: 700, textDecoration: "underline" }}>
+        {capitalize(formatLundi1Janvier(day))}
       </div>
-      <div style={{ lineHeight: 1.5, color: "#4d4d4d", textAlign: "center" }}>
-        <i style={{ fontWeight: 700 }}>{movie.title}</i>, {movie.directors} (
-        {movie.year})
+      <div style={{ fontWeight: 700 }}>
+        <i style={{ textTransform: "uppercase" }}>{movie.title}</i>,{" "}
+        {movie.directors} ({movie.year})
       </div>
       {showtimes.map((showtimes_theater) => (
-        <div
-          style={{ lineHeight: 1.5, color: "#4d4d4d", textAlign: "center" }}
-          key={showtimes_theater.name}
-        >
-          {showtimes_theater.name} ({showtimes_theater.zipcode}
-          )&nbsp;:{" "}
+        <div key={showtimes_theater.name}>
+          {showtimes_theater.name} (
+          {transformZipcode(showtimes_theater.zipcode)})&nbsp;:{" "}
           {showtimes_theater.showtimes
             .map((showtime) => floatHourToString(showtime))
             .join(", ")}
         </div>
       ))}
-      {!isLast && (
-        <div style={{ lineHeight: 1.5, color: "#4d4d4d", textAlign: "center" }}>
-          •
-        </div>
-      )}
+      {!isLast && <div>•</div>}
     </>
   );
 }
