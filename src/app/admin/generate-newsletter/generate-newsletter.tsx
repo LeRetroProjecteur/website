@@ -43,19 +43,17 @@ export default function GenerateNewsletter({
 }) {
   return (
     <>
-      <PageHeader text="Newsletter">
-        <SousTitre1>Aide à la rédaction de la newsletter</SousTitre1>
+      <PageHeader text="El Generator">
+        <SousTitre1>Générateur de la Semaine Cinéma</SousTitre1>
       </PageHeader>
       <SuspenseWithLoading>
-        <div className="flex grow items-center justify-center">
-          <Semaine movies={movies} />
-        </div>
+        <SemaineCinema movies={movies} />
       </SuspenseWithLoading>
     </>
   );
 }
 
-export function Semaine({
+export function SemaineCinema({
   movies: moviesPromise,
 }: {
   movies: Promise<MovieWithShowtimesByDay[]>;
@@ -93,7 +91,6 @@ export function Semaine({
   return (
     <>
       <TwoColumnPage
-        title={"Une semaine au cinéma"}
         left={
           <>
             {days.map((day, i) => (
