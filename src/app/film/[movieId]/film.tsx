@@ -31,6 +31,7 @@ export default function Film({ movie }: { movie: MovieDetail }) {
         <MovieHeader movie={movie} />
       </PageHeader>
       <TwoColumnPage
+        narrow
         left={
           <>
             <MovieReview movie={movie} />
@@ -83,8 +84,7 @@ function MovieReview({ movie }: { movie: MovieDetail }) {
                 />
               </div>
               <MetaCopy>
-                Critique du{" "}
-                {formatDDMMYYWithSlashes(safeDate(movie.review_date))}
+                Texte du {formatDDMMYYWithSlashes(safeDate(movie.review_date))}
               </MetaCopy>
             </div>
           </BodyCopy>
@@ -106,24 +106,29 @@ function MovieInformation({ movie }: { movie: MovieDetail }) {
               DURÉE&nbsp;: {Math.floor(parseInt(movie.duration) / 60)} minutes
             </div>
           )}
-          {movie.duration == null ? (
-            ""
-          ) : (
-            <div>LANGUE&nbsp;: {movie.language}</div>
-          )}
+          {movie.language != null &&
+            movie.language != "-" &&
+            (movie.language == "Silencieux" || movie.language == "Muet" ? (
+              <div>Film muet</div>
+            ) : (
+              <div>LANGUE&nbsp;: {movie.language}</div>
+            ))}
           <br />
-          <div>
-            TITRE ORIGINAL&nbsp;:{" "}
-            <i className={"uppercase"}>{movie.original_title}</i>
-          </div>
-          {movie.countries == null ? (
-            ""
-          ) : (
-            <div>PAYS&nbsp;: {movie.countries}</div>
-          )}
-          {movie.distributor == null ? (
-            ""
-          ) : (
+          {movie.original_title != null &&
+            movie.original_title != movie.title && (
+              <div>
+                TITRE ORIGINAL&nbsp;:{" "}
+                <i className={"uppercase"}>{movie.original_title}</i>
+              </div>
+            )}
+          {movie.countries != null &&
+            movie.countries != "inconnue" &&
+            (movie.countries == "U.S.A." ? (
+              <div>PAYS&nbsp;: États-Unis</div>
+            ) : (
+              <div>PAYS&nbsp;: {movie.countries}</div>
+            ))}
+          {movie.distributor != null && (
             <div>DISTRIBUTION&nbsp;: {movie.distributor}</div>
           )}
         </MetaCopy>
@@ -169,7 +174,7 @@ function Screenings({
       sortBy(screenings).map<[string, ShowtimesTheater[]]>(
         ([date, theaters]) => [
           date,
-          sortBy(theaters, (theater) => theater.clean_name),
+          sortBy(theaters, (theater) => theater.name),
         ],
       ),
     [screenings],
@@ -195,7 +200,7 @@ function DateScreenings({
     <div className="col-span-full grid grid-cols-[subgrid] border-b py-12px lg:py-16px lg:hover:bg-retro-pale-green">
       <BodyCopy>{capitalize(formatMerJJMM(safeDate(date)))}</BodyCopy>
       <div className="flex flex-col">
-        <Seances showtimes_theater={theaters} timesPerLine={2} />
+        <Seances showtimes_theater={theaters} />
       </div>
     </div>
   );

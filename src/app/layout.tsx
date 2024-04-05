@@ -12,59 +12,61 @@ import MenuWrapper from "@/components/menu/menu-wrapper";
 import "./globals.css";
 
 const degular = localFont({
-  src: "../assets/DegularVariable.woff2",
+  src: "../assets/DegularDisplay-Black.woff2",
+  weight: "900",
   variable: "--font-degular",
+  style: "normal",
 });
 
 const suisse = localFont({
   src: [
     {
-      path: "../assets/SuisseIntl-Regular.woff2",
+      path: "../assets/SuisseIntl-Regular-WebS.woff2",
       weight: "400",
       style: "normal",
     },
     {
-      path: "../assets/SuisseIntl-RegularItalic.woff2",
+      path: "../assets/SuisseIntl-RegularItalic-WebS.woff2",
       weight: "400",
       style: "italic",
     },
     {
-      path: "../assets/SuisseIntl-Book.woff2",
+      path: "../assets/SuisseIntl-Book-WebS.woff2",
       weight: "500",
       style: "normal",
     },
     {
-      path: "../assets/SuisseIntl-BookItalic.woff2",
+      path: "../assets/SuisseIntl-BookItalic-WebS.woff2",
       weight: "500",
       style: "italic",
     },
     {
-      path: "../assets/SuisseIntl-Medium.woff2",
+      path: "../assets/SuisseIntl-Medium-WebS.woff2",
       weight: "600",
       style: "normal",
     },
     {
-      path: "../assets/SuisseIntl-MediumItalic.woff2",
+      path: "../assets/SuisseIntl-MediumItalic-WebS.woff2",
       weight: "600",
       style: "italic",
     },
     {
-      path: "../assets/SuisseIntl-Bold.woff2",
+      path: "../assets/SuisseIntl-Bold-WebS.woff2",
       weight: "700",
       style: "normal",
     },
     {
-      path: "../assets/SuisseIntl-BoldItalic.woff2",
+      path: "../assets/SuisseIntl-BoldItalic-WebS.woff2",
       weight: "700",
       style: "italic",
     },
     {
-      path: "../assets/SuisseIntl-Bold.woff2",
+      path: "../assets/SuisseIntl-Bold-WebS.woff2",
       weight: "800",
       style: "normal",
     },
     {
-      path: "../assets/SuisseIntl-BoldItalic.woff2",
+      path: "../assets/SuisseIntl-BoldItalic-WebS.woff2",
       weight: "800",
       style: "italic",
     },

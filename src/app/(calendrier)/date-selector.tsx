@@ -1,5 +1,6 @@
 "use client";
 
+import clsx from "clsx";
 import { useCallback } from "react";
 
 import { LeftArrow, RightArrow } from "@/components/icons/arrows";
@@ -19,32 +20,34 @@ export default function DateSelector() {
     setDate(date.plus({ days: 1 }));
   }, [date, setDate]);
 
-  const today = getStartOfTodayInParis(); // A
-  const canGoBackInTime = date > today; // C
+  const today = getStartOfTodayInParis();
+  const canGoBackInTime = date > today;
 
   return (
-    <>
-      {canGoBackInTime ? (
-        <div
-          onClick={onClickLeft}
-          className="flex grow cursor-pointer justify-end pr-5px"
-        >
+    <div className="flex grow items-center justify-center">
+      <div
+        onClick={onClickLeft}
+        className={clsx("flex grow cursor-pointer justify-end", {
+          invisible: !canGoBackInTime,
+        })}
+      >
+        <div className="rounded-sm border border-[#00000000] p-5px pr-3px group-hover/date:border-retro-gray">
           <LeftArrow />
         </div>
-      ) : (
-        <div className="grow" />
-      )}
-      <div>
-        <SousTitre1 className={canGoBackInTime ? "ml-5px" : ""}>
+      </div>
+      <div className="flex items-center">
+        <SousTitre1 className="min-w-270px text-center lg:min-w-370px">
           {formatLundi1Janvier(date)}
         </SousTitre1>
       </div>
       <div
         onClick={onClickRight}
-        className="flex grow cursor-pointer justify-start pl-5px"
+        className="flex grow cursor-pointer justify-start"
       >
-        <RightArrow />
+        <div className="rounded-sm border border-[#00000000] p-5px pl-3px group-hover/date:border-retro-gray">
+          <RightArrow />
+        </div>
       </div>
-    </>
+    </div>
   );
 }
