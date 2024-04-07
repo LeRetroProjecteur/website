@@ -19,11 +19,7 @@ import { useForm } from "react-hook-form";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
 import { TwoColumnPage } from "@/components/layout/two-column-page";
-import {
-  BodyCopy,
-  SousTitre1,
-  SousTitre2,
-} from "@/components/typography/typography";
+import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 import GetHTML from "@/components/util/get-html";
 import IFrame from "@/components/util/iframe";
 import {
@@ -61,11 +57,15 @@ export default function GenerateNewsletter({
         <SousTitre1>Aide à la rédaction de la newsletter</SousTitre1>
       </PageHeader>
       <SuspenseWithLoading>
+        <SousTitre1 className="pb-20px pt-20px lg:pl-20px">
+          Rétrospectives
+        </SousTitre1>
         <div className="flex grow items-center justify-center">
           <Movies movies={movies} />
         </div>
         <div className="flex grow flex-col border-t pl-20px">
-          <div className="flex flex-col pt-44px">
+          <SousTitre1 className="pb-20px pt-20px">Rétrospectives</SousTitre1>
+          <div className="flex flex-col pt-10px">
             <Retrospectives movies={movies} />
           </div>
         </div>
@@ -112,7 +112,6 @@ export function Movies({
   return (
     <>
       <TwoColumnPage
-        title={"Une semaine au cinéma"}
         left={
           <>
             {days.map((day, i) => (
@@ -300,9 +299,6 @@ export function Retrospectives({
 
   return (
     <>
-      <div className="pb-20px">
-        <SousTitre2>Rétrospectives</SousTitre2>
-      </div>
       <div>
         {retrospectives.map(([director, movies], i, directors) => (
           <Fragment key={director}>
