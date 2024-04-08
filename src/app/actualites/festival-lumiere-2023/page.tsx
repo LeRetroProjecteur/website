@@ -11,6 +11,7 @@ import {
   ThreeColumnLayout,
 } from "../components";
 import altman from "./img/altman.jpg";
+import bushman from "./img/bushman.png";
 import cuaronAnderson from "./img/cuaron-anderson.jpg";
 import icon from "./img/icon.jpg";
 import lyon from "./img/lyon.jpeg";
@@ -238,8 +239,22 @@ export default function Lumiere2023() {
             cette séquence finale est de loin la partie la plus intéressante du
             film (d&apos;une noirceur et d&apos;une bizarrerie qui fait froid
             dans le dos).
-            <br />
-            <br />
+          </BodyCopy>
+        </MiddleColumn>
+        <MiddleColumnImageAndRightColumnCaption
+          image={bushman}
+          alt="Bushman"
+          caption={
+            <>
+              <Link className="underline" href="/film/bushman-1971">
+                <i>Bushman</i>
+              </Link>
+              , David Schikele (1971)
+            </>
+          }
+        />
+        <MiddleColumn>
+          <BodyCopy>
             En ce qui concerne les autres films qui bénéficieront d&apos;une
             sortie prochaine, on mentionnera également le fascinant{" "}
             <strong>
