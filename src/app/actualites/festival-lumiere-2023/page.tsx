@@ -11,6 +11,7 @@ import {
   ThreeColumnLayout,
 } from "../components";
 import altman from "./img/altman.jpg";
+import bushman from "./img/bushman.png";
 import cuaronAnderson from "./img/cuaron-anderson.jpg";
 import icon from "./img/icon.jpg";
 import lyon from "./img/lyon.jpeg";
@@ -88,8 +89,10 @@ export default function Lumiere2023() {
               <Link className="underline" href="/film/charles-mort-vif-1969">
                 <i>Charles mort ou vif</i>
               </Link>{" "}
-              d&apos;Alain Tanner avec Thierry Frémaux.
-              <br />À droite&nbsp;: Wes Anderson présente{" "}
+              d&apos;Alain Tanner avec Thierry Frémaux.{" "}
+              <br className="hidden lg:block" />
+              <br className="hidden lg:block" />À droite&nbsp;: Wes Anderson
+              présente{" "}
               <Link
                 className="underline"
                 href="/film/trilogie-apu-complainte-sentier-1955"
@@ -196,8 +199,9 @@ export default function Lumiere2023() {
               <Link className="underline" href="/film/femme-vent-1948">
                 <i>Une femme dans le vent</i>
               </Link>{" "}
-              d&apos;Ozu.
-              <br />À droite&nbsp;: Ray sur le tournage de{" "}
+              d&apos;Ozu. <br className="hidden lg:block" />
+              <br className="hidden lg:block" />À droite&nbsp;: Ray sur le
+              tournage de{" "}
               <Link
                 className="underline"
                 href="/film/trilogie-apu-invaincu-1956"
@@ -235,8 +239,22 @@ export default function Lumiere2023() {
             cette séquence finale est de loin la partie la plus intéressante du
             film (d&apos;une noirceur et d&apos;une bizarrerie qui fait froid
             dans le dos).
-            <br />
-            <br />
+          </BodyCopy>
+        </MiddleColumn>
+        <MiddleColumnImageAndRightColumnCaption
+          image={bushman}
+          alt="Bushman"
+          caption={
+            <>
+              <Link className="underline" href="/film/bushman-1971">
+                <i>Bushman</i>
+              </Link>
+              , David Schikele (1971)
+            </>
+          }
+        />
+        <MiddleColumn>
+          <BodyCopy>
             En ce qui concerne les autres films qui bénéficieront d&apos;une
             sortie prochaine, on mentionnera également le fascinant{" "}
             <strong>

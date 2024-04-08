@@ -2,7 +2,12 @@ import Link from "next/link";
 import { ReactNode } from "react";
 
 import PageHeader from "@/components/layout/page-header";
-import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
+import {
+  BodyCopy,
+  SectionTitle,
+  SousTitre1,
+  SubsectionTitle,
+} from "@/components/typography/typography";
 
 import {
   FirstRow,
@@ -837,7 +842,7 @@ export default function Top2023() {
           <Section>
             <div className="lg:flex">
               <div className="flex flex-col pb-20px lg:w-1/2 lg:border-r lg:pb-0 lg:pr-10px">
-                <TopTable titre="le top films">
+                <TopTable titre="top films">
                   {TOP_FILMS.map(({ titre, directorsAndYear, id }) => (
                     <span key={id}>
                       <Link href={`/film/${id}`}>
@@ -851,7 +856,7 @@ export default function Top2023() {
                 </TopTable>
               </div>
               <div className="flex flex-col lg:w-1/2 lg:pl-10px">
-                <TopTable titre="le top cinéastes">
+                <TopTable titre="top cinéastes">
                   <span className="font-semibold">Chantal Akerman</span>
                   <span className="font-semibold">Yasujirô Ozu</span>
                   <span className="font-semibold">Jean Eustache</span>
@@ -886,7 +891,7 @@ export default function Top2023() {
               patrimoine. Le film, qui venait d&apos;être consacré
               «&nbsp;meilleur film de tous les temps&nbsp;» par le fameux{" "}
               <a
-                target="blank"
+                target="_blank"
                 className="underline"
                 href="https://www.bfi.org.uk/sight-and-sound/greatest-films-all-time"
               >
@@ -966,11 +971,7 @@ export default function Top2023() {
               l&apos;arbre qui cachait la forêt en cette année 2023
               (réalisatrice la plus citée mais seule femme du top 10). En 2022,
               nous découvrions en salles l&apos;extraordinaire{" "}
-              <a
-                target="_blank"
-                className="underline"
-                href="/film/variety-1983"
-              >
+              <a className="underline" href="/film/variety-1983">
                 <i>Variety</i> de Bette Gordon
               </a>
               , ou encore l&apos;œuvre de Kinuyo Tanako, confirmant que le
@@ -1036,13 +1037,11 @@ function TopTable({
 }) {
   return (
     <>
-      <div className="flex flex-col border-y bg-retro-green px-10px py-10px text-center text-22px font-semibold uppercase leading-22px tracking-[-0.01em] text-retro-gray lg:py-20px">
-        {titre}
-      </div>
+      <SectionTitle className="lg:text-15px">{titre}</SectionTitle>
       {children.map((child, i) => (
         <ol
           key={i}
-          className="flex grow items-center justify-center border-b px-5px py-5px text-center text-15px font-medium leading-18px tracking-[-0.01em] lg:py-10px"
+          className="flex grow items-center justify-center border-b py-5px text-center text-16px font-medium leading-20px tracking-[-0.01em] lg:py-10px"
         >
           <li>
             {i + 1}.&nbsp;{child}
@@ -1062,7 +1061,7 @@ function CritiqueTable({
 }) {
   const inside = top.map(({ titre, directorsAndYear, id }, i) => (
     <li
-      className="text-16px font-medium leading-30px tracking-[-0.01em]"
+      className="py-5px text-16px font-medium leading-20px tracking-[-0.01em]"
       key={i}
     >
       <span key={id}>
@@ -1074,8 +1073,8 @@ function CritiqueTable({
     </li>
   ));
   return (
-    <>
-      <div className="border-y bg-retro-pale-green px-10px py-10px text-center text-25px font-semibold leading-25px tracking-[-0.01em] text-retro-gray lg:py-15px lg:text-25px lg:leading-25px">
+    <div className="py-10px">
+      <SubsectionTitle>
         <span className="uppercase">{nom}</span>
         {references.length > 0 && " ("}
         {references.map(({ nom, href }, i) => (
@@ -1091,17 +1090,17 @@ function CritiqueTable({
           </>
         ))}
         {references.length > 0 && ")"}
-      </div>
+      </SubsectionTitle>
       {unordered ?? false ? (
-        <ol className="list-inside list-decimal py-10px pl-25px pr-5px lg:py-20px">
+        <ol className="list-inside list-decimal py-5px pl-25px pr-5px lg:py-10px">
           {" "}
           {inside}
         </ol>
       ) : (
-        <ul className="list-inside list-decimal py-10px pl-25px pr-5px lg:py-20px">
+        <ul className="list-inside list-decimal py-5px pl-25px pr-5px lg:py-10px">
           {inside}
         </ul>
       )}
-    </>
+    </div>
   );
 }
