@@ -36,7 +36,7 @@ interface Inputs {
   mardi: string;
 }
 
-export default function GenerateurSemaine({
+export default function GenerateNewsletter({
   movies,
 }: {
   movies: Promise<MovieWithShowtimesByDay[]>;
