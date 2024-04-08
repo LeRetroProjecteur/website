@@ -93,33 +93,47 @@ export function SeancesTheater({
   isExpanded: boolean;
 }) {
   const showTimes = sortBy(showtimesTheater.showtimes);
+  const showNotes = sortBy(showtimesTheater.notes);
 
   return (
-    <div
-      className="group/cinema flex items-start justify-between"
-      key={showtimesTheater.name}
-    >
-      <div className="w-min grow pr-10px lg:pr-30px">
-        <CalendrierCopy
-          className={clsx({ "group-hover/cinema:underline": isExpanded })}
-        >
-          {showtimesTheater.name} ({transformZipcode(showtimesTheater.zipcode)})
-        </CalendrierCopy>
-      </div>
-      <div className="flex flex-col justify-end lg:flex-row lg:flex-wrap lg:self-start">
-        {showTimes.map((showtime) => (
-          <div
-            key={showtime}
-            className={clsx("group/seances flex justify-end", {
-              "group-hover/cinema:underline": isExpanded,
-            })}
+    <div>
+      <div
+        className="group/cinema flex items-start justify-between"
+        key={showtimesTheater.name}
+      >
+        <div className="w-min grow pr-10px lg:pr-30px">
+          <CalendrierCopy
+            className={clsx({ "group-hover/cinema:underline": isExpanded })}
           >
-            <CalendrierCopy>{floatHourToString(showtime)}</CalendrierCopy>
-            <div className="hidden group-last/seances:hidden lg:block">
-              <CalendrierCopy>&nbsp;•&nbsp;</CalendrierCopy>
+            {showtimesTheater.name} (
+            {transformZipcode(showtimesTheater.zipcode)})
+          </CalendrierCopy>
+        </div>
+        <div className="flex flex-col justify-end lg:flex-row lg:flex-wrap lg:self-start">
+          {showTimes.map((showtime) => (
+            <div
+              key={showtime}
+              className={clsx("group/seances flex justify-end", {
+                "group-hover/cinema:underline": isExpanded,
+              })}
+            >
+              <CalendrierCopy>{floatHourToString(showtime)}</CalendrierCopy>
+              <div className="hidden group-last/seances:hidden lg:block">
+                <CalendrierCopy>&nbsp;•&nbsp;</CalendrierCopy>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+      </div>
+      <div className="flex grow justify-end">
+        {showNotes.map(
+          (note) =>
+            note != null && (
+              <div key={note}>
+                <i>* {note}</i>
+              </div>
+            ),
+        )}
       </div>
     </div>
   );
