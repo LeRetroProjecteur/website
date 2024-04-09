@@ -130,7 +130,7 @@ export function SeancesTheater({
           (note) =>
             note != null && (
               <div key={note}>
-                <i>* {note}</i>
+                <i className="font-semibold">{note}</i>
               </div>
             ),
         )}
