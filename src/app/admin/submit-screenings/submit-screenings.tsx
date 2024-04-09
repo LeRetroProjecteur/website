@@ -20,7 +20,7 @@ export default function SubmitScreenings({
   return (
     <>
       <PageHeader text="Rajouter des séances">
-        <SousTitre1>Le Méliès Montreuil</SousTitre1>
+        <SousTitre1>Votre salle : Le Méliès Montreuil</SousTitre1>
       </PageHeader>
       <div className="flex grow flex-col pb-10px lg:pl-20px">
         <strong>Instructions&nbsp;:</strong>
@@ -101,13 +101,12 @@ export default function SubmitScreenings({
                 padding: "15px",
                 backgroundColor: "#E2FF46",
                 color: "black",
-                border: "1",
+                border: "solid",
                 borderColor: "black",
-                borderRadius: "4px",
                 cursor: "pointer",
               }}
             >
-              Envoyez vos séances&nbsp;!
+              Rajoutez vos séances&nbsp;!
             </button>
           </span>
         </div>
@@ -143,10 +142,18 @@ function SearchRow({
           <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
             {showResults && (
               <Results
+                extraClass="text-left px-5px py-2px border-x border-b"
                 nb_results={5}
                 {...{ searchTerm, allMoviesPromise }}
                 onClick={(movie) => {
-                  setSearchTerm(movie.title);
+                  setSearchTerm(
+                    movie.title +
+                      ", " +
+                      movie.directors +
+                      " (" +
+                      movie.year +
+                      ")",
+                  );
                   setShowResults(false);
                 }}
               />
