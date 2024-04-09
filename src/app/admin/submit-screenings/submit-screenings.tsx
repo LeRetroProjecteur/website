@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Fragment, useCallback, useEffect } from "react";
+import React, { Fragment, useCallback, useEffect, useState } from "react";
 import { create } from "zustand";
 
 import { Results } from "@/app/recherche/recherche";
@@ -10,19 +10,6 @@ import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
 
-const useRechercheStore = create<{
-  selected: number | undefined;
-  searchTerm: string;
-}>()(() => ({
-  searchTerm: "",
-  selected: undefined,
-}));
-
-const setSelected = (selected: number | undefined) =>
-  useRechercheStore.setState({ selected });
-const setSearchTerm = (searchTerm: string) =>
-  useRechercheStore.setState({ searchTerm });
-
 export default function SubmitScreenings({
   allMoviesPromise,
 }: {
@@ -30,16 +17,6 @@ export default function SubmitScreenings({
 }) {
   const numSubmissions = 5;
   const inputs = Array.from(Array(numSubmissions).keys());
-
-  useEffect(() => {
-    setSelected(undefined);
-    setSearchTerm("");
-  }, []);
-  const onChangeSearchTerm = useCallback((s: string) => {
-    setSelected(undefined);
-    setSearchTerm(s);
-  }, []);
-  const searchTerm = useRechercheStore((s) => s.searchTerm);
 
   return (
     <>
@@ -78,51 +55,7 @@ export default function SubmitScreenings({
               <tbody>
                 {inputs.map((k) => (
                   <Fragment key={k}>
-                    <tr style={{ backgroundColor: "var(--white)" }}>
-                      <td className="py-5px">
-                        <div className={"flex grow flex-col"}>
-                          <RetroInput
-                            value={searchTerm}
-                            setValue={onChangeSearchTerm}
-                            leftAlignPlaceholder
-                            customTypography
-                            placeholder="Recherchez un film..."
-                            transparentPlaceholder
-                            className={"flex grow"}
-                          />
-                          <SuspenseWithLoading
-                            hideLoading={searchTerm.length === 0}
-                          >
-                            <Results
-                              nb_results={5}
-                              {...{ searchTerm, allMoviesPromise }}
-                            />
-                          </SuspenseWithLoading>
-                        </div>
-                      </td>
-                      <td className="py-5px" style={{ verticalAlign: "top" }}>
-                        <input
-                          type="date"
-                          id="date"
-                          name="date"
-                          className="flex h-42px grow lg:h-48px"
-                        />
-                      </td>
-                      <td className="py-5px" style={{ verticalAlign: "top" }}>
-                        <input
-                          type="time"
-                          id="time"
-                          name="time"
-                          className="flex h-42px grow lg:h-48px"
-                        />
-                      </td>
-                      <td className="flex grow py-5px">
-                        <input
-                          type="text"
-                          className="flex h-42px grow lg:h-48px"
-                        />
-                      </td>
-                    </tr>
+                    <SearchRow allMoviesPromise={allMoviesPromise} />
                   </Fragment>
                 ))}
               </tbody>
@@ -181,5 +114,66 @@ export default function SubmitScreenings({
         </div>
       </div>
     </>
+  );
+}
+
+function SearchRow({
+  allMoviesPromise,
+}: {
+  allMoviesPromise: Promise<SearchMovie[]>;
+}) {
+  const [searchTerm, _setSearchTerm] = useState("");
+  const [showResults, setShowResults] = useState(false);
+  const setSearchTerm = (st: string) => {
+    _setSearchTerm(st);
+    setShowResults(true);
+  };
+  return (
+    <tr style={{ backgroundColor: "var(--white)" }}>
+      <td className="py-5px">
+        <div className={"flex grow flex-col"}>
+          <RetroInput
+            value={searchTerm}
+            setValue={setSearchTerm}
+            leftAlignPlaceholder
+            customTypography
+            placeholder="Recherchez un film..."
+            transparentPlaceholder
+            className={"flex grow"}
+          />
+          <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
+            {showResults && (
+              <Results
+                nb_results={5}
+                {...{ searchTerm, allMoviesPromise }}
+                onClick={(movie) => {
+                  setSearchTerm(movie.title);
+                  setShowResults(false);
+                }}
+              />
+            )}
+          </SuspenseWithLoading>
+        </div>
+      </td>
+      <td className="py-5px" style={{ verticalAlign: "top" }}>
+        <input
+          type="date"
+          id="date"
+          name="date"
+          className="flex h-42px grow lg:h-48px"
+        />
+      </td>
+      <td className="py-5px" style={{ verticalAlign: "top" }}>
+        <input
+          type="time"
+          id="time"
+          name="time"
+          className="flex h-42px grow lg:h-48px"
+        />
+      </td>
+      <td className="flex grow py-5px">
+        <input type="text" className="flex h-42px grow lg:h-48px" />
+      </td>
+    </tr>
   );
 }

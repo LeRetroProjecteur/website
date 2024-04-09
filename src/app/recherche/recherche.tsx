@@ -111,11 +111,13 @@ export function Results({
   searchTerm,
   nb_results,
   extraClass,
+  onClick,
 }: {
   allMoviesPromise: Promise<SearchMovie[]>;
   searchTerm: string;
   nb_results: number;
   extraClass?: string;
+  onClick?: (movie: SearchMovie) => void;
 }) {
   const selected = useRechercheStore((s) => s.selected);
   const tags = useRechercheStore((s) => s.tags);
@@ -186,6 +188,14 @@ export function Results({
           <>
             {filtered.map((movie, i) => (
               <Link
+                onClick={
+                  onClick != null
+                    ? (e) => {
+                        onClick(movie);
+                        e.preventDefault();
+                      }
+                    : undefined
+                }
                 ref={selected === i ? selectedRef : null}
                 key={movie.id}
                 href={`/film/${movie.id}`}
