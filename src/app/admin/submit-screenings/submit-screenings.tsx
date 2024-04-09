@@ -1,7 +1,6 @@
 "use client";
 
-import React, { Fragment, useCallback, useEffect, useState } from "react";
-import { create } from "zustand";
+import React, { Fragment, useState } from "react";
 
 import { Results } from "@/app/recherche/recherche";
 import RetroInput from "@/components/forms/retro-input";
