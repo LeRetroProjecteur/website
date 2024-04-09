@@ -39,6 +39,7 @@ export interface SearchMovie {
 
 export interface ShowtimesTheater {
   showtimes: number[];
+  notes: string[];
   neighborhood: string;
   zipcode: string;
   name: string;
