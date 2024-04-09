@@ -1,12 +1,18 @@
-import {SearchMovie} from "@/lib/types";
-import {MutableRefObject, use, useEffect, useMemo, useRef} from "react";
-import {every, orderBy, take} from "lodash-es";
-import {getFields, getMovieInfoString, stringMatchFields, TAG_MAP} from "@/lib/util";
-import {useRouter} from "next/navigation";
-import Link from "next/link";
 import clsx from "clsx";
-import {MetaCopy} from "@/components/typography/typography";
-import {create} from "zustand";
+import { every, orderBy, take } from "lodash-es";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { MutableRefObject, use, useEffect, useMemo, useRef } from "react";
+import { create } from "zustand";
+
+import { MetaCopy } from "@/components/typography/typography";
+import { SearchMovie } from "@/lib/types";
+import {
+  TAG_MAP,
+  getFields,
+  getMovieInfoString,
+  stringMatchFields,
+} from "@/lib/util";
 
 const useRechercheStore = create<{
   tags: string[];
@@ -62,15 +68,15 @@ export function Results({
     () =>
       searchTerm.length > 0
         ? take(
-          allMoviesFields
-            .filter(
-              ([_, fields]) =>
-                stringMatchFields(keywords, fields) &&
-                (tags.length === 0 || every(tags, () => true)),
-            )
-            .map(([movie]) => movie),
-          nb_results,
-        )
+            allMoviesFields
+              .filter(
+                ([_, fields]) =>
+                  stringMatchFields(keywords, fields) &&
+                  (tags.length === 0 || every(tags, () => true)),
+              )
+              .map(([movie]) => movie),
+            nb_results,
+          )
         : [],
     [allMoviesFields, searchTerm, keywords, tags, nb_results],
   );

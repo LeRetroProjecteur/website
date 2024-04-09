@@ -1,49 +1,60 @@
 "use client";
 
-import React, {Fragment } from "react";
-import PageHeader from "@/components/layout/page-header";
-import {SousTitre1} from "@/components/typography/typography";
-import { SearchMovie } from "@/lib/types";
+import React, { Fragment, useCallback, useEffect } from "react";
+import { create } from "zustand";
+
 import RetroInput from "@/components/forms/retro-input";
-import {Results} from "@/components/search/search";
+import { SuspenseWithLoading } from "@/components/icons/loading";
+import PageHeader from "@/components/layout/page-header";
+import { Results } from "@/components/search/search";
+import { SousTitre1 } from "@/components/typography/typography";
+import { SearchMovie } from "@/lib/types";
 
-const cineID = "cine-club-ens";
+const useRechercheStore = create<{
+  selected: number | undefined;
+  searchTerm: string;
+}>()(() => ({
+  searchTerm: "",
+  selected: undefined,
+}));
 
-interface screening {
-  film: string;
-  day: number;
-  hour: number;
-  id: string;
-  minute: number;
-  month: number;
-  notes: string;
-  year: number;
-}
+const setSelected = (selected: number | undefined) =>
+  useRechercheStore.setState({ selected });
+const setSearchTerm = (searchTerm: string) =>
+  useRechercheStore.setState({ searchTerm });
 
 export default function SubmitScreenings({
   allMoviesPromise,
 }: {
   allMoviesPromise: Promise<SearchMovie[]>;
 }) {
+  const numSubmissions = 5;
+  const inputs = Array.from(Array(numSubmissions).keys());
 
-  const numSubmissions = 10;
-  const inputs = Array.from(Array(numSubmissions).keys())
+  useEffect(() => {
+    setSelected(undefined);
+    setSearchTerm("");
+  }, []);
+  const onChangeSearchTerm = useCallback((s: string) => {
+    setSelected(undefined);
+    setSearchTerm(s);
+  }, []);
+  const searchTerm = useRechercheStore((s) => s.searchTerm);
 
   return (
     <>
-      <PageHeader text="Rajouter des séances" >
-        <SousTitre1>Ciné-Club ENS</SousTitre1>
+      <PageHeader text="Rajouter des séances">
+        <SousTitre1>Le Méliès Montreuil</SousTitre1>
       </PageHeader>
       <div className="flex grow flex-col pb-10px lg:pl-20px">
         <strong>Instructions&nbsp;:</strong>
-        <br />
         Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
         veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
         commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-        cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-        est laborum.
+        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+        mollit anim id est laborum.
         <br />
         <br />
         <div style={{ textAlign: "center", padding: "5px" }}>
@@ -54,41 +65,62 @@ export default function SubmitScreenings({
                 flexDirection: "column",
                 alignItems: "center",
               }}
-            >
-            </div>
+            ></div>
             <table style={{ width: "100%" }}>
               <thead>
                 <tr>
-                  <th>Film</th>
-                  <th>Date</th>
-                  <th>Horaire</th>
-                  <th>Notes</th>
+                  <th style={{ width: "40%" }}>Film</th>
+                  <th style={{ width: "10%" }}>Date</th>
+                  <th style={{ width: "5%" }}>Horaire</th>
+                  <th style={{ width: "45%" }}>Notes</th>
                 </tr>
               </thead>
               <tbody>
                 {inputs.map((k) => (
                   <Fragment key={k}>
                     <tr style={{ backgroundColor: "var(--white)" }}>
-                      <td>
+                      <td className="py-5px">
                         <div className={"flex grow flex-col"}>
                           <RetroInput
-                            value=""
-                            setValue=""
+                            value={searchTerm}
+                            setValue={onChangeSearchTerm}
+                            leftAlignPlaceholder
+                            customTypography
                             placeholder="Recherchez un film..."
                             transparentPlaceholder
                             className={"flex grow"}
                           />
-                          <Results nb_results={5} allMoviesPromise={allMoviesPromise} searchTerm={""} />
+                          <SuspenseWithLoading
+                            hideLoading={searchTerm.length === 0}
+                          >
+                            <Results
+                              nb_results={5}
+                              {...{ searchTerm, allMoviesPromise }}
+                            />
+                          </SuspenseWithLoading>
                         </div>
                       </td>
-                      <td>
-                        <input type="date" id="date" name="date" />
+                      <td className="py-5px" style={{ verticalAlign: "top" }}>
+                        <input
+                          type="date"
+                          id="date"
+                          name="date"
+                          className="flex h-42px grow lg:h-48px"
+                        />
                       </td>
-                      <td>
-                        <input type="time" id="time" name="time" />
+                      <td className="py-5px" style={{ verticalAlign: "top" }}>
+                        <input
+                          type="time"
+                          id="time"
+                          name="time"
+                          className="flex h-42px grow lg:h-48px"
+                        />
                       </td>
-                      <td>
-                        <input type="text" />
+                      <td className="flex grow py-5px">
+                        <input
+                          type="text"
+                          className="flex h-42px grow lg:h-48px"
+                        />
                       </td>
                     </tr>
                   </Fragment>
@@ -135,9 +167,10 @@ export default function SubmitScreenings({
               style={{
                 fontSize: "16px",
                 padding: "15px",
-                backgroundColor: "var(--red)",
-                color: "white",
-                border: "0 none",
+                backgroundColor: "#E2FF46",
+                color: "black",
+                border: "1",
+                borderColor: "black",
                 borderRadius: "4px",
                 cursor: "pointer",
               }}
@@ -149,31 +182,4 @@ export default function SubmitScreenings({
       </div>
     </>
   );
-}
-
-async function sendNameToFirestore(
-  screeningsList: screening[],
-  comments: string,
-  setResponseMessage: (message: string) => void,
-) {
-  const response = await fetch(
-    "https://europe-west1-website-cine.cloudfunctions.net/create_http_function_with_dictionnary_request",
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        collection_name: "raw-submissions",
-        key_for_doc_name: cineID,
-        showtimes: screeningsList,
-        comments: comments,
-      }),
-    },
-  );
-  if (response.ok) {
-    setResponseMessage("Bien reçu, merci !");
-  } else {
-    setResponseMessage("Il y a eu une erreur, pouvez-vous vous réessayer ?");
-  }
 }

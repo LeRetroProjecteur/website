@@ -2,20 +2,15 @@
 
 import clsx from "clsx";
 import { toPairs, without } from "lodash-es";
-import {
-  useCallback,
-  useEffect,
-} from "react";
+import { useCallback, useEffect } from "react";
 import { create } from "zustand";
 
 import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader, { FixedHeader } from "@/components/layout/page-header";
+import { Results } from "@/components/search/search";
 import { SearchMovie } from "@/lib/types";
-import {
-  TAG_MAP,
-} from "@/lib/util";
-import {Results} from "@/components/search/search";
+import { TAG_MAP } from "@/lib/util";
 
 const useRechercheStore = create<{
   tags: string[];
@@ -84,7 +79,13 @@ export default function Recherche({
           hideLoading={searchTerm.length === 0}
           className="flex grow items-center justify-center pt-15px"
         >
-          <Results nb_results={50} extraClass={"border-b py-10px pl-5px text-15px font-medium uppercase leading-20px lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0"} {...{ searchTerm, allMoviesPromise }} />
+          <Results
+            nb_results={50}
+            extraClass={
+              "border-b py-10px pl-5px text-15px font-medium uppercase leading-20px lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0"
+            }
+            {...{ searchTerm, allMoviesPromise }}
+          />
         </SuspenseWithLoading>
       </div>
     </>

@@ -61,7 +61,7 @@ export default function GenerateNewsletter({
           Rétrospectives
         </SousTitre1>
         <div className="flex grow items-center justify-center">
-          <WeekGenerator movies={movies} />
+          <Movies movies={movies} />
         </div>
         <div className="flex grow flex-col border-t pl-20px">
           <SousTitre1 className="pb-20px pt-20px">Rétrospectives</SousTitre1>
@@ -74,7 +74,7 @@ export default function GenerateNewsletter({
   );
 }
 
-export function WeekGenerator({
+export function Movies({
   movies: moviesPromise,
 }: {
   movies: Promise<MovieWithShowtimesByDay[]>;
