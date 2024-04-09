@@ -6,8 +6,8 @@ import PageHeader from "@/components/layout/page-header";
 import { TwoColumnPage } from "@/components/layout/two-column-page";
 import {
   BodyCopy,
+  SectionTitle,
   SousTitre1,
-  SousTitre2,
 } from "@/components/typography/typography";
 
 import coupDeCoeur from "../../assets/coup-de-coeur.png";
@@ -41,9 +41,7 @@ function Project() {
         </BodyCopy>
       </div>
       <div>
-        <div className="flex justify-center border-y bg-retro-green py-15px">
-          <SousTitre2>contactez-nous</SousTitre2>
-        </div>
+        <SectionTitle>contactez-nous</SectionTitle>
         <div className="py-20px lg:border-b">
           <BodyCopy>
             Une séance manquante, une erreur sur le site, un projet à nous
@@ -74,21 +72,21 @@ interface TMembers {
 const teamMembers: TMembers[] = [
   {
     name: "Nicolas Guetta-Jeanrenaud",
-    role: "Rédacteur",
+    role: "Rédacteur en chef",
     socials: [
       { name: "Twitter", link: "https://twitter.com/nicogj_" },
       { name: "Letterboxd", link: "https://letterboxd.com/nicogj/" },
     ],
     films: [
-      { name: "Metropolis", id: "metropolis-1927" },
-      { name: "Ma Nuit chez Maud", id: "nuit-chez-maud-1969" },
       { name: "Printemps Tardif", id: "printemps-tardif-1949" },
+      { name: "Ma Nuit chez Maud", id: "nuit-chez-maud-1969" },
+      { name: "Close-Up", id: "close-up-1990" },
       { name: "Old Joy", id: "old-joy-2006" },
     ],
   },
   {
     name: "Lionel Guetta-Jeanrenaud",
-    role: "Rédacteur",
+    role: "Rédacteur newsletter et site-web",
     socials: [
       { name: "Twitter", link: "https://twitter.com/liojeanrenaud" },
       { name: "Letterboxd", link: "https://letterboxd.com/lioguetta/" },
@@ -105,7 +103,7 @@ const teamMembers: TMembers[] = [
   },
   {
     name: "Ugo Tanielian",
-    role: "Technologiste",
+    role: "Rédacteur et Technologiste",
     socials: [],
     films: [
       { name: "Il était une fois dans l'Ouest", id: "etait-fois-ouest-1968" },
@@ -120,10 +118,10 @@ const teamMembers: TMembers[] = [
     socialsIntro: "Retrouvez mon travail sur ",
     socials: [
       { name: "Instagram", link: "https://www.instagram.com/clairon.malot/" },
-      { name: "mon site personnel", link: "https://clairemalot.com/" },
+      { name: "mon portfolio", link: "https://clairemalot.com/" },
     ],
     films: [
-      { name: "L'un chante, l'autre pas", id: "chante-autre-1977" },
+      { name: "L'une chante, l'autre pas", id: "chante-autre-1977" },
       { name: "Conte d'été", id: "conte-d-ete-1996" },
       { name: "First Cow", id: "first-cow-2020" },
     ],
@@ -143,9 +141,7 @@ const teamMembers: TMembers[] = [
 function Team() {
   return (
     <>
-      <div className="flex justify-center border-y bg-retro-green py-15px">
-        <SousTitre2>l&apos;équipe du rétro</SousTitre2>
-      </div>
+      <SectionTitle>l&apos;équipe du rétro</SectionTitle>
       <div>
         {teamMembers.map((teamMember) => (
           <TeamMember key={teamMember.name} member={teamMember} />
@@ -165,9 +161,9 @@ function TeamMember({ member }: { member: TMembers }) {
           <div>
             {member.socialsIntro != null
               ? member.socialsIntro
-              : "Retrouvez moi sur "}
+              : "Retrouvez-moi sur "}
             {member.socials.map((social, i) => [
-              i > 0 && ", ",
+              i > 0 && " & ",
               <a
                 key={social.name}
                 href={social.link}

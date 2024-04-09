@@ -9,8 +9,8 @@ import Seances from "@/components/seances/seances";
 import {
   BodyCopy,
   MetaCopy,
+  SectionTitle,
   SousTitre1,
-  SousTitre2,
 } from "@/components/typography/typography";
 import { MovieDetail, ShowtimesTheater } from "@/lib/types";
 import {
@@ -106,24 +106,29 @@ function MovieInformation({ movie }: { movie: MovieDetail }) {
               DURÉE&nbsp;: {Math.floor(parseInt(movie.duration) / 60)} minutes
             </div>
           )}
-          {movie.duration == null ? (
-            ""
-          ) : (
-            <div>LANGUE&nbsp;: {movie.language}</div>
-          )}
+          {movie.language != null &&
+            movie.language != "-" &&
+            (movie.language == "Silencieux" || movie.language == "Muet" ? (
+              <div>Film muet</div>
+            ) : (
+              <div>LANGUE&nbsp;: {movie.language}</div>
+            ))}
           <br />
-          <div>
-            TITRE ORIGINAL&nbsp;:{" "}
-            <i className={"uppercase"}>{movie.original_title}</i>
-          </div>
-          {movie.countries == null ? (
-            ""
-          ) : (
-            <div>PAYS&nbsp;: {movie.countries}</div>
-          )}
-          {movie.distributor == null ? (
-            ""
-          ) : (
+          {movie.original_title != null &&
+            movie.original_title != movie.title && (
+              <div>
+                TITRE ORIGINAL&nbsp;:{" "}
+                <i className={"uppercase"}>{movie.original_title}</i>
+              </div>
+            )}
+          {movie.countries != null &&
+            movie.countries != "inconnue" &&
+            (movie.countries == "U.S.A." ? (
+              <div>PAYS&nbsp;: États-Unis</div>
+            ) : (
+              <div>PAYS&nbsp;: {movie.countries}</div>
+            ))}
+          {movie.distributor != null && (
             <div>DISTRIBUTION&nbsp;: {movie.distributor}</div>
           )}
         </MetaCopy>
@@ -143,9 +148,7 @@ function MovieScreenings({ movie }: { movie: MovieDetail }) {
 
   return (
     <>
-      <div className="flex justify-center border-y bg-retro-green py-13px text-center lg:px-20px lg:py-16px">
-        <SousTitre2>Prochaines séances à Paris</SousTitre2>
-      </div>
+      <SectionTitle>Prochaines séances à Paris</SectionTitle>
       <div className="flex flex-col">
         {size(screenings) > 0 ? (
           <Screenings screenings={screenings} />
