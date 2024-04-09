@@ -3,10 +3,10 @@
 import React, { Fragment, useCallback, useEffect } from "react";
 import { create } from "zustand";
 
+import { Results } from "@/app/recherche/recherche";
 import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
-import { Results } from "@/components/search/search";
 import { SousTitre1 } from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
 
