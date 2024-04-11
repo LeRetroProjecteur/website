@@ -33,15 +33,8 @@ export default function SubmitScreenings({
         mollit anim id est laborum.
         <br />
         <br />
-        <div style={{ textAlign: "center", padding: "5px" }}>
+        <div className="p-5px text-center">
           <form>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-              }}
-            ></div>
             <table style={{ width: "100%" }}>
               <thead>
                 <tr>
@@ -60,14 +53,7 @@ export default function SubmitScreenings({
               </tbody>
             </table>
             <br />
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                padding: "10px",
-                alignItems: "center",
-              }}
-            >
+            <div className="flex flex-col items-center p-10px">
               <label htmlFor="comments">
                 {" "}
                 Avez-vous autre chose à signaler&nbsp;?
@@ -87,25 +73,9 @@ export default function SubmitScreenings({
           </form>
         </div>
         <br />
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <div className="flex items-center justify-center">
           <span>
-            <button
-              style={{
-                fontSize: "16px",
-                padding: "15px",
-                backgroundColor: "#E2FF46",
-                color: "black",
-                border: "solid",
-                borderColor: "black",
-                cursor: "pointer",
-              }}
-            >
+            <button className="border bg-retro-green p-15px text-16px">
               Rajoutez vos séances&nbsp;!
             </button>
           </span>
