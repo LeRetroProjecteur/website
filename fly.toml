@@ -1,7 +1,7 @@
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
 
-app = "leretroprojecteur"
+app = "leretroprojecteur-2"
 primary_region = "cdg"
 
 [build]
