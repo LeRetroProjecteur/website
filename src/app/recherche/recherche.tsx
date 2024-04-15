@@ -93,19 +93,31 @@ export default function Recherche({
           hideLoading={searchTerm.length === 0}
           className="flex grow items-center justify-center pt-15px"
         >
-          <Results {...{ searchTerm, allMoviesPromise }} />
+          <Results
+            nb_results={50}
+            extraClass={
+              "border-b py-10px pl-5px text-15px font-medium uppercase leading-20px lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0"
+            }
+            {...{ searchTerm, allMoviesPromise }}
+          />
         </SuspenseWithLoading>
       </div>
     </>
   );
 }
 
-function Results({
+export function Results({
   allMoviesPromise,
   searchTerm,
+  nb_results,
+  extraClass,
+  onClick,
 }: {
   allMoviesPromise: Promise<SearchMovie[]>;
   searchTerm: string;
+  nb_results: number;
+  extraClass?: string;
+  onClick?: (movie: SearchMovie) => void;
 }) {
   const selected = useRechercheStore((s) => s.selected);
   const tags = useRechercheStore((s) => s.tags);
@@ -145,10 +157,10 @@ function Results({
                   (tags.length === 0 || every(tags, () => true)),
               )
               .map(([movie]) => movie),
-            50,
+            nb_results,
           )
         : [],
-    [allMoviesFields, searchTerm, keywords, tags],
+    [allMoviesFields, searchTerm, keywords, tags, nb_results],
   );
 
   const router = useRouter();
@@ -176,6 +188,14 @@ function Results({
           <>
             {filtered.map((movie, i) => (
               <Link
+                onClick={
+                  onClick != null
+                    ? (e) => {
+                        onClick(movie);
+                        e.preventDefault();
+                      }
+                    : undefined
+                }
                 ref={selected === i ? selectedRef : null}
                 key={movie.id}
                 href={`/film/${movie.id}`}
@@ -184,7 +204,8 @@ function Results({
                     "lg:bg-retro-pale-green": i === selected,
                     "lg:even:bg-white": i !== selected,
                   },
-                  "border-b py-10px pl-5px text-15px font-medium uppercase leading-20px even:bg-retro-pale-green lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0 lg:hover:bg-retro-pale-green",
+                  "even:bg-retro-pale-green lg:hover:bg-retro-pale-green",
+                  extraClass,
                 )}
               >
                 <u>{movie.title}</u>, {movie.directors} ({movie.year})
