@@ -1,4 +1,5 @@
 import Filter from "@/app/(calendrier)/filter";
+import { Retrospectives } from "@/app/admin/semaine-prochaine/semaine-prochaine";
 import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
 import { getWeekMovies } from "@/lib/movies";
@@ -29,6 +30,11 @@ export default function SemainePage() {
         </div>
         <div className="flex grow pt-18px lg:pt-28px">
           <MovieTable serverMovies={serverMovies} allMovies={false} />
+        </div>
+        <div className="flex grow flex-col">
+          <div className="flex flex-col pt-44px">
+            <Retrospectives movies={serverMovies} />
+          </div>
         </div>
       </div>
     </>
