@@ -62,13 +62,13 @@ export default function Seances({
   );
 }
 
-function transformZipcode(inZip: string) {
+export function transformZipcode(inZip: string) {
   if (inZip.substring(0, 2) == "75") {
     inZip = inZip.substring(3, 5);
     if (inZip == "01") {
       return (
         <span>
-          1<sup>er</sup>
+          1<sup style={{ lineHeight: 0 }}>er</sup>
         </span>
       );
     } else if (inZip.substring(0, 1) == "0") {
@@ -77,7 +77,7 @@ function transformZipcode(inZip: string) {
     return (
       <span>
         {inZip}
-        <sup>e</sup>
+        <sup style={{ lineHeight: 0 }}>e</sup>
       </span>
     );
   } else {

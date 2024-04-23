@@ -1,0 +1,78 @@
+import { flatten, groupBy, orderBy, sortBy, toPairs, uniq } from "lodash-es";
+import { Fragment, use, useMemo } from "react";
+
+import { SousTitre2 } from "@/components/typography/typography";
+import { MovieWithShowtimesByDay } from "@/lib/types";
+
+export function Retrospectives({
+  movies: moviesPromise,
+}: {
+  movies: Promise<MovieWithShowtimesByDay[]>;
+}) {
+  const movies = use(moviesPromise);
+  const retrospectives = useMemo(
+    () =>
+      sortBy(
+        toPairs(groupBy(movies, (movie) => movie.directors)).filter(
+          ([_, movies]) => movies.length > 3,
+        ),
+        ([director]) => director,
+      ),
+    [movies],
+  );
+
+  return (
+    <>
+      <div className="pb-20px">
+        <SousTitre2>Rétrospectives</SousTitre2>
+      </div>
+      <div>
+        {retrospectives.map(([director, movies], i, directors) => (
+          <Fragment key={director}>
+            <div className="font-bold">
+              {director}&nbsp;: {getCinemas(movies)}
+            </div>
+            <>
+              {sortBy(movies, (movie) => [
+                movie.year,
+                movie.directors,
+                movie.title,
+              ]).map((movie, i, movies) => (
+                <Fragment key={movie.title}>
+                  <i>{movie.title}</i> ({movie.year})
+                  {i < movies.length - 1 ? ", " : ""}
+                </Fragment>
+              ))}
+            </>
+            {i < directors.length - 1 ? (
+              <>
+                <br />
+                <br />
+              </>
+            ) : null}
+          </Fragment>
+        ))}
+      </div>
+    </>
+  );
+}
+
+function getCinemas(movies: MovieWithShowtimesByDay[]) {
+  const movieCinemas = movies.map<[MovieWithShowtimesByDay, string[]]>(
+    (movie) => [
+      movie,
+      flatten(Object.values(movie.showtimes_by_day)).map(({ name }) => name),
+    ],
+  );
+  const cinemas = uniq(
+    flatten(Object.values(movieCinemas.map(([_, cinemas]) => cinemas))),
+  );
+  const cinemasAndNumberOfMovies = cinemas.map<[string, number]>((cinema) => [
+    cinema,
+    movieCinemas.filter(([_, cinemas]) => cinemas.includes(cinema)).length,
+  ]);
+
+  return orderBy(cinemasAndNumberOfMovies, ([_, num]) => num, "desc")
+    .map(([cinema, num]) => `${cinema} (${num})`)
+    .join(", ");
+}
