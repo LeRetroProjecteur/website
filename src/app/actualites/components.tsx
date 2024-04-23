@@ -134,3 +134,14 @@ export function SectionHeader({ children }: { children: ReactNode }) {
     </div>
   );
 }
+
+export function Question({ children }: { children: ReactNode }) {
+  return (
+    <div className="pt-20px">
+      <strong>{children}</strong>
+    </div>
+  );
+}
+export function Answer({ children }: { children: ReactNode }) {
+  return <div className="pt-5px">{children}</div>;
+}
