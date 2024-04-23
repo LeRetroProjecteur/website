@@ -16,7 +16,7 @@ import {
   SectionHeader,
   ThreeColumnLayout,
 } from "../components";
-import icon from "./icon.jpg";
+import icon from "./img/icon.jpg";
 
 const TOP_FILMS: {
   titre: string;

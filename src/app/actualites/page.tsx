@@ -7,15 +7,23 @@ import {
 } from "@/components/layout/thumbnails";
 import { SousTitre1 } from "@/components/typography/typography";
 
+import campusFilmFestival2024 from "./campus-film-festival-2024/img/icon.jpg";
 import lumiereIcon from "./festival-lumiere-2023/img/icon.jpg";
 import top2022Icon from "./top-2022/img/icon.jpg";
-import top2023Icon from "./top-2023/icon.jpg";
+import top2023Icon from "./top-2023/img/icon.jpg";
 
 export const metadata: Metadata = {
   title: "Actualités | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
 };
 
 const chroniques = [
+  {
+    titre: "Entretien avec l'équipe du Campus Film Festival 2024",
+    slug: "campus-film-festival-2024",
+    image: campusFilmFestival2024,
+    date: "23/04/2024",
+    type: "coup de projecteur",
+  },
   {
     titre: "Top 2023 : Vos plus belles découvertes de l'année",
     slug: "top-2023",
