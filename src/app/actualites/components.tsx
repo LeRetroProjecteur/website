@@ -143,5 +143,5 @@ export function Question({ children }: { children: ReactNode }) {
   );
 }
 export function Answer({ children }: { children: ReactNode }) {
-  return <div className="pt-5px">{children}</div>;
+  return <div className="space-y-5px pt-5px">{children}</div>;
 }
