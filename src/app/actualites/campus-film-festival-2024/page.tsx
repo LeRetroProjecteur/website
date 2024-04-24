@@ -55,15 +55,15 @@ export default function Lumiere2023() {
             <Question>Qu’est-ce que le Campus Film Festival&nbsp;?</Question>
             <Answer>
               Le Campus Film Festival, dont la deuxième édition aura lieu du
-              vendredi 26 au dimanche 28 avril 2024 au Saint-André des Arts
-              (Paris 6e), est un festival organisé par des étudiant·e·s de
-              l&apos;Université Paris 8. Notre équipe est composée de jeunes
-              passionné·e·s de cinéma, avec des aspirations professionnelles
-              variées telles que la production, la distribution et la médiation
-              autour des publics du cinéma, ainsi que les métiers télévisuels.
-              Lors de la première édition, qui a eu lieu en mai 2023, nous avons
-              mis en avant des films abordant le thème de la jeunesse et du
-              passage à l&apos;âge adulte.
+              vendredi 26 au dimanche 28 avril 2024 au Saint-André des Arts, est
+              un festival organisé par des étudiant·e·s de l&apos;Université
+              Paris 8. Notre équipe est composée de jeunes passionné·e·s de
+              cinéma, avec des aspirations professionnelles variées telles que
+              la production, la distribution et la médiation autour des publics
+              du cinéma, ainsi que les métiers télévisuels. Lors de la première
+              édition, qui a eu lieu en mai 2023, nous avons mis en avant des
+              films abordant le thème de la jeunesse et du passage à l&apos;âge
+              adulte.
             </Answer>
             <Question>
               Comment avez-vous pensé la programmation cette année&nbsp;?
