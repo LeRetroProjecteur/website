@@ -85,7 +85,7 @@ export default function Lumiere2023() {
                 <Link className="underline" href="/film/peggy-sue-mariee-1986">
                   <i>Peggy Sue s’est mariée</i>
                 </Link>{" "}
-                de Francis Ford Coppola à 20h00, présentée par la drag-queen
+                de Francis Ford Coppola à 20h, présentée par la drag-queen
                 Babouchka Babouche et suivie d’une soirée blind-test et DJ-set.
                 Nous accueillons également le collectif d’artistes Artemisiae
                 qui exposeront leurs œuvres dans le hall du Saint-André des
