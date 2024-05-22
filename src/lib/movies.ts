@@ -86,6 +86,26 @@ export const getDayMovies = unstable_cache(
   { revalidate: 1 },
 );
 
+export const getDayMoviesMarseille = unstable_cache(
+  async (date: DateTime, options?: { allMovies?: boolean }) => {
+    const { db } = getFirebase();
+    const q = query(
+      collection(
+        db,
+        `website-by-date-screenings-marseille${
+          options?.allMovies ?? false ? "-all" : ""
+        }`,
+      ),
+      where("date", "==", formatYYYY_MM_DD(date)),
+    );
+    const docs: Movie[] = [];
+    (await getDocs(q)).forEach((doc) => docs.push(...doc.data().movies));
+    return docs;
+  },
+  ["day-movies"],
+  { revalidate: 1 },
+);
+
 export const getMovies = unstable_cache(
   async () => {
     const { db } = getFirebase();
