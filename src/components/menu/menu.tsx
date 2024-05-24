@@ -67,11 +67,10 @@ export default function Menu() {
 
   const playLogo = useCallback(() => {
     const logo = document.getElementById("logo") as HTMLImageElement | null;
-    if (logo) {
-      logo.src = ""; // Resetting the src to force reload and play the GIF
-      setTimeout(() => {
-        logo.src = logoCarre.src; // Access the src property of the StaticImageData object
-      }, 10); // Delay to ensure the reset happens before setting the src
+    if (logo != null) {
+      const src = logo.src;
+      logo.src = "";
+      logo.src = src;
     }
   }, []);
 
