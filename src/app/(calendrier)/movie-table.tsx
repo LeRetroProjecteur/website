@@ -46,9 +46,11 @@ import coupDeCoeur from "../../assets/coup-de-coeur.png";
 export default function MovieTable({
   serverMovies,
   allMovies,
+  marseille,
 }: {
   serverMovies: Promise<Movie[] | MovieWithShowtimesByDay[]>;
   allMovies?: boolean;
+  marseille?: boolean;
 }) {
   const date = useCalendrierStore((s) => s.date);
   const setDate = useCalendrierStore((s) => s.setDate);
@@ -58,8 +60,11 @@ export default function MovieTable({
   const filter = useCalendrierStore((s) => s.filter);
   const quartiers = useCalendrierStore((s) => s.quartiers);
 
-  const url =
-    allMovies ?? false
+  const url = marseille
+    ? allMovies ?? false
+      ? `/api/movies/all-by-day-marseille/${formatYYYYMMDD(date)}`
+      : `/api/movies/by-day-marseille/${formatYYYYMMDD(date)}`
+    : allMovies ?? false
       ? `/api/movies/all-by-day/${formatYYYYMMDD(date)}`
       : `/api/movies/by-day/${formatYYYYMMDD(date)}`;
 
