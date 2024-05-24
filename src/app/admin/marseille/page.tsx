@@ -1,4 +1,4 @@
-import { getDayMoviesMarseille } from "@/lib/movies";
+import { getDayMovies } from "@/lib/movies";
 import { getStartOfTodayInParis } from "@/lib/util";
 
 import MarseilleCalendrier from "./marseille";
@@ -8,7 +8,9 @@ export const dynamic = "force-dynamic";
 export default function CalendrierPage() {
   return (
     <MarseilleCalendrier
-      serverMovies={getDayMoviesMarseille(getStartOfTodayInParis())}
+      serverMovies={getDayMovies(getStartOfTodayInParis(), {
+        collectionBase: "website-by-date-screenings-marseille",
+      })}
     />
   );
 }

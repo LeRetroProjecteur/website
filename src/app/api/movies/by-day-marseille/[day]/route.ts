@@ -1,5 +1,5 @@
 import { handleIfNoneMatch } from "@/lib/etag";
-import { getDayMoviesMarseille } from "@/lib/movies";
+import { getDayMovies } from "@/lib/movies";
 import { safeDate } from "@/lib/util";
 
 export async function GET(
@@ -7,7 +7,9 @@ export async function GET(
   { params }: { params: { day: string } },
 ) {
   const dateRequested = safeDate(params.day);
-  const dayMovies = await getDayMoviesMarseille(dateRequested);
+  const dayMovies = await getDayMovies(dateRequested, {
+    collectionBase: "website-by-date-screenings-marseille",
+  });
 
   return handleIfNoneMatch(request, dayMovies);
 }

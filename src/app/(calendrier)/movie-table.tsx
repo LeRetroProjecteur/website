@@ -46,7 +46,7 @@ import coupDeCoeur from "../../assets/coup-de-coeur.png";
 export default function MovieTable({
   serverMovies,
   allMovies,
-  marseille = false,
+  marseille,
 }: {
   serverMovies: Promise<Movie[] | MovieWithShowtimesByDay[]>;
   allMovies?: boolean;
