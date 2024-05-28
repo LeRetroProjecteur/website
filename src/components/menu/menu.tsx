@@ -5,7 +5,14 @@ import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { MouseEvent, ReactNode, useCallback, useEffect } from "react";
+import {
+  MouseEvent,
+  MutableRefObject,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useRef,
+} from "react";
 
 import { useCalendrierStore } from "@/lib/calendrier-store";
 import { closeMenu } from "@/lib/menu-store";
@@ -65,12 +72,13 @@ export default function Menu() {
     closeMenu();
   }, []);
 
+  const logo: MutableRefObject<HTMLImageElement | null> = useRef(null);
+
   const playLogo = useCallback(() => {
-    const logo = document.getElementById("logo") as HTMLImageElement | null;
-    if (logo != null) {
-      const src = logo.src;
-      logo.src = "";
-      logo.src = src;
+    if (logo.current != null) {
+      const src = logo.current.src;
+      logo.current.src = "";
+      logo.current.src = src;
     }
   }, []);
 
@@ -86,7 +94,7 @@ export default function Menu() {
           <Link href="/" onClick={onClickLogo}>
             <div className="flex justify-center">
               <Image
-                id="logo" // Adding an id for easier reference
+                ref={logo}
                 src={logoCarre}
                 alt="logo"
                 className="h-auto w-250px lg:w-207px"
