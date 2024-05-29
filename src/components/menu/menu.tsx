@@ -98,7 +98,7 @@ export default function Menu() {
                 src={logoCarre}
                 alt="logo"
                 className="h-auto w-250px lg:w-207px"
-                onClick={playLogo} // Attach onClick event to play the logo GIF
+                onClick={playLogo}
               />
             </div>
             <div className="flex justify-center">
