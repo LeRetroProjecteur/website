@@ -50,7 +50,7 @@ function SignupForm() {
       <input
         type="submit"
         value="s'inscrire"
-        className="grow cursor-pointer whitespace-break-spaces border bg-retro-gray py-9px text-center text-20px font-medium uppercase leading-21px text-white hover:bg-white hover:text-retro-gray"
+        className="cursor-pointer border bg-retro-gray py-9px text-center text-20px font-medium uppercase leading-21px text-white hover:bg-white hover:text-retro-gray"
       />
     </form>
   );
