@@ -34,14 +34,14 @@ function SignupForm() {
       className="flex flex-col gap-10px pb-10px lg:gap-15px lg:pb-0"
     >
       <RetroInput
-        className="grow cursor-pointer whitespace-break-spaces py-9px text-center text-20px font-medium uppercase leading-21px"
+        className="whitespace-break-spaces py-9px text-20px font-medium uppercase leading-21px"
         value={email}
         setValue={setEmail}
         name="EMAIL"
         placeholder="adresse@mail.com"
       />
       <RetroInput
-        className="grow cursor-pointer whitespace-break-spaces border py-9px text-center text-20px font-medium uppercase leading-21px"
+        className="whitespace-break-spaces py-9px text-20px font-medium uppercase leading-21px"
         value={how}
         setValue={setHow}
         name="MMERGE1"
