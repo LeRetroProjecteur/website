@@ -20,7 +20,7 @@ export default function SocialMediaPage() {
 
 function Left() {
   return (
-    <div className="pb-10px">
+    <div className="pb-20px lg:pb-0">
       <BodyCopy>
         Nous partageons régulièrement du contenu sur les réseaux sociaux&nbsp;–
         suivez-nous pour en savoir plus&nbsp;!
