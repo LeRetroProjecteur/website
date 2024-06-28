@@ -59,6 +59,7 @@ export default function MovieTable({
   const maxHour = useCalendrierStore((s) => s.maxHour);
   const filter = useCalendrierStore((s) => s.filter);
   const quartiers = useCalendrierStore((s) => s.quartiers);
+  const events = useCalendrierStore((s) => s.events);
 
   const url = marseille
     ? allMovies ?? false
@@ -116,6 +117,7 @@ export default function MovieTable({
               maxHour,
               quartiers,
               filter,
+              events,
             }}
           />
         )}
@@ -133,6 +135,7 @@ function LoadedTable({
   maxHour,
   quartiers,
   filter,
+  events,
 }: {
   serverMovies: Promise<Movie[] | MovieWithShowtimesByDay[]>;
   clientMovies?: Movie[] | MovieWithShowtimesByDay[];
@@ -141,6 +144,7 @@ function LoadedTable({
   maxHour: number;
   quartiers: Quartier[];
   filter: string;
+  events: boolean;
 }) {
   const serverMovies = use(serverMoviesPromise);
   const movies = useMemo(
@@ -156,8 +160,16 @@ function LoadedTable({
         maxHour,
         quartiers,
         filter,
+        events,
       ),
-    [movies, minHourFilteringTodaysMissedFilms, maxHour, quartiers, filter],
+    [
+      movies,
+      minHourFilteringTodaysMissedFilms,
+      maxHour,
+      quartiers,
+      filter,
+      events,
+    ],
   );
 
   return sortedFilteredMovies.length == 0 ? (
@@ -316,6 +328,7 @@ function filterAndSortMovies(
   maxHour: number,
   quartiers: Quartier[],
   filter: string,
+  events: boolean,
 ) {
   const moviesWithFilteredShowtimes = isMoviesWithShowtimesByDay(movies)
     ? movies
@@ -333,15 +346,22 @@ function filterAndSortMovies(
           showtimes_theater: movie.showtimes_theater
             .map((theater) => ({
               ...theater,
-              showtimes: theater.showtimes.filter(
-                (showtime) =>
-                  showtime >= minHourFilteringTodaysMissedFilms &&
-                  showtime <= maxHour,
-              ),
+              screenings: events
+                ? theater.screenings.filter(
+                    (screening) =>
+                      screening.time >= minHourFilteringTodaysMissedFilms &&
+                      screening.time <= maxHour &&
+                      screening.notes != null,
+                  )
+                : theater.screenings.filter(
+                    (screening) =>
+                      screening.time >= minHourFilteringTodaysMissedFilms &&
+                      screening.time <= maxHour,
+                  ),
             }))
             .filter(
               (theater) =>
-                theater.showtimes.length > 0 &&
+                theater.screenings.length > 0 &&
                 (quartiers.length === 0 ||
                   some(
                     quartiers,
