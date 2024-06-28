@@ -92,9 +92,6 @@ export function SeancesTheater({
   showtimesTheater: ShowtimesTheater;
   isExpanded: boolean;
 }) {
-  const showTimes = sortBy(showtimesTheater.showtimes);
-  const showNotes = sortBy(showtimesTheater.notes);
-
   return (
     <div>
       <div
@@ -110,14 +107,17 @@ export function SeancesTheater({
           </CalendrierCopy>
         </div>
         <div className="flex flex-col justify-end lg:flex-row lg:flex-wrap lg:self-start">
-          {showTimes.map((showtime) => (
+          {showtimesTheater.screenings.map((screening) => (
             <div
-              key={showtime}
+              key={screening.time}
               className={clsx("group/seances flex justify-end", {
                 "group-hover/cinema:underline": isExpanded,
               })}
             >
-              <CalendrierCopy>{floatHourToString(showtime)}</CalendrierCopy>
+              <CalendrierCopy>
+                {floatHourToString(screening.time)}
+                {screening.notes != null && <span> *</span>}
+              </CalendrierCopy>
               <div className="hidden group-last/seances:hidden lg:block">
                 <CalendrierCopy>&nbsp;•&nbsp;</CalendrierCopy>
               </div>
@@ -126,11 +126,11 @@ export function SeancesTheater({
         </div>
       </div>
       <div className="flex grow justify-end">
-        {showNotes.map(
-          (note) =>
-            note != null && (
-              <div key={note}>
-                <i className="font-semibold">{note}</i>
+        {showtimesTheater.screenings.map(
+          (screening) =>
+            screening.notes != null && (
+              <div key={screening.notes}>
+                <i className="font-semibold">* {screening.notes}</i>
               </div>
             ),
         )}
