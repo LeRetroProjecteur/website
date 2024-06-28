@@ -67,14 +67,17 @@ export const getWeekMovies = async () => {
 };
 
 export const getDayMovies = unstable_cache(
-  async (date: DateTime, options?: { allMovies?: boolean }) => {
+  async (
+    date: DateTime,
+    options?: { allMovies?: boolean; collectionBase?: string },
+  ) => {
     const { db } = getFirebase();
+    const collectionBase =
+      options?.collectionBase ?? "website-by-date-screenings";
     const q = query(
       collection(
         db,
-        `website-by-date-screenings${
-          options?.allMovies ?? false ? "-all" : ""
-        }`,
+        `${collectionBase}${options?.allMovies ?? false ? "-all" : ""}`,
       ),
       where("date", "==", formatYYYY_MM_DD(date)),
     );

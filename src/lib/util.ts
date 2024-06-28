@@ -16,8 +16,12 @@ import {
 
 const resolvedTailwindConfig = resolveConfig(tailwindConfig);
 
-export function isCoupDeCoeur({ category }: { category?: string }) {
-  return category === "COUP DE CŒUR";
+export function isCoupDeCoeur({
+  review_category,
+}: {
+  review_category?: string;
+}) {
+  return review_category === "COUP DE CŒUR";
 }
 
 export function getNextMovieWeek() {

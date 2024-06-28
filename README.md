@@ -6,7 +6,7 @@ This is the source code of the website [Le Rétro Projecteur](https://leretropro
 
 ### Preview of the main branch
 
-[https://retroprojecteur.fly.dev](https://retroprojecteur.fly.dev/)
+[https://leretroprojecteur.fly.dev](https://leretroprojecteur.fly.dev/)
 
 ## Local development
 
@@ -15,7 +15,6 @@ This is the source code of the website [Le Rétro Projecteur](https://leretropro
 - Clone repository
 - Install [node.js](https://nodejs.org/en/) et [pnpm](https://pnpm.io/installation#using-corepack)
 - Navigate to repo directory
-- (optional) Créer un fichier .env.local et y insérer la clef Firebase au format suivant : `FIREBASE_API_KEY=<clef-firebase>`
 - Run `$ pnpm install`
 - Install [prettier](https://prettier.io/docs/en/install.html)
 
@@ -30,7 +29,7 @@ This is the source code of the website [Le Rétro Projecteur](https://leretropro
 - Create new branch
 - Make changes
 - Check there is no warning with `$ pnpm run dev`
-- Run `$ pnpm run build` (to check that the website builds correctly)
-- Run `$ pnpm lint`
 - Run `$ pnpm exec prettier . --write`
+- Run `$ pnpm lint`
+- Run `$ pnpm run build` (to check that the website builds correctly)
 - Push changes

@@ -28,12 +28,17 @@ export default function Admin() {
           className="underline"
           href="/admin/semaine-prochaine"
         >
-          Calendrier de la semaine prochaine
+          La semaine prochaine...
         </Link>
       </SousTitre1>
       <SousTitre1>
-        <Link className="underline" href="/admin/generate-newsletter">
-          Générateur de newsletter
+        <Link className="underline" href="/admin/generateur">
+          El Generator
+        </Link>
+      </SousTitre1>
+      <SousTitre1>
+        <Link className="underline" href="/admin/marseille">
+          Marseille
         </Link>
       </SousTitre1>
     </div>

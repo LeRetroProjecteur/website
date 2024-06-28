@@ -7,7 +7,7 @@ export interface MovieWithNoShowtimes {
   original_title: string;
   id: string;
   language: string;
-  category?: string;
+  review_category?: string;
 }
 
 export interface MovieInfo {
@@ -46,13 +46,13 @@ export interface ShowtimesTheater {
 }
 
 export interface Review {
-  directors: string;
-  review_date: string;
-  review: string;
-  title: string;
-  category?: string;
   id: string;
+  title: string;
+  directors: string;
   year: number;
+  review: string;
+  review_category: string;
+  review_date: string;
 }
 
 export interface MovieDetail {
@@ -72,8 +72,8 @@ export interface MovieDetail {
   title: string;
   year: string;
   // Review information
-  category?: string;
   review?: string;
+  review_category?: string;
   review_date?: string;
 }
 
