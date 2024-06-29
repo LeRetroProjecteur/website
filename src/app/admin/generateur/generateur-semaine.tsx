@@ -198,8 +198,8 @@ export function DayMovie({
         <div key={showtimesTheater.name}>
           {showtimesTheater.name} ({transformZipcode(showtimesTheater.zipcode)}
           )&nbsp;:{" "}
-          {showtimesTheater.showtimes
-            .map((showtime) => floatHourToString(showtime))
+          {showtimesTheater.screenings
+            .map((screening) => floatHourToString(screening.time))
             .join(", ")}
         </div>
       ))}
