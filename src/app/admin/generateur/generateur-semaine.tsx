@@ -152,18 +152,18 @@ export function DaysMovies({
           return null;
         } else {
           const movie = checkNotNull(moviesById[dayValues[i]]);
-          const showtimes = sortBy(
+          const showtimesTheaters = sortBy(
             uniqBy(
               movie.showtimes_by_day[formatYYYYMMDD(day)],
-              (showtimes_theater) => showtimes_theater.name,
+              (showtimesTheater) => showtimesTheater.name,
             ),
-            (showtimes_theater) => showtimes_theater.name,
+            (showtimesTheater) => showtimesTheater.name,
           );
           return (
             <DayMovie
               key={i}
               movie={movie}
-              showtimes={showtimes}
+              showtimesTheaters={showtimesTheaters}
               day={day}
               isLast={i == week.length - 1}
             />
@@ -177,12 +177,12 @@ export function DaysMovies({
 export function DayMovie({
   movie,
   day,
-  showtimes,
+  showtimesTheaters,
   isLast,
 }: {
   movie: MovieWithNoShowtimes;
   day: DateTime;
-  showtimes: ShowtimesTheater[];
+  showtimesTheaters: ShowtimesTheater[];
   isLast: boolean;
 }) {
   return (
@@ -194,11 +194,11 @@ export function DayMovie({
         <i style={{ textTransform: "uppercase" }}>{movie.title}</i>,{" "}
         {movie.directors} ({movie.year})
       </div>
-      {showtimes.map((showtimes_theater) => (
-        <div key={showtimes_theater.name}>
-          {showtimes_theater.name} (
-          {transformZipcode(showtimes_theater.zipcode)})&nbsp;:{" "}
-          {showtimes_theater.showtimes
+      {showtimesTheaters.map((showtimesTheater) => (
+        <div key={showtimesTheater.name}>
+          {showtimesTheater.name} ({transformZipcode(showtimesTheater.zipcode)}
+          )&nbsp;:{" "}
+          {showtimesTheater.showtimes
             .map((showtime) => floatHourToString(showtime))
             .join(", ")}
         </div>
