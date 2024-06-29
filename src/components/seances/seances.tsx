@@ -92,34 +92,48 @@ export function SeancesTheater({
   showtimesTheater: ShowtimesTheater;
   isExpanded: boolean;
 }) {
-  const showTimes = sortBy(showtimesTheater.showtimes);
-
   return (
-    <div
-      className="group/cinema flex items-start justify-between"
-      key={showtimesTheater.name}
-    >
-      <div className="w-min grow pr-10px lg:pr-30px">
-        <CalendrierCopy
-          className={clsx({ "group-hover/cinema:underline": isExpanded })}
-        >
-          {showtimesTheater.name} ({transformZipcode(showtimesTheater.zipcode)})
-        </CalendrierCopy>
-      </div>
-      <div className="flex flex-col justify-end lg:flex-row lg:flex-wrap lg:self-start">
-        {showTimes.map((showtime) => (
-          <div
-            key={showtime}
-            className={clsx("group/seances flex justify-end", {
-              "group-hover/cinema:underline": isExpanded,
-            })}
+    <div>
+      <div
+        className="group/cinema flex items-start justify-between"
+        key={showtimesTheater.name}
+      >
+        <div className="w-min grow pr-10px lg:pr-30px">
+          <CalendrierCopy
+            className={clsx({ "group-hover/cinema:underline": isExpanded })}
           >
-            <CalendrierCopy>{floatHourToString(showtime)}</CalendrierCopy>
-            <div className="hidden group-last/seances:hidden lg:block">
-              <CalendrierCopy>&nbsp;•&nbsp;</CalendrierCopy>
+            {showtimesTheater.name} (
+            {transformZipcode(showtimesTheater.zipcode)})
+          </CalendrierCopy>
+        </div>
+        <div className="flex flex-col justify-end lg:flex-row lg:flex-wrap lg:self-start">
+          {showtimesTheater.screenings.map((screening) => (
+            <div
+              key={screening.time}
+              className={clsx("group/seances flex justify-end", {
+                "group-hover/cinema:underline": isExpanded,
+              })}
+            >
+              <CalendrierCopy>
+                {floatHourToString(screening.time)}
+                {screening.notes != null && <span> *</span>}
+              </CalendrierCopy>
+              <div className="hidden group-last/seances:hidden lg:block">
+                <CalendrierCopy>&nbsp;•&nbsp;</CalendrierCopy>
+              </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
+      </div>
+      <div className="flex grow justify-end">
+        {showtimesTheater.screenings.map(
+          (screening) =>
+            screening.notes != null && (
+              <div key={screening.notes}>
+                <i className="font-semibold">* {screening.notes}</i>
+              </div>
+            ),
+        )}
       </div>
     </div>
   );
