@@ -13,7 +13,7 @@ import {
   ThreeColumnLayout,
 } from "../components";
 import icon from "./img/icon.jpg";
-import plus_hier from "./img/plus-qu-hier.png";
+import PlusHier from "./img/plus-qu-hier.png";
 
 export const metadata: Metadata = {
   title:
@@ -64,7 +64,14 @@ export default function EntretienGaelTeicher() {
               documentaire, mais il a finalement accepté et le film est
               magnifique. On a ensuite fait trois autres portraits de cinéastes
               (Brisseau, Mazuy et Stévenin) et un court métrage avant la
-              restauration de <i>Plus qu&apos;hier, moins que demain</i>.
+              restauration de{" "}
+              <Link
+                className="underline"
+                href="/film/plus-hier-moins-demain-1998"
+              >
+                <i>Plus qu&apos;hier, moins que demain</i>
+              </Link>
+              .
             </Answer>
             <Question>
               De qui venait l&apos;idée de restaurer le film&nbsp;?
@@ -92,11 +99,17 @@ export default function EntretienGaelTeicher() {
           </BodyCopy>
         </MiddleColumn>
         <MiddleColumnImageAndRightColumnCaption
-          image={plus_hier}
-          alt="Plus_hier"
+          image={PlusHier}
+          alt="PlusHier"
           caption={
             <>
-              <i>Plus qu&apos;hier, moins que demain</i>, Laurent Achard (1998)
+              <Link
+                className="underline"
+                href="/film/plus-hier-moins-demain-1998"
+              >
+                <i>Plus qu&apos;hier, moins que demain</i>
+              </Link>
+              , Laurent Achard (1998)
             </>
           }
         />
