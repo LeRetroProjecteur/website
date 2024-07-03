@@ -12,7 +12,7 @@ import {
   ThreeColumnLayout,
 } from "../components";
 import icon from "./img/icon.jpg";
-import plus_hier from "./img/plus_hier.png";
+import plus_hier from "./img/plus-qu-hier.png";
 
 export const metadata: Metadata = {
   title:

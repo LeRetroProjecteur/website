@@ -7,8 +7,8 @@ import {
 } from "@/components/layout/thumbnails";
 import { SousTitre1 } from "@/components/typography/typography";
 
-import campusFilmFestival2024 from "./campus-film-festival-2024/img/icon.jpg";
 import entretienGaelTeicher from "./entretien-gael-teicher/img/icon.jpg";
+import campusFilmFestival2024 from "./campus-film-festival-2024/img/icon.jpg";
 import lumiereIcon from "./festival-lumiere-2023/img/icon.jpg";
 import top2022Icon from "./top-2022/img/icon.jpg";
 import top2023Icon from "./top-2023/img/icon.jpg";
