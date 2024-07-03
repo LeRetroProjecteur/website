@@ -8,6 +8,7 @@ import {
 import { SousTitre1 } from "@/components/typography/typography";
 
 import campusFilmFestival2024 from "./campus-film-festival-2024/img/icon.jpg";
+import entretienGaelTeicher from "./entretien-gael-teicher/img/icon.jpg";
 import lumiereIcon from "./festival-lumiere-2023/img/icon.jpg";
 import top2022Icon from "./top-2022/img/icon.jpg";
 import top2023Icon from "./top-2023/img/icon.jpg";
@@ -17,6 +18,13 @@ export const metadata: Metadata = {
 };
 
 const chroniques = [
+  {
+    titre: "Entretien avec Gaël Teicher",
+    slug: "entretien-gael-teicher",
+    image: entretienGaelTeicher,
+    date: "03/07/2024",
+    type: "coup de projecteur",
+  },
   {
     titre: "Entretien avec l'équipe du Campus Film Festival 2024",
     slug: "campus-film-festival-2024",
