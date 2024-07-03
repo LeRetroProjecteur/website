@@ -6,11 +6,12 @@ import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 import {
   Answer,
   FirstRow,
-  MiddleColumn,
+  MiddleColumn, MiddleColumnImageAndRightColumnCaption,
   Question,
   ThreeColumnLayout,
 } from "../components";
 import icon from "./img/icon.jpg";
+import plus_hier from "./img/plus_hier.png";
 
 export const metadata: Metadata = {
   title:
@@ -79,6 +80,19 @@ export default function EntretienGaelTeicher() {
                 mais il peut guérir certaines choses…
               </div>
             </Answer>
+            </BodyCopy>
+          </MiddleColumn>
+            <MiddleColumnImageAndRightColumnCaption
+              image={plus_hier}
+              alt="Plus_hier"
+              caption={
+                <>
+                  <i>Plus qu'hier, moins que demain</i>, Laurent Achard (1998)
+                </>
+              }
+            />
+            <MiddleColumn>
+              <BodyCopy>
             <Question>
               Comment s&apos;est passée la restauration&nbsp;?
             </Question>
