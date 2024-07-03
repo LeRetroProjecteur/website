@@ -34,12 +34,12 @@ export default function EntretienGaelTeicher() {
         <MiddleColumn>
           <BodyCopy>
             <i>
-              Avant une ressortie nationale prévue pour le 3 juillet 2024,
-              la version restaurée de <i>Plus qu&apos;hier, moins que demain</i> de Laurent
-              Achard était présentée ce lundi 1er juillet au festival Fema La Rochelle.
-              Nous y avons rencontré le producteur et distributeur Gaël Teicher (La Traverse).
-              Impliqué dans la restauration du film, supervisée par Laurent Achard lui-même,
-              Teicher s’occupe désormais de sa distribution.
+              Plus qu&apos;hier, moins que demain, le premier long métrage
+              de Laurent Achard, ressort aujourd&apos;hui dans une magnifique copie restaurée.
+              Lors de la présentation du film au festival Fema La Rochelle, nous avons eu l&apos;occasion
+              de rencontrer Gaël Teicher qui distribue le film avec La Traverse.
+              Il nous a parlé de sa collaboration avec Laurent Achard, de la restauration du film
+              et de la manière dont celui-ci parle à notre actualité politique.
             </i>
           </BodyCopy>
           <BodyCopy>
