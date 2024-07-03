@@ -6,7 +6,8 @@ import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 import {
   Answer,
   FirstRow,
-  MiddleColumn, MiddleColumnImageAndRightColumnCaption,
+  MiddleColumn,
+  MiddleColumnImageAndRightColumnCaption,
   Question,
   ThreeColumnLayout,
 } from "../components";
@@ -80,19 +81,19 @@ export default function EntretienGaelTeicher() {
                 mais il peut guérir certaines choses…
               </div>
             </Answer>
-            </BodyCopy>
-          </MiddleColumn>
-            <MiddleColumnImageAndRightColumnCaption
-              image={plus_hier}
-              alt="Plus_hier"
-              caption={
-                <>
-                  <i>Plus qu'hier, moins que demain</i>, Laurent Achard (1998)
-                </>
-              }
-            />
-            <MiddleColumn>
-              <BodyCopy>
+          </BodyCopy>
+        </MiddleColumn>
+        <MiddleColumnImageAndRightColumnCaption
+          image={plus_hier}
+          alt="Plus_hier"
+          caption={
+            <>
+              <i>Plus qu&apos;hier, moins que demain</i>, Laurent Achard (1998)
+            </>
+          }
+        />
+        <MiddleColumn>
+          <BodyCopy>
             <Question>
               Comment s&apos;est passée la restauration&nbsp;?
             </Question>
