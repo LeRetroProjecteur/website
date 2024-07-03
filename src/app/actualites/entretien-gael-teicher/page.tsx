@@ -34,124 +34,87 @@ export default function EntretienGaelTeicher() {
         <MiddleColumn>
           <BodyCopy>
             <i>
-              La deuxième édition du{" "}
-              <a
-                target="_blank"
-                className="underline"
-                href="https://campusfilmfestival.fr"
-              >
-                Campus Film Festival
-              </a>{" "}
-              aura lieu du vendredi 26 au dimanche 28 avril 2024 au cinéma
-              Saint-André des Arts. En attendant le lancement, nous avons
-              rencontré Marine Wagner, qui fait partie du comité d’organisation.
-              L’occasion de s’interroger sur les enjeux liés à la tenue d’un
-              festival de cinéma de patrimoine en salles de nos jours…
+              Avant une ressortie nationale prévue pour le 3 juillet 2024,
+              la version restaurée de <i>Plus qu&apos;hier, moins que demain</i> de Laurent
+              Achard était présentée ce lundi 1er juillet au festival Fema La Rochelle.
+              Nous y avons rencontré le producteur et distributeur Gaël Teicher (La Traverse).
+              Impliqué dans la restauration du film, supervisée par Laurent Achard lui-même,
+              Teicher s’occupe désormais de sa distribution.
             </i>
           </BodyCopy>
           <BodyCopy>
-            <Question>Qu’est-ce que le Campus Film Festival&nbsp;?</Question>
+            <Question>À quand remonte votre collaboration avec Laurent Achard ?&nbsp;?</Question>
             <Answer>
-              Le Campus Film Festival est un festival de cinéma organisé par des
-              étudiant·e·s de l&apos;Université Paris 8. Notre équipe est
-              composée de jeunes passionné·e·s de cinéma, avec des aspirations
-              professionnelles variées telles que la production, la distribution
-              et la médiation autour des publics du cinéma, ainsi que les
-              métiers télévisuels. Lors de la première édition, qui a eu lieu en
-              mai 2023, nous avons mis en avant des films abordant le thème de
-              la jeunesse et du passage à l&apos;âge adulte.
+              En 2014, je voulais produire un portrait de Paul Vecchiali pour la mythique collection
+              Cinéastes de notre temps. Vecchiali, qui était un excessif magnifique, m&apos;a répondu :
+              le seul qui pourrait le faire, c’est Laurent Achard.
+              Laurent était initialement réticent, n&apos;ayant jamais réalisé de documentaire,
+              mais il a finalement accepté et le film est magnifique.
+              On a ensuite fait trois autres portraits de cinéastes (Brisseau, Mazuy et Stévenin)
+              et un court métrage avant la restauration de <i>Plus qu&apos;hier, moins que demain</i>.
             </Answer>
             <Question>
-              Comment avez-vous pensé la programmation cette année&nbsp;?
+              De qui venait l&apos;idée de restaurer le film&nbsp;?
             </Question>
             <Answer>
               <div>
-                Tout en restant dans la lignée de la précédente édition nous
-                avons voulu, cette année, explorer des œuvres qui mêlent des
-                questionnements autour de la jeunesse (premier amour, découverte
-                du désir) avec des univers imaginaires et oniriques. La
-                sélection combine classiques intemporels et récits
-                contemporains. Léa Mysius nous fait l’honneur d’être la marraine
-                de notre festival et présentera son film{" "}
-                <Link className="underline" href="/film/ava-2017">
-                  <i>Ava</i>
-                </Link>{" "}
-                (dimanche 28 avril à 20h), un coming of age unique en son genre.
-              </div>
-              <div>
-                Le festival débute vendredi avec la projection de{" "}
-                <Link className="underline" href="/film/peggy-sue-mariee-1986">
-                  <i>Peggy Sue s’est mariée</i>
-                </Link>{" "}
-                de Francis Ford Coppola à 20h, présentée par la drag-queen
-                Babouchka Babouche et suivie d’une soirée blind-test et DJ-set.
-                Nous accueillons également le collectif d’artistes Artemisiae
-                qui exposeront leurs œuvres dans le hall du Saint-André des
-                Arts. Notre sélection comprend également des films d’horreur (
-                <Link className="underline" href="/film/memento-mori-1999">
-                  <i>Memento Mori</i>
-                </Link>{" "}
-                de Min Kyu-dong et Kim Tae-yong,{" "}
-                <Link className="underline" href="/film/it-follows-2014">
-                  <i>It Follows</i>
-                </Link>{" "}
-                de David Robert Mitchell), un film d’animation français (
-                <Link className="underline" href="/film/gwen-livre-sable-1984">
-                  <i>Gwen, le livre de sable</i>
-                </Link>{" "}
-                de Jean-François Laguionie) ou encore le classique{" "}
-                <Link className="underline" href="/film/trois-femmes-1977">
-                  <i>Trois femmes</i>
-                </Link>{" "}
-                de Robert Altman.
-              </div>
-              <div>
-                En sélectionnant ces films, nous avons cherché à créer un
-                programme diversifié et équilibré, offrant quelque chose pour
-                tous les goûts et toutes les sensibilités. Notre objectif était
-                de susciter la réflexion, l&apos;émotion et
-                l&apos;émerveillement chez le public.
+                De moi. C’est un de mes films de chevet.
+                Je trouve qu&apos;il est éblouissant,
+                aussi bien dans ce qu&apos;il raconte que dans sa mise en scène.
+                C&apos;est aussi un objet rare dans le paysage du cinéma français de ces dernières années
+                en ce qu&apos;il visite un endroit et des gens dont le cinéma français s&apos;est
+                beaucoup désintéressé. On est dans un petit « bled » – ce qui
+                n&apos;est pas du tout péjoratif dans ma bouche – au fin fond de la France et
+                on soulève délicatement le couvercle de la marmite pour voir le bouillon dessous.
+                Et c&apos;est important de faire cela en ce moment.
+                On a beau déplorer le fait que 12 millions de personnes votent pour le Front National,
+                si on regardait un peu plus loin que nos nombrils, comme le fait Laurent ici,
+                on éviterait peut-être ce genre de catastrophe.
+                Je pense que le cinéma peut guérir des choses.
+                Pas avec une ampleur monumentale, mais il peut guérir certaines choses…
               </div>
             </Answer>
             <Question>
-              Quels sont les enjeux liés à l’organisation d’un festival de
-              cinéma de patrimoine&nbsp;?
+              Comment s&apos;est passée la restauration&nbsp;?
             </Question>
             <Answer>
-              Tout repose sur l’importance de composer une programmation
-              équilibrée, qui soit grand public tout en étant pointue. Nous
-              avons surmonté bien des obstacles pour les films n’ayant plus de
-              distributeurs français. Il faut s’improviser enquêteur·trice·s
-              pour dénicher les coordonnées des ayants-droits, s’habituer aussi
-              à leur silence, leur refus, voire même à leur revirement à
-              quelques jours du festival&nbsp;! C’est l’aspect le plus incertain
-              de la programmation, mais aussi le plus exaltant, lorsqu’enfin
-              tous les astres s’alignent pour projeter la pépite
-              cinématographique enfouie.
+              Il y a deux pièges dans la restauration :
+              essayer de retrouver exactement ce qu&apos;était le 35mm
+              (ce qui est évidemment impossible) ou aller trop loin dans le côté plastique
+              et métallique du numérique. Pour cela, il faut toujours réinterpréter.
+              C&apos;est précieux de pouvoir faire ce travail avec l&apos;auteur
+              parce qu’il a une connaissance intime de l&apos;œuvre.
+              Le distributeur en a une connaissance extime.
+              Je crois sincèrement dans le fait que c&apos;est dans cette rencontre
+              qu&apos;on trouve une justesse.
+              Quand on peut bien sûr… On a pu faire ce travail avec Laurent en 2018-2019.
+              C&apos;était passionnant parce qu&apos;il le redécouvrait lui-même,
+              lui qui revoyait très peu ses propres films. Le négatif original n&apos;était pas
+              en mauvais état et on a travaillé avec un merveilleux laboratoire qui s&apos;appelle Cosmodigital.
             </Answer>
             <Question>
-              Quel est le public visé par le Campus Festival&nbsp;? Quel est le
-              modèle économique d’un festival comme le vôtre&nbsp;?
+              Comment présenteriez-vous le film à quelqu&apos;un qui ne connaît pas l&apos;œuvre de Laurent Achard&nbsp;?
             </Question>
             <Answer>
               <div>
-                Le Campus Film Festival vise un public diversifié, mais avec une
-                attention particulière portée aux jeunes spectateur·trice·s
-                ainsi qu&apos;à celles et ceux qui apprécient la nostalgie et
-                les expériences passées. En mettant l&apos;accent sur les thèmes
-                du rêve, de l&apos;onirisme et des aspirations profondes de la
-                jeunesse, le festival attire naturellement un public étudiant et
-                jeune adulte, avide de découvertes cinématographiques
-                contemporaines, mais aussi de récits classiques qui résonnent
-                avec leur propre expérience de vie.
-              </div>
-              <div>
-                Notre festival ne pourrait exister sans certaines subventions
-                ainsi que nos partenaires qui nous soutiennent. Notre projet
-                bénéficie notamment du dispositif Culture-ActionS, un dispositif
-                des Crous de soutien aux initiatives étudiantes, et nous
-                comptons également à nos partenaires la faculté de Paris 8 ainsi
-                que la FSDIE.
+                C&apos;est un sommet de mise en scène et un film formidablement
+                joué par des acteurs peu connus. Ils sont tous extraordinaires,
+                d&apos;une justesse.
+                On aurait tort de classer le film dans le naturalisme alors que
+                ce qu&apos;il cherche à faire c&apos;est de transcender le réel
+                et les sentiments par la mise en scène.
+
+                Au moment de la sortie du film, Frédéric Strauss a écrit :
+                « Laurent Achard croit au cinéma. Le cinéma le sauve et le cinéma nous sauve. »
+                Je trouve que c&apos;est ce qui définit le mieux le film.
+                C&apos;est un film splendide sur des petites gens,
+                sur leurs drames, petits ou grands. C’est un film sans genre.
+                Ce n&apos;est ni une comédie, ni une tragédie.
+                C&apos;est un film choral d’un équilibre absolu.
+                Chaque personnage existe. Il n&apos;y a pas de personnage principal et de personnage secondaire.
+                Tout le monde est au même plan. Ce qui est déjà un sujet.
+                Tu regardes tout le monde pareil et chaque histoire vaut la peine qu&apos;on s’y penche.
+                Et puis, c&apos;est un grand film d’amour : l&apos;amour du cinéaste pour les gens.
               </div>
             </Answer>
           </BodyCopy>
