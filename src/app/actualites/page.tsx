@@ -7,6 +7,7 @@ import {
 } from "@/components/layout/thumbnails";
 import { SousTitre1 } from "@/components/typography/typography";
 
+import edito20240313 from "./2024-03-13-edito/img/icon.jpg";
 import campusFilmFestival2024 from "./campus-film-festival-2024/img/icon.jpg";
 import entretienGaelTeicher from "./entretien-gael-teicher/img/icon.jpg";
 import lumiereIcon from "./festival-lumiere-2023/img/icon.jpg";
@@ -31,6 +32,13 @@ const chroniques = [
     image: campusFilmFestival2024,
     date: "23/04/2024",
     type: "coup de projecteur",
+  },
+  {
+    titre: "Le cinéma du passé se vit au présent",
+    slug: "2024-03-13-edito",
+    image: edito20240313,
+    date: "13/03/2024",
+    type: "édito",
   },
   {
     titre: "Top 2023 : Vos plus belles découvertes de l'année",
