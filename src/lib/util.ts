@@ -109,14 +109,9 @@ export function movieInfoContainsFilteringTerm(
 
 export function getMovieInfoString(info: MovieInfo) {
   return (
-    [
-      "language",
-      "title",
-      "original_title",
-      "directors",
-      "countries",
-      "tags",
-    ] as Array<keyof MovieInfo>
+    ["title", "original_title", "directors", "countries", "tags"] as Array<
+      keyof MovieInfo
+    >
   )
     .map((key) => {
       return info[key] == null ? "" : `${info[key]}`;
