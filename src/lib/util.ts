@@ -100,10 +100,10 @@ export function movieInfoContainsFilteringTerm(
   if (filteringTerm.slice(-1) === "|") {
     filteringTerm = filteringTerm.slice(0, -1);
   }
-  const filtering_field = getMovieInfoString(movie);
+  const filteringField = getMovieInfoString(movie);
   const filteringTerms = filteringTerm.split("|");
   return some(filteringTerms, (filteringTerm) =>
-    stringMatch(filteringTerm, filtering_field),
+    stringMatch(filteringTerm, filteringField),
   );
 }
 
