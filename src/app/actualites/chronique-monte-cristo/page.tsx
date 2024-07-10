@@ -30,10 +30,10 @@ export default function EntretienGaelTeicher() {
           <BodyCopy>
             <b>
               Que celles et ceux qui auraient &eacute;t&eacute;
-              d&eacute;&ccedil;us par la nouvelle adaptation du Comte de Monte
-              Cristo ne se d&eacute;solent pas et que les autres se
-              r&eacute;jouissent : il y en a d&rsquo;autres ! beaucoup
-              d&rsquo;autres !
+              d&eacute;&ccedil;us par la nouvelle adaptation du{" "}
+              <em>Comte de Monte Cristo</em> ne se d&eacute;solent pas et que
+              les autres se r&eacute;jouissent : il y en a d&rsquo;autres !
+              beaucoup d&rsquo;autres !
             </b>
           </BodyCopy>
           <br />
@@ -41,8 +41,8 @@ export default function EntretienGaelTeicher() {
             Si la litt&eacute;rature a toujours constitu&eacute; un
             pr&eacute;cieux fond d&rsquo;histoires pour le cin&eacute;ma,
             l&rsquo;&oelig;uvre d&rsquo;Alexandre Dumas est une vraie mine
-            d&rsquo;or : <em>La Reine Margot</em>,{" "}
-            <em>Les Trois Mousquetaires</em>, <em>Le Comte de Monte-Cristo</em>{" "}
+            d&rsquo;or : <em>La Reine Margot</em>,
+            <em>Les Trois Mousquetaires</em>, <em>Le Comte de Monte-Cristo</em>
             ont fourni la mati&egrave;re d&rsquo;un grand nombre de films
             &ndash; et d&rsquo;ailleurs aucun livre n&rsquo;a &eacute;t&eacute;
             plus adapt&eacute; au cin&eacute;ma que ce dernier. &Agrave; la mort
@@ -58,18 +58,18 @@ export default function EntretienGaelTeicher() {
             France, Italie, &Eacute;tats-Unis, Allemagne, Mexique, Argentine,
             Union sovi&eacute;tique, &Eacute;gypte, Inde, Cor&eacute;e du Sud,
             Hong Kong&hellip; rares sont les pays qui n&rsquo;ont pas leur
-            version nationale. L&rsquo;histoire du Comte de Monte-Cristo a
-            tellement influenc&eacute; l&rsquo;imaginaire moderne de la
-            vengeance qu&rsquo;il est difficile de recenser
-            pr&eacute;cis&eacute;ment les adaptations du roman d&rsquo;Alexandre
-            Dumas. La sortie du film de Matthieu Delaporte et Alexandre De La
-            Patelli&egrave;re offre l&rsquo;occasion de se replonger dans les
-            aventures d&rsquo;Edmond Dant&egrave;s sur le grand
-            &eacute;cran.&nbsp;
+            version nationale. L&rsquo;histoire du{" "}
+            <em>Comte de Monte-Cristo</em>a tellement influenc&eacute;
+            l&rsquo;imaginaire moderne de la vengeance qu&rsquo;il est difficile
+            de recenser pr&eacute;cis&eacute;ment les adaptations du roman
+            d&rsquo;Alexandre Dumas. La sortie du film de Matthieu Delaporte et
+            Alexandre De La Patelli&egrave;re offre l&rsquo;occasion de se
+            replonger dans les aventures d&rsquo;Edmond Dant&egrave;s sur le
+            grand &eacute;cran.&nbsp;
           </BodyCopy>
           <br />
           <BodyCopy>
-            L&rsquo;histoire du cin&eacute;ma et celle du{" "}
+            L&rsquo;histoire du cin&eacute;ma et celle du
             <em>Comte de Monte-Cristo</em> sont plus intimement li&eacute;es
             qu&rsquo;on ne pourrait le croire ; l&rsquo;une retrace
             l&rsquo;autre et vice versa. D&egrave;s les d&eacute;buts du
@@ -82,8 +82,8 @@ export default function EntretienGaelTeicher() {
             ce film s&rsquo;appelait <em>The Count of Monte Cristo</em>. La
             douceur du climat californien et le succ&egrave;s du film inciteront
             William Selig &agrave; fonder une entreprise de production
-            bas&eacute;e &agrave; Los Angeles.{" "}
-            <em>The Count of Monte Cristo,</em> consid&eacute;r&eacute; comme
+            bas&eacute;e &agrave; Los Angeles.
+            <em>The Count of Monte Cristo</em>, consid&eacute;r&eacute; comme
             l&rsquo;un des tous premiers films produits en Californie, marquait
             le commencement de la grande histoire d&rsquo;Hollywood.&nbsp;
           </BodyCopy>
@@ -96,9 +96,9 @@ export default function EntretienGaelTeicher() {
             version de 69 minutes (dur&eacute;e exceptionnelle pour
             l&rsquo;&eacute;poque), r&eacute;alis&eacute;e par un autre pionnier
             du cin&eacute;ma : Edwin S. Porter ; il fait retirer le film de
-            Selig de la circulation. <em>The Count of Monte Cristo </em>
+            Selig de la circulation. <em>The Count of Monte Cristo</em>
             rencontre un grand succ&egrave;s populaire et lance la
-            soci&eacute;t&eacute; de ce jeune producteur ambitieux : la{" "}
+            soci&eacute;t&eacute; de ce jeune producteur ambitieux : la
             <em>Famous Players Film Company</em>, qui trois ans plus tard
             deviendra la <em>Paramount</em>. Zukor avait choisi cette histoire
             parce que son adaptation au th&eacute;&acirc;tre rencontrait alors
@@ -125,11 +125,11 @@ export default function EntretienGaelTeicher() {
             interpr&egrave;te, au d&eacute;but des ann&eacute;es 1910, du
             policier &agrave; la poursuite de Zigomar, grand criminel
             contemporain de Fant&ocirc;mas, dont la post&eacute;rit&eacute; est
-            assur&eacute;e par Denis Podalyd&egrave;s et son bateau, dans{" "}
+            assur&eacute;e par Denis Podalyd&egrave;s et son bateau, dans
             <em>Libert&eacute; Ol&eacute;ron</em> (2001) &ndash;, en 1913 le
             cin&eacute;ma fran&ccedil;ais lui offre un nouveau film, mis en
-            sc&egrave;ne par Michel Carr&eacute;, le sc&eacute;nariste de{" "}
-            <em>L&rsquo;Assommoir </em>d&rsquo;Albert Capellani. Entre 1915 et
+            sc&egrave;ne par Michel Carr&eacute;, le sc&eacute;nariste de
+            <em>L&rsquo;Assommoir</em> d&rsquo;Albert Capellani. Entre 1915 et
             1917, Henri Pouctal r&eacute;alise une version de trois heures,
             qu&rsquo;il souhaite aussi fid&egrave;le que possible au livre et
             qu&rsquo;il tourne, dans la mesure du possible, dans les lieux
@@ -150,8 +150,8 @@ export default function EntretienGaelTeicher() {
             deuxi&egrave;me, dans laquelle Edmond Dant&egrave;s est
             incarn&eacute; par Jean Marais, parce qu&rsquo;elle offre au roman
             d&rsquo;Alexandre Dumas son plus grand succ&egrave;s populaire sur
-            le grand &eacute;cran (pr&egrave;s de 8 millions
-            d&rsquo;entr&eacute;es).&nbsp;
+            le grand &eacute;cran (pr&egrave;s de 8
+            millions&nbsp;d&rsquo;entr&eacute;es).&nbsp;
           </BodyCopy>
           <br />
           <BodyCopy>
@@ -159,15 +159,15 @@ export default function EntretienGaelTeicher() {
             apparition dans les foyers fran&ccedil;ais, vient l&rsquo;heure des
             feuilletons&nbsp;; leur format est particuli&egrave;rement propice
             aux r&eacute;cits au long cours. &Agrave; partir de 1968, en France,
-            toutes les adaptations du <em>Comte de Monte Cristo </em>sont
+            toutes les adaptations du <em>Comte de Monte Cristo</em> sont
             produites pour la t&eacute;l&eacute;. Mais l&rsquo;imaginaire de la
             vengeance est marqu&eacute; &agrave; jamais et, au cours des
             d&eacute;cennies suivantes, des histoires inspir&eacute;es des
             aventures d&rsquo;Edmond Dant&egrave;s continuent d&rsquo;attirer
-            les foules dans les salles obscures du monde entier.{" "}
+            les foules dans les salles obscures du monde entier.
             <em>V&nbsp;pour Vendetta</em> et <em>Oldboy</em> sont de loin les
-            plus connues, mais pour les plus curieux on pourrait citer{" "}
-            <em>Daerat Al-Enteqam</em> (film &eacute;gyptien de 1974) ou{" "}
+            plus connues, mais pour les plus curieux on pourrait citer
+            <em>Daerat Al-Enteqam</em> (film &eacute;gyptien de 1974) ou
             <em>Legacy of Rage</em> (film d&rsquo;action hongkongais de 1986).
             En France, il aura fallu attendre jusqu&rsquo;au 28 juin 2024 pour
             revoir Edmond Dant&egrave;s sur le grand &eacute;cran. Au vu des
