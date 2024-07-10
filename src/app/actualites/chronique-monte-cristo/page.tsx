@@ -168,8 +168,8 @@ export default function EntretienGaelTeicher() {
             <em>V&nbsp;pour Vendetta</em> et <em>Oldboy</em> sont de loin les
             plus connues, mais pour les plus curieux on pourrait citer{" "}
             <em>Daerat Al-Enteqam</em> (film &eacute;gyptien de 1974) ou{" "}
-            <em>Legacy of Rage</em> (film d&rsquo;action hongkongais de 1986). En
-            France, il aura fallu attendre jusqu&rsquo;au 28 juin 2024 pour
+            <em>Legacy of Rage</em> (film d&rsquo;action hongkongais de 1986).
+            En France, il aura fallu attendre jusqu&rsquo;au 28 juin 2024 pour
             revoir Edmond Dant&egrave;s sur le grand &eacute;cran. Au vu des
             foules qui ont rempli les salles ces derni&egrave;res semaines (le
             film comptait plus de 2 millions de spectateurs 10 jours

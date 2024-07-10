@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 
+import chroniqueMonteCristo from "@/app/actualites/chronique-monte-cristo/img/icon.jpg";
 import PageHeader from "@/components/layout/page-header";
 import {
   ThumbnailGrid,
@@ -7,7 +8,6 @@ import {
 } from "@/components/layout/thumbnails";
 import { SousTitre1 } from "@/components/typography/typography";
 
-import chroniqueMonteCristo from "@/app/actualites/chronique-monte-cristo/img/icon.jpg";
 import edito20240313 from "./2024-03-13-edito/img/icon.jpg";
 import campusFilmFestival2024 from "./campus-film-festival-2024/img/icon.jpg";
 import entretienGaelTeicher from "./entretien-gael-teicher/img/icon.jpg";
