@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 
+import chroniqueMonteCristo from "@/app/actualites/chronique-monte-cristo/img/icon.jpg";
 import PageHeader from "@/components/layout/page-header";
 import {
   ThumbnailGrid,
@@ -19,6 +20,13 @@ export const metadata: Metadata = {
 };
 
 const chroniques = [
+  {
+    titre: "Monte-Cristo au cinéma",
+    slug: "chronique-monte-cristo",
+    image: chroniqueMonteCristo,
+    date: "10/07/2024",
+    type: "coup de projecteur",
+  },
   {
     titre: "Entretien avec Gaël Teicher",
     slug: "entretien-gael-teicher",
