@@ -333,15 +333,15 @@ function filterAndSortMovies(
           showtimes_theater: movie.showtimes_theater
             .map((theater) => ({
               ...theater,
-              showtimes: theater.showtimes.filter(
-                (showtime) =>
-                  showtime >= minHourFilteringTodaysMissedFilms &&
-                  showtime <= maxHour,
+              screenings: theater.screenings.filter(
+                (screening) =>
+                  screening.time >= minHourFilteringTodaysMissedFilms &&
+                  screening.time <= maxHour,
               ),
             }))
             .filter(
               (theater) =>
-                theater.showtimes.length > 0 &&
+                theater.screenings.length > 0 &&
                 (quartiers.length === 0 ||
                   some(
                     quartiers,
