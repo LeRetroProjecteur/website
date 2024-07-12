@@ -62,6 +62,41 @@ export default function Seances({
   );
 }
 
+export function FormatNotes({
+  notes,
+  maxLength,
+}: {
+  notes: string;
+  maxLength: number;
+}) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const toggleExpanded = useCallback(
+    () => setIsExpanded(!isExpanded),
+    [isExpanded, setIsExpanded],
+  );
+  const needsExpanding = notes.length > maxLength;
+
+  return (
+    <>
+      {needsExpanding ? (
+        <span
+          className={clsx({ "cursor-pointer": needsExpanding })}
+          onClick={toggleExpanded}
+        >
+          {isExpanded
+            ? notes
+            : notes.substring(
+                0,
+                notes.substring(0, maxLength).lastIndexOf(" "),
+              ) + " [...]"}
+        </span>
+      ) : (
+        notes
+      )}
+    </>
+  );
+}
+
 export function transformZipcode(inZip: string) {
   if (inZip.substring(0, 2) == "75") {
     inZip = inZip.substring(3, 5);
@@ -120,7 +155,15 @@ export function SeancesTheater({
             <CalendrierCopy>
               {floatHourToString(screening.time)}
               {screening.notes != null && (
-                <span className="text-retro-gray"> {screening.notes}</span>
+                <span className="text-retro-gray">
+                  {" "}
+                  <span className="hidden lg:inline">
+                    <FormatNotes notes={screening.notes} maxLength={50} />
+                  </span>
+                  <span className="lg:hidden">
+                    <FormatNotes notes={screening.notes} maxLength={0} />
+                  </span>
+                </span>
               )}
             </CalendrierCopy>
             <div className="hidden group-last/seances:hidden lg:block">
