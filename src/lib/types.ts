@@ -40,7 +40,6 @@ export interface SearchMovie {
 export interface Screening {
   time: number;
   notes?: string;
-  link?: string;
 }
 
 export interface ShowtimesTheater {
