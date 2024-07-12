@@ -93,39 +93,36 @@ export function SeancesTheater({
   isExpanded: boolean;
 }) {
   return (
-    <div>
-      <div
-        className="group/cinema flex items-start justify-between"
-        key={showtimesTheater.name}
-      >
-        <div className="w-min grow pr-10px lg:pr-30px">
-          <CalendrierCopy
-            className={clsx({ "group-hover/cinema:underline": isExpanded })}
+    <div
+      className="group/cinema flex items-start justify-between"
+      key={showtimesTheater.name}
+    >
+      <div className="w-min grow pr-10px lg:pr-30px">
+        <CalendrierCopy
+          className={clsx({ "group-hover/cinema:underline": isExpanded })}
+        >
+          {showtimesTheater.name} ({transformZipcode(showtimesTheater.zipcode)})
+        </CalendrierCopy>
+      </div>
+      <div className="flex flex-col justify-end lg:flex-row lg:flex-wrap lg:self-start">
+        {showtimesTheater.screenings.map((screening) => (
+          <div
+            key={screening.time}
+            className={clsx("group/seances flex justify-end", {
+              "group-hover/cinema:underline": isExpanded,
+            })}
           >
-            {showtimesTheater.name} (
-            {transformZipcode(showtimesTheater.zipcode)})
-          </CalendrierCopy>
-        </div>
-        <div className="flex flex-col justify-end lg:flex-row lg:flex-wrap lg:self-start">
-          {showtimesTheater.screenings.map((screening) => (
-            <div
-              key={screening.time}
-              className={clsx("group/seances flex justify-end", {
-                "group-hover/cinema:underline": isExpanded,
-              })}
-            >
-              <CalendrierCopy>
-                {floatHourToString(screening.time)}
-                {screening.notes != null && (
-                  <span className="text-retro-gray"> {screening.notes}</span>
-                )}
-              </CalendrierCopy>
-              <div className="hidden group-last/seances:hidden lg:block">
-                <CalendrierCopy>&nbsp;•&nbsp;</CalendrierCopy>
-              </div>
+            <CalendrierCopy>
+              {floatHourToString(screening.time)}
+              {screening.notes != null && (
+                <span className="text-retro-gray"> {screening.notes}</span>
+              )}
+            </CalendrierCopy>
+            <div className="hidden group-last/seances:hidden lg:block">
+              <CalendrierCopy>&nbsp;•&nbsp;</CalendrierCopy>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
       </div>
     </div>
   );
