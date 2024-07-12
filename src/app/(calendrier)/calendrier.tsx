@@ -38,30 +38,48 @@ export default function Calendrier({
       </PageHeader>
       <div className="flex grow flex-col lg:pl-20px">
         <TimeSlider />
-        <div className="flex flex-col lg:flex-row">
-          <div className="flex lg:pr-20px">
-            <QuartierSelectorToggler
-              toggleOpen={toggleQuartierSelectorOpen}
-              isOpen={isQuartierSelectorOpen}
-            />
+        <div className="hidden lg:flex lg:flex-row lg:flex-col">
+          <div className="flex grow flex-row gap-x-20px">
+            <div className="flex w-240px">
+              <QuartierSelectorToggler
+                toggleOpen={toggleQuartierSelectorOpen}
+                isOpen={isQuartierSelectorOpen}
+              />
+            </div>
+            <div className="flex w-240px">
+              <Events />
+            </div>
+            <div className="flex grow">
+              <Filter />
+            </div>
           </div>
           {isQuartierSelectorOpen && (
-            <div className="flex pt-8px lg:hidden">
+            <div className="pt-20px">
+              <QuartierSelector />
+            </div>
+          )}
+        </div>
+        <div className="lg:hidden">
+          <div className="grid grow grid-cols-[repeat(auto-fill,_minmax(40%,_1fr))] gap-x-15px">
+            <div className="flex">
+              <QuartierSelectorToggler
+                toggleOpen={toggleQuartierSelectorOpen}
+                isOpen={isQuartierSelectorOpen}
+              />
+            </div>
+            <div className="flex">
+              <Events />
+            </div>
+          </div>
+          {isQuartierSelectorOpen && (
+            <div className="flex pt-8px">
               <QuartierSelector />{" "}
             </div>
           )}
-          <div className="flex lg:pr-20px">
-            <Events />
-          </div>
-          <div className="flex grow pt-15px lg:pt-0">
+          <div className="flex grow pt-15px">
             <Filter />
           </div>
         </div>
-        {isQuartierSelectorOpen && (
-          <div className="hidden lg:flex lg:pt-20px">
-            <QuartierSelector />
-          </div>
-        )}
         <div className="flex grow pt-18px lg:pt-28px">
           <MovieTable serverMovies={serverMovies} allMovies={allMovies} />
         </div>

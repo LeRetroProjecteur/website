@@ -24,12 +24,12 @@ export default function Events() {
           "bg-retro-gray": isEventsClicked,
           "text-white": isEventsClicked,
         },
-        "flex h-42px grow cursor-pointer items-center justify-center border lg:h-48px lg:w-278px ",
+        "flex h-42px grow cursor-pointer items-center justify-center border lg:h-48px",
       )}
       onClick={onClick}
     >
-      <div className="flex items-center pr-6px">
-        <ButtonCopy>Événements spéciaux</ButtonCopy>
+      <div className="flex items-center">
+        <ButtonCopy>Séances spéciales</ButtonCopy>
       </div>
     </div>
   );
