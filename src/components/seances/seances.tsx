@@ -116,7 +116,9 @@ export function SeancesTheater({
             >
               <CalendrierCopy>
                 {floatHourToString(screening.time)}
-                {screening.notes != null && <span> *</span>}
+                {screening.notes != null && (
+                  <span className="text-retro-gray"> {screening.notes}</span>
+                )}
               </CalendrierCopy>
               <div className="hidden group-last/seances:hidden lg:block">
                 <CalendrierCopy>&nbsp;•&nbsp;</CalendrierCopy>
@@ -124,16 +126,6 @@ export function SeancesTheater({
             </div>
           ))}
         </div>
-      </div>
-      <div className="flex grow justify-end">
-        {showtimesTheater.screenings.map(
-          (screening) =>
-            screening.notes != null && (
-              <div key={screening.notes}>
-                <i className="font-semibold">* {screening.notes}</i>
-              </div>
-            ),
-        )}
       </div>
     </div>
   );
