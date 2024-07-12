@@ -3,7 +3,6 @@
 import { useCallback, useState } from "react";
 
 import DateSelector from "@/app/(calendrier)/date-selector";
-import Events from "@/app/(calendrier)/events";
 import QuartierSelector from "@/app/(calendrier)/quartier-selector";
 import TimeSlider from "@/app/(calendrier)/time-slider";
 import PageHeader from "@/components/layout/page-header";
@@ -50,9 +49,6 @@ export default function Calendrier({
               <QuartierSelector />{" "}
             </div>
           )}
-          <div className="flex lg:pr-20px">
-            <Events />
-          </div>
           <div className="flex grow pt-15px lg:pt-0">
             <Filter />
           </div>
