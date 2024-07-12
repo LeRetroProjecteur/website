@@ -112,12 +112,7 @@ export function SeancesTheater({
               "group-hover/cinema:underline": isExpanded,
             })}
           >
-            <CalendrierCopy>
-              {floatHourToString(screening.time)}
-              {screening.notes != null && (
-                <span className="text-retro-gray"> {screening.notes}</span>
-              )}
-            </CalendrierCopy>
+            <CalendrierCopy>{floatHourToString(screening.time)}</CalendrierCopy>
             <div className="hidden group-last/seances:hidden lg:block">
               <CalendrierCopy>&nbsp;•&nbsp;</CalendrierCopy>
             </div>

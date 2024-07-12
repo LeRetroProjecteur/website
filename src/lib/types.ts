@@ -45,7 +45,6 @@ export interface Screening {
 
 export interface ShowtimesTheater {
   screenings: Screening[];
-  showtimes: number[];
   neighborhood: string;
   zipcode: string;
   name: string;
