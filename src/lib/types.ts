@@ -40,12 +40,10 @@ export interface SearchMovie {
 export interface Screening {
   time: number;
   notes?: string;
-  link?: string;
 }
 
 export interface ShowtimesTheater {
   screenings: Screening[];
-  showtimes: number[];
   neighborhood: string;
   zipcode: string;
   name: string;

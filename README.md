@@ -13,6 +13,7 @@ This is the source code of the website [Le Rétro Projecteur](https://leretropro
 ### First installation
 
 - Clone repository
+- Install [brew](https://linux.how2shout.com/how-to-install-brew-ubuntu-20-04-lts-linux/)
 - Install [node.js](https://nodejs.org/en/) et [pnpm](https://pnpm.io/installation#using-corepack)
 - Navigate to repo directory
 - Run `$ pnpm install`

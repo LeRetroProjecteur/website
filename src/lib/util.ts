@@ -100,23 +100,18 @@ export function movieInfoContainsFilteringTerm(
   if (filteringTerm.slice(-1) === "|") {
     filteringTerm = filteringTerm.slice(0, -1);
   }
-  const filtering_field = getMovieInfoString(movie);
+  const filteringField = getMovieInfoString(movie);
   const filteringTerms = filteringTerm.split("|");
   return some(filteringTerms, (filteringTerm) =>
-    stringMatch(filteringTerm, filtering_field),
+    stringMatch(filteringTerm, filteringField),
   );
 }
 
 export function getMovieInfoString(info: MovieInfo) {
   return (
-    [
-      "language",
-      "title",
-      "original_title",
-      "directors",
-      "countries",
-      "tags",
-    ] as Array<keyof MovieInfo>
+    ["title", "original_title", "directors", "countries", "tags"] as Array<
+      keyof MovieInfo
+    >
   )
     .map((key) => {
       return info[key] == null ? "" : `${info[key]}`;

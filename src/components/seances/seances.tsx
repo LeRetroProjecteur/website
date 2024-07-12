@@ -92,6 +92,11 @@ export function SeancesTheater({
   showtimesTheater: ShowtimesTheater;
   isExpanded: boolean;
 }) {
+  const screenings = sortBy(
+    showtimesTheater.screenings,
+    (screening) => screening.time,
+  );
+
   return (
     <div
       className="group/cinema flex items-start justify-between"
@@ -105,7 +110,7 @@ export function SeancesTheater({
         </CalendrierCopy>
       </div>
       <div className="flex flex-col justify-end lg:flex-row lg:flex-wrap lg:self-start">
-        {showtimesTheater.screenings.map((screening) => (
+        {screenings.map((screening) => (
           <div
             key={screening.time}
             className={clsx("group/seances flex justify-end", {
