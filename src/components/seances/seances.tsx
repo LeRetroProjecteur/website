@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { sortBy, take, uniqBy } from "lodash-es";
+import { min, sortBy, take } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
 
 import { ShowtimesTheater } from "@/lib/types";
@@ -10,9 +10,9 @@ import { floatHourToString } from "@/lib/util";
 import { CalendrierCopy } from "../typography/typography";
 
 export default function Seances({
-  showtimes_theater,
+  showtimesTheaters,
 }: {
-  showtimes_theater: ShowtimesTheater[];
+  showtimesTheaters: ShowtimesTheater[];
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -21,14 +21,13 @@ export default function Seances({
     [isExpanded, setIsExpanded],
   );
 
-  const sortedTheaters = useMemo(
-    () =>
-      sortBy(
-        uniqBy(showtimes_theater, (showtime_theater) => showtime_theater.name),
-        (showtime_theater) => showtime_theater.name,
-      ),
-    [showtimes_theater],
-  );
+  const sortedTheaters = sortBy(showtimesTheaters, [
+    function (showtimesTheaters) {
+      return min(
+        showtimesTheaters.screenings.map((screening) => screening.time),
+      );
+    },
+  ]);
 
   const unexpandedTheaters = useMemo(
     () => take(sortedTheaters, 3),
