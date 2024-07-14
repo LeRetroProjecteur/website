@@ -30,10 +30,10 @@ export default function EntretienGaelTeicher() {
           <BodyCopy>
             <b>
               Que celles et ceux qui auraient &eacute;t&eacute;
-              d&eacute;&ccedil;us par la nouvelle adaptation du <em>Comte de Monte
-              Cristo</em> ne se d&eacute;solent pas et que les autres se
-              r&eacute;jouissent&nbsp;: il y en a d&rsquo;autres&nbsp;! beaucoup
-              d&rsquo;autres&nbsp;!
+              d&eacute;&ccedil;us par la nouvelle adaptation du{" "}
+              <em>Comte de Monte Cristo</em> ne se d&eacute;solent pas et que
+              les autres se r&eacute;jouissent&nbsp;: il y en a
+              d&rsquo;autres&nbsp;! beaucoup d&rsquo;autres&nbsp;!
             </b>
           </BodyCopy>
           <br />
@@ -54,18 +54,18 @@ export default function EntretienGaelTeicher() {
             &eacute;t&eacute; traduits dans toutes les langues. &raquo;&nbsp; Le
             cin&eacute;ma a prolong&eacute; ses succ&egrave;s.
             L&rsquo;&eacute;tendue temporelle et spatiale des adaptations des
-            aventures d&rsquo;Edmond Dant&egrave;s est sans commune mesure&nbsp;:
-            France, Italie, &Eacute;tats-Unis, Allemagne, Mexique, Argentine,
-            Union sovi&eacute;tique, &Eacute;gypte, Inde, Cor&eacute;e du Sud,
-            Hong Kong&hellip; rares sont les pays qui n&rsquo;ont pas leur
-            version nationale. L&rsquo;histoire du <em>Comte de Monte-Cristo</em> a
-            tellement influenc&eacute; l&rsquo;imaginaire moderne de la
-            vengeance qu&rsquo;il est difficile de recenser
-            pr&eacute;cis&eacute;ment les adaptations du roman d&rsquo;Alexandre
-            Dumas. La sortie du film de Matthieu Delaporte et Alexandre De La
-            Patelli&egrave;re offre l&rsquo;occasion de se replonger dans les
-            aventures d&rsquo;Edmond Dant&egrave;s sur le grand
-            &eacute;cran.
+            aventures d&rsquo;Edmond Dant&egrave;s est sans commune
+            mesure&nbsp;: France, Italie, &Eacute;tats-Unis, Allemagne, Mexique,
+            Argentine, Union sovi&eacute;tique, &Eacute;gypte, Inde,
+            Cor&eacute;e du Sud, Hong Kong&hellip; rares sont les pays qui
+            n&rsquo;ont pas leur version nationale. L&rsquo;histoire du{" "}
+            <em>Comte de Monte-Cristo</em> a tellement influenc&eacute;
+            l&rsquo;imaginaire moderne de la vengeance qu&rsquo;il est difficile
+            de recenser pr&eacute;cis&eacute;ment les adaptations du roman
+            d&rsquo;Alexandre Dumas. La sortie du film de Matthieu Delaporte et
+            Alexandre De La Patelli&egrave;re offre l&rsquo;occasion de se
+            replonger dans les aventures d&rsquo;Edmond Dant&egrave;s sur le
+            grand &eacute;cran.
           </BodyCopy>
           <br />
           <BodyCopy>
@@ -95,8 +95,8 @@ export default function EntretienGaelTeicher() {
             acquis les droits d&rsquo;adaptation du roman et a produit une
             version de 69 minutes (dur&eacute;e exceptionnelle pour
             l&rsquo;&eacute;poque), r&eacute;alis&eacute;e par un autre pionnier
-            du cin&eacute;ma&nbsp;: Edwin S. Porter&nbsp;; il fait retirer le film de
-            Selig de la circulation. <em>The Count of Monte Cristo </em>
+            du cin&eacute;ma&nbsp;: Edwin S. Porter&nbsp;; il fait retirer le
+            film de Selig de la circulation. <em>The Count of Monte Cristo </em>
             rencontre un grand succ&egrave;s populaire et lance la
             soci&eacute;t&eacute; de ce jeune producteur ambitieux : la{" "}
             <em>Famous Players Film Company</em>, qui trois ans plus tard
@@ -109,9 +109,9 @@ export default function EntretienGaelTeicher() {
             s&rsquo;y attarde. En 1883 &agrave; New York, James O&rsquo;Neill
             remplace au pied lev&eacute; l&rsquo;acteur principal d&rsquo;un
             Monte Cristo qui ne rencontrait alors qu&rsquo;un succ&egrave;s
-            mod&eacute;r&eacute;&nbsp;; le public l&rsquo;adore ; il passera sa vie
-            &ndash; plus de 6000 repr&eacute;sentations en 40 ans &ndash; dans
-            la peau d&rsquo;Edmond Dant&egrave;s. Il mourut millionnaire et
+            mod&eacute;r&eacute;&nbsp;; le public l&rsquo;adore ; il passera sa
+            vie &ndash; plus de 6000 repr&eacute;sentations en 40 ans &ndash;
+            dans la peau d&rsquo;Edmond Dant&egrave;s. Il mourut millionnaire et
             c&eacute;l&eacute;brissime, mais, selon les mots de son propre fils,
             le c&eacute;l&egrave;bre dramaturge Eugene O&rsquo;Neill,
             &ldquo;bris&eacute;, malheureux et terriblement amer&rdquo;.
@@ -143,15 +143,15 @@ export default function EntretienGaelTeicher() {
           <BodyCopy>
             Jusqu&rsquo;en 1968, les adaptations cin&eacute;matographiques se
             multiplient. Les deux versions de Robert Vernay, qui datent de 1943
-            et 1954, m&eacute;ritent d&rsquo;&ecirc;tre mentionn&eacute;es&nbsp;: la
-            premi&egrave;re parce qu&rsquo;elle est consid&eacute;r&eacute;e par
-            beaucoup comme la meilleure adaptation existante (au coude &agrave;
-            coude avec le film impressioniste de Henri Fescourt, de 1929)&nbsp;; la
-            deuxi&egrave;me, dans laquelle Edmond Dant&egrave;s est
-            incarn&eacute; par Jean Marais, parce qu&rsquo;elle offre au roman
-            d&rsquo;Alexandre Dumas son plus grand succ&egrave;s populaire sur
-            le grand &eacute;cran (pr&egrave;s de 8 millions
-            d&rsquo;entr&eacute;es).
+            et 1954, m&eacute;ritent d&rsquo;&ecirc;tre
+            mentionn&eacute;es&nbsp;: la premi&egrave;re parce qu&rsquo;elle est
+            consid&eacute;r&eacute;e par beaucoup comme la meilleure adaptation
+            existante (au coude &agrave; coude avec le film impressioniste de
+            Henri Fescourt, de 1929)&nbsp;; la deuxi&egrave;me, dans laquelle
+            Edmond Dant&egrave;s est incarn&eacute; par Jean Marais, parce
+            qu&rsquo;elle offre au roman d&rsquo;Alexandre Dumas son plus grand
+            succ&egrave;s populaire sur le grand &eacute;cran (pr&egrave;s de 8
+            millions d&rsquo;entr&eacute;es).
           </BodyCopy>
           <br />
           <BodyCopy>
@@ -165,8 +165,8 @@ export default function EntretienGaelTeicher() {
             d&eacute;cennies suivantes, des histoires inspir&eacute;es des
             aventures d&rsquo;Edmond Dant&egrave;s continuent d&rsquo;attirer
             les foules dans les salles obscures du monde entier.{" "}
-            <em>V pour Vendetta</em> et <em>Oldboy</em> sont de loin les
-            plus connues, mais pour les plus curieux on pourrait citer{" "}
+            <em>V pour Vendetta</em> et <em>Oldboy</em> sont de loin les plus
+            connues, mais pour les plus curieux on pourrait citer{" "}
             <em>Daerat Al-Enteqam</em> (film &eacute;gyptien de 1974) ou{" "}
             <em>Legacy of Rage</em> (film d&rsquo;action hongkongais de 1986).
             En France, il aura fallu attendre jusqu&rsquo;au 28 juin 2024 pour
