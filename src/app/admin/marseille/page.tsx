@@ -5,7 +5,7 @@ import MarseilleCalendrier from "./marseille";
 
 export const dynamic = "force-dynamic";
 
-export default function CalendrierPage() {
+export default function CalendrierPageMarseille() {
   return (
     <MarseilleCalendrier
       serverMovies={getDayMovies(getStartOfTodayInParis(), {
