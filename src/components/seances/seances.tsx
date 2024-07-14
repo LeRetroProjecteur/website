@@ -21,13 +21,17 @@ export default function Seances({
     [isExpanded, setIsExpanded],
   );
 
-  const sortedTheaters = sortBy(showtimesTheaters, [
-    function (showtimesTheaters) {
-      return min(
-        showtimesTheaters.screenings.map((screening) => screening.time),
-      );
-    },
-  ]);
+  const sortedTheaters = useMemo(
+    () =>
+      sortBy(showtimesTheaters, [
+        function (showtimesTheaters) {
+          return min(
+            showtimesTheaters.screenings.map((screening) => screening.time),
+          );
+        },
+      ]),
+    [showtimesTheaters],
+  );
 
   const unexpandedTheaters = useMemo(
     () => take(sortedTheaters, 3),
