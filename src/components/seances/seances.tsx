@@ -155,7 +155,7 @@ export function SeancesTheater({
               "group-hover/cinema:underline": isExpanded,
             })}
           >
-            <CalendrierCopy className="text-right">
+            <CalendrierCopy>
               {floatHourToString(screening.time)}
               {screening.notes != null && (
                 <span className="text-retro-gray">
