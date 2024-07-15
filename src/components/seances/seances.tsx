@@ -43,7 +43,7 @@ export default function Seances({
   return (
     <div
       className={clsx(
-        "grid-auto-rows grid grid-cols-[50%,50%] gap-y-10px lg:gap-y-5px",
+        "grid-auto-rows grid grid-cols-[59%,41%] gap-y-10px lg:gap-y-5px",
       )}
     >
       {(isExpanded ? sortedTheaters : unexpandedTheaters).map((theater) => (
