@@ -43,7 +43,7 @@ export default function Seances({
   return (
     <div
       className={clsx(
-        "grid-auto-rows grid grid-cols-[1fr,148px] gap-y-10px lg:gap-y-5px xl:grid-cols-[1fr,180px]",
+        "lg:grid-auto-rows flex grow flex-col gap-10px lg:grid lg:grid-cols-[1fr,148px] lg:gap-y-5px xl:grid-cols-[1fr,180px]",
       )}
     >
       {(isExpanded ? sortedTheaters : unexpandedTheaters).map((theater) => (
@@ -109,7 +109,7 @@ export function SeancesTheater({
 
   return (
     <div
-      className="group/cinema col-span-full flex grid grid-cols-[subgrid] items-start justify-between"
+      className="group/cinema flex items-start justify-between lg:col-span-full lg:grid lg:grid-cols-[subgrid]"
       key={showtimesTheater.name}
     >
       <div className="grow pr-10px lg:pr-30px">
