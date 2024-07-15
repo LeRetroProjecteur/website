@@ -198,7 +198,7 @@ function DateScreenings({
     <div className="col-span-full grid grid-cols-[subgrid] border-b py-12px lg:py-16px lg:hover:bg-retro-pale-green">
       <BodyCopy>{capitalize(formatMerJJMM(safeDate(date)))}</BodyCopy>
       <div className="flex flex-col">
-        <Seances showtimes_theater={theaters} />
+        <Seances showtimesTheaters={theaters} />
       </div>
     </div>
   );

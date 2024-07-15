@@ -219,7 +219,7 @@ function MovieRows({
           </div>
         ) : (
           <div className="py-12px lg:py-17px">
-            <Seances showtimes_theater={movie.showtimes_theater} />
+            <Seances showtimesTheaters={movie.showtimes_theater} />
           </div>
         )
       }
