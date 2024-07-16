@@ -179,7 +179,7 @@ function Screenings({
   );
 
   return (
-    <div className="grid-auto-rows grid grid-cols-[auto_1fr] gap-x-20px">
+    <div className="grid-auto-rows grid grid-cols-[auto_1fr] gap-x-10px lg:gap-x-20px">
       {sortedByDateAndTheater.map(([date, theaters]) => (
         <DateScreenings key={date} date={date} theaters={theaters} />
       ))}
