@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { min, sortBy, take } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
 
-import { ShowtimesTheater } from "@/lib/types";
+import { TheaterScreenings } from "@/lib/types";
 import { floatHourToString } from "@/lib/util";
 
 import { CalendrierCopy } from "../typography/typography";
@@ -12,7 +12,7 @@ import { CalendrierCopy } from "../typography/typography";
 export default function Seances({
   showtimesTheaters,
 }: {
-  showtimesTheaters: ShowtimesTheater[];
+  showtimesTheaters: TheaterScreenings[];
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -92,7 +92,7 @@ export function SeancesTheater({
   showtimesTheater,
   isExpanded,
 }: {
-  showtimesTheater: ShowtimesTheater;
+  showtimesTheater: TheaterScreenings;
   isExpanded: boolean;
 }) {
   const screenings = sortBy(
