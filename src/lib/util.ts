@@ -7,10 +7,10 @@ import { useWindowSize } from "usehooks-ts";
 
 import tailwindConfig from "../../tailwind.config";
 import {
-  Movie,
   MovieInfo,
-  MovieWithNoShowtimes,
-  MovieWithShowtimesByDay,
+  MovieWithNoScreenings,
+  MovieWithScreenings,
+  MovieWithScreeningsByDay,
   Review,
 } from "./types";
 
@@ -94,7 +94,7 @@ export function stringMatchFields(keywords: string[], searchFields: string[]) {
 }
 
 export function movieInfoContainsFilteringTerm(
-  movie: MovieWithNoShowtimes | Review,
+  movie: MovieWithNoScreenings | Review,
   filteringTerm: string,
 ) {
   if (filteringTerm.slice(-1) === "|") {
@@ -197,14 +197,14 @@ export const blurProps: Partial<ComponentProps<typeof Image>> = {
 };
 
 export function isMovieWithShowtimesByDay(
-  movie: MovieWithNoShowtimes,
-): movie is MovieWithShowtimesByDay {
+  movie: MovieWithNoScreenings,
+): movie is MovieWithScreeningsByDay {
   return "showtimes_by_day" in movie;
 }
 
 export function isMoviesWithShowtimesByDay(
-  movies: Movie[] | MovieWithShowtimesByDay[],
-): movies is MovieWithShowtimesByDay[] {
+  movies: MovieWithScreenings[] | MovieWithScreeningsByDay[],
+): movies is MovieWithScreeningsByDay[] {
   return some(movies, isMovieWithShowtimesByDay);
 }
 

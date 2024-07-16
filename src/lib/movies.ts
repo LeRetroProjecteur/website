@@ -13,10 +13,10 @@ import "server-only";
 
 import { getFirebase } from "./firebase";
 import {
-  Movie,
   MovieDetail,
   MovieDetailWithImage,
-  MovieWithShowtimesByDay,
+  MovieWithScreenings,
+  MovieWithScreeningsByDay,
   Review,
   SearchMovie,
 } from "./types";
@@ -32,7 +32,9 @@ export const getWeekMovies = async () => {
 
   const moviesByDay = await Promise.all(
     nextMovieWeek.map<
-      Promise<[date: DateTime, movies: { [index: string]: Movie }]>
+      Promise<
+        [date: DateTime, movies: { [index: string]: MovieWithScreenings }]
+      >
     >(async (day) => {
       return [day, keyBy(await getDayMovies(day), (movie) => movie.id)];
     }),
@@ -47,12 +49,12 @@ export const getWeekMovies = async () => {
       ([_, movies]) => movies[movieId] != null,
     );
 
-    const movie: MovieWithShowtimesByDay = {
+    const movie: MovieWithScreeningsByDay = {
       ...daysShowing[0][1][movieId],
       showtimes_by_day: {},
     };
 
-    return daysShowing.reduce<MovieWithShowtimesByDay>(
+    return daysShowing.reduce<MovieWithScreeningsByDay>(
       (movieWithAllDays, [day, movieOnDay]) => ({
         ...movieWithAllDays,
         showtimes_by_day: {
@@ -81,7 +83,7 @@ export const getDayMovies = unstable_cache(
       ),
       where("date", "==", formatYYYY_MM_DD(date)),
     );
-    const docs: Movie[] = [];
+    const docs: MovieWithScreenings[] = [];
     (await getDocs(q)).forEach((doc) => docs.push(...doc.data().movies));
     return docs;
   },
