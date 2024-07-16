@@ -9,7 +9,6 @@ import {
   some,
   sortBy,
   toPairs,
-  uniqBy,
 } from "lodash-es";
 import { DateTime } from "luxon";
 import Image from "next/image";
@@ -18,7 +17,7 @@ import { ReactNode, use, useEffect, useMemo } from "react";
 import useSWR from "swr";
 
 import { Loading, SuspenseWithLoading } from "@/components/icons/loading";
-import Seances, { SeancesTheater } from "@/components/seances/seances";
+import Seances from "@/components/seances/seances";
 import { CalendrierCopy, SousTitre2 } from "@/components/typography/typography";
 import { Quartier, useCalendrierStore } from "@/lib/calendrier-store";
 import {
@@ -201,15 +200,13 @@ function MovieRows({
       cellClassName="px-6px lg:px-10px group-odd:bg-retro-pale-green group-odd:lg:bg-white lg:group-hover:bg-retro-pale-green"
       leftCol={<MovieCell movie={movie} />}
       rightCol={
-        isMovieWithShowtimesByDay(movie) ? (
-          <div className="py-12px lg:py-17px">
-            <MultiDaySeances movie={movie} />
-          </div>
-        ) : (
-          <div className="py-12px lg:py-17px">
+        <div className="py-12px lg:py-17px">
+          {isMovieWithShowtimesByDay(movie) ? (
+            <MultiDaySeances showtimesTheatersByDay={movie.showtimes_by_day} />
+          ) : (
             <Seances showtimesTheaters={movie.showtimes_theater} />
-          </div>
-        )
+          )}
+        </div>
       }
     />
   ));
@@ -270,31 +267,24 @@ function MovieCell({ movie }: { movie: MovieWithNoShowtimes }) {
   );
 }
 
-function MultiDaySeances({ movie }: { movie: MovieWithShowtimesByDay }) {
+function MultiDaySeances({
+  showtimesTheatersByDay,
+}: {
+  showtimesTheatersByDay: { [day: string]: ShowtimesTheater[] };
+}) {
   return (
-    <div className="flex grow flex-col gap-20px px-6px lg:gap-10px lg:px-10px">
+    <div className="flex grow flex-col gap-20px lg:gap-10px">
       {orderBy(
-        toPairs(movie.showtimes_by_day).map<[DateTime, ShowtimesTheater[]]>(
-          ([day, theaters]) => [safeDate(day), theaters],
+        toPairs(showtimesTheatersByDay).map<[DateTime, ShowtimesTheater[]]>(
+          ([day, showtimesTheaters]) => [safeDate(day), showtimesTheaters],
         ),
         ([day]) => day,
-      ).map(([day, theaters], i) => (
+      ).map(([day, showtimesTheaters], i) => (
         <div key={i} className="flex grow flex-col gap-10px lg:gap-5px">
           <CalendrierCopy>
             <strong>{capitalize(formatLundi1Janvier(day))}</strong>
           </CalendrierCopy>
-          <div className="flex grow flex-col gap-10px lg:gap-5px">
-            {sortBy(
-              uniqBy(theaters, (showtime_theater) => showtime_theater.name),
-              (showtime_theater) => showtime_theater.name,
-            ).map((theater) => (
-              <SeancesTheater
-                showtimesTheater={theater}
-                key={theater.name}
-                isExpanded={false}
-              />
-            ))}
-          </div>
+          <Seances showtimesTheaters={showtimesTheaters} />
         </div>
       ))}
     </div>
