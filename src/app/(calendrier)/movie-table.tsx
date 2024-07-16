@@ -202,9 +202,9 @@ function MovieRows({
       rightCol={
         <div className="py-12px lg:py-17px">
           {isMovieWithShowtimesByDay(movie) ? (
-            <MultiDaySeances showtimesTheatersByDay={movie.showtimes_by_day} />
+            <MultiDaySeances screenings={movie.showtimes_by_day} />
           ) : (
-            <Seances showtimesTheaters={movie.showtimes_theater} />
+            <Seances screenings={movie.showtimes_theater} />
           )}
         </div>
       }
@@ -268,23 +268,23 @@ function MovieCell({ movie }: { movie: MovieWithNoScreenings }) {
 }
 
 function MultiDaySeances({
-  showtimesTheatersByDay,
+  screenings,
 }: {
-  showtimesTheatersByDay: { [day: string]: TheaterScreenings[] };
+  screenings: { [day: string]: TheaterScreenings[] };
 }) {
   return (
     <div className="flex grow flex-col gap-20px lg:gap-10px">
       {orderBy(
-        toPairs(showtimesTheatersByDay).map<[DateTime, TheaterScreenings[]]>(
-          ([day, showtimesTheaters]) => [safeDate(day), showtimesTheaters],
+        toPairs(screenings).map<[DateTime, TheaterScreenings[]]>(
+          ([day, screeningsTheaters]) => [safeDate(day), screeningsTheaters],
         ),
         ([day]) => day,
-      ).map(([day, showtimesTheaters], i) => (
+      ).map(([day, screeningsTheaters], i) => (
         <div key={i} className="flex grow flex-col gap-10px lg:gap-5px">
           <CalendrierCopy>
             <strong>{capitalize(formatLundi1Janvier(day))}</strong>
           </CalendrierCopy>
-          <Seances showtimesTheaters={showtimesTheaters} />
+          <Seances screenings={screeningsTheaters} />
         </div>
       ))}
     </div>

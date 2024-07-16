@@ -10,9 +10,9 @@ import { floatHourToString } from "@/lib/util";
 import { CalendrierCopy } from "../typography/typography";
 
 export default function Seances({
-  showtimesTheaters,
+  screenings,
 }: {
-  showtimesTheaters: TheaterScreenings[];
+  screenings: TheaterScreenings[];
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -23,14 +23,14 @@ export default function Seances({
 
   const sortedTheaters = useMemo(
     () =>
-      sortBy(showtimesTheaters, [
-        function (showtimesTheaters) {
+      sortBy(screenings, [
+        function (screeningsTheaters) {
           return min(
-            showtimesTheaters.screenings.map((screening) => screening.time),
+            screeningsTheaters.screenings.map((screening) => screening.time),
           );
         },
       ]),
-    [showtimesTheaters],
+    [screenings],
   );
 
   const unexpandedTheaters = useMemo(
