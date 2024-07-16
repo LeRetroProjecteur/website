@@ -12,7 +12,7 @@ import {
   SectionTitle,
   SousTitre1,
 } from "@/components/typography/typography";
-import { MovieDetail, ShowtimesTheater } from "@/lib/types";
+import { MovieDetail, TheaterScreenings } from "@/lib/types";
 import {
   TAG_MAP,
   blurProps,
@@ -165,11 +165,11 @@ function MovieScreenings({ movie }: { movie: MovieDetail }) {
 function Screenings({
   screenings,
 }: {
-  screenings: [string, ShowtimesTheater[]][];
+  screenings: [string, TheaterScreenings[]][];
 }) {
   const sortedByDateAndTheater = useMemo(
     () =>
-      sortBy(screenings).map<[string, ShowtimesTheater[]]>(
+      sortBy(screenings).map<[string, TheaterScreenings[]]>(
         ([date, theaters]) => [
           date,
           sortBy(theaters, (theater) => theater.name),
@@ -192,13 +192,13 @@ function DateScreenings({
   theaters,
 }: {
   date: string;
-  theaters: ShowtimesTheater[];
+  theaters: TheaterScreenings[];
 }) {
   return (
     <div className="col-span-full grid grid-cols-[subgrid] border-b py-12px lg:py-16px lg:hover:bg-retro-pale-green">
       <BodyCopy>{capitalize(formatMerJJMM(safeDate(date)))}</BodyCopy>
       <div className="flex flex-col">
-        <Seances showtimesTheaters={theaters} />
+        <Seances screenings={theaters} />
       </div>
     </div>
   );
