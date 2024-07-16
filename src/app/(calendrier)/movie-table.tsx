@@ -9,7 +9,6 @@ import {
   some,
   sortBy,
   toPairs,
-  uniqBy,
 } from "lodash-es";
 import { DateTime } from "luxon";
 import Image from "next/image";
@@ -18,14 +17,14 @@ import { ReactNode, use, useEffect, useMemo } from "react";
 import useSWR from "swr";
 
 import { Loading, SuspenseWithLoading } from "@/components/icons/loading";
-import Seances, { SeancesTheater } from "@/components/seances/seances";
+import Seances from "@/components/seances/seances";
 import { CalendrierCopy, SousTitre2 } from "@/components/typography/typography";
 import { Quartier, useCalendrierStore } from "@/lib/calendrier-store";
 import {
-  Movie,
-  MovieWithNoShowtimes,
-  MovieWithShowtimesByDay,
-  ShowtimesTheater,
+  MovieWithNoScreenings,
+  MovieWithScreenings,
+  MovieWithScreeningsByDay,
+  TheaterScreenings,
 } from "@/lib/types";
 import {
   checkNotNull,
@@ -48,7 +47,7 @@ export default function MovieTable({
   allMovies,
   marseille,
 }: {
-  serverMovies: Promise<Movie[] | MovieWithShowtimesByDay[]>;
+  serverMovies: Promise<MovieWithScreenings[] | MovieWithScreeningsByDay[]>;
   allMovies?: boolean;
   marseille?: boolean;
 }) {
@@ -69,7 +68,7 @@ export default function MovieTable({
       : `/api/movies/by-day/${formatYYYYMMDD(date)}`;
 
   const { data: clientMovies, isLoading } = useSWR<
-    Movie[] | MovieWithShowtimesByDay[]
+    MovieWithScreenings[] | MovieWithScreeningsByDay[]
   >(useClientData ? url : false, fetcher);
 
   const minHourFilteringTodaysMissedFilms = useMemo(
@@ -134,8 +133,8 @@ function LoadedTable({
   quartiers,
   filter,
 }: {
-  serverMovies: Promise<Movie[] | MovieWithShowtimesByDay[]>;
-  clientMovies?: Movie[] | MovieWithShowtimesByDay[];
+  serverMovies: Promise<MovieWithScreenings[] | MovieWithScreeningsByDay[]>;
+  clientMovies?: MovieWithScreenings[] | MovieWithScreeningsByDay[];
   useClientData: boolean;
   minHourFilteringTodaysMissedFilms: number;
   maxHour: number;
@@ -192,7 +191,7 @@ function EmptyTableState({ filter }: { filter: string }) {
 function MovieRows({
   movies,
 }: {
-  movies: Movie[] | MovieWithShowtimesByDay[];
+  movies: MovieWithScreenings[] | MovieWithScreeningsByDay[];
 }) {
   return movies.map((movie) => (
     <Row
@@ -201,15 +200,13 @@ function MovieRows({
       cellClassName="px-6px lg:px-10px xl:px-15px group-odd:bg-retro-pale-green group-odd:lg:bg-white lg:group-hover:bg-retro-pale-green"
       leftCol={<MovieCell movie={movie} />}
       rightCol={
-        isMovieWithShowtimesByDay(movie) ? (
-          <div className="py-12px lg:py-17px">
-            <MultiDaySeances movie={movie} />
-          </div>
-        ) : (
-          <div className="py-12px lg:py-17px">
-            <Seances showtimesTheaters={movie.showtimes_theater} />
-          </div>
-        )
+        <div className="py-12px lg:py-17px">
+          {isMovieWithShowtimesByDay(movie) ? (
+            <MultiDaySeances screenings={movie.showtimes_by_day} />
+          ) : (
+            <Seances screenings={movie.showtimes_theater} />
+          )}
+        </div>
       }
     />
   ));
@@ -248,7 +245,7 @@ function Row({
   );
 }
 
-function MovieCell({ movie }: { movie: MovieWithNoShowtimes }) {
+function MovieCell({ movie }: { movie: MovieWithNoScreenings }) {
   return (
     <Link href={`/film/${movie.id}`} className="block cursor-pointer">
       <div className="flex items-center">
@@ -270,31 +267,24 @@ function MovieCell({ movie }: { movie: MovieWithNoShowtimes }) {
   );
 }
 
-function MultiDaySeances({ movie }: { movie: MovieWithShowtimesByDay }) {
+function MultiDaySeances({
+  screenings,
+}: {
+  screenings: { [day: string]: TheaterScreenings[] };
+}) {
   return (
-    <div className="flex grow flex-col gap-20px px-6px lg:gap-10px lg:px-10px">
+    <div className="flex grow flex-col gap-20px lg:gap-10px">
       {orderBy(
-        toPairs(movie.showtimes_by_day).map<[DateTime, ShowtimesTheater[]]>(
-          ([day, theaters]) => [safeDate(day), theaters],
+        toPairs(screenings).map<[DateTime, TheaterScreenings[]]>(
+          ([day, screeningsTheaters]) => [safeDate(day), screeningsTheaters],
         ),
         ([day]) => day,
-      ).map(([day, theaters], i) => (
+      ).map(([day, screeningsTheaters], i) => (
         <div key={i} className="flex grow flex-col gap-10px lg:gap-5px">
           <CalendrierCopy>
             <strong>{capitalize(formatLundi1Janvier(day))}</strong>
           </CalendrierCopy>
-          <div className="flex grow flex-col gap-10px lg:gap-5px">
-            {sortBy(
-              uniqBy(theaters, (showtime_theater) => showtime_theater.name),
-              (showtime_theater) => showtime_theater.name,
-            ).map((theater) => (
-              <SeancesTheater
-                showtimesTheater={theater}
-                key={theater.name}
-                isExpanded={false}
-              />
-            ))}
-          </div>
+          <Seances screenings={screeningsTheaters} />
         </div>
       ))}
     </div>
@@ -311,7 +301,7 @@ function getMinHourFilteringTodaysMissedFilms(date: DateTime, minHour: number) {
 }
 
 function filterAndSortMovies(
-  movies: Movie[] | MovieWithShowtimesByDay[],
+  movies: MovieWithScreenings[] | MovieWithScreeningsByDay[],
   minHourFilteringTodaysMissedFilms: number,
   maxHour: number,
   quartiers: Quartier[],
@@ -328,7 +318,7 @@ function filterAndSortMovies(
         }))
         .filter((movie) => size(movie.showtimes_by_day) > 0)
     : movies
-        .map<Movie>((movie) => ({
+        .map<MovieWithScreenings>((movie) => ({
           ...movie,
           showtimes_theater: movie.showtimes_theater
             .map((theater) => ({
@@ -361,5 +351,7 @@ function filterAndSortMovies(
     movie.title,
   ]);
 
-  return sortedFilteredMovies as Movie[] | MovieWithShowtimesByDay[];
+  return sortedFilteredMovies as
+    | MovieWithScreenings[]
+    | MovieWithScreeningsByDay[];
 }
