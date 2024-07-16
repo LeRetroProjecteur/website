@@ -2,12 +2,12 @@ import { flatten, groupBy, orderBy, sortBy, toPairs, uniq } from "lodash-es";
 import { Fragment, use, useMemo } from "react";
 
 import { SousTitre2 } from "@/components/typography/typography";
-import { MovieWithShowtimesByDay } from "@/lib/types";
+import { MovieWithScreeningsByDay } from "@/lib/types";
 
 export function Retrospectives({
   movies: moviesPromise,
 }: {
-  movies: Promise<MovieWithShowtimesByDay[]>;
+  movies: Promise<MovieWithScreeningsByDay[]>;
 }) {
   const movies = use(moviesPromise);
   const retrospectives = useMemo(
@@ -57,8 +57,8 @@ export function Retrospectives({
   );
 }
 
-function getCinemas(movies: MovieWithShowtimesByDay[]) {
-  const movieCinemas = movies.map<[MovieWithShowtimesByDay, string[]]>(
+function getCinemas(movies: MovieWithScreeningsByDay[]) {
+  const movieCinemas = movies.map<[MovieWithScreeningsByDay, string[]]>(
     (movie) => [
       movie,
       flatten(Object.values(movie.showtimes_by_day)).map(({ name }) => name),

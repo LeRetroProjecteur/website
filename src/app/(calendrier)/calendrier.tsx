@@ -7,7 +7,7 @@ import Events from "@/app/(calendrier)/events";
 import QuartierSelector from "@/app/(calendrier)/quartier-selector";
 import TimeSlider from "@/app/(calendrier)/time-slider";
 import PageHeader from "@/components/layout/page-header";
-import { Movie, MovieWithShowtimesByDay } from "@/lib/types";
+import { MovieWithScreenings, MovieWithScreeningsByDay } from "@/lib/types";
 
 import Filter from "./filter";
 import MovieTable from "./movie-table";
@@ -18,7 +18,7 @@ export default function Calendrier({
   allMovies,
   title,
 }: {
-  serverMovies: Promise<Movie[] | MovieWithShowtimesByDay[]>;
+  serverMovies: Promise<MovieWithScreenings[] | MovieWithScreeningsByDay[]>;
   allMovies?: boolean;
   title?: string;
 }) {

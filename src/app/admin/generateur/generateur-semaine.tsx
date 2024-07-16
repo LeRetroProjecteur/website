@@ -13,9 +13,9 @@ import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 import GetHTML from "@/components/util/get-html";
 import IFrame from "@/components/util/iframe";
 import {
-  MovieWithNoShowtimes,
-  MovieWithShowtimesByDay,
-  ShowtimesTheater,
+  MovieWithNoScreenings,
+  MovieWithScreeningsByDay,
+  TheaterScreenings,
 } from "@/lib/types";
 import {
   checkNotNull,
@@ -39,7 +39,7 @@ interface Inputs {
 export default function GenerateurSemaine({
   movies,
 }: {
-  movies: Promise<MovieWithShowtimesByDay[]>;
+  movies: Promise<MovieWithScreeningsByDay[]>;
 }) {
   return (
     <>
@@ -56,7 +56,7 @@ export default function GenerateurSemaine({
 export function SemaineCinema({
   movies: moviesPromise,
 }: {
-  movies: Promise<MovieWithShowtimesByDay[]>;
+  movies: Promise<MovieWithScreeningsByDay[]>;
 }) {
   const movies = use(moviesPromise);
   const { register, watch } = useForm<Inputs>();
@@ -143,7 +143,7 @@ export function DaysMovies({
 }: {
   week: DateTime[];
   dayValues: string[];
-  moviesById: { [key: string]: MovieWithShowtimesByDay };
+  moviesById: { [key: string]: MovieWithScreeningsByDay };
 }) {
   return (
     <>
@@ -180,9 +180,9 @@ export function DayMovie({
   showtimesTheaters,
   isLast,
 }: {
-  movie: MovieWithNoShowtimes;
+  movie: MovieWithNoScreenings;
   day: DateTime;
-  showtimesTheaters: ShowtimesTheater[];
+  showtimesTheaters: TheaterScreenings[];
   isLast: boolean;
 }) {
   return (
