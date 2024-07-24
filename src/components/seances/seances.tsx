@@ -1,18 +1,18 @@
 "use client";
 
 import clsx from "clsx";
-import { sortBy, take, uniqBy } from "lodash-es";
+import { min, sortBy, take } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
 
-import { ShowtimesTheater } from "@/lib/types";
+import { TheaterScreenings } from "@/lib/types";
 import { floatHourToString } from "@/lib/util";
 
 import { CalendrierCopy } from "../typography/typography";
 
 export default function Seances({
-  showtimes_theater,
+  screenings,
 }: {
-  showtimes_theater: ShowtimesTheater[];
+  screenings: TheaterScreenings[];
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -23,11 +23,14 @@ export default function Seances({
 
   const sortedTheaters = useMemo(
     () =>
-      sortBy(
-        uniqBy(showtimes_theater, (showtime_theater) => showtime_theater.name),
-        (showtime_theater) => showtime_theater.name,
-      ),
-    [showtimes_theater],
+      sortBy(screenings, [
+        function (screeningsTheaters) {
+          return min(
+            screeningsTheaters.screenings.map((screening) => screening.time),
+          );
+        },
+      ]),
+    [screenings],
   );
 
   const unexpandedTheaters = useMemo(
@@ -89,10 +92,13 @@ export function SeancesTheater({
   showtimesTheater,
   isExpanded,
 }: {
-  showtimesTheater: ShowtimesTheater;
+  showtimesTheater: TheaterScreenings;
   isExpanded: boolean;
 }) {
-  const showTimes = sortBy(showtimesTheater.showtimes);
+  const screenings = sortBy(
+    showtimesTheater.screenings,
+    (screening) => screening.time,
+  );
 
   return (
     <div
@@ -107,14 +113,14 @@ export function SeancesTheater({
         </CalendrierCopy>
       </div>
       <div className="flex flex-col justify-end lg:flex-row lg:flex-wrap lg:self-start">
-        {showTimes.map((showtime) => (
+        {screenings.map((screening) => (
           <div
-            key={showtime}
+            key={screening.time}
             className={clsx("group/seances flex justify-end", {
               "group-hover/cinema:underline": isExpanded,
             })}
           >
-            <CalendrierCopy>{floatHourToString(showtime)}</CalendrierCopy>
+            <CalendrierCopy>{floatHourToString(screening.time)}</CalendrierCopy>
             <div className="hidden group-last/seances:hidden lg:block">
               <CalendrierCopy>&nbsp;•&nbsp;</CalendrierCopy>
             </div>

@@ -7,17 +7,21 @@ import { useWindowSize } from "usehooks-ts";
 
 import tailwindConfig from "../../tailwind.config";
 import {
-  Movie,
   MovieInfo,
-  MovieWithNoShowtimes,
-  MovieWithShowtimesByDay,
+  MovieWithNoScreenings,
+  MovieWithScreenings,
+  MovieWithScreeningsByDay,
   Review,
 } from "./types";
 
 const resolvedTailwindConfig = resolveConfig(tailwindConfig);
 
-export function isCoupDeCoeur({ category }: { category?: string }) {
-  return category === "COUP DE CŒUR";
+export function isCoupDeCoeur({
+  review_category,
+}: {
+  review_category?: string;
+}) {
+  return review_category === "COUP DE CŒUR";
 }
 
 export function getNextMovieWeek() {
@@ -90,29 +94,24 @@ export function stringMatchFields(keywords: string[], searchFields: string[]) {
 }
 
 export function movieInfoContainsFilteringTerm(
-  movie: MovieWithNoShowtimes | Review,
+  movie: MovieWithNoScreenings | Review,
   filteringTerm: string,
 ) {
   if (filteringTerm.slice(-1) === "|") {
     filteringTerm = filteringTerm.slice(0, -1);
   }
-  const filtering_field = getMovieInfoString(movie);
+  const filteringField = getMovieInfoString(movie);
   const filteringTerms = filteringTerm.split("|");
   return some(filteringTerms, (filteringTerm) =>
-    stringMatch(filteringTerm, filtering_field),
+    stringMatch(filteringTerm, filteringField),
   );
 }
 
 export function getMovieInfoString(info: MovieInfo) {
   return (
-    [
-      "language",
-      "title",
-      "original_title",
-      "directors",
-      "countries",
-      "tags",
-    ] as Array<keyof MovieInfo>
+    ["title", "original_title", "directors", "countries", "tags"] as Array<
+      keyof MovieInfo
+    >
   )
     .map((key) => {
       return info[key] == null ? "" : `${info[key]}`;
@@ -198,14 +197,14 @@ export const blurProps: Partial<ComponentProps<typeof Image>> = {
 };
 
 export function isMovieWithShowtimesByDay(
-  movie: MovieWithNoShowtimes,
-): movie is MovieWithShowtimesByDay {
+  movie: MovieWithNoScreenings,
+): movie is MovieWithScreeningsByDay {
   return "showtimes_by_day" in movie;
 }
 
 export function isMoviesWithShowtimesByDay(
-  movies: Movie[] | MovieWithShowtimesByDay[],
-): movies is MovieWithShowtimesByDay[] {
+  movies: MovieWithScreenings[] | MovieWithScreeningsByDay[],
+): movies is MovieWithScreeningsByDay[] {
   return some(movies, isMovieWithShowtimesByDay);
 }
 

@@ -13,9 +13,9 @@ import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 import GetHTML from "@/components/util/get-html";
 import IFrame from "@/components/util/iframe";
 import {
-  MovieWithNoShowtimes,
-  MovieWithShowtimesByDay,
-  ShowtimesTheater,
+  MovieWithNoScreenings,
+  MovieWithScreeningsByDay,
+  TheaterScreenings,
 } from "@/lib/types";
 import {
   checkNotNull,
@@ -39,7 +39,7 @@ interface Inputs {
 export default function GenerateurSemaine({
   movies,
 }: {
-  movies: Promise<MovieWithShowtimesByDay[]>;
+  movies: Promise<MovieWithScreeningsByDay[]>;
 }) {
   return (
     <>
@@ -56,7 +56,7 @@ export default function GenerateurSemaine({
 export function SemaineCinema({
   movies: moviesPromise,
 }: {
-  movies: Promise<MovieWithShowtimesByDay[]>;
+  movies: Promise<MovieWithScreeningsByDay[]>;
 }) {
   const movies = use(moviesPromise);
   const { register, watch } = useForm<Inputs>();
@@ -143,7 +143,7 @@ export function DaysMovies({
 }: {
   week: DateTime[];
   dayValues: string[];
-  moviesById: { [key: string]: MovieWithShowtimesByDay };
+  moviesById: { [key: string]: MovieWithScreeningsByDay };
 }) {
   return (
     <>
@@ -152,18 +152,18 @@ export function DaysMovies({
           return null;
         } else {
           const movie = checkNotNull(moviesById[dayValues[i]]);
-          const showtimes = sortBy(
+          const showtimesTheaters = sortBy(
             uniqBy(
               movie.showtimes_by_day[formatYYYYMMDD(day)],
-              (showtimes_theater) => showtimes_theater.name,
+              (showtimesTheater) => showtimesTheater.name,
             ),
-            (showtimes_theater) => showtimes_theater.name,
+            (showtimesTheater) => showtimesTheater.name,
           );
           return (
             <DayMovie
               key={i}
               movie={movie}
-              showtimes={showtimes}
+              showtimesTheaters={showtimesTheaters}
               day={day}
               isLast={i == week.length - 1}
             />
@@ -177,12 +177,12 @@ export function DaysMovies({
 export function DayMovie({
   movie,
   day,
-  showtimes,
+  showtimesTheaters,
   isLast,
 }: {
-  movie: MovieWithNoShowtimes;
+  movie: MovieWithNoScreenings;
   day: DateTime;
-  showtimes: ShowtimesTheater[];
+  showtimesTheaters: TheaterScreenings[];
   isLast: boolean;
 }) {
   return (
@@ -194,12 +194,12 @@ export function DayMovie({
         <i style={{ textTransform: "uppercase" }}>{movie.title}</i>,{" "}
         {movie.directors} ({movie.year})
       </div>
-      {showtimes.map((showtimes_theater) => (
-        <div key={showtimes_theater.name}>
-          {showtimes_theater.name} (
-          {transformZipcode(showtimes_theater.zipcode)})&nbsp;:{" "}
-          {showtimes_theater.showtimes
-            .map((showtime) => floatHourToString(showtime))
+      {showtimesTheaters.map((showtimesTheater) => (
+        <div key={showtimesTheater.name}>
+          {showtimesTheater.name} ({transformZipcode(showtimesTheater.zipcode)}
+          )&nbsp;:{" "}
+          {showtimesTheater.screenings
+            .map((screening) => floatHourToString(screening.time))
             .join(", ")}
         </div>
       ))}

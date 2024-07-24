@@ -13,10 +13,10 @@ import "server-only";
 
 import { getFirebase } from "./firebase";
 import {
-  Movie,
   MovieDetail,
   MovieDetailWithImage,
-  MovieWithShowtimesByDay,
+  MovieWithScreenings,
+  MovieWithScreeningsByDay,
   Review,
   SearchMovie,
 } from "./types";
@@ -32,7 +32,9 @@ export const getWeekMovies = async () => {
 
   const moviesByDay = await Promise.all(
     nextMovieWeek.map<
-      Promise<[date: DateTime, movies: { [index: string]: Movie }]>
+      Promise<
+        [date: DateTime, movies: { [index: string]: MovieWithScreenings }]
+      >
     >(async (day) => {
       return [day, keyBy(await getDayMovies(day), (movie) => movie.id)];
     }),
@@ -47,12 +49,12 @@ export const getWeekMovies = async () => {
       ([_, movies]) => movies[movieId] != null,
     );
 
-    const movie: MovieWithShowtimesByDay = {
+    const movie: MovieWithScreeningsByDay = {
       ...daysShowing[0][1][movieId],
       showtimes_by_day: {},
     };
 
-    return daysShowing.reduce<MovieWithShowtimesByDay>(
+    return daysShowing.reduce<MovieWithScreeningsByDay>(
       (movieWithAllDays, [day, movieOnDay]) => ({
         ...movieWithAllDays,
         showtimes_by_day: {
@@ -67,18 +69,21 @@ export const getWeekMovies = async () => {
 };
 
 export const getDayMovies = unstable_cache(
-  async (date: DateTime, options?: { allMovies?: boolean }) => {
+  async (
+    date: DateTime,
+    options?: { allMovies?: boolean; collectionBase?: string },
+  ) => {
     const { db } = getFirebase();
+    const collectionBase =
+      options?.collectionBase ?? "website-by-date-screenings";
     const q = query(
       collection(
         db,
-        `website-by-date-screenings${
-          options?.allMovies ?? false ? "-all" : ""
-        }`,
+        `${collectionBase}${options?.allMovies ?? false ? "-all" : ""}`,
       ),
       where("date", "==", formatYYYY_MM_DD(date)),
     );
-    const docs: Movie[] = [];
+    const docs: MovieWithScreenings[] = [];
     (await getDocs(q)).forEach((doc) => docs.push(...doc.data().movies));
     return docs;
   },

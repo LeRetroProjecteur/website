@@ -1,15 +1,3 @@
-export interface MovieWithNoShowtimes {
-  directors: string;
-  tags: string;
-  year: string;
-  title: string;
-  countries: string;
-  original_title: string;
-  id: string;
-  language: string;
-  category?: string;
-}
-
 export interface MovieInfo {
   language?: string;
   title: string;
@@ -17,41 +5,6 @@ export interface MovieInfo {
   directors: string;
   countries?: string;
   tags?: string;
-}
-
-export interface Movie extends MovieWithNoShowtimes {
-  showtimes_theater: ShowtimesTheater[];
-}
-
-export interface MovieWithShowtimesByDay extends MovieWithNoShowtimes {
-  showtimes_by_day: { [day: string]: ShowtimesTheater[] };
-}
-
-export interface SearchMovie {
-  year: number;
-  relevance_score: number;
-  directors: string;
-  title: string;
-  id: string;
-  search_field: string;
-  original_title: string;
-}
-
-export interface ShowtimesTheater {
-  showtimes: number[];
-  neighborhood: string;
-  zipcode: string;
-  name: string;
-}
-
-export interface Review {
-  directors: string;
-  review_date: string;
-  review: string;
-  title: string;
-  category?: string;
-  id: string;
-  year: number;
 }
 
 export interface MovieDetail {
@@ -65,17 +18,69 @@ export interface MovieDetail {
   id: string;
   language: string;
   original_title: string;
-  screenings: { [date: string]: ShowtimesTheater[] };
+  screenings: { [date: string]: TheaterScreenings[] };
   screenwriters: string;
   tags?: string;
   title: string;
   year: string;
   // Review information
-  category?: string;
   review?: string;
+  review_category?: string;
   review_date?: string;
 }
 
 export interface MovieDetailWithImage extends MovieDetail {
   image_file?: string;
+}
+
+export interface Review {
+  id: string;
+  title: string;
+  directors: string;
+  year: number;
+  review: string;
+  review_category: string;
+  review_date: string;
+}
+
+export interface SearchMovie {
+  year: number;
+  relevance_score: number;
+  directors: string;
+  title: string;
+  id: string;
+  search_field: string;
+  original_title: string;
+}
+
+export interface MovieWithNoScreenings {
+  directors: string;
+  tags: string;
+  year: string;
+  title: string;
+  countries: string;
+  original_title: string;
+  id: string;
+  language: string;
+  review_category?: string;
+}
+
+export interface MovieWithScreenings extends MovieWithNoScreenings {
+  showtimes_theater: TheaterScreenings[];
+}
+
+export interface MovieWithScreeningsByDay extends MovieWithNoScreenings {
+  showtimes_by_day: { [day: string]: TheaterScreenings[] };
+}
+
+export interface Screening {
+  time: number;
+  notes?: string;
+}
+
+export interface TheaterScreenings {
+  screenings: Screening[];
+  neighborhood: string;
+  zipcode: string;
+  name: string;
 }

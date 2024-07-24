@@ -72,6 +72,7 @@ const config: Config = {
         lg: "1024px",
         "3col": "1249px",
       },
+      spacing: ALL_PX,
       width: ALL_PX,
     },
   },

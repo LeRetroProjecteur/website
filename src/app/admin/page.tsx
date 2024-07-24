@@ -36,6 +36,16 @@ export default function Admin() {
           El Generator
         </Link>
       </SousTitre1>
+      <SousTitre1>
+        <Link className="underline" href="/admin/marseille">
+          Marseille
+        </Link>
+      </SousTitre1>
+      <SousTitre1>
+        <Link className="underline" href="/admin/marseille-tous-les-films">
+          Marseille - Tous les films
+        </Link>
+      </SousTitre1>
     </div>
   );
 }
