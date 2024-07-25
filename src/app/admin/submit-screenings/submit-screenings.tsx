@@ -159,7 +159,6 @@ async function sendMoviesToFirestore(
     );
     const responseText = await response.text(); // Get the raw response text
     console.log("Raw response:", responseText); // Log the raw response
-
   } catch (error) {
     console.error("Fetch error:", error);
     setResponseMessage(
