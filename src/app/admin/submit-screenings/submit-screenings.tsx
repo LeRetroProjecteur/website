@@ -15,12 +15,25 @@ export default function SubmitScreenings({
   allMoviesPromise: Promise<SearchMovie[]>;
 }) {
   const numSubmissions = 5;
-  const inputs = Array.from(Array(numSubmissions).keys());
-  const [comments, setComments] = useState("");
-  const handleCommentsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleCommentsChange = (
+    event: React.ChangeEvent<{ value: string }>,
+  ) => {
     setComments(event.target.value);
   };
   const [responseMessage, setResponseMessage] = useState("");
+  const [rowsData, setRowsData] = useState(
+    Array(numSubmissions).fill({ movie: "", date: "", time: "", note: "" }),
+  );
+  const [comments, setComments] = useState("");
+
+  const updateRowData = (
+    index: number,
+    data: { movie: string; date: string; time: string; note: string },
+  ) => {
+    const newRowsData = [...rowsData];
+    newRowsData[index] = data;
+    setRowsData(newRowsData);
+  };
 
   return (
     <>
@@ -50,9 +63,12 @@ export default function SubmitScreenings({
                 </tr>
               </thead>
               <tbody>
-                {inputs.map((k) => (
-                  <Fragment key={k}>
-                    <SearchRow allMoviesPromise={allMoviesPromise} />
+                {rowsData.map((_, index) => (
+                  <Fragment key={index}>
+                    <SearchRow
+                      allMoviesPromise={allMoviesPromise}
+                      onUpdate={(data) => updateRowData(index, data)}
+                    />
                   </Fragment>
                 ))}
               </tbody>
@@ -82,15 +98,14 @@ export default function SubmitScreenings({
         <div className="flex items-center justify-center">
           <span>
             <button
-                onClick={() =>
-                    sendMoviesToFirestore(
-                        inputs,
-                        comments,
-                        setResponseMessage,
-                    )} className="border bg-retro-green p-15px text-16px">
+              onClick={() =>
+                sendMoviesToFirestore(rowsData, comments, setResponseMessage)
+              }
+              className="border bg-retro-green p-15px text-16px"
+            >
               Rajoutez vos séances&nbsp;!
             </button>
-              <p>
+            <p>
               <b>{responseMessage}</b>
             </p>
           </span>
@@ -101,73 +116,88 @@ export default function SubmitScreenings({
 }
 
 async function sendMoviesToFirestore(
-  inputs,
-    comments,
+  rowsData: { movie: string; date: string; time: string; note: string }[],
+  comments: string,
   setResponseMessage: (message: string) => void,
 ) {
-  console.log(comments)
   try {
-    const PROXY_URL = 'http://localhost:3000/';
+    const PROXY_URL = "http://localhost:3000/";
+    // Transform the rowsData to the new format
+    const transformedData = rowsData.map((row) => {
+      const [year, month, day] = row.date.split("-").map(Number);
+      const [hour, minute] = row.time.split(":").map(Number);
+
+      return {
+        movie: row.movie,
+        year: year,
+        month: month,
+        day: day,
+        hour: hour,
+        minute: minute,
+        notes: row.note,
+      };
+    });
+
     const response = await fetch(
-        PROXY_URL +
-      "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_data_to_db",
+      PROXY_URL +
+        "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_data_to_db",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          collection_name: "testing",
-          doc_name: "test",
+          collection_name: "raw-submit-screenings",
+          doc_name: "le-melies",
+          include_time_in_doc_name: true,
           key_for_doc_name: "doc_name",
-          inputs: inputs,
+          showtimes: transformedData,
           comments: comments,
         }),
-        mode: 'cors',
+        mode: "cors",
       },
     );
-
     const responseText = await response.text(); // Get the raw response text
-    console.log('Raw response:', responseText); // Log the raw response
+    console.log("Raw response:", responseText); // Log the raw response
 
-    if (response.ok) {
-      try {
-        const data = JSON.parse(responseText);
-        setResponseMessage(data.message || "Bien reçu, merci !");
-      } catch (jsonError) {
-        console.error('Error parsing JSON:', jsonError);
-        setResponseMessage("Erreur lors du traitement de la réponse.");
-      }
-    } else {
-      console.error('Error response:', responseText);
-      setResponseMessage("Il y a eu une erreur, pouvez-vous vous réessayer ?");
-    }
   } catch (error) {
-    console.error('Fetch error:', error);
-    setResponseMessage("Erreur de connexion. Veuillez vérifier votre connexion internet et réessayer.");
+    console.error("Fetch error:", error);
+    setResponseMessage(
+      "Erreur de connexion. Veuillez vérifier votre connexion internet et réessayer.",
+    );
   }
 }
 
-
-
 function SearchRow({
   allMoviesPromise,
+  onUpdate,
 }: {
   allMoviesPromise: Promise<SearchMovie[]>;
+  onUpdate: (data: {
+    movie: string;
+    date: string;
+    time: string;
+    note: string;
+  }) => void;
 }) {
   const [searchTerm, _setSearchTerm] = useState("");
   const [showResults, setShowResults] = useState(false);
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+  const [note, setNote] = useState("");
+
   const setSearchTerm = (st: string) => {
     _setSearchTerm(st);
     setShowResults(true);
+    onUpdate({ movie: st, date, time, note });
   };
+
   return (
     <tr style={{ backgroundColor: "var(--white)" }}>
       <td className="py-5px">
         <div className={"flex grow flex-col"}>
           <RetroInput
             value={searchTerm}
-            onChange={(e) => {}}
             setValue={setSearchTerm}
             leftAlignPlaceholder
             customTypography
@@ -203,6 +233,11 @@ function SearchRow({
           id="date"
           name="date"
           className="flex h-42px grow lg:h-48px"
+          value={date}
+          onChange={(e) => {
+            setDate(e.target.value);
+            onUpdate({ movie: searchTerm, date: e.target.value, time, note });
+          }}
         />
       </td>
       <td className="py-5px" style={{ verticalAlign: "top" }}>
@@ -211,10 +246,24 @@ function SearchRow({
           id="time"
           name="time"
           className="flex h-42px grow lg:h-48px"
+          value={time}
+          onChange={(e) => {
+            setTime(e.target.value);
+            onUpdate({ movie: searchTerm, date, time: e.target.value, note });
+          }}
         />
       </td>
       <td className="flex grow py-5px">
-        <input type="text" className="flex h-42px grow lg:h-48px" />
+        <input
+          name="note"
+          type="text"
+          className="flex h-42px grow lg:h-48px"
+          value={note}
+          onChange={(e) => {
+            setNote(e.target.value);
+            onUpdate({ movie: searchTerm, date, time, note: e.target.value });
+          }}
+        />
       </td>
     </tr>
   );
