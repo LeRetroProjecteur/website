@@ -16,6 +16,11 @@ export default function SubmitScreenings({
 }) {
   const numSubmissions = 5;
   const inputs = Array.from(Array(numSubmissions).keys());
+  const [comments, setComments] = useState("");
+  const handleCommentsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setComments(event.target.value);
+  };
+  const [responseMessage, setResponseMessage] = useState("");
 
   return (
     <>
@@ -59,8 +64,9 @@ export default function SubmitScreenings({
                 Avez-vous autre chose à signaler&nbsp;?
               </label>
               <textarea
-                value=""
-                rows={5}
+                id="comments"
+                value={comments}
+                onChange={handleCommentsChange}
                 style={{
                   fontSize: "15px",
                   wordWrap: "break-word",
@@ -75,15 +81,74 @@ export default function SubmitScreenings({
         <br />
         <div className="flex items-center justify-center">
           <span>
-            <button className="border bg-retro-green p-15px text-16px">
+            <button
+                onClick={() =>
+                    sendMoviesToFirestore(
+                        inputs,
+                        comments,
+                        setResponseMessage,
+                    )} className="border bg-retro-green p-15px text-16px">
               Rajoutez vos séances&nbsp;!
             </button>
+              <p>
+              <b>{responseMessage}</b>
+            </p>
           </span>
         </div>
       </div>
     </>
   );
 }
+
+async function sendMoviesToFirestore(
+  inputs,
+    comments,
+  setResponseMessage: (message: string) => void,
+) {
+  console.log(comments)
+  try {
+    const PROXY_URL = 'http://localhost:3000/';
+    const response = await fetch(
+        PROXY_URL +
+      "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_data_to_db",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          collection_name: "testing",
+          doc_name: "test",
+          key_for_doc_name: "doc_name",
+          inputs: inputs,
+          comments: comments,
+        }),
+        mode: 'cors',
+      },
+    );
+
+    const responseText = await response.text(); // Get the raw response text
+    console.log('Raw response:', responseText); // Log the raw response
+
+    if (response.ok) {
+      try {
+        const data = JSON.parse(responseText);
+        setResponseMessage(data.message || "Bien reçu, merci !");
+      } catch (jsonError) {
+        console.error('Error parsing JSON:', jsonError);
+        setResponseMessage("Erreur lors du traitement de la réponse.");
+      }
+    } else {
+      console.error('Error response:', responseText);
+      setResponseMessage("Il y a eu une erreur, pouvez-vous vous réessayer ?");
+    }
+  } catch (error) {
+    console.error('Fetch error:', error);
+    setResponseMessage("Erreur de connexion. Veuillez vérifier votre connexion internet et réessayer.");
+  }
+}
+
+
 
 function SearchRow({
   allMoviesPromise,
@@ -102,6 +167,7 @@ function SearchRow({
         <div className={"flex grow flex-col"}>
           <RetroInput
             value={searchTerm}
+            onChange={(e) => {}}
             setValue={setSearchTerm}
             leftAlignPlaceholder
             customTypography
