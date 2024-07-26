@@ -43,7 +43,7 @@ export default function Seances({
   return (
     <div
       className={clsx(
-        "lg:grid-auto-rows flex grow flex-col gap-y-10px lg:grid lg:grid-cols-[1fr,148px] lg:gap-x-20px lg:gap-y-5px xl:grid-cols-[1fr,180px]",
+        "lg:grid-auto-rows flex grow flex-col gap-y-10px lg:grid lg:grid-cols-[1fr,128px] lg:gap-x-20px lg:gap-y-5px xl:grid-cols-[1fr,180px]",
       )}
     >
       {(isExpanded ? sortedTheaters : unexpandedTheaters).map((theater) => (
@@ -63,7 +63,7 @@ export default function Seances({
             onClick={toggleExpanded}
           >
             <CalendrierCopy className="font-semibold">
-              {isExpanded ? "Moins de séances ↑" : "Plus de séances ↓"}
+              {isExpanded ? "Voir moins ↑" : "Voir plus ↓"}
             </CalendrierCopy>
           </div>
         </>

@@ -197,7 +197,7 @@ function MovieRows({
     <Row
       key={movie.id}
       rowClassName="group"
-      cellClassName="px-6px lg:px-10px xl:px-15px group-odd:bg-retro-pale-green group-odd:lg:bg-white lg:group-hover:bg-retro-pale-green"
+      cellClassName="px-6px lg:px-10px group-odd:bg-retro-pale-green group-odd:lg:bg-white lg:group-hover:bg-retro-pale-green"
       leftCol={<MovieCell movie={movie} />}
       rightCol={
         <div className="py-12px lg:py-17px">
