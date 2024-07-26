@@ -3,10 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "devCors": "concurrently \"node cors-proxy.js\" \"pnpm start\"",
+    "dev": "next dev",
     "build": "next build",
-    "lint": "next lint && prettier -c \"**/*.{html,js,cjs,json,ts,tsx,css}\"",
-    "dev": "concurrently \"node cors-proxy.js\" \"pnpm start\"",
-    "start": "next dev"
+    "start": "next dev",
+    "lint": "next lint && prettier -c \"**/*.{html,js,cjs,json,ts,tsx,css}\""
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",

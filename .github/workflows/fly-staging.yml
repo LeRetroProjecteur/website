@@ -2,7 +2,7 @@ name: Fly Deploy (staging)
 on:
   push:
     branches:
-      - nico/submit-screenings
+      - jr/v2
 jobs:
   deploy:
     name: Deploy app
