@@ -121,7 +121,8 @@ async function sendMoviesToFirestore(
   setResponseMessage: (message: string) => void,
 ) {
   try {
-    const PROXY_URL = "http://localhost:3000/";
+    const PROXY_URL =
+      process.env.NEXT_PUBLIC_PROXY_URL || "http://localhost:3000/";
     // Transform the rowsData to the new format
     const transformedData = rowsData.map((row) => {
       const [year, month, day] = row.date.split("-").map(Number);

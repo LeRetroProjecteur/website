@@ -6,7 +6,8 @@
     "build": "next build",
     "lint": "next lint && prettier -c \"**/*.{html,js,cjs,json,ts,tsx,css}\"",
     "dev": "concurrently \"node cors-proxy.js\" \"pnpm start\"",
-    "start": "next dev"
+    "start": "next dev",
+    "cors-proxy": "node cors-proxy.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
