@@ -138,26 +138,20 @@ async function sendMoviesToFirestore(
         notes: row.note,
       };
     });
-
-    const response = await fetch(
-      PROXY_URL +
-        "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_data_to_db",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          collection_name: "raw-submit-screenings",
-          doc_name: "le-melies",
-          include_time_in_doc_name: true,
-          key_for_doc_name: "doc_name",
-          showtimes: transformedData,
-          comments: comments,
-        }),
-        mode: "cors",
+    const response = await fetch("/api/trigger-upload", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
+      body: JSON.stringify({
+        collection_name: "raw-submit-screenings",
+        doc_name: "le-melies",
+        include_time_in_doc_name: true,
+        key_for_doc_name: "doc_name",
+        showtimes: transformedData,
+        comments: comments,
+      }),
+    });
     const responseText = await response.text(); // Get the raw response text
     console.log("Raw response:", responseText); // Log the raw response
   } catch (error) {

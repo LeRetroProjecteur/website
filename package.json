@@ -6,8 +6,7 @@
     "build": "next build",
     "lint": "next lint && prettier -c \"**/*.{html,js,cjs,json,ts,tsx,css}\"",
     "dev": "concurrently \"node cors-proxy.js\" \"pnpm start\"",
-    "start": "next dev",
-    "cors-proxy": "node cors-proxy.js"
+    "start": "next dev"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
@@ -18,6 +17,7 @@
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@uidotdev/usehooks": "^2.4.1",
     "clsx": "^2.0.0",
+    "cors": "^2.8.5",
     "cors-anywhere": "^0.4.4",
     "dayjs": "^1.11.10",
     "fast-json-stable-stringify": "^2.1.0",

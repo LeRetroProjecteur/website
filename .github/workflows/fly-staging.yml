@@ -9,35 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 9.4.0
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "22.4.0"
-          cache: "pnpm"
-      - run: pnpm install
       - uses: superfly/flyctl-actions/setup-flyctl@master
-      - name: Deploy Next.js app
-        run: flyctl deploy --remote-only -a leretroprojecteur-staging
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_STAGING_API_TOKEN }}
-      - name: Deploy CORS proxy
-        run: |
-          echo "app = \"leretroprojecteur-cors-proxy-staging\"" > fly.toml
-          echo "[build]" >> fly.toml
-          echo "  builder = \"heroku/buildpacks:20\"" >> fly.toml
-          echo "[env]" >> fly.toml
-          echo "  PORT = \"8080\"" >> fly.toml
-          echo "[http_service]" >> fly.toml
-          echo "  internal_port = 8080" >> fly.toml
-          echo "  force_https = true" >> fly.toml
-          echo "  auto_stop_machines = true" >> fly.toml
-          echo "  auto_start_machines = true" >> fly.toml
-          echo "  min_machines_running = 1" >> fly.toml
-          echo "  processes = [\"app\"]" >> fly.toml
-          cp cors-proxy.js app.js
-          echo "web: node app.js" > Procfile
-          flyctl deploy --remote-only -a leretroprojecteur-cors-proxy-staging
+      - run: flyctl deploy --remote-only -a leretroprojecteur-staging
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_STAGING_API_TOKEN }}
