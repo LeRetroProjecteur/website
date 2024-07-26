@@ -14,6 +14,12 @@ cors_proxy
     ],
     requireHeader: ["origin", "x-requested-with"],
     removeHeaders: ["cookie", "cookie2"],
+    // Set custom headers
+    setHeaders: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers": "X-Requested-With, Content-Type, Accept",
+    },
   })
   .listen(port, host, function () {
     console.log("Running CORS Anywhere on " + host + ":" + port);
