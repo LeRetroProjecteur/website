@@ -9,6 +9,62 @@ import { floatHourToString } from "@/lib/util";
 
 import { CalendrierCopy } from "../typography/typography";
 
+export default function Seances({
+  screenings,
+}: {
+  screenings: TheaterScreenings[];
+}) {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const toggleExpanded = useCallback(
+    () => setIsExpanded(!isExpanded),
+    [isExpanded, setIsExpanded],
+  );
+
+  const sortedTheaters = useMemo(
+    () =>
+      sortBy(screenings, [
+        function (screeningsTheaters) {
+          return min(
+            screeningsTheaters.screenings.map((screening) => screening.time),
+          );
+        },
+      ]),
+    [screenings],
+  );
+
+  const unexpandedTheaters = useMemo(
+    () => take(sortedTheaters, 3),
+    [sortedTheaters],
+  );
+
+  const needsExpanding = sortedTheaters.length !== unexpandedTheaters.length;
+
+  return (
+    <div className={clsx("flex grow flex-col gap-10px lg:gap-5px")}>
+      {(isExpanded ? sortedTheaters : unexpandedTheaters).map((theater) => (
+        <SeancesTheater
+          showtimesTheater={theater}
+          key={theater.name}
+          isExpanded={isExpanded}
+        />
+      ))}
+      {needsExpanding && (
+        <div
+          className={clsx("flex justify-end", {
+            "cursor-pointer": needsExpanding,
+          })}
+          onClick={toggleExpanded}
+        >
+          <CalendrierCopy className="font-semibold">
+            {isExpanded ? "Moins de séances ↑" : "Plus de séances ↓"}
+          </CalendrierCopy>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function transformZipcode(inZip: string) {
   if (inZip.substring(0, 2) == "75") {
     inZip = inZip.substring(3, 5);
@@ -71,62 +127,6 @@ export function SeancesTheater({
           </div>
         ))}
       </div>
-    </div>
-  );
-}
-
-export default function Seances({
-  screenings,
-}: {
-  screenings: TheaterScreenings[];
-}) {
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const toggleExpanded = useCallback(
-    () => setIsExpanded(!isExpanded),
-    [isExpanded, setIsExpanded],
-  );
-
-  const sortedTheaters = useMemo(
-    () =>
-      sortBy(screenings, [
-        function (screeningsTheaters) {
-          return min(
-            screeningsTheaters.screenings.map((screening) => screening.time),
-          );
-        },
-      ]),
-    [screenings],
-  );
-
-  const unexpandedTheaters = useMemo(
-    () => take(sortedTheaters, 3),
-    [sortedTheaters],
-  );
-
-  const needsExpanding = sortedTheaters.length !== unexpandedTheaters.length;
-
-  return (
-    <div className={clsx("flex grow flex-col gap-10px lg:gap-5px")}>
-      {(isExpanded ? sortedTheaters : unexpandedTheaters).map((theater) => (
-        <SeancesTheater
-          showtimesTheater={theater}
-          key={theater.name}
-          isExpanded={isExpanded}
-        />
-      ))}
-      {needsExpanding && (
-        <div
-          className={clsx("flex justify-end", {
-            "cursor-pointer": needsExpanding,
-          })}
-          onClick={toggleExpanded}
-        >
-          <CalendrierCopy className="font-semibold">
-            {isExpanded ? "Moins de séances ↑" : "Plus de séances ↓"}
-          </CalendrierCopy>
-        </div>
-      )}
     </div>
   );
 }
