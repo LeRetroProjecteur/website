@@ -1,26 +1,24 @@
-import { capitalize, size, sortBy, toPairs } from "lodash-es";
+import { size } from "lodash-es";
 import Image from "next/image";
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 
 import coupDeCoeur from "@/assets/coup-de-coeur.png";
 import PageHeader from "@/components/layout/page-header";
 import { TwoColumnPage } from "@/components/layout/two-column-page";
-import Seances from "@/components/seances/seances";
+import MultiDaySeances from "@/components/seances/multiday-seances";
 import {
   BodyCopy,
   MetaCopy,
   SectionTitle,
   SousTitre1,
 } from "@/components/typography/typography";
-import { MovieDetail, TheaterScreenings } from "@/lib/types";
+import { MovieDetail } from "@/lib/types";
 import {
   TAG_MAP,
   blurProps,
   formatDDMMYYWithSlashes,
-  formatMerJJMM,
   getImageUrl,
   getMovieTags,
-  getStartOfTodayInParis,
   safeDate,
 } from "@/lib/util";
 
@@ -40,7 +38,7 @@ export default function Film({ movie }: { movie: MovieDetail }) {
         }
         right={
           <>
-            <MovieScreenings movie={movie} />
+            <MovieNextScreenings movie={movie} />
             <Tags movie={movie} />
           </>
         }
@@ -137,21 +135,16 @@ function MovieInformation({ movie }: { movie: MovieDetail }) {
   );
 }
 
-function MovieScreenings({ movie }: { movie: MovieDetail }) {
-  const screenings = useMemo(
-    () =>
-      toPairs(movie?.screenings ?? []).filter(
-        ([date]) => safeDate(date) >= getStartOfTodayInParis(),
-      ),
-    [movie],
-  );
-
+function MovieNextScreenings({ movie }: { movie: MovieDetail }) {
   return (
     <>
       <SectionTitle>Prochaines séances à Paris</SectionTitle>
       <div className="flex flex-col">
-        {size(screenings) > 0 ? (
-          <Screenings screenings={screenings} />
+        {size(movie.screenings) > 0 ? (
+          <MultiDaySeances
+            screenings={movie.screenings}
+            groupClassName="border-b py-12px lg:py-16px lg:hover:bg-retro-pale-green"
+          />
         ) : (
           <div className="border-b py-12px text-center lg:grow lg:py-16px">
             <BodyCopy>Pas de séances prévues pour le moment</BodyCopy>
@@ -159,48 +152,6 @@ function MovieScreenings({ movie }: { movie: MovieDetail }) {
         )}
       </div>
     </>
-  );
-}
-
-function Screenings({
-  screenings,
-}: {
-  screenings: [string, TheaterScreenings[]][];
-}) {
-  const sortedByDateAndTheater = useMemo(
-    () =>
-      sortBy(screenings).map<[string, TheaterScreenings[]]>(
-        ([date, theaters]) => [
-          date,
-          sortBy(theaters, (theater) => theater.name),
-        ],
-      ),
-    [screenings],
-  );
-
-  return (
-    <div className="grid-auto-rows grid grid-cols-[auto_1fr] gap-x-20px">
-      {sortedByDateAndTheater.map(([date, theaters]) => (
-        <DateScreenings key={date} date={date} theaters={theaters} />
-      ))}
-    </div>
-  );
-}
-
-function DateScreenings({
-  date,
-  theaters,
-}: {
-  date: string;
-  theaters: TheaterScreenings[];
-}) {
-  return (
-    <div className="col-span-full grid grid-cols-[subgrid] border-b py-12px lg:py-16px lg:hover:bg-retro-pale-green">
-      <BodyCopy>{capitalize(formatMerJJMM(safeDate(date)))}</BodyCopy>
-      <div className="flex flex-col">
-        <Seances screenings={theaters} />
-      </div>
-    </div>
   );
 }
 

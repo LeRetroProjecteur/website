@@ -1,22 +1,15 @@
 "use client";
 
 import clsx from "clsx";
-import {
-  capitalize,
-  orderBy,
-  pickBy,
-  size,
-  some,
-  sortBy,
-  toPairs,
-} from "lodash-es";
+import { pickBy, size, some, sortBy } from "lodash-es";
 import { DateTime } from "luxon";
 import Image from "next/image";
 import Link from "next/link";
-import { ReactNode, use, useEffect, useMemo } from "react";
+import React, { ReactNode, use, useEffect, useMemo } from "react";
 import useSWR from "swr";
 
 import { Loading, SuspenseWithLoading } from "@/components/icons/loading";
+import MultiDaySeances from "@/components/seances/multiday-seances";
 import Seances from "@/components/seances/seances";
 import { CalendrierCopy, SousTitre2 } from "@/components/typography/typography";
 import { Quartier, useCalendrierStore } from "@/lib/calendrier-store";
@@ -24,12 +17,10 @@ import {
   MovieWithNoScreenings,
   MovieWithScreenings,
   MovieWithScreeningsByDay,
-  TheaterScreenings,
 } from "@/lib/types";
 import {
   checkNotNull,
   fetcher,
-  formatLundi1Janvier,
   formatYYYYMMDD,
   getStartOfTodayInParis,
   isCoupDeCoeur,
@@ -202,7 +193,10 @@ function MovieRows({
       rightCol={
         <div className="py-12px lg:py-17px">
           {isMovieWithShowtimesByDay(movie) ? (
-            <MultiDaySeances screenings={movie.showtimes_by_day} />
+            <MultiDaySeances
+              screenings={movie.showtimes_by_day}
+              className="gap-y-10px"
+            />
           ) : (
             <Seances screenings={movie.showtimes_theater} />
           )}
@@ -264,30 +258,6 @@ function MovieCell({ movie }: { movie: MovieWithNoScreenings }) {
         </div>
       </div>
     </Link>
-  );
-}
-
-function MultiDaySeances({
-  screenings,
-}: {
-  screenings: { [day: string]: TheaterScreenings[] };
-}) {
-  return (
-    <div className="flex grow flex-col gap-20px lg:gap-10px">
-      {orderBy(
-        toPairs(screenings).map<[DateTime, TheaterScreenings[]]>(
-          ([day, screeningsTheaters]) => [safeDate(day), screeningsTheaters],
-        ),
-        ([day]) => day,
-      ).map(([day, screeningsTheaters], i) => (
-        <div key={i} className="flex grow flex-col gap-10px lg:gap-5px">
-          <CalendrierCopy>
-            <strong>{capitalize(formatLundi1Janvier(day))}</strong>
-          </CalendrierCopy>
-          <Seances screenings={screeningsTheaters} />
-        </div>
-      ))}
-    </div>
   );
 }
 
