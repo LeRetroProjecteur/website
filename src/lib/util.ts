@@ -1,8 +1,10 @@
-import { every, padStart, some } from "lodash-es";
+import { every, mapValues, padStart, pickBy, some } from "lodash-es";
 import { DateTime } from "luxon";
 import Image from "next/image";
 import { ComponentProps, useMemo } from "react";
 import { useWindowSize } from "usehooks-ts";
+
+import { Quartier } from "@/lib/calendrier-store";
 
 import {
   MovieInfo,
@@ -10,6 +12,7 @@ import {
   MovieWithScreenings,
   MovieWithScreeningsByDay,
   Review,
+  TheaterScreenings,
 } from "./types";
 
 export function isCoupDeCoeur({
@@ -197,4 +200,41 @@ export function isMoviesWithShowtimesByDay(
   movies: MovieWithScreenings[] | MovieWithScreeningsByDay[],
 ): movies is MovieWithScreeningsByDay[] {
   return some(movies, isMovieWithShowtimesByDay);
+}
+
+export function filterTimes(
+  showtimes: TheaterScreenings[],
+  minHour: number,
+  maxHour: number,
+) {
+  return showtimes
+    .map((theater) => ({
+      ...theater,
+      screenings: theater.screenings.filter(
+        (screening) => screening.time >= minHour && screening.time <= maxHour,
+      ),
+    }))
+    .filter((showtimes) => showtimes.screenings.length > 0);
+}
+
+export function filterNeighborhoods(
+  showtimes: TheaterScreenings[],
+  quartiers: Quartier[],
+) {
+  return showtimes.filter(
+    (theater) =>
+      theater.screenings.length > 0 &&
+      (quartiers.length === 0 ||
+        some(quartiers, (quartier) => quartier === theater.neighborhood)),
+  );
+}
+
+export function filterDates(showtimes: {
+  [date: string]: TheaterScreenings[];
+}) {
+  return pickBy(
+    mapValues(showtimes, (times) => filterTimes(times, 0, 24)),
+    (screenings, date) =>
+      safeDate(date) >= getStartOfTodayInParis() && screenings.length > 0,
+  );
 }

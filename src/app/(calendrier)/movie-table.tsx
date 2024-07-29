@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { pickBy, size, some, sortBy } from "lodash-es";
+import { size, sortBy } from "lodash-es";
 import { DateTime } from "luxon";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,6 +21,9 @@ import {
 import {
   checkNotNull,
   fetcher,
+  filterDates,
+  filterNeighborhoods,
+  filterTimes,
   formatYYYYMMDD,
   getStartOfTodayInParis,
   isCoupDeCoeur,
@@ -28,7 +31,6 @@ import {
   isMoviesWithShowtimesByDay,
   movieInfoContainsFilteringTerm,
   nowInParis,
-  safeDate,
 } from "@/lib/util";
 
 import coupDeCoeur from "../../assets/coup-de-coeur.png";
@@ -281,35 +283,20 @@ function filterAndSortMovies(
     ? movies
         .map((movie) => ({
           ...movie,
-          showtimes_by_day: pickBy(
-            movie.showtimes_by_day,
-            (_, date) => safeDate(date) >= getStartOfTodayInParis(),
-          ),
+          showtimes_by_day: filterDates(movie.showtimes_by_day),
         }))
         .filter((movie) => size(movie.showtimes_by_day) > 0)
-    : movies
-        .map<MovieWithScreenings>((movie) => ({
-          ...movie,
-          showtimes_theater: movie.showtimes_theater
-            .map((theater) => ({
-              ...theater,
-              screenings: theater.screenings.filter(
-                (screening) =>
-                  screening.time >= minHourFilteringTodaysMissedFilms &&
-                  screening.time <= maxHour,
-              ),
-            }))
-            .filter(
-              (theater) =>
-                theater.screenings.length > 0 &&
-                (quartiers.length === 0 ||
-                  some(
-                    quartiers,
-                    (quartier) => quartier === theater.neighborhood,
-                  )),
-            ),
-        }))
-        .filter((movie) => movie.showtimes_theater.length > 0);
+    : movies.map<MovieWithScreenings>((movie) => ({
+        ...movie,
+        showtimes_theater: filterNeighborhoods(
+          filterTimes(
+            movie.showtimes_theater,
+            minHourFilteringTodaysMissedFilms,
+            maxHour,
+          ),
+          quartiers,
+        ),
+      }));
 
   const filteredMovies = moviesWithFilteredShowtimes.filter(
     (movie) => filter == "" || movieInfoContainsFilteringTerm(movie, filter),

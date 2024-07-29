@@ -16,6 +16,7 @@ import { MovieDetail } from "@/lib/types";
 import {
   TAG_MAP,
   blurProps,
+  filterDates,
   formatDDMMYYWithSlashes,
   getImageUrl,
   getMovieTags,
@@ -136,13 +137,14 @@ function MovieInformation({ movie }: { movie: MovieDetail }) {
 }
 
 function MovieNextScreenings({ movie }: { movie: MovieDetail }) {
+  const screenings = filterDates(movie.screenings);
   return (
     <>
       <SectionTitle>Prochaines séances à Paris</SectionTitle>
       <div className="flex flex-col">
-        {size(movie.screenings) > 0 ? (
+        {size(screenings) > 0 ? (
           <MultiDaySeances
-            screenings={movie.screenings}
+            screenings={screenings}
             groupClassName="border-b py-12px lg:py-16px lg:hover:bg-retro-pale-green"
           />
         ) : (
