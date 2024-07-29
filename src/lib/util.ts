@@ -202,6 +202,14 @@ export function isMoviesWithShowtimesByDay(
   return some(movies, isMovieWithShowtimesByDay);
 }
 
+export function getRealMinHour(date: DateTime, minHour: number) {
+  if (!date.hasSame(nowInParis(), "day")) {
+    return minHour;
+  }
+  const now = nowInParis();
+  return Math.max(minHour, now.hour + now.minute / 60 - 0.3);
+}
+
 export function filterTimes(
   showtimes: TheaterScreenings[],
   minHour: number,
@@ -233,7 +241,9 @@ export function filterDates(showtimes: {
   [date: string]: TheaterScreenings[];
 }) {
   return pickBy(
-    mapValues(showtimes, (times) => filterTimes(times, 0, 24)),
+    mapValues(showtimes, (times, date) =>
+      filterTimes(times, getRealMinHour(safeDate(date), 0), 24),
+    ),
     (screenings, date) =>
       safeDate(date) >= getStartOfTodayInParis() && screenings.length > 0,
   );
