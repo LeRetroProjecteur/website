@@ -39,7 +39,7 @@ export default function Film({ movie }: { movie: MovieDetail }) {
         }
         right={
           <>
-            <MovieNextScreenings movie={movie} />
+            <MovieScreenings movie={movie} />
             <Tags movie={movie} />
           </>
         }
@@ -136,7 +136,7 @@ function MovieInformation({ movie }: { movie: MovieDetail }) {
   );
 }
 
-function MovieNextScreenings({ movie }: { movie: MovieDetail }) {
+function MovieScreenings({ movie }: { movie: MovieDetail }) {
   const screenings = filterDates(movie.screenings);
   return (
     <>
