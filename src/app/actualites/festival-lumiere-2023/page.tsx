@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
 
-import { generalMetadata } from "@/app/layout";
 import PageHeader from "@/components/layout/page-header";
 import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 
