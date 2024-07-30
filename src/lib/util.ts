@@ -158,7 +158,7 @@ export const fetcher = (...args: Parameters<typeof fetch>) =>
   fetch(...args).then((res) => res.json());
 
 export function getMovieTags({ tags }: { tags?: string }) {
-  return Array.from((tags ?? "").matchAll(/#(\S+)/g)).map(([_, tag]) => tag);
+  return Array.from((tags ?? "").matchAll(/#([^\s]+)/g)).map(([_, tag]) => tag);
 }
 
 export const TAG_MAP: Record<string, string> = {
