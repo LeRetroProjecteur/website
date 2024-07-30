@@ -288,7 +288,7 @@ function filterAndSortMovies(
             quartiers,
           ),
         }))
-        .filter((movie) => size(movie.showtimes_theater) > 0);
+        .filter((movie) => movie.showtimes_theater.length > 0);
   const filteredMovies = moviesWithFilteredShowtimes.filter(
     (movie) => filter == "" || movieInfoContainsFilteringTerm(movie, filter),
   );
