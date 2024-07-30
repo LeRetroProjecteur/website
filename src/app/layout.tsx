@@ -75,7 +75,10 @@ const suisse = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+  title: {
+    template: "%s | Le Rétro Projecteur – Ressorties cinéma à Paris",
+    default: "Le Rétro Projecteur – Ressorties cinéma à Paris",
+  },
   description:
     "Venez découvrir toutes les ressorties de films dans les salles parisiennes.",
   metadataBase: new URL("https://leretroprojecteur.com/"),

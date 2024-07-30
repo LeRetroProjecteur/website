@@ -22,8 +22,7 @@ import silence from "./img/silence.jpg";
 import variety from "./img/variety.jpg";
 
 export const metadata: Metadata = {
-  title:
-    "Rétrospective 2022 | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+  title: "Rétrospective 2022",
 };
 
 export default function Top2022() {

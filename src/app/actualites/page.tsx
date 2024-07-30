@@ -16,7 +16,7 @@ import top2022Icon from "./top-2022/img/icon.jpg";
 import top2023Icon from "./top-2023/img/icon.jpg";
 
 export const metadata: Metadata = {
-  title: "Actualités | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+  title: "Actualités",
 };
 
 const chroniques = [
