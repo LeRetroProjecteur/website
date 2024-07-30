@@ -289,6 +289,7 @@ function filterAndSortMovies(
           ),
         }))
         .filter((movie) => movie.showtimes_theater.length > 0);
+
   const filteredMovies = moviesWithFilteredShowtimes.filter(
     (movie) => filter == "" || movieInfoContainsFilteringTerm(movie, filter),
   );
