@@ -1,22 +1,14 @@
 "use client";
 
 import clsx from "clsx";
-import {
-  capitalize,
-  orderBy,
-  pickBy,
-  size,
-  some,
-  sortBy,
-  toPairs,
-} from "lodash-es";
-import { DateTime } from "luxon";
+import { size, sortBy } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
-import { ReactNode, use, useEffect, useMemo } from "react";
+import React, { ReactNode, use, useEffect, useMemo } from "react";
 import useSWR from "swr";
 
 import { Loading, SuspenseWithLoading } from "@/components/icons/loading";
+import MultiDaySeances from "@/components/seances/multiday-seances";
 import Seances from "@/components/seances/seances";
 import { CalendrierCopy, SousTitre2 } from "@/components/typography/typography";
 import { Quartier, useCalendrierStore } from "@/lib/calendrier-store";
@@ -24,20 +16,20 @@ import {
   MovieWithNoScreenings,
   MovieWithScreenings,
   MovieWithScreeningsByDay,
-  TheaterScreenings,
 } from "@/lib/types";
 import {
   checkNotNull,
   fetcher,
-  formatLundi1Janvier,
+  filterDates,
+  filterNeighborhoods,
+  filterTimes,
   formatYYYYMMDD,
+  getRealMinHour,
   getStartOfTodayInParis,
   isCoupDeCoeur,
   isMovieWithShowtimesByDay,
   isMoviesWithShowtimesByDay,
   movieInfoContainsFilteringTerm,
-  nowInParis,
-  safeDate,
 } from "@/lib/util";
 
 import coupDeCoeur from "../../assets/coup-de-coeur.png";
@@ -72,7 +64,7 @@ export default function MovieTable({
   >(useClientData ? url : false, fetcher);
 
   const minHourFilteringTodaysMissedFilms = useMemo(
-    () => getMinHourFilteringTodaysMissedFilms(date, minHour),
+    () => getRealMinHour(date, minHour),
     [minHour, date],
   );
 
@@ -202,7 +194,10 @@ function MovieRows({
       rightCol={
         <div className="py-12px lg:py-17px">
           {isMovieWithShowtimesByDay(movie) ? (
-            <MultiDaySeances screenings={movie.showtimes_by_day} />
+            <MultiDaySeances
+              screenings={movie.showtimes_by_day}
+              className="gap-y-10px"
+            />
           ) : (
             <Seances screenings={movie.showtimes_theater} />
           )}
@@ -267,39 +262,6 @@ function MovieCell({ movie }: { movie: MovieWithNoScreenings }) {
   );
 }
 
-function MultiDaySeances({
-  screenings,
-}: {
-  screenings: { [day: string]: TheaterScreenings[] };
-}) {
-  return (
-    <div className="flex grow flex-col gap-20px lg:gap-10px">
-      {orderBy(
-        toPairs(screenings).map<[DateTime, TheaterScreenings[]]>(
-          ([day, screeningsTheaters]) => [safeDate(day), screeningsTheaters],
-        ),
-        ([day]) => day,
-      ).map(([day, screeningsTheaters], i) => (
-        <div key={i} className="flex grow flex-col gap-10px lg:gap-5px">
-          <CalendrierCopy>
-            <strong>{capitalize(formatLundi1Janvier(day))}</strong>
-          </CalendrierCopy>
-          <Seances screenings={screeningsTheaters} />
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function getMinHourFilteringTodaysMissedFilms(date: DateTime, minHour: number) {
-  if (!date.hasSame(nowInParis(), "day")) {
-    return minHour;
-  }
-
-  const now = nowInParis();
-  return Math.max(minHour, now.hour + now.minute / 60 - 0.3);
-}
-
 function filterAndSortMovies(
   movies: MovieWithScreenings[] | MovieWithScreeningsByDay[],
   minHourFilteringTodaysMissedFilms: number,
@@ -311,33 +273,20 @@ function filterAndSortMovies(
     ? movies
         .map((movie) => ({
           ...movie,
-          showtimes_by_day: pickBy(
-            movie.showtimes_by_day,
-            (_, date) => safeDate(date) >= getStartOfTodayInParis(),
-          ),
+          showtimes_by_day: filterDates(movie.showtimes_by_day),
         }))
         .filter((movie) => size(movie.showtimes_by_day) > 0)
     : movies
         .map<MovieWithScreenings>((movie) => ({
           ...movie,
-          showtimes_theater: movie.showtimes_theater
-            .map((theater) => ({
-              ...theater,
-              screenings: theater.screenings.filter(
-                (screening) =>
-                  screening.time >= minHourFilteringTodaysMissedFilms &&
-                  screening.time <= maxHour,
-              ),
-            }))
-            .filter(
-              (theater) =>
-                theater.screenings.length > 0 &&
-                (quartiers.length === 0 ||
-                  some(
-                    quartiers,
-                    (quartier) => quartier === theater.neighborhood,
-                  )),
+          showtimes_theater: filterNeighborhoods(
+            filterTimes(
+              movie.showtimes_theater,
+              minHourFilteringTodaysMissedFilms,
+              maxHour,
             ),
+            quartiers,
+          ),
         }))
         .filter((movie) => movie.showtimes_theater.length > 0);
 
