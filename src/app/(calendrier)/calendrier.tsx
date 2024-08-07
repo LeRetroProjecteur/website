@@ -59,7 +59,17 @@ export default function Calendrier({
           </div>
         )}
         <div className="flex grow pt-18px lg:pt-28px">
-          <MovieTable serverMovies={serverMovies} allMovies={allMovies} />
+          <div className="hidden">
+            <MovieTable serverMovies={serverMovies} allMovies={allMovies} />
+          </div>
+          <div className="grow text-center">
+            Notre site est actuellement en maintenance.
+            <br />
+            Veuillez nous excuser pour la gêne occasionnée – et pour les
+            informations erronées qui ont pu apparaître sur le site hier !
+            <br />
+            <br />À très vite !
+          </div>
         </div>
       </div>
     </div>
