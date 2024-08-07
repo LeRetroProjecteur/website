@@ -80,7 +80,7 @@ export const metadata: Metadata = {
     default: "Le Rétro Projecteur – Ressorties cinéma à Paris",
   },
   description:
-    "Venez découvrir toutes les ressorties de films dans les salles parisiennes.",
+    "Coup de projecteur sur les ressorties cinéma dans les salles parisiennes.",
   metadataBase: new URL("https://leretroprojecteur.com/"),
 };
 
