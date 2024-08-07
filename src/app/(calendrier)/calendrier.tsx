@@ -6,11 +6,21 @@ import DateSelector from "@/app/(calendrier)/date-selector";
 import QuartierSelector from "@/app/(calendrier)/quartier-selector";
 import TimeSlider from "@/app/(calendrier)/time-slider";
 import PageHeader from "@/components/layout/page-header";
+import { MovieWithScreenings, MovieWithScreeningsByDay } from "@/lib/types";
 
 import Filter from "./filter";
+import MovieTable from "./movie-table";
 import QuartierSelectorToggler from "./quartier-selector-toggler";
 
-export default function Calendrier({ title }: { title?: string }) {
+export default function Calendrier({
+  serverMovies,
+  allMovies,
+  title,
+}: {
+  serverMovies: Promise<MovieWithScreenings[] | MovieWithScreeningsByDay[]>;
+  allMovies?: boolean;
+  title?: string;
+}) {
   const [isQuartierSelectorOpen, setQuartierSelectorOpen] = useState(false);
 
   const toggleQuartierSelectorOpen = useCallback(
@@ -49,14 +59,7 @@ export default function Calendrier({ title }: { title?: string }) {
           </div>
         )}
         <div className="flex grow pt-18px lg:pt-28px">
-          <div className="grow text-center">
-            Notre site est actuellement en maintenance.
-            <br />
-            Veuillez nous excuser pour la gêne occasionnée&nbsp;– et pour les
-            informations erronées qui ont pu apparaître sur le site hier&nbsp;!
-            <br />
-            <br />À très vite&nbsp;!
-          </div>
+          <MovieTable serverMovies={serverMovies} allMovies={allMovies} />
         </div>
       </div>
     </div>
