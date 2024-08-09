@@ -6,7 +6,7 @@ import { SousTitre1 } from "@/components/typography/typography";
 import NewsletterPage from "./newsletter";
 
 export const metadata: Metadata = {
-  title: "Newsletter | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+  title: "Newsletter",
 };
 
 export default function AProposPage() {

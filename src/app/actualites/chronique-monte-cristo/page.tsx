@@ -7,8 +7,7 @@ import { FirstRow, MiddleColumn, ThreeColumnLayout } from "../components";
 import icon from "./img/icon.jpg";
 
 export const metadata: Metadata = {
-  title:
-    "Monte-Cristo au cinéma | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+  title: "Monte-Cristo au cinéma",
 };
 
 export default function EntretienGaelTeicher() {

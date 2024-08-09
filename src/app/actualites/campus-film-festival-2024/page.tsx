@@ -14,8 +14,7 @@ import {
 import icon from "./img/icon.jpg";
 
 export const metadata: Metadata = {
-  title:
-    "Campus Film Festival 2024 | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+  title: "Campus Film Festival 2024",
 };
 
 export default function Lumiere2023() {

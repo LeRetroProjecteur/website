@@ -10,9 +10,7 @@ export async function generateMetadata({
   params: { movieId: string };
 }): Promise<Metadata> {
   return {
-    title: `${
-      (await getMovie(movieId)).title
-    } | Le Rétro Projecteur - Cinéma de patrimoine à Paris`,
+    title: `${(await getMovie(movieId)).title}`,
   };
 }
 
