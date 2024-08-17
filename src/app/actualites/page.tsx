@@ -78,7 +78,7 @@ function ActualitesThumbnails() {
           key={slug}
           link={`/actualites/${slug}`}
           image={{
-            src: `./${slug}/img/icon.jpg`,
+            src: `/actualites/${slug}/img/icon.jpg`,
             alt: titre,
             width: 1200,
             height: 675,
