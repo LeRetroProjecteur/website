@@ -41,7 +41,11 @@ export default function Seances({
   const needsExpanding = sortedTheaters.length !== unexpandedTheaters.length;
 
   return (
-    <div className={clsx("flex grow flex-col gap-10px lg:gap-5px")}>
+    <div
+      className={clsx(
+        "lg:grid-auto-rows flex grow flex-col gap-y-10px lg:grid lg:grid-cols-[1fr,128px] lg:gap-x-20px lg:gap-y-5px xl:grid-cols-[1fr,180px]",
+      )}
+    >
       {(isExpanded ? sortedTheaters : unexpandedTheaters).map((theater) => (
         <SeancesTheater
           showtimesTheater={theater}
@@ -50,16 +54,19 @@ export default function Seances({
         />
       ))}
       {needsExpanding && (
-        <div
-          className={clsx("flex justify-end", {
-            "cursor-pointer": needsExpanding,
-          })}
-          onClick={toggleExpanded}
-        >
-          <CalendrierCopy className="font-semibold">
-            {isExpanded ? "Moins de séances ↑" : "Plus de séances ↓"}
-          </CalendrierCopy>
-        </div>
+        <>
+          <div></div>
+          <div
+            className={clsx("flex justify-end lg:justify-start", {
+              "cursor-pointer": needsExpanding,
+            })}
+            onClick={toggleExpanded}
+          >
+            <CalendrierCopy className="font-semibold">
+              {isExpanded ? "Voir moins ↑" : "Voir plus ↓"}
+            </CalendrierCopy>
+          </div>
+        </>
       )}
     </div>
   );
@@ -137,17 +144,17 @@ export function SeancesTheater({
 
   return (
     <div
-      className="group/cinema flex items-start justify-between"
+      className="group/cinema flex items-start justify-between lg:col-span-full lg:grid lg:grid-cols-[subgrid]"
       key={showtimesTheater.name}
     >
-      <div className="w-min grow pr-10px lg:pr-30px">
+      <div className="grow pr-10px lg:pr-0px">
         <CalendrierCopy
           className={clsx({ "group-hover/cinema:underline": isExpanded })}
         >
           {showtimesTheater.name} ({transformZipcode(showtimesTheater.zipcode)})
         </CalendrierCopy>
       </div>
-      <div className="flex flex-col justify-end lg:flex-row lg:flex-wrap lg:self-start">
+      <div className="flex flex-col lg:flex-row lg:flex-wrap lg:self-start">
         {screenings.map((screening) => (
           <div
             key={screening.time}

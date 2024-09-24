@@ -1,20 +1,19 @@
-import { every, padStart, some } from "lodash-es";
+import { every, mapValues, padStart, pickBy, some } from "lodash-es";
 import { DateTime } from "luxon";
 import Image from "next/image";
 import { ComponentProps, useMemo } from "react";
-import resolveConfig from "tailwindcss/resolveConfig";
 import { useWindowSize } from "usehooks-ts";
 
-import tailwindConfig from "../../tailwind.config";
+import { Quartier } from "@/lib/calendrier-store";
+
 import {
   MovieInfo,
   MovieWithNoScreenings,
   MovieWithScreenings,
   MovieWithScreeningsByDay,
   Review,
+  TheaterScreenings,
 } from "./types";
-
-const resolvedTailwindConfig = resolveConfig(tailwindConfig);
 
 export function isCoupDeCoeur({
   review_category,
@@ -69,6 +68,7 @@ export function cleanString(str: string) {
     .normalize("NFD")
     .replaceAll("&", " and ")
     .replaceAll("’", "'")
+    .replaceAll("'", " ")
     .replaceAll(/[^a-zA-Z0-9 #]|[\u0300-\u036f]/g, "")
     .replaceAll(/\p{Diacritic}/gu, "")
     .toLowerCase();
@@ -149,12 +149,6 @@ export function formatLundi(date: DateTime) {
   return date.toFormat("EEEE");
 }
 
-export function splitIntoSubArrays<T>(array: T[], subArraySize: number) {
-  return [...Array(Math.ceil(array.length / subArraySize))].map((_, i) =>
-    array.slice(i * subArraySize, i * subArraySize + subArraySize),
-  );
-}
-
 export function useIsMobile() {
   const { width } = useWindowSize();
   return useMemo(() => width > 1 && width < 1024, [width]);
@@ -208,13 +202,58 @@ export function isMoviesWithShowtimesByDay(
   return some(movies, isMovieWithShowtimesByDay);
 }
 
-export function getBreakpoint(breakpointName: string) {
-  const breakpointString = (
-    checkNotNull(resolvedTailwindConfig.theme?.screens) as Record<
-      string,
-      string
-    >
-  )[breakpointName];
-  const [_, breakpoint] = checkNotNull(breakpointString.match(/^([0-9]+)px$/));
-  return Number(breakpoint);
+export function getRealMinHour(date: DateTime, minHour: number) {
+  if (!date.hasSame(nowInParis(), "day")) {
+    return minHour;
+  }
+  const now = nowInParis();
+  return Math.max(minHour, now.hour + now.minute / 60 - 0.3);
+}
+
+export function filterTimes(
+  showtimes: TheaterScreenings[],
+  minHour: number,
+  maxHour: number,
+  events?: boolean,
+) {
+  return showtimes
+    .map((theater) => ({
+      ...theater,
+      screenings: events
+        ? theater.screenings.filter(
+            (screening) =>
+              screening.time >= minHour &&
+              screening.time <= maxHour &&
+              screening.notes != null,
+          )
+        : theater.screenings.filter(
+            (screening) =>
+              screening.time >= minHour && screening.time <= maxHour,
+          ),
+    }))
+    .filter((showtimes) => showtimes.screenings.length > 0);
+}
+
+export function filterNeighborhoods(
+  showtimes: TheaterScreenings[],
+  quartiers: Quartier[],
+) {
+  return showtimes.filter(
+    (theater) =>
+      theater.screenings.length > 0 &&
+      (quartiers.length === 0 ||
+        some(quartiers, (quartier) => quartier === theater.neighborhood)),
+  );
+}
+
+export function filterDates(showtimes: {
+  [date: string]: TheaterScreenings[];
+}) {
+  return pickBy(
+    mapValues(showtimes, (times, date) =>
+      filterTimes(times, getRealMinHour(safeDate(date), 0), 24),
+    ),
+    (screenings, date) =>
+      safeDate(date) >= getStartOfTodayInParis() && screenings.length > 0,
+  );
 }
