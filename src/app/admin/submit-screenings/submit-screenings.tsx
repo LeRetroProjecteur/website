@@ -121,7 +121,8 @@ async function sendMoviesToFirestore(
   setResponseMessage: (message: string) => void,
 ) {
   try {
-    const API_ENDPOINT = "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_data_to_db";
+    const API_ENDPOINT =
+      "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_data_to_db";
 
     // Transform the rowsData to the new format
     const transformedData = rowsData.map((row) => {
@@ -158,25 +159,34 @@ async function sendMoviesToFirestore(
       mode: "cors",
     });
     console.log("Response status:", response.status);
-    console.log("Response headers:", JSON.stringify(Object.fromEntries(response.headers), null, 2));
+    console.log(
+      "Response headers:",
+      JSON.stringify(Object.fromEntries(response.headers), null, 2),
+    );
 
     const responseText = await response.text();
     console.log("Raw response:", responseText);
 
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}, body: ${responseText}`);
+      throw new Error(
+        `HTTP error! status: ${response.status}, body: ${responseText}`,
+      );
     }
 
     setResponseMessage("Données envoyées avec succès!");
   } catch (error) {
     console.error("Fetch error:", error);
-    setResponseMessage(
-      `Erreur de connexion: ${error.message}. Veuillez vérifier votre connexion internet et réessayer.`,
-    );
+    if (error instanceof Error) {
+      setResponseMessage(
+        `Erreur de connexion: ${error.message}. Veuillez vérifier votre connexion internet et réessayer.`,
+      );
+    } else {
+      setResponseMessage(
+        "Une erreur inconnue est survenue. Veuillez vérifier votre connexion internet et réessayer.",
+      );
+    }
   }
 }
-
-
 
 function SearchRow({
   allMoviesPromise,
