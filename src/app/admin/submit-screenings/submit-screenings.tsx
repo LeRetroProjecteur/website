@@ -121,7 +121,8 @@ async function sendMoviesToFirestore(
   setResponseMessage: (message: string) => void,
 ) {
   try {
-    const PROXY_URL = "http://localhost:3000/";
+    const API_ENDPOINT = "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_data_to_db";
+
     // Transform the rowsData to the new format
     const transformedData = rowsData.map((row) => {
       const [year, month, day] = row.date.split("-").map(Number);
@@ -138,34 +139,44 @@ async function sendMoviesToFirestore(
       };
     });
 
-    const response = await fetch(
-      PROXY_URL +
-        "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_data_to_db",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          collection_name: "raw-submit-screenings",
-          doc_name: "le-melies",
-          include_time_in_doc_name: true,
-          key_for_doc_name: "doc_name",
-          showtimes: transformedData,
-          comments: comments,
-        }),
-        mode: "cors",
+    const payload = {
+      collection_name: "raw-submit-screenings",
+      doc_name: "le-melies",
+      include_time_in_doc_name: true,
+      key_for_doc_name: "doc_name",
+      showtimes: transformedData,
+      comments: comments,
+    };
+
+    console.log("Sending payload:", JSON.stringify(payload, null, 2));
+    const response = await fetch(API_ENDPOINT, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
-    const responseText = await response.text(); // Get the raw response text
-    console.log("Raw response:", responseText); // Log the raw response
+      body: JSON.stringify(payload),
+      mode: "cors",
+    });
+    console.log("Response status:", response.status);
+    console.log("Response headers:", JSON.stringify(Object.fromEntries(response.headers), null, 2));
+
+    const responseText = await response.text();
+    console.log("Raw response:", responseText);
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}, body: ${responseText}`);
+    }
+
+    setResponseMessage("Données envoyées avec succès!");
   } catch (error) {
     console.error("Fetch error:", error);
     setResponseMessage(
-      "Erreur de connexion. Veuillez vérifier votre connexion internet et réessayer.",
+      `Erreur de connexion: ${error.message}. Veuillez vérifier votre connexion internet et réessayer.`,
     );
   }
 }
+
+
 
 function SearchRow({
   allMoviesPromise,
