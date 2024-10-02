@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "dev": "next dev",
     "build": "next build",
-    "lint": "next lint && prettier -c \"**/*.{html,js,cjs,json,ts,tsx,css}\"",
-    "dev": "concurrently \"node cors-proxy.js\" \"pnpm start\"",
-    "start": "next dev"
+    "start": "next start",
+    "lint": "next lint && prettier -c \"**/*.{html,js,cjs,json,ts,tsx,css}\""
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.2",
@@ -17,7 +17,6 @@
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@uidotdev/usehooks": "^2.4.1",
     "clsx": "^2.0.0",
-    "cors-anywhere": "^0.4.4",
     "dayjs": "^1.11.10",
     "fast-json-stable-stringify": "^2.1.0",
     "firebase": "^10.5.2",
@@ -46,7 +45,6 @@
     "@typescript-eslint/eslint-plugin": "^6.11.0",
     "@typescript-eslint/parser": "^6.11.0",
     "autoprefixer": "^10.4.16",
-    "concurrently": "^8.2.2",
     "eslint": "^8",
     "eslint-config-next": "14.0.3",
     "eslint-config-prettier": "^9.0.0",
