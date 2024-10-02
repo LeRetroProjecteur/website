@@ -110,7 +110,7 @@ export const getTheaters = unstable_cache(
   async (): Promise<string[]> => {
     try {
       const { db } = getFirebase();
-      const docRef = doc(db, "website-extra-docs", "theater_names");
+      const docRef = doc(db, "website-extra-docs", "theaters_names");
       const docSnap = await getDoc(docRef);
 
       const data = docSnap.data();
@@ -125,7 +125,7 @@ export const getTheaters = unstable_cache(
       return []; // Return an empty array in case of any error
     }
   },
-  ["theater-names"],
+  ["theaters_names"],
   { revalidate: 1 },
 );
 
