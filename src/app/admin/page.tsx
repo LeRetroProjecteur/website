@@ -46,6 +46,11 @@ export default function Admin() {
           Marseille - Tous les films
         </Link>
       </SousTitre1>
+      <SousTitre1>
+        <Link className="underline" href="/admin/submit-screenings">
+          Submit-screenings
+        </Link>
+      </SousTitre1>
     </div>
   );
 }

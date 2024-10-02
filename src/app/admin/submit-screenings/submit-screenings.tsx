@@ -25,6 +25,7 @@ export default function SubmitScreenings({
     Array(numSubmissions).fill({ movie: "", date: "", time: "", note: "" }),
   );
   const [comments, setComments] = useState("");
+  const [theater, setTheater] = useState("");
 
   const updateRowData = (
     index: number,
@@ -38,17 +39,17 @@ export default function SubmitScreenings({
   return (
     <>
       <PageHeader text="Rajouter des séances">
-        <SousTitre1>Votre salle : Le Méliès Montreuil</SousTitre1>
+        <SousTitre1>Votre salle</SousTitre1>
       </PageHeader>
       <div className="flex grow flex-col pb-10px lg:pl-20px">
-        <strong>Instructions&nbsp;:</strong>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-        veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-        commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-        velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-        occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-        mollit anim id est laborum.
+        <strong>Cinema&nbsp;:</strong>
+        <input
+          name="theater"
+          type="text"
+          className="flex h-42px grow lg:h-48px"
+          value={theater}
+          onChange={(e) => setTheater(e.target.value)}
+        />
         <br />
         <br />
         <div className="p-5px text-center">
@@ -99,7 +100,12 @@ export default function SubmitScreenings({
           <span>
             <button
               onClick={() =>
-                sendMoviesToFirestore(rowsData, comments, setResponseMessage)
+                sendMoviesToFirestore(
+                  theater,
+                  rowsData,
+                  comments,
+                  setResponseMessage,
+                )
               }
               className="border bg-retro-green p-15px text-16px"
             >
@@ -116,6 +122,7 @@ export default function SubmitScreenings({
 }
 
 async function sendMoviesToFirestore(
+  theater: string,
   rowsData: { movie: string; date: string; time: string; note: string }[],
   comments: string,
   setResponseMessage: (message: string) => void,
@@ -130,6 +137,7 @@ async function sendMoviesToFirestore(
       const [hour, minute] = row.time.split(":").map(Number);
 
       return {
+        theater: theater,
         movie: row.movie,
         year: year,
         month: month,
@@ -142,7 +150,7 @@ async function sendMoviesToFirestore(
 
     const payload = {
       collection_name: "raw-submit-screenings",
-      doc_name: "le-melies",
+      doc_name: theater,
       include_time_in_doc_name: true,
       key_for_doc_name: "doc_name",
       showtimes: transformedData,
