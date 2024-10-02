@@ -113,11 +113,11 @@ export function Results({
   extraClass,
   onClick,
 }: {
-  allMoviesPromise: Promise<SearchMovie[]>;
+  allMoviesPromise: Promise<SearchMovie[]>|Promise<string[]>;
   searchTerm: string;
   nb_results: number;
   extraClass?: string;
-  onClick?: (movie: SearchMovie) => void;
+  onClick?: (movie: SearchMovie|string) => void;
 }) {
   const selected = useRechercheStore((s) => s.selected);
   const tags = useRechercheStore((s) => s.tags);
@@ -239,5 +239,73 @@ function Tag({ tag, displayTag }: { tag: string; displayTag: string }) {
     >
       {displayTag}
     </div>
+  );
+}
+
+export function TheaterSearchResults({
+  allTheatersPromise,
+  searchTerm,
+  nb_results,
+  extraClass,
+  onClick,
+}: {
+  allTheatersPromise: Promise<string[]>;
+  searchTerm: string;
+  nb_results: number;
+  extraClass?: string;
+  onClick?: (theater: string) => void;
+}) {
+  const allTheaters = use(allTheatersPromise);
+  const selectedRef = useRef<HTMLAnchorElement | null>(null);
+
+  const filtered = useMemo(() => {
+    if (searchTerm.length === 0) return [];
+    const lowercaseSearchTerm = searchTerm.toLowerCase();
+    return take(
+      allTheaters.filter(theater =>
+        theater.toLowerCase().includes(lowercaseSearchTerm)
+      ),
+      nb_results
+    );
+  }, [allTheaters, searchTerm, nb_results]);
+
+  useEffect(() => {
+    if (selectedRef.current) {
+      selectedRef.current.scrollIntoView({ block: "center" });
+    }
+  }, []);
+
+  return (
+    searchTerm.length > 0 && (
+      <div className="flex grow flex-col">
+        {filtered.length > 0 ? (
+          <>
+            {filtered.map((theater, i) => (
+              <Link
+                key={theater}
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onClick?.(theater);
+                }}
+                ref={i === 0 ? selectedRef : null}
+                className={clsx(
+                  "even:bg-retro-pale-green lg:hover:bg-retro-pale-green",
+                  extraClass
+                )}
+              >
+                {theater}
+              </Link>
+            ))}
+          </>
+        ) : (
+          <div className="pt-15px lg:pt-20px">
+            <p>
+              Désolé, nous n'avons trouvé aucun cinéma correspondant à votre recherche !
+            </p>
+          </div>
+        )}
+      </div>
+    )
   );
 }

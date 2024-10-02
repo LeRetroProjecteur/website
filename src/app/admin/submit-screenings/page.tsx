@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { getMovies } from "@/lib/movies";
+import {getMovies, getTheaters} from "@/lib/movies";
 
 import SubmitScreenings from "./submit-screenings";
 
@@ -13,6 +13,7 @@ export const metadata: Metadata = {
 
 export default function SubmitScreeningsPage() {
   const allMovies = getMovies();
+  const allTheaters = getTheaters();
 
-  return <SubmitScreenings allMoviesPromise={allMovies} />;
+  return <SubmitScreenings allMoviesPromise={allMovies} allTheatersPromise={allTheaters}/>;
 }

@@ -1,8 +1,8 @@
 "use client";
 
-import React, { Fragment, useState } from "react";
+import React, {Fragment, Suspense, useState} from "react";
 
-import { Results } from "@/app/recherche/recherche";
+import {Results, TheaterSearchResults} from "@/app/recherche/recherche";
 import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
@@ -11,8 +11,10 @@ import { SearchMovie } from "@/lib/types";
 
 export default function SubmitScreenings({
   allMoviesPromise,
+    allTheatersPromise,
 }: {
   allMoviesPromise: Promise<SearchMovie[]>;
+    allTheatersPromise: Promise<string[]>;
 }) {
   const numSubmissions = 5;
   const handleCommentsChange = (
@@ -43,12 +45,9 @@ export default function SubmitScreenings({
       </PageHeader>
       <div className="flex grow flex-col pb-10px lg:pl-20px">
         <strong>Cinema&nbsp;:</strong>
-        <input
-          name="theater"
-          type="text"
-          className="flex h-42px grow lg:h-48px"
-          value={theater}
-          onChange={(e) => setTheater(e.target.value)}
+        <TheaterSearchRow
+          allTheatersPromise={allTheatersPromise}
+          onUpdate={setTheater}
         />
         <br />
         <br />
@@ -294,5 +293,50 @@ function SearchRow({
         />
       </td>
     </tr>
+  );
+}
+
+function TheaterSearchRow({
+  allTheatersPromise,
+  onUpdate,
+}: {
+  allTheatersPromise: Promise<string[]>;
+  onUpdate: (theater: string) => void;
+}) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showResults, setShowResults] = useState(false);
+
+  const handleSearchTermChange = (st: string) => {
+    setSearchTerm(st);
+    setShowResults(true);
+    onUpdate(st);
+  };
+
+  return (
+    <div className="flex grow flex-col">
+      <RetroInput
+        value={searchTerm}
+        setValue={handleSearchTermChange}
+        leftAlignPlaceholder
+        customTypography
+        placeholder="Recherchez un cinéma..."
+        transparentPlaceholder
+        className="flex grow"
+      />
+      <Suspense fallback={<div>Loading...</div>}>
+        {showResults && (
+          <TheaterSearchResults
+            extraClass="text-left px-5px py-2px border-x border-b"
+            nb_results={5}
+            searchTerm={searchTerm}
+            allTheatersPromise={allTheatersPromise}
+            onClick={(theater) => {
+              handleSearchTermChange(theater);
+              setShowResults(false);
+            }}
+          />
+        )}
+      </Suspense>
+    </div>
   );
 }
