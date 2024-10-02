@@ -113,11 +113,11 @@ export function Results({
   extraClass,
   onClick,
 }: {
-  allMoviesPromise: Promise<SearchMovie[]> | Promise<string[]>;
+  allMoviesPromise: Promise<SearchMovie[]>;
   searchTerm: string;
   nb_results: number;
   extraClass?: string;
-  onClick?: (movie: SearchMovie | string) => void;
+  onClick?: (movie: SearchMovie) => void;
 }) {
   const selected = useRechercheStore((s) => s.selected);
   const tags = useRechercheStore((s) => s.tags);
