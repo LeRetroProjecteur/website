@@ -113,11 +113,11 @@ export function Results({
   extraClass,
   onClick,
 }: {
-  allMoviesPromise: Promise<SearchMovie[]>|Promise<string[]>;
+  allMoviesPromise: Promise<SearchMovie[]> | Promise<string[]>;
   searchTerm: string;
   nb_results: number;
   extraClass?: string;
-  onClick?: (movie: SearchMovie|string) => void;
+  onClick?: (movie: SearchMovie | string) => void;
 }) {
   const selected = useRechercheStore((s) => s.selected);
   const tags = useRechercheStore((s) => s.tags);
@@ -262,10 +262,10 @@ export function TheaterSearchResults({
     if (searchTerm.length === 0) return [];
     const lowercaseSearchTerm = searchTerm.toLowerCase();
     return take(
-      allTheaters.filter(theater =>
-        theater.toLowerCase().includes(lowercaseSearchTerm)
+      allTheaters.filter((theater) =>
+        theater.toLowerCase().includes(lowercaseSearchTerm),
       ),
-      nb_results
+      nb_results,
     );
   }, [allTheaters, searchTerm, nb_results]);
 
@@ -291,7 +291,7 @@ export function TheaterSearchResults({
                 ref={i === 0 ? selectedRef : null}
                 className={clsx(
                   "even:bg-retro-pale-green lg:hover:bg-retro-pale-green",
-                  extraClass
+                  extraClass,
                 )}
               >
                 {theater}
@@ -301,7 +301,8 @@ export function TheaterSearchResults({
         ) : (
           <div className="pt-15px lg:pt-20px">
             <p>
-              Désolé, nous n'avons trouvé aucun cinéma correspondant à votre recherche !
+              Désolé, nous n&apos;avons trouvé aucun cinéma correspondant à
+              votre recherche !
             </p>
           </div>
         )}

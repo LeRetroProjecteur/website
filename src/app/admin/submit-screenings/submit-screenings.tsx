@@ -1,8 +1,8 @@
 "use client";
 
-import React, {Fragment, Suspense, useState} from "react";
+import React, { Fragment, Suspense, useState } from "react";
 
-import {Results, TheaterSearchResults} from "@/app/recherche/recherche";
+import { Results, TheaterSearchResults } from "@/app/recherche/recherche";
 import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
@@ -11,10 +11,10 @@ import { SearchMovie } from "@/lib/types";
 
 export default function SubmitScreenings({
   allMoviesPromise,
-    allTheatersPromise,
+  allTheatersPromise,
 }: {
   allMoviesPromise: Promise<SearchMovie[]>;
-    allTheatersPromise: Promise<string[]>;
+  allTheatersPromise: Promise<string[]>;
 }) {
   const numSubmissions = 5;
   const handleCommentsChange = (
