@@ -21,6 +21,7 @@ import { MetaCopy } from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
 import {
   TAG_MAP,
+  cleanString,
   getFields,
   getMovieInfoString,
   stringMatchFields,
@@ -260,10 +261,10 @@ export function TheaterSearchResults({
 
   const filtered = useMemo(() => {
     if (searchTerm.length === 0) return [];
-    const lowercaseSearchTerm = searchTerm.toLowerCase();
+    const lowercaseSearchTerm = cleanString(searchTerm.toLowerCase());
     return take(
       allTheaters.filter((theater) =>
-        theater.toLowerCase().includes(lowercaseSearchTerm),
+        cleanString(theater.toLowerCase()).includes(lowercaseSearchTerm),
       ),
       nb_results,
     );

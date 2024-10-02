@@ -106,6 +106,29 @@ export const getMovies = unstable_cache(
   { revalidate: 1 },
 );
 
+export const getTheaters = unstable_cache(
+  async (): Promise<string[]> => {
+    try {
+      const { db } = getFirebase();
+      const docRef = doc(db, "website-extra-docs", "theater_names");
+      const docSnap = await getDoc(docRef);
+
+      const data = docSnap.data();
+      if (data && "names" in data && Array.isArray(data.names)) {
+        return data.names as string[];
+      } else {
+        console.warn("Theater names data is not in the expected format");
+        return []; // Return an empty array if data is not in the expected format
+      }
+    } catch (error) {
+      console.error("Error fetching theater names:", error);
+      return []; // Return an empty array in case of any error
+    }
+  },
+  ["theater-names"],
+  { revalidate: 1 },
+);
+
 export const getReviewedMovies = unstable_cache(
   async () => {
     const { db } = getFirebase();
