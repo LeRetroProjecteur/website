@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 
-import { getMovies, getTheaters } from "@/lib/movies";
+import { getMovies } from "@/lib/movies";
+import { getTheaters } from "@/lib/theaters";
 
 import SubmitScreenings from "./submit-screenings";
 
