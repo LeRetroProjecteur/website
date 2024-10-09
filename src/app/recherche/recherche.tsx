@@ -290,10 +290,7 @@ export function TheaterSearchResults({
                   onClick?.(theater);
                 }}
                 ref={i === 0 ? selectedRef : null}
-                className={clsx(
-                  "even:bg-retro-pale-green lg:hover:bg-retro-pale-green",
-                  extraClass,
-                )}
+                className={extraClass}
               >
                 {theater}
               </Link>
