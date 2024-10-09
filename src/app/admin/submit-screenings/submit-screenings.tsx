@@ -43,7 +43,7 @@ export default function SubmitScreenings({
       <PageHeader text="Rajouter des séances">
         <SousTitre1>Votre salle</SousTitre1>
       </PageHeader>
-      <div className="flex grow flex-col pb-10px lg:pl-20px">
+      <div className="flex flex-col pb-10px lg:pl-20px">
         <strong>Cinema&nbsp;:</strong>
         <TheaterSearchRow
           allTheatersPromise={allTheatersPromise}
@@ -65,7 +65,7 @@ export default function SubmitScreenings({
               <tbody>
                 {rowsData.map((_, index) => (
                   <Fragment key={index}>
-                    <SearchRow
+                    <ScreeningRow
                       allMoviesPromise={allMoviesPromise}
                       onUpdate={(data) => updateRowData(index, data)}
                     />
@@ -121,7 +121,7 @@ export default function SubmitScreenings({
 }
 
 async function sendMoviesToFirestore(
-  theater: string,
+  theater_name: string,
   rowsData: { movie: string; date: string; time: string; note: string }[],
   comments: string,
   setResponseMessage: (message: string) => void,
@@ -136,7 +136,7 @@ async function sendMoviesToFirestore(
       const [hour, minute] = row.time.split(":").map(Number);
 
       return {
-        theater: theater,
+        theater_name: theater_name,
         movie: row.movie,
         year: year,
         month: month,
@@ -149,7 +149,7 @@ async function sendMoviesToFirestore(
 
     const payload = {
       collection_name: "raw-submit-screenings",
-      doc_name: theater,
+      doc_name: theater_name,
       include_time_in_doc_name: true,
       key_for_doc_name: "doc_name",
       showtimes: transformedData,
@@ -195,7 +195,7 @@ async function sendMoviesToFirestore(
   }
 }
 
-function SearchRow({
+function ScreeningRow({
   allMoviesPromise,
   onUpdate,
 }: {

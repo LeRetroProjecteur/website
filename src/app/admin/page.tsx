@@ -48,7 +48,7 @@ export default function Admin() {
       </SousTitre1>
       <SousTitre1>
         <Link className="underline" href="/admin/submit-screenings">
-          Submit-screenings
+          Rajouter des séances
         </Link>
       </SousTitre1>
     </div>

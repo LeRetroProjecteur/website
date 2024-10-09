@@ -110,12 +110,12 @@ export const getTheaters = unstable_cache(
   async (): Promise<string[]> => {
     try {
       const { db } = getFirebase();
-      const docRef = doc(db, "website-extra-docs", "theaters_names");
+      const docRef = doc(db, "website-extra-docs", "all-theaters");
       const docSnap = await getDoc(docRef);
 
       const data = docSnap.data();
-      if (data && "names" in data && Array.isArray(data.names)) {
-        return data.names as string[];
+      if (data && "elements" in data && Array.isArray(data.elements)) {
+        return data.elements as string[];
       } else {
         console.warn("Theater names data is not in the expected format");
         return []; // Return an empty array if data is not in the expected format
@@ -125,7 +125,7 @@ export const getTheaters = unstable_cache(
       return []; // Return an empty array in case of any error
     }
   },
-  ["theaters_names"],
+  ["all-theaters"],
   { revalidate: 1 },
 );
 
