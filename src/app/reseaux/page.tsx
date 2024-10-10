@@ -1,11 +1,17 @@
 "use client";
 
+import { Metadata } from "next";
 import Link from "next/link";
 
 import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
 import { TwoColumnPage } from "@/components/layout/two-column-page";
 import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
+
+export const metadata: Metadata = {
+  title: "Réseaux sociaux",
+  description: "Suivez-nous sur les réseaux sociaux"
+};
 
 export default function SocialMediaPage() {
   return (

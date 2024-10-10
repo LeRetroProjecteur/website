@@ -6,7 +6,7 @@ import { getReviewedMovies } from "@/lib/movies";
 import CoupsDeCoeur from "./coeur";
 
 export const metadata: Metadata = {
-  title: "Coups de cœur",
+  title: "Nos coups de cœur",
 };
 
 export const dynamic = "force-dynamic";
