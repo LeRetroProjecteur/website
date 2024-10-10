@@ -16,8 +16,7 @@ import icon from "./img/icon.jpg";
 import PlusHier from "./img/plus-qu-hier.png";
 
 export const metadata: Metadata = {
-  title:
-    "Entretien avec Gaël Teicher | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+  title: "Entretien avec Gaël Teicher",
 };
 
 export default function EntretienGaelTeicher() {

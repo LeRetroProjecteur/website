@@ -8,7 +8,9 @@ import {
 import { SousTitre1 } from "@/components/typography/typography";
 
 export const metadata: Metadata = {
-  title: "Actualités | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+  title: "Actualités",
+  description:
+    "Nos dernières chroniques sur l'actualité des ressorties cinéma à Paris",
 };
 
 const chroniques = [
