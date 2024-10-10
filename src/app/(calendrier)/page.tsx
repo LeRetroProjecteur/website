@@ -1,8 +1,9 @@
+import { Metadata } from "next";
+
 import { getDayMovies } from "@/lib/movies";
 import { getStartOfTodayInParis } from "@/lib/util";
 
 import Calendrier from "./calendrier";
-import {Metadata} from "next";
 
 export const dynamic = "force-dynamic";
 
