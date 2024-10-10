@@ -10,7 +10,7 @@ import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 
 export const metadata: Metadata = {
   title: "Réseaux sociaux",
-  description: "Suivez-nous sur les réseaux sociaux"
+  description: "Suivez-nous sur les réseaux sociaux",
 };
 
 export default function SocialMediaPage() {

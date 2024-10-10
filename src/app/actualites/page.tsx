@@ -17,7 +17,8 @@ import top2023Icon from "./top-2023/img/icon.jpg";
 
 export const metadata: Metadata = {
   title: "Actualités",
-  description: "Nos dernières chroniques sur l'actualité des ressorties cinéma à Paris"
+  description:
+    "Nos dernières chroniques sur l'actualité des ressorties cinéma à Paris",
 };
 
 const chroniques = [

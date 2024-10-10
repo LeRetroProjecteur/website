@@ -11,7 +11,9 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   return {
     title: `${(await getMovie(movieId)).title}`,
-    description: `Prochaines séances à Paris de ${(await getMovie(movieId)).title}`
+    description: `Prochaines séances à Paris de ${
+      (await getMovie(movieId)).title
+    }`,
   };
 }
 
