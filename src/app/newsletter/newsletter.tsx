@@ -6,7 +6,7 @@ import RetroInput from "@/components/forms/retro-input";
 import { TwoColumnPage } from "@/components/layout/two-column-page";
 import { BodyCopy } from "@/components/typography/typography";
 
-export default function NewsletterPage() {
+export default function Newsletter() {
   return <TwoColumnPage left={<Description />} right={<SignupForm />} />;
 }
 
