@@ -45,7 +45,7 @@ export default function SubmitScreenings({
       </PageHeader>
       <div className="flex flex-col pb-10px lg:pl-20px">
         <strong>Cinema&nbsp;:</strong>
-        <TheaterSearchRow
+        <TheaterSearch
           allTheatersPromise={allTheatersPromise}
           onUpdate={setTheater}
         />
@@ -99,7 +99,7 @@ export default function SubmitScreenings({
           <span>
             <button
               onClick={() =>
-                sendMoviesToFirestore(
+                sendScreeningsToDatabase(
                   theater,
                   rowsData,
                   comments,
@@ -120,7 +120,7 @@ export default function SubmitScreenings({
   );
 }
 
-async function sendMoviesToFirestore(
+async function sendScreeningsToDatabase(
   theater_name: string,
   rowsData: { movie: string; date: string; time: string; note: string }[],
   comments: string,
@@ -149,9 +149,9 @@ async function sendMoviesToFirestore(
 
     const payload = {
       collection_name: "raw-submit-screenings",
-      doc_name: theater_name,
+      theater_name: theater_name,
       include_time_in_doc_name: true,
-      key_for_doc_name: "doc_name",
+      key_for_doc_name: "theater_name",
       showtimes: transformedData,
       comments: comments,
     };
@@ -296,7 +296,7 @@ function ScreeningRow({
   );
 }
 
-function TheaterSearchRow({
+function TheaterSearch({
   allTheatersPromise,
   onUpdate,
 }: {

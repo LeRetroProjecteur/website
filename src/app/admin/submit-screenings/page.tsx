@@ -8,8 +8,7 @@ import SubmitScreenings from "./submit-screenings";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title:
-    "Rajouter des séances | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+  title: "Rajouter des séances",
 };
 
 export default function SubmitScreeningsPage() {
