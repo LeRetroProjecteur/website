@@ -261,11 +261,22 @@ export function TheaterSearchResults({
 
   const filtered = useMemo(() => {
     if (searchTerm.length === 0) return [];
-    const lowercaseSearchTerm = cleanString(searchTerm.toLowerCase());
+    const keywords = getFields(searchTerm);
+    const cleanedSearchTerm = cleanString(searchTerm.toLowerCase());
+
     return take(
-      allTheaters.filter((theater) =>
-        cleanString(theater.toLowerCase()).includes(lowercaseSearchTerm),
-      ),
+      allTheaters.filter((theater) => {
+        const cleanedTheater = cleanString(theater.toLowerCase());
+        const theaterWords = cleanedTheater.split(/\s+/);
+
+        // Check for full string match
+        if (cleanedTheater.includes(cleanedSearchTerm)) {
+          return true;
+        }
+
+        // Use stringMatchFields for partial matches
+        return stringMatchFields(keywords, theaterWords);
+      }),
       nb_results,
     );
   }, [allTheaters, searchTerm, nb_results]);
