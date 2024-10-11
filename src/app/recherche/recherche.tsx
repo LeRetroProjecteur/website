@@ -21,6 +21,7 @@ import { MetaCopy } from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
 import {
   TAG_MAP,
+  cleanString,
   getFields,
   getMovieInfoString,
   stringMatchFields,
@@ -93,19 +94,31 @@ export default function Recherche({
           hideLoading={searchTerm.length === 0}
           className="flex grow items-center justify-center pt-15px"
         >
-          <Results {...{ searchTerm, allMoviesPromise }} />
+          <Results
+            nb_results={50}
+            extraClass={
+              "border-b py-10px pl-5px text-15px font-medium uppercase leading-20px lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0"
+            }
+            {...{ searchTerm, allMoviesPromise }}
+          />
         </SuspenseWithLoading>
       </div>
     </>
   );
 }
 
-function Results({
+export function Results({
   allMoviesPromise,
   searchTerm,
+  nb_results,
+  extraClass,
+  onClick,
 }: {
   allMoviesPromise: Promise<SearchMovie[]>;
   searchTerm: string;
+  nb_results: number;
+  extraClass?: string;
+  onClick?: (movie: SearchMovie) => void;
 }) {
   const selected = useRechercheStore((s) => s.selected);
   const tags = useRechercheStore((s) => s.tags);
@@ -145,10 +158,10 @@ function Results({
                   (tags.length === 0 || every(tags, () => true)),
               )
               .map(([movie]) => movie),
-            50,
+            nb_results,
           )
         : [],
-    [allMoviesFields, searchTerm, keywords, tags],
+    [allMoviesFields, searchTerm, keywords, tags, nb_results],
   );
 
   const router = useRouter();
@@ -176,6 +189,14 @@ function Results({
           <>
             {filtered.map((movie, i) => (
               <Link
+                onClick={
+                  onClick != null
+                    ? (e) => {
+                        onClick(movie);
+                        e.preventDefault();
+                      }
+                    : undefined
+                }
                 ref={selected === i ? selectedRef : null}
                 key={movie.id}
                 href={`/film/${movie.id}`}
@@ -184,7 +205,8 @@ function Results({
                     "lg:bg-retro-pale-green": i === selected,
                     "lg:even:bg-white": i !== selected,
                   },
-                  "border-b py-10px pl-5px text-15px font-medium uppercase leading-20px even:bg-retro-pale-green lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0 lg:hover:bg-retro-pale-green",
+                  "even:bg-retro-pale-green lg:hover:bg-retro-pale-green",
+                  extraClass,
                 )}
               >
                 <u>{movie.title}</u>, {movie.directors} ({movie.year})
@@ -218,5 +240,100 @@ function Tag({ tag, displayTag }: { tag: string; displayTag: string }) {
     >
       {displayTag}
     </div>
+  );
+}
+
+export function TheaterSearchResults({
+  allTheatersPromise,
+  searchTerm,
+  nb_results,
+  extraClass,
+  onClick,
+}: {
+  allTheatersPromise: Promise<string[]>;
+  searchTerm: string;
+  nb_results: number;
+  extraClass?: string;
+  onClick?: (theater: string) => void;
+}) {
+  const allTheaters = use(allTheatersPromise);
+  const selected = useRechercheStore((s) => s.selected);
+  const selectedRef: MutableRefObject<HTMLAnchorElement | null> = useRef(null);
+
+  const filtered = useMemo(() => {
+    if (searchTerm.length === 0) return [];
+    const keywords = getFields(searchTerm);
+    const cleanedSearchTerm = cleanString(searchTerm.toLowerCase());
+
+    return take(
+      allTheaters.filter((theater) => {
+        const cleanedTheater = cleanString(theater.toLowerCase());
+        const theaterWords = cleanedTheater.split(/\s+/);
+
+        // Check for full string match
+        if (cleanedTheater.includes(cleanedSearchTerm)) {
+          return true;
+        }
+
+        // Use stringMatchFields for partial matches
+        return stringMatchFields(keywords, theaterWords);
+      }),
+      nb_results,
+    );
+  }, [allTheaters, searchTerm, nb_results]);
+
+  const router = useRouter();
+  useEffect(() => {
+    const keydown = (ev: KeyboardEvent) => {
+      const selected = useRechercheStore.getState().selected;
+      if (ev.key === "ArrowDown") {
+        setSelected(Math.min((selected ?? -1) + 1, filtered.length - 1));
+      } else if (ev.key === "ArrowUp") {
+        setSelected(Math.max((selected ?? filtered.length) - 1, 0));
+      }
+    };
+    addEventListener("keydown", keydown);
+    return () => removeEventListener("keydown", keydown);
+  }, [filtered, router]);
+
+  return (
+    searchTerm.length > 0 && (
+      <div className="flex grow flex-col">
+        {filtered.length > 0 ? (
+          <>
+            {filtered.map((theater, i) => (
+              <Link
+                key={theater}
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onClick?.(theater);
+                }}
+                ref={i === selected ? selectedRef : null}
+                className={clsx(
+                  {
+                    "lg:bg-retro-pale-green": i === selected,
+                    "lg:even:bg-white": i !== selected,
+                  },
+                  "even:bg-retro-pale-green lg:hover:bg-retro-pale-green",
+                  extraClass,
+                )}
+                tabIndex={i === selected ? 0 : -1}
+              >
+                {theater}
+              </Link>
+            ))}
+            <div className="min-h-100px w-1/2 grow border-r lg:hidden" />
+          </>
+        ) : (
+          <div className="pt-15px lg:pt-20px">
+            <MetaCopy>
+              Désolé, nous n&apos;avons rien trouvé qui corresponde à votre
+              recherche !
+            </MetaCopy>
+          </div>
+        )}
+      </div>
+    )
   );
 }
