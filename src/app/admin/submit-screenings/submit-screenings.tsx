@@ -1,20 +1,20 @@
 "use client";
 
-import React, { Fragment, Suspense, useState } from "react";
+import React, { Fragment, useState } from "react";
 
 import { Results, TheaterSearchResults } from "@/app/recherche/recherche";
 import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
-import { SearchMovie } from "@/lib/types";
+import { SearchMovie, SearchTheater } from "@/lib/types";
 
 export default function SubmitScreenings({
   allMoviesPromise,
   allTheatersPromise,
 }: {
   allMoviesPromise: Promise<SearchMovie[]>;
-  allTheatersPromise: Promise<string[]>;
+  allTheatersPromise: Promise<SearchTheater[]>;
 }) {
   const numSubmissions = 5;
   const handleCommentsChange = (
@@ -209,14 +209,14 @@ function ScreeningRow({
     note: string;
   }) => void;
 }) {
-  const [searchTerm, _setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [note, setNote] = useState("");
 
-  const setSearchTerm = (st: string) => {
-    _setSearchTerm(st);
+  const setSearchFind = (st: string) => {
+    setSearchTerm(st);
     setShowResults(true);
     onUpdate({ movie: st, date, time, note });
   };
@@ -227,7 +227,7 @@ function ScreeningRow({
         <div className={"flex grow flex-col"}>
           <RetroInput
             value={searchTerm}
-            setValue={setSearchTerm}
+            setValue={setSearchFind}
             leftAlignPlaceholder
             customTypography
             placeholder="Recherchez un film..."
@@ -239,9 +239,10 @@ function ScreeningRow({
               <Results
                 extraClass="text-left px-5px py-2px border-x border-b"
                 nb_results={5}
-                {...{ searchTerm, allMoviesPromise }}
+                searchTerm={searchTerm}
+                allDataPromise={allMoviesPromise}
                 onClick={(movie) => {
-                  setSearchTerm(
+                  setSearchFind(
                     movie.title +
                       ", " +
                       movie.directors +
@@ -302,13 +303,13 @@ function TheaterSearch({
   allTheatersPromise,
   onUpdate,
 }: {
-  allTheatersPromise: Promise<string[]>;
+  allTheatersPromise: Promise<SearchTheater[]>;
   onUpdate: (theater: string) => void;
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [showResults, setShowResults] = useState(false);
 
-  const handleSearchTermChange = (st: string) => {
+  const setSearchFind = (st: string) => {
     setSearchTerm(st);
     setShowResults(true);
     onUpdate(st);
@@ -318,27 +319,27 @@ function TheaterSearch({
     <div className="flex grow flex-col">
       <RetroInput
         value={searchTerm}
-        setValue={handleSearchTermChange}
+        setValue={setSearchFind}
         leftAlignPlaceholder
         customTypography
         placeholder="Recherchez un cinéma..."
         transparentPlaceholder
         className="flex grow"
       />
-      <Suspense fallback={<div>Loading...</div>}>
+      <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
         {showResults && (
           <TheaterSearchResults
             extraClass="text-left px-5px py-2px border-x border-b"
             nb_results={5}
             searchTerm={searchTerm}
-            allTheatersPromise={allTheatersPromise}
+            allDataPromise={allTheatersPromise}
             onClick={(theater) => {
-              handleSearchTermChange(theater);
+              setSearchFind(theater.name);
               setShowResults(false);
             }}
           />
         )}
-      </Suspense>
+      </SuspenseWithLoading>
     </div>
   );
 }
