@@ -136,7 +136,6 @@ async function sendScreeningsToDatabase(
       const [hour, minute] = row.time.split(":").map(Number);
 
       return {
-        theater_name: theater_name,
         movie: row.movie,
         year: year,
         month: month,
