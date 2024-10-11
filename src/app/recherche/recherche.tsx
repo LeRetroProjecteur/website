@@ -257,7 +257,8 @@ export function TheaterSearchResults({
   onClick?: (theater: string) => void;
 }) {
   const allTheaters = use(allTheatersPromise);
-  const selectedRef = useRef<HTMLAnchorElement | null>(null);
+  const selected = useRechercheStore((s) => s.selected);
+  const selectedRef: MutableRefObject<HTMLAnchorElement | null> = useRef(null);
 
   const filtered = useMemo(() => {
     if (searchTerm.length === 0) return [];
@@ -281,11 +282,19 @@ export function TheaterSearchResults({
     );
   }, [allTheaters, searchTerm, nb_results]);
 
+  const router = useRouter();
   useEffect(() => {
-    if (selectedRef.current) {
-      selectedRef.current.scrollIntoView({ block: "center" });
-    }
-  }, []);
+    const keydown = (ev: KeyboardEvent) => {
+      const selected = useRechercheStore.getState().selected;
+      if (ev.key === "ArrowDown") {
+        setSelected(Math.min((selected ?? -1) + 1, filtered.length - 1));
+      } else if (ev.key === "ArrowUp") {
+        setSelected(Math.max((selected ?? filtered.length) - 1, 0));
+      }
+    };
+    addEventListener("keydown", keydown);
+    return () => removeEventListener("keydown", keydown);
+  }, [filtered, router]);
 
   return (
     searchTerm.length > 0 && (
@@ -300,19 +309,28 @@ export function TheaterSearchResults({
                   e.preventDefault();
                   onClick?.(theater);
                 }}
-                ref={i === 0 ? selectedRef : null}
-                className={extraClass}
+                ref={i === selected ? selectedRef : null}
+                className={clsx(
+                  {
+                    "lg:bg-retro-pale-green": i === selected,
+                    "lg:even:bg-white": i !== selected,
+                  },
+                  "even:bg-retro-pale-green lg:hover:bg-retro-pale-green",
+                  extraClass,
+                )}
+                tabIndex={i === selected ? 0 : -1}
               >
                 {theater}
               </Link>
             ))}
+            <div className="min-h-100px w-1/2 grow border-r lg:hidden" />
           </>
         ) : (
           <div className="pt-15px lg:pt-20px">
-            <p>
-              Désolé, nous n&apos;avons trouvé aucun cinéma correspondant à
-              votre recherche !
-            </p>
+            <MetaCopy>
+              Désolé, nous n&apos;avons rien trouvé qui corresponde à votre
+              recherche !
+            </MetaCopy>
           </div>
         )}
       </div>
