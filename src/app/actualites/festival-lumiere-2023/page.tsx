@@ -19,8 +19,7 @@ import mareeNoire from "./img/maree_noire.jpg";
 import ozuRay from "./img/ozu-ray.jpg";
 
 export const metadata: Metadata = {
-  title:
-    "Retour sur le Festival Lumière 2023 | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+  title: "Retour sur le Festival Lumière 2023",
 };
 
 export default function Lumiere2023() {

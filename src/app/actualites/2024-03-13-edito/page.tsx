@@ -7,8 +7,7 @@ import { FirstRow, MiddleColumn, ThreeColumnLayout } from "../components";
 import icon from "./img/icon.jpg";
 
 export const metadata: Metadata = {
-  title:
-    "Le cinéma du passé se vit au présent | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+  title: "Le cinéma du passé se vit au présent",
 };
 
 export default function Edito20240307() {

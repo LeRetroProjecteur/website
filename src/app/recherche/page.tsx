@@ -7,7 +7,8 @@ import Recherche from "./recherche";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Recherche | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+  title: "Recherche",
+  description: "Recherchez un film qui passe en salle à Paris",
 };
 
 export default function RecherchePage() {

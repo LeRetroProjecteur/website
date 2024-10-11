@@ -3,13 +3,13 @@ import { Metadata } from "next";
 import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
 
-import NewsletterPage from "./newsletter";
+import Newsletter from "./newsletter";
 
 export const metadata: Metadata = {
-  title: "Newsletter | Le Rétro Projecteur - Cinéma de patrimoine à Paris",
+  title: "Newsletter",
 };
 
-export default function AProposPage() {
+export default function NewsletterPage() {
   return (
     <>
       <PageHeader text="«&nbsp;Up Close&nbsp;»">
@@ -17,7 +17,7 @@ export default function AProposPage() {
           Abonnez-vous à notre newsletter hebdomadaire&nbsp;!
         </SousTitre1>
       </PageHeader>
-      <NewsletterPage />
+      <Newsletter />
     </>
   );
 }
