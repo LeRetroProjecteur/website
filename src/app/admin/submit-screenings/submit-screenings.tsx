@@ -136,19 +136,17 @@ async function sendScreeningsToDatabase(
       const [hour, minute] = row.time.split(":").map(Number);
 
       // Check if any required field is missing or NaN
-      if (row.movie == "" || isNaN(year) || isNaN(month) || isNaN(day)) {
-        return null;
+      if (!(row.movie == "" || isNaN(year) || isNaN(month) || isNaN(day))) {
+        return {
+          movie: row.movie,
+          year: year,
+          month: month,
+          day: day,
+          hour: hour,
+          minute: minute,
+          notes: row.note,
+        };
       }
-
-      return {
-        movie: row.movie,
-        year: year,
-        month: month,
-        day: day,
-        hour: hour,
-        minute: minute,
-        notes: row.note,
-      };
     });
 
     const payload = {
