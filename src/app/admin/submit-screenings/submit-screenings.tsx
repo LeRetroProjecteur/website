@@ -135,6 +135,11 @@ async function sendScreeningsToDatabase(
       const [year, month, day] = row.date.split("-").map(Number);
       const [hour, minute] = row.time.split(":").map(Number);
 
+      // Check if any required field is missing or NaN
+      if (row.movie == "" || isNaN(year) || isNaN(month) || isNaN(day)) {
+        return null;
+      }
+
       return {
         movie: row.movie,
         year: year,
