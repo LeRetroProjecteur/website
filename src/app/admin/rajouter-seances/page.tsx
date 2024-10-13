@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { getMovies } from "@/lib/movies";
 import { getTheaters } from "@/lib/theaters";
 
-import SubmitScreenings from "./submit-screenings";
+import SubmitScreenings from "./rajouter-seances";
 
 export const dynamic = "force-dynamic";
 
