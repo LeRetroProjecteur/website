@@ -24,10 +24,16 @@ export default function SubmitScreenings({
   };
   const [responseMessage, setResponseMessage] = useState("");
   const [rowsData, setRowsData] = useState(
-    Array(numSubmissions).fill({ movie: "", date: "", time: "", note: "" }),
+    Array(numSubmissions).fill({
+      movie: "",
+      movie_id: "",
+      date: "",
+      time: "",
+      note: "",
+    }),
   );
   const [comments, setComments] = useState("");
-  const [theater, setTheater] = useState("");
+  const [theaterData, setTheaterData] = useState({ name: "", theater_id: "" });
 
   const updateRowData = (
     index: number,
@@ -53,7 +59,7 @@ export default function SubmitScreenings({
         <strong>Cinema&nbsp;:</strong>
         <TheaterSearch
           allTheatersPromise={allTheatersPromise}
-          onUpdate={setTheater}
+          onUpdate={setTheaterData}
         />
         <br />
         <br />
@@ -106,7 +112,7 @@ export default function SubmitScreenings({
             <button
               onClick={() =>
                 sendScreeningsToDatabase(
-                  theater,
+                  theaterData,
                   rowsData,
                   comments,
                   setResponseMessage,
@@ -127,7 +133,7 @@ export default function SubmitScreenings({
 }
 
 async function sendScreeningsToDatabase(
-  theater_name: string,
+  theaterData: { name: string; theater_id: string },
   rowsData: {
     movie: string;
     movie_id: string;
@@ -164,7 +170,8 @@ async function sendScreeningsToDatabase(
 
     const payload = {
       collection_name: "raw-submit-screenings",
-      theater_name: theater_name,
+      theater_name: theaterData.name,
+      theater_id: theaterData.theater_id,
       include_time_in_doc_name: true,
       key_for_doc_name: "theater_name",
       showtimes: transformedData,
@@ -339,22 +346,22 @@ function TheaterSearch({
   onUpdate,
 }: {
   allTheatersPromise: Promise<SearchTheater[]>;
-  onUpdate: (theater: string) => void;
+  onUpdate: (data: { name: string; theater_id: string }) => void;
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [showResults, setShowResults] = useState(false);
 
-  const setSearchFind = (st: string) => {
-    setSearchTerm(st);
+  const setSearchFind = (theater: { name: string; theater_id: string }) => {
+    setSearchTerm(theater.name);
     setShowResults(true);
-    onUpdate(st);
+    onUpdate(theater);
   };
 
   return (
     <div className="flex grow flex-col">
       <RetroInput
         value={searchTerm}
-        setValue={setSearchFind}
+        setValue={(st) => setSearchFind({ name: st, theater_id: "" })}
         leftAlignPlaceholder
         customTypography
         placeholder="Recherchez un cinéma..."
@@ -369,7 +376,10 @@ function TheaterSearch({
             searchTerm={searchTerm}
             allDataPromise={allTheatersPromise}
             onClick={(theater) => {
-              setSearchFind(theater.name);
+              setSearchFind({
+                name: theater.name,
+                theater_id: theater.theater_id,
+              });
               setShowResults(false);
             }}
           />
