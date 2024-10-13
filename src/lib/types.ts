@@ -53,6 +53,11 @@ export interface SearchMovie {
   original_title: string;
 }
 
+export interface SearchTheater {
+  theater_id: string;
+  name: string;
+}
+
 export interface MovieWithNoScreenings {
   directors: string;
   tags: string;
