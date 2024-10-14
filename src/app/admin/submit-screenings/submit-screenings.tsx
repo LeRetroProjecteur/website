@@ -2,7 +2,7 @@
 
 import React, { Fragment, useState } from "react";
 
-import { Results, TheaterSearchResults } from "@/app/recherche/recherche";
+import { SearchResults, TheaterSearchResults } from "@/app/recherche/recherche";
 import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
@@ -259,9 +259,9 @@ function ScreeningRow({
           />
           <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
             {showResults && (
-              <Results
+              <SearchResults
                 extraClass="text-left px-5px py-2px border-x border-b"
-                nb_results={5}
+                nbResults={5}
                 searchTerm={searchTerm}
                 allDataPromise={allMoviesPromise}
                 onClick={(movie) => {
@@ -372,7 +372,7 @@ function TheaterSearch({
         {showResults && (
           <TheaterSearchResults
             extraClass="text-left px-5px py-2px border-x border-b"
-            nb_results={5}
+            nbResults={5}
             searchTerm={searchTerm}
             allDataPromise={allTheatersPromise}
             onClick={(theater) => {
