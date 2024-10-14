@@ -24,14 +24,26 @@ export default function SubmitScreenings({
   };
   const [responseMessage, setResponseMessage] = useState("");
   const [rowsData, setRowsData] = useState(
-    Array(numSubmissions).fill({ movie: "", date: "", time: "", note: "" }),
+    Array(numSubmissions).fill({
+      movie: "",
+      movie_id: "",
+      date: "",
+      time: "",
+      note: "",
+    }),
   );
   const [comments, setComments] = useState("");
-  const [theater, setTheater] = useState("");
+  const [theaterData, setTheaterData] = useState({ name: "", theater_id: "" });
 
   const updateRowData = (
     index: number,
-    data: { movie: string; date: string; time: string; note: string },
+    data: {
+      movie: string;
+      movie_id: string;
+      date: string;
+      time: string;
+      note: string;
+    },
   ) => {
     const newRowsData = [...rowsData];
     newRowsData[index] = data;
@@ -47,7 +59,7 @@ export default function SubmitScreenings({
         <strong>Cinema&nbsp;:</strong>
         <TheaterSearch
           allTheatersPromise={allTheatersPromise}
-          onUpdate={setTheater}
+          onUpdate={setTheaterData}
         />
         <br />
         <br />
@@ -100,7 +112,7 @@ export default function SubmitScreenings({
             <button
               onClick={() =>
                 sendScreeningsToDatabase(
-                  theater,
+                  theaterData,
                   rowsData,
                   comments,
                   setResponseMessage,
@@ -121,8 +133,14 @@ export default function SubmitScreenings({
 }
 
 async function sendScreeningsToDatabase(
-  theater_name: string,
-  rowsData: { movie: string; date: string; time: string; note: string }[],
+  theaterData: { name: string; theater_id: string },
+  rowsData: {
+    movie: string;
+    movie_id: string;
+    date: string;
+    time: string;
+    note: string;
+  }[],
   comments: string,
   setResponseMessage: (message: string) => void,
 ) {
@@ -139,6 +157,7 @@ async function sendScreeningsToDatabase(
       if (!(row.movie == "" || isNaN(year) || isNaN(month) || isNaN(day))) {
         return {
           movie: row.movie,
+          id: row.movie_id,
           year: year,
           month: month,
           day: day,
@@ -151,7 +170,8 @@ async function sendScreeningsToDatabase(
 
     const payload = {
       collection_name: "raw-submit-screenings",
-      theater_name: theater_name,
+      theater_name: theaterData.name,
+      theater_id: theaterData.theater_id,
       include_time_in_doc_name: true,
       key_for_doc_name: "theater_name",
       showtimes: transformedData,
@@ -204,21 +224,24 @@ function ScreeningRow({
   allMoviesPromise: Promise<SearchMovie[]>;
   onUpdate: (data: {
     movie: string;
+    movie_id: string;
     date: string;
     time: string;
     note: string;
   }) => void;
 }) {
   const [searchTerm, setSearchTerm] = useState("");
+  const [movieId, setMovieId] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [note, setNote] = useState("");
 
-  const setSearchFind = (st: string) => {
+  const setSearchFind = (st: string, id: string = "") => {
     setSearchTerm(st);
+    setMovieId(id);
     setShowResults(true);
-    onUpdate({ movie: st, date, time, note });
+    onUpdate({ movie: st, movie_id: id, date, time, note });
   };
 
   return (
@@ -227,7 +250,7 @@ function ScreeningRow({
         <div className={"flex grow flex-col"}>
           <RetroInput
             value={searchTerm}
-            setValue={setSearchFind}
+            setValue={(st) => setSearchFind(st)}
             leftAlignPlaceholder
             customTypography
             placeholder="Recherchez un film..."
@@ -249,6 +272,7 @@ function ScreeningRow({
                       " (" +
                       movie.year +
                       ")",
+                    movie.id,
                   );
                   setShowResults(false);
                 }}
@@ -266,7 +290,13 @@ function ScreeningRow({
           value={date}
           onChange={(e) => {
             setDate(e.target.value);
-            onUpdate({ movie: searchTerm, date: e.target.value, time, note });
+            onUpdate({
+              movie: searchTerm,
+              movie_id: movieId,
+              date: e.target.value,
+              time,
+              note,
+            });
           }}
         />
       </td>
@@ -279,7 +309,13 @@ function ScreeningRow({
           value={time}
           onChange={(e) => {
             setTime(e.target.value);
-            onUpdate({ movie: searchTerm, date, time: e.target.value, note });
+            onUpdate({
+              movie: searchTerm,
+              movie_id: movieId,
+              date,
+              time: e.target.value,
+              note,
+            });
           }}
         />
       </td>
@@ -291,7 +327,13 @@ function ScreeningRow({
           value={note}
           onChange={(e) => {
             setNote(e.target.value);
-            onUpdate({ movie: searchTerm, date, time, note: e.target.value });
+            onUpdate({
+              movie: searchTerm,
+              movie_id: movieId,
+              date,
+              time,
+              note: e.target.value,
+            });
           }}
         />
       </td>
@@ -304,22 +346,22 @@ function TheaterSearch({
   onUpdate,
 }: {
   allTheatersPromise: Promise<SearchTheater[]>;
-  onUpdate: (theater: string) => void;
+  onUpdate: (data: { name: string; theater_id: string }) => void;
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [showResults, setShowResults] = useState(false);
 
-  const setSearchFind = (st: string) => {
-    setSearchTerm(st);
+  const setSearchFind = (theater: { name: string; theater_id: string }) => {
+    setSearchTerm(theater.name);
     setShowResults(true);
-    onUpdate(st);
+    onUpdate(theater);
   };
 
   return (
     <div className="flex grow flex-col">
       <RetroInput
         value={searchTerm}
-        setValue={setSearchFind}
+        setValue={(st) => setSearchFind({ name: st, theater_id: "" })}
         leftAlignPlaceholder
         customTypography
         placeholder="Recherchez un cinéma..."
@@ -334,7 +376,10 @@ function TheaterSearch({
             searchTerm={searchTerm}
             allDataPromise={allTheatersPromise}
             onClick={(theater) => {
-              setSearchFind(theater.name);
+              setSearchFind({
+                name: theater.name,
+                theater_id: theater.theater_id,
+              });
               setShowResults(false);
             }}
           />

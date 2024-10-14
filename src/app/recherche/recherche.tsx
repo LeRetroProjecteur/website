@@ -309,6 +309,13 @@ export function TheaterSearchResults({
         setSelected(Math.min((selected ?? -1) + 1, filtered.length - 1));
       } else if (ev.key === "ArrowUp") {
         setSelected(Math.max((selected ?? filtered.length) - 1, 0));
+      } else if (ev.key === "Enter" && selected != null) {
+        if (filtered[selected]) {
+          const selectedTheater = filtered[selected];
+          if (onClick) {
+            onClick(selectedTheater);
+          }
+        }
       }
     };
 
