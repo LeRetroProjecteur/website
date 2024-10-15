@@ -63,6 +63,8 @@ export default function Recherche({
 
   const searchTerm = useRechercheStore((s) => s.searchTerm);
 
+  const router = useRouter();
+
   return (
     <>
       <FixedHeader disableBelowPadding className="lg:border-b lg:pb-20px">
@@ -93,13 +95,16 @@ export default function Recherche({
           hideLoading={searchTerm.length === 0}
           className="flex grow items-center justify-center pt-15px"
         >
-          <Results
-            nb_results={50}
+          <SearchResults
+            nbResults={50}
             extraClass={
               "border-b py-10px pl-5px text-15px font-medium uppercase leading-20px lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0"
             }
             searchTerm={searchTerm}
             allDataPromise={allMoviesPromise}
+            onClick={(movie) => {
+              router.push(`/film/${movie.id}`);
+            }}
           />
         </SuspenseWithLoading>
       </div>
@@ -107,16 +112,16 @@ export default function Recherche({
   );
 }
 
-export function Results({
+export function SearchResults({
   allDataPromise,
   searchTerm,
-  nb_results,
+  nbResults,
   extraClass,
   onClick,
 }: {
   allDataPromise: Promise<SearchMovie[]>;
   searchTerm: string;
-  nb_results: number;
+  nbResults: number;
   extraClass?: string;
   onClick?: (movie: SearchMovie) => void;
 }) {
@@ -158,13 +163,11 @@ export function Results({
                   (tags.length === 0 || every(tags, () => true)),
               )
               .map(([elem]) => elem),
-            nb_results,
+            nbResults,
           )
         : [],
-    [allDataFields, searchTerm, keywords, tags, nb_results],
+    [allDataFields, searchTerm, keywords, tags, nbResults],
   );
-
-  const router = useRouter();
 
   useEffect(() => {
     const keydown = (ev: KeyboardEvent) => {
@@ -174,32 +177,35 @@ export function Results({
       } else if (ev.key === "ArrowUp") {
         setSelected(Math.max((selected ?? filtered.length) - 1, 0));
       } else if (ev.key === "Enter" && selected != null) {
-        router.push(`/film/${filtered[selected].id}`);
+        if (filtered[selected]) {
+          if (onClick) {
+            onClick(filtered[selected]);
+          }
+        }
       }
     };
-
     addEventListener("keydown", keydown);
     return () => removeEventListener("keydown", keydown);
-  }, [filtered, router]);
+  }, [filtered, onClick]);
 
   return (
     searchTerm.length > 0 && (
       <div className="flex grow flex-col">
         {filtered.length > 0 ? (
           <>
-            {filtered.map((movie, i) => (
+            {filtered.map((elem, i) => (
               <Link
                 onClick={
                   onClick != null
                     ? (e) => {
-                        onClick(movie);
+                        onClick(elem);
                         e.preventDefault();
                       }
                     : undefined
                 }
                 ref={selected === i ? selectedRef : null}
-                key={movie.id}
-                href={`/film/${movie.id}`}
+                key={elem.id}
+                href=""
                 className={clsx(
                   {
                     "lg:bg-retro-pale-green": i === selected,
@@ -209,7 +215,7 @@ export function Results({
                   extraClass,
                 )}
               >
-                <u>{movie.title}</u>, {movie.directors} ({movie.year})
+                <u>{elem.title}</u>, {elem.directors} ({elem.year})
               </Link>
             ))}
             <div className="min-h-100px w-1/2 grow border-r lg:hidden" />
@@ -246,13 +252,13 @@ function Tag({ tag, displayTag }: { tag: string; displayTag: string }) {
 export function TheaterSearchResults({
   allDataPromise,
   searchTerm,
-  nb_results,
+  nbResults,
   extraClass,
   onClick,
 }: {
   allDataPromise: Promise<SearchTheater[]>;
   searchTerm: string;
-  nb_results: number;
+  nbResults: number;
   extraClass?: string;
   onClick?: (theater: SearchTheater) => void;
 }) {
@@ -261,9 +267,9 @@ export function TheaterSearchResults({
   const allData = use(allDataPromise);
   const allDataFields = useMemo(() => {
     return orderBy(
-      allData.map<[SearchTheater, string[]]>((theater) => [
-        theater,
-        getFields(theater.name),
+      allData.map<[SearchTheater, string[]]>((elem) => [
+        elem,
+        getFields(elem.name),
       ]),
       ([theater]) => theater.name,
       "desc",
@@ -293,14 +299,12 @@ export function TheaterSearchResults({
                   stringMatchFields(keywords, fields) &&
                   (tags.length === 0 || every(tags, () => true)),
               )
-              .map(([movie]) => movie),
-            nb_results,
+              .map(([elem]) => elem),
+            nbResults,
           )
         : [],
-    [allDataFields, searchTerm, keywords, tags, nb_results],
+    [allDataFields, searchTerm, keywords, tags, nbResults],
   );
-
-  const router = useRouter();
 
   useEffect(() => {
     const keydown = (ev: KeyboardEvent) => {
@@ -311,35 +315,33 @@ export function TheaterSearchResults({
         setSelected(Math.max((selected ?? filtered.length) - 1, 0));
       } else if (ev.key === "Enter" && selected != null) {
         if (filtered[selected]) {
-          const selectedTheater = filtered[selected];
           if (onClick) {
-            onClick(selectedTheater);
+            onClick(filtered[selected]);
           }
         }
       }
     };
-
     addEventListener("keydown", keydown);
     return () => removeEventListener("keydown", keydown);
-  }, [filtered, router]);
+  }, [filtered, onClick]);
 
   return (
     searchTerm.length > 0 && (
       <div className="flex grow flex-col">
         {filtered.length > 0 ? (
           <>
-            {filtered.map((theater, i) => (
+            {filtered.map((elem, i) => (
               <Link
                 onClick={
                   onClick != null
                     ? (e) => {
-                        onClick(theater);
+                        onClick(elem);
                         e.preventDefault();
                       }
                     : undefined
                 }
                 ref={selected === i ? selectedRef : null}
-                key={theater.theater_id}
+                key={elem.theater_id}
                 href=""
                 className={clsx(
                   {
@@ -350,7 +352,7 @@ export function TheaterSearchResults({
                   extraClass,
                 )}
               >
-                {theater.name}
+                {elem.name}
               </Link>
             ))}
             <div className="min-h-100px w-1/2 grow border-r lg:hidden" />
