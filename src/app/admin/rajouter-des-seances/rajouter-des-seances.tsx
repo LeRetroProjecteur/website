@@ -172,8 +172,8 @@ async function sendScreeningsToDatabase(
       collection_name: "raw-submit-screenings",
       theater_name: theaterData.name,
       theater_id: theaterData.theater_id,
-      include_time_in_doc_name: true,
-      key_for_doc_name: "theater_name",
+      include_time_in_doc_name: false,
+      key_for_doc_name: "theater_id",
       showtimes: transformedData,
       comments: comments,
     };
