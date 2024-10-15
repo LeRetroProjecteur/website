@@ -214,13 +214,22 @@ export function filterTimes(
   showtimes: TheaterScreenings[],
   minHour: number,
   maxHour: number,
+  events?: boolean,
 ) {
   return showtimes
     .map((theater) => ({
       ...theater,
-      screenings: theater.screenings.filter(
-        (screening) => screening.time >= minHour && screening.time <= maxHour,
-      ),
+      screenings: events
+        ? theater.screenings.filter(
+            (screening) =>
+              screening.time >= minHour &&
+              screening.time <= maxHour &&
+              screening.notes != null,
+          )
+        : theater.screenings.filter(
+            (screening) =>
+              screening.time >= minHour && screening.time <= maxHour,
+          ),
     }))
     .filter((showtimes) => showtimes.screenings.length > 0);
 }
