@@ -2,7 +2,7 @@ import { size } from "lodash-es";
 import Image from "next/image";
 import React, { useMemo } from "react";
 
-import MovieAlertButton from './MovieAlertButton';  // New import
+// New import
 import coupDeCoeur from "@/assets/coup-de-coeur.png";
 import PageHeader from "@/components/layout/page-header";
 import { TwoColumnPage } from "@/components/layout/two-column-page";
@@ -23,6 +23,8 @@ import {
   getMovieTags,
   safeDate,
 } from "@/lib/util";
+
+import MovieAlertButton from "./MovieAlertButton";
 
 export default function Film({ movie }: { movie: MovieDetail }) {
   return (
@@ -49,7 +51,6 @@ export default function Film({ movie }: { movie: MovieDetail }) {
     </>
   );
 }
-
 
 function MovieHeader({ movie }: { movie: MovieDetail }) {
   return (

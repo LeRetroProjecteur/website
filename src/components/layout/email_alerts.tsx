@@ -1,12 +1,11 @@
-import {closeNewsLetter, useNewsletterStore} from "@/lib/newsletter-store";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
+
 import RetroInput from "@/components/forms/retro-input";
-import Link from "next/link";
+import { closeNewsLetter, useNewsletterStore } from "@/lib/newsletter-store";
 
 export default function EmailAlerts() {
   const isOpen = useNewsletterStore((s) => s.isOpen);
   const [email, setEmail] = useState("");
-  const [how, setHow] = useState("");
 
   useEffect(() => {
     const listener = (e: KeyboardEvent) => {
@@ -62,7 +61,7 @@ export default function EmailAlerts() {
               </div>
               <div className="border-b px-1px py-18px text-center font-degular text-71px font-black uppercase leading-58px tracking-[0.01em] text-retro-gray">
                 S&apos;INSCRIRE
-                <br />À L'ALERTE
+                <br />À L&apos;ALERTE
                 <br />
                 DU FILM
               </div>
