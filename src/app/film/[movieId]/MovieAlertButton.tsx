@@ -1,5 +1,7 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
+
 import { TextBox } from "@/components/layout/text-boxes";
 
 export default function MovieAlertButton({
