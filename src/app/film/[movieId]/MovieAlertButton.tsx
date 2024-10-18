@@ -2,6 +2,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
+import {TextBox} from "@/components/layout/text-boxes";
 
 export default function MovieAlertButton({ movieId, movieTitle }: { movieId: string, movieTitle: string }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,12 +62,11 @@ export default function MovieAlertButton({ movieId, movieTitle }: { movieId: str
 
   return (
     <>
-      <button
-        onClick={handleAlertClick}
-        className="mt-4 px-4 py-2 bg-retro-blue text-white rounded hover:bg-blue-600"
-      >
-        Alert
-      </button>
+      <div className="mt-4">
+        <TextBox textColor="retro-gray" bgColor="retro-blue" onClick={handleAlertClick}>
+          <div>Se tenir informé des prochaines séances</div>
+        </TextBox>
+      </div>
       {isOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-retro-blue p-6 rounded-lg shadow-lg w-96">
