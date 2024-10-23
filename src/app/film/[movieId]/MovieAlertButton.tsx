@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+
 import { TextBox } from "@/components/layout/text-boxes";
 
 export default function MovieAlertButton({
@@ -74,18 +75,18 @@ export default function MovieAlertButton({
     <>
       <div className="mt-4 max-w-xs">
         <TextBox
-            textColor="retro-gray"
-            bgColor="retro-blue"
-            onClick={handleAlertClick}
+          textColor="retro-gray"
+          bgColor="retro-blue"
+          onClick={handleAlertClick}
         >
           <div>Se tenir informé des prochaines séances</div>
         </TextBox>
         {message && (
-            <div className="mt-2 text-retro-gray font-bold">{message}</div>
+          <div className="mt-2 font-bold text-retro-gray">{message}</div>
         )}
       </div>
       {isOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
           <div className="w-96 rounded-lg bg-retro-blue p-6 shadow-lg">
             <div className="relative mb-4 flex items-center justify-center border-b border-retro-gray">
               <div className="py-2 text-center text-2xl font-medium uppercase text-retro-gray">
