@@ -36,7 +36,7 @@ export default function MovieAlertButton({
     e.preventDefault();
     try {
       const API_ENDPOINT =
-        "https://europe-west1-website-cine.cloudfunctions.net/trigger_email_alert_to_db";
+        "https://europe-west1-website-cine.cloudfunctions.net/trigger_add_email_alert_to_db";
 
       const payload = {
         movie_id: movieId,
