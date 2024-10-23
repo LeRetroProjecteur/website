@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-
 import { TextBox } from "@/components/layout/text-boxes";
 
 export default function MovieAlertButton({
@@ -13,6 +12,7 @@ export default function MovieAlertButton({
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
 
   useEffect(() => {
     const listener = (e: KeyboardEvent) => {
@@ -26,6 +26,7 @@ export default function MovieAlertButton({
 
   const handleAlertClick = () => {
     setIsOpen(true);
+    setMessage(""); // Clear any previous message
   };
 
   const closeAlert = () => {
@@ -45,7 +46,7 @@ export default function MovieAlertButton({
         timestamp: new Date().toISOString(),
       };
 
-      console.log("Sending payload:", payload); // Console log
+      console.log("Sending payload:", payload);
 
       const response = await fetch(API_ENDPOINT, {
         method: "POST",
@@ -60,16 +61,18 @@ export default function MovieAlertButton({
         throw new Error(`HTTP error! status: ${response.status}`);
       }
 
-      console.log("Alert registered successfully"); // Console log
+      console.log("Alert registered successfully");
+      setMessage("Bien envoyé");
+      setEmail("");
       closeAlert();
     } catch (error) {
-      console.error("Fetch error:", error); // Console log
+      console.error("Fetch error:", error);
     }
   };
 
   return (
     <>
-      <div className="mt-4">
+      <div className="mt-4 max-w-md">
         <TextBox
           textColor="retro-gray"
           bgColor="retro-blue"
@@ -77,6 +80,9 @@ export default function MovieAlertButton({
         >
           <div>Se tenir informé des prochaines séances</div>
         </TextBox>
+        {message && (
+          <div className="mt-2 text-retro-gray">{message}</div>
+        )}
       </div>
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
