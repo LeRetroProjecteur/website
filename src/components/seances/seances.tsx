@@ -86,24 +86,33 @@ export function FormatNotes({
   );
   const needsExpanding = notes.length > maxLength;
 
+  if (!needsExpanding) {
+    return <span>{notes}</span>;
+  }
+
+  if (isExpanded) {
+    return (
+      <span className="cursor-pointer" onClick={toggleExpanded}>
+        {notes}
+      </span>
+    );
+  }
+
+  const truncatedText = notes.substring(
+    0,
+    notes.substring(0, maxLength).lastIndexOf(" "),
+  );
+
   return (
-    <>
-      {needsExpanding ? (
-        <span
-          className={clsx({ "cursor-pointer": needsExpanding })}
-          onClick={toggleExpanded}
-        >
-          {isExpanded
-            ? notes
-            : notes.substring(
-                0,
-                notes.substring(0, maxLength).lastIndexOf(" "),
-              ) + " [...]"}
-        </span>
-      ) : (
-        notes
-      )}
-    </>
+    <span>
+      {truncatedText}{" "}
+      <span
+        className="-mx-2 -my-1 inline-block cursor-pointer px-2 py-1 hover:text-gray-600"
+        onClick={toggleExpanded}
+      >
+        [...]
+      </span>
+    </span>
   );
 }
 
