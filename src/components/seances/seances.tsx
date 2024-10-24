@@ -100,14 +100,14 @@ export function FormatNotes({
 
   const truncatedText = notes.substring(
     0,
-    notes.substring(0, maxLength).lastIndexOf(" ")
+    notes.substring(0, maxLength).lastIndexOf(" "),
   );
 
   return (
     <span>
       {truncatedText}{" "}
       <span
-        className="cursor-pointer inline-block px-2 -mx-2 py-1 -my-1 hover:text-gray-600"
+        className="-mx-2 -my-1 inline-block cursor-pointer px-2 py-1 hover:text-gray-600"
         onClick={toggleExpanded}
       >
         [...]
