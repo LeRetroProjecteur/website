@@ -60,8 +60,7 @@ export default function Sondage2024({
                 <tr>
                   <th style={{width: "40%"}}>Film</th>
                   <th style={{width: "10%"}}>Date</th>
-                  <th style={{width: "5%"}}>Horaire</th>
-                  <th style={{width: "45%"}}>Notes</th>
+                  <th style={{width: "50%"}}>Notes</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -98,7 +97,6 @@ export default function Sondage2024({
           </div>
           <br/>
 
-
           <div className="flex items-center justify-center">
           <span>
             <button
@@ -109,9 +107,9 @@ export default function Sondage2024({
                         setResponseMessage,
                     )
                 }
-                className="border bg-retro-green p-15px text-16px"
+                className="border bg-retro-green p-15px text-16px font-bold"
             >
-              Envoyez votre top&nbsp;!
+              ENVOYEZ VOTRE TOP&nbsp;!
             </button>
             <p>
               <b>{responseMessage}</b>
@@ -276,22 +274,6 @@ function ScreeningRow({
               movie: searchTerm,
               movie_id: movieId,
               date: e.target.value,
-              note,
-            });
-          }}
-        />
-      </td>
-      <td className="py-5px" style={{ verticalAlign: "top" }}>
-        <input
-          type="time"
-          id="time"
-          name="time"
-          className="flex h-42px grow lg:h-48px"
-          onChange={(e) => {
-            onUpdate({
-              movie: searchTerm,
-              movie_id: movieId,
-              date,
               note,
             });
           }}
