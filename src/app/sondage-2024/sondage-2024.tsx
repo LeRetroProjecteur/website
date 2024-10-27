@@ -1,13 +1,55 @@
 "use client";
 
-import React, { Fragment, useState } from "react";
-
+import React, { Fragment, useState, useRef } from "react";
+import html2canvas from 'html2canvas';
 import { SearchResults } from "@/app/recherche/recherche";
 import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
+
+function ShareableContent({ rowsData, fullName }) {
+  return (
+    <div id="shareableContent" className="hidden">
+      <div className="bg-retro-green p-8 rounded-lg shadow-lg max-w-2xl" style={{ minWidth: '600px' }}>
+        <h2 className="text-2xl font-bold mb-6 text-center">Mon Top Films 2024</h2>
+        {fullName && <p className="mb-6 text-center text-lg">Par {fullName}</p>}
+        <div className="space-y-4">
+          {rowsData
+            .filter(row => row.movie !== "")
+            .map((row, index) => (
+              <div key={index} className="bg-white p-4 rounded-lg shadow">
+                <div className="flex items-start">
+                  <div className="relative flex-shrink-0">
+                    <div className="bg-retro-green w-8 h-8 rounded-full flex items-center justify-center">
+                      <span className="absolute inset-0 flex items-center justify-center text-lg font-bold">
+                        {index + 1}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="flex-1 ml-3">
+                    <div className="font-bold text-lg">{row.movie}</div>
+                    {row.date && (
+                      <div className="text-sm text-gray-600 mt-1">
+                        Vu le {new Date(row.date).toLocaleDateString('fr-FR')}
+                      </div>
+                    )}
+                    {row.note && (
+                      <div className="text-sm italic mt-2 text-gray-700">
+                        {row.note}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 
 export default function Sondage2024({
   allMoviesPromise,
@@ -45,6 +87,48 @@ export default function Sondage2024({
     newRowsData[index] = data;
     setRowsData(newRowsData);
   };
+
+  const handleShare = async () => {
+  try {
+    const element = document.getElementById('shareableContent');
+    if (!element) return;
+
+    // Make element visible for capturing
+    element.classList.remove('hidden');
+
+    const canvas = await html2canvas(element, {
+      backgroundColor: null,
+      scale: 2, // Higher resolution
+      useCORS: true,
+      logging: true,
+      width: 600,
+      height: element.scrollHeight,
+    });
+
+    // Hide element again
+    element.classList.add('hidden');
+
+    // Convert canvas to blob
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+    if (!blob) throw new Error('Failed to create image');
+
+    // Create download link
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'mon-top-2024.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+
+    setResponseMessage('Screenshot téléchargé avec succès!');
+
+  } catch (error) {
+    console.error('Error taking screenshot:', error);
+    setResponseMessage('Erreur lors de la capture. Veuillez réessayer.');
+  }
+};
 
   return (
     <>
@@ -111,43 +195,52 @@ export default function Sondage2024({
 
         <div className="flex items-center justify-center">
           <span>
-            <button
-              onClick={() =>
-                sendScreeningsToDatabase(
-                  rowsData,
-                  comments,
-                  setResponseMessage,
-                  fullName,
-                )
-              }
-              className="border bg-retro-green p-15px text-16px font-bold"
-            >
-              ENVOYEZ VOTRE TOP&nbsp;!
+            <div className="flex space-x-4">  {/* or use space-x-8 for more spacing */}
+              <button
+                  onClick={() =>
+                      sendScreeningsToDatabase(
+                          rowsData,
+                          comments,
+                          setResponseMessage,
+                          fullName,
+                      )
+                  }
+                  className="border bg-retro-green p-15px text-16px font-bold"
+              >
+                ENVOYEZ VOTRE TOP&nbsp;!
+              </button>
+                    <button
+                        onClick={handleShare}
+                        className="border bg-retro-green p-15px text-16px font-bold"
+                    >
+              Prenez un screenshot de votre top
             </button>
+            </div>
             <p>
               <b>{responseMessage}</b>
             </p>
           </span>
         </div>
       </div>
+      <ShareableContent rowsData={rowsData} fullName={fullName}/>
     </>
   );
 }
 
 async function sendScreeningsToDatabase(
-  rowsData: {
-    movie: string;
-    movie_id: string;
-    date: string;
-    note: string;
-  }[],
-  comments: string,
-  setResponseMessage: (message: string) => void,
-  fullName: string,
+    rowsData: {
+      movie: string;
+      movie_id: string;
+      date: string;
+      note: string;
+    }[],
+    comments: string,
+    setResponseMessage: (message: string) => void,
+    fullName: string,
 ) {
   try {
     const API_ENDPOINT =
-      "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_poll_data_to_db";
+        "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_poll_data_to_db";
 
     // Transform the rowsData to the new format
     const transformedData = rowsData.map((row) => {
