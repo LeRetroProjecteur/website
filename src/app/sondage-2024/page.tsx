@@ -1,7 +1,6 @@
 import { Metadata } from "next";
 
 import { getMovies } from "@/lib/movies";
-import { getTheaters } from "@/lib/theaters";
 
 import Sondage2024 from "./sondage-2024";
 
@@ -13,11 +12,6 @@ export const metadata: Metadata = {
 
 export default function SubmitScreeningsPage() {
   const allMovies = getMovies();
-  const allTheaters = getTheaters();
 
-  return (
-    <Sondage2024
-      allMoviesPromise={allMovies}
-    />
-  );
+  return <Sondage2024 allMoviesPromise={allMovies} />;
 }

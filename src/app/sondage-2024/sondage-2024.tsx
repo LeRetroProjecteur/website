@@ -2,12 +2,12 @@
 
 import React, { Fragment, useState } from "react";
 
-import { SearchResults, TheaterSearchResults } from "@/app/recherche/recherche";
+import { SearchResults } from "@/app/recherche/recherche";
 import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
-import { SearchMovie, SearchTheater } from "@/lib/types";
+import { SearchMovie } from "@/lib/types";
 
 export default function Sondage2024({
   allMoviesPromise,
@@ -30,6 +30,7 @@ export default function Sondage2024({
     }),
   );
   const [comments, setComments] = useState("");
+  const [fullName, setFullName] = useState("");
 
   const updateRowData = (
     index: number,
@@ -46,68 +47,80 @@ export default function Sondage2024({
   };
 
   return (
-      <>
-        <PageHeader text="Sondage Top 2024">
-          <SousTitre1>Votez pour vos meilleures découvertes de cinéma de patrimoine de 2024</SousTitre1>
-        </PageHeader>
-        <br/>
-        <div className="flex flex-col pb-10px lg:pl-20px">
-          <br/>
-          <div className="p-5px text-center">
-            <form>
-              <table style={{width: "100%"}}>
-                <thead>
-                <tr>
-                  <th style={{width: "40%"}}>Film</th>
-                  <th style={{width: "10%"}}>Date</th>
-                  <th style={{width: "50%"}}>Notes</th>
-                </tr>
-                </thead>
-                <tbody>
-                {rowsData.map((_, index) => (
-                    <Fragment key={index}>
-                      <ScreeningRow
-                          allMoviesPromise={allMoviesPromise}
-                          onUpdate={(data) => updateRowData(index, data)}
-                      />
-                    </Fragment>
-                ))}
-                </tbody>
-              </table>
-              <br/>
-              <div className="flex flex-col items-center p-10px">
-                <label htmlFor="comments">
-                  {" "}
-                  Un commentaire à nous partager&nbsp;?
-                </label>
-                <textarea
-                    id="comments"
-                    value={comments}
-                    onChange={handleCommentsChange}
-                    style={{
-                      fontSize: "15px",
-                      wordWrap: "break-word",
-                      width: "min(95%, 400px)",
-                      height: "100px",
-                      padding: "5px",
-                    }}
-                />
-              </div>
-            </form>
+    <>
+      <PageHeader text="Sondage Top 2024">
+        <SousTitre1>
+          Votez pour vos meilleures découvertes de cinéma de patrimoine de 2024
+        </SousTitre1>
+      </PageHeader>
+      <br />
+      <div className="flex flex-col pb-10px lg:pl-20px">
+        <br />
+        <div className="p-5px text-center">
+          <div className="mb-4 flex flex-col">
+            <input
+              id="fullName"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+              className="w-[300px] border p-2"
+              placeholder="Entrez votre nom et prénom"
+            />
           </div>
-          <br/>
+          <form>
+            <table style={{ width: "100%" }}>
+              <thead>
+                <tr>
+                  <th style={{ width: "40%" }}>Film</th>
+                  <th style={{ width: "10%" }}>Date</th>
+                  <th style={{ width: "50%" }}>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rowsData.map((_, index) => (
+                  <Fragment key={index}>
+                    <ScreeningRow
+                      allMoviesPromise={allMoviesPromise}
+                      onUpdate={(data) => updateRowData(index, data)}
+                    />
+                  </Fragment>
+                ))}
+              </tbody>
+            </table>
+            <br />
+            <div className="flex flex-col items-center p-10px">
+              <label htmlFor="comments">
+                {" "}
+                Un commentaire à nous partager&nbsp;?
+              </label>
+              <textarea
+                id="comments"
+                value={comments}
+                onChange={handleCommentsChange}
+                style={{
+                  fontSize: "15px",
+                  wordWrap: "break-word",
+                  width: "min(95%, 400px)",
+                  height: "100px",
+                  padding: "5px",
+                }}
+              />
+            </div>
+          </form>
+        </div>
+        <br />
 
-          <div className="flex items-center justify-center">
+        <div className="flex items-center justify-center">
           <span>
             <button
-                onClick={() =>
-                    sendScreeningsToDatabase(
-                        rowsData,
-                        comments,
-                        setResponseMessage,
-                    )
-                }
-                className="border bg-retro-green p-15px text-16px font-bold"
+              onClick={() =>
+                sendScreeningsToDatabase(
+                  rowsData,
+                  comments,
+                  setResponseMessage,
+                  fullName,
+                )
+              }
+              className="border bg-retro-green p-15px text-16px font-bold"
             >
               ENVOYEZ VOTRE TOP&nbsp;!
             </button>
@@ -115,32 +128,33 @@ export default function Sondage2024({
               <b>{responseMessage}</b>
             </p>
           </span>
-          </div>
         </div>
-      </>
+      </div>
+    </>
   );
 }
 
 async function sendScreeningsToDatabase(
-    rowsData: {
-      movie: string;
-      movie_id: string;
-      date: string;
+  rowsData: {
+    movie: string;
+    movie_id: string;
+    date: string;
     note: string;
   }[],
   comments: string,
   setResponseMessage: (message: string) => void,
+  fullName: string,
 ) {
   try {
     const API_ENDPOINT =
-      "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_data_to_db";
+      "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_poll_data_to_db";
 
     // Transform the rowsData to the new format
     const transformedData = rowsData.map((row) => {
       const [year, month, day] = row.date.split("-").map(Number);
 
       // Check if any required field is missing or NaN
-      if (!(row.movie == "" || isNaN(year) || isNaN(month) || isNaN(day))) {
+      if (!(row.movie == "")) {
         return {
           movie: row.movie,
           id: row.movie_id,
@@ -153,11 +167,9 @@ async function sendScreeningsToDatabase(
     });
 
     const payload = {
-      collection_name: "sondage-2024",
-      include_time_in_doc_name: true,
-      key_for_doc_name: "theater_id",
       showtimes: transformedData,
       comments: comments,
+      full_name: fullName,
     };
 
     console.log("Sending payload:", JSON.stringify(payload, null, 2));
