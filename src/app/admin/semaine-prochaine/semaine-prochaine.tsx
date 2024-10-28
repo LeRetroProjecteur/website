@@ -1,9 +1,12 @@
 import { flatten, groupBy, sortBy, uniq } from "lodash-es";
 import { Fragment, use, useMemo } from "react";
 
+import {
+  transformZipcode,
+  transformZipcodeToString,
+} from "@/components/seances/theater_utils";
 import { SousTitre2 } from "@/components/typography/typography";
 import { MovieWithScreeningsByDay } from "@/lib/types";
-import {transformZipcode} from "@/components/seances/seances";
 
 type RetrospectiveItem = [string, MovieWithScreeningsByDay[], string, string];
 
@@ -18,11 +21,13 @@ export function Retrospectives({
     // First, create movie-cinema pairs with zipcode
     const movieCinemaPairs = flatten(
       movies.map((movie) =>
-        flatten(Object.values(movie.showtimes_by_day)).map(({ name, zipcode }) => ({
-          movie,
-          cinema: name,
-          zipcode,
-        })),
+        flatten(Object.values(movie.showtimes_by_day)).map(
+          ({ name, zipcode }) => ({
+            movie,
+            cinema: name,
+            zipcode,
+          }),
+        ),
       ),
     );
 
@@ -31,7 +36,6 @@ export function Retrospectives({
       movieCinemaPairs,
       (item) => `${item.movie.directors}|||${item.cinema}|||${item.zipcode}`,
     );
-
 
     // Filter groups with at least 3 movies and transform into required format
     return sortBy(
@@ -58,7 +62,7 @@ export function Retrospectives({
         {retrospectives.map(([director, movies, cinema, zipcode], i) => (
           <Fragment key={`${director}-${cinema}`}>
             <div className="font-bold">
-              {director}&nbsp;: {cinema} ({zipcode})
+              {director}&nbsp;: {cinema} ({transformZipcode(zipcode)})
             </div>
             <>
               {sortBy(movies, (movie) => [
@@ -96,7 +100,9 @@ export function Retrospectives({
               <span style="font-size:Default Size">
                 <strong>
                   <span style="font-family:helvetica neue,helvetica,arial,verdana,sans-serif">
-                    Rétrospective ${director} à ${cinema} (${zipcode})
+                    Rétrospective ${director} à ${cinema} (${transformZipcodeToString(
+                      zipcode,
+                    )})
                   </span>
                 </strong>
               </span>
