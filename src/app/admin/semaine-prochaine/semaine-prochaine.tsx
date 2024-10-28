@@ -1,4 +1,4 @@
-import { flatten, groupBy, orderBy, sortBy, toPairs, uniq } from "lodash-es";
+import { flatten, groupBy, orderBy, sortBy, uniq } from "lodash-es";
 import { Fragment, use, useMemo } from "react";
 
 import { SousTitre2 } from "@/components/typography/typography";
@@ -10,16 +10,39 @@ export function Retrospectives({
   movies: Promise<MovieWithScreeningsByDay[]>;
 }) {
   const movies = use(moviesPromise);
-  const retrospectives = useMemo(
-    () =>
-      sortBy(
-        toPairs(groupBy(movies, (movie) => movie.directors)).filter(
-          ([_, movies]) => movies.length > 3,
-        ),
-        ([director]) => director,
+
+  const retrospectives = useMemo(() => {
+    // First, create movie-cinema pairs
+    const movieCinemaPairs = flatten(
+      movies.map((movie) =>
+        flatten(Object.values(movie.showtimes_by_day)).map(({ name }) => ({
+          movie,
+          cinema: name,
+        })),
       ),
-    [movies],
-  );
+    );
+
+    // Group by director and cinema
+    const groupedByCinemaAndDirector = groupBy(
+      movieCinemaPairs,
+      (item) => `${item.movie.directors}|||${item.cinema}`,
+    );
+
+    // Filter groups with at least 3 movies and transform into required format
+    return sortBy(
+      Object.entries(groupedByCinemaAndDirector)
+        .filter(([_, items]) => {
+          const uniqueMovies = uniq(items.map((item) => item.movie.title));
+          return uniqueMovies.length >= 3;
+        })
+        .map(([key, items]) => {
+          const [director, cinema] = key.split("|||");
+          const uniqueMovies = uniq(items.map((item) => item.movie));
+          return [director, uniqueMovies, cinema];
+        }),
+      ([director]) => director,
+    );
+  }, [movies]);
 
   return (
     <>
