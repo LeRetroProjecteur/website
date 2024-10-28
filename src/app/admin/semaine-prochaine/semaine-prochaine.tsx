@@ -64,23 +64,33 @@ export function Retrospectives({
             {retrospectives
               .map(
                 ([director, movies]) => `
-            <p>
-              <strong>${director}&nbsp;: ${getCinemas(movies)}</strong><br/>
-              ${sortBy(movies, (movie) => [
-                movie.year,
-                movie.directors,
-                movie.title,
-              ])
-                .map(
-                  (movie, i, movies) =>
-                    `<a href="https://leretroprojecteur.com/film/${
-                      movie.id
-                    }"><i>${movie.title}</i></a> (${movie.year})${
-                      i < movies.length - 1 ? ", " : ""
-                    }`,
-                )
-                .join("")}
-</p>`,
+            <h2 class="null" data-pm-slice="0 0 []" style="text-align: center;">
+              <span style="font-size:Default Size">
+                <strong>
+                  <span style="font-family:helvetica neue,helvetica,arial,verdana,sans-serif">
+                    Rétrospective ${director} ${getCinemas(movies)}
+                  </span>
+                </strong>
+              </span>
+            </h2>
+            <p style="text-align: center;">
+              <span style="font-size:Default Size">
+                ${sortBy(movies, (movie) => [
+                  movie.year,
+                  movie.directors,
+                  movie.title,
+                ])
+                  .map(
+                    (movie, i, movies) =>
+                      `<a href="https://leretroprojecteur.com/film/${
+                        movie.id
+                      }"><u><em>${movie.title}</em></u></a> (${movie.year})${
+                        i < movies.length - 1 ? ", " : ""
+                      }`,
+                  )
+                  .join("")}
+              </span>
+            </p>`,
               )
               .join("\n")}
           </pre>
