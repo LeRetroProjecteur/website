@@ -3,8 +3,9 @@ import { Fragment, use, useMemo } from "react";
 
 import { SousTitre2 } from "@/components/typography/typography";
 import { MovieWithScreeningsByDay } from "@/lib/types";
+import {transformZipcode} from "@/components/seances/seances";
 
-type RetrospectiveItem = [string, MovieWithScreeningsByDay[], string];
+type RetrospectiveItem = [string, MovieWithScreeningsByDay[], string, string];
 
 export function Retrospectives({
   movies: moviesPromise,
@@ -14,21 +15,23 @@ export function Retrospectives({
   const movies = use(moviesPromise);
 
   const retrospectives = useMemo(() => {
-    // First, create movie-cinema pairs
+    // First, create movie-cinema pairs with zipcode
     const movieCinemaPairs = flatten(
       movies.map((movie) =>
-        flatten(Object.values(movie.showtimes_by_day)).map(({ name }) => ({
+        flatten(Object.values(movie.showtimes_by_day)).map(({ name, zipcode }) => ({
           movie,
           cinema: name,
+          zipcode,
         })),
       ),
     );
 
-    // Group by director and cinema
+    // Group by director, cinema and zipcode
     const groupedByCinemaAndDirector = groupBy(
       movieCinemaPairs,
-      (item) => `${item.movie.directors}|||${item.cinema}`,
+      (item) => `${item.movie.directors}|||${item.cinema}|||${item.zipcode}`,
     );
+
 
     // Filter groups with at least 3 movies and transform into required format
     return sortBy(
@@ -38,9 +41,9 @@ export function Retrospectives({
           return uniqueMovies.length >= 3;
         })
         .map(([key, items]) => {
-          const [director, cinema] = key.split("|||");
+          const [director, cinema, zipcode] = key.split("|||");
           const uniqueMovies = uniq(items.map((item) => item.movie));
-          return [director, uniqueMovies, cinema] as RetrospectiveItem;
+          return [director, uniqueMovies, cinema, zipcode] as RetrospectiveItem;
         }),
       ([director]) => director,
     );
@@ -52,10 +55,10 @@ export function Retrospectives({
         <SousTitre2>Rétrospectives</SousTitre2>
       </div>
       <div>
-        {retrospectives.map(([director, movies, cinema], i) => (
+        {retrospectives.map(([director, movies, cinema, zipcode], i) => (
           <Fragment key={`${director}-${cinema}`}>
             <div className="font-bold">
-              {director}&nbsp;: {cinema}
+              {director}&nbsp;: {cinema} ({zipcode})
             </div>
             <>
               {sortBy(movies, (movie) => [
@@ -88,12 +91,12 @@ export function Retrospectives({
             </div>
             {retrospectives
               .map(
-                ([director, movies, cinema]) => `
+                ([director, movies, cinema, zipcode]) => `
             <h2 class="null" data-pm-slice="0 0 []" style="text-align: center;">
               <span style="font-size:Default Size">
                 <strong>
                   <span style="font-family:helvetica neue,helvetica,arial,verdana,sans-serif">
-                    Rétrospective ${director} à ${cinema}
+                    Rétrospective ${director} à ${cinema} (${zipcode})
                   </span>
                 </strong>
               </span>
