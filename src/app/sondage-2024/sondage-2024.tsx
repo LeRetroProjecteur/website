@@ -40,7 +40,7 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
                 <div className="flex items-start">
                   <div className="relative flex-shrink-0">
                     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-retro-green">
-                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-lg font-bold">
+                      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-lg font-bold">
                         {index + 1}
                       </div>
                     </div>
@@ -105,53 +105,52 @@ export default function Sondage2024({
   };
 
   const handleShare = async () => {
-  try {
-    const element = document.getElementById('shareableContent');
-    if (!element) return;
+    try {
+      const element = document.getElementById("shareableContent");
+      if (!element) return;
 
-    // Make element visible for capturing
-    element.classList.remove('hidden');
+      // Make element visible for capturing
+      element.classList.remove("hidden");
 
-    const canvas = await html2canvas(element, {
-      backgroundColor: null,
-      scale: 2, // Higher resolution
-      useCORS: true,
-      logging: true,
-      width: 600,
-      height: element.scrollHeight,
-    });
+      const canvas = await html2canvas(element, {
+        backgroundColor: null,
+        scale: 2, // Higher resolution
+        useCORS: true,
+        logging: true,
+        width: 600,
+        height: element.scrollHeight,
+      });
 
-    // Hide element again
-    element.classList.add('hidden');
+      // Hide element again
+      element.classList.add("hidden");
 
-    // Convert canvas to blob with proper typing
-    const blob = await new Promise<Blob>((resolve) =>
-      canvas.toBlob((result) => {
-        if (result) {
-          resolve(result);
-        }
-      }, 'image/png')
-    );
+      // Convert canvas to blob with proper typing
+      const blob = await new Promise<Blob>((resolve) =>
+        canvas.toBlob((result) => {
+          if (result) {
+            resolve(result);
+          }
+        }, "image/png"),
+      );
 
-    if (!blob) throw new Error('Failed to create image');
+      if (!blob) throw new Error("Failed to create image");
 
-    // Create download link
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'mon-top-2024.png';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+      // Create download link
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "mon-top-2024.png";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
 
-    setResponseMessage('Screenshot téléchargé avec succès!');
-
-  } catch (error) {
-    console.error('Error taking screenshot:', error);
-    setResponseMessage('Erreur lors de la capture. Veuillez réessayer.');
-  }
-};
+      setResponseMessage("Screenshot téléchargé avec succès!");
+    } catch (error) {
+      console.error("Error taking screenshot:", error);
+      setResponseMessage("Erreur lors de la capture. Veuillez réessayer.");
+    }
+  };
 
   return (
     <>
