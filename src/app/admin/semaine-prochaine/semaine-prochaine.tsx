@@ -53,6 +53,39 @@ export function Retrospectives({
           </Fragment>
         ))}
       </div>
+      <br />
+      <br />
+      {
+        <div className="font-mono text-sm">
+          <pre className="whitespace-pre-wrap break-all">
+            <div className="pb-5px">
+              <SousTitre2>Rétrospectives (html)</SousTitre2>
+            </div>
+            {retrospectives
+              .map(
+                ([director, movies]) => `
+            <p>
+              <strong>${director}&nbsp;: ${getCinemas(movies)}</strong><br/>
+              ${sortBy(movies, (movie) => [
+                movie.year,
+                movie.directors,
+                movie.title,
+              ])
+                .map(
+                  (movie, i, movies) =>
+                    `<a href="https://leretroprojecteur.com/film/${
+                      movie.id
+                    }"><i>${movie.title}</i></a> (${movie.year})${
+                      i < movies.length - 1 ? ", " : ""
+                    }`,
+                )
+                .join("")}
+</p>`,
+              )
+              .join("\n")}
+          </pre>
+        </div>
+      }
     </>
   );
 }
