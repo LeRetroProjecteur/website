@@ -1,8 +1,10 @@
-import { flatten, groupBy, orderBy, sortBy, uniq } from "lodash-es";
+import { flatten, groupBy, sortBy, uniq } from "lodash-es";
 import { Fragment, use, useMemo } from "react";
 
 import { SousTitre2 } from "@/components/typography/typography";
 import { MovieWithScreeningsByDay } from "@/lib/types";
+
+type RetrospectiveItem = [string, MovieWithScreeningsByDay[], string];
 
 export function Retrospectives({
   movies: moviesPromise,
@@ -38,7 +40,7 @@ export function Retrospectives({
         .map(([key, items]) => {
           const [director, cinema] = key.split("|||");
           const uniqueMovies = uniq(items.map((item) => item.movie));
-          return [director, uniqueMovies, cinema];
+          return [director, uniqueMovies, cinema] as RetrospectiveItem;
         }),
       ([director]) => director,
     );
@@ -50,10 +52,10 @@ export function Retrospectives({
         <SousTitre2>Rétrospectives</SousTitre2>
       </div>
       <div>
-        {retrospectives.map(([director, movies], i, directors) => (
-          <Fragment key={director}>
+        {retrospectives.map(([director, movies, cinema], i) => (
+          <Fragment key={`${director}-${cinema}`}>
             <div className="font-bold">
-              {director}&nbsp;: {getCinemas(movies)}
+              {director}&nbsp;: {cinema}
             </div>
             <>
               {sortBy(movies, (movie) => [
@@ -67,7 +69,7 @@ export function Retrospectives({
                 </Fragment>
               ))}
             </>
-            {i < directors.length - 1 ? (
+            {i < retrospectives.length - 1 ? (
               <>
                 <br />
                 <br />
@@ -86,12 +88,12 @@ export function Retrospectives({
             </div>
             {retrospectives
               .map(
-                ([director, movies]) => `
+                ([director, movies, cinema]) => `
             <h2 class="null" data-pm-slice="0 0 []" style="text-align: center;">
               <span style="font-size:Default Size">
                 <strong>
                   <span style="font-family:helvetica neue,helvetica,arial,verdana,sans-serif">
-                    Rétrospective ${director} ${getCinemas(movies)}
+                    Rétrospective ${director} à ${cinema}
                   </span>
                 </strong>
               </span>
@@ -121,24 +123,4 @@ export function Retrospectives({
       }
     </>
   );
-}
-
-function getCinemas(movies: MovieWithScreeningsByDay[]) {
-  const movieCinemas = movies.map<[MovieWithScreeningsByDay, string[]]>(
-    (movie) => [
-      movie,
-      flatten(Object.values(movie.showtimes_by_day)).map(({ name }) => name),
-    ],
-  );
-  const cinemas = uniq(
-    flatten(Object.values(movieCinemas.map(([_, cinemas]) => cinemas))),
-  );
-  const cinemasAndNumberOfMovies = cinemas.map<[string, number]>((cinema) => [
-    cinema,
-    movieCinemas.filter(([_, cinemas]) => cinemas.includes(cinema)).length,
-  ]);
-
-  return orderBy(cinemasAndNumberOfMovies, ([_, num]) => num, "desc")
-    .map(([cinema, num]) => `${cinema} (${num})`)
-    .join(", ");
 }
