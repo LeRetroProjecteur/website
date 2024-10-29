@@ -42,7 +42,7 @@ export function Retrospectives({
       Object.entries(groupedByCinemaAndDirector)
         .filter(([_, items]) => {
           const uniqueMovies = uniq(items.map((item) => item.movie.title));
-          return uniqueMovies.length >= 3;
+          return uniqueMovies.length >= 5;
         })
         .map(([key, items]) => {
           const [director, cinema, zipcode] = key.split("|||");
