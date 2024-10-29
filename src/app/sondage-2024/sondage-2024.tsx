@@ -13,7 +13,6 @@ import { SearchMovie } from "@/lib/types";
 interface RowData {
   movie: string;
   movie_id: string;
-  date: string;
   note: string;
 }
 
@@ -83,7 +82,6 @@ export default function Sondage2024({
     Array(numSubmissions).fill({
       movie: "",
       movie_id: "",
-      date: "",
       note: "",
     }),
   );
@@ -95,7 +93,6 @@ export default function Sondage2024({
     data: {
       movie: string;
       movie_id: string;
-      date: string;
       note: string;
     },
   ) => {
@@ -176,8 +173,7 @@ export default function Sondage2024({
             <table style={{ width: "100%" }}>
               <thead>
                 <tr>
-                  <th style={{ width: "40%" }}>Film</th>
-                  <th style={{ width: "10%" }}>Date</th>
+                  <th style={{ width: "50%" }}>Film</th>
                   <th style={{ width: "50%" }}>Notes</th>
                 </tr>
               </thead>
@@ -255,7 +251,6 @@ async function sendScreeningsToDatabase(
   rowsData: {
     movie: string;
     movie_id: string;
-    date: string;
     note: string;
   }[],
   comments: string,
@@ -268,16 +263,11 @@ async function sendScreeningsToDatabase(
 
     // Transform the rowsData to the new format
     const transformedData = rowsData.map((row) => {
-      const [year, month, day] = row.date.split("-").map(Number);
-
       // Check if any required field is missing or NaN
       if (!(row.movie == "")) {
         return {
           movie: row.movie,
           id: row.movie_id,
-          year: year,
-          month: month,
-          day: day,
           notes: row.note,
         };
       }
@@ -333,24 +323,18 @@ function ScreeningRow({
   onUpdate,
 }: {
   allMoviesPromise: Promise<SearchMovie[]>;
-  onUpdate: (data: {
-    movie: string;
-    movie_id: string;
-    date: string;
-    note: string;
-  }) => void;
+  onUpdate: (data: { movie: string; movie_id: string; note: string }) => void;
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [movieId, setMovieId] = useState("");
   const [showResults, setShowResults] = useState(false);
-  const [date, setDate] = useState("");
   const [note, setNote] = useState("");
 
   const setSearchFind = (st: string, id: string = "") => {
     setSearchTerm(st);
     setMovieId(id);
     setShowResults(true);
-    onUpdate({ movie: st, movie_id: id, date, note });
+    onUpdate({ movie: st, movie_id: id, note });
   };
 
   return (
@@ -390,24 +374,6 @@ function ScreeningRow({
           </SuspenseWithLoading>
         </div>
       </td>
-      <td className="py-5px" style={{ verticalAlign: "top" }}>
-        <input
-          type="date"
-          id="date"
-          name="date"
-          className="flex h-42px grow lg:h-48px"
-          value={date}
-          onChange={(e) => {
-            setDate(e.target.value);
-            onUpdate({
-              movie: searchTerm,
-              movie_id: movieId,
-              date: e.target.value,
-              note,
-            });
-          }}
-        />
-      </td>
       <td className="flex grow py-5px">
         <input
           name="note"
@@ -419,7 +385,6 @@ function ScreeningRow({
             onUpdate({
               movie: searchTerm,
               movie_id: movieId,
-              date,
               note: e.target.value,
             });
           }}
