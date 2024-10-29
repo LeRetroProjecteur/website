@@ -46,11 +46,6 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
                   </div>
                   <div className="ml-3 flex-1">
                     <div className="text-lg font-bold">{row.movie}</div>
-                    {row.date && (
-                      <div className="mt-1 text-sm text-gray-600">
-                        Vu le {new Date(row.date).toLocaleDateString("fr-FR")}
-                      </div>
-                    )}
                     {row.note && (
                       <div className="mt-2 text-sm italic text-gray-700">
                         {row.note}
