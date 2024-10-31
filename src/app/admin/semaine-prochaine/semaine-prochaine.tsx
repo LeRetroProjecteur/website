@@ -22,9 +22,9 @@ export function Retrospectives({
     const movieCinemaPairs = flatten(
       movies.map((movie) =>
         flatten(Object.values(movie.showtimes_by_day)).map(
-          ({ pronoun_and_name, zipcode }) => ({
+          ({ preposition_and_name, zipcode }) => ({
             movie,
-            cinema: pronoun_and_name,
+            cinema: preposition_and_name,
             zipcode,
           }),
         ),
