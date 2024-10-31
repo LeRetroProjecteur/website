@@ -25,28 +25,27 @@ export function ThreeColumnLayout({ children }: { children?: ReactNode }) {
 }
 
 export function FirstRow({
-  type,
-  image,
-  alt,
-  date,
+  info,
 }: {
-  type: string;
-  image: StaticImageData;
-  alt: string;
-  date: string;
+  info: {
+    title: string;
+    type: string;
+    icon: StaticImageData;
+    date: string;
+  };
 }) {
   return (
     <>
       <div className="invisible h-0 self-center justify-self-center px-30px text-center 3col:visible 3col:h-auto">
         <div className="font-semibold uppercase text-retro-gray lg:text-20px lg:leading-18px">
-          {type}
+          {info.type}
         </div>
       </div>
       <div className="pb-20px lg:border-r lg:pr-20px">
         <div className="lg:border-b lg:pb-20px">
           <Image
-            src={image}
-            alt={alt}
+            src={info.icon}
+            alt={info.title}
             className="h-auto w-full"
             {...blurProps}
           />
@@ -54,10 +53,10 @@ export function FirstRow({
       </div>
       <div className="invisible h-0 self-center justify-self-center px-30px text-center lg:visible lg:h-auto">
         <div className="font-semibold uppercase text-retro-gray lg:text-20px lg:leading-18px 3col:invisible 3col:h-0">
-          {type}
+          {info.type}
         </div>
         <div className="font-semibold uppercase text-retro-gray lg:text-20px lg:leading-18px">
-          Publié le {date}
+          Publié le {info.date}
         </div>
       </div>
     </>

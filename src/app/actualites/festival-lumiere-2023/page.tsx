@@ -29,12 +29,7 @@ export default function Page() {
         <SousTitre1>{info.title}</SousTitre1>
       </PageHeader>
       <ThreeColumnLayout>
-        <FirstRow
-          type={info.type}
-          date={info.date}
-          image={info.icon}
-          alt={info.title}
-        />
+        <FirstRow info={info} />
         <MiddleColumn>
           <BodyCopy>
             <strong>
