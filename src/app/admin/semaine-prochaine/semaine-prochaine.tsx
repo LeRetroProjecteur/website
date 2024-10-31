@@ -22,9 +22,9 @@ export function Retrospectives({
     const movieCinemaPairs = flatten(
       movies.map((movie) =>
         flatten(Object.values(movie.showtimes_by_day)).map(
-          ({ name, zipcode }) => ({
+          ({ pronoun_and_name, zipcode }) => ({
             movie,
-            cinema: name,
+            cinema: pronoun_and_name,
             zipcode,
           }),
         ),
@@ -62,7 +62,7 @@ export function Retrospectives({
         {retrospectives.map(([director, movies, cinema, zipcode], i) => (
           <Fragment key={`${director}-${cinema}`}>
             <div className="font-bold">
-              {director}&nbsp;: {cinema} ({transformZipcode(zipcode)})
+              {director} {cinema} ({transformZipcode(zipcode)})
             </div>
             <>
               {sortBy(movies, (movie) => [
@@ -94,38 +94,35 @@ export function Retrospectives({
               <SousTitre2>Rétrospectives (html)</SousTitre2>
             </div>
             {retrospectives
-              .map(
-                ([director, movies, cinema, zipcode]) => `
-            <h2 class="null" data-pm-slice="0 0 []" style="text-align: center;">
-              <span style="font-size:Default Size">
-                <strong>
-                  <span style="font-family:helvetica neue,helvetica,arial,verdana,sans-serif">
-                    Rétrospective ${director} à ${cinema} (${transformZipcodeToString(
-                      zipcode,
-                    )})
-                  </span>
-                </strong>
-              </span>
-            </h2>
-            <p style="text-align: center;">
-              <span style="font-size:Default Size">
-                ${sortBy(movies, (movie) => [
+              .map(([director, movies, cinema, zipcode], index) => {
+                const movieLinks = sortBy(movies, (movie) => [
                   movie.year,
                   movie.directors,
                   movie.title,
                 ])
                   .map(
                     (movie, i, movies) =>
-                      `<a href="https://leretroprojecteur.com/film/${
-                        movie.id
-                      }"><u><em>${movie.title}</em></u></a> (${movie.year})${
-                        i < movies.length - 1 ? ", " : ""
-                      }`,
+                      `<a href="https://leretroprojecteur.com/film/${movie.id}">` +
+                      `<u><em>${movie.title}</em></u></a> (${movie.year})` +
+                      `${i < movies.length - 1 ? ", " : ""}`,
                   )
-                  .join("")}
-              </span>
-            </p>`,
-              )
+                  .join("");
+
+                const template = `
+    <h2 class="null" style="text-align: center;">
+      <strong>Rétrospective ${director} ${cinema} (${transformZipcodeToString(
+        zipcode,
+      )})</strong>
+    </h2>
+    <p style="text-align: center;">${movieLinks}</p>`;
+
+                const bullet = `
+    <h2 class="null" style="text-align: center;"><span style="font-size:Default Size">&bull;</span></h2>`;
+
+                return (
+                  template + (index < retrospectives.length - 1 ? bullet : "")
+                );
+              })
               .join("\n")}
           </pre>
         </div>
