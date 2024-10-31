@@ -12,25 +12,26 @@ import {
   Question,
   ThreeColumnLayout,
 } from "../components";
-import icon from "./img/icon.jpg";
 import PlusHier from "./img/plus-qu-hier.png";
+import getPageInfo from "./pageInfo";
 
+const info = getPageInfo();
 export const metadata: Metadata = {
-  title: "Entretien avec Gaël Teicher",
+  title: info.title,
 };
 
-export default function EntretienGaelTeicher() {
+export default function Page() {
   return (
     <>
       <PageHeader text="actualités">
-        <SousTitre1>Entretien avec Gaël Teicher</SousTitre1>
+        <SousTitre1>{info.title}</SousTitre1>
       </PageHeader>
       <ThreeColumnLayout>
         <FirstRow
-          type="coup de projecteur"
-          date="03/07/2024"
-          image={icon}
-          alt="gael teicher"
+          type={info.type}
+          date={info.date}
+          image={info.icon}
+          alt={info.title}
         />
         <MiddleColumn>
           <BodyCopy>

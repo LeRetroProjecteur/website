@@ -1,3 +1,4 @@
+import { Metadata } from "next";
 import Link from "next/link";
 import { ReactNode } from "react";
 
@@ -16,7 +17,12 @@ import {
   SectionHeader,
   ThreeColumnLayout,
 } from "../components";
-import icon from "./img/icon.jpg";
+import getPageInfo from "./pageInfo";
+
+const info = getPageInfo();
+export const metadata: Metadata = {
+  title: info.title,
+};
 
 const TOP_FILMS: {
   titre: string;
@@ -810,18 +816,18 @@ const FRODON: Critique = {
   ],
 };
 
-export default function Top2023() {
+export default function Page() {
   return (
     <>
-      <PageHeader text="Top 2023">
-        <SousTitre1>Vos plus belles découvertes de l&apos;année</SousTitre1>
+      <PageHeader text="actualités">
+        <SousTitre1>{info.title}</SousTitre1>
       </PageHeader>
       <ThreeColumnLayout>
         <FirstRow
-          type="retro-spective"
-          date="28/12/2023"
-          image={icon}
-          alt="top 2023"
+          type={info.type}
+          date={info.date}
+          image={info.icon}
+          alt={info.title}
         />
         <MiddleColumn>
           <Section>
