@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <ArticleHeader title={info.title} />{" "}
+      <ArticleHeader title={info.title} />
       <ThreeColumnLayout>
         <FirstRow info={info} />
         <MiddleColumn>
