@@ -19,9 +19,8 @@ import mamanputain from "./img/mamanputain.jpg";
 import pictureshow from "./img/pictureshow.jpg";
 import silence from "./img/silence.jpg";
 import variety from "./img/variety.jpg";
-import getPageInfo from "./pageInfo";
+import { info } from "./pageInfo";
 
-const info = getPageInfo();
 export const metadata: Metadata = {
   title: info.title,
 };

@@ -4,9 +4,8 @@ import PageHeader from "@/components/layout/page-header";
 import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 
 import { FirstRow, MiddleColumn, ThreeColumnLayout } from "../components";
-import getPageInfo from "./pageInfo";
+import { info } from "./pageInfo";
 
-const info = getPageInfo();
 export const metadata: Metadata = {
   title: info.title,
 };

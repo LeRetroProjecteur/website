@@ -16,9 +16,7 @@ import cuaronAnderson from "./img/cuaron-anderson.jpg";
 import lyon from "./img/lyon.jpeg";
 import mareeNoire from "./img/maree_noire.jpg";
 import ozuRay from "./img/ozu-ray.jpg";
-import getPageInfo from "./pageInfo";
-
-const info = getPageInfo();
+import { info } from "./pageInfo";
 
 export const metadata: Metadata = {
   title: info.title,

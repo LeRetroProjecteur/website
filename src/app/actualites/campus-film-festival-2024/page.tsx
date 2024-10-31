@@ -11,9 +11,8 @@ import {
   Question,
   ThreeColumnLayout,
 } from "../components";
-import getPageInfo from "./pageInfo";
+import { info } from "./pageInfo";
 
-const info = getPageInfo();
 export const metadata: Metadata = {
   title: info.title,
 };

@@ -13,9 +13,8 @@ import {
   ThreeColumnLayout,
 } from "../components";
 import PlusHier from "./img/plus-qu-hier.png";
-import getPageInfo from "./pageInfo";
+import { info } from "./pageInfo";
 
-const info = getPageInfo();
 export const metadata: Metadata = {
   title: info.title,
 };
