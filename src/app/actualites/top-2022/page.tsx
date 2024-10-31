@@ -14,31 +14,30 @@ import {
 } from "../components";
 import adieu from "./img/adieu.jpg";
 import evangile from "./img/evangile.jpg";
-import icon from "./img/icon.jpg";
 import lola from "./img/lola.jpg";
 import mamanputain from "./img/mamanputain.jpg";
 import pictureshow from "./img/pictureshow.jpg";
 import silence from "./img/silence.jpg";
 import variety from "./img/variety.jpg";
+import getPageInfo from "./pageInfo";
 
+const info = getPageInfo();
 export const metadata: Metadata = {
-  title: "Rétrospective 2022",
+  title: info.title,
 };
 
-export default function Top2022() {
+export default function Page() {
   return (
     <>
       <PageHeader text="actualités">
-        <SousTitre1>
-          Notre top du cinéma de patrimoine en 2022 à Paris
-        </SousTitre1>
+        <SousTitre1>{info.title}</SousTitre1>
       </PageHeader>
       <ThreeColumnLayout>
         <FirstRow
-          type="retro-spective"
-          date="02/01/2023"
-          image={icon}
-          alt="top 2022"
+          type={info.type}
+          date={info.date}
+          image={info.icon}
+          alt={info.title}
         />
         <MiddleColumn>
           <div className="pb-35px lg:pb-50px">

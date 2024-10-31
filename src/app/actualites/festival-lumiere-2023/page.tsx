@@ -13,27 +13,29 @@ import {
 import altman from "./img/altman.jpg";
 import bushman from "./img/bushman.png";
 import cuaronAnderson from "./img/cuaron-anderson.jpg";
-import icon from "./img/icon.jpg";
 import lyon from "./img/lyon.jpeg";
 import mareeNoire from "./img/maree_noire.jpg";
 import ozuRay from "./img/ozu-ray.jpg";
+import getPageInfo from "./pageInfo";
+
+const info = getPageInfo();
 
 export const metadata: Metadata = {
-  title: "Retour sur le Festival Lumière 2023",
+  title: info.title,
 };
 
-export default function Lumiere2023() {
+export default function Page() {
   return (
     <>
       <PageHeader text="actualités">
-        <SousTitre1>Retour sur le Festival Lumière 2023</SousTitre1>
+        <SousTitre1>{info.title}</SousTitre1>
       </PageHeader>
       <ThreeColumnLayout>
         <FirstRow
-          type="retour de festival"
-          date="31/10/2023"
-          image={icon}
-          alt="lumiere"
+          type={info.type}
+          date={info.date}
+          image={info.icon}
+          alt={info.title}
         />
         <MiddleColumn>
           <BodyCopy>
