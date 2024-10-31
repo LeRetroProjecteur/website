@@ -1,10 +1,10 @@
 import { Metadata } from "next";
 import Link from "next/link";
 
-import PageHeader from "@/components/layout/page-header";
-import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
+import { BodyCopy } from "@/components/typography/typography";
 
 import {
+  ArticleHeader,
   FirstRow,
   MiddleColumn,
   MiddleColumnImageAndTitle,
@@ -28,9 +28,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <PageHeader text="actualités">
-        <SousTitre1>{info.title}</SousTitre1>
-      </PageHeader>
+      <ArticleHeader title={info.title} />{" "}
       <ThreeColumnLayout>
         <FirstRow info={info} />
         <MiddleColumn>

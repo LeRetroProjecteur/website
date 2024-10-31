@@ -1,9 +1,13 @@
 import { Metadata } from "next";
 
-import PageHeader from "@/components/layout/page-header";
-import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
+import { BodyCopy } from "@/components/typography/typography";
 
-import { FirstRow, MiddleColumn, ThreeColumnLayout } from "../components";
+import {
+  ArticleHeader,
+  FirstRow,
+  MiddleColumn,
+  ThreeColumnLayout,
+} from "../components";
 import { info } from "./pageInfo";
 
 export const metadata: Metadata = {
@@ -13,9 +17,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <PageHeader text="actualités">
-        <SousTitre1>{info.title}</SousTitre1>
-      </PageHeader>
+      <ArticleHeader title={info.title} />{" "}
       <ThreeColumnLayout>
         <FirstRow info={info} />
         <MiddleColumn>

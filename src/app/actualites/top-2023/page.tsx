@@ -2,15 +2,14 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { ReactNode } from "react";
 
-import PageHeader from "@/components/layout/page-header";
 import {
   BodyCopy,
   SectionTitle,
-  SousTitre1,
   SubsectionTitle,
 } from "@/components/typography/typography";
 
 import {
+  ArticleHeader,
   FirstRow,
   MiddleColumn,
   Section,
@@ -818,9 +817,7 @@ const FRODON: Critique = {
 export default function Page() {
   return (
     <>
-      <PageHeader text="actualités">
-        <SousTitre1>{info.title}</SousTitre1>
-      </PageHeader>
+      <ArticleHeader title={info.title} />{" "}
       <ThreeColumnLayout>
         <FirstRow info={info} />
         <MiddleColumn>

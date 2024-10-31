@@ -1,8 +1,10 @@
 import Image, { StaticImageData } from "next/image";
 import { ReactNode } from "react";
 
+import PageHeader from "@/components/layout/page-header";
 import {
   SectionTitle,
+  SousTitre1,
   SubsectionTitle,
 } from "@/components/typography/typography";
 import { blurProps } from "@/lib/util";
@@ -21,6 +23,14 @@ export function ThreeColumnLayout({ children }: { children?: ReactNode }) {
       <div className="min-h-100px w-1/2 border-r lg:hidden" />
       <div />
     </div>
+  );
+}
+
+export function ArticleHeader({ title }: { title: string }) {
+  return (
+    <PageHeader text="actualités">
+      <SousTitre1>{title}</SousTitre1>
+    </PageHeader>
   );
 }
 
