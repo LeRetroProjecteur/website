@@ -11,26 +11,25 @@ import {
   Question,
   ThreeColumnLayout,
 } from "../components";
-import icon from "./img/icon.jpg";
+import getPageInfo from "./pageInfo";
 
+const info = getPageInfo();
 export const metadata: Metadata = {
-  title: "Campus Film Festival 2024",
+  title: info.title,
 };
 
-export default function Lumiere2023() {
+export default function Page() {
   return (
     <>
       <PageHeader text="actualités">
-        <SousTitre1>
-          Entretien avec l&apos;équipe du Campus Film Festival 2024
-        </SousTitre1>
+        <SousTitre1>{info.title}</SousTitre1>
       </PageHeader>
       <ThreeColumnLayout>
         <FirstRow
-          type="coup de projecteur"
-          date="23/04/2024"
-          image={icon}
-          alt="lumiere"
+          type={info.type}
+          date={info.date}
+          image={info.icon}
+          alt={info.title}
         />
         <MiddleColumn>
           <BodyCopy>

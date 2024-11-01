@@ -4,24 +4,25 @@ import PageHeader from "@/components/layout/page-header";
 import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 
 import { FirstRow, MiddleColumn, ThreeColumnLayout } from "../components";
-import icon from "./img/icon.jpg";
+import getPageInfo from "./pageInfo";
 
+const info = getPageInfo();
 export const metadata: Metadata = {
-  title: "Le cinéma du passé se vit au présent",
+  title: info.title,
 };
 
-export default function Edito20240307() {
+export default function Page() {
   return (
     <>
       <PageHeader text="actualités">
-        <SousTitre1>Le cinéma du passé se vit au présent</SousTitre1>
+        <SousTitre1>{info.title}</SousTitre1>
       </PageHeader>
       <ThreeColumnLayout>
         <FirstRow
-          type="édito"
-          date="13/03/2024"
-          image={icon}
-          alt="gael teicher"
+          type={info.type}
+          date={info.date}
+          image={info.icon}
+          alt={info.title}
         />
         <MiddleColumn>
           <BodyCopy>

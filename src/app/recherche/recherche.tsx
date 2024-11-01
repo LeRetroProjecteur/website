@@ -18,10 +18,9 @@ import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader, { FixedHeader } from "@/components/layout/page-header";
 import { MetaCopy } from "@/components/typography/typography";
-import { SearchMovie } from "@/lib/types";
+import { SearchMovie, SearchTheater } from "@/lib/types";
 import {
   TAG_MAP,
-  cleanString,
   getFields,
   getMovieInfoString,
   stringMatchFields,
@@ -64,6 +63,8 @@ export default function Recherche({
 
   const searchTerm = useRechercheStore((s) => s.searchTerm);
 
+  const router = useRouter();
+
   return (
     <>
       <FixedHeader disableBelowPadding className="lg:border-b lg:pb-20px">
@@ -94,12 +95,16 @@ export default function Recherche({
           hideLoading={searchTerm.length === 0}
           className="flex grow items-center justify-center pt-15px"
         >
-          <Results
-            nb_results={50}
+          <SearchResults
+            nbResults={50}
             extraClass={
               "border-b py-10px pl-5px text-15px font-medium uppercase leading-20px lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0"
             }
-            {...{ searchTerm, allMoviesPromise }}
+            searchTerm={searchTerm}
+            allDataPromise={allMoviesPromise}
+            onClick={(movie) => {
+              router.push(`/film/${movie.id}`);
+            }}
           />
         </SuspenseWithLoading>
       </div>
@@ -107,32 +112,32 @@ export default function Recherche({
   );
 }
 
-export function Results({
-  allMoviesPromise,
+export function SearchResults({
+  allDataPromise,
   searchTerm,
-  nb_results,
+  nbResults,
   extraClass,
   onClick,
 }: {
-  allMoviesPromise: Promise<SearchMovie[]>;
+  allDataPromise: Promise<SearchMovie[]>;
   searchTerm: string;
-  nb_results: number;
+  nbResults: number;
   extraClass?: string;
   onClick?: (movie: SearchMovie) => void;
 }) {
   const selected = useRechercheStore((s) => s.selected);
   const tags = useRechercheStore((s) => s.tags);
-  const allMovies = use(allMoviesPromise);
-  const allMoviesFields = useMemo(() => {
+  const allData = use(allDataPromise);
+  const allDataFields = useMemo(() => {
     return orderBy(
-      allMovies.map<[SearchMovie, string[]]>((movie) => [
-        movie,
-        getFields(getMovieInfoString(movie)),
+      allData.map<[SearchMovie, string[]]>((elem) => [
+        elem,
+        getFields(getMovieInfoString(elem)),
       ]),
-      ([movie]) => movie.relevance_score,
+      ([elem]) => elem.relevance_score,
       "desc",
     );
-  }, [allMovies]);
+  }, [allData]);
   const keywords = useMemo(() => getFields(searchTerm), [searchTerm]);
   const selectedRef: MutableRefObject<HTMLAnchorElement | null> = useRef(null);
 
@@ -151,20 +156,18 @@ export function Results({
     () =>
       searchTerm.length > 0
         ? take(
-            allMoviesFields
+            allDataFields
               .filter(
                 ([_, fields]) =>
                   stringMatchFields(keywords, fields) &&
                   (tags.length === 0 || every(tags, () => true)),
               )
-              .map(([movie]) => movie),
-            nb_results,
+              .map(([elem]) => elem),
+            nbResults,
           )
         : [],
-    [allMoviesFields, searchTerm, keywords, tags, nb_results],
+    [allDataFields, searchTerm, keywords, tags, nbResults],
   );
-
-  const router = useRouter();
 
   useEffect(() => {
     const keydown = (ev: KeyboardEvent) => {
@@ -174,32 +177,35 @@ export function Results({
       } else if (ev.key === "ArrowUp") {
         setSelected(Math.max((selected ?? filtered.length) - 1, 0));
       } else if (ev.key === "Enter" && selected != null) {
-        router.push(`/film/${filtered[selected].id}`);
+        if (filtered[selected]) {
+          if (onClick) {
+            onClick(filtered[selected]);
+          }
+        }
       }
     };
-
     addEventListener("keydown", keydown);
     return () => removeEventListener("keydown", keydown);
-  }, [filtered, router]);
+  }, [filtered, onClick]);
 
   return (
     searchTerm.length > 0 && (
       <div className="flex grow flex-col">
         {filtered.length > 0 ? (
           <>
-            {filtered.map((movie, i) => (
+            {filtered.map((elem, i) => (
               <Link
                 onClick={
                   onClick != null
                     ? (e) => {
-                        onClick(movie);
+                        onClick(elem);
                         e.preventDefault();
                       }
                     : undefined
                 }
                 ref={selected === i ? selectedRef : null}
-                key={movie.id}
-                href={`/film/${movie.id}`}
+                key={elem.id}
+                href=""
                 className={clsx(
                   {
                     "lg:bg-retro-pale-green": i === selected,
@@ -209,7 +215,7 @@ export function Results({
                   extraClass,
                 )}
               >
-                <u>{movie.title}</u>, {movie.directors} ({movie.year})
+                <u>{elem.title}</u>, {elem.directors} ({elem.year})
               </Link>
             ))}
             <div className="min-h-100px w-1/2 grow border-r lg:hidden" />
@@ -244,45 +250,62 @@ function Tag({ tag, displayTag }: { tag: string; displayTag: string }) {
 }
 
 export function TheaterSearchResults({
-  allTheatersPromise,
+  allDataPromise,
   searchTerm,
-  nb_results,
+  nbResults,
   extraClass,
   onClick,
 }: {
-  allTheatersPromise: Promise<string[]>;
+  allDataPromise: Promise<SearchTheater[]>;
   searchTerm: string;
-  nb_results: number;
+  nbResults: number;
   extraClass?: string;
-  onClick?: (theater: string) => void;
+  onClick?: (theater: SearchTheater) => void;
 }) {
-  const allTheaters = use(allTheatersPromise);
   const selected = useRechercheStore((s) => s.selected);
+  const tags = useRechercheStore((s) => s.tags);
+  const allData = use(allDataPromise);
+  const allDataFields = useMemo(() => {
+    return orderBy(
+      allData.map<[SearchTheater, string[]]>((elem) => [
+        elem,
+        getFields(elem.name),
+      ]),
+      ([theater]) => theater.name,
+      "desc",
+    );
+  }, [allData]);
+  const keywords = useMemo(() => getFields(searchTerm), [searchTerm]);
   const selectedRef: MutableRefObject<HTMLAnchorElement | null> = useRef(null);
 
-  const filtered = useMemo(() => {
-    if (searchTerm.length === 0) return [];
-    const keywords = getFields(searchTerm);
-    const cleanedSearchTerm = cleanString(searchTerm.toLowerCase());
+  useEffect(() => {
+    const curr = selectedRef.current;
+    if (
+      curr != null &&
+      (curr.getBoundingClientRect().bottom + 100 > window.innerHeight ||
+        curr.getBoundingClientRect().top - 100 < 0)
+    ) {
+      curr.scrollIntoView({ block: "center" });
+    }
+  }, [selected]);
 
-    return take(
-      allTheaters.filter((theater) => {
-        const cleanedTheater = cleanString(theater.toLowerCase());
-        const theaterWords = cleanedTheater.split(/\s+/);
+  const filtered = useMemo(
+    () =>
+      searchTerm.length > 0
+        ? take(
+            allDataFields
+              .filter(
+                ([_, fields]) =>
+                  stringMatchFields(keywords, fields) &&
+                  (tags.length === 0 || every(tags, () => true)),
+              )
+              .map(([elem]) => elem),
+            nbResults,
+          )
+        : [],
+    [allDataFields, searchTerm, keywords, tags, nbResults],
+  );
 
-        // Check for full string match
-        if (cleanedTheater.includes(cleanedSearchTerm)) {
-          return true;
-        }
-
-        // Use stringMatchFields for partial matches
-        return stringMatchFields(keywords, theaterWords);
-      }),
-      nb_results,
-    );
-  }, [allTheaters, searchTerm, nb_results]);
-
-  const router = useRouter();
   useEffect(() => {
     const keydown = (ev: KeyboardEvent) => {
       const selected = useRechercheStore.getState().selected;
@@ -290,26 +313,36 @@ export function TheaterSearchResults({
         setSelected(Math.min((selected ?? -1) + 1, filtered.length - 1));
       } else if (ev.key === "ArrowUp") {
         setSelected(Math.max((selected ?? filtered.length) - 1, 0));
+      } else if (ev.key === "Enter" && selected != null) {
+        if (filtered[selected]) {
+          if (onClick) {
+            onClick(filtered[selected]);
+          }
+        }
       }
     };
     addEventListener("keydown", keydown);
     return () => removeEventListener("keydown", keydown);
-  }, [filtered, router]);
+  }, [filtered, onClick]);
 
   return (
     searchTerm.length > 0 && (
       <div className="flex grow flex-col">
         {filtered.length > 0 ? (
           <>
-            {filtered.map((theater, i) => (
+            {filtered.map((elem, i) => (
               <Link
-                key={theater}
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  onClick?.(theater);
-                }}
-                ref={i === selected ? selectedRef : null}
+                onClick={
+                  onClick != null
+                    ? (e) => {
+                        onClick(elem);
+                        e.preventDefault();
+                      }
+                    : undefined
+                }
+                ref={selected === i ? selectedRef : null}
+                key={elem.theater_id}
+                href=""
                 className={clsx(
                   {
                     "lg:bg-retro-pale-green": i === selected,
@@ -318,9 +351,8 @@ export function TheaterSearchResults({
                   "even:bg-retro-pale-green lg:hover:bg-retro-pale-green",
                   extraClass,
                 )}
-                tabIndex={i === selected ? 0 : -1}
               >
-                {theater}
+                {elem.name}
               </Link>
             ))}
             <div className="min-h-100px w-1/2 grow border-r lg:hidden" />

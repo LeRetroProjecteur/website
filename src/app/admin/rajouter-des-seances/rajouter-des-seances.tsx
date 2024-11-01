@@ -1,20 +1,20 @@
 "use client";
 
-import React, { Fragment, Suspense, useState } from "react";
+import React, { Fragment, useState } from "react";
 
-import { Results, TheaterSearchResults } from "@/app/recherche/recherche";
+import { SearchResults, TheaterSearchResults } from "@/app/recherche/recherche";
 import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
-import { SearchMovie } from "@/lib/types";
+import { SearchMovie, SearchTheater } from "@/lib/types";
 
 export default function SubmitScreenings({
   allMoviesPromise,
   allTheatersPromise,
 }: {
   allMoviesPromise: Promise<SearchMovie[]>;
-  allTheatersPromise: Promise<string[]>;
+  allTheatersPromise: Promise<SearchTheater[]>;
 }) {
   const numSubmissions = 5;
   const handleCommentsChange = (
@@ -24,14 +24,26 @@ export default function SubmitScreenings({
   };
   const [responseMessage, setResponseMessage] = useState("");
   const [rowsData, setRowsData] = useState(
-    Array(numSubmissions).fill({ movie: "", date: "", time: "", note: "" }),
+    Array(numSubmissions).fill({
+      movie: "",
+      movie_id: "",
+      date: "",
+      time: "",
+      note: "",
+    }),
   );
   const [comments, setComments] = useState("");
-  const [theater, setTheater] = useState("");
+  const [theaterData, setTheaterData] = useState({ name: "", theater_id: "" });
 
   const updateRowData = (
     index: number,
-    data: { movie: string; date: string; time: string; note: string },
+    data: {
+      movie: string;
+      movie_id: string;
+      date: string;
+      time: string;
+      note: string;
+    },
   ) => {
     const newRowsData = [...rowsData];
     newRowsData[index] = data;
@@ -47,7 +59,7 @@ export default function SubmitScreenings({
         <strong>Cinema&nbsp;:</strong>
         <TheaterSearch
           allTheatersPromise={allTheatersPromise}
-          onUpdate={setTheater}
+          onUpdate={setTheaterData}
         />
         <br />
         <br />
@@ -100,7 +112,7 @@ export default function SubmitScreenings({
             <button
               onClick={() =>
                 sendScreeningsToDatabase(
-                  theater,
+                  theaterData,
                   rowsData,
                   comments,
                   setResponseMessage,
@@ -121,8 +133,14 @@ export default function SubmitScreenings({
 }
 
 async function sendScreeningsToDatabase(
-  theater_name: string,
-  rowsData: { movie: string; date: string; time: string; note: string }[],
+  theaterData: { name: string; theater_id: string },
+  rowsData: {
+    movie: string;
+    movie_id: string;
+    date: string;
+    time: string;
+    note: string;
+  }[],
   comments: string,
   setResponseMessage: (message: string) => void,
 ) {
@@ -139,6 +157,7 @@ async function sendScreeningsToDatabase(
       if (!(row.movie == "" || isNaN(year) || isNaN(month) || isNaN(day))) {
         return {
           movie: row.movie,
+          id: row.movie_id,
           year: year,
           month: month,
           day: day,
@@ -151,9 +170,10 @@ async function sendScreeningsToDatabase(
 
     const payload = {
       collection_name: "raw-submit-screenings",
-      theater_name: theater_name,
-      include_time_in_doc_name: true,
-      key_for_doc_name: "theater_name",
+      theater_name: theaterData.name,
+      theater_id: theaterData.theater_id,
+      include_time_in_doc_name: false,
+      key_for_doc_name: "theater_id",
       showtimes: transformedData,
       comments: comments,
     };
@@ -204,21 +224,24 @@ function ScreeningRow({
   allMoviesPromise: Promise<SearchMovie[]>;
   onUpdate: (data: {
     movie: string;
+    movie_id: string;
     date: string;
     time: string;
     note: string;
   }) => void;
 }) {
-  const [searchTerm, _setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [movieId, setMovieId] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [note, setNote] = useState("");
 
-  const setSearchTerm = (st: string) => {
-    _setSearchTerm(st);
+  const setSearchFind = (st: string, id: string = "") => {
+    setSearchTerm(st);
+    setMovieId(id);
     setShowResults(true);
-    onUpdate({ movie: st, date, time, note });
+    onUpdate({ movie: st, movie_id: id, date, time, note });
   };
 
   return (
@@ -227,7 +250,7 @@ function ScreeningRow({
         <div className={"flex grow flex-col"}>
           <RetroInput
             value={searchTerm}
-            setValue={setSearchTerm}
+            setValue={(st) => setSearchFind(st)}
             leftAlignPlaceholder
             customTypography
             placeholder="Recherchez un film..."
@@ -236,18 +259,20 @@ function ScreeningRow({
           />
           <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
             {showResults && (
-              <Results
+              <SearchResults
                 extraClass="text-left px-5px py-2px border-x border-b"
-                nb_results={5}
-                {...{ searchTerm, allMoviesPromise }}
+                nbResults={5}
+                searchTerm={searchTerm}
+                allDataPromise={allMoviesPromise}
                 onClick={(movie) => {
-                  setSearchTerm(
+                  setSearchFind(
                     movie.title +
                       ", " +
                       movie.directors +
                       " (" +
                       movie.year +
                       ")",
+                    movie.id,
                   );
                   setShowResults(false);
                 }}
@@ -265,7 +290,13 @@ function ScreeningRow({
           value={date}
           onChange={(e) => {
             setDate(e.target.value);
-            onUpdate({ movie: searchTerm, date: e.target.value, time, note });
+            onUpdate({
+              movie: searchTerm,
+              movie_id: movieId,
+              date: e.target.value,
+              time,
+              note,
+            });
           }}
         />
       </td>
@@ -278,7 +309,13 @@ function ScreeningRow({
           value={time}
           onChange={(e) => {
             setTime(e.target.value);
-            onUpdate({ movie: searchTerm, date, time: e.target.value, note });
+            onUpdate({
+              movie: searchTerm,
+              movie_id: movieId,
+              date,
+              time: e.target.value,
+              note,
+            });
           }}
         />
       </td>
@@ -290,7 +327,13 @@ function ScreeningRow({
           value={note}
           onChange={(e) => {
             setNote(e.target.value);
-            onUpdate({ movie: searchTerm, date, time, note: e.target.value });
+            onUpdate({
+              movie: searchTerm,
+              movie_id: movieId,
+              date,
+              time,
+              note: e.target.value,
+            });
           }}
         />
       </td>
@@ -302,43 +345,46 @@ function TheaterSearch({
   allTheatersPromise,
   onUpdate,
 }: {
-  allTheatersPromise: Promise<string[]>;
-  onUpdate: (theater: string) => void;
+  allTheatersPromise: Promise<SearchTheater[]>;
+  onUpdate: (data: { name: string; theater_id: string }) => void;
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [showResults, setShowResults] = useState(false);
 
-  const handleSearchTermChange = (st: string) => {
-    setSearchTerm(st);
+  const setSearchFind = (theater: { name: string; theater_id: string }) => {
+    setSearchTerm(theater.name);
     setShowResults(true);
-    onUpdate(st);
+    onUpdate(theater);
   };
 
   return (
     <div className="flex grow flex-col">
       <RetroInput
         value={searchTerm}
-        setValue={handleSearchTermChange}
+        setValue={(st) => setSearchFind({ name: st, theater_id: "" })}
         leftAlignPlaceholder
         customTypography
         placeholder="Recherchez un cinéma..."
         transparentPlaceholder
         className="flex grow"
       />
-      <Suspense fallback={<div>Loading...</div>}>
+      <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
         {showResults && (
           <TheaterSearchResults
             extraClass="text-left px-5px py-2px border-x border-b"
-            nb_results={5}
+            nbResults={5}
             searchTerm={searchTerm}
-            allTheatersPromise={allTheatersPromise}
+            allDataPromise={allTheatersPromise}
             onClick={(theater) => {
-              handleSearchTermChange(theater);
+              setSearchFind({
+                name: theater.name,
+                theater_id: theater.theater_id,
+              });
               setShowResults(false);
             }}
           />
         )}
-      </Suspense>
+      </SuspenseWithLoading>
     </div>
   );
 }
