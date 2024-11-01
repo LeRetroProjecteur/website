@@ -90,7 +90,7 @@ export function FormatNotes({
     <>
       {needsExpanding ? (
         <span
-          className={clsx({ "cursor-pointer": needsExpanding })}
+          className="-mx-2 -my-1 cursor-pointer px-2 py-1"
           onClick={toggleExpanded}
         >
           {isExpanded
