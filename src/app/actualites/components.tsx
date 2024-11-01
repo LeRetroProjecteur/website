@@ -27,29 +27,12 @@ export function ArticleLayout({
         <SousTitre1>{info.title}</SousTitre1>
       </PageHeader>
       <ThreeColumnLayout>
-        <div className="invisible h-0 self-center justify-self-center px-30px text-center 3col:visible 3col:h-auto">
-          <div className="font-semibold uppercase text-retro-gray lg:text-20px lg:leading-18px">
-            {info.type}
-          </div>
-        </div>
-        <div className="pb-20px lg:border-r lg:pr-20px">
-          <div className="lg:border-b lg:pb-20px">
-            <Image
-              src={info.icon}
-              alt={info.title}
-              className="h-auto w-full"
-              {...blurProps}
-            />
-          </div>
-        </div>
-        <div className="invisible h-0 self-center justify-self-center px-30px text-center lg:visible lg:h-auto">
-          <div className="font-semibold uppercase text-retro-gray lg:text-20px lg:leading-18px 3col:invisible 3col:h-0">
-            {info.type}
-          </div>
-          <div className="font-semibold uppercase text-retro-gray lg:text-20px lg:leading-18px">
-            Publié le {info.date}
-          </div>
-        </div>
+        <FirstRow
+          title={info.title}
+          type={info.type}
+          icon={info.icon}
+          date={info.date}
+        />
         {children}
       </ThreeColumnLayout>
     </>
@@ -70,6 +53,46 @@ export function ThreeColumnLayout({ children }: { children?: ReactNode }) {
       <div className="min-h-100px w-1/2 border-r lg:hidden" />
       <div />
     </div>
+  );
+}
+
+export function FirstRow({
+  title,
+  type,
+  icon,
+  date,
+}: {
+  title: string;
+  type: string;
+  icon: StaticImageData;
+  date: string;
+}) {
+  return (
+    <>
+      <div className="invisible h-0 self-center justify-self-center px-30px text-center 3col:visible 3col:h-auto">
+        <div className="font-semibold uppercase text-retro-gray lg:text-20px lg:leading-18px">
+          {type}
+        </div>
+      </div>
+      <div className="pb-20px lg:border-r lg:pr-20px">
+        <div className="lg:border-b lg:pb-20px">
+          <Image
+            src={icon}
+            alt={title}
+            className="h-auto w-full"
+            {...blurProps}
+          />
+        </div>
+      </div>
+      <div className="invisible h-0 self-center justify-self-center px-30px text-center lg:visible lg:h-auto">
+        <div className="font-semibold uppercase text-retro-gray lg:text-20px lg:leading-18px 3col:invisible 3col:h-0">
+          {type}
+        </div>
+        <div className="font-semibold uppercase text-retro-gray lg:text-20px lg:leading-18px">
+          Publié le {date}
+        </div>
+      </div>
+    </>
   );
 }
 
