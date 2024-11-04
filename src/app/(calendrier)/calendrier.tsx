@@ -40,13 +40,13 @@ export default function Calendrier({
         <TimeSlider />
         <div className="hidden lg:flex lg:flex-row lg:flex-col">
           <div className="flex grow flex-row gap-x-20px">
-            <div className="flex w-240px">
+            <div className="flex w-225px">
               <QuartierSelectorToggler
                 toggleOpen={toggleQuartierSelectorOpen}
                 isOpen={isQuartierSelectorOpen}
               />
             </div>
-            <div className="flex w-240px">
+            <div className="flex w-225px">
               <Events />
             </div>
             <div className="flex grow">

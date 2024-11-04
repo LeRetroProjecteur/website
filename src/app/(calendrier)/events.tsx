@@ -29,7 +29,8 @@ export default function Events() {
       onClick={onClick}
     >
       <div className="flex items-center">
-        <ButtonCopy>Séances spéciales</ButtonCopy>
+        <ButtonCopy className="lg:hidden">Séances spéc.</ButtonCopy>
+        <ButtonCopy className="hidden lg:block">Séances spéciales</ButtonCopy>
       </div>
     </div>
   );
