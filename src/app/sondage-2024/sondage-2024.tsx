@@ -269,7 +269,7 @@ async function sendScreeningsToDatabase(
     });
 
     const payload = {
-      showtimes: transformedData,
+      movies: transformedData,
       comments: comments,
       full_name: fullName,
     };
