@@ -97,8 +97,8 @@ export function FormatNotes({
             ? notes
             : notes.substring(
                 0,
-                notes.substring(0, maxLength).lastIndexOf(" "),
-              ) + " [...]"}
+                notes.substring(0, maxLength).lastIndexOf(" ") + 1,
+              ) + "[...]"}
         </span>
       ) : (
         notes
@@ -166,7 +166,7 @@ export function SeancesTheater({
               {floatHourToString(screening.time)}
               {screening.notes != null && (
                 <span className="text-retro-gray">
-                  {" "}
+                  &nbsp;
                   <span className="hidden lg:inline">
                     <FormatNotes notes={screening.notes} maxLength={50} />
                   </span>
