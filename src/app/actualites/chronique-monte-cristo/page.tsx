@@ -44,17 +44,17 @@ export default function Page() {
             ont fourni la mati&egrave;re d&rsquo;un grand nombre de films
             &ndash; et d&rsquo;ailleurs aucun livre n&rsquo;a &eacute;t&eacute;
             plus adapt&eacute; au cin&eacute;ma que ce dernier. &Agrave; la mort
-            de l&rsquo;auteur, Victor Hugo &eacute;crivait : &laquo;&nbsp;Le nom
-            d&apos;Alexandre Dumas est plus que fran&ccedil;ais, il est
-            europ&eacute;en&nbsp;; il est plus qu&apos;europ&eacute;en, il est
-            universel. Son th&eacute;&acirc;tre a &eacute;t&eacute;
-            affich&eacute; dans le monde entier&nbsp;; ses romans ont
-            &eacute;t&eacute; traduits dans toutes les langues. &raquo;&nbsp; Le
-            cin&eacute;ma a prolong&eacute; ses succ&egrave;s.
-            L&rsquo;&eacute;tendue temporelle et spatiale des adaptations des
-            aventures d&rsquo;Edmond Dant&egrave;s est sans commune
-            mesure&nbsp;: France, Italie, &Eacute;tats-Unis, Allemagne, Mexique,
-            Argentine, Union sovi&eacute;tique, &Eacute;gypte, Inde,
+            de l&rsquo;auteur, Victor Hugo &eacute;crivait&nbsp;:
+            &laquo;&nbsp;Le nom d&apos;Alexandre Dumas est plus que
+            fran&ccedil;ais, il est europ&eacute;en&nbsp;; il est plus
+            qu&apos;europ&eacute;en, il est universel. Son th&eacute;&acirc;tre
+            a &eacute;t&eacute; affich&eacute; dans le monde entier&nbsp;; ses
+            romans ont &eacute;t&eacute; traduits dans toutes les
+            langues.&nbsp;&raquo;&nbsp; Le cin&eacute;ma a prolong&eacute; ses
+            succ&egrave;s. L&rsquo;&eacute;tendue temporelle et spatiale des
+            adaptations des aventures d&rsquo;Edmond Dant&egrave;s est sans
+            commune mesure&nbsp;: France, Italie, &Eacute;tats-Unis, Allemagne,
+            Mexique, Argentine, Union sovi&eacute;tique, &Eacute;gypte, Inde,
             Cor&eacute;e du Sud, Hong Kong&hellip; rares sont les pays qui
             n&rsquo;ont pas leur version nationale. L&rsquo;histoire du{" "}
             <em>Comte de Monte-Cristo</em> a tellement influenc&eacute;
@@ -69,18 +69,18 @@ export default function Page() {
           <BodyCopy>
             L&rsquo;histoire du cin&eacute;ma et celle du{" "}
             <em>Comte de Monte-Cristo</em> sont plus intimement li&eacute;es
-            qu&rsquo;on ne pourrait le croire ; l&rsquo;une retrace
+            qu&rsquo;on ne pourrait le croire&nbsp;; l&rsquo;une retrace
             l&rsquo;autre et vice versa. D&egrave;s les d&eacute;buts du
             cin&eacute;matographe, et alors que les films ne durent qu&rsquo;une
             quinzaine de minutes, les cin&eacute;astes se tournent vers ce
             monument de la litt&eacute;rature. En janvier 1908, sur la plage de
             Laguna Beach en Californie, Francis Boggs tourne les sc&egrave;nes
-            d&rsquo;ext&eacute;rieur d&rsquo;un film produit par William Selig :
-            un homme sort des flots. Cet homme incarnait Edmond Dant&egrave;s et
-            ce film s&rsquo;appelait <em>The Count of Monte Cristo</em>. La
-            douceur du climat californien et le succ&egrave;s du film inciteront
-            William Selig &agrave; fonder une entreprise de production
-            bas&eacute;e &agrave; Los Angeles.{" "}
+            d&rsquo;ext&eacute;rieur d&rsquo;un film produit par William
+            Selig&nbsp;: un homme sort des flots. Cet homme incarnait Edmond
+            Dant&egrave;s et ce film s&rsquo;appelait{" "}
+            <em>The Count of Monte Cristo</em>. La douceur du climat californien
+            et le succ&egrave;s du film inciteront William Selig &agrave; fonder
+            une entreprise de production bas&eacute;e &agrave; Los Angeles.{" "}
             <em>The Count of Monte Cristo,</em> consid&eacute;r&eacute; comme
             l&rsquo;un des tous premiers films produits en Californie, marquait
             le commencement de la grande histoire d&rsquo;Hollywood.
@@ -94,9 +94,9 @@ export default function Page() {
             version de 69 minutes (dur&eacute;e exceptionnelle pour
             l&rsquo;&eacute;poque), r&eacute;alis&eacute;e par un autre pionnier
             du cin&eacute;ma&nbsp;: Edwin S. Porter&nbsp;; il fait retirer le
-            film de Selig de la circulation. <em>The Count of Monte Cristo </em>
+            film de Selig de la circulation. <em>The Count of Monte Cristo</em>{" "}
             rencontre un grand succ&egrave;s populaire et lance la
-            soci&eacute;t&eacute; de ce jeune producteur ambitieux : la{" "}
+            soci&eacute;t&eacute; de ce jeune producteur ambitieux&nbsp;: la{" "}
             <em>Famous Players Film Company</em>, qui trois ans plus tard
             deviendra la <em>Paramount</em>. Zukor avait choisi cette histoire
             parce que son adaptation au th&eacute;&acirc;tre rencontrait alors
@@ -107,12 +107,13 @@ export default function Page() {
             s&rsquo;y attarde. En 1883 &agrave; New York, James O&rsquo;Neill
             remplace au pied lev&eacute; l&rsquo;acteur principal d&rsquo;un
             Monte Cristo qui ne rencontrait alors qu&rsquo;un succ&egrave;s
-            mod&eacute;r&eacute;&nbsp;; le public l&rsquo;adore ; il passera sa
-            vie &ndash; plus de 6000 repr&eacute;sentations en 40 ans &ndash;
-            dans la peau d&rsquo;Edmond Dant&egrave;s. Il mourut millionnaire et
-            c&eacute;l&eacute;brissime, mais, selon les mots de son propre fils,
-            le c&eacute;l&egrave;bre dramaturge Eugene O&rsquo;Neill,
-            &ldquo;bris&eacute;, malheureux et terriblement amer&rdquo;.
+            mod&eacute;r&eacute;&nbsp;; le public l&rsquo;adore&nbsp;; il
+            passera sa vie &ndash; plus de 6000 repr&eacute;sentations en 40 ans
+            &ndash; dans la peau d&rsquo;Edmond Dant&egrave;s. Il mourut
+            millionnaire et c&eacute;l&eacute;brissime, mais, selon les mots de
+            son propre fils, le c&eacute;l&egrave;bre dramaturge Eugene
+            O&rsquo;Neill, &ldquo;bris&eacute;, malheureux et terriblement
+            amer&rdquo;.
           </BodyCopy>
           <br />
           <BodyCopy>
@@ -127,7 +128,7 @@ export default function Page() {
             <em>Libert&eacute; Ol&eacute;ron</em> (2001) &ndash;, en 1913 le
             cin&eacute;ma fran&ccedil;ais lui offre un nouveau film, mis en
             sc&egrave;ne par Michel Carr&eacute;, le sc&eacute;nariste de{" "}
-            <em>L&rsquo;Assommoir </em>d&rsquo;Albert Capellani. Entre 1915 et
+            <em>L&rsquo;Assommoir</em> d&rsquo;Albert Capellani. Entre 1915 et
             1917, Henri Pouctal r&eacute;alise une version de trois heures,
             qu&rsquo;il souhaite aussi fid&egrave;le que possible au livre et
             qu&rsquo;il tourne, dans la mesure du possible, dans les lieux
@@ -157,7 +158,7 @@ export default function Page() {
             apparition dans les foyers fran&ccedil;ais, vient l&rsquo;heure des
             feuilletons&nbsp;; leur format est particuli&egrave;rement propice
             aux r&eacute;cits au long cours. &Agrave; partir de 1968, en France,
-            toutes les adaptations du <em>Comte de Monte Cristo </em>sont
+            toutes les adaptations du <em>Comte de Monte Cristo</em> sont
             produites pour la t&eacute;l&eacute;. Mais l&rsquo;imaginaire de la
             vengeance est marqu&eacute; &agrave; jamais et, au cours des
             d&eacute;cennies suivantes, des histoires inspir&eacute;es des
