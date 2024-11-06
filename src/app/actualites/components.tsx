@@ -1,14 +1,6 @@
 import Image, { StaticImageData } from "next/image";
 import Link from "next/link";
-import {
-  JSXElementConstructor,
-  Key,
-  PromiseLikeOfReactNode,
-  ReactElement,
-  ReactNode,
-  ReactPortal,
-} from "react";
-import { UrlObject } from "url";
+import { ReactNode } from "react";
 
 import { TextBox } from "@/components/layout/text-boxes";
 import {
