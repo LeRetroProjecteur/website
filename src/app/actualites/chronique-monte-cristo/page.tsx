@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import PageHeader from "@/components/layout/page-header";
 import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 
-import { FirstRow, MiddleColumn, ThreeColumnLayout } from "../components";
+import { CTAs, FirstRow, MiddleColumn, ThreeColumnLayout } from "../components";
 import getPageInfo from "./pageInfo";
 
 const info = getPageInfo();
@@ -177,6 +177,22 @@ export default function Page() {
             l&rsquo;app&eacute;tit du public pour cette histoire
             in&eacute;puisable.
           </BodyCopy>
+          <CTAs
+            ctas={[
+              {
+                link: "/film/count-monte-cristo-1913",
+                text: <div>Découvrez la version de 1913</div>,
+              },
+              {
+                link: "/film/plus-hier-moins-demain-1998",
+                text: (
+                  <div>
+                    Notre recommandation&nbsp;: celle de 1942 par Robert Vernay
+                  </div>
+                ),
+              },
+            ]}
+          />
         </MiddleColumn>
       </ThreeColumnLayout>
     </>

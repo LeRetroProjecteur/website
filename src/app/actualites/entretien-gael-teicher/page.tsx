@@ -6,7 +6,7 @@ import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 
 import {
   Answer,
-  CTAMovie,
+  CTAs,
   FirstRow,
   MiddleColumn,
   MiddleColumnImageAndRightColumnCaption,
@@ -162,9 +162,13 @@ export default function Page() {
               </div>
             </Answer>
           </BodyCopy>
-          <CTAMovie
-            movieID="plus-hier-moins-demain-1998"
-            movieName="Plus qu'hier, moins que demain"
+          <CTAs
+            ctas={[
+              {
+                link: "/film/plus-hier-moins-demain-1998",
+                text: <div>Trouver les prochaines séances du film</div>,
+              },
+            ]}
           />
         </MiddleColumn>
       </ThreeColumnLayout>
