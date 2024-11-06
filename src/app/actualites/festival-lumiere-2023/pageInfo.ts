@@ -6,7 +6,3 @@ export const info = {
   type: "retour de festival",
   icon: icon,
 };
-
-export default function getPageInfo() {
-  return info;
-}

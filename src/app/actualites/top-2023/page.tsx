@@ -2,24 +2,20 @@ import { Metadata } from "next";
 import Link from "next/link";
 import { ReactNode } from "react";
 
-import PageHeader from "@/components/layout/page-header";
 import {
   BodyCopy,
   SectionTitle,
-  SousTitre1,
   SubsectionTitle,
 } from "@/components/typography/typography";
 
 import {
-  FirstRow,
+  ArticleLayout,
   MiddleColumn,
   Section,
   SectionHeader,
-  ThreeColumnLayout,
 } from "../components";
-import getPageInfo from "./pageInfo";
+import { info } from "./pageInfo";
 
-const info = getPageInfo();
 export const metadata: Metadata = {
   title: info.title,
 };
@@ -818,219 +814,205 @@ const FRODON: Critique = {
 
 export default function Page() {
   return (
-    <>
-      <PageHeader text="actualités">
-        <SousTitre1>{info.title}</SousTitre1>
-      </PageHeader>
-      <ThreeColumnLayout>
-        <FirstRow
-          type={info.type}
-          date={info.date}
-          image={info.icon}
-          alt={info.title}
-        />
-        <MiddleColumn>
-          <Section>
-            <BodyCopy>
-              <strong>
-                Cette année, nous avons voulu, pour la première fois, vous
-                consulter
-              </strong>{" "}
-              pour savoir quelles étaient vos plus belles découvertes de vieux
-              films. Avec un tel champ des possibles, vos réponses ont forcément
-              été extrêmement diverses. Parmi les 279 bulletins reçus, nous
-              recensons plus de 1000 différents films mentionnés (de plus de 450
-              différents réalisateurs). Malgré tout, de réelles tendances se
-              dessinent, liées à ce que nous pourrions appeler une véritable
-              actualité du cinéma de patrimoine.
-            </BodyCopy>
-          </Section>
-          <Section>
-            <div className="lg:flex">
-              <div className="flex flex-col pb-20px lg:w-1/2 lg:border-r lg:pb-0 lg:pr-10px">
-                <TopTable titre="top films">
-                  {TOP_FILMS.map(({ titre, directorsAndYear, id }) => (
-                    <span key={id}>
-                      <Link href={`/film/${id}`}>
-                        <i className="font-semibold uppercase underline">
-                          {titre}
-                        </i>
-                      </Link>
-                      , {directorsAndYear}
-                    </span>
-                  ))}
-                </TopTable>
-              </div>
-              <div className="flex flex-col lg:w-1/2 lg:pl-10px">
-                <TopTable titre="top cinéastes">
-                  <span className="font-semibold">Chantal Akerman</span>
-                  <span className="font-semibold">Yasujirô Ozu</span>
-                  <span className="font-semibold">Jean Eustache</span>
-                  <span className="font-semibold">Lars von Trier</span>
-                  <span className="font-semibold">David Lynch</span>
-                  <span className="font-semibold">Sidney Lumet</span>
-                  <span className="font-semibold">Hou Hsiao-Hsien</span>
-                  <span className="font-semibold">Louis Malle</span>
-                  <span className="font-semibold">Robert Altman</span>
-                  <span className="font-semibold">
-                    Stanley Kubrick et Billy Wilder (ex-aequo)
+    <ArticleLayout info={info}>
+      <MiddleColumn>
+        <Section>
+          <BodyCopy>
+            <strong>
+              Cette année, nous avons voulu, pour la première fois, vous
+              consulter
+            </strong>{" "}
+            pour savoir quelles étaient vos plus belles découvertes de vieux
+            films. Avec un tel champ des possibles, vos réponses ont forcément
+            été extrêmement diverses. Parmi les 279 bulletins reçus, nous
+            recensons plus de 1000 différents films mentionnés (de plus de 450
+            différents réalisateurs). Malgré tout, de réelles tendances se
+            dessinent, liées à ce que nous pourrions appeler une véritable
+            actualité du cinéma de patrimoine.
+          </BodyCopy>
+        </Section>
+        <Section>
+          <div className="lg:flex">
+            <div className="flex flex-col pb-20px lg:w-1/2 lg:border-r lg:pb-0 lg:pr-10px">
+              <TopTable titre="top films">
+                {TOP_FILMS.map(({ titre, directorsAndYear, id }) => (
+                  <span key={id}>
+                    <Link href={`/film/${id}`}>
+                      <i className="font-semibold uppercase underline">
+                        {titre}
+                      </i>
+                    </Link>
+                    , {directorsAndYear}
                   </span>
-                </TopTable>
-              </div>
+                ))}
+              </TopTable>
             </div>
-          </Section>
-          <Section>
-            <BodyCopy>
-              C&apos;est sans grande surprise que{" "}
-              <strong>
-                la ressortie en avril dernier de{" "}
-                <i>
-                  <Link
-                    className="underline"
-                    href="/film/jeanne-dielman-23-quai-commerce-1080-bruxelles-1975"
-                  >
-                    Jeanne Dielman
-                  </Link>
-                </i>
-              </strong>{" "}
-              a été l&apos;événement majeur de l&apos;année du cinéma de
-              patrimoine. Le film, qui venait d&apos;être consacré
-              «&nbsp;meilleur film de tous les temps&nbsp;» par le fameux{" "}
-              <a
-                target="_blank"
-                className="underline"
-                href="https://www.bfi.org.uk/sight-and-sound/greatest-films-all-time"
-              >
-                sondage décennal Sight &amp; Sound
-              </a>
-              , a été sélectionné par 49 d&apos;entre vous. Les autres films
-              cités témoignent également d&apos;événements marquants de
-              l&apos;année&nbsp;: la rétrospective historique consacrée à
-              l&apos;intégralité des films de <strong>Jean Eustache</strong>{" "}
-              (jusqu&apos;alors plus ou moins introuvables), la rétrospective{" "}
-              <strong>Lars von Trier</strong> dans la foulée du festival de la
-              Rochelle et la ressortie de nombreux films rares (
-              <i>Déménagement</i>, <i>House</i>, <i>Welfare</i> et{" "}
-              <i>Lost Highway</i>).
-              <br />
-              <br />
-              Si <strong>Chantal Akerman</strong> est également la réalisatrice
-              la plus citée, c&apos;est presque uniquement grâce à{" "}
-              <i>Jeanne Dielman</i> (5 votes seulement pour d&apos;autres de ses
-              films). On pourrait lui opposer le cas du réalisateur japonais{" "}
-              <strong>Yasujiro Ozu</strong>
-              &nbsp;: alors même qu&apos;aucun de ses films ne se fraye un
-              chemin dans le Top 10, le cinéaste n&apos;en demeure pas moins
-              troisième en nombre total de citations et surtout celui dont le
-              plus grand nombre de films différents ont été mentionnés (15,
-              contre 13 pour Louis Malle ou Jean-Luc Godard et 12 pour Lars von
-              Trier). Assez logique, étant donné la ressortie de certains des
-              films «&nbsp;rares et inédits&nbsp;» du maître japonais.
-              <br />
-              <br />
-              Mais le cas Ozu ne suffit pas à expliquer{" "}
-              <strong>
-                l&apos;extraordinaire popularité du cinéma japonais
-              </strong>{" "}
-              dans vos scrutins. En effet, il y a 233 citations pour des films
-              japonais (derrière seulement les États-Unis et la France, et
-              nettement devant l&apos;Italie). Aux ressorties déjà mentionnées
-              s&apos;ajoute la popularité de réalisateurs moins connus (Takeshi
-              Kitano, Nobuhiko Ôbayashi, Shinya Tsukamoto, Kinuyo Tanaka, Kaneto
-              Shindô), tous cités au moins 10 fois.
-              <br />
-              <br />
-              Pour le reste, vos choix semblent confirmer une certaine idée du
-              canon cinématographique traditionnel&nbsp;:{" "}
-              <strong>un tropisme européen</strong> (après les États-Unis, la
-              France, le Japon et l&apos;Italie viennent la Grande-Bretagne,
-              l&apos;Allemagne, la Belgique, l&apos;Espagne, l&apos;URSS et
-              finalement Taïwan), et{" "}
-              <strong>un goût prononcé pour les cinéma des années 1970</strong>{" "}
-              (première décennie aux nombres de citations devant les années 1990
-              et 1960).
-            </BodyCopy>
-          </Section>
-          <Section>
-            <BodyCopy>
-              Nous avons également profité de ce sondage pour vous demander{" "}
-              <strong>
-                ce que vous aimeriez voir plus souvent programmé en salles
-              </strong>
-              . Nombre d&apos;entre vous nous ont fait part de votre envie de
-              voir <strong>plus de cinéastes asiatiques</strong>&nbsp;- ou, peut
-              être, un <i>autre</i> cinéma asiatique&nbsp;- programmés en
-              salles. Ont notamment été cités Tsai Ming Liang, Tsui Hark,
-              Apichatpong Weerasethakul, John Woo, Yoon Ga-eun, Kenji Mizoguchi,
-              Johnnie To, Sammo Hung et Liu Chia-Liang. On espère que le succès
-              des ressorties de cinéma japonais (décrit par l&apos;un·e de vous
-              comme «&nbsp;le plus beau du monde&nbsp;») donnera des idées à
-              certains distributeurs !
-              <br />
-              <br />
-              Plusieurs d&apos;entre vous nous ont aussi fait part de leur envie
-              de{" "}
-              <strong>
-                voir plus de femmes cinéastes programmées en salles
-              </strong>
-              . Difficile en effet de ne pas se dire que Chantal Akerman a été
-              l&apos;arbre qui cachait la forêt en cette année 2023
-              (réalisatrice la plus citée mais seule femme du top 10). En 2022,
-              nous découvrions en salles l&apos;extraordinaire{" "}
-              <a className="underline" href="/film/variety-1983">
-                <i>Variety</i> de Bette Gordon
-              </a>
-              , ou encore l&apos;œuvre de Kinuyo Tanako, confirmant que le
-              manque de représentation de femmes dans le canon traditionnel
-              résulte à la fois des obstacles infligés aux femmes cinéastes et
-              du fait que leur œuvre est insuffisamment distribuée.
-              <br />
-              <br />
-              Enfin, vous avez été plusieurs à déplorer l&apos;absence en salles
-              de vieux{" "}
-              <strong>films d&apos;animation et de documentaires</strong>
-              , deux véritables continents de la production cinématographiques
-              trop souvent décrits (pour mieux les ostraciser) comme
-              «&nbsp;genres&nbsp;» à part entière. Que 2024 fasse tomber ces
-              catégories superflues&nbsp;!
-              <br />
-              <br />
-              P.S. La palme du plus grand nombre de séances de vieux films vus
-              en salle cette année revient à une certaine Eva, avec un total
-              absolument ahurissant de 300. Qui pour faire mieux l&apos;année
-              prochaine&nbsp;?
-            </BodyCopy>
-          </Section>
-          <Section>
-            <SectionHeader>
-              Tops de personnalités du monde du cinéma
-            </SectionHeader>
-            <BodyCopy>
-              Le Rétro Projecteur a également sollicité des contributions de la
-              part de différentes personnalités du monde du cinéma : critiques
-              institutionnel·le·s ou indépendant·e·s, cinéastes, membres
-              d&apos;associations,&nbsp;… On les remercie pour leur
-              participation&nbsp;!
-            </BodyCopy>
-          </Section>
-          <Section>
-            {CRITIQUES.map((critique, i) => (
-              <CritiqueTable key={i} critique={critique} />
-            ))}
-          </Section>
-          <Section>
-            <BodyCopy className="pb-20px">
-              Plutôt que de nous faire part de ses plus belles découvertes de
-              l’année, Jean-Michel Frodon a choisi ses coups de cœur parmi tous
-              les films que nous avons sélectionnés dans les conseils
-              hebdomadaires de notre newsletter en 2023. Les voici (par ordre
-              alphabétique) :
-            </BodyCopy>
-            <CritiqueTable critique={FRODON} unordered />
-          </Section>
-        </MiddleColumn>
-      </ThreeColumnLayout>
-    </>
+            <div className="flex flex-col lg:w-1/2 lg:pl-10px">
+              <TopTable titre="top cinéastes">
+                <span className="font-semibold">Chantal Akerman</span>
+                <span className="font-semibold">Yasujirô Ozu</span>
+                <span className="font-semibold">Jean Eustache</span>
+                <span className="font-semibold">Lars von Trier</span>
+                <span className="font-semibold">David Lynch</span>
+                <span className="font-semibold">Sidney Lumet</span>
+                <span className="font-semibold">Hou Hsiao-Hsien</span>
+                <span className="font-semibold">Louis Malle</span>
+                <span className="font-semibold">Robert Altman</span>
+                <span className="font-semibold">
+                  Stanley Kubrick et Billy Wilder (ex-aequo)
+                </span>
+              </TopTable>
+            </div>
+          </div>
+        </Section>
+        <Section>
+          <BodyCopy>
+            C&apos;est sans grande surprise que{" "}
+            <strong>
+              la ressortie en avril dernier de{" "}
+              <i>
+                <Link
+                  className="underline"
+                  href="/film/jeanne-dielman-23-quai-commerce-1080-bruxelles-1975"
+                >
+                  Jeanne Dielman
+                </Link>
+              </i>
+            </strong>{" "}
+            a été l&apos;événement majeur de l&apos;année du cinéma de
+            patrimoine. Le film, qui venait d&apos;être consacré «&nbsp;meilleur
+            film de tous les temps&nbsp;» par le fameux{" "}
+            <a
+              target="_blank"
+              className="underline"
+              href="https://www.bfi.org.uk/sight-and-sound/greatest-films-all-time"
+            >
+              sondage décennal Sight &amp; Sound
+            </a>
+            , a été sélectionné par 49 d&apos;entre vous. Les autres films cités
+            témoignent également d&apos;événements marquants de
+            l&apos;année&nbsp;: la rétrospective historique consacrée à
+            l&apos;intégralité des films de <strong>Jean Eustache</strong>{" "}
+            (jusqu&apos;alors plus ou moins introuvables), la rétrospective{" "}
+            <strong>Lars von Trier</strong> dans la foulée du festival de la
+            Rochelle et la ressortie de nombreux films rares (
+            <i>Déménagement</i>, <i>House</i>, <i>Welfare</i> et{" "}
+            <i>Lost Highway</i>).
+            <br />
+            <br />
+            Si <strong>Chantal Akerman</strong> est également la réalisatrice la
+            plus citée, c&apos;est presque uniquement grâce à{" "}
+            <i>Jeanne Dielman</i> (5 votes seulement pour d&apos;autres de ses
+            films). On pourrait lui opposer le cas du réalisateur japonais{" "}
+            <strong>Yasujiro Ozu</strong>
+            &nbsp;: alors même qu&apos;aucun de ses films ne se fraye un chemin
+            dans le Top 10, le cinéaste n&apos;en demeure pas moins troisième en
+            nombre total de citations et surtout celui dont le plus grand nombre
+            de films différents ont été mentionnés (15, contre 13 pour Louis
+            Malle ou Jean-Luc Godard et 12 pour Lars von Trier). Assez logique,
+            étant donné la ressortie de certains des films «&nbsp;rares et
+            inédits&nbsp;» du maître japonais.
+            <br />
+            <br />
+            Mais le cas Ozu ne suffit pas à expliquer{" "}
+            <strong>
+              l&apos;extraordinaire popularité du cinéma japonais
+            </strong>{" "}
+            dans vos scrutins. En effet, il y a 233 citations pour des films
+            japonais (derrière seulement les États-Unis et la France, et
+            nettement devant l&apos;Italie). Aux ressorties déjà mentionnées
+            s&apos;ajoute la popularité de réalisateurs moins connus (Takeshi
+            Kitano, Nobuhiko Ôbayashi, Shinya Tsukamoto, Kinuyo Tanaka, Kaneto
+            Shindô), tous cités au moins 10 fois.
+            <br />
+            <br />
+            Pour le reste, vos choix semblent confirmer une certaine idée du
+            canon cinématographique traditionnel&nbsp;:{" "}
+            <strong>un tropisme européen</strong> (après les États-Unis, la
+            France, le Japon et l&apos;Italie viennent la Grande-Bretagne,
+            l&apos;Allemagne, la Belgique, l&apos;Espagne, l&apos;URSS et
+            finalement Taïwan), et{" "}
+            <strong>un goût prononcé pour les cinéma des années 1970</strong>{" "}
+            (première décennie aux nombres de citations devant les années 1990
+            et 1960).
+          </BodyCopy>
+        </Section>
+        <Section>
+          <BodyCopy>
+            Nous avons également profité de ce sondage pour vous demander{" "}
+            <strong>
+              ce que vous aimeriez voir plus souvent programmé en salles
+            </strong>
+            . Nombre d&apos;entre vous nous ont fait part de votre envie de voir{" "}
+            <strong>plus de cinéastes asiatiques</strong>&nbsp;- ou, peut être,
+            un <i>autre</i> cinéma asiatique&nbsp;- programmés en salles. Ont
+            notamment été cités Tsai Ming Liang, Tsui Hark, Apichatpong
+            Weerasethakul, John Woo, Yoon Ga-eun, Kenji Mizoguchi, Johnnie To,
+            Sammo Hung et Liu Chia-Liang. On espère que le succès des ressorties
+            de cinéma japonais (décrit par l&apos;un·e de vous comme «&nbsp;le
+            plus beau du monde&nbsp;») donnera des idées à certains
+            distributeurs !
+            <br />
+            <br />
+            Plusieurs d&apos;entre vous nous ont aussi fait part de leur envie
+            de{" "}
+            <strong>voir plus de femmes cinéastes programmées en salles</strong>
+            . Difficile en effet de ne pas se dire que Chantal Akerman a été
+            l&apos;arbre qui cachait la forêt en cette année 2023 (réalisatrice
+            la plus citée mais seule femme du top 10). En 2022, nous découvrions
+            en salles l&apos;extraordinaire{" "}
+            <a className="underline" href="/film/variety-1983">
+              <i>Variety</i> de Bette Gordon
+            </a>
+            , ou encore l&apos;œuvre de Kinuyo Tanako, confirmant que le manque
+            de représentation de femmes dans le canon traditionnel résulte à la
+            fois des obstacles infligés aux femmes cinéastes et du fait que leur
+            œuvre est insuffisamment distribuée.
+            <br />
+            <br />
+            Enfin, vous avez été plusieurs à déplorer l&apos;absence en salles
+            de vieux <strong>films d&apos;animation et de documentaires</strong>
+            , deux véritables continents de la production cinématographiques
+            trop souvent décrits (pour mieux les ostraciser) comme
+            «&nbsp;genres&nbsp;» à part entière. Que 2024 fasse tomber ces
+            catégories superflues&nbsp;!
+            <br />
+            <br />
+            P.S. La palme du plus grand nombre de séances de vieux films vus en
+            salle cette année revient à une certaine Eva, avec un total
+            absolument ahurissant de 300. Qui pour faire mieux l&apos;année
+            prochaine&nbsp;?
+          </BodyCopy>
+        </Section>
+        <Section>
+          <SectionHeader>
+            Tops de personnalités du monde du cinéma
+          </SectionHeader>
+          <BodyCopy>
+            Le Rétro Projecteur a également sollicité des contributions de la
+            part de différentes personnalités du monde du cinéma : critiques
+            institutionnel·le·s ou indépendant·e·s, cinéastes, membres
+            d&apos;associations,&nbsp;… On les remercie pour leur
+            participation&nbsp;!
+          </BodyCopy>
+        </Section>
+        <Section>
+          {CRITIQUES.map((critique, i) => (
+            <CritiqueTable key={i} critique={critique} />
+          ))}
+        </Section>
+        <Section>
+          <BodyCopy className="pb-20px">
+            Plutôt que de nous faire part de ses plus belles découvertes de
+            l’année, Jean-Michel Frodon a choisi ses coups de cœur parmi tous
+            les films que nous avons sélectionnés dans les conseils
+            hebdomadaires de notre newsletter en 2023. Les voici (par ordre
+            alphabétique) :
+          </BodyCopy>
+          <CritiqueTable critique={FRODON} unordered />
+        </Section>
+      </MiddleColumn>
+    </ArticleLayout>
   );
 }
 

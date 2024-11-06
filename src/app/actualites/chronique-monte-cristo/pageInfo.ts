@@ -6,7 +6,3 @@ export const info = {
   type: "coup de projecteur",
   icon: icon,
 };
-
-export default function getPageInfo() {
-  return info;
-}

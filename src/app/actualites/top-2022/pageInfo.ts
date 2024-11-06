@@ -6,7 +6,3 @@ export const info = {
   type: "retro-spective",
   icon: icon,
 };
-
-export default function getPageInfo() {
-  return info;
-}
