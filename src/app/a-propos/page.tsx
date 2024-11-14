@@ -61,15 +61,13 @@ function Project() {
   );
 }
 
-interface TMembers {
+const teamMembers: {
   name: string;
   role: string;
   socialsIntro?: string;
   socials: { name: string; link: string }[];
   films: { name: string; id: string }[];
-}
-
-const teamMembers: TMembers[] = [
+}[] = [
   {
     name: "Nicolas Guetta-Jeanrenaud",
     role: "Rédacteur en chef",
@@ -78,10 +76,10 @@ const teamMembers: TMembers[] = [
       { name: "Letterboxd", link: "https://letterboxd.com/nicogj/" },
     ],
     films: [
-      { name: "Printemps Tardif", id: "printemps-tardif-1949" },
-      { name: "Ma Nuit chez Maud", id: "nuit-chez-maud-1969" },
-      { name: "Close-Up", id: "close-up-1990" },
-      { name: "Old Joy", id: "old-joy-2006" },
+      { name: "Les Rendez-vous d'Anna", id: "rendez-anna-1978" },
+      { name: "Some Like It Hot", id: "certains-aiment-chaud-1959" },
+      { name: "Les Idiots", id: "les-idiots-1998" },
+      { name: "Ma nuit chez Maud", id: "nuit-chez-maud-1969" },
     ],
   },
   {
@@ -136,61 +134,80 @@ const teamMembers: TMembers[] = [
       { name: "Ça tourne à Manhattan", id: "ca-tourne-manhattan-1995" },
     ],
   },
+  {
+    name: "Léonard Faugières",
+    role: "Rédacteur, Partenariats",
+    socials: [],
+    films: [
+      { name: "Nos années sauvages", id: "nos-annees-sauvages-1990" },
+      { name: "Bleu", id: "trois-couleurs-bleu-1993" },
+      { name: "Série Noire", id: "serie-noire-1979" },
+      { name: "Nous avons gagné ce soir", id: "gagne-soir-1949" },
+    ],
+  },
+  {
+    name: "Elias Leinenweber",
+    role: "Rédacteur",
+    socials: [
+      { name: "Letterboxd", link: "https://letterboxd.com/lynchfanclubvie/" },
+    ],
+    films: [
+      { name: "My Darling Clementine", id: "la-poursuite-infernale-1946" },
+      { name: "La Fureur de Vivre", id: "fureur-vivre-1955" },
+      {
+        name: "Docteur Jerry et Mister Love",
+        id: "docteur-jerry-mister-love-1963",
+      },
+      { name: "Conte d'été", id: "conte-d-ete-1996" },
+    ],
+  },
 ];
 
 function Team() {
   return (
     <>
       <SectionTitle>l&apos;équipe du rétro</SectionTitle>
-      <div>
-        {teamMembers.map((teamMember) => (
-          <TeamMember key={teamMember.name} member={teamMember} />
-        ))}
-      </div>
-    </>
-  );
-}
-
-function TeamMember({ member }: { member: TMembers }) {
-  return (
-    <div className="border-b py-17px text-center">
-      <BodyCopy>
-        <div>{member.name}</div>
-        <div className="uppercase">{member.role}</div>
-        {member.socials.length > 0 && (
-          <div>
-            {member.socialsIntro != null
-              ? member.socialsIntro
-              : "Retrouvez-moi sur "}
-            {member.socials.map((social, i) => [
-              i > 0 && " & ",
-              <a
-                key={social.name}
-                href={social.link}
-                className="underline"
-                target="_blank"
+      {teamMembers.map((teamMember) => (
+        <div key={teamMember.name} className="border-b py-17px text-center">
+          <BodyCopy>
+            <div>{teamMember.name}</div>
+            <div className="uppercase">{teamMember.role}</div>
+            {teamMember.socials.length > 0 && (
+              <div>
+                {teamMember.socialsIntro != null
+                  ? teamMember.socialsIntro
+                  : "Retrouvez-moi sur "}
+                {teamMember.socials.map((social, i) => [
+                  i > 0 && " & ",
+                  <a
+                    key={social.name}
+                    href={social.link}
+                    className="underline"
+                    target="_blank"
+                  >
+                    {social.name}
+                  </a>,
+                ])}
+              </div>
+            )}
+            <Image
+              className="mt-[-0.1875rem] inline-block h-21px w-auto w-auto pr-5px"
+              alt="coup de coeur"
+              src={coupDeCoeur}
+            />{" "}
+            {teamMember.films.map((film, i) => [
+              i > 0 && ", ",
+              <Link
+                key={film.name}
+                href={"/film/" + film.id}
+                className="italic underline"
               >
-                {social.name}
-              </a>,
+                {film.name}
+              </Link>,
             ])}
-          </div>
-        )}
-        <Image
-          className="mt-[-0.1875rem] inline-block h-21px w-auto w-auto pr-5px"
-          alt="coup de coeur"
-          src={coupDeCoeur}
-        />{" "}
-        {member.films.map((film, i) => [
-          i > 0 && ", ",
-          <Link
-            key={film.name}
-            href={"/film/" + film.id}
-            className="italic underline"
-          >
-            {film.name}
-          </Link>,
-        ])}
-      </BodyCopy>
-    </div>
+          </BodyCopy>
+        </div>
+      ))}
+    </>
   );
 }
