@@ -1,3 +1,5 @@
+import React from "react";
+
 export function transformZipcode(inZip: string) {
   if (inZip.substring(0, 2) == "75") {
     inZip = inZip.substring(3, 5);

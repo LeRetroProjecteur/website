@@ -4,7 +4,7 @@ import { Fragment, use, useMemo } from "react";
 import {
   transformZipcode,
   transformZipcodeToString,
-} from "@/components/seances/theater_utils";
+} from "@/components/theaters/theaters";
 import { SousTitre2 } from "@/components/typography/typography";
 import { MovieWithScreeningsByDay } from "@/lib/types";
 

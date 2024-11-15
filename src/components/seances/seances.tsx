@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { min, sortBy, take } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
 
-import { transformZipcode } from "@/components/seances/theater_utils";
+import { transformZipcode } from "@/components/theaters/theaters";
 import { TheaterScreenings } from "@/lib/types";
 import { floatHourToString } from "@/lib/util";
 
