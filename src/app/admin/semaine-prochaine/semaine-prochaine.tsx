@@ -8,7 +8,14 @@ import {
 import { SousTitre2 } from "@/components/typography/typography";
 import { MovieWithScreeningsByDay } from "@/lib/types";
 
-type RetrospectiveItem = [string, MovieWithScreeningsByDay[], string, string];
+type RetrospectiveItem = {
+  director: string;
+  movies: MovieWithScreeningsByDay[];
+  cinemas: Array<{
+    name: string;
+    zipcode: string;
+  }>;
+};
 
 export function Retrospectives({
   movies: moviesPromise,
@@ -37,19 +44,38 @@ export function Retrospectives({
       (item) => `${item.movie.directors}|||${item.cinema}|||${item.zipcode}`,
     );
 
-    // Filter groups with at least 3 movies and transform into required format
+    // Filter groups with at least 5 movies and transform into intermediate format
+    const filteredGroups = Object.entries(groupedByCinemaAndDirector)
+      .filter(([_, items]) => {
+        const uniqueMovies = uniq(items.map((item) => item.movie.title));
+        return uniqueMovies.length >= 5;
+      })
+      .map(([key, items]) => {
+        const [director, cinema, zipcode] = key.split("|||");
+        const uniqueMovies = uniq(items.map((item) => item.movie));
+        return {
+          director,
+          movies: uniqueMovies,
+          cinema,
+          zipcode,
+        };
+      });
+
+    // Group by director to merge cinemas.
+    const groupedByDirector = groupBy(filteredGroups, "director");
+
     return sortBy(
-      Object.entries(groupedByCinemaAndDirector)
-        .filter(([_, items]) => {
-          const uniqueMovies = uniq(items.map((item) => item.movie.title));
-          return uniqueMovies.length >= 5;
-        })
-        .map(([key, items]) => {
-          const [director, cinema, zipcode] = key.split("|||");
-          const uniqueMovies = uniq(items.map((item) => item.movie));
-          return [director, uniqueMovies, cinema, zipcode] as RetrospectiveItem;
+      Object.entries(groupedByDirector).map(
+        ([director, groups]): RetrospectiveItem => ({
+          director,
+          movies: uniq(flatten(groups.map((g) => g.movies))),
+          cinemas: groups.map((g) => ({
+            name: g.cinema,
+            zipcode: g.zipcode,
+          })),
         }),
-      ([director]) => director,
+      ),
+      "director",
     );
   }, [movies]);
 
@@ -59,13 +85,23 @@ export function Retrospectives({
         <SousTitre2>Rétrospectives</SousTitre2>
       </div>
       <div>
-        {retrospectives.map(([director, movies, cinema, zipcode], i) => (
-          <Fragment key={`${director}-${cinema}`}>
+        {retrospectives.map((retro, i) => (
+          <Fragment key={retro.director}>
             <div className="font-bold">
-              {director} {cinema} ({transformZipcode(zipcode)})
+              {retro.director}{" "}
+              {retro.cinemas.map((cinema, j) => (
+                <Fragment key={`${cinema.name}-${cinema.zipcode}`}>
+                  {j === 0
+                    ? ""
+                    : j === retro.cinemas.length - 1
+                      ? " et "
+                      : ", "}
+                  {cinema.name} ({transformZipcode(cinema.zipcode)})
+                </Fragment>
+              ))}
             </div>
             <>
-              {sortBy(movies, (movie) => [
+              {sortBy(retro.movies, (movie) => [
                 movie.year,
                 movie.directors,
                 movie.title,
@@ -94,8 +130,8 @@ export function Retrospectives({
               <SousTitre2>Rétrospectives (html)</SousTitre2>
             </div>
             {retrospectives
-              .map(([director, movies, cinema, zipcode], index) => {
-                const movieLinks = sortBy(movies, (movie) => [
+              .map((retro, index) => {
+                const movieLinks = sortBy(retro.movies, (movie) => [
                   movie.year,
                   movie.directors,
                   movie.title,
@@ -108,11 +144,25 @@ export function Retrospectives({
                   )
                   .join("");
 
+                const cinemaList = retro.cinemas
+                  .map(
+                    (cinema, i) =>
+                      `${
+                        i === 0
+                          ? ""
+                          : i === retro.cinemas.length - 1
+                            ? " et "
+                            : ", "
+                      }` +
+                      `${cinema.name} (${transformZipcodeToString(
+                        cinema.zipcode,
+                      )})`,
+                  )
+                  .join("");
+
                 const template = `
     <h2 class="null" style="text-align: center;">
-      <strong>Rétrospective ${director} ${cinema} (${transformZipcodeToString(
-        zipcode,
-      )})</strong>
+      <strong>Rétrospective ${retro.director} ${cinemaList}</strong>
     </h2>
     <p style="text-align: center;">${movieLinks}</p>`;
 
