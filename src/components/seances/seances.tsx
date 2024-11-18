@@ -158,11 +158,11 @@ export function SeancesTheater({
         {screenings.map((screening) => (
           <div
             key={screening.time}
-            className={clsx("group/seances flex justify-end", {
+            className={clsx("group/seances flex", {
               "group-hover/cinema:underline": isExpanded,
             })}
           >
-            <CalendrierCopy>
+            <CalendrierCopy className="text-right lg:text-left">
               {floatHourToString(screening.time)}
               {screening.notes != null && (
                 <span className="text-retro-gray">
