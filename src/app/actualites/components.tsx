@@ -1,11 +1,43 @@
 import Image, { StaticImageData } from "next/image";
 import { ReactNode } from "react";
 
+import PageHeader from "@/components/layout/page-header";
 import {
   SectionTitle,
+  SousTitre1,
   SubsectionTitle,
 } from "@/components/typography/typography";
 import { blurProps } from "@/lib/util";
+
+export function ArticleLayout({
+  info,
+  children,
+}: {
+  info: {
+    title: string;
+    type: string;
+    icon: StaticImageData;
+    date: string;
+  };
+  children?: ReactNode;
+}) {
+  return (
+    <>
+      <PageHeader text="actualités">
+        <SousTitre1>{info.title}</SousTitre1>
+      </PageHeader>
+      <ThreeColumnLayout>
+        <FirstRow
+          title={info.title}
+          type={info.type}
+          icon={info.icon}
+          date={info.date}
+        />
+        {children}
+      </ThreeColumnLayout>
+    </>
+  );
+}
 
 export function ThreeColumnLayout({ children }: { children?: ReactNode }) {
   return (
@@ -25,14 +57,14 @@ export function ThreeColumnLayout({ children }: { children?: ReactNode }) {
 }
 
 export function FirstRow({
+  title,
   type,
-  image,
-  alt,
+  icon,
   date,
 }: {
+  title: string;
   type: string;
-  image: StaticImageData;
-  alt: string;
+  icon: StaticImageData;
   date: string;
 }) {
   return (
@@ -45,8 +77,8 @@ export function FirstRow({
       <div className="pb-20px lg:border-r lg:pr-20px">
         <div className="lg:border-b lg:pb-20px">
           <Image
-            src={image}
-            alt={alt}
+            src={icon}
+            alt={title}
             className="h-auto w-full"
             {...blurProps}
           />

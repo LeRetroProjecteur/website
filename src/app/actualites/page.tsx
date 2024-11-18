@@ -13,31 +13,15 @@ export const metadata: Metadata = {
     "Nos dernières chroniques sur l'actualité des ressorties cinéma à Paris",
 };
 
-const chroniques = [
-  {
-    slug: "2024-10-30-edito",
-  },
-  {
-    slug: "chronique-monte-cristo",
-  },
-  {
-    slug: "entretien-gael-teicher",
-  },
-  {
-    slug: "campus-film-festival-2024",
-  },
-  {
-    slug: "2024-03-13-edito",
-  },
-  {
-    slug: "top-2023",
-  },
-  {
-    slug: "festival-lumiere-2023",
-  },
-  {
-    slug: "top-2022",
-  },
+const slugs = [
+  "2024-10-30-edito",
+  "chronique-monte-cristo",
+  "entretien-gael-teicher",
+  "campus-film-festival-2024",
+  "2024-03-13-edito",
+  "top-2023",
+  "festival-lumiere-2023",
+  "top-2022",
 ];
 
 export default function ActualitesPage() {
@@ -55,7 +39,7 @@ export default function ActualitesPage() {
 
 async function ActualitesThumbnails() {
   const thumbnails = await Promise.all(
-    chroniques.map(async ({ slug }) => {
+    slugs.map(async (slug) => {
       const page = await import(`./${slug}/pageInfo`);
       if (!page.info) {
         return null;
