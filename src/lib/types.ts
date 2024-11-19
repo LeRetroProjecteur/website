@@ -88,4 +88,5 @@ export interface TheaterScreenings {
   neighborhood: string;
   zipcode: string;
   name: string;
+  preposition_and_name: string;
 }

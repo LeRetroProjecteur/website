@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
 import { TwoColumnPage } from "@/components/layout/two-column-page";
-import { transformZipcode } from "@/components/seances/seances";
+import { transformZipcode } from "@/components/theaters/theaters";
 import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 import GetHTML from "@/components/util/get-html";
 import IFrame from "@/components/util/iframe";
