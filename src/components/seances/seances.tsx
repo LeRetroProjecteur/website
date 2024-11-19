@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { min, sortBy, take } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
 
+import { transformZipcode } from "@/components/theaters/theaters";
 import { TheaterScreenings } from "@/lib/types";
 import { floatHourToString } from "@/lib/util";
 
@@ -105,29 +106,6 @@ export function FormatNotes({
       )}
     </>
   );
-}
-
-export function transformZipcode(inZip: string) {
-  if (inZip.substring(0, 2) == "75") {
-    inZip = inZip.substring(3, 5);
-    if (inZip == "01") {
-      return (
-        <span>
-          1<sup style={{ lineHeight: 0 }}>er</sup>
-        </span>
-      );
-    } else if (inZip.substring(0, 1) == "0") {
-      inZip = inZip.substring(1, 2);
-    }
-    return (
-      <span>
-        {inZip}
-        <sup style={{ lineHeight: 0 }}>e</sup>
-      </span>
-    );
-  } else {
-    return <span>{inZip}</span>;
-  }
 }
 
 export function SeancesTheater({
