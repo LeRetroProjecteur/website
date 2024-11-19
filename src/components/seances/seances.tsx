@@ -136,7 +136,7 @@ export function SeancesTheater({
         {screenings.map((screening) => (
           <div
             key={screening.time}
-            className={clsx("group/seances flex", {
+            className={clsx("group/seances flex justify-end", {
               "group-hover/cinema:underline": isExpanded,
             })}
           >
