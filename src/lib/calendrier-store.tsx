@@ -19,11 +19,13 @@ interface CalendrierState {
   maxHour: number;
   filter: string;
   quartiers: Quartier[];
+  events: boolean;
   setDate: (date: DateTime) => void;
   setMinHour: (minHour: number) => void;
   setMaxHour: (maxHour: number) => void;
   setFilter: (filter: string) => void;
   toggleQuartier: (quartier: Quartier) => void;
+  toggleEvents: (events: boolean) => void;
   reset: () => void;
 }
 
@@ -35,6 +37,7 @@ export function getUseCalendrierStore() {
     maxHour: 24,
     filter: "",
     quartiers: [],
+    events: false,
     setDate: (date: DateTime) => {
       set({ date, dateChanged: true });
     },
@@ -49,6 +52,7 @@ export function getUseCalendrierStore() {
         set({ quartiers: [...quartiers, quartier] });
       }
     },
+    toggleEvents: (events: boolean) => set({ events: !events }),
     reset: () => {
       set({
         date: getStartOfTodayInParis(),
@@ -57,6 +61,7 @@ export function getUseCalendrierStore() {
         maxHour: 24,
         filter: "",
         quartiers: [],
+        events: false,
       });
     },
   }));

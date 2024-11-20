@@ -50,6 +50,7 @@ export default function MovieTable({
   const maxHour = useCalendrierStore((s) => s.maxHour);
   const filter = useCalendrierStore((s) => s.filter);
   const quartiers = useCalendrierStore((s) => s.quartiers);
+  const events = useCalendrierStore((s) => s.events);
 
   const url = marseille
     ? allMovies ?? false
@@ -107,6 +108,7 @@ export default function MovieTable({
               maxHour,
               quartiers,
               filter,
+              events,
             }}
           />
         )}
@@ -124,6 +126,7 @@ function LoadedTable({
   maxHour,
   quartiers,
   filter,
+  events,
 }: {
   serverMovies: Promise<MovieWithScreenings[] | MovieWithScreeningsByDay[]>;
   clientMovies?: MovieWithScreenings[] | MovieWithScreeningsByDay[];
@@ -132,6 +135,7 @@ function LoadedTable({
   maxHour: number;
   quartiers: Quartier[];
   filter: string;
+  events: boolean;
 }) {
   const serverMovies = use(serverMoviesPromise);
   const movies = useMemo(
@@ -147,8 +151,16 @@ function LoadedTable({
         maxHour,
         quartiers,
         filter,
+        events,
       ),
-    [movies, minHourFilteringTodaysMissedFilms, maxHour, quartiers, filter],
+    [
+      movies,
+      minHourFilteringTodaysMissedFilms,
+      maxHour,
+      quartiers,
+      filter,
+      events,
+    ],
   );
 
   return sortedFilteredMovies.length == 0 ? (
@@ -268,6 +280,7 @@ function filterAndSortMovies(
   maxHour: number,
   quartiers: Quartier[],
   filter: string,
+  events: boolean,
 ) {
   const moviesWithFilteredShowtimes = isMoviesWithShowtimesByDay(movies)
     ? movies
@@ -284,6 +297,7 @@ function filterAndSortMovies(
               movie.showtimes_theater,
               minHourFilteringTodaysMissedFilms,
               maxHour,
+              events,
             ),
             quartiers,
           ),

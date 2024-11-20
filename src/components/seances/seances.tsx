@@ -73,6 +73,41 @@ export default function Seances({
   );
 }
 
+export function FormatNotes({
+  notes,
+  maxLength,
+}: {
+  notes: string;
+  maxLength: number;
+}) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const toggleExpanded = useCallback(
+    () => setIsExpanded(!isExpanded),
+    [isExpanded, setIsExpanded],
+  );
+  const needsExpanding = notes.length > maxLength;
+
+  return (
+    <>
+      {needsExpanding ? (
+        <span
+          className="-mx-2 -my-1 cursor-pointer px-2 py-1"
+          onClick={toggleExpanded}
+        >
+          {isExpanded
+            ? notes
+            : notes.substring(
+                0,
+                notes.substring(0, maxLength).lastIndexOf(" ") + 1,
+              ) + "[...]"}
+        </span>
+      ) : (
+        notes
+      )}
+    </>
+  );
+}
+
 export function SeancesTheater({
   showtimesTheater,
   isExpanded,
@@ -105,7 +140,20 @@ export function SeancesTheater({
               "group-hover/cinema:underline": isExpanded,
             })}
           >
-            <CalendrierCopy>{floatHourToString(screening.time)}</CalendrierCopy>
+            <CalendrierCopy className="text-right lg:text-left">
+              {floatHourToString(screening.time)}
+              {screening.notes != null && (
+                <span className="text-retro-gray">
+                  &nbsp;
+                  <span className="hidden lg:inline">
+                    <FormatNotes notes={screening.notes} maxLength={50} />
+                  </span>
+                  <span className="lg:hidden">
+                    <FormatNotes notes={screening.notes} maxLength={0} />
+                  </span>
+                </span>
+              )}
+            </CalendrierCopy>
             <div className="hidden group-last/seances:hidden lg:block">
               <CalendrierCopy>&nbsp;•&nbsp;</CalendrierCopy>
             </div>
