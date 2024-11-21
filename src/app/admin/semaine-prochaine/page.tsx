@@ -1,4 +1,4 @@
-import Filter from "@/app/(calendrier)/filter";
+import FilterBar from "@/app/(calendrier)/filter-bar";
 import { Retrospectives } from "@/app/admin/semaine-prochaine/semaine-prochaine";
 import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
@@ -25,7 +25,7 @@ export default function SemainePage() {
       <div className="flex grow flex-col pb-10px lg:pl-20px">
         <div className="flex flex-col lg:flex-row">
           <div className="flex pt-15px lg:grow lg:pt-0">
-            <Filter />
+            <FilterBar />
           </div>
         </div>
         <div className="flex grow pt-18px lg:pt-28px">

@@ -3,7 +3,7 @@
 import RetroInput from "@/components/forms/retro-input";
 import { useCalendrierStore } from "@/lib/calendrier-store";
 
-export default function Filter({
+export default function FilterBar({
   shortPlaceholder,
 }: {
   shortPlaceholder?: boolean;
