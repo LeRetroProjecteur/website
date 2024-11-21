@@ -6,7 +6,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { keyBy, omit, uniq } from "lodash-es";
+import { keyBy, uniq } from "lodash-es";
 import { DateTime } from "luxon";
 import { unstable_cache } from "next/cache";
 import "server-only";
@@ -14,9 +14,8 @@ import "server-only";
 import { getFirebase } from "./firebase";
 import {
   MovieDetail,
-  MovieDetailWithImage,
-  MovieWithScreenings,
   MovieWithScreeningsByDay,
+  MovieWithScreeningsOneDay,
   Review,
   SearchMovie,
 } from "./types";
@@ -33,7 +32,7 @@ export const getWeekMovies = async () => {
   const moviesByDay = await Promise.all(
     nextMovieWeek.map<
       Promise<
-        [date: DateTime, movies: { [index: string]: MovieWithScreenings }]
+        [date: DateTime, movies: { [index: string]: MovieWithScreeningsOneDay }]
       >
     >(async (day) => {
       return [day, keyBy(await getDayMovies(day), (movie) => movie.id)];
@@ -83,7 +82,7 @@ export const getDayMovies = unstable_cache(
       ),
       where("date", "==", formatYYYY_MM_DD(date)),
     );
-    const docs: MovieWithScreenings[] = [];
+    const docs: MovieWithScreeningsOneDay[] = [];
     (await getDocs(q)).forEach((doc) => docs.push(...doc.data().movies));
     return docs;
   },
@@ -125,13 +124,7 @@ export const getMovie = unstable_cache(
       where("id", "==", id),
     );
     const querySnapshot = await getDocs(q);
-    const data_aux: MovieDetail[] = [];
-    querySnapshot.forEach((doc) => {
-      data_aux.push({
-        ...omit(doc.data() as MovieDetailWithImage, "image_file"),
-      });
-    });
-    return data_aux[0];
+    return querySnapshot.docs.map((doc) => doc.data() as MovieDetail)[0];
   },
   ["single-movie"],
   { revalidate: 1 },

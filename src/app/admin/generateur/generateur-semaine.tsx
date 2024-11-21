@@ -12,11 +12,7 @@ import { transformZipcode } from "@/components/theaters/theaters";
 import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 import GetHTML from "@/components/util/get-html";
 import IFrame from "@/components/util/iframe";
-import {
-  MovieWithNoScreenings,
-  MovieWithScreeningsByDay,
-  TheaterScreenings,
-} from "@/lib/types";
+import { MovieWithScreeningsByDay, TheaterScreenings } from "@/lib/types";
 import {
   checkNotNull,
   floatHourToString,
@@ -180,7 +176,7 @@ export function DayMovie({
   showtimesTheaters,
   isLast,
 }: {
-  movie: MovieWithNoScreenings;
+  movie: MovieWithScreeningsByDay;
   day: DateTime;
   showtimesTheaters: TheaterScreenings[];
   isLast: boolean;

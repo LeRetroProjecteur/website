@@ -19,8 +19,8 @@ import {
 import { Review } from "@/lib/types";
 import {
   formatDDMMYYWithSlashes,
+  formatYYYYMMDD,
   getImageUrl,
-  getReviewSortKey,
   isCoupDeCoeur,
   safeDate,
 } from "@/lib/util";
@@ -220,4 +220,8 @@ function ThumbnailIcon() {
       />
     </svg>
   );
+}
+
+function getReviewSortKey(review: Review) {
+  return `${formatYYYYMMDD(safeDate(review.review_date))}-${review.id}`;
 }
