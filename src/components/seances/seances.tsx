@@ -3,6 +3,7 @@
 import clsx from "clsx";
 import { min, sortBy, take } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
+import React from "react";
 
 import { transformZipcode } from "@/components/theaters/theaters";
 import { TheaterScreenings } from "@/lib/types";
@@ -27,7 +28,9 @@ export default function Seances({
       sortBy(screenings, [
         function (screeningsTheaters) {
           return min(
-            screeningsTheaters.screenings.map((screening) => screening.time),
+            Object.values(screeningsTheaters.seances).map(
+              (screening) => screening.time,
+            ),
           );
         },
       ]),
@@ -116,7 +119,7 @@ export function SeancesTheater({
   isExpanded: boolean;
 }) {
   const screenings = sortBy(
-    showtimesTheater.screenings,
+    Object.values(showtimesTheater.seances),
     (screening) => screening.time,
   );
 

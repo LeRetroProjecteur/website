@@ -194,7 +194,7 @@ export function DayMovie({
         <div key={showtimesTheater.name}>
           {showtimesTheater.name} ({transformZipcode(showtimesTheater.zipcode)}
           )&nbsp;:{" "}
-          {showtimesTheater.screenings
+          {Object.values(showtimesTheater.seances)
             .map((screening) => floatHourToString(screening.time))
             .join(", ")}
         </div>

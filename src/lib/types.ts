@@ -49,7 +49,7 @@ export interface Screening {
 }
 
 export interface TheaterScreenings {
-  screenings: Screening[];
+  seances: { [time: string]: Screening };
   neighborhood: string;
   zipcode: string;
   name: string;

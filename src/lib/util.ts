@@ -213,19 +213,16 @@ export function filterTimes(
   return showtimes
     .map((theater) => ({
       ...theater,
-      screenings: events
-        ? theater.screenings.filter(
-            (screening) =>
-              screening.time >= minHour &&
-              screening.time <= maxHour &&
-              screening.notes != null,
-          )
-        : theater.screenings.filter(
-            (screening) =>
-              screening.time >= minHour && screening.time <= maxHour,
-          ),
+      seances: Object.fromEntries(
+        Object.entries(theater.seances).filter(
+          ([_, seance]) =>
+            seance.time >= minHour &&
+            seance.time <= maxHour &&
+            (!events || seance.notes != null),
+        ),
+      ),
     }))
-    .filter((showtimes) => showtimes.screenings.length > 0);
+    .filter((theater) => Object.keys(theater.seances).length > 0);
 }
 
 export function filterNeighborhoods(
@@ -234,7 +231,7 @@ export function filterNeighborhoods(
 ) {
   return showtimes.filter(
     (theater) =>
-      theater.screenings.length > 0 &&
+      Object.keys(theater.seances).length > 0 &&
       (quartiers.length === 0 ||
         some(quartiers, (quartier) => quartier === theater.neighborhood)),
   );
