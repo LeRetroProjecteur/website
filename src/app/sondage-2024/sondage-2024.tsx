@@ -1,6 +1,5 @@
 "use client";
 
-import html2canvas from "html2canvas";
 import React, { Fragment, useState } from "react";
 
 import { SearchResults } from "@/app/recherche/recherche";
@@ -20,43 +19,70 @@ interface ShareableContentProps {
   rowsData: RowData[];
   fullName: string;
 }
+
 function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
   return (
-    <div id="shareableContent" className="hidden">
-      <div
-        className="max-w-2xl rounded-lg bg-retro-green p-8 shadow-lg"
-        style={{ minWidth: "600px" }}
-      >
-        <h2 className="mb-6 text-center text-2xl font-bold">
-          Mon Top Films 2024
-        </h2>
-        {fullName && <p className="mb-6 text-center text-lg">Par {fullName}</p>}
-        <div className="space-y-4">
-          {rowsData
-            .filter((row) => row.movie !== "")
-            .map((row, index) => (
-              <div key={index} className="rounded-lg bg-white p-4 shadow">
-                <div className="flex items-start">
-                  <div className="relative flex-shrink-0">
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-retro-green">
-                      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-lg font-bold">
-                        {index + 1}
-                      </div>
+    <div className="max-w-2xl rounded-lg bg-retro-green p-8 shadow-lg">
+      <h2 className="mb-6 text-center text-2xl font-bold">
+        Mon Top Films 2024
+      </h2>
+      {fullName && <p className="mb-6 text-center text-lg">Par {fullName}</p>}
+      <div className="space-y-4">
+        {rowsData
+          .filter((row) => row.movie !== "")
+          .map((row, index) => (
+            <div key={index} className="rounded-lg bg-white p-4 shadow">
+              <div className="flex items-start">
+                <div className="relative flex-shrink-0">
+                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-retro-green">
+                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-lg font-bold">
+                      {index + 1}
                     </div>
                   </div>
-                  <div className="ml-3 flex-1">
-                    <div className="text-lg font-bold">{row.movie}</div>
-                    {row.note && (
-                      <div className="mt-2 text-sm italic text-gray-700">
-                        {row.note}
-                      </div>
-                    )}
-                  </div>
+                </div>
+                <div className="ml-3 flex-1">
+                  <div className="text-lg font-bold">{row.movie}</div>
+                  {row.note && (
+                    <div className="mt-2 text-sm italic text-gray-700">
+                      {row.note}
+                    </div>
+                  )}
                 </div>
               </div>
-            ))}
-        </div>
+            </div>
+          ))}
       </div>
+    </div>
+  );
+}
+
+// New SharePage component
+export function SharePage({ rowsData, fullName }: ShareableContentProps) {
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Mon Top Films 2024",
+          text: `Découvrez le top films 2024 de ${fullName}!`,
+          url: window.location.href,
+        });
+      } catch (error) {
+        console.error("Error sharing:", error);
+      }
+    } else {
+      alert("Partage non supporté sur votre navigateur");
+    }
+  };
+
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center bg-retro-gray p-4">
+      <ShareableContent rowsData={rowsData} fullName={fullName} />
+      <button
+        onClick={handleShare}
+        className="mt-8 border bg-retro-green p-4 text-lg font-bold shadow-lg hover:bg-opacity-90"
+      >
+        Partagez sur les réseaux
+      </button>
     </div>
   );
 }
@@ -67,11 +93,6 @@ export default function Sondage2024({
   allMoviesPromise: Promise<SearchMovie[]>;
 }) {
   const numSubmissions = 10;
-  const handleCommentsChange = (
-    event: React.ChangeEvent<{ value: string }>,
-  ) => {
-    setComments(event.target.value);
-  };
   const [responseMessage, setResponseMessage] = useState("");
   const [rowsData, setRowsData] = useState(
     Array(numSubmissions).fill({
@@ -80,8 +101,9 @@ export default function Sondage2024({
       note: "",
     }),
   );
-  const [comments, setComments] = useState("");
+  const [comments] = useState("");
   const [fullName, setFullName] = useState("");
+  const [showSharePage, setShowSharePage] = useState(false);
 
   const updateRowData = (
     index: number,
@@ -96,53 +118,50 @@ export default function Sondage2024({
     setRowsData(newRowsData);
   };
 
-  const handleShare = async () => {
+  const handleSubmit = async () => {
     try {
-      const element = document.getElementById("shareableContent");
-      if (!element) return;
+      const API_ENDPOINT =
+        "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_poll_data_to_db";
 
-      // Make element visible for capturing
-      element.classList.remove("hidden");
+      const transformedData = rowsData
+        .filter((row) => row.movie !== "")
+        .map((row) => ({
+          movie: row.movie,
+          id: row.movie_id,
+          notes: row.note,
+        }));
 
-      const canvas = await html2canvas(element, {
-        backgroundColor: null,
-        scale: 2, // Higher resolution
-        useCORS: true,
-        logging: true,
-        width: 600,
-        height: element.scrollHeight,
+      const payload = {
+        collection_name: "sondage-2024",
+        votes: transformedData,
+        comments,
+        full_name: fullName,
+      };
+
+      const response = await fetch(API_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+        mode: "cors",
       });
 
-      // Hide element again
-      element.classList.add("hidden");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
-      // Convert canvas to blob with proper typing
-      const blob = await new Promise<Blob>((resolve) =>
-        canvas.toBlob((result) => {
-          if (result) {
-            resolve(result);
-          }
-        }, "image/png"),
-      );
-
-      if (!blob) throw new Error("Failed to create image");
-
-      // Create download link
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "mon-top-2024.png";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
-
-      setResponseMessage("Screenshot téléchargé avec succès!");
+      setResponseMessage("Données envoyées avec succès!");
+      setShowSharePage(true);
     } catch (error) {
-      console.error("Error taking screenshot:", error);
-      setResponseMessage("Erreur lors de la capture. Veuillez réessayer.");
+      console.error("Error:", error);
+      setResponseMessage("Erreur lors de l'envoi. Veuillez réessayer.");
     }
   };
+
+  if (showSharePage) {
+    return <SharePage rowsData={rowsData} fullName={fullName} />;
+  }
 
   return (
     <>
@@ -151,167 +170,46 @@ export default function Sondage2024({
           Votez pour vos meilleures découvertes de cinéma de patrimoine de 2024
         </SousTitre1>
       </PageHeader>
-      <br />
       <div className="flex flex-col pb-10px lg:pl-20px">
-        <br />
         <div className="p-5px text-center">
           <div className="mb-4 flex flex-col">
             <input
-              id="fullName"
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               className="w-[300px] border p-2"
               placeholder="Entrez votre nom et prénom"
             />
           </div>
-          <form>
-            <table style={{ width: "100%" }}>
-              <thead>
-                <tr>
-                  <th style={{ width: "50%" }}>Film</th>
-                  <th style={{ width: "50%" }}>Notes</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rowsData.map((_, index) => (
-                  <Fragment key={index}>
-                    <ScreeningRow
-                      allMoviesPromise={allMoviesPromise}
-                      onUpdate={(data) => updateRowData(index, data)}
-                    />
-                  </Fragment>
-                ))}
-              </tbody>
-            </table>
-            <br />
-            <div className="flex flex-col items-center p-10px">
-              <label htmlFor="comments">
-                {" "}
-                Un commentaire à nous partager&nbsp;?
-              </label>
-              <textarea
-                id="comments"
-                value={comments}
-                onChange={handleCommentsChange}
-                style={{
-                  fontSize: "15px",
-                  wordWrap: "break-word",
-                  width: "min(95%, 400px)",
-                  height: "100px",
-                  padding: "5px",
-                }}
-              />
-            </div>
-          </form>
-        </div>
-        <br />
-
-        <div className="flex items-center justify-center">
-          <span>
-            <div className="flex space-x-4">
-              {" "}
-              {/* or use space-x-8 for more spacing */}
-              <button
-                onClick={() =>
-                  sendScreeningsToDatabase(
-                    rowsData,
-                    comments,
-                    setResponseMessage,
-                    fullName,
-                  )
-                }
-                className="border bg-retro-green p-15px text-16px font-bold"
-              >
-                ENVOYEZ VOTRE TOP&nbsp;!
-              </button>
-              <button
-                onClick={handleShare}
-                className="border bg-retro-green p-15px text-16px font-bold"
-              >
-                Prenez un screenshot de votre top
-              </button>
-            </div>
-            <p>
-              <b>{responseMessage}</b>
-            </p>
-          </span>
+          <table className="w-full">
+            <thead>
+              <tr>
+                <th className="w-1/2">Film</th>
+                <th className="w-1/2">Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              {rowsData.map((_, index) => (
+                <ScreeningRow
+                  key={index}
+                  allMoviesPromise={allMoviesPromise}
+                  onUpdate={(data) => updateRowData(index, data)}
+                />
+              ))}
+            </tbody>
+          </table>
+          <div className="mt-8 flex justify-center">
+            <button
+              onClick={handleSubmit}
+              className="border bg-retro-green p-4 text-lg font-bold"
+            >
+              ENVOYEZ VOTRE TOP !
+            </button>
+          </div>
+          <p className="mt-4 font-bold">{responseMessage}</p>
         </div>
       </div>
-      <ShareableContent rowsData={rowsData} fullName={fullName} />
     </>
   );
-}
-
-async function sendScreeningsToDatabase(
-  rowsData: {
-    movie: string;
-    movie_id: string;
-    note: string;
-  }[],
-  comments: string,
-  setResponseMessage: (message: string) => void,
-  fullName: string,
-) {
-  try {
-    const API_ENDPOINT =
-      "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_poll_data_to_db";
-
-    // Transform the rowsData to the new format
-    const transformedData = rowsData.map((row) => {
-      // Check if any required field is missing or NaN
-      if (!(row.movie == "")) {
-        return {
-          movie: row.movie,
-          id: row.movie_id,
-          notes: row.note,
-        };
-      }
-    });
-
-    const payload = {
-      collection_name: "sondage-2024",
-      votes: transformedData,
-      comments: comments,
-      full_name: fullName,
-    };
-
-    console.log("Sending payload:", JSON.stringify(payload, null, 2));
-    const response = await fetch(API_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-      mode: "cors",
-    });
-    console.log("Response status:", response.status);
-    console.log(
-      "Response headers:",
-      JSON.stringify(Object.fromEntries(response.headers), null, 2),
-    );
-
-    const responseText = await response.text();
-    console.log("Raw response:", responseText);
-
-    if (!response.ok) {
-      throw new Error(
-        `HTTP error! status: ${response.status}, body: ${responseText}`,
-      );
-    }
-
-    setResponseMessage("Données envoyées avec succès!");
-  } catch (error) {
-    console.error("Fetch error:", error);
-    if (error instanceof Error) {
-      setResponseMessage(
-        `Erreur de connexion: ${error.message}. Veuillez vérifier votre connexion internet et réessayer.`,
-      );
-    } else {
-      setResponseMessage(
-        "Une erreur inconnue est survenue. Veuillez vérifier votre connexion internet et réessayer.",
-      );
-    }
-  }
 }
 
 function ScreeningRow({
@@ -334,9 +232,9 @@ function ScreeningRow({
   };
 
   return (
-    <tr style={{ backgroundColor: "var(--white)" }}>
+    <tr className="bg-white">
       <td className="py-5px">
-        <div className={"flex grow flex-col"}>
+        <div className="flex grow flex-col">
           <RetroInput
             value={searchTerm}
             setValue={(st) => setSearchFind(st)}
@@ -344,7 +242,7 @@ function ScreeningRow({
             customTypography
             placeholder="Recherchez un film..."
             transparentPlaceholder
-            className={"flex grow"}
+            className="flex grow"
           />
           <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
             {showResults && (
@@ -355,12 +253,7 @@ function ScreeningRow({
                 allDataPromise={allMoviesPromise}
                 onClick={(movie) => {
                   setSearchFind(
-                    movie.title +
-                      ", " +
-                      movie.directors +
-                      " (" +
-                      movie.year +
-                      ")",
+                    `${movie.title}, ${movie.directors} (${movie.year})`,
                     movie.id,
                   );
                   setShowResults(false);
@@ -372,7 +265,6 @@ function ScreeningRow({
       </td>
       <td className="flex grow py-5px">
         <input
-          name="note"
           type="text"
           className="flex h-42px grow lg:h-48px"
           value={note}
