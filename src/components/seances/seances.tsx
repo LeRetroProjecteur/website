@@ -3,7 +3,9 @@
 import clsx from "clsx";
 import { min, sortBy, take } from "lodash-es";
 import { useCallback, useMemo, useState } from "react";
+import React from "react";
 
+import { transformZipcode } from "@/components/theaters/theaters";
 import { TheaterScreenings } from "@/lib/types";
 import { floatHourToString } from "@/lib/util";
 
@@ -26,7 +28,9 @@ export default function Seances({
       sortBy(screenings, [
         function (screeningsTheaters) {
           return min(
-            screeningsTheaters.screenings.map((screening) => screening.time),
+            Object.values(screeningsTheaters.seances).map(
+              (screening) => screening.time,
+            ),
           );
         },
       ]),
@@ -72,27 +76,39 @@ export default function Seances({
   );
 }
 
-export function transformZipcode(inZip: string) {
-  if (inZip.substring(0, 2) == "75") {
-    inZip = inZip.substring(3, 5);
-    if (inZip == "01") {
-      return (
-        <span>
-          1<sup style={{ lineHeight: 0 }}>er</sup>
+export function FormatNotes({
+  notes,
+  maxLength,
+}: {
+  notes: string;
+  maxLength: number;
+}) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const toggleExpanded = useCallback(
+    () => setIsExpanded(!isExpanded),
+    [isExpanded, setIsExpanded],
+  );
+  const needsExpanding = notes.length > maxLength;
+
+  return (
+    <>
+      {needsExpanding ? (
+        <span
+          className="-mx-2 -my-1 cursor-pointer px-2 py-1"
+          onClick={toggleExpanded}
+        >
+          {isExpanded
+            ? notes
+            : notes.substring(
+                0,
+                notes.substring(0, maxLength).lastIndexOf(" ") + 1,
+              ) + "[...]"}
         </span>
-      );
-    } else if (inZip.substring(0, 1) == "0") {
-      inZip = inZip.substring(1, 2);
-    }
-    return (
-      <span>
-        {inZip}
-        <sup style={{ lineHeight: 0 }}>e</sup>
-      </span>
-    );
-  } else {
-    return <span>{inZip}</span>;
-  }
+      ) : (
+        notes
+      )}
+    </>
+  );
 }
 
 export function SeancesTheater({
@@ -103,7 +119,7 @@ export function SeancesTheater({
   isExpanded: boolean;
 }) {
   const screenings = sortBy(
-    showtimesTheater.screenings,
+    Object.values(showtimesTheater.seances),
     (screening) => screening.time,
   );
 
@@ -127,7 +143,20 @@ export function SeancesTheater({
               "group-hover/cinema:underline": isExpanded,
             })}
           >
-            <CalendrierCopy>{floatHourToString(screening.time)}</CalendrierCopy>
+            <CalendrierCopy className="text-right lg:text-left">
+              {floatHourToString(screening.time)}
+              {screening.notes != null && (
+                <span className="text-retro-gray">
+                  &nbsp;
+                  <span className="hidden lg:inline">
+                    <FormatNotes notes={screening.notes} maxLength={50} />
+                  </span>
+                  <span className="lg:hidden">
+                    <FormatNotes notes={screening.notes} maxLength={0} />
+                  </span>
+                </span>
+              )}
+            </CalendrierCopy>
             <div className="hidden group-last/seances:hidden lg:block">
               <CalendrierCopy>&nbsp;•&nbsp;</CalendrierCopy>
             </div>
