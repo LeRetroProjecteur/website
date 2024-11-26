@@ -1,5 +1,7 @@
 "use client";
 
+import html2canvas from "html2canvas";
+import Image from "next/image";
 import React, { Fragment, useState } from "react";
 
 import { SearchResults } from "@/app/recherche/recherche";
@@ -22,7 +24,7 @@ interface ShareableContentProps {
 
 function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
   return (
-    <div className="max-w-2xl rounded-lg bg-retro-green p-8 shadow-lg">
+    <div className="relative max-w-2xl rounded-lg bg-retro-green p-8 shadow-lg">
       <h2 className="mb-6 text-center text-2xl font-bold">
         Mon Top Films 2024
       </h2>
@@ -52,37 +54,141 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
             </div>
           ))}
       </div>
+      <div className="mt-8 flex items-end justify-between">
+        <Image
+          src="/img/logo-gray.png"
+          alt="Logo"
+          width={48}
+          height={48}
+          className="h-12 w-auto"
+        />
+        <span className="font-bold text-retro-gray">#MaRetro2024</span>
+      </div>
     </div>
   );
 }
 
-// New SharePage component
-export function SharePage({ rowsData, fullName }: ShareableContentProps) {
-  const handleShare = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "Mon Top Films 2024",
-          text: `Découvrez le top films 2024 de ${fullName}!`,
-          url: window.location.href,
-        });
-      } catch (error) {
-        console.error("Error sharing:", error);
-      }
-    } else {
-      alert("Partage non supporté sur votre navigateur");
+function SharePage({ rowsData, fullName }: ShareableContentProps) {
+  const handleDownload = async () => {
+    try {
+      const element = document.getElementById("shareableContent");
+      if (!element) return;
+
+      const canvas = await html2canvas(element, {
+        backgroundColor: null,
+        scale: 2,
+        useCORS: true,
+        logging: true,
+      });
+
+      // Open image in new tab instead of direct download
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const url = URL.createObjectURL(blob);
+          window.open(url, "_blank");
+          // Clean up the URL after the window is opened
+          URL.revokeObjectURL(url);
+        }
+      }, "image/png");
+    } catch (error) {
+      console.error("Error creating image:", error);
     }
   };
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-retro-gray p-4">
-      <ShareableContent rowsData={rowsData} fullName={fullName} />
-      <button
-        onClick={handleShare}
-        className="mt-8 border bg-retro-green p-4 text-lg font-bold shadow-lg hover:bg-opacity-90"
-      >
-        Partagez sur les réseaux
-      </button>
+      <div id="shareableContent">
+        <ShareableContent rowsData={rowsData} fullName={fullName} />
+      </div>
+
+      <h2 className="mb-4 mt-12 text-2xl font-bold tracking-wide text-retro-green">
+        PARTAGEZ VOTRE TOP !
+      </h2>
+
+      <div className="flex space-x-4">
+        <button
+          onClick={() => (window.location.href = "/sondage-2024")}
+          className="border bg-retro-green p-4 text-lg font-bold shadow-lg hover:bg-opacity-90"
+        >
+          Modifier votre top
+        </button>
+        <button
+          onClick={handleDownload}
+          className="border bg-retro-green p-4 text-lg font-bold shadow-lg hover:bg-opacity-90"
+        >
+          Télécharger
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function ScreeningRow({
+  allMoviesPromise,
+  onUpdate,
+}: {
+  allMoviesPromise: Promise<SearchMovie[]>;
+  onUpdate: (data: { movie: string; movie_id: string; note: string }) => void;
+}) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [movieId, setMovieId] = useState("");
+  const [showResults, setShowResults] = useState(false);
+  const [note, setNote] = useState("");
+
+  const setSearchFind = (st: string, id: string = "") => {
+    setSearchTerm(st);
+    setMovieId(id);
+    setShowResults(true);
+    onUpdate({ movie: st, movie_id: id, note });
+  };
+
+  return (
+    <div className="contents">
+      <td className="w-[52%] px-4 py-5px">
+        <div className="flex grow flex-col">
+          <RetroInput
+            value={searchTerm}
+            setValue={(st) => setSearchFind(st)}
+            leftAlignPlaceholder
+            customTypography
+            placeholder="Recherchez un film..."
+            transparentPlaceholder
+            className="flex grow"
+          />
+          <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
+            {showResults && (
+              <SearchResults
+                extraClass="text-left px-5px py-2px border-x border-b"
+                nbResults={5}
+                searchTerm={searchTerm}
+                allDataPromise={allMoviesPromise}
+                onClick={(movie) => {
+                  setSearchFind(
+                    `${movie.title}, ${movie.directors} (${movie.year})`,
+                    movie.id,
+                  );
+                  setShowResults(false);
+                }}
+              />
+            )}
+          </SuspenseWithLoading>
+        </div>
+      </td>
+      <td className="w-[40%] px-4 py-5px">
+        <input
+          type="text"
+          className="h-42px w-full px-2 lg:h-48px"
+          value={note}
+          onChange={(e) => {
+            setNote(e.target.value);
+            onUpdate({
+              movie: searchTerm,
+              movie_id: movieId,
+              note: e.target.value,
+            });
+          }}
+        />
+      </td>
     </div>
   );
 }
@@ -101,9 +207,16 @@ export default function Sondage2024({
       note: "",
     }),
   );
-  const [comments] = useState("");
   const [fullName, setFullName] = useState("");
   const [showSharePage, setShowSharePage] = useState(false);
+
+  // Additional state variables
+  const [othermovies, setothermovies] = useState("");
+  const [real, setreal] = useState("");
+  const [nombredefois, setnombredefois] = useState("");
+  const [autreinformation, setautreinformation] = useState("");
+  const [email, setEmail] = useState("");
+  const [newsletter, setNewsletter] = useState(false);
 
   const updateRowData = (
     index: number,
@@ -134,8 +247,13 @@ export default function Sondage2024({
       const payload = {
         collection_name: "sondage-2024",
         votes: transformedData,
-        comments,
+        other_movies: othermovies,
+        director_requests: real,
+        cinema_visits: nombredefois,
+        additional_feedback: autreinformation,
         full_name: fullName,
+        email: email,
+        newsletter_signup: newsletter,
       };
 
       const response = await fetch(API_ENDPOINT, {
@@ -167,7 +285,7 @@ export default function Sondage2024({
     <>
       <PageHeader text="Sondage Top 2024">
         <SousTitre1>
-          Votez pour vos meilleures découvertes de cinéma de patrimoine de 2024
+          Votez pour vos meilleures ressorties cinéma de 2024
         </SousTitre1>
       </PageHeader>
       <div className="flex flex-col pb-10px lg:pl-20px">
@@ -180,104 +298,129 @@ export default function Sondage2024({
               placeholder="Entrez votre nom et prénom"
             />
           </div>
+
           <table className="w-full">
             <thead>
               <tr>
-                <th className="w-1/2">Film</th>
-                <th className="w-1/2">Notes</th>
+                <th className="w-[8%] px-4 py-5px text-left">#</th>
+                <th className="w-[52%] px-4 py-5px text-left">Film</th>
+                <th className="w-[40%] px-4 py-5px text-left">Notes</th>
               </tr>
             </thead>
             <tbody>
               {rowsData.map((_, index) => (
-                <ScreeningRow
-                  key={index}
-                  allMoviesPromise={allMoviesPromise}
-                  onUpdate={(data) => updateRowData(index, data)}
-                />
+                <tr key={index} className="bg-white">
+                  <td className="px-4 py-5px text-left font-bold">
+                    {index + 1}
+                    {index < 5 && <span className="text-red-500">*</span>}
+                  </td>
+                  <ScreeningRow
+                    allMoviesPromise={allMoviesPromise}
+                    onUpdate={(data) => updateRowData(index, data)}
+                  />
+                </tr>
               ))}
             </tbody>
           </table>
+          {/* Add note about mandatory fields */}
+          <div className="mt-2 text-left text-sm">
+            <span className="text-red-500">*</span> Les 5 premiers films sont
+            obligatoires
+          </div>
+
+          {/* Additional Questions */}
+          <div className="mt-8 space-y-6">
+            {/* Other Movies */}
+            <div className="flex flex-col items-center p-4">
+              <label className="mb-2 text-center text-15px">
+                Quels autres films avez-vous particulièrement apprécié découvrir
+                cette année ? (facultatif)
+              </label>
+              <textarea
+                value={othermovies}
+                onChange={(e) => setothermovies(e.target.value)}
+                className="h-[100px] w-[min(95%,400px)] resize-none rounded p-2"
+              />
+            </div>
+
+            {/* Director Requests */}
+            <div className="flex flex-col items-center p-4">
+              <label className="mb-2 text-center text-15px">
+                Y a-t-il des films/réalisateurs·rices en particulier que vous
+                aimeriez voir plus souvent programmés en salle ?
+              </label>
+              <textarea
+                value={real}
+                onChange={(e) => setreal(e.target.value)}
+                className="h-[100px] w-[min(95%,400px)] resize-none rounded p-2"
+              />
+            </div>
+
+            {/* Cinema Visits */}
+            <div className="flex flex-col items-center p-4">
+              <label className="mb-2 text-center text-15px">
+                À combien estimez-vous le nombre de fois où vous êtes allé·e·s
+                voir un film en ressortie au cinéma cette année ?
+              </label>
+              <textarea
+                value={nombredefois}
+                onChange={(e) => setnombredefois(e.target.value)}
+                className="h-[100px] w-[min(95%,400px)] resize-none rounded p-2"
+              />
+            </div>
+
+            {/* Additional Feedback */}
+            <div className="flex flex-col items-center p-4">
+              <label className="mb-2 text-center text-15px">
+                Des retours supplémentaires sur notre projet ou sur notre site
+                web ?
+              </label>
+              <textarea
+                value={autreinformation}
+                onChange={(e) => setautreinformation(e.target.value)}
+                className="h-[100px] w-[min(95%,400px)] resize-none rounded p-2"
+              />
+            </div>
+
+            {/* Newsletter Signup */}
+            <div className="flex flex-col items-center space-y-4 p-4">
+              <div className="flex items-start space-x-2">
+                <input
+                  type="checkbox"
+                  checked={newsletter}
+                  onChange={(e) => setNewsletter(e.target.checked)}
+                  className="mt-1"
+                />
+                <label className="text-left text-15px">
+                  Je souhaite m&apos;inscrire être inscrit•e à la newsletter du
+                  Rétro Projecteur pour recevoir toute l&apos;actualité des
+                  ressorties cinéma chaque semaine !
+                </label>
+              </div>
+
+              {newsletter && (
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="Votre adresse email"
+                  className="w-[300px] rounded border p-2"
+                />
+              )}
+            </div>
+          </div>
+
           <div className="mt-8 flex justify-center">
             <button
               onClick={handleSubmit}
               className="border bg-retro-green p-4 text-lg font-bold"
             >
-              ENVOYEZ VOTRE TOP !
+              ENVOYEZ !
             </button>
           </div>
           <p className="mt-4 font-bold">{responseMessage}</p>
         </div>
       </div>
     </>
-  );
-}
-
-function ScreeningRow({
-  allMoviesPromise,
-  onUpdate,
-}: {
-  allMoviesPromise: Promise<SearchMovie[]>;
-  onUpdate: (data: { movie: string; movie_id: string; note: string }) => void;
-}) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [movieId, setMovieId] = useState("");
-  const [showResults, setShowResults] = useState(false);
-  const [note, setNote] = useState("");
-
-  const setSearchFind = (st: string, id: string = "") => {
-    setSearchTerm(st);
-    setMovieId(id);
-    setShowResults(true);
-    onUpdate({ movie: st, movie_id: id, note });
-  };
-
-  return (
-    <tr className="bg-white">
-      <td className="py-5px">
-        <div className="flex grow flex-col">
-          <RetroInput
-            value={searchTerm}
-            setValue={(st) => setSearchFind(st)}
-            leftAlignPlaceholder
-            customTypography
-            placeholder="Recherchez un film..."
-            transparentPlaceholder
-            className="flex grow"
-          />
-          <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
-            {showResults && (
-              <SearchResults
-                extraClass="text-left px-5px py-2px border-x border-b"
-                nbResults={5}
-                searchTerm={searchTerm}
-                allDataPromise={allMoviesPromise}
-                onClick={(movie) => {
-                  setSearchFind(
-                    `${movie.title}, ${movie.directors} (${movie.year})`,
-                    movie.id,
-                  );
-                  setShowResults(false);
-                }}
-              />
-            )}
-          </SuspenseWithLoading>
-        </div>
-      </td>
-      <td className="flex grow py-5px">
-        <input
-          type="text"
-          className="flex h-42px grow lg:h-48px"
-          value={note}
-          onChange={(e) => {
-            setNote(e.target.value);
-            onUpdate({
-              movie: searchTerm,
-              movie_id: movieId,
-              note: e.target.value,
-            });
-          }}
-        />
-      </td>
-    </tr>
   );
 }
