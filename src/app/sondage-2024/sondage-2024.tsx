@@ -269,7 +269,8 @@ async function sendScreeningsToDatabase(
     });
 
     const payload = {
-      movies: transformedData,
+      collection_name: "sondage-2024",
+      votes: transformedData,
       comments: comments,
       full_name: fullName,
     };
