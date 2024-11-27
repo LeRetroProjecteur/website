@@ -58,14 +58,18 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
           ))}
       </div>
       <div className="mt-8 flex items-end justify-between">
-        <Image
-          src="/img/logo-gray.svg"
-          alt="Logo"
-          width={48}
-          height={48}
-          className="h-12 w-auto"
-        />
-        <span className="font-bold text-retro-gray">#MaRetro2024</span>
+        <div className="-ml-4">
+          <Image
+            src="/img/logo-gray.svg"
+            alt="Logo"
+            width={34}
+            height={34}
+            className="h-12 w-auto"
+          />
+        </div>
+        <div className="-mr-4">
+          <span className="font-bold text-retro-gray">#MaRetro2024</span>
+        </div>
       </div>
     </div>
   );
