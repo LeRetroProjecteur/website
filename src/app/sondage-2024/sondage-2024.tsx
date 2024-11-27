@@ -189,6 +189,7 @@ function MovieRow({
                 nbResults={5}
                 searchTerm={searchTerm}
                 allDataPromise={allMoviesPromise}
+                noResultsText="Aucun film trouvé dans la base de données, mais vous pouvez le renseigner manuellement."
                 onClick={(movie) => {
                   setSearchFind(
                     `${movie.title}, ${movie.directors} (${movie.year})`,

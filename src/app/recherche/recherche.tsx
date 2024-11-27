@@ -118,12 +118,14 @@ export function SearchResults({
   nbResults,
   extraClass,
   onClick,
+  noResultsText = "Désolé, nous n'avons rien trouvé qui corresponde à votre recherche !",
 }: {
   allDataPromise: Promise<SearchMovie[]>;
   searchTerm: string;
   nbResults: number;
   extraClass?: string;
   onClick?: (movie: SearchMovie) => void;
+  noResultsText?: string;
 }) {
   const selected = useRechercheStore((s) => s.selected);
   const tags = useRechercheStore((s) => s.tags);
@@ -222,10 +224,7 @@ export function SearchResults({
           </>
         ) : (
           <div className="pt-15px lg:pt-20px">
-            <MetaCopy>
-              Désolé, nous n&apos;avons rien trouvé qui corresponde à votre
-              recherche !
-            </MetaCopy>
+            <MetaCopy>{noResultsText}</MetaCopy>
           </div>
         )}
       </div>
