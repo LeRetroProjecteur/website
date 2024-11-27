@@ -12,6 +12,8 @@ import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
 
+import loading from "../../assets/loading.gif";
+
 interface RowData {
   movie: string;
   movie_id: string;
@@ -284,6 +286,7 @@ export default function Sondage2024({
   const [autreInformation, setAutreInformation] = useState("");
   const [email, setEmail] = useState("");
   const [newsletter, setNewsletter] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const updateRowData = (
     index: number,
@@ -299,6 +302,8 @@ export default function Sondage2024({
   };
 
   const handleSubmit = async () => {
+    if (isSubmitting) return; // Prevent double submission
+    setIsSubmitting(true);
     try {
       const API_ENDPOINT =
         "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_poll_data_to_db";
@@ -340,6 +345,7 @@ export default function Sondage2024({
     } catch (error) {
       console.error("Error:", error);
       setResponseMessage("Erreur lors de l'envoi. Veuillez réessayer.");
+      setIsSubmitting(false); // Reset submitting state on error
     }
   };
 
@@ -420,12 +426,20 @@ export default function Sondage2024({
             </div>
           </div>
           <div className="mt-8 flex justify-center">
-            <button
-              onClick={handleSubmit}
-              className="border bg-retro-green p-15px font-bold"
-            >
-              ENVOYEZ !
-            </button>
+            {isSubmitting ? (
+              <Image
+                src={loading}
+                alt="loading"
+                className="h-[300px] w-[300px]"
+              />
+            ) : (
+              <button
+                onClick={handleSubmit}
+                className="border bg-retro-green p-15px font-bold"
+              >
+                ENVOYEZ !
+              </button>
+            )}
           </div>
           <p className="mt-4 font-bold">{responseMessage}</p>
         </div>
