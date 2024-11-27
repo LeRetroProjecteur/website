@@ -379,8 +379,8 @@ export default function Sondage2024({
             <span className="text-red-500">*</span> Les cinq premiers films sont
             obligatoires
           </div>
-          {/* Additional questions */}
-          <div className="space-y-10px pt-25px">
+          {/* Additional Questions */}
+          <div className="mt-8 space-y-6">
             <OpenQuestion
               question="Quels autres films avez-vous particulièrement apprécié découvrir cette année ? (facultatif)"
               value={othermovies}
