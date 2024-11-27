@@ -1,5 +1,6 @@
 "use client";
 
+import clsx from "clsx";
 import html2canvas from "html2canvas";
 import Image from "next/image";
 import React, { ReactNode, useState } from "react";
@@ -133,10 +134,10 @@ function SondageRow({
   cell3: ReactNode;
 }) {
   return (
-    <div className="flex items-center text-left">
-      <div className="w-[8%] px-4 py-5px">{cell1}</div>
-      <div className="w-[52%] px-4 py-5px">{cell2}</div>
-      <div className="w-[40%] px-4 py-5px">{cell3}</div>
+    <div className="flex items-center">
+      <div className="w-30px px-4px py-5px lg:w-40px">{cell1}</div>
+      <div className="w-[50%] px-4px py-5px">{cell2}</div>
+      <div className="flex grow basis-0 px-4px py-5px">{cell3}</div>
     </div>
   );
 }
@@ -165,7 +166,7 @@ function MovieRow({
       cell1={
         <div className="font-bold">
           {index + 1}
-          {index < 5 && <span className="text-red-500">*</span>}
+          {index < 5 && <span className="text-retro-red">*</span>}
         </div>
       }
       cell2={
@@ -227,12 +228,13 @@ function OpenQuestion({
   onChangeFunction: React.Dispatch<React.SetStateAction<string>>;
 }) {
   return (
-    <div className="flex flex-col items-center p-4">
-      <label className="mb-2 text-center text-15px">{question}</label>
+    <div className="flex flex-col pt-20px">
+      <label className="pb-5px">{question}</label>
       <textarea
+        placeholder="Réponse facultative"
         value={value}
         onChange={(e) => onChangeFunction(e.target.value)}
-        className="h-[100px] w-[min(95%,400px)] resize-none rounded p-2"
+        className="h-[75px] resize-none p-10px"
       />
     </div>
   );
@@ -242,17 +244,19 @@ function TextInputBox({
   placeholder,
   value,
   onChangeFunction,
+  className,
 }: {
   placeholder: string;
   value: string;
   onChangeFunction: React.Dispatch<React.SetStateAction<string>>;
+  className?: string;
 }) {
   return (
-    <div className="mb-4 flex flex-col items-center">
+    <div className={clsx(className, "flex flex-col pb-20px")}>
       <input
         value={value}
         onChange={(e) => onChangeFunction(e.target.value)}
-        className="w-[300px] border p-2"
+        className="w-[300px] border p-10px"
         placeholder={placeholder}
       />
     </div>
@@ -347,24 +351,25 @@ export default function Sondage2024({
 
   return (
     <>
-      <PageHeader text="Sondage Top 2024">
-        <SousTitre1>
-          Votez pour vos meilleures ressorties cinéma de 2024
-        </SousTitre1>
+      <PageHeader text="Ma Rétro 2024">
+        <SousTitre1>Votez pour vos meilleures ressorties cinéma</SousTitre1>
       </PageHeader>
-      <div className="flex flex-col pb-10px lg:pl-20px">
-        <div className="p-5px text-center">
+      <div className="flex grow flex-col lg:pl-20px">
+        <div>
           {/* Name */}
           <TextInputBox
             placeholder="Nom (facultatif)"
             value={fullName}
             onChangeFunction={setFullName}
+            className="flex justify-start pl-34px lg:pl-44px"
           />
           {/* Top */}
           <SondageRow
             cell1={<div className="font-bold">#</div>}
             cell2={<div className="font-bold">Film</div>}
-            cell3={<div className="font-bold">Notes</div>}
+            cell3={
+              <div className="font-bold">Où avez-vous vu ce film&nbsp;?</div>
+            }
           />
           {rowsData.map((_, index) => (
             <MovieRow
@@ -374,43 +379,33 @@ export default function Sondage2024({
               onUpdate={(data) => updateRowData(index, data)}
             />
           ))}
-          {/* Note about mandatory fields */}
-          <div className="mt-2 text-left text-sm">
-            <span className="text-red-500">*</span> Les cinq premiers films sont
-            obligatoires
-          </div>
-          {/* Additional Questions */}
-          <div className="mt-8 space-y-6">
+          <div className="px-34px pt-10px lg:px-44px">
+            {/* Additional Questions */}
             <OpenQuestion
-              question="Quels autres films avez-vous particulièrement apprécié découvrir cette année ? (facultatif)"
-              value={othermovies}
-              onChangeFunction={setothermovies}
-            />
-            <OpenQuestion
-              question="Y a-t-il des films/réalisateurs·rices en particulier que vous aimeriez voir plus souvent programmés en salle ?"
+              question="Y a-t-il des films ou des réalisateurs·rices en particulier que vous aimeriez voir plus souvent programmé·e·s en salle&nbsp;?"
               value={real}
               onChangeFunction={setreal}
             />
             <OpenQuestion
-              question="À combien estimez-vous le nombre de fois où vous êtes allé·e·s voir un film en ressortie au cinéma cette année ?"
+              question="À combien estimez-vous le nombre de fois où vous êtes allé·e·s voir un film en ressortie au cinéma cette année&nbsp;?"
               value={nombredefois}
               onChangeFunction={setnombredefois}
             />
             <OpenQuestion
-              question="Des retours supplémentaires sur notre projet ou sur notre site web ?"
+              question="Des retours supplémentaires sur notre projet ou sur notre site web&nbsp;?"
               value={autreinformation}
               onChangeFunction={setautreinformation}
             />
             {/* Newsletter Signup */}
-            <div className="flex flex-col items-center space-y-4 p-4">
-              <div className="flex items-start space-x-2">
+            <div className="flex flex-col pt-30px">
+              <div className="flex items-start gap-x-8px">
                 <input
                   type="checkbox"
                   checked={newsletter}
                   onChange={(e) => setNewsletter(e.target.checked)}
                   className="mt-1"
                 />
-                <label className="text-left text-15px">
+                <label className="pb-10px font-bold">
                   Je souhaite m&apos;inscrire à la newsletter du Rétro
                   Projecteur pour recevoir toute l&apos;actualité des ressorties
                   cinéma chaque semaine !
@@ -421,6 +416,7 @@ export default function Sondage2024({
                   placeholder="Votre adresse email"
                   value={email}
                   onChangeFunction={setEmail}
+                  className="pl-24px"
                 />
               )}
             </div>
@@ -428,7 +424,7 @@ export default function Sondage2024({
           <div className="mt-8 flex justify-center">
             <button
               onClick={handleSubmit}
-              className="border bg-retro-green p-4 text-lg font-bold"
+              className="border bg-retro-green p-15px font-bold"
             >
               ENVOYEZ !
             </button>
