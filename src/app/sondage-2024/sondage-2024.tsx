@@ -352,87 +352,89 @@ export default function Sondage2024({
           Votez pour vos meilleures ressorties cinéma de 2024
         </SousTitre1>
       </PageHeader>
-      <div className="flex flex-col pb-10px text-center lg:pl-20px">
-        {/* Name */}
-        <TextInputBox
-          placeholder="Nom (facultatif)"
-          value={fullName}
-          onChangeFunction={setFullName}
-        />
-        {/* Top */}
-        <SondageRow
-          cell1={<div className="font-bold">#</div>}
-          cell2={<div className="font-bold">Film</div>}
-          cell3={<div className="font-bold">Notes</div>}
-        />
-        {rowsData.map((_, index) => (
-          <MovieRow
-            key={index}
-            index={index}
-            allMoviesPromise={allMoviesPromise}
-            onUpdate={(data) => updateRowData(index, data)}
+      <div className="flex flex-col pb-10px lg:pl-20px">
+        <div className="p-5px text-center">
+          {/* Name */}
+          <TextInputBox
+            placeholder="Nom (facultatif)"
+            value={fullName}
+            onChangeFunction={setFullName}
           />
-        ))}
-        {/* Note about mandatory fields */}
-        <div className="mt-2 text-left text-sm">
-          <span className="text-red-500">*</span> Les cinq premiers films sont
-          obligatoires
-        </div>
-        {/* Additional questions */}
-        <div className="space-y-10px pt-25px">
-          <OpenQuestion
-            question="Quels autres films avez-vous particulièrement apprécié découvrir cette année ? (facultatif)"
-            value={othermovies}
-            onChangeFunction={setothermovies}
+          {/* Top */}
+          <SondageRow
+            cell1={<div className="font-bold">#</div>}
+            cell2={<div className="font-bold">Film</div>}
+            cell3={<div className="font-bold">Notes</div>}
           />
-          <OpenQuestion
-            question="Y a-t-il des films/réalisateurs·rices en particulier que vous aimeriez voir plus souvent programmés en salle ?"
-            value={real}
-            onChangeFunction={setreal}
-          />
-          <OpenQuestion
-            question="À combien estimez-vous le nombre de fois où vous êtes allé·e·s voir un film en ressortie au cinéma cette année ?"
-            value={nombredefois}
-            onChangeFunction={setnombredefois}
-          />
-          <OpenQuestion
-            question="Des retours supplémentaires sur notre projet ou sur notre site web ?"
-            value={autreinformation}
-            onChangeFunction={setautreinformation}
-          />
-          {/* Newsletter Signup */}
-          <div className="flex flex-col items-center space-y-4 p-4">
-            <div className="flex items-start space-x-2">
-              <input
-                type="checkbox"
-                checked={newsletter}
-                onChange={(e) => setNewsletter(e.target.checked)}
-                className="mt-1"
-              />
-              <label className="text-left text-15px">
-                Je souhaite m&apos;inscrire à la newsletter du Rétro Projecteur
-                pour recevoir toute l&apos;actualité des ressorties cinéma
-                chaque semaine !
-              </label>
-            </div>
-            {newsletter && (
-              <TextInputBox
-                placeholder="Votre adresse email"
-                value={email}
-                onChangeFunction={setEmail}
-              />
-            )}
+          {rowsData.map((_, index) => (
+            <MovieRow
+              key={index}
+              index={index}
+              allMoviesPromise={allMoviesPromise}
+              onUpdate={(data) => updateRowData(index, data)}
+            />
+          ))}
+          {/* Note about mandatory fields */}
+          <div className="mt-2 text-left text-sm">
+            <span className="text-red-500">*</span> Les cinq premiers films sont
+            obligatoires
           </div>
+          {/* Additional questions */}
+          <div className="space-y-10px pt-25px">
+            <OpenQuestion
+              question="Quels autres films avez-vous particulièrement apprécié découvrir cette année ? (facultatif)"
+              value={othermovies}
+              onChangeFunction={setothermovies}
+            />
+            <OpenQuestion
+              question="Y a-t-il des films/réalisateurs·rices en particulier que vous aimeriez voir plus souvent programmés en salle ?"
+              value={real}
+              onChangeFunction={setreal}
+            />
+            <OpenQuestion
+              question="À combien estimez-vous le nombre de fois où vous êtes allé·e·s voir un film en ressortie au cinéma cette année ?"
+              value={nombredefois}
+              onChangeFunction={setnombredefois}
+            />
+            <OpenQuestion
+              question="Des retours supplémentaires sur notre projet ou sur notre site web ?"
+              value={autreinformation}
+              onChangeFunction={setautreinformation}
+            />
+            {/* Newsletter Signup */}
+            <div className="flex flex-col items-center space-y-4 p-4">
+              <div className="flex items-start space-x-2">
+                <input
+                  type="checkbox"
+                  checked={newsletter}
+                  onChange={(e) => setNewsletter(e.target.checked)}
+                  className="mt-1"
+                />
+                <label className="text-left text-15px">
+                  Je souhaite m&apos;inscrire à la newsletter du Rétro
+                  Projecteur pour recevoir toute l&apos;actualité des ressorties
+                  cinéma chaque semaine !
+                </label>
+              </div>
+              {newsletter && (
+                <TextInputBox
+                  placeholder="Votre adresse email"
+                  value={email}
+                  onChangeFunction={setEmail}
+                />
+              )}
+            </div>
+          </div>
+          <div className="mt-8 flex justify-center">
+            <button
+              onClick={handleSubmit}
+              className="border bg-retro-green p-4 text-lg font-bold"
+            >
+              ENVOYEZ !
+            </button>
+          </div>
+          <p className="mt-4 font-bold">{responseMessage}</p>
         </div>
-        <div className="mt-8 flex justify-center">
-          <button
-            onClick={handleSubmit}
-            className="border bg-retro-green p-4 text-lg font-bold"
-          >
-            ENVOYEZ !
-          </button>
-        </div>
-        <p className="mt-4 font-bold">{responseMessage}</p>
       </div>
     </>
   );
