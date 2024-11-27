@@ -279,10 +279,9 @@ export default function Sondage2024({
   );
   const [fullName, setFullName] = useState("");
   const [showSharePage, setShowSharePage] = useState(false);
-  const [othermovies, setothermovies] = useState("");
-  const [real, setreal] = useState("");
-  const [nombredefois, setnombredefois] = useState("");
-  const [autreinformation, setautreinformation] = useState("");
+  const [real, setReal] = useState("");
+  const [nombreDeFois, setNombreDeFois] = useState("");
+  const [autreInformation, setAutreInformation] = useState("");
   const [email, setEmail] = useState("");
   const [newsletter, setNewsletter] = useState(false);
 
@@ -315,10 +314,9 @@ export default function Sondage2024({
       const payload = {
         collection_name: "sondage-2024",
         votes: transformedData,
-        other_movies: othermovies,
         director_requests: real,
-        cinema_visits: nombredefois,
-        additional_feedback: autreinformation,
+        cinema_visits: nombreDeFois,
+        additional_feedback: autreInformation,
         full_name: fullName,
         email: email,
         newsletter_signup: newsletter,
@@ -384,17 +382,17 @@ export default function Sondage2024({
             <OpenQuestion
               question="Y a-t-il des films ou des réalisateurs·rices en particulier que vous aimeriez voir plus souvent programmé·e·s en salle&nbsp;?"
               value={real}
-              onChangeFunction={setreal}
+              onChangeFunction={setReal}
             />
             <OpenQuestion
               question="À combien estimez-vous le nombre de fois où vous êtes allé·e·s voir un film en ressortie au cinéma cette année&nbsp;?"
-              value={nombredefois}
-              onChangeFunction={setnombredefois}
+              value={nombreDeFois}
+              onChangeFunction={setNombreDeFois}
             />
             <OpenQuestion
               question="Des retours supplémentaires sur notre projet ou sur notre site web&nbsp;?"
-              value={autreinformation}
-              onChangeFunction={setautreinformation}
+              value={autreInformation}
+              onChangeFunction={setAutreInformation}
             />
             {/* Newsletter Signup */}
             <div className="flex flex-col pt-30px">
