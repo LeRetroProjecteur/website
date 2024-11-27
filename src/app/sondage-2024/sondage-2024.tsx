@@ -2,7 +2,7 @@
 
 import html2canvas from "html2canvas";
 import Image from "next/image";
-import React, { Fragment, useState } from "react";
+import React, { ReactNode, useState } from "react";
 
 import { SearchResults } from "@/app/recherche/recherche";
 import RetroInput from "@/components/forms/retro-input";
@@ -123,10 +123,30 @@ function SharePage({ rowsData, fullName }: ShareableContentProps) {
   );
 }
 
-function ScreeningRow({
+function SondageRow({
+  cell1,
+  cell2,
+  cell3,
+}: {
+  cell1: ReactNode;
+  cell2: ReactNode;
+  cell3: ReactNode;
+}) {
+  return (
+    <div className="flex items-center text-left">
+      <div className="w-[8%] px-4 py-5px">{cell1}</div>
+      <div className="w-[52%] px-4 py-5px">{cell2}</div>
+      <div className="w-[40%] px-4 py-5px">{cell3}</div>
+    </div>
+  );
+}
+
+function MovieRow({
+  index,
   allMoviesPromise,
   onUpdate,
 }: {
+  index: number;
   allMoviesPromise: Promise<SearchMovie[]>;
   onUpdate: (data: { movie: string; movie_id: string; note: string }) => void;
 }) {
@@ -134,17 +154,21 @@ function ScreeningRow({
   const [movieId, setMovieId] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [note, setNote] = useState("");
-
   const setSearchFind = (st: string, id: string = "") => {
     setSearchTerm(st);
     setMovieId(id);
     setShowResults(true);
     onUpdate({ movie: st, movie_id: id, note });
   };
-
   return (
-    <div className="contents">
-      <td className="w-[52%] px-4 py-5px">
+    <SondageRow
+      cell1={
+        <div className="font-bold">
+          {index + 1}
+          {index < 5 && <span className="text-red-500">*</span>}
+        </div>
+      }
+      cell2={
         <div className="flex grow flex-col">
           <RetroInput
             value={searchTerm}
@@ -173,8 +197,8 @@ function ScreeningRow({
             )}
           </SuspenseWithLoading>
         </div>
-      </td>
-      <td className="w-[40%] px-4 py-5px">
+      }
+      cell3={
         <input
           type="text"
           className="h-42px w-full px-2 lg:h-48px"
@@ -188,7 +212,49 @@ function ScreeningRow({
             });
           }}
         />
-      </td>
+      }
+    />
+  );
+}
+
+function OpenQuestion({
+  question,
+  value,
+  onChangeFunction,
+}: {
+  question: string;
+  value: string;
+  onChangeFunction: React.Dispatch<React.SetStateAction<string>>;
+}) {
+  return (
+    <div className="flex flex-col items-center p-4">
+      <label className="mb-2 text-center text-15px">{question}</label>
+      <textarea
+        value={value}
+        onChange={(e) => onChangeFunction(e.target.value)}
+        className="h-[100px] w-[min(95%,400px)] resize-none rounded p-2"
+      />
+    </div>
+  );
+}
+
+function TextInputBox({
+  placeholder,
+  value,
+  onChangeFunction,
+}: {
+  placeholder: string;
+  value: string;
+  onChangeFunction: React.Dispatch<React.SetStateAction<string>>;
+}) {
+  return (
+    <div className="mb-4 flex flex-col items-center">
+      <input
+        value={value}
+        onChange={(e) => onChangeFunction(e.target.value)}
+        className="w-[300px] border p-2"
+        placeholder={placeholder}
+      />
     </div>
   );
 }
@@ -209,8 +275,6 @@ export default function Sondage2024({
   );
   const [fullName, setFullName] = useState("");
   const [showSharePage, setShowSharePage] = useState(false);
-
-  // Additional state variables
   const [othermovies, setothermovies] = useState("");
   const [real, setreal] = useState("");
   const [nombredefois, setnombredefois] = useState("");
@@ -290,98 +354,53 @@ export default function Sondage2024({
       </PageHeader>
       <div className="flex flex-col pb-10px lg:pl-20px">
         <div className="p-5px text-center">
-          <div className="mb-4 flex flex-col">
-            <input
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              className="w-[300px] border p-2"
-              placeholder="Entrez votre nom et prénom"
+          {/* Name */}
+          <TextInputBox
+            placeholder="Nom (facultatif)"
+            value={fullName}
+            onChangeFunction={setFullName}
+          />
+          {/* Top */}
+          <SondageRow
+            cell1={<div className="font-bold">#</div>}
+            cell2={<div className="font-bold">Film</div>}
+            cell3={<div className="font-bold">Notes</div>}
+          />
+          {rowsData.map((_, index) => (
+            <MovieRow
+              key={index}
+              index={index}
+              allMoviesPromise={allMoviesPromise}
+              onUpdate={(data) => updateRowData(index, data)}
             />
-          </div>
-
-          <table className="w-full">
-            <thead>
-              <tr>
-                <th className="w-[8%] px-4 py-5px text-left">#</th>
-                <th className="w-[52%] px-4 py-5px text-left">Film</th>
-                <th className="w-[40%] px-4 py-5px text-left">Notes</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rowsData.map((_, index) => (
-                <tr key={index} className="bg-white">
-                  <td className="px-4 py-5px text-left font-bold">
-                    {index + 1}
-                    {index < 5 && <span className="text-red-500">*</span>}
-                  </td>
-                  <ScreeningRow
-                    allMoviesPromise={allMoviesPromise}
-                    onUpdate={(data) => updateRowData(index, data)}
-                  />
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          {/* Add note about mandatory fields */}
+          ))}
+          {/* Note about mandatory fields */}
           <div className="mt-2 text-left text-sm">
-            <span className="text-red-500">*</span> Les 5 premiers films sont
+            <span className="text-red-500">*</span> Les cinq premiers films sont
             obligatoires
           </div>
-
           {/* Additional Questions */}
           <div className="mt-8 space-y-6">
-            {/* Other Movies */}
-            <div className="flex flex-col items-center p-4">
-              <label className="mb-2 text-center text-15px">
-                Quels autres films avez-vous particulièrement apprécié découvrir
-                cette année ? (facultatif)
-              </label>
-              <textarea
-                value={othermovies}
-                onChange={(e) => setothermovies(e.target.value)}
-                className="h-[100px] w-[min(95%,400px)] resize-none rounded p-2"
-              />
-            </div>
-
-            {/* Director Requests */}
-            <div className="flex flex-col items-center p-4">
-              <label className="mb-2 text-center text-15px">
-                Y a-t-il des films/réalisateurs·rices en particulier que vous
-                aimeriez voir plus souvent programmés en salle ?
-              </label>
-              <textarea
-                value={real}
-                onChange={(e) => setreal(e.target.value)}
-                className="h-[100px] w-[min(95%,400px)] resize-none rounded p-2"
-              />
-            </div>
-
-            {/* Cinema Visits */}
-            <div className="flex flex-col items-center p-4">
-              <label className="mb-2 text-center text-15px">
-                À combien estimez-vous le nombre de fois où vous êtes allé·e·s
-                voir un film en ressortie au cinéma cette année ?
-              </label>
-              <textarea
-                value={nombredefois}
-                onChange={(e) => setnombredefois(e.target.value)}
-                className="h-[100px] w-[min(95%,400px)] resize-none rounded p-2"
-              />
-            </div>
-
-            {/* Additional Feedback */}
-            <div className="flex flex-col items-center p-4">
-              <label className="mb-2 text-center text-15px">
-                Des retours supplémentaires sur notre projet ou sur notre site
-                web ?
-              </label>
-              <textarea
-                value={autreinformation}
-                onChange={(e) => setautreinformation(e.target.value)}
-                className="h-[100px] w-[min(95%,400px)] resize-none rounded p-2"
-              />
-            </div>
-
+            <OpenQuestion
+              question="Quels autres films avez-vous particulièrement apprécié découvrir cette année ? (facultatif)"
+              value={othermovies}
+              onChangeFunction={setothermovies}
+            />
+            <OpenQuestion
+              question="Y a-t-il des films/réalisateurs·rices en particulier que vous aimeriez voir plus souvent programmés en salle ?"
+              value={real}
+              onChangeFunction={setreal}
+            />
+            <OpenQuestion
+              question="À combien estimez-vous le nombre de fois où vous êtes allé·e·s voir un film en ressortie au cinéma cette année ?"
+              value={nombredefois}
+              onChangeFunction={setnombredefois}
+            />
+            <OpenQuestion
+              question="Des retours supplémentaires sur notre projet ou sur notre site web ?"
+              value={autreinformation}
+              onChangeFunction={setautreinformation}
+            />
             {/* Newsletter Signup */}
             <div className="flex flex-col items-center space-y-4 p-4">
               <div className="flex items-start space-x-2">
@@ -392,24 +411,20 @@ export default function Sondage2024({
                   className="mt-1"
                 />
                 <label className="text-left text-15px">
-                  Je souhaite m&apos;inscrire être inscrit•e à la newsletter du
-                  Rétro Projecteur pour recevoir toute l&apos;actualité des
-                  ressorties cinéma chaque semaine !
+                  Je souhaite m&apos;inscrire à la newsletter du Rétro
+                  Projecteur pour recevoir toute l&apos;actualité des ressorties
+                  cinéma chaque semaine !
                 </label>
               </div>
-
               {newsletter && (
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                <TextInputBox
                   placeholder="Votre adresse email"
-                  className="w-[300px] rounded border p-2"
+                  value={email}
+                  onChangeFunction={setEmail}
                 />
               )}
             </div>
           </div>
-
           <div className="mt-8 flex justify-center">
             <button
               onClick={handleSubmit}
