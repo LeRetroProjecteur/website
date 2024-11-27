@@ -59,7 +59,7 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
       </div>
       <div className="mt-8 flex items-end justify-between">
         <Image
-          src="/img/logo-gray.png"
+          src="/img/logo-gray.svg"
           alt="Logo"
           width={48}
           height={48}
