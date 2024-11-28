@@ -12,7 +12,7 @@ import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
 
-import loading from "../../assets/loading.gif";
+import LoadingPage from "../loading";
 
 interface ShareableContentProps {
   rowsData: {
@@ -370,85 +370,85 @@ export default function Sondage2024({
       {showSharePage ? (
         <SharePage rowsData={rowsData} fullName={fullName} />
       ) : (
-        <div className="flex grow flex-col lg:pl-20px">
-          {/* Name */}
-          <TextInputBox
-            placeholder="Nom (facultatif)"
-            value={fullName}
-            onChangeFunction={setFullName}
-            className="flex justify-start pl-34px lg:pl-44px"
-          />
-          {/* Top */}
-          <SondageRow
-            cell1={<div className="font-bold">#</div>}
-            cell2={<div className="font-bold">Film</div>}
-            cell3={
-              <div className="font-bold">Où avez-vous vu ce film&nbsp;?</div>
-            }
-          />
-          {rowsData.map((_, index) => (
-            <MovieRow
-              key={index}
-              index={index}
-              allMoviesPromise={allMoviesPromise}
-              onUpdate={(data) => updateRowData(index, data)}
-            />
-          ))}
-          <div className="px-34px pt-10px lg:px-44px">
-            {/* Additional Questions */}
-            <OpenQuestion
-              question="Y a-t-il des films ou des réalisateurs·rices en particulier que vous aimeriez voir plus souvent programmé·e·s en salle&nbsp;?"
-              value={real}
-              onChangeFunction={setReal}
-            />
-            <OpenQuestion
-              question="À combien estimez-vous le nombre de fois où vous êtes allé·e·s voir un film en ressortie au cinéma cette année&nbsp;?"
-              value={nombreDeFois}
-              onChangeFunction={setNombreDeFois}
-            />
-            <OpenQuestion
-              question="Des retours supplémentaires sur notre projet ou sur notre site web&nbsp;?"
-              value={autreInformation}
-              onChangeFunction={setAutreInformation}
-            />
-            {/* Newsletter Signup */}
-            <div className="flex flex-col pt-30px">
-              <div className="flex items-start gap-x-8px">
-                <input
-                  type="checkbox"
-                  checked={newsletter}
-                  onChange={(e) => setNewsletter(e.target.checked)}
-                  className="mt-1"
-                />
-                <label className="pb-10px font-bold">
-                  Je souhaite m&apos;inscrire à la newsletter du Rétro
-                  Projecteur pour recevoir toute l&apos;actualité des ressorties
-                  cinéma chaque semaine !
-                </label>
-              </div>
-              {newsletter && (
-                <TextInputBox
-                  placeholder="Votre adresse email"
-                  value={email}
-                  onChangeFunction={setEmail}
-                  className="pl-24px"
-                />
-              )}
-            </div>
-          </div>
-          <div className="mt-8 flex justify-center">
-            {isSubmitting ? (
-              <Image
-                src={loading}
-                alt="loading"
-                className="h-[300px] w-[300px]"
+        <>
+          {isSubmitting ? (
+            <LoadingPage />
+          ) : (
+            <div className="flex grow flex-col lg:pl-20px">
+              {/* Name */}
+              <TextInputBox
+                placeholder="Nom (facultatif)"
+                value={fullName}
+                onChangeFunction={setFullName}
+                className="flex justify-start pl-34px lg:pl-44px"
               />
-            ) : (
-              <Button text="ENVOYEZ !" onClickFunction={handleSubmit} />
-            )}
-          </div>
-          <p className="mt-4 font-bold">{responseMessage}</p>
-        </div>
+              {/* Top */}
+              <SondageRow
+                cell1={<div className="font-bold">#</div>}
+                cell2={<div className="font-bold">Film</div>}
+                cell3={
+                  <div className="font-bold">
+                    Où avez-vous vu ce film&nbsp;?
+                  </div>
+                }
+              />
+              {rowsData.map((_, index) => (
+                <MovieRow
+                  key={index}
+                  index={index}
+                  allMoviesPromise={allMoviesPromise}
+                  onUpdate={(data) => updateRowData(index, data)}
+                />
+              ))}
+              <div className="px-34px pt-10px lg:px-44px">
+                {/* Additional Questions */}
+                <OpenQuestion
+                  question="Y a-t-il des films ou des réalisateurs·rices en particulier que vous aimeriez voir plus souvent programmé·e·s en salle&nbsp;?"
+                  value={real}
+                  onChangeFunction={setReal}
+                />
+                <OpenQuestion
+                  question="À combien estimez-vous le nombre de fois où vous êtes allé·e·s voir un film en ressortie au cinéma cette année&nbsp;?"
+                  value={nombreDeFois}
+                  onChangeFunction={setNombreDeFois}
+                />
+                <OpenQuestion
+                  question="Des retours supplémentaires sur notre projet ou sur notre site web&nbsp;?"
+                  value={autreInformation}
+                  onChangeFunction={setAutreInformation}
+                />
+                {/* Newsletter Signup */}
+                <div className="flex flex-col pt-30px">
+                  <div className="flex items-start gap-x-8px">
+                    <input
+                      type="checkbox"
+                      checked={newsletter}
+                      onChange={(e) => setNewsletter(e.target.checked)}
+                      className="mt-1"
+                    />
+                    <label className="pb-10px font-bold">
+                      Je souhaite m&apos;inscrire à la newsletter du Rétro
+                      Projecteur pour recevoir toute l&apos;actualité des
+                      ressorties cinéma chaque semaine !
+                    </label>
+                  </div>
+                  {newsletter && (
+                    <TextInputBox
+                      placeholder="Votre adresse email"
+                      value={email}
+                      onChangeFunction={setEmail}
+                      className="pl-24px"
+                    />
+                  )}
+                </div>
+              </div>
+              <div className="mt-8 flex justify-center">
+                <Button text="ENVOYEZ !" onClickFunction={handleSubmit} />
+              </div>
+              <p className="mt-4 font-bold">{responseMessage}</p>
+            </div>
+          )}
+        </>
       )}
     </>
   );
