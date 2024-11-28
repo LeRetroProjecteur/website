@@ -52,45 +52,42 @@ function NumberInCircle({ number }: { number: number }) {
 
 function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
   return (
-    <div className="relative max-w-2xl rounded-lg bg-retro-green p-8 shadow-lg">
-      <h2 className="mb-6 text-center text-2xl font-bold">
-        Mon Top Films 2024
+    <div className="max-w-450px rounded-lg border border-retro-gray bg-retro-green p-10px">
+      <h2 className="pb-7px text-center text-xl font-bold">
+        Ma Rétrospective 2024
       </h2>
-      {fullName && <p className="mb-6 text-center text-lg">Par {fullName}</p>}
-      <div className="space-y-4">
+      {fullName && <p className="pb-5px text-center">Par {fullName}</p>}
+      <div className="flex flex-col gap-y-5px px-10px">
         {rowsData
           .filter((row) => row.movie !== "")
           .map((row, index) => (
-            <div key={index} className="rounded-lg bg-white p-4 shadow">
-              <div className="flex items-start">
-                <div className="relative flex-shrink-0">
+            <div
+              key={index}
+              className="rounded-lg bg-white px-10px py-5px shadow"
+            >
+              <div className="flex items-center">
+                <div className="relative">
                   <NumberInCircle number={index + 1} />
                 </div>
-                <div className="ml-3 flex-1">
-                  <div className="text-lg font-bold">{row.movie}</div>
+                <div className="flex grow flex-col pl-10px">
+                  <div className="font-bold">{row.movie}</div>
                   {row.note && (
-                    <div className="mt-2 text-sm italic text-gray-700">
-                      {row.note}
-                    </div>
+                    <div className="text-sm text-retro-gray">{row.note}</div>
                   )}
                 </div>
               </div>
             </div>
           ))}
       </div>
-      <div className="mt-8 flex items-end justify-between">
-        <div className="-ml-4">
-          <Image
-            src="/img/logo-gray.svg"
-            alt="Logo"
-            width={34}
-            height={34}
-            className="h-12 w-auto"
-          />
-        </div>
-        <div className="-mr-4">
-          <span className="font-bold text-retro-gray">#MaRetro2024</span>
-        </div>
+      <div className="flex items-end justify-between pt-7px">
+        <Image
+          src="/img/logo-gray.svg"
+          alt="Logo"
+          width={34}
+          height={34}
+          className="h-auto w-157px max-w-[40%]"
+        />
+        <div className="font-bold text-retro-gray">#MaRétro2024</div>
       </div>
     </div>
   );
@@ -121,14 +118,14 @@ function SharePage({ rowsData, fullName }: ShareableContentProps) {
     }
   };
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-retro-gray p-4">
-      <div id="shareableContent">
+    <div className="flex flex-col items-center justify-center">
+      <div className="flex grow" id="shareableContent">
         <ShareableContent rowsData={rowsData} fullName={fullName} />
       </div>
-      <h2 className="mb-4 mt-12 text-2xl font-bold tracking-wide text-retro-green">
-        PARTAGEZ VOTRE TOP !
+      <h2 className="pb-10px pt-30px text-2xl font-bold tracking-wide">
+        Partagez votre rétrospective !
       </h2>
-      <div className="flex space-x-4">
+      <div className="flex gap-x-10px">
         <Button
           text="Modifier ma rétrospective"
           onClickFunction={() => (window.location.href = "/sondage-2024")}
