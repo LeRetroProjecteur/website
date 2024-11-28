@@ -122,79 +122,79 @@ export default function SubmitScreenings({
     return <SharePage />;
   }
 
-  if (isSubmitting) {
-    return <LoadingPage />;
-  }
-
   return (
     <>
       <PageHeader text="Rajouter des séances">
         <SousTitre1>Votre salle</SousTitre1>
       </PageHeader>
-      <div className="flex flex-col pb-10px lg:pl-20px">
-        <strong>Cinema&nbsp;:</strong>
-        <TheaterSearch
-          allTheatersPromise={allTheatersPromise}
-          onUpdate={setTheaterData}
-        />
-        <br />
-        <br />
-        <div className="p-5px text-center">
-          <form>
-            <table style={{ width: "100%" }}>
-              <thead>
-                <tr>
-                  <th style={{ width: "40%" }}>Film</th>
-                  <th style={{ width: "10%" }}>Date</th>
-                  <th style={{ width: "5%" }}>Horaire</th>
-                  <th style={{ width: "45%" }}>Notes</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rowsData.map((_, index) => (
-                  <Fragment key={index}>
-                    <ScreeningRow
-                      allMoviesPromise={allMoviesPromise}
-                      onUpdate={(data) => updateRowData(index, data)}
-                    />
-                  </Fragment>
-                ))}
-              </tbody>
-            </table>
-            <br />
-            <div className="flex flex-col items-center p-10px">
-              <label htmlFor="comments">
-                {" "}
-                Avez-vous autre chose à signaler&nbsp;?
-              </label>
-              <textarea
-                id="comments"
-                value={comments}
-                onChange={handleCommentsChange}
-                style={{
-                  fontSize: "15px",
-                  wordWrap: "break-word",
-                  width: "min(95%, 400px)",
-                  height: "100px",
-                  padding: "5px",
-                }}
+      {isSubmitting ? (
+        <LoadingPage />
+      ) : (
+        <div className="flex flex-col pb-10px lg:pl-20px">
+          <strong>Cinema&nbsp;:</strong>
+          <TheaterSearch
+            allTheatersPromise={allTheatersPromise}
+            onUpdate={setTheaterData}
+          />
+          <br />
+          <br />
+          <div className="p-5px text-center">
+            <form>
+              <table style={{ width: "100%" }}>
+                <thead>
+                  <tr>
+                    <th style={{ width: "40%" }}>Film</th>
+                    <th style={{ width: "10%" }}>Date</th>
+                    <th style={{ width: "5%" }}>Horaire</th>
+                    <th style={{ width: "45%" }}>Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rowsData.map((_, index) => (
+                    <Fragment key={index}>
+                      <ScreeningRow
+                        allMoviesPromise={allMoviesPromise}
+                        onUpdate={(data) => updateRowData(index, data)}
+                      />
+                    </Fragment>
+                  ))}
+                </tbody>
+              </table>
+              <br />
+              <div className="flex flex-col items-center p-10px">
+                <label htmlFor="comments">
+                  {" "}
+                  Avez-vous autre chose à signaler&nbsp;?
+                </label>
+                <textarea
+                  id="comments"
+                  value={comments}
+                  onChange={handleCommentsChange}
+                  style={{
+                    fontSize: "15px",
+                    wordWrap: "break-word",
+                    width: "min(95%, 400px)",
+                    height: "100px",
+                    padding: "5px",
+                  }}
+                />
+              </div>
+            </form>
+          </div>
+          <br />
+          <div className="flex items-center justify-center">
+            <span>
+              <Button
+                text="Rajoutez vos séances !"
+                onClickFunction={handleSubmit}
               />
-            </div>
-          </form>
+              <p>
+                <b>{responseMessage}</b>
+              </p>
+            </span>
+          </div>
         </div>
-        <br />
-        <div className="flex items-center justify-center">
-          <span>
-            <Button
-              text="Rajoutez vos séances !"
-              onClickFunction={handleSubmit}
-            />
-            <p>
-              <b>{responseMessage}</b>
-            </p>
-          </span>
-        </div>
-      </div>
+      )}
     </>
   );
 }
