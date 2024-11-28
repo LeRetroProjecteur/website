@@ -118,7 +118,7 @@ function SharePage({ rowsData, fullName }: ShareableContentProps) {
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center py-10">
       <div className="flex grow" id="shareableContent">
         <ShareableContent rowsData={rowsData} fullName={fullName} />
       </div>
