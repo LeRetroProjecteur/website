@@ -9,6 +9,60 @@ import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
 import { SearchMovie, SearchTheater } from "@/lib/types";
 
+import LoadingPage from "../../loading";
+
+function Button({
+  text,
+  onClickFunction,
+}: {
+  text: string;
+  onClickFunction: () => void;
+}) {
+  return (
+    <button
+      onClick={onClickFunction}
+      className="border bg-retro-green p-15px font-bold"
+    >
+      {text}
+    </button>
+  );
+}
+
+function ShareableContent() {
+  return (
+    <div className="max-w-700px rounded-lg border border-retro-gray bg-retro-green p-10px">
+      <SousTitre1>Merci d&apos;avoir rajouté vos séances !</SousTitre1>
+    </div>
+  );
+}
+
+function SharePage() {
+  return (
+    <>
+      <PageHeader text="Rajouter des séances">
+        <SousTitre1>Votre salle</SousTitre1>
+      </PageHeader>
+      <div className="flex flex-col items-center justify-center py-10">
+        <div className="flex grow pb-30px">
+          <ShareableContent />
+        </div>
+        <div className="flex gap-x-10px">
+          <Button
+            text="Rajouter des nouvelles séances"
+            onClickFunction={() => window.location.reload()}
+          />
+          <Button
+            text="Aller au calendrier"
+            onClickFunction={() =>
+              (window.location.href = "https://leretroprojecteur.com")
+            }
+          />
+        </div>
+      </div>
+    </>
+  );
+}
+
 export default function SubmitScreenings({
   allMoviesPromise,
   allTheatersPromise,
@@ -17,6 +71,8 @@ export default function SubmitScreenings({
   allTheatersPromise: Promise<SearchTheater[]>;
 }) {
   const numSubmissions = 5;
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSharePage, setShowSharePage] = useState(false);
   const handleCommentsChange = (
     event: React.ChangeEvent<{ value: string }>,
   ) => {
@@ -49,6 +105,26 @@ export default function SubmitScreenings({
     newRowsData[index] = data;
     setRowsData(newRowsData);
   };
+
+  const handleSubmit = async () => {
+    if (isSubmitting) return;
+    await sendScreeningsToDatabase(
+      theaterData,
+      rowsData,
+      comments,
+      setResponseMessage,
+      setIsSubmitting,
+      setShowSharePage,
+    );
+  };
+
+  if (showSharePage) {
+    return <SharePage />;
+  }
+
+  if (isSubmitting) {
+    return <LoadingPage />;
+  }
 
   return (
     <>
@@ -109,19 +185,10 @@ export default function SubmitScreenings({
         <br />
         <div className="flex items-center justify-center">
           <span>
-            <button
-              onClick={() =>
-                sendScreeningsToDatabase(
-                  theaterData,
-                  rowsData,
-                  comments,
-                  setResponseMessage,
-                )
-              }
-              className="border bg-retro-green p-15px text-16px"
-            >
-              Rajoutez vos séances&nbsp;!
-            </button>
+            <Button
+              text="Rajoutez vos séances !"
+              onClickFunction={handleSubmit}
+            />
             <p>
               <b>{responseMessage}</b>
             </p>
@@ -143,7 +210,10 @@ async function sendScreeningsToDatabase(
   }[],
   comments: string,
   setResponseMessage: (message: string) => void,
+  setIsSubmitting: (isSubmitting: boolean) => void,
+  setShowSharePage: (showSharePage: boolean) => void,
 ) {
+  setIsSubmitting(true);
   try {
     const API_ENDPOINT =
       "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_data_to_db";
@@ -203,6 +273,7 @@ async function sendScreeningsToDatabase(
     }
 
     setResponseMessage("Données envoyées avec succès!");
+    setShowSharePage(true);
   } catch (error) {
     console.error("Fetch error:", error);
     if (error instanceof Error) {
@@ -214,6 +285,7 @@ async function sendScreeningsToDatabase(
         "Une erreur inconnue est survenue. Veuillez vérifier votre connexion internet et réessayer.",
       );
     }
+    setIsSubmitting(false);
   }
 }
 
