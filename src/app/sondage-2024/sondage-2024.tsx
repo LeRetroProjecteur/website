@@ -18,7 +18,6 @@ interface ShareableContentProps {
   rowsData: {
     movie: string;
     id: string;
-    note: string;
   }[];
   fullName: string;
 }
@@ -71,9 +70,6 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
                 </div>
                 <div className="flex grow flex-col pl-10px">
                   <div className="font-bold">{row.movie}</div>
-                  {row.note && (
-                    <div className="text-sm text-retro-gray">{row.note}</div>
-                  )}
                 </div>
               </div>
             </div>
@@ -136,20 +132,11 @@ function SharePage({ rowsData, fullName }: ShareableContentProps) {
   );
 }
 
-function SondageRow({
-  cell1,
-  cell2,
-  cell3,
-}: {
-  cell1: ReactNode;
-  cell2: ReactNode;
-  cell3: ReactNode;
-}) {
+function SondageRow({ cell1, cell2 }: { cell1: ReactNode; cell2: ReactNode }) {
   return (
     <div className="flex items-center">
       <div className="w-30px px-4px py-5px lg:w-40px">{cell1}</div>
-      <div className="w-[50%] px-4px py-5px">{cell2}</div>
-      <div className="flex grow basis-0 px-4px py-5px">{cell3}</div>
+      <div className="flex grow basis-0 px-4px py-5px">{cell2}</div>
     </div>
   );
 }
@@ -161,17 +148,16 @@ function MovieRow({
 }: {
   index: number;
   allMoviesPromise: Promise<SearchMovie[]>;
-  onUpdate: (data: { movie: string; id: string; note: string }) => void;
+  onUpdate: (data: { movie: string; id: string }) => void;
 }) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [movieId, setMovieId] = useState("");
+  const [_, setMovieId] = useState("");
   const [showResults, setShowResults] = useState(false);
-  const [note, setNote] = useState("");
   const setSearchFind = (st: string, id: string = "") => {
     setSearchTerm(st);
     setMovieId(id);
     setShowResults(true);
-    onUpdate({ movie: st, id: id, note });
+    onUpdate({ movie: st, id: id });
   };
   return (
     <SondageRow
@@ -211,21 +197,6 @@ function MovieRow({
             )}
           </SuspenseWithLoading>
         </div>
-      }
-      cell3={
-        <input
-          type="text"
-          className="h-42px w-full px-2 lg:h-48px"
-          value={note}
-          onChange={(e) => {
-            setNote(e.target.value);
-            onUpdate({
-              movie: searchTerm,
-              id: movieId,
-              note: e.target.value,
-            });
-          }}
-        />
       }
     />
   );
@@ -287,7 +258,6 @@ export default function Sondage2024({
     Array(numSubmissions).fill({
       movie: "",
       id: "",
-      note: "",
     }),
   );
   const [fullName, setFullName] = useState("");
@@ -304,7 +274,6 @@ export default function Sondage2024({
     data: {
       movie: string;
       id: string;
-      note: string;
     },
   ) => {
     const newRowsData = [...rowsData];
@@ -324,7 +293,6 @@ export default function Sondage2024({
         .map((row) => ({
           movie: row.movie,
           id: row.id,
-          notes: row.note,
         }));
 
       const payload = {
@@ -383,11 +351,6 @@ export default function Sondage2024({
               <SondageRow
                 cell1={<div className="font-bold">#</div>}
                 cell2={<div className="font-bold">Film</div>}
-                cell3={
-                  <div className="font-bold">
-                    Où avez-vous vu ce film&nbsp;?
-                  </div>
-                }
               />
               {rowsData.map((_, index) => (
                 <MovieRow
