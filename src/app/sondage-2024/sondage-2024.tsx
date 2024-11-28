@@ -14,15 +14,40 @@ import { SearchMovie } from "@/lib/types";
 
 import loading from "../../assets/loading.gif";
 
-interface RowData {
-  movie: string;
-  movie_id: string;
-  note: string;
+interface ShareableContentProps {
+  rowsData: {
+    movie: string;
+    id: string;
+    note: string;
+  }[];
+  fullName: string;
 }
 
-interface ShareableContentProps {
-  rowsData: RowData[];
-  fullName: string;
+function Button({
+  text,
+  onClickFunction,
+}: {
+  text: string;
+  onClickFunction: () => void;
+}) {
+  return (
+    <button
+      onClick={onClickFunction}
+      className="border bg-retro-green p-15px font-bold"
+    >
+      {text}
+    </button>
+  );
+}
+
+function NumberInCircle({ number }: { number: number }) {
+  return (
+    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-retro-green">
+      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform font-bold">
+        {number}
+      </div>
+    </div>
+  );
 }
 
 function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
@@ -39,11 +64,7 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
             <div key={index} className="rounded-lg bg-white p-4 shadow">
               <div className="flex items-start">
                 <div className="relative flex-shrink-0">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-retro-green">
-                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform text-lg font-bold">
-                      {index + 1}
-                    </div>
-                  </div>
+                  <NumberInCircle number={index + 1} />
                 </div>
                 <div className="ml-3 flex-1">
                   <div className="text-lg font-bold">{row.movie}</div>
@@ -80,14 +101,12 @@ function SharePage({ rowsData, fullName }: ShareableContentProps) {
     try {
       const element = document.getElementById("shareableContent");
       if (!element) return;
-
       const canvas = await html2canvas(element, {
         backgroundColor: null,
         scale: 2,
         useCORS: true,
         logging: true,
       });
-
       // Open image in new tab instead of direct download
       canvas.toBlob((blob) => {
         if (blob) {
@@ -101,30 +120,20 @@ function SharePage({ rowsData, fullName }: ShareableContentProps) {
       console.error("Error creating image:", error);
     }
   };
-
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-retro-gray p-4">
       <div id="shareableContent">
         <ShareableContent rowsData={rowsData} fullName={fullName} />
       </div>
-
       <h2 className="mb-4 mt-12 text-2xl font-bold tracking-wide text-retro-green">
         PARTAGEZ VOTRE TOP !
       </h2>
-
       <div className="flex space-x-4">
-        <button
-          onClick={() => (window.location.href = "/sondage-2024")}
-          className="border bg-retro-green p-4 text-lg font-bold shadow-lg hover:bg-opacity-90"
-        >
-          Modifier votre top
-        </button>
-        <button
-          onClick={handleDownload}
-          className="border bg-retro-green p-4 text-lg font-bold shadow-lg hover:bg-opacity-90"
-        >
-          Télécharger
-        </button>
+        <Button
+          text="Modifier ma rétrospective"
+          onClickFunction={() => (window.location.href = "/sondage-2024")}
+        />
+        <Button text="Télécharger" onClickFunction={handleDownload} />
       </div>
     </div>
   );
@@ -155,7 +164,7 @@ function MovieRow({
 }: {
   index: number;
   allMoviesPromise: Promise<SearchMovie[]>;
-  onUpdate: (data: { movie: string; movie_id: string; note: string }) => void;
+  onUpdate: (data: { movie: string; id: string; note: string }) => void;
 }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [movieId, setMovieId] = useState("");
@@ -165,7 +174,7 @@ function MovieRow({
     setSearchTerm(st);
     setMovieId(id);
     setShowResults(true);
-    onUpdate({ movie: st, movie_id: id, note });
+    onUpdate({ movie: st, id: id, note });
   };
   return (
     <SondageRow
@@ -215,7 +224,7 @@ function MovieRow({
             setNote(e.target.value);
             onUpdate({
               movie: searchTerm,
-              movie_id: movieId,
+              id: movieId,
               note: e.target.value,
             });
           }}
@@ -280,7 +289,7 @@ export default function Sondage2024({
   const [rowsData, setRowsData] = useState(
     Array(numSubmissions).fill({
       movie: "",
-      movie_id: "",
+      id: "",
       note: "",
     }),
   );
@@ -297,7 +306,7 @@ export default function Sondage2024({
     index: number,
     data: {
       movie: string;
-      movie_id: string;
+      id: string;
       note: string;
     },
   ) => {
@@ -317,7 +326,7 @@ export default function Sondage2024({
         .filter((row) => row.movie !== "")
         .map((row) => ({
           movie: row.movie,
-          id: row.movie_id,
+          id: row.id,
           notes: row.note,
         }));
 
@@ -353,18 +362,15 @@ export default function Sondage2024({
       setIsSubmitting(false); // Reset submitting state on error
     }
   };
-
-  if (showSharePage) {
-    return <SharePage rowsData={rowsData} fullName={fullName} />;
-  }
-
   return (
     <>
       <PageHeader text="Ma Rétro 2024">
         <SousTitre1>Votez pour vos meilleures ressorties cinéma</SousTitre1>
       </PageHeader>
-      <div className="flex grow flex-col lg:pl-20px">
-        <div>
+      {showSharePage ? (
+        <SharePage rowsData={rowsData} fullName={fullName} />
+      ) : (
+        <div className="flex grow flex-col lg:pl-20px">
           {/* Name */}
           <TextInputBox
             placeholder="Nom (facultatif)"
@@ -438,17 +444,12 @@ export default function Sondage2024({
                 className="h-[300px] w-[300px]"
               />
             ) : (
-              <button
-                onClick={handleSubmit}
-                className="border bg-retro-green p-15px font-bold"
-              >
-                ENVOYEZ !
-              </button>
+              <Button text="ENVOYEZ !" onClickFunction={handleSubmit} />
             )}
           </div>
           <p className="mt-4 font-bold">{responseMessage}</p>
         </div>
-      </div>
+      )}
     </>
   );
 }
