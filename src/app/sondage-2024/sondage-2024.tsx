@@ -19,7 +19,6 @@ interface ShareableContentProps {
     movie: string;
     id: string;
   }[];
-  fullName: string;
 }
 
 function Button({
@@ -49,13 +48,12 @@ function NumberInCircle({ number }: { number: number }) {
   );
 }
 
-function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
+function ShareableContent({ rowsData }: ShareableContentProps) {
   return (
     <div className="max-w-450px rounded-lg border border-retro-gray bg-retro-green p-10px">
       <h2 className="pb-7px text-center text-xl font-bold">
         Ma Rétrospective 2024
       </h2>
-      {fullName && <p className="pb-5px text-center">Par {fullName}</p>}
       <div className="flex flex-col gap-y-5px px-10px">
         {rowsData
           .filter((row) => row.movie !== "")
@@ -89,7 +87,7 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
   );
 }
 
-function SharePage({ rowsData, fullName }: ShareableContentProps) {
+function SharePage({ rowsData }: ShareableContentProps) {
   const handleDownload = async () => {
     try {
       const element = document.getElementById("shareableContent");
@@ -116,7 +114,7 @@ function SharePage({ rowsData, fullName }: ShareableContentProps) {
   return (
     <div className="flex flex-col items-center justify-center py-10">
       <div className="flex grow" id="shareableContent">
-        <ShareableContent rowsData={rowsData} fullName={fullName} />
+        <ShareableContent rowsData={rowsData} />
       </div>
       <h2 className="pb-10px pt-30px text-2xl font-bold tracking-wide">
         Partagez votre rétrospective !
@@ -333,7 +331,7 @@ export default function Sondage2024({
         <SousTitre1>Votez pour vos meilleures ressorties cinéma</SousTitre1>
       </PageHeader>
       {showSharePage ? (
-        <SharePage rowsData={rowsData} fullName={fullName} />
+        <SharePage rowsData={rowsData} />
       ) : (
         <>
           {isSubmitting ? (
