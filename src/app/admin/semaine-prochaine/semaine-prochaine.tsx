@@ -28,7 +28,7 @@ export function CalendrierSemaineProchaine({
 }) {
   return (
     <>
-      <CalendarFilters withTimeSlider={false} withQuartierSelector={false} />
+      <CalendarFilters withTimeSlider={false} />
       <div className="flex grow pt-18px lg:pt-28px">
         <MovieTable serverMovies={serverMovies} allMovies={false} />
       </div>

@@ -67,7 +67,10 @@ export default function CalendarFilters({
           </div>
         </>
       ) : (
-        <div className="flex flex-col lg:flex-row">
+        <div className="flex flex-col gap-x-15px lg:flex-row">
+          <div className="flex w-225px">
+            <Events />
+          </div>
           <div className="flex grow pt-15px lg:pt-0">
             <FilterBar />
           </div>

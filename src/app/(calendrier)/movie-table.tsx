@@ -293,9 +293,28 @@ function filterAndSortMovies(
     ? movies
         .map<MovieWithScreeningsSeveralDays>((movie) => ({
           ...movie,
-          showtimes_by_day: filterDates(movie.showtimes_by_day),
+          showtimes_by_day: Object.fromEntries(
+            Object.entries(movie.showtimes_by_day)
+              .map(([day, showtimes]) => [
+                day,
+                filterNeighborhoods(
+                  filterTimes(
+                    showtimes,
+                    minHourFilteringTodaysMissedFilms,
+                    maxHour,
+                    events,
+                  ),
+                  quartiers,
+                ),
+              ])
+              .filter(([_, showtimes]) => showtimes.length > 0),
+          ),
         }))
-        .filter((movie) => size(movie.showtimes_by_day) > 0)
+        .filter((movie) =>
+          Object.values(movie.showtimes_by_day).some(
+            (showtimes) => showtimes.length > 0,
+          ),
+        )
     : movies
         .map<MovieWithScreeningsOneDay>((movie) => ({
           ...movie,
