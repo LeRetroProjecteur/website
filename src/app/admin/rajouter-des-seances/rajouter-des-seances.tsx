@@ -284,7 +284,7 @@ async function sendScreeningsToDatabase(
     }`;
     const slackEndpoint =
       "https://europe-west1-website-cine.cloudfunctions.net/trigger_send_warning";
-    const slackUrl = process.env.SLACK_WEBHOOK;
+    const slackUrl = process.env.SLACK_WEBHOOK || "";
     await fetch(
       `${slackEndpoint}?webhook_url=${encodeURIComponent(
         slackUrl,
