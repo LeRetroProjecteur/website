@@ -6,11 +6,11 @@ import {
   transformZipcodeToString,
 } from "@/components/theaters/theaters";
 import { SousTitre2 } from "@/components/typography/typography";
-import { MovieWithScreeningsByDay } from "@/lib/types";
+import { MovieWithScreeningsSeveralDays } from "@/lib/types";
 
 type RetrospectiveItem = {
   director: string;
-  movies: MovieWithScreeningsByDay[];
+  movies: MovieWithScreeningsSeveralDays[];
   cinemas: Array<{
     name: string;
     zipcode: string;
@@ -20,7 +20,7 @@ type RetrospectiveItem = {
 export function Retrospectives({
   movies: moviesPromise,
 }: {
-  movies: Promise<MovieWithScreeningsByDay[]>;
+  movies: Promise<MovieWithScreeningsSeveralDays[]>;
 }) {
   const movies = use(moviesPromise);
 
