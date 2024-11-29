@@ -285,7 +285,7 @@ async function sendScreeningsToDatabase(
     const slackEndpoint =
       "https://europe-west1-website-cine.cloudfunctions.net/trigger_send_warning";
     const slackUrl =
-      "https://hooks.slack.com/services/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";
+      "https://hooks.slack.com/services/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";
     await fetch(
       `${slackEndpoint}?webhook_url=${encodeURIComponent(
         slackUrl,
