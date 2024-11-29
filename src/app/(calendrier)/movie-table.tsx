@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { size, sortBy } from "lodash-es";
+import { sortBy } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
 import React, { ReactNode, use, useEffect, useMemo } from "react";
@@ -297,18 +297,14 @@ function filterAndSortMovies(
             Object.entries(movie.showtimes_by_day)
               .map(([day, showtimes]) => [
                 day,
-                filterNeighborhoods(
-                  filterTimes(
-                    showtimes,
-                    minHourFilteringTodaysMissedFilms,
-                    maxHour,
-                    events,
-                  ),
-                  quartiers,
-                ),
+                filterNeighborhoods(showtimes, quartiers),
               ])
               .filter(([_, showtimes]) => showtimes.length > 0),
           ),
+        }))
+        .map<MovieWithScreeningsSeveralDays>((movie) => ({
+          ...movie,
+          showtimes_by_day: filterDates(movie.showtimes_by_day),
         }))
         .filter((movie) =>
           Object.values(movie.showtimes_by_day).some(
