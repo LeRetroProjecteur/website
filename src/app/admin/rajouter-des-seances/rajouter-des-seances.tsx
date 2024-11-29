@@ -9,6 +9,60 @@ import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
 import { SearchMovie, SearchTheater } from "@/lib/types";
 
+import LoadingPage from "../../loading";
+
+function Button({
+  text,
+  onClickFunction,
+}: {
+  text: string;
+  onClickFunction: () => void;
+}) {
+  return (
+    <button
+      onClick={onClickFunction}
+      className="border bg-retro-green p-15px font-bold"
+    >
+      {text}
+    </button>
+  );
+}
+
+function ShareableContent() {
+  return (
+    <div className="max-w-700px rounded-lg border border-retro-gray bg-retro-green p-10px">
+      <SousTitre1>Merci d&apos;avoir rajouté vos séances !</SousTitre1>
+    </div>
+  );
+}
+
+function SharePage() {
+  return (
+    <>
+      <PageHeader text="Rajouter des séances">
+        <SousTitre1>Votre salle</SousTitre1>
+      </PageHeader>
+      <div className="flex flex-col items-center justify-center py-10">
+        <div className="flex grow pb-30px">
+          <ShareableContent />
+        </div>
+        <div className="flex gap-x-10px">
+          <Button
+            text="Rajouter des nouvelles séances"
+            onClickFunction={() => window.location.reload()}
+          />
+          <Button
+            text="Aller au calendrier"
+            onClickFunction={() =>
+              (window.location.href = "https://leretroprojecteur.com")
+            }
+          />
+        </div>
+      </div>
+    </>
+  );
+}
+
 export default function SubmitScreenings({
   allMoviesPromise,
   allTheatersPromise,
@@ -17,6 +71,8 @@ export default function SubmitScreenings({
   allTheatersPromise: Promise<SearchTheater[]>;
 }) {
   const numSubmissions = 5;
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSharePage, setShowSharePage] = useState(false);
   const handleCommentsChange = (
     event: React.ChangeEvent<{ value: string }>,
   ) => {
@@ -50,84 +106,95 @@ export default function SubmitScreenings({
     setRowsData(newRowsData);
   };
 
+  const handleSubmit = async () => {
+    if (isSubmitting) return;
+    await sendScreeningsToDatabase(
+      theaterData,
+      rowsData,
+      comments,
+      setResponseMessage,
+      setIsSubmitting,
+      setShowSharePage,
+    );
+  };
+
+  if (showSharePage) {
+    return <SharePage />;
+  }
+
   return (
     <>
       <PageHeader text="Rajouter des séances">
         <SousTitre1>Votre salle</SousTitre1>
       </PageHeader>
-      <div className="flex flex-col pb-10px lg:pl-20px">
-        <strong>Cinema&nbsp;:</strong>
-        <TheaterSearch
-          allTheatersPromise={allTheatersPromise}
-          onUpdate={setTheaterData}
-        />
-        <br />
-        <br />
-        <div className="p-5px text-center">
-          <form>
-            <table style={{ width: "100%" }}>
-              <thead>
-                <tr>
-                  <th style={{ width: "40%" }}>Film</th>
-                  <th style={{ width: "10%" }}>Date</th>
-                  <th style={{ width: "5%" }}>Horaire</th>
-                  <th style={{ width: "45%" }}>Notes</th>
-                </tr>
-              </thead>
-              <tbody>
-                {rowsData.map((_, index) => (
-                  <Fragment key={index}>
-                    <ScreeningRow
-                      allMoviesPromise={allMoviesPromise}
-                      onUpdate={(data) => updateRowData(index, data)}
-                    />
-                  </Fragment>
-                ))}
-              </tbody>
-            </table>
-            <br />
-            <div className="flex flex-col items-center p-10px">
-              <label htmlFor="comments">
-                {" "}
-                Avez-vous autre chose à signaler&nbsp;?
-              </label>
-              <textarea
-                id="comments"
-                value={comments}
-                onChange={handleCommentsChange}
-                style={{
-                  fontSize: "15px",
-                  wordWrap: "break-word",
-                  width: "min(95%, 400px)",
-                  height: "100px",
-                  padding: "5px",
-                }}
+      {isSubmitting ? (
+        <LoadingPage />
+      ) : (
+        <div className="flex flex-col pb-10px lg:pl-20px">
+          <strong>Cinema&nbsp;:</strong>
+          <TheaterSearch
+            allTheatersPromise={allTheatersPromise}
+            onUpdate={setTheaterData}
+          />
+          <br />
+          <br />
+          <div className="p-5px text-center">
+            <form>
+              <table style={{ width: "100%" }}>
+                <thead>
+                  <tr>
+                    <th style={{ width: "40%" }}>Film</th>
+                    <th style={{ width: "10%" }}>Date</th>
+                    <th style={{ width: "5%" }}>Horaire</th>
+                    <th style={{ width: "45%" }}>Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rowsData.map((_, index) => (
+                    <Fragment key={index}>
+                      <ScreeningRow
+                        allMoviesPromise={allMoviesPromise}
+                        onUpdate={(data) => updateRowData(index, data)}
+                      />
+                    </Fragment>
+                  ))}
+                </tbody>
+              </table>
+              <br />
+              <div className="flex flex-col items-center p-10px">
+                <label htmlFor="comments">
+                  {" "}
+                  Avez-vous autre chose à signaler&nbsp;?
+                </label>
+                <textarea
+                  id="comments"
+                  value={comments}
+                  onChange={handleCommentsChange}
+                  style={{
+                    fontSize: "15px",
+                    wordWrap: "break-word",
+                    width: "min(95%, 400px)",
+                    height: "100px",
+                    padding: "5px",
+                  }}
+                />
+              </div>
+            </form>
+          </div>
+          <br />
+          <div className="flex items-center justify-center">
+            <span>
+              <Button
+                text="Rajoutez vos séances !"
+                onClickFunction={handleSubmit}
               />
-            </div>
-          </form>
+              <p>
+                <b>{responseMessage}</b>
+              </p>
+            </span>
+          </div>
         </div>
-        <br />
-        <div className="flex items-center justify-center">
-          <span>
-            <button
-              onClick={() =>
-                sendScreeningsToDatabase(
-                  theaterData,
-                  rowsData,
-                  comments,
-                  setResponseMessage,
-                )
-              }
-              className="border bg-retro-green p-15px text-16px"
-            >
-              Rajoutez vos séances&nbsp;!
-            </button>
-            <p>
-              <b>{responseMessage}</b>
-            </p>
-          </span>
-        </div>
-      </div>
+      )}
     </>
   );
 }
@@ -143,7 +210,10 @@ async function sendScreeningsToDatabase(
   }[],
   comments: string,
   setResponseMessage: (message: string) => void,
+  setIsSubmitting: (isSubmitting: boolean) => void,
+  setShowSharePage: (showSharePage: boolean) => void,
 ) {
+  setIsSubmitting(true);
   try {
     const API_ENDPOINT =
       "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_data_to_db";
@@ -203,6 +273,7 @@ async function sendScreeningsToDatabase(
     }
 
     setResponseMessage("Données envoyées avec succès!");
+    setShowSharePage(true);
   } catch (error) {
     console.error("Fetch error:", error);
     if (error instanceof Error) {
@@ -214,6 +285,7 @@ async function sendScreeningsToDatabase(
         "Une erreur inconnue est survenue. Veuillez vérifier votre connexion internet et réessayer.",
       );
     }
+    setIsSubmitting(false);
   }
 }
 

@@ -17,7 +17,7 @@ export function TextBox({
   return (
     <div
       className={clsx(
-        "flex items-center justify-center border py-9px",
+        "flex items-center justify-center border px-10px py-9px",
         {
           "bg-retro-blue": bgColor === "retro-blue",
         },
