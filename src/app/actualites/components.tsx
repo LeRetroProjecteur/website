@@ -1,7 +1,9 @@
 import Image, { StaticImageData } from "next/image";
+import Link from "next/link";
 import { ReactNode } from "react";
 
 import PageHeader from "@/components/layout/page-header";
+import { TextBox } from "@/components/layout/text-boxes";
 import {
   SectionTitle,
   SousTitre1,
@@ -176,4 +178,23 @@ export function Question({ children }: { children: ReactNode }) {
 }
 export function Answer({ children }: { children: ReactNode }) {
   return <div className="space-y-5px pt-5px">{children}</div>;
+}
+
+export function CTAs({ ctas }: { ctas: { link: string; text: ReactNode }[] }) {
+  return (
+    <>
+      <div className="py-15px lg:py-20px">
+        <div className="border-b" />
+      </div>
+      <div className="mx-auto flex w-[90%] flex-col gap-y-10px lg:w-[75%]">
+        {ctas.map((cta, i) => (
+          <Link key={i} href={cta.link}>
+            <TextBox bgColor={"retro-blue"} textColor={"retro-gray"}>
+              {cta.text}
+            </TextBox>
+          </Link>
+        ))}
+      </div>
+    </>
+  );
 }

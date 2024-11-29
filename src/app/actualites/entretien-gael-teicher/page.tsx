@@ -6,6 +6,7 @@ import { BodyCopy } from "@/components/typography/typography";
 import {
   Answer,
   ArticleLayout,
+  CTAs,
   MiddleColumn,
   MiddleColumnImageAndRightColumnCaption,
   Question,
@@ -142,6 +143,14 @@ export default function Page() {
             </div>
           </Answer>
         </BodyCopy>
+        <CTAs
+          ctas={[
+            {
+              link: "/film/plus-hier-moins-demain-1998",
+              text: <div>Trouver les prochaines séances du film</div>,
+            },
+          ]}
+        />
       </MiddleColumn>
     </ArticleLayout>
   );
