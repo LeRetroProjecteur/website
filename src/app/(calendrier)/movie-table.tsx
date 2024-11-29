@@ -26,8 +26,8 @@ import {
   getRealMinHour,
   getStartOfTodayInParis,
   isCoupDeCoeur,
-  isMovieWithShowtimesByDay,
-  isMoviesWithShowtimesByDay,
+  isMovieWithShowtimesSeveralDays,
+  isMoviesWithShowtimesSeveralDays,
   movieInfoContainsFilteringTerm,
 } from "@/lib/util";
 
@@ -208,7 +208,7 @@ function MovieRows({
       leftCol={<MovieCell movie={movie} />}
       rightCol={
         <div className="py-12px lg:py-17px">
-          {isMovieWithShowtimesByDay(movie) ? (
+          {isMovieWithShowtimesSeveralDays(movie) ? (
             <MultiDaySeances
               screenings={movie.showtimes_by_day}
               className="gap-y-10px"
@@ -289,7 +289,7 @@ function filterAndSortMovies(
   filter: string,
   events: boolean,
 ) {
-  const moviesWithFilteredShowtimes = isMoviesWithShowtimesByDay(movies)
+  const moviesWithFilteredShowtimes = isMoviesWithShowtimesSeveralDays(movies)
     ? movies
         .map<MovieWithScreeningsSeveralDays>((movie) => ({
           ...movie,

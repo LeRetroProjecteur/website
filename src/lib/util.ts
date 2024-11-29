@@ -184,16 +184,16 @@ export const blurProps: Partial<ComponentProps<typeof Image>> = {
     1QV4EOFwAAAA1JREFUCNdj+PJ/+38ACT8DquQRMKUAAAAASUVORK5CYII=",
 };
 
-export function isMovieWithShowtimesByDay(
+export function isMovieWithShowtimesSeveralDays(
   movie: MovieWithScreeningsOneDay | MovieWithScreeningsSeveralDays,
 ): movie is MovieWithScreeningsSeveralDays {
   return "showtimes_by_day" in movie;
 }
 
-export function isMoviesWithShowtimesByDay(
+export function isMoviesWithShowtimesSeveralDays(
   movies: MovieWithScreeningsOneDay[] | MovieWithScreeningsSeveralDays[],
 ): movies is MovieWithScreeningsSeveralDays[] {
-  return some(movies, isMovieWithShowtimesByDay);
+  return some(movies, isMovieWithShowtimesSeveralDays);
 }
 
 export function getRealMinHour(date: DateTime, minHour: number) {
