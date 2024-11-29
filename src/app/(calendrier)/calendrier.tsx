@@ -2,7 +2,7 @@
 
 import DateSelector from "@/app/(calendrier)/date-selector";
 import PageHeader from "@/components/layout/page-header";
-import { MovieWithScreenings, MovieWithScreeningsByDay } from "@/lib/types";
+import { MovieWithScreeningsOneDay } from "@/lib/types";
 
 import CalendarFilters from "./calendar-filters";
 import MovieTable from "./movie-table";
@@ -12,7 +12,7 @@ export default function Calendrier({
   allMovies,
   title,
 }: {
-  serverMovies: Promise<MovieWithScreenings[] | MovieWithScreeningsByDay[]>;
+  serverMovies: Promise<MovieWithScreeningsOneDay[]>;
   allMovies?: boolean;
   title?: string;
 }) {

@@ -1,80 +1,45 @@
 export interface MovieInfo {
-  language?: string;
+  id: string;
   title: string;
-  original_title?: string;
   directors: string;
+  year: string;
+  original_title?: string;
   countries?: string;
   tags?: string;
 }
 
-export interface MovieDetail {
+export interface MovieDetail extends MovieInfo {
   // Movie information
   actors?: string;
-  countries: string;
-  directors: string;
+  language?: string;
   distributor?: string;
   duration: string;
   genre?: string;
-  id: string;
-  language: string;
-  original_title: string;
   screenings: { [date: string]: TheaterScreenings[] };
   screenwriters: string;
-  tags?: string;
-  title: string;
-  year: string;
   // Review information
   review?: string;
   review_category?: string;
   review_date?: string;
 }
 
-export interface MovieDetailWithImage extends MovieDetail {
-  image_file?: string;
-}
-
-export interface Review {
-  id: string;
-  title: string;
-  directors: string;
-  year: number;
+export interface Review extends MovieInfo {
   review: string;
   review_category: string;
   review_date: string;
 }
 
-export interface SearchMovie {
-  year: number;
+export interface SearchMovie extends MovieInfo {
   relevance_score: number;
-  directors: string;
-  title: string;
-  id: string;
-  search_field: string;
-  original_title: string;
 }
 
-export interface SearchTheater {
-  theater_id: string;
-  name: string;
-}
-
-export interface MovieWithNoScreenings {
-  directors: string;
-  tags: string;
-  year: string;
-  title: string;
-  countries: string;
-  original_title: string;
-  id: string;
-  language: string;
+export interface MovieWithScreeningsOneDay extends MovieInfo {
   review_category?: string;
-}
-
-export interface MovieWithScreenings extends MovieWithNoScreenings {
   showtimes_theater: TheaterScreenings[];
 }
 
-export interface MovieWithScreeningsByDay extends MovieWithNoScreenings {
+export interface MovieWithScreeningsSeveralDays extends MovieInfo {
+  review_category?: string;
   showtimes_by_day: { [day: string]: TheaterScreenings[] };
 }
 
@@ -89,4 +54,9 @@ export interface TheaterScreenings {
   zipcode: string;
   name: string;
   preposition_and_name: string;
+}
+
+export interface SearchTheater {
+  theater_id: string;
+  name: string;
 }

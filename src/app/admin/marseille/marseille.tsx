@@ -4,14 +4,14 @@ import CalendarFilters from "@/app/(calendrier)/calendar-filters";
 import DateSelector from "@/app/(calendrier)/date-selector";
 import MovieTable from "@/app/(calendrier)/movie-table";
 import PageHeader from "@/components/layout/page-header";
-import { MovieWithScreenings, MovieWithScreeningsByDay } from "@/lib/types";
+import { MovieWithScreeningsOneDay } from "@/lib/types";
 
 export default function MarseilleCalendrier({
   serverMovies,
   allMovies,
   title,
 }: {
-  serverMovies: Promise<MovieWithScreenings[] | MovieWithScreeningsByDay[]>;
+  serverMovies: Promise<MovieWithScreeningsOneDay[]>;
   allMovies?: boolean;
   title?: string;
 }) {
