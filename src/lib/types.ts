@@ -38,7 +38,7 @@ export interface MovieWithScreeningsOneDay extends MovieInfo {
   showtimes_theater: TheaterScreenings[];
 }
 
-export interface MovieWithScreeningsByDay extends MovieInfo {
+export interface MovieWithScreeningsSeveralDays extends MovieInfo {
   review_category?: string;
   showtimes_by_day: { [day: string]: TheaterScreenings[] };
 }

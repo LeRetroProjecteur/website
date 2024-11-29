@@ -14,8 +14,8 @@ import "server-only";
 import { getFirebase } from "./firebase";
 import {
   MovieDetail,
-  MovieWithScreeningsByDay,
   MovieWithScreeningsOneDay,
+  MovieWithScreeningsSeveralDays,
   Review,
   SearchMovie,
 } from "./types";
@@ -48,12 +48,12 @@ export const getWeekMovies = async () => {
       ([_, movies]) => movies[movieId] != null,
     );
 
-    const movie: MovieWithScreeningsByDay = {
+    const movie: MovieWithScreeningsSeveralDays = {
       ...daysShowing[0][1][movieId],
       showtimes_by_day: {},
     };
 
-    return daysShowing.reduce<MovieWithScreeningsByDay>(
+    return daysShowing.reduce<MovieWithScreeningsSeveralDays>(
       (movieWithAllDays, [day, movieOnDay]) => ({
         ...movieWithAllDays,
         showtimes_by_day: {

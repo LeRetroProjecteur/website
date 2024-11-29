@@ -12,7 +12,7 @@ import { transformZipcode } from "@/components/theaters/theaters";
 import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 import GetHTML from "@/components/util/get-html";
 import IFrame from "@/components/util/iframe";
-import { MovieWithScreeningsByDay, TheaterScreenings } from "@/lib/types";
+import { MovieWithScreeningsSeveralDays, TheaterScreenings } from "@/lib/types";
 import {
   checkNotNull,
   floatHourToString,
@@ -35,7 +35,7 @@ interface Inputs {
 export default function GenerateurSemaine({
   movies,
 }: {
-  movies: Promise<MovieWithScreeningsByDay[]>;
+  movies: Promise<MovieWithScreeningsSeveralDays[]>;
 }) {
   return (
     <>
@@ -52,7 +52,7 @@ export default function GenerateurSemaine({
 export function SemaineCinema({
   movies: moviesPromise,
 }: {
-  movies: Promise<MovieWithScreeningsByDay[]>;
+  movies: Promise<MovieWithScreeningsSeveralDays[]>;
 }) {
   const movies = use(moviesPromise);
   const { register, watch } = useForm<Inputs>();
@@ -139,7 +139,7 @@ export function DaysMovies({
 }: {
   week: DateTime[];
   dayValues: string[];
-  moviesById: { [key: string]: MovieWithScreeningsByDay };
+  moviesById: { [key: string]: MovieWithScreeningsSeveralDays };
 }) {
   return (
     <>
@@ -176,7 +176,7 @@ export function DayMovie({
   showtimesTheaters,
   isLast,
 }: {
-  movie: MovieWithScreeningsByDay;
+  movie: MovieWithScreeningsSeveralDays;
   day: DateTime;
   showtimesTheaters: TheaterScreenings[];
   isLast: boolean;

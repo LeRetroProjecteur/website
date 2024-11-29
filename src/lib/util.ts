@@ -8,8 +8,8 @@ import { Quartier } from "@/lib/calendrier-store";
 
 import {
   MovieInfo,
-  MovieWithScreeningsByDay,
   MovieWithScreeningsOneDay,
+  MovieWithScreeningsSeveralDays,
   TheaterScreenings,
 } from "./types";
 
@@ -185,14 +185,14 @@ export const blurProps: Partial<ComponentProps<typeof Image>> = {
 };
 
 export function isMovieWithShowtimesByDay(
-  movie: MovieWithScreeningsOneDay | MovieWithScreeningsByDay,
-): movie is MovieWithScreeningsByDay {
+  movie: MovieWithScreeningsOneDay | MovieWithScreeningsSeveralDays,
+): movie is MovieWithScreeningsSeveralDays {
   return "showtimes_by_day" in movie;
 }
 
 export function isMoviesWithShowtimesByDay(
-  movies: MovieWithScreeningsOneDay[] | MovieWithScreeningsByDay[],
-): movies is MovieWithScreeningsByDay[] {
+  movies: MovieWithScreeningsOneDay[] | MovieWithScreeningsSeveralDays[],
+): movies is MovieWithScreeningsSeveralDays[] {
   return some(movies, isMovieWithShowtimesByDay);
 }
 
