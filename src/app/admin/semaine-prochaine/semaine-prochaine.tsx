@@ -1,12 +1,16 @@
+"use client";
+
 import { flatten, groupBy, sortBy, uniq } from "lodash-es";
 import { Fragment, use, useMemo } from "react";
 
+import CalendarFilters from "@/app/(calendrier)/calendar-filters";
+import MovieTable from "@/app/(calendrier)/movie-table";
 import {
   transformZipcode,
   transformZipcodeToString,
 } from "@/components/theaters/theaters";
 import { SousTitre2 } from "@/components/typography/typography";
-import { MovieWithScreeningsByDay } from "@/lib/types";
+import { MovieWithScreenings, MovieWithScreeningsByDay } from "@/lib/types";
 
 type RetrospectiveItem = {
   director: string;
@@ -16,6 +20,21 @@ type RetrospectiveItem = {
     zipcode: string;
   }>;
 };
+
+export function CalendrierSemaineProchaine({
+  serverMovies,
+}: {
+  serverMovies: Promise<MovieWithScreenings[] | MovieWithScreeningsByDay[]>;
+}) {
+  return (
+    <>
+      <CalendarFilters withTimeSlider={false} withQuartierSelector={false} />
+      <div className="flex grow pt-18px lg:pt-28px">
+        <MovieTable serverMovies={serverMovies} allMovies={false} />
+      </div>
+    </>
+  );
+}
 
 export function Retrospectives({
   movies: moviesPromise,

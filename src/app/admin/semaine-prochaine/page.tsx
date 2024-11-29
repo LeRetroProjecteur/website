@@ -1,11 +1,11 @@
-import FilterBar from "@/app/(calendrier)/filter-bar";
-import { Retrospectives } from "@/app/admin/semaine-prochaine/semaine-prochaine";
+import {
+  CalendrierSemaineProchaine,
+  Retrospectives,
+} from "@/app/admin/semaine-prochaine/semaine-prochaine";
 import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
 import { getWeekMovies } from "@/lib/movies";
 import { formatLundi1Janvier, getNextMovieWeek } from "@/lib/util";
-
-import MovieTable from "../../(calendrier)/movie-table";
 
 export const dynamic = "force-dynamic";
 
@@ -23,14 +23,7 @@ export default function SemainePage() {
         </SousTitre1>
       </PageHeader>
       <div className="flex grow flex-col pb-10px lg:pl-20px">
-        <div className="flex flex-col lg:flex-row">
-          <div className="flex pt-15px lg:grow lg:pt-0">
-            <FilterBar />
-          </div>
-        </div>
-        <div className="flex grow pt-18px lg:pt-28px">
-          <MovieTable serverMovies={serverMovies} allMovies={false} />
-        </div>
+        <CalendrierSemaineProchaine serverMovies={serverMovies} />
         <div className="flex grow flex-col">
           <div className="flex flex-col pt-44px">
             <Retrospectives movies={serverMovies} />
