@@ -9,7 +9,7 @@ import TimeSlider from "@/app/(calendrier)/time-slider";
 import PageHeader from "@/components/layout/page-header";
 import { MovieWithScreenings, MovieWithScreeningsByDay } from "@/lib/types";
 
-import Filter from "./filter";
+import FilterBar from "./filter-bar";
 import MovieTable from "./movie-table";
 import QuartierSelectorToggler from "./quartier-selector-toggler";
 
@@ -50,7 +50,7 @@ export default function Calendrier({
               <Events />
             </div>
             <div className="flex grow">
-              <Filter />
+              <FilterBar />
             </div>
           </div>
           {isQuartierSelectorOpen && (
@@ -77,7 +77,7 @@ export default function Calendrier({
             </div>
           )}
           <div className="flex grow pt-15px">
-            <Filter />
+            <FilterBar />
           </div>
         </div>
         <div className="flex grow pt-18px lg:pt-28px">

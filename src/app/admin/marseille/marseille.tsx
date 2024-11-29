@@ -1,7 +1,7 @@
 "use client";
 
 import DateSelector from "@/app/(calendrier)/date-selector";
-import Filter from "@/app/(calendrier)/filter";
+import FilterBar from "@/app/(calendrier)/filter-bar";
 import MovieTable from "@/app/(calendrier)/movie-table";
 import TimeSlider from "@/app/(calendrier)/time-slider";
 import PageHeader from "@/components/layout/page-header";
@@ -27,7 +27,7 @@ export default function MarseilleCalendrier({
         <TimeSlider />
         <div className="flex flex-col lg:flex-row">
           <div className="flex grow pt-15px lg:pt-0">
-            <Filter />
+            <FilterBar />
           </div>
         </div>
         <div className="flex grow pt-18px lg:pt-28px">
