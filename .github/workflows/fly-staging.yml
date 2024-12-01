@@ -2,7 +2,7 @@ name: Fly Deploy (staging)
 on:
   push:
     branches:
-      - ugo/change-hook-url
+      - ugo/submit-screenings-work-locally
 jobs:
   deploy:
     name: Deploy app
