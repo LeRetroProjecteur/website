@@ -388,8 +388,8 @@ export default function Sondage2024({
                     />
                     <label className="pb-10px font-bold">
                       Je souhaite m&apos;inscrire à la newsletter du Rétro
-                      Projecteur pour recevoir l&apos;actualité des
-                      ressorties cinéma chaque semaine !
+                      Projecteur pour recevoir l&apos;actualité des ressorties
+                      cinéma chaque semaine !
                     </label>
                   </div>
                   {newsletter && (
