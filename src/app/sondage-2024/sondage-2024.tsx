@@ -41,41 +41,81 @@ function Button({
 
 function NumberInCircle({ number }: { number: number }) {
   return (
-    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-retro-green">
-      <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform font-bold">
-        {number}
-      </div>
+    <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-retro-green">
+      <span className="text-center font-bold">{number}</span>
     </div>
   );
 }
 
+const SHARE_CONFIG = {
+  // Sizes for ≤ 5 movies
+  small: {
+    height: 500, // px
+    width: 450, // px
+  },
+  // Sizes for > 5 movies
+  large: {
+    height: 700, // px
+    width: 450, // px
+  },
+  // Common padding and spacing values
+  spacing: {
+    bottomPadding: 5, // px - padding before logo section
+    movieGap: 7, // px - gap between movies
+    contentPadding: 12, // px - padding around content
+  },
+} as const;
+
 function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
+  const filteredMovies = rowsData.filter((row) => row.movie !== "");
+  const isLargeSize = filteredMovies.length > 5;
+
+  const containerSize = isLargeSize ? SHARE_CONFIG.large : SHARE_CONFIG.small;
+
   return (
-    <div className="max-w-450px rounded-lg border border-retro-gray bg-retro-green p-10px">
+    <div
+      className={`w-[${containerSize.width}px] h-[${containerSize.height}px] rounded-lg border border-retro-gray bg-retro-green`}
+      style={{
+        padding: SHARE_CONFIG.spacing.contentPadding,
+        width: containerSize.width,
+        height: containerSize.height,
+      }}
+    >
       <h2 className="pb-7px text-center text-xl font-bold">
         Ma Rétrospective 2024
       </h2>
       {fullName && <p className="pb-5px text-center">Par {fullName}</p>}
-      <div className="flex flex-col gap-y-5px px-10px">
-        {rowsData
-          .filter((row) => row.movie !== "")
-          .map((row, index) => (
-            <div
-              key={index}
-              className="rounded-lg bg-white px-10px py-5px shadow"
-            >
-              <div className="flex items-center">
-                <div className="relative">
-                  <NumberInCircle number={index + 1} />
-                </div>
-                <div className="flex grow flex-col pl-10px">
-                  <div className="font-bold">{row.movie}</div>
-                </div>
+
+      {/* Movies list with configured gap */}
+      <div
+        className="flex flex-col px-10px"
+        style={{
+          height: `calc(100% - 120px)`,
+          gap: SHARE_CONFIG.spacing.movieGap,
+        }}
+      >
+        {filteredMovies.map((row, index) => (
+          <div
+            key={index}
+            className="rounded-lg bg-white px-10px py-5px shadow"
+          >
+            <div className="flex items-center">
+              <div className="relative">
+                <NumberInCircle number={index + 1} />
+              </div>
+              <div className="flex grow flex-col pl-10px">
+                <div className="font-bold">{row.movie}</div>
               </div>
             </div>
-          ))}
+          </div>
+        ))}
       </div>
-      <div className="flex items-end justify-between pt-7px">
+
+      {/* Logo section with configured padding */}
+      <div
+        className="mt-auto flex items-end justify-between"
+        style={{ paddingTop: SHARE_CONFIG.spacing.bottomPadding }}
+      >
         <Image
           src="/img/logo-gray.svg"
           alt="Logo"
