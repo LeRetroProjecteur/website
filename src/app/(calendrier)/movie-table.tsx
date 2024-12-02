@@ -297,7 +297,10 @@ function filterAndSortMovies(
             Object.entries(movie.showtimes_by_day)
               .map(([day, showtimes]) => [
                 day,
-                filterNeighborhoods(showtimes, quartiers),
+                filterNeighborhoods(
+                  filterTimes(showtimes, 0, 24, events),
+                  quartiers,
+                ),
               ])
               .filter(([_, showtimes]) => showtimes.length > 0),
           ),
