@@ -272,6 +272,28 @@ async function sendScreeningsToDatabase(
       );
     }
 
+    // Format showtimes for Slack
+    const showtimesText = rowsData
+      .filter((row) => row.movie && row.date)
+      .map((row) => `${row.movie} - ${row.date} ${row.time}`)
+      .join("\n");
+    const warningMessage = `*Nouvelles séances ajoutées*\n\n*Cinéma:* ${
+      theaterData.name
+    }\n\n*Séances:*\n${showtimesText}\n\n*Commentaires:* ${
+      comments || "Aucun"
+    }`;
+    const slackEndpoint =
+      "https://europe-west1-website-cine.cloudfunctions.net/trigger_send_warning";
+    await fetch(
+      `${slackEndpoint}?warning=${encodeURIComponent(
+        warningMessage,
+      )}&type=submit_screenings`,
+      {
+        method: "GET",
+        mode: "cors",
+      },
+    );
+
     setResponseMessage("Données envoyées avec succès!");
     setShowSharePage(true);
   } catch (error) {

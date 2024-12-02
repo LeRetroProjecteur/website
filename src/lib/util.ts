@@ -8,10 +8,8 @@ import { Quartier } from "@/lib/calendrier-store";
 
 import {
   MovieInfo,
-  MovieWithNoScreenings,
-  MovieWithScreenings,
-  MovieWithScreeningsByDay,
-  Review,
+  MovieWithScreeningsOneDay,
+  MovieWithScreeningsSeveralDays,
   TheaterScreenings,
 } from "./types";
 
@@ -94,7 +92,7 @@ export function stringMatchFields(keywords: string[], searchFields: string[]) {
 }
 
 export function movieInfoContainsFilteringTerm(
-  movie: MovieWithNoScreenings | Review,
+  movie: MovieInfo,
   filteringTerm: string,
 ) {
   if (filteringTerm.slice(-1) === "|") {
@@ -173,10 +171,6 @@ export function getImageUrl({ id }: { id: string }) {
   return `https://firebasestorage.googleapis.com/v0/b/website-cine.appspot.com/o/images%2F${id}.jpg?alt=media`;
 }
 
-export function getReviewSortKey(review: Review) {
-  return `${formatYYYYMMDD(safeDate(review.review_date))}-${review.id}`;
-}
-
 export const blurProps: Partial<ComponentProps<typeof Image>> = {
   placeholder: "blur",
   blurDataURL:
@@ -190,16 +184,16 @@ export const blurProps: Partial<ComponentProps<typeof Image>> = {
     1QV4EOFwAAAA1JREFUCNdj+PJ/+38ACT8DquQRMKUAAAAASUVORK5CYII=",
 };
 
-export function isMovieWithShowtimesByDay(
-  movie: MovieWithNoScreenings,
-): movie is MovieWithScreeningsByDay {
+export function isMovieWithShowtimesSeveralDays(
+  movie: MovieWithScreeningsOneDay | MovieWithScreeningsSeveralDays,
+): movie is MovieWithScreeningsSeveralDays {
   return "showtimes_by_day" in movie;
 }
 
-export function isMoviesWithShowtimesByDay(
-  movies: MovieWithScreenings[] | MovieWithScreeningsByDay[],
-): movies is MovieWithScreeningsByDay[] {
-  return some(movies, isMovieWithShowtimesByDay);
+export function isMoviesWithShowtimesSeveralDays(
+  movies: MovieWithScreeningsOneDay[] | MovieWithScreeningsSeveralDays[],
+): movies is MovieWithScreeningsSeveralDays[] {
+  return some(movies, isMovieWithShowtimesSeveralDays);
 }
 
 export function getRealMinHour(date: DateTime, minHour: number) {

@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { size, sortBy } from "lodash-es";
+import { sortBy } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
 import React, { ReactNode, use, useEffect, useMemo } from "react";
@@ -13,9 +13,8 @@ import Seances from "@/components/seances/seances";
 import { CalendrierCopy, SousTitre2 } from "@/components/typography/typography";
 import { Quartier, useCalendrierStore } from "@/lib/calendrier-store";
 import {
-  MovieWithNoScreenings,
-  MovieWithScreenings,
-  MovieWithScreeningsByDay,
+  MovieWithScreeningsOneDay,
+  MovieWithScreeningsSeveralDays,
 } from "@/lib/types";
 import {
   checkNotNull,
@@ -27,8 +26,8 @@ import {
   getRealMinHour,
   getStartOfTodayInParis,
   isCoupDeCoeur,
-  isMovieWithShowtimesByDay,
-  isMoviesWithShowtimesByDay,
+  isMovieWithShowtimesSeveralDays,
+  isMoviesWithShowtimesSeveralDays,
   movieInfoContainsFilteringTerm,
 } from "@/lib/util";
 
@@ -39,7 +38,9 @@ export default function MovieTable({
   allMovies,
   marseille,
 }: {
-  serverMovies: Promise<MovieWithScreenings[] | MovieWithScreeningsByDay[]>;
+  serverMovies: Promise<
+    MovieWithScreeningsOneDay[] | MovieWithScreeningsSeveralDays[]
+  >;
   allMovies?: boolean;
   marseille?: boolean;
 }) {
@@ -61,7 +62,7 @@ export default function MovieTable({
       : `/api/movies/by-day/${formatYYYYMMDD(date)}`;
 
   const { data: clientMovies, isLoading } = useSWR<
-    MovieWithScreenings[] | MovieWithScreeningsByDay[]
+    MovieWithScreeningsOneDay[] | MovieWithScreeningsSeveralDays[]
   >(useClientData ? url : false, fetcher);
 
   const minHourFilteringTodaysMissedFilms = useMemo(
@@ -128,8 +129,10 @@ function LoadedTable({
   filter,
   events,
 }: {
-  serverMovies: Promise<MovieWithScreenings[] | MovieWithScreeningsByDay[]>;
-  clientMovies?: MovieWithScreenings[] | MovieWithScreeningsByDay[];
+  serverMovies: Promise<
+    MovieWithScreeningsOneDay[] | MovieWithScreeningsSeveralDays[]
+  >;
+  clientMovies?: MovieWithScreeningsOneDay[] | MovieWithScreeningsSeveralDays[];
   useClientData: boolean;
   minHourFilteringTodaysMissedFilms: number;
   maxHour: number;
@@ -195,7 +198,7 @@ function EmptyTableState({ filter }: { filter: string }) {
 function MovieRows({
   movies,
 }: {
-  movies: MovieWithScreenings[] | MovieWithScreeningsByDay[];
+  movies: MovieWithScreeningsOneDay[] | MovieWithScreeningsSeveralDays[];
 }) {
   return movies.map((movie) => (
     <Row
@@ -205,7 +208,7 @@ function MovieRows({
       leftCol={<MovieCell movie={movie} />}
       rightCol={
         <div className="py-12px lg:py-17px">
-          {isMovieWithShowtimesByDay(movie) ? (
+          {isMovieWithShowtimesSeveralDays(movie) ? (
             <MultiDaySeances
               screenings={movie.showtimes_by_day}
               className="gap-y-10px"
@@ -252,7 +255,11 @@ function Row({
   );
 }
 
-function MovieCell({ movie }: { movie: MovieWithNoScreenings }) {
+function MovieCell({
+  movie,
+}: {
+  movie: MovieWithScreeningsOneDay | MovieWithScreeningsSeveralDays;
+}) {
   return (
     <Link href={`/film/${movie.id}`} className="block cursor-pointer">
       <div className="flex items-center">
@@ -275,22 +282,40 @@ function MovieCell({ movie }: { movie: MovieWithNoScreenings }) {
 }
 
 function filterAndSortMovies(
-  movies: MovieWithScreenings[] | MovieWithScreeningsByDay[],
+  movies: MovieWithScreeningsOneDay[] | MovieWithScreeningsSeveralDays[],
   minHourFilteringTodaysMissedFilms: number,
   maxHour: number,
   quartiers: Quartier[],
   filter: string,
   events: boolean,
 ) {
-  const moviesWithFilteredShowtimes = isMoviesWithShowtimesByDay(movies)
+  const moviesWithFilteredShowtimes = isMoviesWithShowtimesSeveralDays(movies)
     ? movies
-        .map((movie) => ({
+        .map<MovieWithScreeningsSeveralDays>((movie) => ({
+          ...movie,
+          showtimes_by_day: Object.fromEntries(
+            Object.entries(movie.showtimes_by_day)
+              .map(([day, showtimes]) => [
+                day,
+                filterNeighborhoods(
+                  filterTimes(showtimes, 0, 24, events),
+                  quartiers,
+                ),
+              ])
+              .filter(([_, showtimes]) => showtimes.length > 0),
+          ),
+        }))
+        .map<MovieWithScreeningsSeveralDays>((movie) => ({
           ...movie,
           showtimes_by_day: filterDates(movie.showtimes_by_day),
         }))
-        .filter((movie) => size(movie.showtimes_by_day) > 0)
+        .filter((movie) =>
+          Object.values(movie.showtimes_by_day).some(
+            (showtimes) => showtimes.length > 0,
+          ),
+        )
     : movies
-        .map<MovieWithScreenings>((movie) => ({
+        .map<MovieWithScreeningsOneDay>((movie) => ({
           ...movie,
           showtimes_theater: filterNeighborhoods(
             filterTimes(
@@ -315,6 +340,6 @@ function filterAndSortMovies(
   ]);
 
   return sortedFilteredMovies as
-    | MovieWithScreenings[]
-    | MovieWithScreeningsByDay[];
+    | MovieWithScreeningsOneDay[]
+    | MovieWithScreeningsSeveralDays[];
 }
