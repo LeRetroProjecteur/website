@@ -365,7 +365,7 @@ export default function Sondage2024({
       <PageHeader text="Ma Rétro 2024">
         <SousTitre1>Votez pour vos meilleures ressorties cinéma</SousTitre1>
       </PageHeader>
-      <ThreeColumnLayout type={"Sondage"} date={"10/12/2024"}>
+      <ThreeColumnLayout>
         <MiddleColumn>
           {showSharePage ? (
             <SharePage rowsData={rowsData} fullName={fullName} />
