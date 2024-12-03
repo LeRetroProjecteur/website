@@ -57,19 +57,9 @@ function NumberInCircle({ number }: { number: number }) {
 }
 
 const SHARE_CONFIG = {
-  // Sizes for ≤ 5 movies
-  small: {
-    height: 500, // px
-    width: 450, // px
-  },
-  // Sizes for > 5 movies
-  large: {
-    height: 750, // px
-    width: 500, // px
-  },
   // Common padding and spacing values
   spacing: {
-    bottomPadding: 5, // px - padding before logo section
+    bottomPadding: 30, // px - padding before logo section
     movieGap: 7, // px - gap between movies
     contentPadding: 12, // px - padding around content
   },
