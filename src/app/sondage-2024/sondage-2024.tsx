@@ -9,9 +9,11 @@ import { SearchResults } from "@/app/recherche/recherche";
 import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
-import { SousTitre1 } from "@/components/typography/typography";
+import { TextBox } from "@/components/layout/text-boxes";
+import { SousTitre1, SousTitre2 } from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
 
+import { MiddleColumn, ThreeColumnLayout } from "../actualites/components";
 import LoadingPage from "../loading";
 
 interface ShareableContentProps {
@@ -30,12 +32,13 @@ function Button({
   onClickFunction: () => void;
 }) {
   return (
-    <button
-      onClick={onClickFunction}
-      className="border bg-retro-green p-15px font-bold"
-    >
-      {text}
-    </button>
+    <div className="flex grow flex-col pt-20px">
+      <button onClick={onClickFunction}>
+        <TextBox bgColor={"retro-gray"} textColor={"retro-white"}>
+          <div> {text.toUpperCase()}</div>
+        </TextBox>
+      </button>
+    </div>
   );
 }
 
@@ -74,7 +77,7 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
 
   return (
     <div
-      className={`w-[${containerSize.width}px] h-[${containerSize.height}px] rounded-lg border border-retro-gray bg-retro-green`}
+      className={`w-[${containerSize.width}px] h-[${containerSize.height}px] bg-retro-green`}
       style={{
         padding: SHARE_CONFIG.spacing.contentPadding,
         width: containerSize.width,
@@ -85,7 +88,6 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
         Ma Rétrospective 2024
       </h2>
       {fullName && <p className="pb-5px text-center">Par {fullName}</p>}
-
       {/* Movies list with configured gap */}
       <div
         className="flex flex-col px-10px"
@@ -110,7 +112,6 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
           </div>
         ))}
       </div>
-
       {/* Logo section with configured padding */}
       <div
         className="mt-auto flex items-end justify-between"
@@ -154,29 +155,29 @@ function SharePage({ rowsData, fullName }: ShareableContentProps) {
     }
   };
   return (
-    <div className="flex flex-col items-center justify-center py-10">
-      <div className="flex grow" id="shareableContent">
+    <>
+      <div className="flex grow justify-center pb-20px" id="shareableContent">
         <ShareableContent rowsData={rowsData} fullName={fullName} />
       </div>
-      <h2 className="pb-10px pt-30px text-2xl font-bold tracking-wide">
-        Partagez votre rétrospective !
-      </h2>
-      <div className="flex gap-x-10px">
-        <Button
-          text="Modifier ma rétrospective"
-          onClickFunction={() => (window.location.href = "/sondage-2024")}
-        />
-        <Button text="Télécharger" onClickFunction={handleDownload} />
+      <div className="border-t pt-20px">
+        Merci pour votre participation&nbsp;! N&apos;hésitez pas à partager
+        votre rétrospective 2024 et à encourager vos ami.e.s à venir
+        voter&nbsp;!
       </div>
-    </div>
+      <Button
+        text="Modifier ma rétrospective"
+        onClickFunction={() => (window.location.href = "/sondage-2024")}
+      />
+      <Button text="Télécharger" onClickFunction={handleDownload} />
+    </>
   );
 }
 
 function SondageRow({ cell1, cell2 }: { cell1: ReactNode; cell2: ReactNode }) {
   return (
-    <div className="flex items-center">
-      <div className="w-30px px-4px py-5px lg:w-40px">{cell1}</div>
-      <div className="flex grow basis-0 px-4px py-5px">{cell2}</div>
+    <div className="flex flex-wrap gap-x-10px">
+      <div className="w-48px">{cell1}</div>
+      <div className="flex grow basis-0">{cell2}</div>
     </div>
   );
 }
@@ -202,7 +203,7 @@ function MovieRow({
   return (
     <SondageRow
       cell1={
-        <div className="font-bold">
+        <div className="flex h-full items-center justify-center border text-center text-retro-gray">
           {index + 1}
           {index < 5 && <span className="text-retro-red">*</span>}
         </div>
@@ -214,7 +215,7 @@ function MovieRow({
             setValue={(st) => setSearchFind(st)}
             leftAlignPlaceholder
             customTypography
-            placeholder="Recherchez un film..."
+            placeholder={"Rechercher un film...".toUpperCase()}
             transparentPlaceholder
             className="flex grow"
           />
@@ -255,7 +256,7 @@ function OpenQuestion({
     <div className="flex flex-col pt-20px">
       <label className="pb-5px">{question}</label>
       <textarea
-        placeholder="Réponse facultative"
+        placeholder={"Réponse facultative".toUpperCase()}
         value={value}
         onChange={(e) => onChangeFunction(e.target.value)}
         className="h-[75px] resize-none p-10px"
@@ -276,12 +277,12 @@ function TextInputBox({
   className?: string;
 }) {
   return (
-    <div className={clsx(className, "flex flex-col pb-20px")}>
+    <div className={clsx(className, "flex flex-col py-20px")}>
       <input
         value={value}
         onChange={(e) => onChangeFunction(e.target.value)}
-        className="w-[300px] border p-10px"
-        placeholder={placeholder}
+        className="border p-10px"
+        placeholder={placeholder.toUpperCase()}
       />
     </div>
   );
@@ -308,7 +309,6 @@ export default function Sondage2024({
   const [email, setEmail] = useState("");
   const [newsletter, setNewsletter] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const updateRowData = (
     index: number,
     data: {
@@ -320,21 +320,17 @@ export default function Sondage2024({
     newRowsData[index] = data;
     setRowsData(newRowsData);
   };
-
   const handleSubmit = async () => {
-    if (isSubmitting) return; // Prevent double submission
     setIsSubmitting(true);
     try {
       const API_ENDPOINT =
         "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_poll_data_to_db";
-
       const transformedData = rowsData
         .filter((row) => row.movie !== "")
         .map((row) => ({
           movie: row.movie,
           id: row.id,
         }));
-
       const payload = {
         collection_name: "sondage-2024",
         votes: transformedData,
@@ -345,7 +341,6 @@ export default function Sondage2024({
         email: email,
         newsletter_signup: newsletter,
       };
-
       const response = await fetch(API_ENDPOINT, {
         method: "POST",
         headers: {
@@ -354,11 +349,9 @@ export default function Sondage2024({
         body: JSON.stringify(payload),
         mode: "cors",
       });
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
       setResponseMessage("Données envoyées avec succès!");
       setShowSharePage(true);
     } catch (error) {
@@ -372,84 +365,106 @@ export default function Sondage2024({
       <PageHeader text="Ma Rétro 2024">
         <SousTitre1>Votez pour vos meilleures ressorties cinéma</SousTitre1>
       </PageHeader>
-      {showSharePage ? (
-        <SharePage rowsData={rowsData} fullName={fullName} />
-      ) : (
-        <>
-          {isSubmitting ? (
-            <LoadingPage />
+      <ThreeColumnLayout>
+        <MiddleColumn>
+          {showSharePage ? (
+            <SharePage rowsData={rowsData} fullName={fullName} />
           ) : (
-            <div className="flex grow flex-col lg:pl-20px">
-              {/* Name */}
-              <TextInputBox
-                placeholder="Nom (facultatif)"
-                value={fullName}
-                onChangeFunction={setFullName}
-                className="flex justify-start pl-34px lg:pl-44px"
-              />
-              {/* Top */}
-              <SondageRow
-                cell1={<div className="font-bold">#</div>}
-                cell2={<div className="font-bold">Film</div>}
-              />
-              {rowsData.map((_, index) => (
-                <MovieRow
-                  key={index}
-                  index={index}
-                  allMoviesPromise={allMoviesPromise}
-                  onUpdate={(data) => updateRowData(index, data)}
-                />
-              ))}
-              <div className="px-34px pt-10px lg:px-44px">
-                {/* Additional Questions */}
-                <OpenQuestion
-                  question="Y a-t-il des films ou des réalisateurs·rices en particulier que vous aimeriez voir plus souvent programmé·e·s en salle&nbsp;?"
-                  value={real}
-                  onChangeFunction={setReal}
-                />
-                <OpenQuestion
-                  question="À combien estimez-vous le nombre de fois où vous êtes allé·e·s voir un film en ressortie au cinéma cette année&nbsp;?"
-                  value={nombreDeFois}
-                  onChangeFunction={setNombreDeFois}
-                />
-                <OpenQuestion
-                  question="Des retours supplémentaires sur notre projet ou sur notre site web&nbsp;?"
-                  value={autreInformation}
-                  onChangeFunction={setAutreInformation}
-                />
-                {/* Newsletter Signup */}
-                <div className="flex flex-col pt-30px">
-                  <div className="flex items-start gap-x-8px">
-                    <input
-                      type="checkbox"
-                      checked={newsletter}
-                      onChange={(e) => setNewsletter(e.target.checked)}
-                      className="mt-1"
-                    />
-                    <label className="pb-10px font-bold">
-                      Je souhaite m&apos;inscrire à la newsletter du Rétro
-                      Projecteur pour recevoir l&apos;actualité des ressorties
-                      cinéma chaque semaine !
-                    </label>
+            <>
+              {isSubmitting ? (
+                <LoadingPage />
+              ) : (
+                <>
+                  {/* Instructions */}
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
+                  laboris nisi ut aliquip ex ea commodo consequat.
+                  {/* Name */}
+                  <TextInputBox
+                    placeholder="Votre nom/pseudo (facultatif)"
+                    value={fullName}
+                    onChangeFunction={setFullName}
+                  />
+                  {/* Top */}
+                  <div className="flex flex-col gap-y-10px">
+                    <div className="border-y bg-retro-green uppercase text-retro-gray">
+                      <SondageRow
+                        cell1={
+                          <div className="py-6px text-center font-bold lg:py-17px">
+                            <SousTitre2>#</SousTitre2>
+                          </div>
+                        }
+                        cell2={
+                          <div className="py-6px text-center font-bold lg:py-17px">
+                            <SousTitre2>Film</SousTitre2>
+                          </div>
+                        }
+                      />
+                    </div>
+                    {rowsData.map((_, index) => (
+                      <MovieRow
+                        key={index}
+                        index={index}
+                        allMoviesPromise={allMoviesPromise}
+                        onUpdate={(data) => updateRowData(index, data)}
+                      />
+                    ))}
                   </div>
-                  {newsletter && (
-                    <TextInputBox
-                      placeholder="Votre adresse email"
-                      value={email}
-                      onChangeFunction={setEmail}
-                      className="pl-24px"
+                  <div className="pt-10px">
+                    {/* Additional Questions */}
+                    <OpenQuestion
+                      question="Y a-t-il des films ou des réalisateurs·rices en particulier que vous aimeriez voir plus souvent programmé·e·s en salle&nbsp;?"
+                      value={real}
+                      onChangeFunction={setReal}
                     />
-                  )}
-                </div>
-              </div>
-              <div className="mt-8 flex justify-center">
-                <Button text="ENVOYEZ !" onClickFunction={handleSubmit} />
-              </div>
-              <p className="mt-4 font-bold">{responseMessage}</p>
-            </div>
+                    <OpenQuestion
+                      question="À combien estimez-vous le nombre de fois où vous êtes allé·e·s voir un film en ressortie au cinéma cette année&nbsp;?"
+                      value={nombreDeFois}
+                      onChangeFunction={setNombreDeFois}
+                    />
+                    <OpenQuestion
+                      question="Des retours supplémentaires sur notre projet ou sur notre site web&nbsp;?"
+                      value={autreInformation}
+                      onChangeFunction={setAutreInformation}
+                    />
+                    {/* Newsletter Signup */}
+                    <div className="flex flex-col pt-30px">
+                      <div className="flex items-start gap-x-8px">
+                        <input
+                          type="checkbox"
+                          checked={newsletter}
+                          onChange={(e) => setNewsletter(e.target.checked)}
+                          className="mt-1 border text-retro-blue"
+                        />
+                        <label className="border bg-retro-blue p-5px uppercase text-retro-gray">
+                          Je souhaite m&apos;inscrire à «&nbsp;Up Close&nbsp;»,
+                          la newsletter hebdomadaire du Rétro Projecteur pour
+                          recevoir l&apos;actualité des ressorties cinéma chaque
+                          semaine&nbsp;!
+                        </label>
+                      </div>
+                      {newsletter && (
+                        <TextInputBox
+                          placeholder="Votre adresse email"
+                          value={email}
+                          onChangeFunction={setEmail}
+                          className="pl-24px"
+                        />
+                      )}
+                    </div>
+                  </div>
+                  <Button
+                    text="Envoyer mon top 2024&nbsp;!"
+                    onClickFunction={handleSubmit}
+                  />
+                  <p className="mt-4 font-bold">{responseMessage}</p>
+                </>
+              )}
+            </>
           )}
-        </>
-      )}
+        </MiddleColumn>
+      </ThreeColumnLayout>
     </>
   );
 }

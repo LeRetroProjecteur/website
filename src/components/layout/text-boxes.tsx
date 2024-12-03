@@ -9,9 +9,9 @@ export function TextBox({
   onClick,
 }: {
   children: ReactNode;
-  textColor?: "retro-gray" | "retro-black" | "retro-dark-blue";
+  textColor?: "retro-gray" | "retro-black" | "retro-dark-blue" | "retro-white";
   borderColor?: "retro-gray" | "retro-black" | "retro-dark-blue";
-  bgColor?: "retro-blue";
+  bgColor?: "retro-blue" | "retro-gray";
   onClick?: () => void;
 }) {
   return (
@@ -20,6 +20,7 @@ export function TextBox({
         "flex items-center justify-center border px-10px py-9px",
         {
           "bg-retro-blue": bgColor === "retro-blue",
+          "bg-retro-gray": bgColor === "retro-gray",
         },
         {
           "border-retro-gray": borderColor === "retro-gray",
@@ -35,6 +36,7 @@ export function TextBox({
           "text-retro-gray": textColor === "retro-gray",
           "text-retro-black": textColor === "retro-black",
           "text-retro-dark-blue": textColor === "retro-dark-blue",
+          "text-retro-white": textColor === "retro-white",
         })}
       >
         <div className="text-20px font-medium uppercase leading-21px">
