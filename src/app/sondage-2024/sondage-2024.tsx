@@ -27,15 +27,21 @@ interface ShareableContentProps {
 function Button({
   text,
   onClickFunction,
+  disabled = false,
 }: {
   text: string;
   onClickFunction: () => void;
+  disabled?: boolean;
 }) {
   return (
     <div className="flex grow flex-col pt-20px">
-      <button onClick={onClickFunction}>
+      <button
+        onClick={onClickFunction}
+        disabled={disabled}
+        className={`${disabled ? "cursor-not-allowed opacity-50" : ""}`}
+      >
         <TextBox bgColor={"retro-gray"} textColor={"retro-white"}>
-          <div> {text.toUpperCase()}</div>
+          <div>{text.toUpperCase()}</div>
         </TextBox>
       </button>
     </div>
@@ -58,8 +64,8 @@ const SHARE_CONFIG = {
   },
   // Sizes for > 5 movies
   large: {
-    height: 700, // px
-    width: 450, // px
+    height: 750, // px
+    width: 500, // px
   },
   // Common padding and spacing values
   spacing: {
@@ -321,6 +327,14 @@ export default function Sondage2024({
     setRowsData(newRowsData);
   };
   const handleSubmit = async () => {
+    // Check if at least one movie has been filled
+    const hasAtLeastOneMovie = rowsData.some((row) => row.movie.trim() !== "");
+
+    if (!hasAtLeastOneMovie) {
+      setResponseMessage("Veuillez sélectionner au moins un film.");
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       const API_ENDPOINT =
@@ -358,7 +372,7 @@ export default function Sondage2024({
       console.error("Error:", error);
       setResponseMessage("Erreur lors de l'envoi. Veuillez réessayer.");
     }
-    setIsSubmitting(false); // Reset submitting
+    setIsSubmitting(false);
   };
   return (
     <>
