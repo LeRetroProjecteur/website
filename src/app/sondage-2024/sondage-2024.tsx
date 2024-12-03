@@ -77,17 +77,12 @@ const SHARE_CONFIG = {
 
 function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
   const filteredMovies = rowsData.filter((row) => row.movie !== "");
-  const isLargeSize = filteredMovies.length > 5;
-
-  const containerSize = isLargeSize ? SHARE_CONFIG.large : SHARE_CONFIG.small;
 
   return (
     <div
-      className={`w-[${containerSize.width}px] h-[${containerSize.height}px] bg-retro-green`}
+      className="bg-retro-green"
       style={{
         padding: SHARE_CONFIG.spacing.contentPadding,
-        width: containerSize.width,
-        height: containerSize.height,
       }}
     >
       <h2 className="pb-7px text-center text-xl font-bold">
@@ -98,7 +93,6 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
       <div
         className="flex flex-col px-10px"
         style={{
-          height: `calc(100% - 120px)`,
           gap: SHARE_CONFIG.spacing.movieGap,
         }}
       >
