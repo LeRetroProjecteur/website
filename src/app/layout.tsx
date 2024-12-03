@@ -2,7 +2,6 @@ import { GoogleTagManager } from "@next/third-parties/google";
 import clsx from "clsx";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import Link from "next/link";
 import { ReactNode, StrictMode } from "react";
 
 import Footer from "@/components/layout/footer";
@@ -96,14 +95,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             "font-suisse text-retro-black",
           )}
         >
-          <div className="banner relative z-50 text-center">
-            <Link href={"/sondage-2024"}>
-              <p className="bg-retro-green">
-                Quelles ont été vos meilleures découvertes cinéma de
-                l&apos;année&nbsp;? Votez dans notre sondage&nbsp;!
-              </p>
-            </Link>
-          </div>
           <MenuWrapper>
             <Newsletter />
             <div className="flex grow flex-col pt-20px lg:pt-0">
