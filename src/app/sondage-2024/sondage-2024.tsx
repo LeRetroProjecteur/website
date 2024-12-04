@@ -16,12 +16,12 @@ import { SearchMovie } from "@/lib/types";
 import { MiddleColumn, ThreeColumnLayout } from "../actualites/components";
 import LoadingPage from "../loading";
 
-interface ShareableContentProps {
-  rowsData: {
-    movie: string;
-    id: string;
-  }[];
-  fullName: string;
+function NumberInCircle({ number }: { number: number }) {
+  return (
+    <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-retro-green">
+      <span className="text-center font-bold">{number}</span>
+    </div>
+  );
 }
 
 function Button({
@@ -48,12 +48,127 @@ function Button({
   );
 }
 
-function NumberInCircle({ number }: { number: number }) {
+function OpenQuestion({
+  question,
+  value,
+  onChangeFunction,
+}: {
+  question: string;
+  value: string;
+  onChangeFunction: React.Dispatch<React.SetStateAction<string>>;
+}) {
   return (
-    <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-retro-green">
-      <span className="text-center font-bold">{number}</span>
+    <div className="flex flex-col pt-20px">
+      <label className="pb-5px">{question}</label>
+      <textarea
+        placeholder={"Réponse facultative".toUpperCase()}
+        value={value}
+        onChange={(e) => onChangeFunction(e.target.value)}
+        className="h-[75px] resize-none p-10px"
+      />
     </div>
   );
+}
+
+function TextInputBox({
+  placeholder,
+  value,
+  onChangeFunction,
+  className,
+}: {
+  placeholder: string;
+  value: string;
+  onChangeFunction: React.Dispatch<React.SetStateAction<string>>;
+  className?: string;
+}) {
+  return (
+    <div className={clsx(className, "flex flex-col py-10px")}>
+      <input
+        value={value}
+        onChange={(e) => onChangeFunction(e.target.value)}
+        className="border p-10px"
+        placeholder={placeholder.toUpperCase()}
+      />
+    </div>
+  );
+}
+
+function SondageRow({ cell1, cell2 }: { cell1: ReactNode; cell2: ReactNode }) {
+  return (
+    <div className="flex flex-wrap gap-x-10px">
+      <div className="w-42px lg:w-48px">{cell1}</div>
+      <div className="flex grow basis-0">{cell2}</div>
+    </div>
+  );
+}
+
+function MovieRow({
+  index,
+  allMoviesPromise,
+  onUpdate,
+}: {
+  index: number;
+  allMoviesPromise: Promise<SearchMovie[]>;
+  onUpdate: (data: { movie: string; id: string }) => void;
+}) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [_, setMovieId] = useState("");
+  const [showResults, setShowResults] = useState(false);
+  const setSearchFind = (st: string, id: string = "") => {
+    setSearchTerm(st);
+    setMovieId(id);
+    setShowResults(true);
+    onUpdate({ movie: st, id: id });
+  };
+  return (
+    <SondageRow
+      cell1={
+        <div className="flex h-full items-center justify-center border text-center text-retro-gray">
+          {index + 1}
+          {index < 5 && <span className="text-retro-red">*</span>}
+        </div>
+      }
+      cell2={
+        <div className="flex grow flex-col">
+          <RetroInput
+            value={searchTerm}
+            setValue={(st) => setSearchFind(st)}
+            leftAlignPlaceholder
+            customTypography
+            placeholder={"Rechercher un film...".toUpperCase()}
+            transparentPlaceholder
+            className="flex grow"
+          />
+          <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
+            {showResults && (
+              <SearchResults
+                extraClass="text-left px-5px py-2px border-x border-b"
+                nbResults={5}
+                searchTerm={searchTerm}
+                allDataPromise={allMoviesPromise}
+                noResultsText="Aucun film trouvé dans la base de données, mais vous pouvez le renseigner manuellement."
+                onClick={(movie) => {
+                  setSearchFind(
+                    `${movie.title}, ${movie.directors} (${movie.year})`,
+                    movie.id,
+                  );
+                  setShowResults(false);
+                }}
+              />
+            )}
+          </SuspenseWithLoading>
+        </div>
+      }
+    />
+  );
+}
+
+interface ShareableContentProps {
+  rowsData: {
+    movie: string;
+    id: string;
+  }[];
+  fullName: string;
 }
 
 const SHARE_CONFIG = {
@@ -67,7 +182,6 @@ const SHARE_CONFIG = {
 
 function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
   const filteredMovies = rowsData.filter((row) => row.movie !== "");
-
   return (
     <div
       className="bg-retro-green"
@@ -163,121 +277,6 @@ function SharePage({ rowsData, fullName }: ShareableContentProps) {
   );
 }
 
-function SondageRow({ cell1, cell2 }: { cell1: ReactNode; cell2: ReactNode }) {
-  return (
-    <div className="flex flex-wrap gap-x-10px">
-      <div className="w-42px lg:w-48px">{cell1}</div>
-      <div className="flex grow basis-0">{cell2}</div>
-    </div>
-  );
-}
-
-function MovieRow({
-  index,
-  allMoviesPromise,
-  onUpdate,
-}: {
-  index: number;
-  allMoviesPromise: Promise<SearchMovie[]>;
-  onUpdate: (data: { movie: string; id: string }) => void;
-}) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [_, setMovieId] = useState("");
-  const [showResults, setShowResults] = useState(false);
-  const setSearchFind = (st: string, id: string = "") => {
-    setSearchTerm(st);
-    setMovieId(id);
-    setShowResults(true);
-    onUpdate({ movie: st, id: id });
-  };
-  return (
-    <SondageRow
-      cell1={
-        <div className="flex h-full items-center justify-center border text-center text-retro-gray">
-          {index + 1}
-          {index < 5 && <span className="text-retro-red">*</span>}
-        </div>
-      }
-      cell2={
-        <div className="flex grow flex-col">
-          <RetroInput
-            value={searchTerm}
-            setValue={(st) => setSearchFind(st)}
-            leftAlignPlaceholder
-            customTypography
-            placeholder={"Rechercher un film...".toUpperCase()}
-            transparentPlaceholder
-            className="flex grow"
-          />
-          <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
-            {showResults && (
-              <SearchResults
-                extraClass="text-left px-5px py-2px border-x border-b"
-                nbResults={5}
-                searchTerm={searchTerm}
-                allDataPromise={allMoviesPromise}
-                noResultsText="Aucun film trouvé dans la base de données, mais vous pouvez le renseigner manuellement."
-                onClick={(movie) => {
-                  setSearchFind(
-                    `${movie.title}, ${movie.directors} (${movie.year})`,
-                    movie.id,
-                  );
-                  setShowResults(false);
-                }}
-              />
-            )}
-          </SuspenseWithLoading>
-        </div>
-      }
-    />
-  );
-}
-
-function OpenQuestion({
-  question,
-  value,
-  onChangeFunction,
-}: {
-  question: string;
-  value: string;
-  onChangeFunction: React.Dispatch<React.SetStateAction<string>>;
-}) {
-  return (
-    <div className="flex flex-col pt-20px">
-      <label className="pb-5px">{question}</label>
-      <textarea
-        placeholder={"Réponse facultative".toUpperCase()}
-        value={value}
-        onChange={(e) => onChangeFunction(e.target.value)}
-        className="h-[75px] resize-none p-10px"
-      />
-    </div>
-  );
-}
-
-function TextInputBox({
-  placeholder,
-  value,
-  onChangeFunction,
-  className,
-}: {
-  placeholder: string;
-  value: string;
-  onChangeFunction: React.Dispatch<React.SetStateAction<string>>;
-  className?: string;
-}) {
-  return (
-    <div className={clsx(className, "flex flex-col py-10px")}>
-      <input
-        value={value}
-        onChange={(e) => onChangeFunction(e.target.value)}
-        className="border p-10px"
-        placeholder={placeholder.toUpperCase()}
-      />
-    </div>
-  );
-}
-
 export default function Sondage2024({
   allMoviesPromise,
 }: {
@@ -313,12 +312,10 @@ export default function Sondage2024({
   const handleSubmit = async () => {
     // Check if at least one movie has been filled
     const hasAtLeastOneMovie = rowsData.some((row) => row.movie.trim() !== "");
-
     if (!hasAtLeastOneMovie) {
       setResponseMessage("Veuillez sélectionner au moins un film.");
       return;
     }
-
     setIsSubmitting(true);
     try {
       const API_ENDPOINT =
