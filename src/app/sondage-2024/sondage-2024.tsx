@@ -16,14 +16,6 @@ import { SearchMovie } from "@/lib/types";
 import { MiddleColumn, ThreeColumnLayout } from "../actualites/components";
 import LoadingPage from "../loading";
 
-function NumberInCircle({ number }: { number: number }) {
-  return (
-    <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-retro-green">
-      <span className="text-center font-bold">{number}</span>
-    </div>
-  );
-}
-
 function Button({
   text,
   onClickFunction,
@@ -175,7 +167,7 @@ const SHARE_CONFIG = {
   // Common padding and spacing values
   spacing: {
     bottomPadding: 30, // px - padding before logo section
-    movieGap: 7, // px - gap between movies
+    movieGap: 0, // px - gap between movies
     contentPadding: 12, // px - padding around content
   },
 } as const;
@@ -183,52 +175,64 @@ const SHARE_CONFIG = {
 function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
   const filteredMovies = rowsData.filter((row) => row.movie !== "");
   return (
-    <div
-      className="bg-retro-green"
-      style={{
-        padding: SHARE_CONFIG.spacing.contentPadding,
-      }}
-    >
-      <h2 className="pb-7px text-center text-xl font-bold">
-        Ma Rétrospective 2024
-      </h2>
+    <div className="bg-retro-green">
+      <div
+        className="pb-7px text-center font-degular text-40px font-bold uppercase leading-35px text-retro-gray"
+        style={{
+          padding: SHARE_CONFIG.spacing.contentPadding,
+        }}
+      >
+        <div>Ma Rétrospective</div>
+        <div>2024</div>
+      </div>
       {fullName && <p className="pb-5px text-center">Par {fullName}</p>}
       {/* Movies list with configured gap */}
       <div
-        className="flex flex-col px-10px"
+        className="flex flex-col bg-retro-gray"
         style={{
           gap: SHARE_CONFIG.spacing.movieGap,
+          paddingLeft: SHARE_CONFIG.spacing.contentPadding,
+          paddingRight: SHARE_CONFIG.spacing.contentPadding,
         }}
       >
         {filteredMovies.map((row, index) => (
           <div
             key={index}
-            className="rounded-lg bg-white px-10px py-5px shadow"
+            className={clsx(
+              "flex w-full justify-center border-retro-green px-10px py-5px text-center text-retro-green",
+              index === 0
+                ? "border-b-[0.5px]"
+                : index === filteredMovies.length - 1
+                  ? "border-t-[0.5px]"
+                  : "border-y-[0.5px]",
+            )}
           >
-            <div className="flex items-center">
-              <div className="relative">
-                <NumberInCircle number={index + 1} />
-              </div>
-              <div className="flex grow flex-col pl-10px">
-                <div className="font-bold">{row.movie}</div>
-              </div>
-            </div>
+            {index + 1}. {row.movie}
           </div>
         ))}
       </div>
       {/* Logo section with configured padding */}
       <div
-        className="mt-auto flex items-end justify-between"
-        style={{ paddingTop: SHARE_CONFIG.spacing.bottomPadding }}
+        style={{
+          paddingTop: SHARE_CONFIG.spacing.bottomPadding,
+          padding: SHARE_CONFIG.spacing.contentPadding,
+        }}
       >
-        <Image
-          src="/img/logo-gray.svg"
-          alt="Logo"
-          width={34}
-          height={34}
-          className="h-auto w-157px max-w-[40%]"
-        />
-        <div className="font-bold text-retro-gray">#MaRétro2024</div>
+        <div className="items-top relative flex grow">
+          <div className="absolute text-retro-gray underline">Top 2024</div>
+          <div className="flex grow items-center justify-center">
+            <Image
+              src="/img/logo-gray.svg"
+              alt="Logo"
+              width={34}
+              height={34}
+              className="h-auto w-157px max-w-[40%]"
+            />
+          </div>
+          <div className="absolute right-0 text-retro-gray underline">
+            #MaRétro2024
+          </div>
+        </div>
       </div>
     </div>
   );
