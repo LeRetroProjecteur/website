@@ -166,7 +166,7 @@ function SharePage({ rowsData, fullName }: ShareableContentProps) {
 function SondageRow({ cell1, cell2 }: { cell1: ReactNode; cell2: ReactNode }) {
   return (
     <div className="flex flex-wrap gap-x-10px">
-      <div className="w-48px">{cell1}</div>
+      <div className="w-42px lg:w-48px">{cell1}</div>
       <div className="flex grow basis-0">{cell2}</div>
     </div>
   );
@@ -267,7 +267,7 @@ function TextInputBox({
   className?: string;
 }) {
   return (
-    <div className={clsx(className, "flex flex-col py-20px")}>
+    <div className={clsx(className, "flex flex-col py-10px")}>
       <input
         value={value}
         onChange={(e) => onChangeFunction(e.target.value)}
@@ -377,6 +377,7 @@ export default function Sondage2024({
                   placeholder="Votre nom/pseudo (facultatif)"
                   value={fullName}
                   onChangeFunction={setFullName}
+                  className="pb-20px"
                 />
                 {/* Top */}
                 <div className="flex flex-col gap-y-10px">
@@ -422,14 +423,17 @@ export default function Sondage2024({
                   />
                   {/* Newsletter Signup */}
                   <div className="flex flex-col pt-30px">
-                    <div className="flex items-start gap-x-8px">
-                      <input
-                        type="checkbox"
-                        checked={newsletter}
-                        onChange={(e) => setNewsletter(e.target.checked)}
-                        className="mt-1 border text-retro-blue"
-                      />
-                      <label className="border bg-retro-blue p-5px uppercase text-retro-gray">
+                    <div className="flex items-start gap-x-10px">
+                      <div
+                        onClick={() => setNewsletter(!newsletter)}
+                        className={clsx(
+                          "tw-ring-color-black flex h-42px min-w-42px cursor-pointer items-center justify-center border accent-black lg:h-48px lg:min-w-48px",
+                          newsletter ? "bg-retro-blue" : "text-retro-blue",
+                        )}
+                      >
+                        {newsletter && <p className="text-retro-gray">✓</p>}
+                      </div>
+                      <label className="border bg-retro-blue p-5px px-12px py-8px uppercase text-retro-gray">
                         Je souhaite m&apos;inscrire à «&nbsp;Up Close&nbsp;», la
                         newsletter hebdomadaire du Rétro Projecteur pour
                         recevoir l&apos;actualité des ressorties cinéma chaque
@@ -438,10 +442,9 @@ export default function Sondage2024({
                     </div>
                     {newsletter && (
                       <TextInputBox
-                        placeholder="Votre adresse email"
+                        placeholder="Votre adresse email*"
                         value={email}
                         onChangeFunction={setEmail}
-                        className="pl-24px"
                       />
                     )}
                   </div>
