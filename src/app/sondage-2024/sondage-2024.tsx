@@ -31,7 +31,7 @@ function Button({
         disabled={disabled}
         className={`${disabled ? "cursor-not-allowed opacity-50" : ""}`}
       >
-        <TextBox bgColor={"retro-gray"} textColor={"retro-white"}>
+        <TextBox className="bg-retro-gray text-retro-white">
           <div>{text.toUpperCase()}</div>
         </TextBox>
       </button>
@@ -252,7 +252,9 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
 function SharePage({ rowsData, fullName }: ShareableContentProps) {
   const handleDownload = async () => {
     try {
-      const element = document.querySelector(".shareable-inner-content");
+      const element = document.querySelector(
+        ".shareable-inner-content",
+      ) as HTMLElement;
       if (!element) return;
       const canvas = await html2canvas(element, {
         backgroundColor: null,
