@@ -152,9 +152,7 @@ const SHARE_CONFIG = {
 
 function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
   const filteredMovies = rowsData.filter((row) => row.movie !== "");
-  const cornerTextStyle =
-    "text-sm font-degular font-bold text-retro-gray underline uppercase";
-
+  const cornerTextStyle = "font-bold text-retro-gray underline uppercase";
   return (
     <div
       className="bg-retro-green"
@@ -167,12 +165,18 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
           padding: SHARE_CONFIG.spacing.contentPadding,
         }}
       >
-        <div className="flex items-start justify-between">
-          <div className={cornerTextStyle}>TOP 2024</div>
-          <div className="px-4 text-center font-degular text-40px font-bold uppercase leading-35px text-retro-gray">
-            Ma Rétro 2024
+        <div className="relative flex grow items-start">
+          <div className={`absolute left-0 top-0 ${cornerTextStyle}`}>
+            Top 2024
           </div>
-          {fullName && <div className={cornerTextStyle}>Par {fullName}</div>}
+          <div className="flex grow items-center justify-center text-center font-degular text-40px font-bold uppercase leading-35px text-retro-gray">
+            Ma Rétro
+            <br />
+            2024
+          </div>
+          <div className={`absolute right-0 top-0 ${cornerTextStyle}`}>
+            {fullName ? <>Par {fullName}</> : <>#MaRétro2024</>}
+          </div>
         </div>
       </div>
       <div
@@ -207,7 +211,7 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
       >
         <div className="relative flex grow items-end">
           <div className={`absolute bottom-0 left-0 ${cornerTextStyle}`}>
-            TOP 2024
+            Top 2024
           </div>
           <div className="flex grow items-center justify-center">
             <img
@@ -217,7 +221,7 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
             />
           </div>
           <div className={`absolute bottom-0 right-0 ${cornerTextStyle}`}>
-            #MARÉTRO2024
+            #MaRétro2024
           </div>
         </div>
       </div>
