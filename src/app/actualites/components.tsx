@@ -187,11 +187,7 @@ export function CTAs({ ctas }: { ctas: { link: string; text: ReactNode }[] }) {
       </div>
       <div className="mx-auto flex w-[75%] flex-col gap-y-10px lg:w-[50%]">
         {ctas.map((cta, i) => (
-          <TextBox
-            key={i}
-            className="bg-retro-blue text-retro-gray"
-            link={cta.link}
-          >
+          <TextBox key={i} className="bg-retro-blue" link={cta.link}>
             {cta.text}
           </TextBox>
         ))}

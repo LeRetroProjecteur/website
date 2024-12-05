@@ -22,22 +22,13 @@ function Description() {
 function Links() {
   return (
     <div className="flex grow flex-col gap-y-12px pb-10px lg:gap-y-10px lg:pb-0">
-      <TextBox
-        className="text-retro-gray"
-        link="https://www.instagram.com/leretroprojecteur"
-      >
+      <TextBox link="https://www.instagram.com/leretroprojecteur">
         <div>instagram</div>
       </TextBox>
-      <TextBox
-        className="text-retro-gray"
-        link="https://twitter.com/RetroProjecteur"
-      >
+      <TextBox link="https://twitter.com/RetroProjecteur">
         <div>twitter</div>
       </TextBox>
-      <TextBox
-        className="text-retro-gray"
-        link="https://www.facebook.com/profile.php?id=100086988852803"
-      >
+      <TextBox link="https://www.facebook.com/profile.php?id=100086988852803">
         <div>Facebook</div>
       </TextBox>
     </div>
