@@ -15,30 +15,6 @@ import { SearchMovie } from "@/lib/types";
 import { MiddleColumn, ThreeColumnLayout } from "../actualites/components";
 import LoadingPage from "../loading";
 
-function Button({
-  text,
-  onClickFunction,
-  disabled = false,
-}: {
-  text: string;
-  onClickFunction: () => void;
-  disabled?: boolean;
-}) {
-  return (
-    <div className="flex grow flex-col pt-20px">
-      <button
-        onClick={onClickFunction}
-        disabled={disabled}
-        className={`${disabled ? "cursor-not-allowed opacity-50" : ""}`}
-      >
-        <TextBox className="bg-retro-gray text-retro-white">
-          <div>{text.toUpperCase()}</div>
-        </TextBox>
-      </button>
-    </div>
-  );
-}
-
 function OpenQuestion({
   question,
   value,
@@ -282,16 +258,20 @@ function SharePage({ rowsData, fullName }: ShareableContentProps) {
           <ShareableContent rowsData={rowsData} fullName={fullName} />
         </div>
       </div>
-      <div className="border-t pt-20px">
+      <div className="border-t py-20px">
         Merci pour votre participation&nbsp;! N&apos;hésitez pas à partager
         votre rétrospective 2024 et à encourager vos ami.e.s à venir
         voter&nbsp;!
       </div>
-      <Button
-        text="Modifier ma rétrospective"
-        onClickFunction={() => (window.location.href = "/sondage-2024")}
-      />
-      <Button text="Télécharger" onClickFunction={handleDownload} />
+      <div className="flex flex-col gap-y-10px">
+        <TextBox link="/sondage-2024">Modifier ma rétrospective</TextBox>
+        <TextBox
+          onClick={handleDownload}
+          className="bg-retro-gray text-retro-white"
+        >
+          Télécharger
+        </TextBox>
+      </div>
     </>
   );
 }
@@ -439,7 +419,7 @@ export default function Sondage2024({
                     onChangeFunction={setAutreInformation}
                   />
                   {/* Newsletter Signup */}
-                  <div className="flex flex-col pt-30px">
+                  <div className="flex flex-col py-30px">
                     <div className="flex items-start gap-x-10px">
                       <div
                         onClick={() => setNewsletter(!newsletter)}
@@ -466,10 +446,12 @@ export default function Sondage2024({
                     )}
                   </div>
                 </div>
-                <Button
-                  text="Envoyer mon top 2024&nbsp;!"
-                  onClickFunction={handleSubmit}
-                />
+                <TextBox
+                  onClick={handleSubmit}
+                  className="bg-retro-gray text-retro-white"
+                >
+                  Envoyer mon top 2024&nbsp;!
+                </TextBox>
                 <p className="mt-4 font-bold">{responseMessage}</p>
               </>
             )}
