@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 import { TextBox } from "@/components/layout/text-boxes";
 import { TwoColumnPage } from "@/components/layout/two-column-page";
 import { BodyCopy } from "@/components/typography/typography";
@@ -24,21 +22,24 @@ function Description() {
 function Links() {
   return (
     <div className="flex grow flex-col gap-y-12px pb-10px lg:gap-y-10px lg:pb-0">
-      <Link href="https://www.instagram.com/leretroprojecteur">
-        <TextBox textColor={"retro-gray"}>
-          <div>instagram</div>
-        </TextBox>
-      </Link>
-      <Link href="https://twitter.com/RetroProjecteur">
-        <TextBox textColor={"retro-gray"}>
-          <div>twitter</div>
-        </TextBox>
-      </Link>
-      <Link href="https://www.facebook.com/profile.php?id=100086988852803">
-        <TextBox textColor={"retro-gray"}>
-          <div>Facebook</div>
-        </TextBox>
-      </Link>
+      <TextBox
+        className="text-retro-gray"
+        link="https://www.instagram.com/leretroprojecteur"
+      >
+        <div>instagram</div>
+      </TextBox>
+      <TextBox
+        className="text-retro-gray"
+        link="https://twitter.com/RetroProjecteur"
+      >
+        <div>twitter</div>
+      </TextBox>
+      <TextBox
+        className="text-retro-gray"
+        link="https://www.facebook.com/profile.php?id=100086988852803"
+      >
+        <div>Facebook</div>
+      </TextBox>
     </div>
   );
 }
