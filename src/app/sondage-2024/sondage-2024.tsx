@@ -109,11 +109,11 @@ function MovieRow({
           <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
             {showResults && (
               <SearchResults
-                extraClass="text-left px-5px py-2px border-x border-b"
+                className="border-x px-5px py-2px"
                 nbResults={5}
                 searchTerm={searchTerm}
                 allDataPromise={allMoviesPromise}
-                noResultsText="Aucun film trouvé dans la base de données, mais vous pouvez le renseigner manuellement."
+                noResultsText="Nous ne trouvons pas votre film, mais vous pouvez le renseigner manuellement."
                 onClick={(movie) => {
                   setSearchFind(
                     `${movie.title}, ${movie.directors} (${movie.year})`,
@@ -152,7 +152,7 @@ const SHARE_CONFIG = {
 
 function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
   const filteredMovies = rowsData.filter((row) => row.movie !== "");
-  const cornerTextStyle = "font-bold text-retro-gray underline uppercase";
+  const cornerTextStyle = "font-bold text-retro-gray underline";
   return (
     <div
       className="bg-retro-green"

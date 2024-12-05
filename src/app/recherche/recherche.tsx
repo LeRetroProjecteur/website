@@ -55,16 +55,12 @@ export default function Recherche({
     setSelected(undefined);
     setSearchTerm("");
   }, []);
-
   const onChangeSearchTerm = useCallback((s: string) => {
     setSelected(undefined);
     setSearchTerm(s);
   }, []);
-
   const searchTerm = useRechercheStore((s) => s.searchTerm);
-
   const router = useRouter();
-
   return (
     <>
       <FixedHeader disableBelowPadding className="lg:border-b lg:pb-20px">
@@ -97,11 +93,12 @@ export default function Recherche({
         >
           <SearchResults
             nbResults={50}
-            extraClass={
-              "border-b py-10px pl-5px text-15px font-medium uppercase leading-20px lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0"
+            className={
+              "py-10px pl-5px text-15px font-medium uppercase leading-20px lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0"
             }
             searchTerm={searchTerm}
             allDataPromise={allMoviesPromise}
+            verticalFooter
             onClick={(movie) => {
               router.push(`/film/${movie.id}`);
             }}
@@ -116,16 +113,18 @@ export function SearchResults({
   allDataPromise,
   searchTerm,
   nbResults,
-  extraClass,
+  verticalFooter,
   onClick,
   noResultsText = "Désolé, nous n'avons rien trouvé qui corresponde à votre recherche !",
+  className,
 }: {
   allDataPromise: Promise<SearchMovie[]>;
   searchTerm: string;
   nbResults: number;
-  extraClass?: string;
+  verticalFooter?: boolean;
   onClick?: (movie: SearchMovie) => void;
   noResultsText?: string;
+  className?: string;
 }) {
   const selected = useRechercheStore((s) => s.selected);
   const tags = useRechercheStore((s) => s.tags);
@@ -142,7 +141,6 @@ export function SearchResults({
   }, [allData]);
   const keywords = useMemo(() => getFields(searchTerm), [searchTerm]);
   const selectedRef: MutableRefObject<HTMLAnchorElement | null> = useRef(null);
-
   useEffect(() => {
     const curr = selectedRef.current;
     if (
@@ -153,7 +151,6 @@ export function SearchResults({
       curr.scrollIntoView({ block: "center" });
     }
   }, [selected]);
-
   const filtered = useMemo(
     () =>
       searchTerm.length > 0
@@ -170,7 +167,6 @@ export function SearchResults({
         : [],
     [allDataFields, searchTerm, keywords, tags, nbResults],
   );
-
   useEffect(() => {
     const keydown = (ev: KeyboardEvent) => {
       const selected = useRechercheStore.getState().selected;
@@ -189,7 +185,6 @@ export function SearchResults({
     addEventListener("keydown", keydown);
     return () => removeEventListener("keydown", keydown);
   }, [filtered, onClick]);
-
   return (
     searchTerm.length > 0 && (
       <div className="flex grow flex-col">
@@ -213,14 +208,16 @@ export function SearchResults({
                     "lg:bg-retro-pale-green": i === selected,
                     "lg:even:bg-white": i !== selected,
                   },
-                  "even:bg-retro-pale-green lg:hover:bg-retro-pale-green",
-                  extraClass,
+                  "border-x border-b even:bg-retro-pale-green lg:hover:bg-retro-pale-green",
+                  className,
                 )}
               >
                 <u>{elem.title}</u>, {elem.directors} ({elem.year})
               </Link>
             ))}
-            <div className="min-h-100px w-1/2 grow border-r lg:hidden" />
+            {verticalFooter && (
+              <div className="min-h-100px w-1/2 grow border-r lg:hidden" />
+            )}
           </>
         ) : (
           <div className="pt-15px lg:pt-20px">
@@ -276,7 +273,6 @@ export function TheaterSearchResults({
   }, [allData]);
   const keywords = useMemo(() => getFields(searchTerm), [searchTerm]);
   const selectedRef: MutableRefObject<HTMLAnchorElement | null> = useRef(null);
-
   useEffect(() => {
     const curr = selectedRef.current;
     if (
@@ -287,7 +283,6 @@ export function TheaterSearchResults({
       curr.scrollIntoView({ block: "center" });
     }
   }, [selected]);
-
   const filtered = useMemo(
     () =>
       searchTerm.length > 0
@@ -304,7 +299,6 @@ export function TheaterSearchResults({
         : [],
     [allDataFields, searchTerm, keywords, tags, nbResults],
   );
-
   useEffect(() => {
     const keydown = (ev: KeyboardEvent) => {
       const selected = useRechercheStore.getState().selected;
@@ -323,7 +317,6 @@ export function TheaterSearchResults({
     addEventListener("keydown", keydown);
     return () => removeEventListener("keydown", keydown);
   }, [filtered, onClick]);
-
   return (
     searchTerm.length > 0 && (
       <div className="flex grow flex-col">
