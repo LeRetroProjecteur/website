@@ -230,7 +230,7 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
           <div className="absolute text-retro-gray underline">Top 2024</div>
           <div className="flex grow items-center justify-center">
             <Image
-              src="/img/logo-gray.png"
+              src="/img/logo-gray.svg"
               alt="Logo"
               width={34}
               height={34}
@@ -249,7 +249,7 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
 function SharePage({ rowsData, fullName }: ShareableContentProps) {
   const handleDownload = async () => {
     try {
-      const element = document.getElementById("shareableContent");
+      const element = document.querySelector('.shareable-inner-content');
       if (!element) return;
       const canvas = await html2canvas(element, {
         backgroundColor: null,
@@ -272,8 +272,10 @@ function SharePage({ rowsData, fullName }: ShareableContentProps) {
   };
   return (
     <>
-      <div className="flex grow justify-center pb-20px" id="shareableContent">
-        <ShareableContent rowsData={rowsData} fullName={fullName} />
+      <div className="mx-auto w-fit pb-20px" id="shareableContent">
+        <div className="shareable-inner-content">
+          <ShareableContent rowsData={rowsData} fullName={fullName} />
+        </div>
       </div>
       <div className="border-t pt-20px">
         Merci pour votre participation&nbsp;! N&apos;hésitez pas à partager
