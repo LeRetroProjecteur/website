@@ -2,7 +2,6 @@
 
 import clsx from "clsx";
 import html2canvas from "html2canvas";
-import Image from "next/image";
 import React, { ReactNode, useState } from "react";
 
 import { SearchResults } from "@/app/recherche/recherche";
@@ -177,6 +176,9 @@ const SHARE_CONFIG = {
 
 function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
   const filteredMovies = rowsData.filter((row) => row.movie !== "");
+  const cornerTextStyle =
+    "text-sm font-degular font-bold text-retro-gray underline uppercase";
+
   return (
     <div
       className="bg-retro-green"
@@ -185,16 +187,18 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
       }}
     >
       <div
-        className="pb-7px text-center font-degular text-40px font-bold uppercase leading-35px text-retro-gray"
         style={{
           padding: SHARE_CONFIG.spacing.contentPadding,
         }}
       >
-        <div>Ma Rétrospective</div>
-        <div>2024</div>
+        <div className="flex items-start justify-between">
+          <div className={cornerTextStyle}>TOP 2024</div>
+          <div className="px-4 text-center font-degular text-40px font-bold uppercase leading-35px text-retro-gray">
+            Ma Rétro 2024
+          </div>
+          {fullName && <div className={cornerTextStyle}>Par {fullName}</div>}
+        </div>
       </div>
-      {fullName && <p className="pb-5px text-center">Par {fullName}</p>}
-      {/* Movies list with configured gap */}
       <div
         className="flex flex-col bg-retro-gray"
         style={{
@@ -219,26 +223,25 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
           </div>
         ))}
       </div>
-      {/* Logo section with configured padding */}
       <div
         style={{
           paddingTop: SHARE_CONFIG.spacing.bottomPadding,
           padding: SHARE_CONFIG.spacing.contentPadding,
         }}
       >
-        <div className="items-top relative flex grow">
-          <div className="absolute text-retro-gray underline">Top 2024</div>
+        <div className="relative flex grow items-end">
+          <div className={`absolute bottom-0 left-0 ${cornerTextStyle}`}>
+            TOP 2024
+          </div>
           <div className="flex grow items-center justify-center">
-            <Image
-              src="/img/logo-gray.svg"
+            <img
+              src="/img/logo-gray.png"
               alt="Logo"
-              width={34}
-              height={34}
               className="h-auto w-157px max-w-[40%]"
             />
           </div>
-          <div className="absolute right-0 text-retro-gray underline">
-            #MaRétro2024
+          <div className={`absolute bottom-0 right-0 ${cornerTextStyle}`}>
+            #MARÉTRO2024
           </div>
         </div>
       </div>
@@ -249,7 +252,7 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
 function SharePage({ rowsData, fullName }: ShareableContentProps) {
   const handleDownload = async () => {
     try {
-      const element = document.querySelector('.shareable-inner-content');
+      const element = document.querySelector(".shareable-inner-content");
       if (!element) return;
       const canvas = await html2canvas(element, {
         backgroundColor: null,
@@ -325,7 +328,8 @@ export default function Sondage2024({
   };
   const handleSubmit = async () => {
     // Check if at least one movie has been filled
-    const hasAtLeastTwoMovies = rowsData.filter((row) => row.movie.trim() !== "").length >= 2;
+    const hasAtLeastTwoMovies =
+      rowsData.filter((row) => row.movie.trim() !== "").length >= 2;
     if (!hasAtLeastTwoMovies) {
       setResponseMessage("Veuillez sélectionner au moins deux films.");
       return;
