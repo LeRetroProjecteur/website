@@ -170,12 +170,20 @@ const SHARE_CONFIG = {
     movieGap: 0, // px - gap between movies
     contentPadding: 12, // px - padding around content
   },
+  dimensions: {
+    width: 500, // px - fixed width for shareable content
+  },
 } as const;
 
 function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
   const filteredMovies = rowsData.filter((row) => row.movie !== "");
   return (
-    <div className="bg-retro-green">
+    <div
+      className="bg-retro-green"
+      style={{
+        width: SHARE_CONFIG.dimensions.width,
+      }}
+    >
       <div
         className="pb-7px text-center font-degular text-40px font-bold uppercase leading-35px text-retro-gray"
         style={{
@@ -222,7 +230,7 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
           <div className="absolute text-retro-gray underline">Top 2024</div>
           <div className="flex grow items-center justify-center">
             <Image
-              src="/img/logo-gray.svg"
+              src="/img/logo-gray.png"
               alt="Logo"
               width={34}
               height={34}
@@ -315,9 +323,9 @@ export default function Sondage2024({
   };
   const handleSubmit = async () => {
     // Check if at least one movie has been filled
-    const hasAtLeastOneMovie = rowsData.some((row) => row.movie.trim() !== "");
-    if (!hasAtLeastOneMovie) {
-      setResponseMessage("Veuillez sélectionner au moins un film.");
+    const hasAtLeastTwoMovies = rowsData.filter((row) => row.movie.trim() !== "").length >= 2;
+    if (!hasAtLeastTwoMovies) {
+      setResponseMessage("Veuillez sélectionner au moins deux films.");
       return;
     }
     setIsSubmitting(true);
