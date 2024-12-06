@@ -80,7 +80,6 @@ export default function Recherche({
             leftAlignPlaceholder
             transparentPlaceholder
             grayText
-            customHeight
             className="h-50px text-21px font-medium uppercase lg:h-57px lg:text-29px lg:tracking-[-0.01em]"
           />
         </div>

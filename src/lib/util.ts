@@ -62,15 +62,13 @@ export function getStartOfTodayInParis() {
 }
 
 export function cleanString(str: string) {
-  str = str
+  return str
     .normalize("NFD")
     .replaceAll("&", " and ")
     .replaceAll("’", "'")
     .replaceAll("'", " ")
     .replaceAll(/[^a-zA-Z0-9 #]|[\u0300-\u036f]/g, "")
-    .replaceAll(/\p{Diacritic}/gu, "")
     .toLowerCase();
-  return str;
 }
 
 function atLeastOneWordStartsWithSubstring(list: string[], substring: string) {
