@@ -137,10 +137,7 @@ interface ShareableContentProps {
 }
 
 const SHARE_CONFIG = {
-  // Common padding and spacing values
   spacing: {
-    bottomPadding: 30, // px - padding before logo section
-    movieGap: 0, // px - gap between movies
     contentPadding: 12, // px - padding around content
   },
 } as const;
@@ -149,7 +146,7 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
   const filteredMovies = rowsData.filter((row) => row.movie !== "");
   const cornerTextStyle = "font-bold text-retro-gray underline";
   return (
-    <div className="bg-retro-green">
+    <div className="w-[100%] bg-retro-green lg:w-500px">
       <div
         style={{
           padding: SHARE_CONFIG.spacing.contentPadding,
@@ -172,7 +169,6 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
       <div
         className="flex flex-col bg-retro-gray"
         style={{
-          gap: SHARE_CONFIG.spacing.movieGap,
           paddingLeft: SHARE_CONFIG.spacing.contentPadding,
           paddingRight: SHARE_CONFIG.spacing.contentPadding,
         }}
@@ -195,7 +191,6 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
       </div>
       <div
         style={{
-          paddingTop: SHARE_CONFIG.spacing.bottomPadding,
           padding: SHARE_CONFIG.spacing.contentPadding,
         }}
       >
@@ -222,10 +217,8 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
 function SharePage({ rowsData, fullName }: ShareableContentProps) {
   return (
     <>
-      <div className="mx-auto w-fit pb-20px" id="shareableContent">
-        <div className="shareable-inner-content">
-          <ShareableContent rowsData={rowsData} fullName={fullName} />
-        </div>
+      <div className="flex justify-center pb-20px" id="shareableContent">
+        <ShareableContent rowsData={rowsData} fullName={fullName} />
       </div>
       <div className="border-t py-20px">
         Merci pour votre participation&nbsp;! N&apos;hésitez pas à partager
