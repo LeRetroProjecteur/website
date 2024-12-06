@@ -144,7 +144,7 @@ const SHARE_CONFIG = {
 
 function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
   const filteredMovies = rowsData.filter((row) => row.movie !== "");
-  const cornerTextStyle = "font-bold text-retro-gray underline";
+  const cornerTextStyle = "font-bold text-retro-gray underline hidden lg:block";
   return (
     <div className="w-[100%] bg-retro-green lg:w-500px">
       <div
