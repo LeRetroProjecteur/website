@@ -1,6 +1,7 @@
 "use client";
 
 import clsx from "clsx";
+import html2canvas from "html2canvas";
 import React, { ReactNode, useState } from "react";
 
 import { SearchResults } from "@/app/recherche/recherche";
@@ -144,13 +145,21 @@ const SHARE_CONFIG = {
     movieGap: 0, // px - gap between movies
     contentPadding: 12, // px - padding around content
   },
+  dimensions: {
+    width: 500, // px - fixed width for shareable content
+  },
 } as const;
 
 function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
   const filteredMovies = rowsData.filter((row) => row.movie !== "");
   const cornerTextStyle = "font-bold text-retro-gray underline";
   return (
-    <div className="bg-retro-green">
+    <div
+      className="bg-retro-green"
+      style={{
+        width: SHARE_CONFIG.dimensions.width,
+      }}
+    >
       <div
         style={{
           padding: SHARE_CONFIG.spacing.contentPadding,
@@ -221,6 +230,31 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
 }
 
 function SharePage({ rowsData, fullName }: ShareableContentProps) {
+  const handleDownload = async () => {
+    try {
+      const element = document.querySelector(
+        ".shareable-inner-content",
+      ) as HTMLElement;
+      if (!element) return;
+      const canvas = await html2canvas(element, {
+        backgroundColor: null,
+        scale: 2,
+        useCORS: true,
+        logging: true,
+      });
+      // Open image in new tab instead of direct download
+      canvas.toBlob((blob) => {
+        if (blob) {
+          const url = URL.createObjectURL(blob);
+          window.open(url, "_blank");
+          // Clean up the URL after the window is opened
+          URL.revokeObjectURL(url);
+        }
+      }, "image/png");
+    } catch (error) {
+      console.error("Error creating image:", error);
+    }
+  };
   return (
     <>
       <div className="mx-auto w-fit pb-20px" id="shareableContent">
@@ -235,6 +269,12 @@ function SharePage({ rowsData, fullName }: ShareableContentProps) {
       </div>
       <div className="flex flex-col gap-y-10px">
         <TextBox link="/sondage-2024">Modifier ma rétrospective</TextBox>
+        <TextBox
+          onClick={handleDownload}
+          className="bg-retro-gray text-retro-white"
+        >
+          Télécharger
+        </TextBox>
       </div>
     </>
   );
