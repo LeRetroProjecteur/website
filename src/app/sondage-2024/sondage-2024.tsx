@@ -89,7 +89,7 @@ function MovieRow({
   return (
     <SondageRow
       cell1={
-        <div className="flex h-full items-center justify-center border border-retro-bordeaux text-center">
+        <div className="flex h-full items-center justify-center border text-center text-retro-gray">
           {index + 1}
           {index < 5 && <span className="text-retro-red">*</span>}
         </div>
@@ -103,8 +103,6 @@ function MovieRow({
             customTypography
             placeholder={"Rechercher un film...".toUpperCase()}
             transparentPlaceholder
-            blue
-            className="border-retro-bordeaux"
           />
           <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
             {showResults && (
@@ -342,21 +340,17 @@ export default function Sondage2024({
                   className="pb-20px"
                 />
                 {/* Top */}
-                <div className="flex flex-col gap-y-10px border-retro-bordeaux text-retro-bordeaux">
-                  <div className="border-y border-inherit bg-retro-blue uppercase">
+                <div className="flex flex-col gap-y-10px">
+                  <div className="border-y bg-retro-green uppercase">
                     <SondageRow
                       cell1={
                         <div className="py-6px text-center font-bold lg:py-17px">
-                          <SousTitre2>
-                            <div className="text-retro-bordeaux">#</div>
-                          </SousTitre2>
+                          <SousTitre2>#</SousTitre2>
                         </div>
                       }
                       cell2={
                         <div className="py-6px text-center font-bold lg:py-17px">
-                          <SousTitre2>
-                            <div className="text-retro-bordeaux">Film</div>
-                          </SousTitre2>
+                          <SousTitre2>Film</SousTitre2>
                         </div>
                       }
                     />
@@ -417,7 +411,7 @@ export default function Sondage2024({
                 </div>
                 <TextBox
                   onClick={handleSubmit}
-                  className="bg-retro-bordeaux text-retro-white"
+                  className="bg-retro-gray text-retro-white"
                 >
                   Envoyer mon top 2024&nbsp;!
                 </TextBox>
