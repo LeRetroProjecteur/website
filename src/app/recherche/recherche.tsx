@@ -116,6 +116,7 @@ export function SearchResults({
   onClick,
   noResultsText = "Désolé, nous n'avons rien trouvé qui corresponde à votre recherche !",
   className,
+  lowercase = false,
 }: {
   allDataPromise: Promise<SearchMovie[]>;
   searchTerm: string;
@@ -124,6 +125,7 @@ export function SearchResults({
   onClick?: (movie: SearchMovie) => void;
   noResultsText?: string;
   className?: string;
+  lowercase?: boolean;
 }) {
   const selected = useRechercheStore((s) => s.selected);
   const tags = useRechercheStore((s) => s.tags);
@@ -220,7 +222,7 @@ export function SearchResults({
           </>
         ) : (
           <div className="pt-15px lg:pt-20px">
-            <MetaCopy>{noResultsText}</MetaCopy>
+            <MetaCopy lowercase={lowercase}>{noResultsText}</MetaCopy>
           </div>
         )}
       </div>

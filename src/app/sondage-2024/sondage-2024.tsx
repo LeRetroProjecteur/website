@@ -89,9 +89,9 @@ function MovieRow({
   return (
     <SondageRow
       cell1={
-        <div className="flex h-full items-center justify-center border text-center text-retro-gray">
+        <div className="flex h-full items-center justify-center border text-center text-retro-bordeaux">
           {index + 1}
-          {index < 5 && <span className="text-retro-red">*</span>}
+          {index < 5 && <span className="text-retro-bordeaux">*</span>}
         </div>
       }
       cell2={
@@ -99,6 +99,7 @@ function MovieRow({
           <RetroInput
             value={searchTerm}
             setValue={(st) => setSearchFind(st)}
+            blue={true}
             leftAlignPlaceholder
             customTypography
             placeholder={"Rechercher un film...".toUpperCase()}
@@ -112,6 +113,7 @@ function MovieRow({
                 searchTerm={searchTerm}
                 allDataPromise={allMoviesPromise}
                 noResultsText="Nous ne trouvons pas votre film, mais vous pouvez le renseigner manuellement."
+                lowercase={true}
                 onClick={(movie) => {
                   setSearchFind(
                     `${movie.title}, ${movie.directors} (${movie.year})`,
@@ -138,15 +140,15 @@ interface ShareableContentProps {
 
 const SHARE_CONFIG = {
   spacing: {
-    contentPadding: 12, // px - padding around content
+    contentPadding: 16, // px - padding around content
   },
 } as const;
 
 function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
   const filteredMovies = rowsData.filter((row) => row.movie !== "");
-  const cornerTextStyle = "font-bold text-retro-gray underline hidden lg:block";
+  const cornerTextStyle = "font-bold text-retro-blue underline hidden lg:block";
   return (
-    <div className="w-[100%] bg-retro-green lg:w-500px">
+    <div className="w-[100%] bg-retro-bordeaux lg:w-500px">
       <div
         style={{
           padding: SHARE_CONFIG.spacing.contentPadding,
@@ -156,7 +158,7 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
           <div className={`absolute left-0 top-0 ${cornerTextStyle}`}>
             Top 2024
           </div>
-          <div className="flex grow items-center justify-center text-center font-degular text-40px font-bold uppercase leading-35px text-retro-gray">
+          <div className="flex grow items-center justify-center text-center font-degular text-40px font-bold uppercase leading-35px text-retro-blue">
             Ma Rétro
             <br />
             2024
@@ -167,7 +169,7 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
         </div>
       </div>
       <div
-        className="flex flex-col bg-retro-gray"
+        className="flex flex-col bg-retro-blue"
         style={{
           paddingLeft: SHARE_CONFIG.spacing.contentPadding,
           paddingRight: SHARE_CONFIG.spacing.contentPadding,
@@ -177,7 +179,7 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
           <div
             key={index}
             className={clsx(
-              "flex w-full justify-center border-retro-green px-10px py-5px text-center text-retro-green",
+              "flex w-full justify-center border-retro-bordeaux px-10px py-5px text-center text-retro-bordeaux",
               index === 0
                 ? "border-b-[0.5px]"
                 : index === filteredMovies.length - 1
@@ -200,7 +202,7 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
           </div>
           <div className="flex grow items-center justify-center">
             <img
-              src="/img/logo-gray.png"
+              src="/img/logo-blue.png"
               alt="Logo"
               className="h-auto w-157px max-w-[40%]"
             />
@@ -334,16 +336,18 @@ export default function Sondage2024({
                 />
                 {/* Top */}
                 <div className="flex flex-col gap-y-10px">
-                  <div className="border-y bg-retro-green uppercase">
+                  <div className="border-y bg-retro-blue uppercase">
                     <SondageRow
                       cell1={
-                        <div className="py-6px text-center font-bold lg:py-17px">
-                          <SousTitre2>#</SousTitre2>
+                        <div className="retro-bordeaux py-6px text-center font-bold lg:py-17px">
+                          <SousTitre2 textColor="retro-bordeaux">#</SousTitre2>
                         </div>
                       }
                       cell2={
                         <div className="py-6px text-center font-bold lg:py-17px">
-                          <SousTitre2>Film</SousTitre2>
+                          <SousTitre2 textColor="retro-bordeaux">
+                            Film
+                          </SousTitre2>
                         </div>
                       }
                     />
@@ -384,7 +388,7 @@ export default function Sondage2024({
                           newsletter ? "bg-retro-blue" : "text-retro-blue",
                         )}
                       >
-                        {newsletter && <p className="text-retro-gray">✓</p>}
+                        {newsletter && <p className="text-retro-blue">✓</p>}
                       </div>
                       <label className="border bg-retro-blue p-5px px-12px py-8px uppercase text-retro-gray">
                         Je souhaite m&apos;inscrire à «&nbsp;Up Close&nbsp;», la
