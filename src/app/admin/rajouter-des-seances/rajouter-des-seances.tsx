@@ -354,7 +354,7 @@ function ScreeningRow({
           <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
             {showResults && (
               <SearchResults
-                extraClass="text-left px-5px py-2px border-x border-b"
+                className="border-x px-5px py-2px"
                 nbResults={5}
                 searchTerm={searchTerm}
                 allDataPromise={allMoviesPromise}
