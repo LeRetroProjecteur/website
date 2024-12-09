@@ -7,7 +7,8 @@ import MaRetro2024 from "./ma-retro-2024";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Sondage Top 2024",
+  title: "Ma Rétrospective 2024",
+  description: "Votez pour vos meilleures découvertes de cinéma cette annéee !",
 };
 
 export default function SubmitScreeningsPage() {

@@ -117,6 +117,7 @@ export function SearchResults({
   noResultsText = "Désolé, nous n'avons rien trouvé qui corresponde à votre recherche !",
   className,
   lowercase = false,
+  altColor = "retro-pale-green",
 }: {
   allDataPromise: Promise<SearchMovie[]>;
   searchTerm: string;
@@ -126,6 +127,7 @@ export function SearchResults({
   noResultsText?: string;
   className?: string;
   lowercase?: boolean;
+  altColor?: string;
 }) {
   const selected = useRechercheStore((s) => s.selected);
   const tags = useRechercheStore((s) => s.tags);
@@ -206,10 +208,10 @@ export function SearchResults({
                 href=""
                 className={clsx(
                   {
-                    "lg:bg-retro-pale-green": i === selected,
+                    [`lg:bg-${altColor}`]: i === selected,
                     "lg:even:bg-white": i !== selected,
                   },
-                  "border-x border-b even:bg-retro-pale-green lg:hover:bg-retro-pale-green",
+                  `border-x border-b even:bg-${altColor} lg:hover:bg-${altColor}`,
                   className,
                 )}
               >

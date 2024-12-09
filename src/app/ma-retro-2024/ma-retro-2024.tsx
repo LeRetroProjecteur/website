@@ -108,6 +108,7 @@ function MovieRow({
           <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
             {showResults && (
               <SearchResults
+                altColor="retro-blue"
                 className="border-x px-5px py-2px"
                 nbResults={5}
                 searchTerm={searchTerm}
@@ -388,7 +389,7 @@ export default function MaRetro2024({
                           newsletter ? "bg-retro-blue" : "text-retro-blue",
                         )}
                       >
-                        {newsletter && <p className="text-retro-blue">✓</p>}
+                        {newsletter && <p className="text-retro-gray">✓</p>}
                       </div>
                       <label className="border bg-retro-blue p-5px px-12px py-8px uppercase text-retro-gray">
                         Je souhaite m&apos;inscrire à «&nbsp;Up Close&nbsp;», la
