@@ -234,7 +234,7 @@ function SharePage({ rowsData, fullName }: ShareableContentProps) {
   );
 }
 
-export default function Sondage2024({
+export default function MaRetro2024({
   allMoviesPromise,
 }: {
   allMoviesPromise: Promise<SearchMovie[]>;
