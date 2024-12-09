@@ -147,7 +147,9 @@ const SHARE_CONFIG = {
 
 function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
   const filteredMovies = rowsData.filter((row) => row.movie !== "");
-  const cornerTextStyle = "font-bold text-retro-blue underline hidden lg:block";
+  // const cornerTextStyle = "font-semi-bold text-retro-blue underline hidden lg:block uppercase";
+  const cornerTextStyle =
+    "font-semibold text-[13px] text-retro-blue underline hidden lg:block uppercase";
   return (
     <div className="w-[100%] bg-retro-bordeaux lg:w-500px">
       <div
