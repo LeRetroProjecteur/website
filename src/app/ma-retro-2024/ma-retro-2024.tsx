@@ -229,7 +229,7 @@ function SharePage({ rowsData, fullName }: ShareableContentProps) {
         voter&nbsp;!
       </div>
       <div className="flex flex-col gap-y-10px">
-        <TextBox link="/sondage-2024">Modifier ma rétrospective</TextBox>
+        <TextBox link="/ma-retro-2024">Modifier ma rétrospective</TextBox>
       </div>
     </>
   );
