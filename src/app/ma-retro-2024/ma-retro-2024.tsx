@@ -416,7 +416,7 @@ export default function MaRetro2024({
                 >
                   Envoyer mon top 2024&nbsp;!
                 </TextBox>
-                <p className="mt-4 font-bold">{responseMessage}</p>
+                <p className="mt-4 font-semibold">{responseMessage}</p>
               </>
             )}
           </MiddleColumn>
