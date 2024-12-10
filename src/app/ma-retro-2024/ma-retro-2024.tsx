@@ -387,7 +387,7 @@ export default function MaRetro2024({
                       <div
                         onClick={() => setNewsletter(!newsletter)}
                         className={clsx(
-                          "tw-ring-color-black flex h-42px min-w-42px cursor-pointer items-center justify-center border accent-black lg:h-48px lg:min-w-48px",
+                          "tw-ring-color-black min-w-25x flex h-25px cursor-pointer items-center justify-center border accent-black lg:h-30px lg:min-w-30px",
                           newsletter ? "bg-retro-blue" : "text-retro-blue",
                         )}
                       >
