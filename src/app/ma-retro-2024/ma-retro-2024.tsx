@@ -41,11 +41,13 @@ function TextInputBox({
   value,
   onChangeFunction,
   className,
+  maxLength,
 }: {
   placeholder: string;
   value: string;
   onChangeFunction: React.Dispatch<React.SetStateAction<string>>;
   className?: string;
+  maxLength?: number;
 }) {
   return (
     <div className={clsx(className, "flex flex-col py-10px")}>
@@ -54,6 +56,7 @@ function TextInputBox({
         onChange={(e) => onChangeFunction(e.target.value)}
         className="border p-10px"
         placeholder={placeholder.toUpperCase()}
+        maxLength={maxLength}
       />
     </div>
   );
@@ -268,7 +271,7 @@ export default function MaRetro2024({
     const hasAtLeastTwoMovies =
       rowsData.filter((row) => row.movie.trim() !== "").length >= 2;
     if (!hasAtLeastTwoMovies) {
-      setResponseMessage("Veuillez sélectionner au moins deux films.");
+      setResponseMessage("Veuillez sélectionner au moins cinq films.");
       return;
     }
     setIsSubmitting(true);
@@ -330,6 +333,7 @@ export default function MaRetro2024({
                   value={fullName}
                   onChangeFunction={setFullName}
                   className="pb-20px"
+                  maxLength={15}
                 />
                 {/* Top */}
                 <div className="flex flex-col gap-y-10px">
@@ -381,17 +385,18 @@ export default function MaRetro2024({
                       <div
                         onClick={() => setNewsletter(!newsletter)}
                         className={clsx(
-                          "tw-ring-color-black min-w-25x flex h-25px cursor-pointer items-center justify-center border accent-black lg:h-30px lg:min-w-30px",
-                          newsletter ? "bg-retro-blue" : "text-retro-blue",
+                          "flex h-20px min-w-[20px] cursor-pointer items-center justify-center border accent-black lg:h-30px lg:min-w-30px",
+                          newsletter
+                            ? "bg-retro-blue"
+                            : "bg-retro-blue text-retro-blue",
                         )}
                       >
                         {newsletter && <p className="text-retro-gray">✓</p>}
                       </div>
-                      <label className="border bg-retro-blue p-5px px-12px py-8px uppercase text-retro-gray">
+                      <label className="border bg-retro-blue p-5px px-12px py-8px text-retro-gray">
                         Je souhaite m&apos;inscrire à «&nbsp;Up Close&nbsp;», la
                         newsletter hebdomadaire du Rétro Projecteur pour
-                        recevoir l&apos;actualité des ressorties cinéma chaque
-                        semaine&nbsp;!
+                        recevoir l&apos;actualité des ressorties cinéma&nbsp;!
                       </label>
                     </div>
                     {newsletter && (
@@ -405,11 +410,11 @@ export default function MaRetro2024({
                 </div>
                 <TextBox
                   onClick={handleSubmit}
-                  className="bg-retro-gray text-retro-white"
+                  className="bg-retro-bordeaux text-retro-white"
                 >
                   Envoyer mon top 2024&nbsp;!
                 </TextBox>
-                <p className="mt-4 font-bold">{responseMessage}</p>
+                <p className="mt-4 font-semibold">{responseMessage}</p>
               </>
             )}
           </MiddleColumn>
