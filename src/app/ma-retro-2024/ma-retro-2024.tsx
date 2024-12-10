@@ -173,12 +173,12 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
           </div>
         </div>
       </div>
-      <div className="flex flex-col bg-retro-blue px-10px lg:px-16px">
+      <div className="flex flex-col bg-retro-blue px-10px py-10px lg:px-16px">
         {filteredMovies.map((row, index) => (
           <div
             key={index}
             className={clsx(
-              "flex w-full justify-center border-retro-bordeaux px-10px py-5px text-center text-retro-bordeaux",
+              "flex w-full justify-center border-retro-bordeaux px-10px py-6px text-center text-retro-bordeaux",
               index === 0
                 ? "border-b-[0.5px]"
                 : index === filteredMovies.length - 1
