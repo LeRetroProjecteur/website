@@ -115,6 +115,7 @@ export function SearchResults({
   verticalFooter,
   onClick,
   noResultsText = "Désolé, nous n'avons rien trouvé qui corresponde à votre recherche !",
+  noResultsTextSize = "default",
   className,
   lowercase = false,
   altColor = "retro-pale-green",
@@ -125,6 +126,7 @@ export function SearchResults({
   verticalFooter?: boolean;
   onClick?: (movie: SearchMovie) => void;
   noResultsText?: string;
+  noResultsTextSize?: "default" | "small" | "large";
   className?: string;
   lowercase?: boolean;
   altColor?: string;
@@ -224,7 +226,9 @@ export function SearchResults({
           </>
         ) : (
           <div className="pt-11px lg:pt-13px">
-            <MetaCopy lowercase={lowercase}>{noResultsText}</MetaCopy>
+            <MetaCopy lowercase={lowercase} size={noResultsTextSize}>
+              {noResultsText}
+            </MetaCopy>
           </div>
         )}
       </div>
