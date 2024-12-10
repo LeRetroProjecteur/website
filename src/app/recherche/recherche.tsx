@@ -114,6 +114,7 @@ export function SearchResults({
   nbResults,
   verticalFooter,
   onClick,
+  onClose,
   noResultsText = "Désolé, nous n'avons rien trouvé qui corresponde à votre recherche !",
   className,
   lowercase = false,
@@ -124,11 +125,13 @@ export function SearchResults({
   nbResults: number;
   verticalFooter?: boolean;
   onClick?: (movie: SearchMovie) => void;
+  onClose?: () => void;
   noResultsText?: string;
   className?: string;
   lowercase?: boolean;
   altColor?: string;
 }) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const selected = useRechercheStore((s) => s.selected);
   const tags = useRechercheStore((s) => s.tags);
   const allData = use(allDataPromise);
@@ -172,6 +175,11 @@ export function SearchResults({
   );
   useEffect(() => {
     const keydown = (ev: KeyboardEvent) => {
+      // Add Escape key handling
+      if (ev.key === "Escape" && onClose) {
+        onClose();
+        return;
+      }
       const selected = useRechercheStore.getState().selected;
       if (ev.key === "ArrowDown") {
         setSelected(Math.min((selected ?? -1) + 1, filtered.length - 1));
@@ -185,12 +193,26 @@ export function SearchResults({
         }
       }
     };
+    const clickOutside = (ev: MouseEvent) => {
+      if (
+        onClose &&
+        containerRef.current &&
+        !containerRef.current.contains(ev.target as Node)
+      ) {
+        onClose();
+      }
+    };
+
     addEventListener("keydown", keydown);
-    return () => removeEventListener("keydown", keydown);
-  }, [filtered, onClick]);
+    addEventListener("mousedown", clickOutside); // Changed to mousedown
+    return () => {
+      removeEventListener("keydown", keydown);
+      removeEventListener("mousedown", clickOutside); // Changed to mousedown
+    };
+  }, [filtered, onClick, onClose]);
   return (
     searchTerm.length > 0 && (
-      <div className="flex grow flex-col">
+      <div ref={containerRef} className="flex grow flex-col">
         {filtered.length > 0 ? (
           <>
             {filtered.map((elem, i) => (

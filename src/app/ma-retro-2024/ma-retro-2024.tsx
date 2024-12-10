@@ -125,6 +125,9 @@ function MovieRow({
                   );
                   setShowResults(false);
                 }}
+                onClose={() => {
+                  setSearchTerm("");
+                }}
               />
             )}
           </SuspenseWithLoading>
