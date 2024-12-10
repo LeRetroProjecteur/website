@@ -41,11 +41,13 @@ function TextInputBox({
   value,
   onChangeFunction,
   className,
+  maxLength,
 }: {
   placeholder: string;
   value: string;
   onChangeFunction: React.Dispatch<React.SetStateAction<string>>;
   className?: string;
+  maxLength?: number;
 }) {
   return (
     <div className={clsx(className, "flex flex-col py-10px")}>
@@ -54,6 +56,7 @@ function TextInputBox({
         onChange={(e) => onChangeFunction(e.target.value)}
         className="border p-10px"
         placeholder={placeholder.toUpperCase()}
+        maxLength={maxLength}
       />
     </div>
   );
@@ -336,6 +339,7 @@ export default function MaRetro2024({
                   value={fullName}
                   onChangeFunction={setFullName}
                   className="pb-20px"
+                  maxLength={15}
                 />
                 {/* Top */}
                 <div className="flex flex-col gap-y-10px">
