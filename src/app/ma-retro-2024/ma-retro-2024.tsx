@@ -1,8 +1,6 @@
 "use client";
 
 import clsx from "clsx";
-import html2canvas from "html2canvas";
-import Image from "next/image";
 import React, { ReactNode, useState } from "react";
 
 import { SearchResults } from "@/app/recherche/recherche";
@@ -15,223 +13,6 @@ import { SearchMovie } from "@/lib/types";
 
 import { MiddleColumn, ThreeColumnLayout } from "../actualites/components";
 import LoadingPage from "../loading";
-
-interface ShareableContentProps {
-  rowsData: {
-    movie: string;
-    id: string;
-  }[];
-  fullName: string;
-}
-
-function Button({
-  text,
-  onClickFunction,
-  disabled = false,
-}: {
-  text: string;
-  onClickFunction: () => void;
-  disabled?: boolean;
-}) {
-  return (
-    <div className="flex grow flex-col pt-20px">
-      <button
-        onClick={onClickFunction}
-        disabled={disabled}
-        className={`${disabled ? "cursor-not-allowed opacity-50" : ""}`}
-      >
-        <TextBox bgColor={"retro-gray"} textColor={"retro-white"}>
-          <div>{text.toUpperCase()}</div>
-        </TextBox>
-      </button>
-    </div>
-  );
-}
-
-function NumberInCircle({ number }: { number: number }) {
-  return (
-    <div className="relative flex h-8 w-8 items-center justify-center rounded-full bg-retro-green">
-      <span className="text-center font-bold">{number}</span>
-    </div>
-  );
-}
-
-const SHARE_CONFIG = {
-  // Common padding and spacing values
-  spacing: {
-    bottomPadding: 30, // px - padding before logo section
-    movieGap: 7, // px - gap between movies
-    contentPadding: 12, // px - padding around content
-  },
-} as const;
-
-function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
-  const filteredMovies = rowsData.filter((row) => row.movie !== "");
-
-  return (
-    <div
-      className="bg-retro-green"
-      style={{
-        padding: SHARE_CONFIG.spacing.contentPadding,
-      }}
-    >
-      <h2 className="pb-7px text-center text-xl font-bold">
-        Ma Rétrospective 2024
-      </h2>
-      {fullName && <p className="pb-5px text-center">Par {fullName}</p>}
-      {/* Movies list with configured gap */}
-      <div
-        className="flex flex-col px-10px"
-        style={{
-          gap: SHARE_CONFIG.spacing.movieGap,
-        }}
-      >
-        {filteredMovies.map((row, index) => (
-          <div
-            key={index}
-            className="rounded-lg bg-white px-10px py-5px shadow"
-          >
-            <div className="flex items-center">
-              <div className="relative">
-                <NumberInCircle number={index + 1} />
-              </div>
-              <div className="flex grow flex-col pl-10px">
-                <div className="font-bold">{row.movie}</div>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-      {/* Logo section with configured padding */}
-      <div
-        className="mt-auto flex items-end justify-between"
-        style={{ paddingTop: SHARE_CONFIG.spacing.bottomPadding }}
-      >
-        <Image
-          src="/img/logo-gray.svg"
-          alt="Logo"
-          width={34}
-          height={34}
-          className="h-auto w-157px max-w-[40%]"
-        />
-        <div className="font-bold text-retro-gray">#MaRétro2024</div>
-      </div>
-    </div>
-  );
-}
-
-function SharePage({ rowsData, fullName }: ShareableContentProps) {
-  const handleDownload = async () => {
-    try {
-      const element = document.getElementById("shareableContent");
-      if (!element) return;
-      const canvas = await html2canvas(element, {
-        backgroundColor: null,
-        scale: 2,
-        useCORS: true,
-        logging: true,
-      });
-      // Open image in new tab instead of direct download
-      canvas.toBlob((blob) => {
-        if (blob) {
-          const url = URL.createObjectURL(blob);
-          window.open(url, "_blank");
-          // Clean up the URL after the window is opened
-          URL.revokeObjectURL(url);
-        }
-      }, "image/png");
-    } catch (error) {
-      console.error("Error creating image:", error);
-    }
-  };
-  return (
-    <>
-      <div className="flex grow justify-center pb-20px" id="shareableContent">
-        <ShareableContent rowsData={rowsData} fullName={fullName} />
-      </div>
-      <div className="border-t pt-20px">
-        Merci pour votre participation&nbsp;! N&apos;hésitez pas à partager
-        votre rétrospective 2024 et à encourager vos ami.e.s à venir
-        voter&nbsp;!
-      </div>
-      <Button
-        text="Modifier ma rétrospective"
-        onClickFunction={() => (window.location.href = "/sondage-2024")}
-      />
-      <Button text="Télécharger" onClickFunction={handleDownload} />
-    </>
-  );
-}
-
-function SondageRow({ cell1, cell2 }: { cell1: ReactNode; cell2: ReactNode }) {
-  return (
-    <div className="flex flex-wrap gap-x-10px">
-      <div className="w-48px">{cell1}</div>
-      <div className="flex grow basis-0">{cell2}</div>
-    </div>
-  );
-}
-
-function MovieRow({
-  index,
-  allMoviesPromise,
-  onUpdate,
-}: {
-  index: number;
-  allMoviesPromise: Promise<SearchMovie[]>;
-  onUpdate: (data: { movie: string; id: string }) => void;
-}) {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [_, setMovieId] = useState("");
-  const [showResults, setShowResults] = useState(false);
-  const setSearchFind = (st: string, id: string = "") => {
-    setSearchTerm(st);
-    setMovieId(id);
-    setShowResults(true);
-    onUpdate({ movie: st, id: id });
-  };
-  return (
-    <SondageRow
-      cell1={
-        <div className="flex h-full items-center justify-center border text-center text-retro-gray">
-          {index + 1}
-          {index < 5 && <span className="text-retro-red">*</span>}
-        </div>
-      }
-      cell2={
-        <div className="flex grow flex-col">
-          <RetroInput
-            value={searchTerm}
-            setValue={(st) => setSearchFind(st)}
-            leftAlignPlaceholder
-            customTypography
-            placeholder={"Rechercher un film...".toUpperCase()}
-            transparentPlaceholder
-            className="flex grow"
-          />
-          <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
-            {showResults && (
-              <SearchResults
-                extraClass="text-left px-5px py-2px border-x border-b"
-                nbResults={5}
-                searchTerm={searchTerm}
-                allDataPromise={allMoviesPromise}
-                noResultsText="Aucun film trouvé dans la base de données, mais vous pouvez le renseigner manuellement."
-                onClick={(movie) => {
-                  setSearchFind(
-                    `${movie.title}, ${movie.directors} (${movie.year})`,
-                    movie.id,
-                  );
-                  setShowResults(false);
-                }}
-              />
-            )}
-          </SuspenseWithLoading>
-        </div>
-      }
-    />
-  );
-}
 
 function OpenQuestion({
   question,
@@ -267,7 +48,7 @@ function TextInputBox({
   className?: string;
 }) {
   return (
-    <div className={clsx(className, "flex flex-col py-20px")}>
+    <div className={clsx(className, "flex flex-col py-10px")}>
       <input
         value={value}
         onChange={(e) => onChangeFunction(e.target.value)}
@@ -278,7 +59,185 @@ function TextInputBox({
   );
 }
 
-export default function Sondage2024({
+function SondageRow({ cell1, cell2 }: { cell1: ReactNode; cell2: ReactNode }) {
+  return (
+    <div className="flex flex-wrap gap-x-10px">
+      <div className="w-42px lg:w-48px">{cell1}</div>
+      <div className="flex grow basis-0">{cell2}</div>
+    </div>
+  );
+}
+
+function MovieRow({
+  index,
+  allMoviesPromise,
+  onUpdate,
+}: {
+  index: number;
+  allMoviesPromise: Promise<SearchMovie[]>;
+  onUpdate: (data: { movie: string; id: string }) => void;
+}) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [_, setMovieId] = useState("");
+  const [showResults, setShowResults] = useState(false);
+  const setSearchFind = (st: string, id: string = "") => {
+    setSearchTerm(st);
+    setMovieId(id);
+    setShowResults(true);
+    onUpdate({ movie: st, id: id });
+  };
+  return (
+    <SondageRow
+      cell1={
+        <div className="flex h-full items-center justify-center border text-center text-retro-bordeaux">
+          {index + 1}
+          {index < 5 && <span className="text-retro-bordeaux">*</span>}
+        </div>
+      }
+      cell2={
+        <div className="flex grow flex-col">
+          <RetroInput
+            value={searchTerm}
+            setValue={(st) => setSearchFind(st)}
+            blue={true}
+            leftAlignPlaceholder
+            customTypography
+            placeholder={"Rechercher un film...".toUpperCase()}
+            transparentPlaceholder
+          />
+          <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
+            {showResults && (
+              <SearchResults
+                altColor="retro-blue"
+                className="border-x px-5px py-2px"
+                nbResults={5}
+                searchTerm={searchTerm}
+                allDataPromise={allMoviesPromise}
+                noResultsText="Nous ne trouvons pas votre film, mais vous pouvez le renseigner manuellement."
+                lowercase={true}
+                onClick={(movie) => {
+                  setSearchFind(
+                    `${movie.title}, ${movie.directors} (${movie.year})`,
+                    movie.id,
+                  );
+                  setShowResults(false);
+                }}
+              />
+            )}
+          </SuspenseWithLoading>
+        </div>
+      }
+    />
+  );
+}
+
+interface ShareableContentProps {
+  rowsData: {
+    movie: string;
+    id: string;
+  }[];
+  fullName: string;
+}
+
+const SHARE_CONFIG = {
+  spacing: {
+    contentPadding: 16, // px - padding around content
+  },
+} as const;
+
+function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
+  const filteredMovies = rowsData.filter((row) => row.movie !== "");
+  // const cornerTextStyle = "font-semi-bold text-retro-blue underline hidden lg:block uppercase";
+  const cornerTextStyle =
+    "font-semibold text-[13px] text-retro-blue underline hidden lg:block uppercase";
+  return (
+    <div className="w-[100%] bg-retro-bordeaux lg:w-500px">
+      <div
+        style={{
+          padding: SHARE_CONFIG.spacing.contentPadding,
+        }}
+      >
+        <div className="relative flex grow items-start">
+          <div className={`absolute left-0 top-0 ${cornerTextStyle}`}>
+            Top 2024
+          </div>
+          <div className="flex grow items-center justify-center text-center font-degular text-40px font-bold uppercase leading-35px text-retro-blue">
+            Ma Rétro
+            <br />
+            2024
+          </div>
+          <div className={`absolute right-0 top-0 ${cornerTextStyle}`}>
+            {fullName ? <>Par {fullName}</> : <>#MaRétro2024</>}
+          </div>
+        </div>
+      </div>
+      <div
+        className="flex flex-col bg-retro-blue"
+        style={{
+          paddingLeft: SHARE_CONFIG.spacing.contentPadding,
+          paddingRight: SHARE_CONFIG.spacing.contentPadding,
+        }}
+      >
+        {filteredMovies.map((row, index) => (
+          <div
+            key={index}
+            className={clsx(
+              "flex w-full justify-center border-retro-bordeaux px-10px py-5px text-center text-retro-bordeaux",
+              index === 0
+                ? "border-b-[0.5px]"
+                : index === filteredMovies.length - 1
+                  ? "border-t-[0.5px]"
+                  : "border-y-[0.5px]",
+            )}
+          >
+            {index + 1}. {row.movie}
+          </div>
+        ))}
+      </div>
+      <div
+        style={{
+          padding: SHARE_CONFIG.spacing.contentPadding,
+        }}
+      >
+        <div className="relative flex grow items-end">
+          <div className={`absolute bottom-0 left-0 ${cornerTextStyle}`}>
+            Top 2024
+          </div>
+          <div className="flex grow items-center justify-center">
+            <img
+              src="/img/logo-blue.png"
+              alt="Logo"
+              className="h-auto w-157px max-w-[40%]"
+            />
+          </div>
+          <div className={`absolute bottom-0 right-0 ${cornerTextStyle}`}>
+            #MaRétro2024
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function SharePage({ rowsData, fullName }: ShareableContentProps) {
+  return (
+    <>
+      <div className="flex justify-center pb-20px" id="shareableContent">
+        <ShareableContent rowsData={rowsData} fullName={fullName} />
+      </div>
+      <div className="border-t py-20px">
+        Merci pour votre participation&nbsp;! N&apos;hésitez pas à partager
+        votre rétrospective 2024 et à encourager vos ami.e.s à venir
+        voter&nbsp;!
+      </div>
+      <div className="flex flex-col gap-y-10px">
+        <TextBox link="/ma-retro-2024">Modifier ma rétrospective</TextBox>
+      </div>
+    </>
+  );
+}
+
+export default function MaRetro2024({
   allMoviesPromise,
 }: {
   allMoviesPromise: Promise<SearchMovie[]>;
@@ -312,13 +271,12 @@ export default function Sondage2024({
   };
   const handleSubmit = async () => {
     // Check if at least one movie has been filled
-    const hasAtLeastOneMovie = rowsData.some((row) => row.movie.trim() !== "");
-
-    if (!hasAtLeastOneMovie) {
-      setResponseMessage("Veuillez sélectionner au moins un film.");
+    const hasAtLeastTwoMovies =
+      rowsData.filter((row) => row.movie.trim() !== "").length >= 2;
+    if (!hasAtLeastTwoMovies) {
+      setResponseMessage("Veuillez sélectionner au moins deux films.");
       return;
     }
-
     setIsSubmitting(true);
     try {
       const API_ENDPOINT =
@@ -377,19 +335,22 @@ export default function Sondage2024({
                   placeholder="Votre nom/pseudo (facultatif)"
                   value={fullName}
                   onChangeFunction={setFullName}
+                  className="pb-20px"
                 />
                 {/* Top */}
                 <div className="flex flex-col gap-y-10px">
-                  <div className="border-y bg-retro-green uppercase text-retro-gray">
+                  <div className="border-y bg-retro-blue uppercase">
                     <SondageRow
                       cell1={
-                        <div className="py-6px text-center font-bold lg:py-17px">
-                          <SousTitre2>#</SousTitre2>
+                        <div className="retro-bordeaux py-6px text-center font-bold lg:py-17px">
+                          <SousTitre2 textColor="retro-bordeaux">#</SousTitre2>
                         </div>
                       }
                       cell2={
                         <div className="py-6px text-center font-bold lg:py-17px">
-                          <SousTitre2>Film</SousTitre2>
+                          <SousTitre2 textColor="retro-bordeaux">
+                            Film
+                          </SousTitre2>
                         </div>
                       }
                     />
@@ -421,15 +382,18 @@ export default function Sondage2024({
                     onChangeFunction={setAutreInformation}
                   />
                   {/* Newsletter Signup */}
-                  <div className="flex flex-col pt-30px">
-                    <div className="flex items-start gap-x-8px">
-                      <input
-                        type="checkbox"
-                        checked={newsletter}
-                        onChange={(e) => setNewsletter(e.target.checked)}
-                        className="mt-1 border text-retro-blue"
-                      />
-                      <label className="border bg-retro-blue p-5px uppercase text-retro-gray">
+                  <div className="flex flex-col py-30px">
+                    <div className="flex items-start gap-x-10px">
+                      <div
+                        onClick={() => setNewsletter(!newsletter)}
+                        className={clsx(
+                          "tw-ring-color-black min-w-25x flex h-25px cursor-pointer items-center justify-center border accent-black lg:h-30px lg:min-w-30px",
+                          newsletter ? "bg-retro-blue" : "text-retro-blue",
+                        )}
+                      >
+                        {newsletter && <p className="text-retro-gray">✓</p>}
+                      </div>
+                      <label className="border bg-retro-blue p-5px px-12px py-8px uppercase text-retro-gray">
                         Je souhaite m&apos;inscrire à «&nbsp;Up Close&nbsp;», la
                         newsletter hebdomadaire du Rétro Projecteur pour
                         recevoir l&apos;actualité des ressorties cinéma chaque
@@ -438,18 +402,19 @@ export default function Sondage2024({
                     </div>
                     {newsletter && (
                       <TextInputBox
-                        placeholder="Votre adresse email"
+                        placeholder="Votre adresse email*"
                         value={email}
                         onChangeFunction={setEmail}
-                        className="pl-24px"
                       />
                     )}
                   </div>
                 </div>
-                <Button
-                  text="Envoyer mon top 2024&nbsp;!"
-                  onClickFunction={handleSubmit}
-                />
+                <TextBox
+                  onClick={handleSubmit}
+                  className="bg-retro-gray text-retro-white"
+                >
+                  Envoyer mon top 2024&nbsp;!
+                </TextBox>
                 <p className="mt-4 font-bold">{responseMessage}</p>
               </>
             )}

@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 import { TextBox } from "@/components/layout/text-boxes";
 import { openNewsLetter } from "@/lib/newsletter-store";
 
@@ -14,40 +12,37 @@ export default function FooterLinks({
     <div className="flex grow flex-col gap-y-12px lg:gap-y-10px lg:pt-10px">
       <div className="hidden lg:block">
         <TextBox
-          textColor={color}
-          bgColor="retro-blue"
+          className={`text-${color} bg-retro-blue`}
           onClick={openNewsLetter}
         >
           <div>newsletter</div>
         </TextBox>
       </div>
       <div className="lg:hidden">
-        <Link href={"/newsletter"}>
-          <TextBox textColor={color} bgColor="retro-blue">
-            <div>newsletter</div>
-          </TextBox>
-        </Link>
+        <TextBox className={`text-${color} bg-retro-blue`} link="/newsletter">
+          <div>newsletter</div>
+        </TextBox>
       </div>
       <div className="hidden lg:block">
-        <Link href="https://www.instagram.com/leretroprojecteur">
-          <TextBox textColor={color}>
-            <div>instagram</div>
-          </TextBox>
-        </Link>
+        <TextBox
+          className={`text-${color}`}
+          link="https://www.instagram.com/leretroprojecteur"
+        >
+          <div>instagram</div>
+        </TextBox>
       </div>
       <div className="hidden lg:block">
-        <Link href="https://twitter.com/RetroProjecteur">
-          <TextBox textColor={color}>
-            <div>twitter</div>
-          </TextBox>
-        </Link>
+        <TextBox
+          className={`text-${color}`}
+          link="https://twitter.com/RetroProjecteur"
+        >
+          <div>twitter</div>
+        </TextBox>
       </div>
       <div className="lg:hidden">
-        <Link href={"/reseaux"}>
-          <TextBox textColor={color}>
-            <div>Suivez-nous !</div>
-          </TextBox>
-        </Link>
+        <TextBox className={`text-${color}`} link="/reseaux">
+          <div>Suivez-nous !</div>
+        </TextBox>
       </div>
     </div>
   );

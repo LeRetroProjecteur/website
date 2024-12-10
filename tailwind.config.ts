@@ -30,6 +30,7 @@ const config: Config = {
         ["retro-dark-blue"]: "#9AADE1",
         ["retro-red"]: "#FF4D4D",
         ["retro-white"]: "#FFFFFF",
+        ["retro-bordeaux"]: "#5D3048",
       },
       flexBasis: ALL_PX,
       fontFamily: {

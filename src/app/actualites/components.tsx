@@ -1,5 +1,4 @@
 import Image, { StaticImageData } from "next/image";
-import Link from "next/link";
 import { ReactNode } from "react";
 
 import PageHeader from "@/components/layout/page-header";
@@ -178,11 +177,9 @@ export function CTAs({ ctas }: { ctas: { link: string; text: ReactNode }[] }) {
       </div>
       <div className="mx-auto flex w-[75%] flex-col gap-y-10px lg:w-[50%]">
         {ctas.map((cta, i) => (
-          <Link key={i} href={cta.link}>
-            <TextBox bgColor={"retro-blue"} textColor={"retro-gray"}>
-              {cta.text}
-            </TextBox>
-          </Link>
+          <TextBox key={i} className="bg-retro-blue" link={cta.link}>
+            {cta.text}
+          </TextBox>
         ))}
       </div>
     </>
