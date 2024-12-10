@@ -107,17 +107,26 @@ export function ButtonCopy({
 export function MetaCopy({
   children,
   lowercase,
+  size = "default", // add size parameter with "default" as default value
 }: {
   children: ReactNode;
   lowercase?: boolean;
+  size?: "default" | "small" | "large";
 }) {
+  const sizeClasses = {
+    default: "text-19px lg:text-20px lg:leading-22px",
+    small: "text-16px lg:text-17px lg:leading-19px",
+    large: "text-22px lg:text-23px lg:leading-25px",
+  };
+
   return (
     <div
       className={clsx(
         {
           uppercase: !(lowercase ?? false),
         },
-        "text-19px font-medium leading-21px text-retro-gray lg:text-20px lg:leading-22px lg:tracking-[-0.01em]",
+        "font-medium leading-21px text-retro-gray lg:tracking-[-0.01em]",
+        sizeClasses[size],
       )}
     >
       {children}
