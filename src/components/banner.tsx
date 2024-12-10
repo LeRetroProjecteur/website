@@ -35,7 +35,10 @@ const Banner: React.FC<BannerProps> = ({ children, speed = 50 }) => {
   }, [contentWidth, speed, controls]);
 
   return (
-    <Link href={"/sondage-2024"} className="relative z-50">
+    <Link
+      href={"/sondage-2024"}
+      className="absolute top-0 z-50 w-full lg:fixed"
+    >
       <div
         ref={containerRef}
         className="m-auto overflow-hidden border-b bg-retro-blue py-9px text-20px font-medium uppercase leading-21px text-retro-gray"
