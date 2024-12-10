@@ -27,22 +27,52 @@ export function ArticleLayout({
       <PageHeader text="actualités">
         <SousTitre1>{info.title}</SousTitre1>
       </PageHeader>
-      <ThreeColumnLayout>
-        <FirstRow
-          title={info.title}
-          type={info.type}
-          icon={info.icon}
-          date={info.date}
-        />
-        {children}
-      </ThreeColumnLayout>
+      <ThreeColumnLayout header={info}>{children}</ThreeColumnLayout>
     </>
   );
 }
 
-export function ThreeColumnLayout({ children }: { children?: ReactNode }) {
+export function ThreeColumnLayout({
+  header,
+  children,
+}: {
+  header?: {
+    title: string;
+    type: string;
+    icon: StaticImageData;
+    date: string;
+  };
+  children?: ReactNode;
+}) {
   return (
     <div className="mx-auto my-0 block max-w-[32rem] wide-article:max-w-[37.5rem] lg:m-0 lg:grid lg:max-w-none lg:grid-cols-[0_32rem_1fr] lg:pl-20px 3col:grid-cols-[minmax(13rem,_1fr)_minmax(30rem,_40rem)_minmax(13rem,_1fr)] 3col:pl-0">
+      {header && (
+        <>
+          <div className="invisible h-0 self-center justify-self-center px-30px text-center 3col:visible 3col:h-auto">
+            <div className="font-semibold uppercase text-retro-gray lg:text-20px lg:leading-18px">
+              {header.type}
+            </div>
+          </div>
+          <div className="pb-20px lg:border-r lg:pr-20px">
+            <div className="lg:border-b lg:pb-20px">
+              <Image
+                src={header.icon}
+                alt={header.title}
+                className="h-auto w-full"
+                {...blurProps}
+              />
+            </div>
+          </div>
+          <div className="invisible h-0 self-center justify-self-center px-30px text-center lg:visible lg:h-auto">
+            <div className="font-semibold uppercase text-retro-gray lg:text-20px lg:leading-18px 3col:invisible 3col:h-0">
+              {header.type}
+            </div>
+            <div className="font-semibold uppercase text-retro-gray lg:text-20px lg:leading-18px">
+              Publié le {header.date}
+            </div>
+          </div>
+        </>
+      )}
       {children}
       <div />
       <div className="pt-15px lg:border-r lg:pr-20px lg:pt-20px">
@@ -54,46 +84,6 @@ export function ThreeColumnLayout({ children }: { children?: ReactNode }) {
       <div className="min-h-100px w-1/2 border-r lg:hidden" />
       <div />
     </div>
-  );
-}
-
-export function FirstRow({
-  title,
-  type,
-  icon,
-  date,
-}: {
-  title: string;
-  type: string;
-  icon: StaticImageData;
-  date: string;
-}) {
-  return (
-    <>
-      <div className="invisible h-0 self-center justify-self-center px-30px text-center 3col:visible 3col:h-auto">
-        <div className="font-semibold uppercase text-retro-gray lg:text-20px lg:leading-18px">
-          {type}
-        </div>
-      </div>
-      <div className="pb-20px lg:border-r lg:pr-20px">
-        <div className="lg:border-b lg:pb-20px">
-          <Image
-            src={icon}
-            alt={title}
-            className="h-auto w-full"
-            {...blurProps}
-          />
-        </div>
-      </div>
-      <div className="invisible h-0 self-center justify-self-center px-30px text-center lg:visible lg:h-auto">
-        <div className="font-semibold uppercase text-retro-gray lg:text-20px lg:leading-18px 3col:invisible 3col:h-0">
-          {type}
-        </div>
-        <div className="font-semibold uppercase text-retro-gray lg:text-20px lg:leading-18px">
-          Publié le {date}
-        </div>
-      </div>
-    </>
   );
 }
 
