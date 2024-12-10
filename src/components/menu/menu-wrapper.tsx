@@ -7,7 +7,7 @@ import Menu from "@/components/menu/menu";
 import { useMenuStore } from "@/lib/menu-store";
 import { useIsMobile } from "@/lib/util";
 
-import Banner from "../banner";
+import Banner from "../layout/banner";
 
 export default function MenuWrapper({
   children,
@@ -26,10 +26,13 @@ export default function MenuWrapper({
   return (
     <>
       <Banner>
-        <div className="px-100px">
-          Quelles ont été vos meilleures découvertes cinéma de
-          l&apos;année&nbsp;? Votez dans notre grand sondage&nbsp;!
+        <div className="px-50px">
+          <div>
+            Quelles ont été vos meilleures découvertes cinéma de
+            l&apos;année&nbsp;? Votez dans notre sondage&nbsp;!
+          </div>
         </div>
+        <div>•</div>
       </Banner>
       <div className="relative mx-auto max-w-1800px lg:static lg:flex lg:items-start">
         <motion.div
