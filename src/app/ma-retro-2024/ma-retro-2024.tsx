@@ -274,7 +274,7 @@ export default function MaRetro2024({
     const hasAtLeastTwoMovies =
       rowsData.filter((row) => row.movie.trim() !== "").length >= 2;
     if (!hasAtLeastTwoMovies) {
-      setResponseMessage("Veuillez sélectionner au moins deux films.");
+      setResponseMessage("Veuillez sélectionner au moins cinq films.");
       return;
     }
     setIsSubmitting(true);
@@ -388,13 +388,15 @@ export default function MaRetro2024({
                         onClick={() => setNewsletter(!newsletter)}
                         className={clsx(
                           "tw-ring-color-black min-w-25x flex h-25px cursor-pointer items-center justify-center border accent-black lg:h-30px lg:min-w-30px",
-                          newsletter ? "bg-retro-blue" : "text-retro-blue",
+                          newsletter
+                            ? "bg-retro-blue"
+                            : "bg-retro-blue text-retro-blue",
                         )}
                       >
                         {newsletter && <p className="text-retro-gray">✓</p>}
                       </div>
-                      <label className="border bg-retro-blue p-5px px-12px py-8px uppercase text-retro-gray">
-                        Je souhaite m&apos;inscrire à «&nbsp;Up Close&nbsp;», la
+                      <label className="border bg-retro-blue p-5px px-12px py-8px text-retro-gray">
+                        Je souhaite m&apos;inscrire à <i>Up Close</i>, la
                         newsletter hebdomadaire du Rétro Projecteur pour
                         recevoir l&apos;actualité des ressorties cinéma chaque
                         semaine&nbsp;!
@@ -411,7 +413,7 @@ export default function MaRetro2024({
                 </div>
                 <TextBox
                   onClick={handleSubmit}
-                  className="bg-retro-gray text-retro-white"
+                  className="bg-retro-bordeaux text-retro-white"
                 >
                   Envoyer mon top 2024&nbsp;!
                 </TextBox>
