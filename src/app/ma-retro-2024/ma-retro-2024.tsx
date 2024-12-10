@@ -396,7 +396,7 @@ export default function MaRetro2024({
                         {newsletter && <p className="text-retro-gray">✓</p>}
                       </div>
                       <label className="border bg-retro-blue p-5px px-12px py-8px text-retro-gray">
-                        Je souhaite m&apos;inscrire à <i>Up Close</i>, la
+                        Je souhaite m&apos;inscrire à «&nbsp;Up Close&nbsp;», la
                         newsletter hebdomadaire du Rétro Projecteur pour
                         recevoir l&apos;actualité des ressorties cinéma chaque
                         semaine&nbsp;!
