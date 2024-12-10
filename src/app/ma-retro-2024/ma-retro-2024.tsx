@@ -200,7 +200,7 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
             <img
               src="/img/logo-blue.png"
               alt="Logo"
-              className="h-auto w-157px max-w-[40%]"
+              className="h-auto w-157px max-w-[50%]"
             />
           </div>
           <div className={`absolute bottom-0 right-0 ${cornerTextStyle}`}>
