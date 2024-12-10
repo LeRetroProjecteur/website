@@ -148,18 +148,16 @@ const SHARE_CONFIG = {
 function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
   const filteredMovies = rowsData.filter((row) => row.movie !== "");
   // const cornerTextStyle = "font-semi-bold text-retro-blue underline hidden lg:block uppercase";
-  const cornerTextStyle =
-    "font-semibold text-[13px] text-retro-blue underline hidden lg:block uppercase";
+  const cornerTextStyle = "font-semibold text-[13px] text-retro-blue uppercase";
   return (
     <div className="w-[100%] bg-retro-bordeaux lg:w-500px">
-      <div
-        style={{
-          padding: SHARE_CONFIG.spacing.contentPadding,
-        }}
-      >
+      <div className="p-10px lg:p-16px">
         <div className="relative flex grow items-start">
-          <div className={`absolute left-0 top-0 ${cornerTextStyle}`}>
-            Top 2024
+          <div
+            className={`absolute left-0 top-0 flex h-full flex-col ${cornerTextStyle}`}
+          >
+            <div className="text-30px leading-15px">•</div>
+            <div className="pt-35px underline">Top 2024</div>
           </div>
           <div className="flex grow items-center justify-center text-center font-degular text-40px font-bold uppercase leading-35px text-retro-blue">
             Ma Rétro
@@ -167,17 +165,15 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
             2024
           </div>
           <div className={`absolute right-0 top-0 ${cornerTextStyle}`}>
-            {fullName ? <>Par {fullName}</> : <>#MaRétro2024</>}
+            <div className="text-right text-30px leading-15px">•</div>
+            <div className="pt-35px underline">
+              {" "}
+              {fullName ? <>Par {fullName}</> : <>#MaRétro</>}
+            </div>
           </div>
         </div>
       </div>
-      <div
-        className="flex flex-col bg-retro-blue"
-        style={{
-          paddingLeft: SHARE_CONFIG.spacing.contentPadding,
-          paddingRight: SHARE_CONFIG.spacing.contentPadding,
-        }}
-      >
+      <div className="flex flex-col bg-retro-blue px-10px lg:px-16px">
         {filteredMovies.map((row, index) => (
           <div
             key={index}
@@ -194,14 +190,11 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
           </div>
         ))}
       </div>
-      <div
-        style={{
-          padding: SHARE_CONFIG.spacing.contentPadding,
-        }}
-      >
+      <div className="p-10px lg:p-16px">
         <div className="relative flex grow items-end">
           <div className={`absolute bottom-0 left-0 ${cornerTextStyle}`}>
-            Top 2024
+            <div className="pb-10px underline"> Top 2024</div>
+            <div className="text-30px leading-15px">•</div>
           </div>
           <div className="flex grow items-center justify-center">
             <img
@@ -211,7 +204,8 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
             />
           </div>
           <div className={`absolute bottom-0 right-0 ${cornerTextStyle}`}>
-            #MaRétro2024
+            <div className="pb-10px underline"> #MaRétro </div>
+            <div className="text-right text-30px leading-15px">•</div>
           </div>
         </div>
       </div>
