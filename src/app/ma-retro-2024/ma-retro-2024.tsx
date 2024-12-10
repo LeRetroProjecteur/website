@@ -385,21 +385,20 @@ export default function MaRetro2024({
                   <div className="flex flex-col py-30px">
                     <div className="flex items-start gap-x-10px">
                       <div
-                          onClick={() => setNewsletter(!newsletter)}
-                          className={clsx(
-                              "min-w-[20px] flex h-20px cursor-pointer items-center justify-center border accent-black lg:h-30px lg:min-w-30px",  // Changed min-w-25x to min-w-[25px]
-                              newsletter
-                                  ? "bg-retro-blue"
-                                  : "bg-retro-blue text-retro-blue",
-                          )}
+                        onClick={() => setNewsletter(!newsletter)}
+                        className={clsx(
+                          "flex h-20px min-w-[20px] cursor-pointer items-center justify-center border accent-black lg:h-30px lg:min-w-30px", // Changed min-w-25x to min-w-[25px]
+                          newsletter
+                            ? "bg-retro-blue"
+                            : "bg-retro-blue text-retro-blue",
+                        )}
                       >
                         {newsletter && <p className="text-retro-gray">✓</p>}
                       </div>
                       <label className="border bg-retro-blue p-5px px-12px py-8px text-retro-gray">
                         Je souhaite m&apos;inscrire à «&nbsp;Up Close&nbsp;», la
                         newsletter hebdomadaire du Rétro Projecteur pour
-                        recevoir l&apos;actualité des ressorties cinéma chaque
-                        semaine&nbsp;!
+                        recevoir l&apos;actualité des ressorties cinéma&nbsp;!
                       </label>
                     </div>
                     {newsletter && (
