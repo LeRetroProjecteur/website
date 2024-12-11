@@ -96,7 +96,7 @@ export const getMovies = async () => {
   const query_docs = query(
     collectionRef,
     where("search", "==", true),
-    where("index", "<", 7),
+    where("index", "<", 5),
   );
   const querySnapshot = await getDocs(query_docs);
   const searchMovies = querySnapshot.docs.flatMap(
@@ -104,6 +104,7 @@ export const getMovies = async () => {
   ) as SearchMovie[];
   return searchMovies;
 };
+
 export const getReviewedMovies = unstable_cache(
   async () => {
     const { db } = getFirebase();
