@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Ma Rétrospective 2024",
-  description: "Votez pour vos meilleures découvertes de cinéma cette annéee !",
+  description: "Votez pour vos plus belles découvertes cinéma de l'année !",
 };
 
 export default function SubmitScreeningsPage() {

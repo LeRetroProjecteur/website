@@ -1,6 +1,7 @@
 "use client";
 
 import clsx from "clsx";
+import Link from "next/link";
 import React, { ReactNode, useState } from "react";
 
 import { SearchResults } from "@/app/recherche/recherche";
@@ -324,7 +325,7 @@ export default function MaRetro2024({
   return (
     <>
       <PageHeader text="Ma Rétro 2024">
-        <SousTitre1>Votez pour vos meilleures ressorties cinéma</SousTitre1>
+        <SousTitre1>Votez pour vos plus belles découvertes&nbsp;!</SousTitre1>
       </PageHeader>
       {isSubmitting ? (
         <LoadingPage />
@@ -335,12 +336,30 @@ export default function MaRetro2024({
               <SharePage rowsData={rowsData} fullName={fullName} />
             ) : (
               <>
+                <BodyCopy className="flex flex-col gap-y-10px">
+                  <div>
+                    L&apos;année 2024 a été{" "}
+                    <Link href="/coeur" className="underline">
+                      riche en ressorties cinéma
+                    </Link>
+                    . Et vous, quels ont été vos coups de cœur de
+                    l&apos;année&nbsp;? En cette saison des tops à-tout-va, Le
+                    Rétro Projecteur vous propose de concocter un petit
+                    classement de vos plus belles découvertes&nbsp;!
+                  </div>
+                  <div>
+                    <b>NB&nbsp;:</b> Est éligible tout film vieux de plus de
+                    trois ans. Si vous ne trouvez pas votre choix dans les
+                    propositions, entrez les informations du films manuellement
+                    du film et passez à la case suivante.
+                  </div>
+                </BodyCopy>
                 {/* Name */}
                 <TextInputBox
                   placeholder="Votre nom ou pseudo"
                   value={fullName}
                   onChangeFunction={setFullName}
-                  className="pb-20px"
+                  className="py-15px lg:py-20px"
                   maxLength={15}
                 />
                 {/* Top */}
