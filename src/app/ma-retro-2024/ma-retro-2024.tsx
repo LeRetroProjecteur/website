@@ -329,7 +329,7 @@ export default function MaRetro2024({
               <>
                 {/* Name */}
                 <TextInputBox
-                  placeholder="Votre nom/pseudo (facultatif)"
+                  placeholder="Votre nom ou pseudo"
                   value={fullName}
                   onChangeFunction={setFullName}
                   className="pb-20px"
