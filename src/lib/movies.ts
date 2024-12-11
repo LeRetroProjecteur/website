@@ -94,7 +94,7 @@ export const getMovies = unstable_cache(
   async () => {
     const { db } = getFirebase();
     const collectionRef = collection(db, "website-extra-docs");
-    const query_docs = query(collectionRef, where("index", "<=", 10));
+    const query_docs = query(collectionRef, where("index", "<=", 8));
     const querySnapshot = await getDocs(query_docs);
     const searchMovies = querySnapshot.docs.flatMap(
       (doc) => doc.data().elements,
