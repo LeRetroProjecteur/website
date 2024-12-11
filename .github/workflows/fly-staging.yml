@@ -2,7 +2,7 @@ name: Fly Deploy (staging)
 on:
   push:
     branches:
-      - ugo/sondage-2024-drop-down
+      - ugo/fix
 jobs:
   deploy:
     name: Deploy app
