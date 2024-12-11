@@ -121,12 +121,16 @@ function MovieRow({
                 searchTerm={searchTerm}
                 allDataPromise={allMoviesPromise}
                 noResultsText="Nous ne trouvons pas votre film, mais vous pouvez le renseigner manuellement."
+                noResultsTextSize="small"
                 lowercase={true}
                 onClick={(movie) => {
                   setSearchFind(
                     `${movie.title}, ${movie.directors}&nbsp;(${movie.year})`,
                     movie.id,
                   );
+                  setShowResults(false);
+                }}
+                onClose={() => {
                   setShowResults(false);
                 }}
               />
