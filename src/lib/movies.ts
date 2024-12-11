@@ -113,7 +113,7 @@ export const getReviewedMovies = unstable_cache(
     return checkNotNull(querySnapshot.data()).elements as Review[];
   },
   ["reviewed-movies"],
-  { revalidate: 1 },
+  { revalidate: 60 },
 );
 
 export const getMovie = unstable_cache(
@@ -127,5 +127,5 @@ export const getMovie = unstable_cache(
     return querySnapshot.docs.map((doc) => doc.data() as MovieDetail)[0];
   },
   ["single-movie"],
-  { revalidate: 1 },
+  { revalidate: 60 },
 );
