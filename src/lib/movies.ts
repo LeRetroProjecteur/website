@@ -96,7 +96,7 @@ export const getMovies = async () => {
   const query_docs = query(
     collectionRef,
     where("search", "==", true),
-    where("index", "<", 7)
+    where("index", "<", 7),
   );
   const querySnapshot = await getDocs(query_docs);
   const searchMovies = querySnapshot.docs.flatMap(
