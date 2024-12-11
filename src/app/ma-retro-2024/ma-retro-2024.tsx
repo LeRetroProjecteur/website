@@ -126,7 +126,7 @@ function MovieRow({
                 lowercase={true}
                 onClick={(movie) => {
                   setSearchFind(
-                    `${movie.title}, ${movie.directors}&nbsp;(${movie.year})`,
+                    `${movie.title}, ${movie.directors} (${movie.year})`,
                     movie.id,
                   );
                   setShowResults(false);
