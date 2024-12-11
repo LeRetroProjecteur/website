@@ -8,7 +8,11 @@ import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
-import { SousTitre1, SousTitre2 } from "@/components/typography/typography";
+import {
+  BodyCopy,
+  SousTitre1,
+  SousTitre2,
+} from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
 
 import { MiddleColumn, ThreeColumnLayout } from "../actualites/components";
@@ -25,7 +29,7 @@ function OpenQuestion({
 }) {
   return (
     <div className="flex flex-col pt-20px">
-      <label className="pb-5px">{question}</label>
+      <BodyCopy className="pb-5px">{question}</BodyCopy>
       <textarea
         placeholder={"Réponse facultative".toUpperCase()}
         value={value}
@@ -120,7 +124,7 @@ function MovieRow({
                 lowercase={true}
                 onClick={(movie) => {
                   setSearchFind(
-                    `${movie.title}, ${movie.directors} (${movie.year})`,
+                    `${movie.title}, ${movie.directors}&nbsp;(${movie.year})`,
                     movie.id,
                   );
                   setShowResults(false);
