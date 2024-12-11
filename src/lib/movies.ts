@@ -102,7 +102,7 @@ export const getMovies = unstable_cache(
     return searchMovies;
   },
   ["all-movies"],
-  { revalidate: 1 },
+  { revalidate: 180 },
 );
 
 export const getReviewedMovies = unstable_cache(
