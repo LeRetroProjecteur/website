@@ -87,7 +87,7 @@ export const getDayMovies = unstable_cache(
     return docs;
   },
   ["day-movies"],
-  { revalidate: 1 },
+  { revalidate: 60 },
 );
 
 export const getMovies = unstable_cache(
