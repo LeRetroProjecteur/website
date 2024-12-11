@@ -127,7 +127,7 @@ function MovieRow({
                   setShowResults(false);
                 }}
                 onClose={() => {
-                  setSearchTerm(searchTerm);
+                  setShowResults(false);
                 }}
               />
             )}
