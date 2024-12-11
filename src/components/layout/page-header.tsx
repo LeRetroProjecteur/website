@@ -46,7 +46,7 @@ export function FixedHeader({
         {
           "pb-20px": !(disableBelowPadding ?? false),
         },
-        "z-20 flex flex-col bg-white lg:sticky lg:top-0 lg:pt-20px",
+        "z-20 flex flex-col bg-white lg:sticky lg:top-[40.5px] lg:pt-20px",
       )}
     >
       {children}
