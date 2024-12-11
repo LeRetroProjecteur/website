@@ -211,7 +211,7 @@ export function SearchResults({
                     [`lg:bg-${altColor}`]: i === selected,
                     "lg:even:bg-white": i !== selected,
                   },
-                  `border-x border-b even:bg-${altColor} lg:hover:bg-${altColor}`,
+                  `border-b even:bg-${altColor} lg:hover:bg-${altColor}`,
                   className,
                 )}
               >
