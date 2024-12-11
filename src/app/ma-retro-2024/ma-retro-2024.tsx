@@ -117,6 +117,7 @@ function MovieRow({
                 searchTerm={searchTerm}
                 allDataPromise={allMoviesPromise}
                 noResultsText="Nous ne trouvons pas votre film, mais vous pouvez le renseigner manuellement."
+                noResultsTextSize="small"
                 lowercase={true}
                 onClick={(movie) => {
                   setSearchFind(
@@ -124,6 +125,9 @@ function MovieRow({
                     movie.id,
                   );
                   setShowResults(false);
+                }}
+                onClose={() => {
+                  setSearchTerm("");
                 }}
               />
             )}
