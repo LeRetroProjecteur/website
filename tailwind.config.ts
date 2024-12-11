@@ -26,6 +26,7 @@ const config: Config = {
         ["retro-green"]: "#E2FF46",
         ["retro-pale-green"]: "#E2FF4666",
         ["retro-blue"]: "#CCDAFF",
+        ["retro-pale-blue"]: "#CCDAFF50",
         ["retro-mid-blue"]: "#9EB3E9",
         ["retro-dark-blue"]: "#9AADE1",
         ["retro-red"]: "#FF4D4D",

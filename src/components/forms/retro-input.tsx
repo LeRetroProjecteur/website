@@ -37,7 +37,7 @@ export default function RetroInput({
         className,
         {
           "bg-retro-pale-green": !(blue ?? false),
-          "bg-retro-blue": blue,
+          "bg-retro-pale-blue": blue,
           "text-17px font-medium uppercase leading-25px lg:text-20px lg:leading-21px":
             !(customTypography ?? false),
           "placeholder:text-center": !(leftAlignPlaceholder ?? false),

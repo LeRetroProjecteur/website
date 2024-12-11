@@ -92,9 +92,9 @@ function MovieRow({
   return (
     <SondageRow
       cell1={
-        <div className="flex h-full items-center justify-center border text-center text-retro-bordeaux">
+        <div className="flex h-full items-center justify-center border text-center text-retro-gray">
           {index + 1}
-          {index < 5 && <span className="text-retro-bordeaux">*</span>}
+          {index < 5 && <span className="text-retro-red">*</span>}
         </div>
       }
       cell2={
@@ -111,7 +111,7 @@ function MovieRow({
           <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
             {showResults && (
               <SearchResults
-                altColor="retro-blue"
+                altColor={true}
                 className="border-x px-5px py-2px"
                 nbResults={5}
                 searchTerm={searchTerm}
@@ -340,15 +340,13 @@ export default function MaRetro2024({
                   <div className="border-y bg-retro-blue uppercase">
                     <SondageRow
                       cell1={
-                        <div className="retro-bordeaux py-6px text-center font-bold lg:py-17px">
-                          <SousTitre2 textColor="retro-bordeaux">#</SousTitre2>
+                        <div className="py-6px text-center font-bold lg:py-17px">
+                          <SousTitre2>#</SousTitre2>
                         </div>
                       }
                       cell2={
                         <div className="py-6px text-center font-bold lg:py-17px">
-                          <SousTitre2 textColor="retro-bordeaux">
-                            Film
-                          </SousTitre2>
+                          <SousTitre2>Film</SousTitre2>
                         </div>
                       }
                     />
@@ -410,7 +408,7 @@ export default function MaRetro2024({
                 </div>
                 <TextBox
                   onClick={handleSubmit}
-                  className="bg-retro-bordeaux text-retro-white"
+                  className="bg-retro-gray text-retro-white hover:bg-retro-bordeaux"
                 >
                   Envoyer mon top 2024&nbsp;!
                 </TextBox>
