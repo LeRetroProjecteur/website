@@ -19,6 +19,7 @@ import {
   MovieDetail,
   MovieWithScreeningsOneDay,
   MovieWithScreeningsSeveralDays,
+  ReducedMovie,
   Review,
   SearchMovie,
 } from "./types";
@@ -147,7 +148,13 @@ const getAllMoviesOneDocHelper = unstable_cache(
     } else {
       const doc = querySnapshot.docs[0];
       return {
-        movies: doc.data().e as SearchMovie[],
+        movies: doc.data().e.map((m: ReducedMovie) => ({
+          directors: m.d,
+          id: m.i,
+          original_title: m.o,
+          title: m.t,
+          year: m.y,
+        })) as SearchMovie[],
         nextDoc: querySnapshot.docs.at(1)?.id,
       };
     }
