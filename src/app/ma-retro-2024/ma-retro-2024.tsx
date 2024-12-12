@@ -343,7 +343,7 @@ export default function MaRetro2024({
                     <b>NB&nbsp;:</b> Est éligible tout film vieux de plus de
                     trois ans. Si vous ne trouvez pas votre choix dans les
                     propositions, entrez les informations du films manuellement
-                    du film et passez à la case suivante.
+                    et passez à la case suivante.
                   </div>
                 </BodyCopy>
                 {/* Name */}
