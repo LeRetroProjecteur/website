@@ -105,19 +105,39 @@ export const getMovies = unstable_cache(
   { revalidate: 10 },
 );
 
+interface ReducedMovie {
+  i: string; // id
+  d: string; // directors
+  t: string; // title
+  y: string; // year
+  o?: string; // original_title
+  r: number; // relevance_score
+}
+
 export const getAllMovies = unstable_cache(
   async () => {
     const { db } = getFirebase();
-    const collectionRef = collection(db, "website-movie-list");
-    const query_docs = query(collectionRef, where("search", "==", true));
+    const collectionRef = collection(db, "website-all-movies-list");
+    const query_docs = query(collectionRef, where("s", "==", true));
     const querySnapshot = await getDocs(query_docs);
-    const searchMovies = querySnapshot.docs.flatMap(
-      (doc) => doc.data().elements,
-    ) as SearchMovie[];
-    return searchMovies;
+
+    return querySnapshot.docs.flatMap((doc) => {
+      const reducedMovies = doc.data().e as ReducedMovie[];
+
+      return reducedMovies.map(
+        (reduced): SearchMovie => ({
+          id: reduced.i,
+          directors: reduced.d,
+          title: reduced.t,
+          year: reduced.y,
+          original_title: reduced.o || undefined,
+          relevance_score: reduced.r,
+        }),
+      );
+    });
   },
-  ["all-movie-list"],
-  { revalidate: 10 },
+  ["all-movies"],
+  { revalidate: 180 },
 );
 
 export const getReviewedMovies = unstable_cache(
