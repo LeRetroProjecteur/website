@@ -114,26 +114,27 @@ interface ReducedMovie {
   r: number; // relevance_score
 }
 
-const convertToSearchMovie = (reduced: ReducedMovie): SearchMovie => ({
-  id: reduced.i,
-  directors: reduced.d,
-  title: reduced.t,
-  year: reduced.y,
-  original_title: reduced.o,
-  relevance_score: reduced.r,
-});
-
 export const getAllMovies = unstable_cache(
   async () => {
     const { db } = getFirebase();
-    const collectionRef = collection(db, "website-movie-list");
+    const collectionRef = collection(db, "website-all-movies-list");
     const query_docs = query(collectionRef, where("s", "==", true));
     const querySnapshot = await getDocs(query_docs);
-    const reducedMovies = querySnapshot.docs.flatMap(
-      (doc) => doc.data().e,
-    ) as ReducedMovie[];
 
-    return reducedMovies.map(convertToSearchMovie);
+    return querySnapshot.docs.flatMap((doc) => {
+      const reducedMovies = doc.data().e as ReducedMovie[];
+
+      return reducedMovies.map(
+        (reduced): SearchMovie => ({
+          id: reduced.i,
+          directors: reduced.d,
+          title: reduced.t,
+          year: reduced.y,
+          original_title: reduced.o || undefined,
+          relevance_score: reduced.r,
+        }),
+      );
+    });
   },
   ["all-movies"],
   { revalidate: 180 },
