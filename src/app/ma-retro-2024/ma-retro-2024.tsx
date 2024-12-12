@@ -180,7 +180,7 @@ function ShareableContent({ rowsData }: ShareableContentProps) {
           <div
             key={index}
             className={clsx(
-              "flex w-full justify-center border-retro-bordeaux px-10px py-6px text-center text-retro-bordeaux",
+              "flex w-full justify-center border-retro-bordeaux px-10px py-6px text-center",
               index === 0
                 ? "border-b-[0.5px]"
                 : index === filteredMovies.length - 1
@@ -188,7 +188,9 @@ function ShareableContent({ rowsData }: ShareableContentProps) {
                   : "border-y-[0.5px]",
             )}
           >
-            {index + 1}. {row.movie}
+            <BodyCopy className="text-retro-bordeaux">
+              {index + 1}. {row.movie}
+            </BodyCopy>
           </div>
         ))}
       </div>
