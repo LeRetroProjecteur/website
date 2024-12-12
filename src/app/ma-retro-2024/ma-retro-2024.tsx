@@ -164,7 +164,7 @@ function ShareableContent({ rowsData }: ShareableContentProps) {
             <div className="text-30px leading-15px">•</div>
             <div className="pt-35px underline">Top 2024</div>
           </div>
-          <div className="flex grow items-center justify-center text-center font-degular text-40px font-bold uppercase leading-35px text-retro-blue">
+          <div className="flex grow items-center justify-center text-center font-degular text-40px font-black uppercase leading-35px tracking-[0.01em] text-retro-blue">
             Ma Rétro
             <br />
             2024
