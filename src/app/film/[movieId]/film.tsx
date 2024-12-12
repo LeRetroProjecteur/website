@@ -137,7 +137,14 @@ function MovieInformation({ movie }: { movie: MovieDetail }) {
 }
 
 function MovieScreenings({ movie }: { movie: MovieDetail }) {
-  const screenings = filterDates(movie.screenings);
+  let screenings = {};
+  try {
+    screenings = movie?.screenings ? filterDates(movie.screenings) : {};
+    console.log("screenings after filter:", screenings);
+  } catch (error) {
+    console.error("Error in filterDates:", error);
+  }
+
   return (
     <>
       <SectionTitle>Prochaines séances à Paris</SectionTitle>
