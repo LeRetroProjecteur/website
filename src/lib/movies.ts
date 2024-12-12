@@ -16,6 +16,7 @@ import {
   MovieDetail,
   MovieWithScreeningsOneDay,
   MovieWithScreeningsSeveralDays,
+  ReducedMovie,
   Review,
   SearchMovie,
 } from "./types";
@@ -87,19 +88,49 @@ export const getDayMovies = unstable_cache(
     return docs;
   },
   ["day-movies"],
-  { revalidate: 1 },
+  { revalidate: 60 },
 );
 
-export const getMovies = async () => {
-  const { db } = getFirebase();
-  const collectionRef = collection(db, "website-extra-docs");
-  const query_docs = query(collectionRef, where("search", "==", true));
-  const querySnapshot = await getDocs(query_docs);
-  const searchMovies = querySnapshot.docs.flatMap(
-    (doc) => doc.data().elements,
-  ) as SearchMovie[];
-  return searchMovies;
-};
+export const getMovies = unstable_cache(
+  async () => {
+    const { db } = getFirebase();
+    const collectionRef = collection(db, "website-extra-docs");
+    const query_docs = query(collectionRef, where("search", "==", true));
+    const querySnapshot = await getDocs(query_docs);
+    const searchMovies = querySnapshot.docs.flatMap(
+      (doc) => doc.data().elements,
+    ) as SearchMovie[];
+    return searchMovies;
+  },
+  ["all-movies"],
+  { revalidate: 10 },
+);
+
+export const getAllMovies = unstable_cache(
+  async () => {
+    const { db } = getFirebase();
+    const collectionRef = collection(db, "website-all-movies-list");
+    const query_docs = query(collectionRef, where("s", "==", true));
+    const querySnapshot = await getDocs(query_docs);
+
+    return querySnapshot.docs.flatMap((doc) => {
+      const reducedMovies = doc.data().e as ReducedMovie[];
+
+      return reducedMovies.map(
+        (reduced): SearchMovie => ({
+          id: reduced.i,
+          directors: reduced.d,
+          title: reduced.t,
+          year: reduced.y,
+          original_title: reduced.o || undefined,
+          relevance_score: reduced.r,
+        }),
+      );
+    });
+  },
+  ["all-movies"],
+  { revalidate: 180 },
+);
 
 export const getReviewedMovies = unstable_cache(
   async () => {
@@ -109,7 +140,7 @@ export const getReviewedMovies = unstable_cache(
     return checkNotNull(querySnapshot.data()).elements as Review[];
   },
   ["reviewed-movies"],
-  { revalidate: 1 },
+  { revalidate: 60 },
 );
 
 export const getMovie = unstable_cache(
@@ -123,5 +154,5 @@ export const getMovie = unstable_cache(
     return querySnapshot.docs.map((doc) => doc.data() as MovieDetail)[0];
   },
   ["single-movie"],
-  { revalidate: 1 },
+  { revalidate: 60 },
 );

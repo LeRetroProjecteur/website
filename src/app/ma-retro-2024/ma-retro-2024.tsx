@@ -1,6 +1,7 @@
 "use client";
 
 import clsx from "clsx";
+import Link from "next/link";
 import React, { ReactNode, useState } from "react";
 
 import { SearchResults } from "@/app/recherche/recherche";
@@ -8,7 +9,11 @@ import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
-import { SousTitre1, SousTitre2 } from "@/components/typography/typography";
+import {
+  BodyCopy,
+  SousTitre1,
+  SousTitre2,
+} from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
 
 import { MiddleColumn, ThreeColumnLayout } from "../actualites/components";
@@ -25,7 +30,7 @@ function OpenQuestion({
 }) {
   return (
     <div className="flex flex-col pt-20px">
-      <label className="pb-5px">{question}</label>
+      <BodyCopy className="pb-5px">{question}</BodyCopy>
       <textarea
         placeholder={"Réponse facultative".toUpperCase()}
         value={value}
@@ -41,11 +46,13 @@ function TextInputBox({
   value,
   onChangeFunction,
   className,
+  maxLength,
 }: {
   placeholder: string;
   value: string;
   onChangeFunction: React.Dispatch<React.SetStateAction<string>>;
   className?: string;
+  maxLength?: number;
 }) {
   return (
     <div className={clsx(className, "flex flex-col py-10px")}>
@@ -54,6 +61,7 @@ function TextInputBox({
         onChange={(e) => onChangeFunction(e.target.value)}
         className="border p-10px"
         placeholder={placeholder.toUpperCase()}
+        maxLength={maxLength}
       />
     </div>
   );
@@ -89,9 +97,9 @@ function MovieRow({
   return (
     <SondageRow
       cell1={
-        <div className="flex h-full items-center justify-center border text-center text-retro-bordeaux">
+        <div className="flex h-full items-center justify-center border text-center text-retro-gray">
           {index + 1}
-          {index < 5 && <span className="text-retro-bordeaux">*</span>}
+          {index < 5 && <span className="text-retro-red">*</span>}
         </div>
       }
       cell2={
@@ -108,18 +116,22 @@ function MovieRow({
           <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
             {showResults && (
               <SearchResults
-                altColor="retro-blue"
+                altColor={true}
                 className="border-x px-5px py-2px"
                 nbResults={5}
                 searchTerm={searchTerm}
                 allDataPromise={allMoviesPromise}
                 noResultsText="Nous ne trouvons pas votre film, mais vous pouvez le renseigner manuellement."
+                noResultsTextSize="small"
                 lowercase={true}
                 onClick={(movie) => {
                   setSearchFind(
                     `${movie.title}, ${movie.directors} (${movie.year})`,
                     movie.id,
                   );
+                  setShowResults(false);
+                }}
+                onClose={() => {
                   setShowResults(false);
                 }}
               />
@@ -136,30 +148,21 @@ interface ShareableContentProps {
     movie: string;
     id: string;
   }[];
-  fullName: string;
 }
 
-const SHARE_CONFIG = {
-  spacing: {
-    contentPadding: 16, // px - padding around content
-  },
-} as const;
-
-function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
+function ShareableContent({ rowsData }: ShareableContentProps) {
   const filteredMovies = rowsData.filter((row) => row.movie !== "");
   // const cornerTextStyle = "font-semi-bold text-retro-blue underline hidden lg:block uppercase";
-  const cornerTextStyle =
-    "font-semibold text-[13px] text-retro-blue underline hidden lg:block uppercase";
+  const cornerTextStyle = "font-semibold text-[13px] text-retro-blue uppercase";
   return (
     <div className="w-[100%] bg-retro-bordeaux lg:w-500px">
-      <div
-        style={{
-          padding: SHARE_CONFIG.spacing.contentPadding,
-        }}
-      >
+      <div className="p-10px lg:p-16px">
         <div className="relative flex grow items-start">
-          <div className={`absolute left-0 top-0 ${cornerTextStyle}`}>
-            Top 2024
+          <div
+            className={`absolute left-0 top-0 flex h-full flex-col ${cornerTextStyle}`}
+          >
+            <div className="text-30px leading-15px">•</div>
+            <div className="pt-35px underline">Top 2024</div>
           </div>
           <div className="flex grow items-center justify-center text-center font-degular text-40px font-bold uppercase leading-35px text-retro-blue">
             Ma Rétro
@@ -167,22 +170,17 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
             2024
           </div>
           <div className={`absolute right-0 top-0 ${cornerTextStyle}`}>
-            {fullName ? <>Par {fullName}</> : <>#MaRétro2024</>}
+            <div className="text-right text-30px leading-15px">•</div>
+            <div className="pt-35px underline">#MaRétro</div>
           </div>
         </div>
       </div>
-      <div
-        className="flex flex-col bg-retro-blue"
-        style={{
-          paddingLeft: SHARE_CONFIG.spacing.contentPadding,
-          paddingRight: SHARE_CONFIG.spacing.contentPadding,
-        }}
-      >
+      <div className="flex flex-col bg-retro-blue px-10px py-10px lg:px-16px">
         {filteredMovies.map((row, index) => (
           <div
             key={index}
             className={clsx(
-              "flex w-full justify-center border-retro-bordeaux px-10px py-5px text-center text-retro-bordeaux",
+              "flex w-full justify-center border-retro-bordeaux px-10px py-6px text-center",
               index === 0
                 ? "border-b-[0.5px]"
                 : index === filteredMovies.length - 1
@@ -190,28 +188,28 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
                   : "border-y-[0.5px]",
             )}
           >
-            {index + 1}. {row.movie}
+            <BodyCopy className="text-retro-bordeaux">
+              {index + 1}. {row.movie}
+            </BodyCopy>
           </div>
         ))}
       </div>
-      <div
-        style={{
-          padding: SHARE_CONFIG.spacing.contentPadding,
-        }}
-      >
+      <div className="p-10px lg:p-16px">
         <div className="relative flex grow items-end">
           <div className={`absolute bottom-0 left-0 ${cornerTextStyle}`}>
-            Top 2024
+            <div className="pb-10px underline"> Top 2024</div>
+            <div className="text-30px leading-15px">•</div>
           </div>
           <div className="flex grow items-center justify-center">
             <img
               src="/img/logo-blue.png"
               alt="Logo"
-              className="h-auto w-157px max-w-[40%]"
+              className="h-auto w-157px max-w-[50%]"
             />
           </div>
           <div className={`absolute bottom-0 right-0 ${cornerTextStyle}`}>
-            #MaRétro2024
+            <div className="pb-10px underline"> #MaRétro </div>
+            <div className="text-right text-30px leading-15px">•</div>
           </div>
         </div>
       </div>
@@ -219,17 +217,17 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
   );
 }
 
-function SharePage({ rowsData, fullName }: ShareableContentProps) {
+function SharePage({ rowsData }: ShareableContentProps) {
   return (
     <>
       <div className="flex justify-center pb-20px" id="shareableContent">
-        <ShareableContent rowsData={rowsData} fullName={fullName} />
+        <ShareableContent rowsData={rowsData} />
       </div>
-      <div className="border-t py-20px">
+      <BodyCopy className="border-t py-20px">
         Merci pour votre participation&nbsp;! N&apos;hésitez pas à partager
-        votre rétrospective 2024 et à encourager vos ami.e.s à venir
-        voter&nbsp;!
-      </div>
+        votre rétrospective 2024 et à encourager vos ami·es à en faire
+        autant&nbsp;!
+      </BodyCopy>
       <div className="flex flex-col gap-y-10px">
         <TextBox link="/ma-retro-2024">Modifier ma rétrospective</TextBox>
       </div>
@@ -274,7 +272,7 @@ export default function MaRetro2024({
     const hasAtLeastTwoMovies =
       rowsData.filter((row) => row.movie.trim() !== "").length >= 2;
     if (!hasAtLeastTwoMovies) {
-      setResponseMessage("Veuillez sélectionner au moins deux films.");
+      setResponseMessage("Veuillez sélectionner au moins cinq films.");
       return;
     }
     setIsSubmitting(true);
@@ -319,7 +317,7 @@ export default function MaRetro2024({
   return (
     <>
       <PageHeader text="Ma Rétro 2024">
-        <SousTitre1>Votez pour vos meilleures ressorties cinéma</SousTitre1>
+        <SousTitre1>Votez pour vos plus belles découvertes&nbsp;!</SousTitre1>
       </PageHeader>
       {isSubmitting ? (
         <LoadingPage />
@@ -327,30 +325,47 @@ export default function MaRetro2024({
         <ThreeColumnLayout>
           <MiddleColumn>
             {showSharePage ? (
-              <SharePage rowsData={rowsData} fullName={fullName} />
+              <SharePage rowsData={rowsData} />
             ) : (
               <>
+                <BodyCopy className="flex flex-col gap-y-10px">
+                  <div>
+                    L&apos;année 2024 a été{" "}
+                    <Link href="/coeur" className="underline">
+                      riche en ressorties cinéma
+                    </Link>
+                    . Et vous, quels ont été vos coups de cœur de
+                    l&apos;année&nbsp;? En cette saison des tops à-tout-va, Le
+                    Rétro Projecteur vous propose de concocter un petit
+                    classement de vos plus belles découvertes&nbsp;!
+                  </div>
+                  <div>
+                    <b>NB&nbsp;:</b> Est éligible tout film vieux de plus de
+                    trois ans. Si vous ne trouvez pas votre choix dans les
+                    propositions, entrez les informations du films manuellement
+                    du film et passez à la case suivante.
+                  </div>
+                </BodyCopy>
                 {/* Name */}
                 <TextInputBox
-                  placeholder="Votre nom/pseudo (facultatif)"
+                  placeholder="Votre nom ou pseudo"
                   value={fullName}
                   onChangeFunction={setFullName}
-                  className="pb-20px"
+                  className="py-15px lg:py-20px"
+                  maxLength={15}
                 />
                 {/* Top */}
                 <div className="flex flex-col gap-y-10px">
                   <div className="border-y bg-retro-blue uppercase">
                     <SondageRow
                       cell1={
-                        <div className="retro-bordeaux py-6px text-center font-bold lg:py-17px">
-                          <SousTitre2 textColor="retro-bordeaux">#</SousTitre2>
+                        <div className="py-6px text-center font-bold lg:py-17px">
+                          <SousTitre2>#</SousTitre2>
                         </div>
                       }
                       cell2={
                         <div className="py-6px text-center font-bold lg:py-17px">
-                          <SousTitre2 textColor="retro-bordeaux">
-                            Film
-                          </SousTitre2>
+                          <SousTitre2>Film</SousTitre2>
                         </div>
                       }
                     />
@@ -367,12 +382,12 @@ export default function MaRetro2024({
                 <div className="pt-10px">
                   {/* Additional Questions */}
                   <OpenQuestion
-                    question="Y a-t-il des films ou des réalisateurs·rices en particulier que vous aimeriez voir plus souvent programmé·e·s en salle&nbsp;?"
+                    question="Y a-t-il des films ou des réalisateur·ices en particulier que vous aimeriez voir plus souvent programmé·es en salle&nbsp;?"
                     value={real}
                     onChangeFunction={setReal}
                   />
                   <OpenQuestion
-                    question="À combien estimez-vous le nombre de fois où vous êtes allé·e·s voir un film en ressortie au cinéma cette année&nbsp;?"
+                    question="À combien estimez-vous le nombre de fois où vous êtes allé·es voir un film en ressortie au cinéma cette année&nbsp;?"
                     value={nombreDeFois}
                     onChangeFunction={setNombreDeFois}
                   />
@@ -382,40 +397,38 @@ export default function MaRetro2024({
                     onChangeFunction={setAutreInformation}
                   />
                   {/* Newsletter Signup */}
-                  <div className="flex flex-col py-30px">
-                    <div className="flex items-start gap-x-10px">
-                      <div
-                        onClick={() => setNewsletter(!newsletter)}
-                        className={clsx(
-                          "tw-ring-color-black min-w-25x flex h-25px cursor-pointer items-center justify-center border accent-black lg:h-30px lg:min-w-30px",
-                          newsletter ? "bg-retro-blue" : "text-retro-blue",
-                        )}
-                      >
-                        {newsletter && <p className="text-retro-gray">✓</p>}
+                  <div className="py-30px">
+                    <div className="border bg-retro-blue p-10px">
+                      <div className="flex items-start gap-x-10px">
+                        <div
+                          onClick={() => setNewsletter(!newsletter)}
+                          className="flex h-20px min-w-20px cursor-pointer items-center justify-center border border-retro-gray bg-white"
+                        >
+                          {newsletter && <p className="text-retro-gray">✓</p>}
+                        </div>
+                        <label className="cursor-pointer text-retro-gray">
+                          Je souhaite m&apos;inscrire à «&nbsp;Up Close&nbsp;»,
+                          la newsletter hebdomadaire du Rétro Projecteur pour
+                          recevoir l&apos;actualité des ressorties cinéma&nbsp;!
+                        </label>
                       </div>
-                      <label className="border bg-retro-blue p-5px px-12px py-8px uppercase text-retro-gray">
-                        Je souhaite m&apos;inscrire à «&nbsp;Up Close&nbsp;», la
-                        newsletter hebdomadaire du Rétro Projecteur pour
-                        recevoir l&apos;actualité des ressorties cinéma chaque
-                        semaine&nbsp;!
-                      </label>
+                      {newsletter && (
+                        <TextInputBox
+                          placeholder="Votre adresse email*"
+                          value={email}
+                          onChangeFunction={setEmail}
+                        />
+                      )}
                     </div>
-                    {newsletter && (
-                      <TextInputBox
-                        placeholder="Votre adresse email*"
-                        value={email}
-                        onChangeFunction={setEmail}
-                      />
-                    )}
                   </div>
                 </div>
                 <TextBox
                   onClick={handleSubmit}
-                  className="bg-retro-gray text-retro-white"
+                  className="bg-retro-gray text-retro-white hover:bg-retro-bordeaux"
                 >
                   Envoyer mon top 2024&nbsp;!
                 </TextBox>
-                <p className="mt-4 font-bold">{responseMessage}</p>
+                <p className="mt-4 font-semibold">{responseMessage}</p>
               </>
             )}
           </MiddleColumn>

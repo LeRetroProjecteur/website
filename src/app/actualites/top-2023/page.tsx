@@ -991,7 +991,7 @@ export default function Page() {
           <BodyCopy>
             Le Rétro Projecteur a également sollicité des contributions de la
             part de différentes personnalités du monde du cinéma : critiques
-            institutionnel·le·s ou indépendant·e·s, cinéastes, membres
+            institutionnel·les ou indépendant·es, cinéastes, membres
             d&apos;associations,&nbsp;… On les remercie pour leur
             participation&nbsp;!
           </BodyCopy>

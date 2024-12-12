@@ -114,21 +114,26 @@ export function SearchResults({
   nbResults,
   verticalFooter,
   onClick,
+  onClose,
   noResultsText = "Désolé, nous n'avons rien trouvé qui corresponde à votre recherche !",
+  noResultsTextSize = "default",
   className,
   lowercase = false,
-  altColor = "retro-pale-green",
+  altColor = false,
 }: {
   allDataPromise: Promise<SearchMovie[]>;
   searchTerm: string;
   nbResults: number;
   verticalFooter?: boolean;
   onClick?: (movie: SearchMovie) => void;
+  onClose?: () => void;
   noResultsText?: string;
+  noResultsTextSize?: "default" | "small" | "large";
   className?: string;
   lowercase?: boolean;
-  altColor?: string;
+  altColor?: boolean;
 }) {
+  const containerRef = useRef<HTMLDivElement>(null);
   const selected = useRechercheStore((s) => s.selected);
   const tags = useRechercheStore((s) => s.tags);
   const allData = use(allDataPromise);
@@ -172,6 +177,11 @@ export function SearchResults({
   );
   useEffect(() => {
     const keydown = (ev: KeyboardEvent) => {
+      // Add Escape key handling
+      if (ev.key === "Escape" && onClose) {
+        onClose();
+        return;
+      }
       const selected = useRechercheStore.getState().selected;
       if (ev.key === "ArrowDown") {
         setSelected(Math.min((selected ?? -1) + 1, filtered.length - 1));
@@ -185,12 +195,26 @@ export function SearchResults({
         }
       }
     };
+    const clickOutside = (ev: MouseEvent) => {
+      if (
+        onClose &&
+        containerRef.current &&
+        !containerRef.current.contains(ev.target as Node)
+      ) {
+        onClose();
+      }
+    };
+
     addEventListener("keydown", keydown);
-    return () => removeEventListener("keydown", keydown);
-  }, [filtered, onClick]);
+    addEventListener("mousedown", clickOutside); // Changed to mousedown
+    return () => {
+      removeEventListener("keydown", keydown);
+      removeEventListener("mousedown", clickOutside); // Changed to mousedown
+    };
+  }, [filtered, onClick, onClose]);
   return (
     searchTerm.length > 0 && (
-      <div className="flex grow flex-col">
+      <div ref={containerRef} className="flex grow flex-col">
         {filtered.length > 0 ? (
           <>
             {filtered.map((elem, i) => (
@@ -207,11 +231,20 @@ export function SearchResults({
                 key={elem.id}
                 href=""
                 className={clsx(
-                  {
-                    [`lg:bg-${altColor}`]: i === selected,
-                    "lg:even:bg-white": i !== selected,
-                  },
-                  `border-x border-b even:bg-${altColor} lg:hover:bg-${altColor}`,
+                  altColor
+                    ? {
+                        "lg:bg-retro-pale-blue": i === selected,
+                        "lg:even:bg-white": i !== selected,
+                        "even:bg-retro-pale-blue lg:hover:bg-retro-pale-blue":
+                          true,
+                      }
+                    : {
+                        "lg:bg-retro-pale-green": i === selected,
+                        "lg:even:bg-white": i !== selected,
+                        "even:bg-retro-pale-green lg:hover:bg-retro-pale-green":
+                          true,
+                      },
+                  "border-b",
                   className,
                 )}
               >
@@ -223,8 +256,10 @@ export function SearchResults({
             )}
           </>
         ) : (
-          <div className="pt-15px lg:pt-20px">
-            <MetaCopy lowercase={lowercase}>{noResultsText}</MetaCopy>
+          <div className="pt-11px lg:pt-13px">
+            <MetaCopy lowercase={lowercase} size={noResultsTextSize}>
+              {noResultsText}
+            </MetaCopy>
           </div>
         )}
       </div>
