@@ -164,7 +164,7 @@ function ShareableContent({ rowsData }: ShareableContentProps) {
             <div className="text-30px leading-15px">•</div>
             <div className="pt-35px underline">Top 2024</div>
           </div>
-          <div className="flex grow items-center justify-center text-center font-degular text-40px font-bold uppercase leading-35px text-retro-blue">
+          <div className="flex grow items-center justify-center text-center font-degular text-40px font-black uppercase leading-35px tracking-[0.01em] text-retro-blue">
             Ma Rétro
             <br />
             2024
@@ -229,7 +229,7 @@ function SharePage({ rowsData }: ShareableContentProps) {
         autant&nbsp;!
       </BodyCopy>
       <div className="flex flex-col gap-y-10px">
-        <TextBox link="/ma-retro-2024">Modifier ma rétrospective</TextBox>
+        <TextBox link="/ma-retro-2024">Recomposer ma rétrospective</TextBox>
       </div>
     </>
   );
@@ -343,7 +343,7 @@ export default function MaRetro2024({
                     <b>NB&nbsp;:</b> Est éligible tout film vieux de plus de
                     trois ans. Si vous ne trouvez pas votre choix dans les
                     propositions, entrez les informations du films manuellement
-                    du film et passez à la case suivante.
+                    et passez à la case suivante.
                   </div>
                 </BodyCopy>
                 {/* Name */}
