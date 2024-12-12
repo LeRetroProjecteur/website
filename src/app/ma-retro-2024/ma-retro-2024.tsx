@@ -148,16 +148,9 @@ interface ShareableContentProps {
     movie: string;
     id: string;
   }[];
-  fullName: string;
 }
 
-const SHARE_CONFIG = {
-  spacing: {
-    contentPadding: 16, // px - padding around content
-  },
-} as const;
-
-function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
+function ShareableContent({ rowsData }: ShareableContentProps) {
   const filteredMovies = rowsData.filter((row) => row.movie !== "");
   // const cornerTextStyle = "font-semi-bold text-retro-blue underline hidden lg:block uppercase";
   const cornerTextStyle = "font-semibold text-[13px] text-retro-blue uppercase";
@@ -178,10 +171,7 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
           </div>
           <div className={`absolute right-0 top-0 ${cornerTextStyle}`}>
             <div className="text-right text-30px leading-15px">•</div>
-            <div className="pt-35px underline">
-              {" "}
-              {fullName ? <>Par {fullName}</> : <>#MaRétro</>}
-            </div>
+            <div className="pt-35px underline">#MaRétro</div>
           </div>
         </div>
       </div>
@@ -225,11 +215,11 @@ function ShareableContent({ rowsData, fullName }: ShareableContentProps) {
   );
 }
 
-function SharePage({ rowsData, fullName }: ShareableContentProps) {
+function SharePage({ rowsData }: ShareableContentProps) {
   return (
     <>
       <div className="flex justify-center pb-20px" id="shareableContent">
-        <ShareableContent rowsData={rowsData} fullName={fullName} />
+        <ShareableContent rowsData={rowsData} />
       </div>
       <div className="border-t py-20px">
         Merci pour votre participation&nbsp;! N&apos;hésitez pas à partager
@@ -333,7 +323,7 @@ export default function MaRetro2024({
         <ThreeColumnLayout>
           <MiddleColumn>
             {showSharePage ? (
-              <SharePage rowsData={rowsData} fullName={fullName} />
+              <SharePage rowsData={rowsData} />
             ) : (
               <>
                 <BodyCopy className="flex flex-col gap-y-10px">
@@ -405,32 +395,29 @@ export default function MaRetro2024({
                     onChangeFunction={setAutreInformation}
                   />
                   {/* Newsletter Signup */}
-                  <div className="flex flex-col py-30px">
-                    <div className="flex items-start gap-x-10px">
-                      <div
-                        onClick={() => setNewsletter(!newsletter)}
-                        className={clsx(
-                          "flex h-20px min-w-[20px] cursor-pointer items-center justify-center border accent-black lg:h-30px lg:min-w-30px",
-                          newsletter
-                            ? "bg-retro-blue"
-                            : "bg-retro-blue text-retro-blue",
-                        )}
-                      >
-                        {newsletter && <p className="text-retro-gray">✓</p>}
+                  <div className="py-30px">
+                    <div className="border bg-retro-blue p-10px">
+                      <div className="flex items-start gap-x-10px">
+                        <div
+                          onClick={() => setNewsletter(!newsletter)}
+                          className="flex h-20px min-w-20px cursor-pointer items-center justify-center border border-retro-gray bg-white"
+                        >
+                          {newsletter && <p className="text-retro-gray">✓</p>}
+                        </div>
+                        <label className="cursor-pointer text-retro-gray">
+                          Je souhaite m&apos;inscrire à «&nbsp;Up Close&nbsp;»,
+                          la newsletter hebdomadaire du Rétro Projecteur pour
+                          recevoir l&apos;actualité des ressorties cinéma&nbsp;!
+                        </label>
                       </div>
-                      <label className="border bg-retro-blue p-5px px-12px py-8px text-retro-gray">
-                        Je souhaite m&apos;inscrire à «&nbsp;Up Close&nbsp;», la
-                        newsletter hebdomadaire du Rétro Projecteur pour
-                        recevoir l&apos;actualité des ressorties cinéma&nbsp;!
-                      </label>
+                      {newsletter && (
+                        <TextInputBox
+                          placeholder="Votre adresse email*"
+                          value={email}
+                          onChangeFunction={setEmail}
+                        />
+                      )}
                     </div>
-                    {newsletter && (
-                      <TextInputBox
-                        placeholder="Votre adresse email*"
-                        value={email}
-                        onChangeFunction={setEmail}
-                      />
-                    )}
                   </div>
                 </div>
                 <TextBox
