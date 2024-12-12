@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { getMovies } from "@/lib/movies";
+import { getAllMovies } from "@/lib/movies";
 
 import MaRetro2024 from "./ma-retro-2024";
 
@@ -12,7 +12,6 @@ export const metadata: Metadata = {
 };
 
 export default function SubmitScreeningsPage() {
-  const allMovies = getMovies();
-
-  return <MaRetro2024 allMoviesPromise={allMovies} />;
+  const movies = getAllMovies();
+  return <MaRetro2024 allMoviesPromise={movies} />;
 }
