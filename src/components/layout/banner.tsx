@@ -56,6 +56,12 @@ const Banner: React.FC<BannerProps> = ({ children, speed = 50 }) => {
           <div key={3} ref={contentRef} className="inline-flex">
             {children}
           </div>
+          <div key={4} ref={contentRef} className="inline-flex">
+            {children}
+          </div>
+          <div key={5} ref={contentRef} className="inline-flex">
+            {children}
+          </div>
         </motion.div>
       </div>
     </Link>

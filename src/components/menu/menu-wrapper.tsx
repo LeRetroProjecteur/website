@@ -26,10 +26,15 @@ export default function MenuWrapper({
   return (
     <>
       <Banner>
-        <div className="px-50px">
+        <div className="hidden px-50px lg:block">
           <div>
             Quelles ont été vos meilleures découvertes cinéma de
             l&apos;année&nbsp;? Votez dans notre sondage&nbsp;!
+          </div>
+        </div>
+        <div className="px-50px lg:hidden">
+          <div>
+            Votez pour vos meilleures découvertes de l&apos;année&nbsp;!
           </div>
         </div>
         <div>•</div>
