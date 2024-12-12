@@ -240,7 +240,7 @@ export default function MaRetro2024({
 }: {
   allMoviesPromise: Promise<SearchMovie[]>;
 }) {
-  const numSubmissions = 2;
+  const numSubmissions = 1;
   const [responseMessage, setResponseMessage] = useState("");
   const [rowsData, setRowsData] = useState(
     Array(numSubmissions).fill({
