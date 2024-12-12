@@ -3,7 +3,10 @@ import {
   doc,
   getDoc,
   getDocs,
+  limit,
+  orderBy,
   query,
+  startAt,
   where,
 } from "firebase/firestore";
 import { keyBy, uniq } from "lodash-es";
@@ -16,7 +19,6 @@ import {
   MovieDetail,
   MovieWithScreeningsOneDay,
   MovieWithScreeningsSeveralDays,
-  ReducedMovie,
   Review,
   SearchMovie,
 } from "./types";
@@ -106,29 +108,51 @@ export const getMovies = unstable_cache(
   { revalidate: 10 },
 );
 
-export const getAllMovies = unstable_cache(
-  async () => {
+export const getAllMovies = async () => {
+  const allMovies: SearchMovie[] = [];
+  let nextDoc: string | undefined = undefined;
+  let firstIteration = true;
+
+  // eslint-disable-next-line no-constant-condition
+  while (firstIteration || nextDoc != null) {
+    firstIteration = false;
+    const result = await getAllMoviesOneDocHelper(nextDoc);
+
+    allMovies.push(...result.movies);
+    nextDoc = result.nextDoc;
+  }
+
+  return allMovies;
+};
+
+const getAllMoviesOneDocHelper = unstable_cache(
+  async (nextDoc?: string) => {
     const { db } = getFirebase();
     const collectionRef = collection(db, "website-all-movies-list");
-    const query_docs = query(collectionRef, where("s", "==", true));
+
+    const query_docs = query(
+      collectionRef,
+      ...[
+        where("s", "==", true),
+        orderBy("__name__"),
+        limit(2),
+        ...(nextDoc == null ? [] : [startAt(nextDoc)]),
+      ],
+    );
     const querySnapshot = await getDocs(query_docs);
-
-    return querySnapshot.docs.flatMap((doc) => {
-      const reducedMovies = doc.data().e as ReducedMovie[];
-
-      return reducedMovies.map(
-        (reduced): SearchMovie => ({
-          id: reduced.i,
-          directors: reduced.d,
-          title: reduced.t,
-          year: reduced.y,
-          original_title: reduced.o || undefined,
-          relevance_score: reduced.r,
-        }),
-      );
-    });
+    if (querySnapshot.docs.length === 0) {
+      return { movies: [] };
+    } else if (querySnapshot.docs.length > 2) {
+      throw new Error();
+    } else {
+      const doc = querySnapshot.docs[0];
+      return {
+        movies: doc.data().e as SearchMovie[],
+        nextDoc: querySnapshot.docs.at(1)?.id,
+      };
+    }
   },
-  ["all-movies"],
+  ["all-movies-one-doc"],
   { revalidate: 180 },
 );
 
