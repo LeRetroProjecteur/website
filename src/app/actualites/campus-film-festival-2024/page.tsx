@@ -35,8 +35,8 @@ export default function Page() {
           <Question>Qu’est-ce que le Campus Film Festival&nbsp;?</Question>
           <Answer>
             Le Campus Film Festival est un festival de cinéma organisé par des
-            étudiant·e·s de l&apos;Université Paris 8. Notre équipe est composée
-            de jeunes passionné·e·s de cinéma, avec des aspirations
+            étudiant·es de l&apos;Université Paris 8. Notre équipe est composée
+            de jeunes passionné·es de cinéma, avec des aspirations
             professionnelles variées telles que la production, la distribution
             et la médiation autour des publics du cinéma, ainsi que les métiers
             télévisuels. Lors de la première édition, qui a eu lieu en mai 2023,
@@ -103,7 +103,7 @@ export default function Page() {
             Tout repose sur l’importance de composer une programmation
             équilibrée, qui soit grand public tout en étant pointue. Nous avons
             surmonté bien des obstacles pour les films n’ayant plus de
-            distributeurs français. Il faut s’improviser enquêteur·trice·s pour
+            distributeurs français. Il faut s’improviser enquêteur·ices pour
             dénicher les coordonnées des ayants-droits, s’habituer aussi à leur
             silence, leur refus, voire même à leur revirement à quelques jours
             du festival&nbsp;! C’est l’aspect le plus incertain de la
@@ -117,7 +117,7 @@ export default function Page() {
           <Answer>
             <div>
               Le Campus Film Festival vise un public diversifié, mais avec une
-              attention particulière portée aux jeunes spectateur·trice·s ainsi
+              attention particulière portée aux jeunes spectateur·trices ainsi
               qu&apos;à celles et ceux qui apprécient la nostalgie et les
               expériences passées. En mettant l&apos;accent sur les thèmes du
               rêve, de l&apos;onirisme et des aspirations profondes de la
