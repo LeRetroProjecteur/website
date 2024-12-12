@@ -233,9 +233,10 @@ export function SearchResults({
                 className={clsx(
                   altColor
                     ? {
-                        "lg:bg-retro-blue": i === selected,
+                        "lg:bg-retro-pale-blue": i === selected,
                         "lg:even:bg-white": i !== selected,
-                        "even:bg-retro-blue lg:hover:bg-retro-blue": true,
+                        "even:bg-retro-pale-blue lg:hover:bg-retro-pale-blue":
+                          true,
                       }
                     : {
                         "lg:bg-retro-pale-green": i === selected,
