@@ -2,7 +2,7 @@ name: Fly Deploy (staging)
 on:
   push:
     branches:
-      - ugo/fix
+      - ugo/testing-new-movie-list
 jobs:
   deploy:
     name: Deploy app
