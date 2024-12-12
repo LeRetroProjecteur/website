@@ -33,6 +33,15 @@ export interface SearchMovie extends MovieInfo {
   relevance_score: number;
 }
 
+export interface ReducedMovie {
+  i: string; // id
+  d: string; // directors
+  t: string; // title
+  y: string; // year
+  o?: string; // original_title
+  r: number; // relevance_score
+}
+
 export interface MovieWithScreeningsOneDay extends MovieInfo {
   review_category?: string;
   showtimes_theater: TheaterScreenings[];
