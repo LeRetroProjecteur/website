@@ -225,8 +225,8 @@ function SharePage({ rowsData }: ShareableContentProps) {
       </div>
       <BodyCopy className="border-t py-20px">
         Merci pour votre participation&nbsp;! N&apos;hésitez pas à partager
-        votre rétrospective 2024 et à encourager vos ami.e.s à venir
-        voter&nbsp;!
+        votre rétrospective 2024 et à encourager vos ami·es à en faire
+        autant&nbsp;!
       </BodyCopy>
       <div className="flex flex-col gap-y-10px">
         <TextBox link="/ma-retro-2024">Modifier ma rétrospective</TextBox>
@@ -382,7 +382,7 @@ export default function MaRetro2024({
                 <div className="pt-10px">
                   {/* Additional Questions */}
                   <OpenQuestion
-                    question="Y a-t-il des films ou des réalisateurs·rices en particulier que vous aimeriez voir plus souvent programmé·e·s en salle&nbsp;?"
+                    question="Y a-t-il des films ou des réalisateur·rices en particulier que vous aimeriez voir plus souvent programmé·e·s en salle&nbsp;?"
                     value={real}
                     onChangeFunction={setReal}
                   />
