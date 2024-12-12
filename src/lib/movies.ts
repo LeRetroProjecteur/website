@@ -129,7 +129,7 @@ export const getAllMovies = async () => {
 const getAllMoviesOneDocHelper = unstable_cache(
   async (nextDoc?: string) => {
     const { db } = getFirebase();
-    const collectionRef = collection(db, "website-all-movies-list");
+    const collectionRef = collection(db, "website-all-movies-list-everything");
 
     const query_docs = query(
       collectionRef,
