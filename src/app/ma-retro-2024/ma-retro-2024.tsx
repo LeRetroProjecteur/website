@@ -221,11 +221,11 @@ function SharePage({ rowsData }: ShareableContentProps) {
       <div className="flex justify-center pb-20px" id="shareableContent">
         <ShareableContent rowsData={rowsData} />
       </div>
-      <div className="border-t py-20px">
+      <BodyCopy className="border-t py-20px">
         Merci pour votre participation&nbsp;! N&apos;hésitez pas à partager
         votre rétrospective 2024 et à encourager vos ami.e.s à venir
         voter&nbsp;!
-      </div>
+      </BodyCopy>
       <div className="flex flex-col gap-y-10px">
         <TextBox link="/ma-retro-2024">Modifier ma rétrospective</TextBox>
       </div>
