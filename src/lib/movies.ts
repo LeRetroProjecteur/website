@@ -16,6 +16,7 @@ import {
   MovieDetail,
   MovieWithScreeningsOneDay,
   MovieWithScreeningsSeveralDays,
+  ReducedMovie,
   Review,
   SearchMovie,
 } from "./types";
@@ -104,15 +105,6 @@ export const getMovies = unstable_cache(
   ["all-movies"],
   { revalidate: 10 },
 );
-
-interface ReducedMovie {
-  i: string; // id
-  d: string; // directors
-  t: string; // title
-  y: string; // year
-  o?: string; // original_title
-  r: number; // relevance_score
-}
 
 export const getAllMovies = unstable_cache(
   async () => {

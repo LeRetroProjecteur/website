@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import { getMovies } from "@/lib/movies";
+import { getAllMovies } from "@/lib/movies";
 
 import Recherche from "./recherche";
 
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default function RecherchePage() {
-  const allMovies = getMovies();
+  const allMovies = getAllMovies();
 
   return <Recherche allMoviesPromise={allMovies} />;
 }
