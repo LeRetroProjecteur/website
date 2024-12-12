@@ -382,12 +382,12 @@ export default function MaRetro2024({
                 <div className="pt-10px">
                   {/* Additional Questions */}
                   <OpenQuestion
-                    question="Y a-t-il des films ou des réalisateur·rices en particulier que vous aimeriez voir plus souvent programmé·e·s en salle&nbsp;?"
+                    question="Y a-t-il des films ou des réalisateur·rices en particulier que vous aimeriez voir plus souvent programmé·es en salle&nbsp;?"
                     value={real}
                     onChangeFunction={setReal}
                   />
                   <OpenQuestion
-                    question="À combien estimez-vous le nombre de fois où vous êtes allé·e·s voir un film en ressortie au cinéma cette année&nbsp;?"
+                    question="À combien estimez-vous le nombre de fois où vous êtes allé·es voir un film en ressortie au cinéma cette année&nbsp;?"
                     value={nombreDeFois}
                     onChangeFunction={setNombreDeFois}
                   />
