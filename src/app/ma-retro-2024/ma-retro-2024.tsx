@@ -229,7 +229,7 @@ function SharePage({ rowsData }: ShareableContentProps) {
         autant&nbsp;!
       </BodyCopy>
       <div className="flex flex-col gap-y-10px">
-        <TextBox link="/ma-retro-2024">Modifier ma rétrospective</TextBox>
+        <TextBox link="/ma-retro-2024">Recomposer ma rétrospective</TextBox>
       </div>
     </>
   );
