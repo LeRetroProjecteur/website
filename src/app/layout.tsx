@@ -1,7 +1,7 @@
-import { GoogleTagManager } from "@next/third-parties/google";
 import clsx from "clsx";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+import Script from "next/script";
 import { ReactNode, StrictMode } from "react";
 
 import Footer from "@/components/layout/footer";
@@ -88,6 +88,20 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <StrictMode>
       <html lang="fr" className="h-screen overflow-y-auto">
+        <head>
+          <Script
+            src={`https://www.googletagmanager.com/gtag/js?id=G-F5QY5F8S5L`}
+            strategy="afterInteractive"
+          />
+          <Script id="ga4-analytics">
+            {`
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-F5QY5F8S5L');
+            `}
+          </Script>
+        </head>
         <body
           className={clsx(
             degular.variable,
@@ -110,7 +124,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </div>
           </MenuWrapper>
         </body>
-        <GoogleTagManager gtmId="G-F5QY5F8S5L" />
       </html>
     </StrictMode>
   );
