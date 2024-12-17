@@ -136,10 +136,10 @@ export function SeancesTheater({
         </CalendrierCopy>
       </div>
       <div className="flex flex-col lg:flex-row lg:flex-wrap lg:self-start">
-        {screenings.map((screening) => (
-          <div
+        {screenings.map((screening, i) => (
+          <span
             key={screening.time}
-            className={clsx("group/seances flex justify-end", {
+            className={clsx("justify-end", {
               "group-hover/cinema:underline": isExpanded,
             })}
           >
@@ -156,11 +156,11 @@ export function SeancesTheater({
                   </span>
                 </span>
               )}
+              {i < screenings.length - 1 && (
+                <span className="hidden lg:inline">&nbsp;•&nbsp;</span>
+              )}
             </CalendrierCopy>
-            <div className="hidden group-last/seances:hidden lg:block">
-              <CalendrierCopy>&nbsp;•&nbsp;</CalendrierCopy>
-            </div>
-          </div>
+          </span>
         ))}
       </div>
     </div>
