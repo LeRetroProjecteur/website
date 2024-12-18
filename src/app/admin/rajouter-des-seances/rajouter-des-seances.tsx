@@ -1,30 +1,42 @@
 "use client";
 
-import React, { Fragment, useState } from "react";
+import clsx from "clsx";
+import React, { Fragment, ReactNode, useState } from "react";
 
 import { SearchResults, TheaterSearchResults } from "@/app/recherche/recherche";
 import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
-import { SousTitre1 } from "@/components/typography/typography";
+import { TextBox } from "@/components/layout/text-boxes";
+import {
+  BodyCopy,
+  SousTitre1,
+  SousTitre2,
+} from "@/components/typography/typography";
 import { SearchMovie, SearchTheater } from "@/lib/types";
 
 import LoadingPage from "../../loading";
 
-function Button({
-  text,
-  onClickFunction,
+function Row({
+  cell1,
+  cell2,
+  cell3,
+  cell4,
+  className,
 }: {
-  text: string;
-  onClickFunction: () => void;
+  cell1: ReactNode;
+  cell2: ReactNode;
+  cell3: ReactNode;
+  cell4: ReactNode;
+  className?: string;
 }) {
   return (
-    <button
-      onClick={onClickFunction}
-      className="border bg-retro-green p-15px font-bold"
-    >
-      {text}
-    </button>
+    <div className={clsx("flex flex-wrap gap-x-10px", className)}>
+      <div className="w-42px lg:w-250px">{cell1}</div>
+      <div className="w-42px lg:w-150px">{cell2}</div>
+      <div className="w-42px lg:w-150px">{cell3}</div>
+      <div className="flex grow basis-0">{cell4}</div>
+    </div>
   );
 }
 
@@ -47,16 +59,10 @@ function SharePage() {
           <ShareableContent />
         </div>
         <div className="flex gap-x-10px">
-          <Button
-            text="Rajouter des nouvelles séances"
-            onClickFunction={() => window.location.reload()}
-          />
-          <Button
-            text="Aller au calendrier"
-            onClickFunction={() =>
-              (window.location.href = "https://leretroprojecteur.com")
-            }
-          />
+          <TextBox onClick={() => window.location.reload()}>
+            Rajouter des nouvelles séances
+          </TextBox>
+          <TextBox link="/">Retour sur le site du Rétro Projecteur</TextBox>
         </div>
       </div>
     </>
@@ -138,61 +144,43 @@ export default function SubmitScreenings({
           />
           <br />
           <br />
-          <div className="p-5px text-center">
-            <form>
-              <table style={{ width: "100%" }}>
-                <thead>
-                  <tr>
-                    <th style={{ width: "40%" }}>Film</th>
-                    <th style={{ width: "10%" }}>Date</th>
-                    <th style={{ width: "5%" }}>Horaire</th>
-                    <th style={{ width: "45%" }}>Notes</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {rowsData.map((_, index) => (
-                    <Fragment key={index}>
-                      <ScreeningRow
-                        allMoviesPromise={allMoviesPromise}
-                        onUpdate={(data) => updateRowData(index, data)}
-                      />
-                    </Fragment>
-                  ))}
-                </tbody>
-              </table>
-              <br />
-              <div className="flex flex-col items-center p-10px">
-                <label htmlFor="comments">
-                  {" "}
-                  Avez-vous autre chose à signaler&nbsp;?
-                </label>
-                <textarea
-                  id="comments"
-                  value={comments}
-                  onChange={handleCommentsChange}
-                  style={{
-                    fontSize: "15px",
-                    wordWrap: "break-word",
-                    width: "min(95%, 400px)",
-                    height: "100px",
-                    padding: "5px",
-                  }}
-                />
-              </div>
-            </form>
+          <Row
+            cell1={<SousTitre2>Film</SousTitre2>}
+            cell2={<SousTitre2>Date</SousTitre2>}
+            cell3={<SousTitre2>Horaire</SousTitre2>}
+            cell4={<SousTitre2>Notes</SousTitre2>}
+            className="border-y bg-retro-green py-6px font-bold uppercase text-retro-gray lg:px-20px lg:py-17px"
+          />
+          {rowsData.map((_, index) => (
+            <ScreeningRow
+              key={index}
+              allMoviesPromise={allMoviesPromise}
+              onUpdate={(data) => updateRowData(index, data)}
+            />
+          ))}
+          <div className="flex flex-col items-center p-10px">
+            <label htmlFor="comments">
+              {" "}
+              Avez-vous autre chose à signaler&nbsp;?
+            </label>
+            <textarea
+              id="comments"
+              value={comments}
+              onChange={handleCommentsChange}
+              style={{
+                fontSize: "15px",
+                wordWrap: "break-word",
+                width: "min(95%, 400px)",
+                height: "100px",
+                padding: "5px",
+              }}
+            />
           </div>
           <br />
-          <div className="flex items-center justify-center">
-            <span>
-              <Button
-                text="Rajoutez vos séances !"
-                onClickFunction={handleSubmit}
-              />
-              <p>
-                <b>{responseMessage}</b>
-              </p>
-            </span>
-          </div>
+          <TextBox onClick={handleSubmit} className="bg-retro-pale-green">
+            Rajoutez vos séances
+          </TextBox>
+          <BodyCopy className="pt-10px">{responseMessage}</BodyCopy>
         </div>
       )}
     </>
@@ -330,7 +318,6 @@ function ScreeningRow({
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [note, setNote] = useState("");
-
   const setSearchFind = (st: string, id: string = "") => {
     setSearchTerm(st);
     setMovieId(id);
@@ -339,8 +326,8 @@ function ScreeningRow({
   };
 
   return (
-    <tr style={{ backgroundColor: "var(--white)" }}>
-      <td className="py-5px">
+    <Row
+      cell1={
         <div className={"flex grow flex-col"}>
           <RetroInput
             value={searchTerm}
@@ -374,8 +361,8 @@ function ScreeningRow({
             )}
           </SuspenseWithLoading>
         </div>
-      </td>
-      <td className="py-5px" style={{ verticalAlign: "top" }}>
+      }
+      cell2={
         <input
           type="date"
           id="date"
@@ -393,8 +380,8 @@ function ScreeningRow({
             });
           }}
         />
-      </td>
-      <td className="py-5px" style={{ verticalAlign: "top" }}>
+      }
+      cell3={
         <input
           type="time"
           id="time"
@@ -412,8 +399,8 @@ function ScreeningRow({
             });
           }}
         />
-      </td>
-      <td className="flex grow py-5px">
+      }
+      cell4={
         <input
           name="note"
           type="text"
@@ -430,8 +417,9 @@ function ScreeningRow({
             });
           }}
         />
-      </td>
-    </tr>
+      }
+      className="py-10px"
+    />
   );
 }
 
