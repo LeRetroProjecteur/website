@@ -11,6 +11,7 @@ import {
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from "react";
 import { create } from "zustand";
 
@@ -38,8 +39,6 @@ const useRechercheStore = create<{
 
 const setSelected = (selected: number | undefined) =>
   useRechercheStore.setState({ selected });
-const setSearchTerm = (searchTerm: string) =>
-  useRechercheStore.setState({ searchTerm });
 
 const toggleTag = (tag: string) =>
   useRechercheStore.setState((s) => ({
@@ -47,20 +46,19 @@ const toggleTag = (tag: string) =>
   }));
 
 export default function Recherche({
-  allMoviesPromise,
+  initialQuery,
+  searchPromise,
 }: {
-  allMoviesPromise: Promise<SearchMovie[]>;
+  initialQuery: string;
+  searchPromise: Promise<SearchMovie[]>;
 }) {
-  useEffect(() => {
-    setSelected(undefined);
-    setSearchTerm("");
-  }, []);
-  const onChangeSearchTerm = useCallback((s: string) => {
-    setSelected(undefined);
-    setSearchTerm(s);
-  }, []);
-  const searchTerm = useRechercheStore((s) => s.searchTerm);
   const router = useRouter();
+  const [searchTerm, setSearchTerm] = useState(initialQuery);
+
+  useEffect(() => {
+    setSearchTerm(initialQuery);
+  }, [initialQuery]);
+
   return (
     <>
       <FixedHeader disableBelowPadding className="lg:border-b lg:pb-20px">
@@ -71,7 +69,15 @@ export default function Recherche({
           <RetroInput
             customTypography
             value={searchTerm}
-            setValue={onChangeSearchTerm}
+            setValue={(value) => {
+              setSearchTerm(value);
+              // Use router to update URL
+              const params = new URLSearchParams();
+              if (value) params.set("q", value);
+              router.push(
+                `/recherche${params.toString() ? `?${params.toString()}` : ""}`,
+              );
+            }}
             placeholder="Recherchez un film"
             leftAlignPlaceholder
             transparentPlaceholder
@@ -96,7 +102,7 @@ export default function Recherche({
               "py-10px pl-5px text-15px font-medium uppercase leading-20px lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0"
             }
             searchTerm={searchTerm}
-            allDataPromise={allMoviesPromise}
+            allDataPromise={searchPromise}
             verticalFooter
             onClick={(movie) => {
               router.push(`/film/${movie.id}`);

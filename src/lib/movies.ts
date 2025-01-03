@@ -7,9 +7,12 @@ import {
   where,
 } from "firebase/firestore";
 import { keyBy, uniq } from "lodash-es";
+import { orderBy, take } from "lodash-es";
 import { DateTime } from "luxon";
 import { unstable_cache } from "next/cache";
 import "server-only";
+
+import { getFields, getMovieInfoString, stringMatchFields } from "@/lib/util";
 
 import { getFirebase } from "./firebase";
 import {
@@ -156,3 +159,31 @@ export const getMovie = unstable_cache(
   ["single-movie"],
   { revalidate: 60 },
 );
+
+export const searchMovies = async (query: string): Promise<SearchMovie[]> => {
+  if (!query) return [];
+  const getCachedResults = unstable_cache(
+    async (searchQuery: string) => {
+      const allMovies = await getMovies();
+      const keywords = getFields(searchQuery);
+
+      const moviesWithFields = allMovies.map((movie) => [
+        movie,
+        getFields(getMovieInfoString(movie)),
+      ]);
+
+      const filtered = take(
+        moviesWithFields
+          .filter(([_, fields]) => stringMatchFields(keywords, fields))
+          .map(([movie]) => movie),
+        200,
+      );
+
+      return orderBy(filtered, (movie) => movie.relevance_score, "desc");
+    },
+    [`search-${query}`], // Unique cache key for each query
+    { revalidate: 180 },
+  );
+
+  return getCachedResults(query);
+};
