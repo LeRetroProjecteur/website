@@ -132,7 +132,7 @@ export const getAllMovies = unstable_cache(
     });
   },
   ["all-movies"],
-  { revalidate: 180 },
+  { revalidate: 500 },
 );
 
 export const getReviewedMovies = unstable_cache(
@@ -185,7 +185,7 @@ export const searchMovies = async (query: string): Promise<SearchMovie[]> => {
       return orderBy(filtered, (movie) => movie.relevance_score, "desc");
     },
     [`search-${query}`],
-    { revalidate: 180 },
+    { revalidate: 500 },
   );
 
   return getCachedResults(query);

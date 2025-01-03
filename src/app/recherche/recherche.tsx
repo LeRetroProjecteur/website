@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
   MutableRefObject,
+  Suspense,
   use,
   useCallback,
   useEffect,
@@ -92,9 +93,12 @@ export default function Recherche({
             <Tag key={tag} {...{ tag, displayTag }} />
           ))}
         </div>
-        <SuspenseWithLoading
-          hideLoading={searchTerm.length === 0}
-          className="flex grow items-center justify-center pt-15px"
+        <Suspense
+          fallback={
+            <div className="flex grow items-center justify-center pt-15px">
+              <SuspenseWithLoading hideLoading={searchTerm.length === 0} />
+            </div>
+          }
         >
           <SearchResults
             nbResults={50}
@@ -108,7 +112,7 @@ export default function Recherche({
               router.push(`/film/${movie.id}`);
             }}
           />
-        </SuspenseWithLoading>
+        </Suspense>
       </div>
     </>
   );
