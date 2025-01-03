@@ -162,26 +162,29 @@ export const getMovie = unstable_cache(
 
 export const searchMovies = async (query: string): Promise<SearchMovie[]> => {
   if (!query) return [];
+
+  // Cache the filtered results for each query
   const getCachedResults = unstable_cache(
     async (searchQuery: string) => {
-      const allMovies = await getMovies();
+      const allMovies = await getAllMovies();
       const keywords = getFields(searchQuery);
 
-      const moviesWithFields = allMovies.map((movie) => [
-        movie,
-        getFields(getMovieInfoString(movie)),
-      ]);
+      const moviesWithFields: Array<[SearchMovie, string[]]> = allMovies.map(
+        (movie) => [movie, getFields(getMovieInfoString(movie))],
+      );
 
       const filtered = take(
         moviesWithFields
-          .filter(([_, fields]) => stringMatchFields(keywords, fields))
-          .map(([movie]) => movie),
-        200,
+          .filter(([_, fields]: [SearchMovie, string[]]) =>
+            stringMatchFields(keywords, fields),
+          )
+          .map(([movie]: [SearchMovie, string[]]) => movie),
+        50,
       );
 
       return orderBy(filtered, (movie) => movie.relevance_score, "desc");
     },
-    [`search-${query}`], // Unique cache key for each query
+    [`search-${query}`],
     { revalidate: 180 },
   );
 
