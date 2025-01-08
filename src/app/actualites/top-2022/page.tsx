@@ -1,15 +1,15 @@
 import { Metadata } from "next";
 import Link from "next/link";
 
-import { BodyCopy } from "@/components/typography/typography";
-
 import {
   ArticleLayout,
   MiddleColumn,
   MiddleColumnImageAndTitle,
   Section,
   SectionHeader,
-} from "../components";
+} from "@/components/articles/articles";
+import { BodyCopy } from "@/components/typography/typography";
+
 import adieu from "./img/adieu.jpg";
 import evangile from "./img/evangile.jpg";
 import lola from "./img/lola.jpg";

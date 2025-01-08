@@ -1,9 +1,14 @@
 import { Metadata } from "next";
 import Link from "next/link";
 
+import {
+  Answer,
+  ArticleLayout,
+  MiddleColumn,
+  Question,
+} from "@/components/articles/articles";
 import { BodyCopy } from "@/components/typography/typography";
 
-import { Answer, ArticleLayout, MiddleColumn, Question } from "../components";
 import { info } from "./pageInfo";
 
 export const metadata: Metadata = {

@@ -3,8 +3,8 @@ import Image from "next/image";
 import React, { useMemo } from "react";
 
 import coupDeCoeur from "@/assets/coup-de-coeur.png";
+import { TwoColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
-import { TwoColumnPage } from "@/components/layout/two-column-page";
 import MultiDaySeances from "@/components/seances/multiday-seances";
 import {
   BodyCopy,

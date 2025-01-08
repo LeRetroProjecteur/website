@@ -1,13 +1,13 @@
 import { Metadata } from "next";
 import Link from "next/link";
 
-import { BodyCopy } from "@/components/typography/typography";
-
 import {
   ArticleLayout,
   MiddleColumn,
   MiddleColumnImageAndRightColumnCaption,
-} from "../components";
+} from "@/components/articles/articles";
+import { BodyCopy } from "@/components/typography/typography";
+
 import altman from "./img/altman.jpg";
 import bushman from "./img/bushman.png";
 import cuaronAnderson from "./img/cuaron-anderson.jpg";

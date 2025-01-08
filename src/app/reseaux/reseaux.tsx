@@ -1,7 +1,7 @@
 "use client";
 
+import { TwoColumnPage } from "@/components/layout/page";
 import { TextBox } from "@/components/layout/text-boxes";
-import { TwoColumnPage } from "@/components/layout/two-column-page";
 import { BodyCopy } from "@/components/typography/typography";
 
 export default function SocialMedia() {
