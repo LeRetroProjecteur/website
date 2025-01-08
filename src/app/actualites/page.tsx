@@ -14,6 +14,7 @@ export const metadata: Metadata = {
 };
 
 const slugs = [
+  "retro-2024",
   "2024-10-30-edito",
   "chronique-monte-cristo",
   "entretien-gael-teicher",
