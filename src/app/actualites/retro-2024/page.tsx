@@ -91,7 +91,7 @@ function TopTable({
       {children.map((child, i) => (
         <ol
           key={i}
-          className="flex grow items-center justify-center border-b border-retro-bordeaux bg-retro-blue p-5px text-center text-16px font-medium leading-20px tracking-[-0.01em] text-retro-bordeaux lg:py-10px"
+          className="flex grow items-center justify-center border-b border-retro-bordeaux bg-retro-blue px-5px py-7px text-center text-16px font-medium leading-20px tracking-[-0.01em] text-retro-bordeaux lg:py-10px"
         >
           <li>
             {i + 1}.&nbsp;{child}
