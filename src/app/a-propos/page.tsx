@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { TwoColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
-import { TwoColumnPage } from "@/components/layout/two-column-page";
 import {
   BodyCopy,
   SectionTitle,

@@ -3,7 +3,7 @@
 import { useState } from "react";
 
 import RetroInput from "@/components/forms/retro-input";
-import { TwoColumnPage } from "@/components/layout/two-column-page";
+import { TwoColumnPage } from "@/components/layout/page";
 import { BodyCopy } from "@/components/typography/typography";
 
 export default function Newsletter() {
