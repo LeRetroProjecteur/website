@@ -1,18 +1,14 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import { ReactNode } from "react";
 
 import {
   ArticleLayout,
   MiddleColumn,
   Section,
   SectionHeader,
+  TopTable,
 } from "@/components/articles/articles";
-import {
-  BodyCopy,
-  SectionTitle,
-  SubsectionTitle,
-} from "@/components/typography/typography";
+import { BodyCopy, SubsectionTitle } from "@/components/typography/typography";
 
 import { info } from "./pageInfo";
 
@@ -1013,30 +1009,6 @@ export default function Page() {
         </Section>
       </MiddleColumn>
     </ArticleLayout>
-  );
-}
-
-function TopTable({
-  titre,
-  children,
-}: {
-  titre: string;
-  children: ReactNode[];
-}) {
-  return (
-    <>
-      <SectionTitle className="lg:text-15px">{titre}</SectionTitle>
-      {children.map((child, i) => (
-        <ol
-          key={i}
-          className="flex grow items-center justify-center border-b py-5px text-center text-16px font-medium leading-20px tracking-[-0.01em] lg:py-10px"
-        >
-          <li>
-            {i + 1}.&nbsp;{child}
-          </li>
-        </ol>
-      ))}
-    </>
   );
 }
 

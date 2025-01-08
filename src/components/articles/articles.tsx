@@ -132,3 +132,27 @@ export function CTAs({ ctas }: { ctas: { link: string; text: ReactNode }[] }) {
     </>
   );
 }
+
+export function TopTable({
+  titre,
+  children,
+}: {
+  titre: string;
+  children: ReactNode[];
+}) {
+  return (
+    <>
+      <SectionTitle className="lg:text-15px">{titre}</SectionTitle>
+      {children.map((child, i) => (
+        <ol
+          key={i}
+          className="flex grow items-center justify-center border-b py-5px text-center text-16px font-medium leading-20px tracking-[-0.01em] lg:py-10px"
+        >
+          <li>
+            {i + 1}.&nbsp;{child}
+          </li>
+        </ol>
+      ))}
+    </>
+  );
+}
