@@ -4,8 +4,10 @@ import clsx from "clsx";
 import React, { Fragment, ReactNode, useState } from "react";
 
 import { SearchResults, TheaterSearchResults } from "@/app/recherche/recherche";
+import { Breakout, MiddleColumn } from "@/components/articles/articles";
 import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
+import { ThreeColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
 import {
@@ -136,52 +138,57 @@ export default function SubmitScreenings({
       {isSubmitting ? (
         <LoadingPage />
       ) : (
-        <div className="flex flex-col pb-10px lg:pl-20px">
-          <strong>Cinema&nbsp;:</strong>
-          <TheaterSearch
-            allTheatersPromise={allTheatersPromise}
-            onUpdate={setTheaterData}
-          />
-          <br />
-          <br />
-          <Row
-            cell1={<SousTitre2>Film</SousTitre2>}
-            cell2={<SousTitre2>Date</SousTitre2>}
-            cell3={<SousTitre2>Horaire</SousTitre2>}
-            cell4={<SousTitre2>Notes</SousTitre2>}
-            className="border-y bg-retro-green py-6px font-bold uppercase text-retro-gray lg:px-20px lg:py-17px"
-          />
-          {rowsData.map((_, index) => (
-            <ScreeningRow
-              key={index}
-              allMoviesPromise={allMoviesPromise}
-              onUpdate={(data) => updateRowData(index, data)}
+        <ThreeColumnPage>
+          <MiddleColumn>
+            <strong>Cinema&nbsp;:</strong>
+            <TheaterSearch
+              allTheatersPromise={allTheatersPromise}
+              onUpdate={setTheaterData}
             />
-          ))}
-          <div className="flex flex-col items-center p-10px">
-            <label htmlFor="comments">
-              {" "}
-              Avez-vous autre chose à signaler&nbsp;?
-            </label>
-            <textarea
-              id="comments"
-              value={comments}
-              onChange={handleCommentsChange}
-              style={{
-                fontSize: "15px",
-                wordWrap: "break-word",
-                width: "min(95%, 400px)",
-                height: "100px",
-                padding: "5px",
-              }}
+            <br />
+          </MiddleColumn>
+          <Breakout>
+            <Row
+              cell1={<SousTitre2>Film</SousTitre2>}
+              cell2={<SousTitre2>Date</SousTitre2>}
+              cell3={<SousTitre2>Horaire</SousTitre2>}
+              cell4={<SousTitre2>Notes</SousTitre2>}
+              className="border-y bg-retro-green py-6px font-bold uppercase text-retro-gray lg:px-20px lg:py-17px"
             />
-          </div>
-          <br />
-          <TextBox onClick={handleSubmit} className="bg-retro-pale-green">
-            Rajoutez vos séances
-          </TextBox>
-          <BodyCopy className="pt-10px">{responseMessage}</BodyCopy>
-        </div>
+            {rowsData.map((_, index) => (
+              <ScreeningRow
+                key={index}
+                allMoviesPromise={allMoviesPromise}
+                onUpdate={(data) => updateRowData(index, data)}
+              />
+            ))}
+          </Breakout>
+          <MiddleColumn>
+            <div className="flex flex-col items-center p-10px">
+              <label htmlFor="comments">
+                {" "}
+                Avez-vous autre chose à signaler&nbsp;?
+              </label>
+              <textarea
+                id="comments"
+                value={comments}
+                onChange={handleCommentsChange}
+                style={{
+                  fontSize: "15px",
+                  wordWrap: "break-word",
+                  width: "min(95%, 400px)",
+                  height: "100px",
+                  padding: "5px",
+                }}
+              />
+            </div>
+            <br />
+            <TextBox onClick={handleSubmit} className="bg-retro-pale-green">
+              Rajoutez vos séances
+            </TextBox>
+            <BodyCopy className="pt-10px">{responseMessage}</BodyCopy>
+          </MiddleColumn>
+        </ThreeColumnPage>
       )}
     </>
   );
