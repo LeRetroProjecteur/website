@@ -6,8 +6,8 @@ import { use, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { SuspenseWithLoading } from "@/components/icons/loading";
+import { TwoColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
-import { TwoColumnPage } from "@/components/layout/two-column-page";
 import { transformZipcode } from "@/components/theaters/theaters";
 import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 import GetHTML from "@/components/util/get-html";

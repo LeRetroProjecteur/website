@@ -5,8 +5,10 @@ import Link from "next/link";
 import React, { ReactNode, useState } from "react";
 
 import { SearchResults } from "@/app/recherche/recherche";
+import { MiddleColumn } from "@/components/articles/articles";
 import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
+import { ThreeColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
 import {
@@ -16,7 +18,6 @@ import {
 } from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
 
-import { MiddleColumn, ThreeColumnLayout } from "../actualites/components";
 import LoadingPage from "../loading";
 
 function OpenQuestion({
@@ -322,7 +323,7 @@ export default function MaRetro2024({
       {isSubmitting ? (
         <LoadingPage />
       ) : (
-        <ThreeColumnLayout>
+        <ThreeColumnPage>
           <MiddleColumn>
             {showSharePage ? (
               <SharePage rowsData={rowsData} />
@@ -432,7 +433,7 @@ export default function MaRetro2024({
               </>
             )}
           </MiddleColumn>
-        </ThreeColumnLayout>
+        </ThreeColumnPage>
       )}
     </>
   );

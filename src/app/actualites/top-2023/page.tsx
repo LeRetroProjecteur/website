@@ -3,17 +3,17 @@ import Link from "next/link";
 import { ReactNode } from "react";
 
 import {
+  ArticleLayout,
+  MiddleColumn,
+  Section,
+  SectionHeader,
+} from "@/components/articles/articles";
+import {
   BodyCopy,
   SectionTitle,
   SubsectionTitle,
 } from "@/components/typography/typography";
 
-import {
-  ArticleLayout,
-  MiddleColumn,
-  Section,
-  SectionHeader,
-} from "../components";
 import { info } from "./pageInfo";
 
 export const metadata: Metadata = {

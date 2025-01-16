@@ -1,8 +1,8 @@
 import { Metadata } from "next";
 
+import { ArticleLayout, MiddleColumn } from "@/components/articles/articles";
 import { BodyCopy } from "@/components/typography/typography";
 
-import { ArticleLayout, MiddleColumn } from "../components";
 import { info } from "./pageInfo";
 
 export const metadata: Metadata = {

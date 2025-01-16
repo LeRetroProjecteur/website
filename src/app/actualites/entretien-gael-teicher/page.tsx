@@ -1,8 +1,6 @@
 import { Metadata } from "next";
 import Link from "next/link";
 
-import { BodyCopy } from "@/components/typography/typography";
-
 import {
   Answer,
   ArticleLayout,
@@ -10,7 +8,9 @@ import {
   MiddleColumn,
   MiddleColumnImageAndRightColumnCaption,
   Question,
-} from "../components";
+} from "@/components/articles/articles";
+import { BodyCopy } from "@/components/typography/typography";
+
 import PlusHier from "./img/plus-qu-hier.png";
 import { info } from "./pageInfo";
 

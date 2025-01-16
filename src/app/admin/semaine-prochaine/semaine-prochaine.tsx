@@ -1,10 +1,11 @@
 "use client";
 
 import { flatten, groupBy, sortBy, uniq } from "lodash-es";
-import { Fragment, use, useMemo } from "react";
+import { use, useMemo } from "react";
 
 import CalendarFilters from "@/app/(calendrier)/calendar-filters";
 import MovieTable from "@/app/(calendrier)/movie-table";
+import { TextBox } from "@/components/layout/text-boxes";
 import {
   transformZipcode,
   transformZipcodeToString,
@@ -67,7 +68,7 @@ export function Retrospectives({
     const filteredGroups = Object.entries(groupedByCinemaAndDirector)
       .filter(([_, items]) => {
         const uniqueMovies = uniq(items.map((item) => item.movie.title));
-        return uniqueMovies.length >= 5;
+        return uniqueMovies.length >= 3;
       })
       .map(([key, items]) => {
         const [director, cinema, zipcode] = key.split("|||");
@@ -98,104 +99,78 @@ export function Retrospectives({
     );
   }, [movies]);
 
+  const html = retrospectives
+    .map((retro, index) => {
+      const movieLinks = sortBy(retro.movies, (movie) => [
+        movie.year,
+        movie.directors,
+        movie.title,
+      ])
+        .map(
+          (movie, i, movies) =>
+            `<a href="https://leretroprojecteur.com/film/${movie.id}">` +
+            `<u><em>${movie.title}</em></u></a> (${movie.year})` +
+            `${i < movies.length - 1 ? ", " : ""}`,
+        )
+        .join("");
+      const cinemaList = retro.cinemas
+        .map(
+          (cinema, i) =>
+            `${i === 0 ? "" : i === retro.cinemas.length - 1 ? " et " : ", "}` +
+            `${cinema.name} (${transformZipcodeToString(cinema.zipcode)})`,
+        )
+        .join("");
+      const template = `
+<h2 class="null" style="text-align: center;">
+<strong>Rétrospective ${retro.director} ${cinemaList}</strong>
+</h2>
+<p style="text-align: center;">${movieLinks}</p>`;
+      const bullet = `
+<h2 class="null" style="text-align: center;"><span style="font-size:Default Size">&bull;</span></h2>`;
+      return template + (index < retrospectives.length - 1 ? bullet : "");
+    })
+    .join("\n");
+
   return (
     <>
-      <div className="pb-20px">
-        <SousTitre2>Rétrospectives</SousTitre2>
-      </div>
-      <div>
+      <SousTitre2>Rétrospectives</SousTitre2>
+      <div className="flex flex-col gap-y-10px py-20px">
         {retrospectives.map((retro, i) => (
-          <Fragment key={retro.director}>
+          <div key={i}>
             <div className="font-bold">
               {retro.director}{" "}
               {retro.cinemas.map((cinema, j) => (
-                <Fragment key={`${cinema.name}-${cinema.zipcode}`}>
+                <span key={j}>
                   {j === 0
                     ? ""
                     : j === retro.cinemas.length - 1
                       ? " et "
                       : ", "}
                   {cinema.name} ({transformZipcode(cinema.zipcode)})
-                </Fragment>
+                </span>
               ))}
             </div>
-            <>
-              {sortBy(retro.movies, (movie) => [
-                movie.year,
-                movie.directors,
-                movie.title,
-              ]).map((movie, i, movies) => (
-                <Fragment key={movie.title}>
-                  <i>{movie.title}</i> ({movie.year})
-                  {i < movies.length - 1 ? ", " : ""}
-                </Fragment>
-              ))}
-            </>
-            {i < retrospectives.length - 1 ? (
-              <>
-                <br />
-                <br />
-              </>
-            ) : null}
-          </Fragment>
+            {sortBy(retro.movies, (movie) => [
+              movie.year,
+              movie.directors,
+              movie.title,
+            ]).map((movie, i, movies) => (
+              <span key={i}>
+                <i>{movie.title}</i> ({movie.year})
+                {i < movies.length - 1 ? ", " : ""}
+              </span>
+            ))}
+          </div>
         ))}
       </div>
-      <br />
-      <br />
-      {
-        <div className="font-mono text-sm">
-          <pre className="whitespace-pre-wrap break-all">
-            <div className="pb-5px">
-              <SousTitre2>Rétrospectives (html)</SousTitre2>
-            </div>
-            {retrospectives
-              .map((retro, index) => {
-                const movieLinks = sortBy(retro.movies, (movie) => [
-                  movie.year,
-                  movie.directors,
-                  movie.title,
-                ])
-                  .map(
-                    (movie, i, movies) =>
-                      `<a href="https://leretroprojecteur.com/film/${movie.id}">` +
-                      `<u><em>${movie.title}</em></u></a> (${movie.year})` +
-                      `${i < movies.length - 1 ? ", " : ""}`,
-                  )
-                  .join("");
-
-                const cinemaList = retro.cinemas
-                  .map(
-                    (cinema, i) =>
-                      `${
-                        i === 0
-                          ? ""
-                          : i === retro.cinemas.length - 1
-                            ? " et "
-                            : ", "
-                      }` +
-                      `${cinema.name} (${transformZipcodeToString(
-                        cinema.zipcode,
-                      )})`,
-                  )
-                  .join("");
-
-                const template = `
-    <h2 class="null" style="text-align: center;">
-      <strong>Rétrospective ${retro.director} ${cinemaList}</strong>
-    </h2>
-    <p style="text-align: center;">${movieLinks}</p>`;
-
-                const bullet = `
-    <h2 class="null" style="text-align: center;"><span style="font-size:Default Size">&bull;</span></h2>`;
-
-                return (
-                  template + (index < retrospectives.length - 1 ? bullet : "")
-                );
-              })
-              .join("\n")}
-          </pre>
-        </div>
-      }
+      <TextBox
+        className="bg-retro-pale-green"
+        onClick={() => {
+          navigator.clipboard.writeText(html);
+        }}
+      >
+        Copier le code HTML pour le MailChimp
+      </TextBox>
     </>
   );
 }
