@@ -1,6 +1,5 @@
 "use client";
 
-import clsx from "clsx";
 import React, { Fragment, ReactNode, useState } from "react";
 
 import { SearchResults, TheaterSearchResults } from "@/app/recherche/recherche";
@@ -10,11 +9,7 @@ import { SuspenseWithLoading } from "@/components/icons/loading";
 import { ThreeColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
-import {
-  BodyCopy,
-  SousTitre1,
-  SousTitre2,
-} from "@/components/typography/typography";
+import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 import { SearchMovie, SearchTheater } from "@/lib/types";
 
 import LoadingPage from "../../loading";
@@ -24,19 +19,17 @@ function Row({
   cell2,
   cell3,
   cell4,
-  className,
 }: {
   cell1: ReactNode;
   cell2: ReactNode;
   cell3: ReactNode;
   cell4: ReactNode;
-  className?: string;
 }) {
   return (
-    <div className={clsx("flex flex-wrap gap-x-10px", className)}>
+    <div className="flex flex-wrap gap-x-10px">
       <div className="w-42px lg:w-250px">{cell1}</div>
-      <div className="w-42px lg:w-150px">{cell2}</div>
-      <div className="w-42px lg:w-150px">{cell3}</div>
+      <div className="w-42px lg:w-165px">{cell2}</div>
+      <div className="w-42px lg:w-101px">{cell3}</div>
       <div className="flex grow basis-0">{cell4}</div>
     </div>
   );
@@ -52,22 +45,17 @@ function ShareableContent() {
 
 function SharePage() {
   return (
-    <>
-      <PageHeader text="Rajouter des séances">
-        <SousTitre1>Votre salle</SousTitre1>
-      </PageHeader>
-      <div className="flex flex-col items-center justify-center py-10">
-        <div className="flex grow pb-30px">
-          <ShareableContent />
-        </div>
-        <div className="flex gap-x-10px">
-          <TextBox onClick={() => window.location.reload()}>
-            Rajouter des nouvelles séances
-          </TextBox>
-          <TextBox link="/">Retour sur le site du Rétro Projecteur</TextBox>
-        </div>
+    <div className="flex flex-col items-center justify-center py-10">
+      <div className="flex grow pb-30px">
+        <ShareableContent />
       </div>
-    </>
+      <div className="flex gap-x-10px">
+        <TextBox onClick={() => window.location.reload()}>
+          Rajouter des nouvelles séances
+        </TextBox>
+        <TextBox link="/">Retour sur le site du Rétro Projecteur</TextBox>
+      </div>
+    </div>
   );
 }
 
@@ -125,70 +113,74 @@ export default function SubmitScreenings({
       setShowSharePage,
     );
   };
-
-  if (showSharePage) {
-    return <SharePage />;
-  }
-
   return (
     <>
-      <PageHeader text="Rajouter des séances">
+      <PageHeader text="Rajouter">
         <SousTitre1>Votre salle</SousTitre1>
       </PageHeader>
       {isSubmitting ? (
         <LoadingPage />
       ) : (
-        <ThreeColumnPage>
-          <MiddleColumn>
-            <strong>Cinema&nbsp;:</strong>
-            <TheaterSearch
-              allTheatersPromise={allTheatersPromise}
-              onUpdate={setTheaterData}
-            />
-            <br />
-          </MiddleColumn>
-          <Breakout>
-            <Row
-              cell1={<SousTitre2>Film</SousTitre2>}
-              cell2={<SousTitre2>Date</SousTitre2>}
-              cell3={<SousTitre2>Horaire</SousTitre2>}
-              cell4={<SousTitre2>Notes</SousTitre2>}
-              className="border-y bg-retro-green py-6px font-bold uppercase text-retro-gray lg:px-20px lg:py-17px"
-            />
-            {rowsData.map((_, index) => (
-              <ScreeningRow
-                key={index}
-                allMoviesPromise={allMoviesPromise}
-                onUpdate={(data) => updateRowData(index, data)}
-              />
-            ))}
-          </Breakout>
-          <MiddleColumn>
-            <div className="flex flex-col items-center p-10px">
-              <label htmlFor="comments">
-                {" "}
-                Avez-vous autre chose à signaler&nbsp;?
-              </label>
-              <textarea
-                id="comments"
-                value={comments}
-                onChange={handleCommentsChange}
-                style={{
-                  fontSize: "15px",
-                  wordWrap: "break-word",
-                  width: "min(95%, 400px)",
-                  height: "100px",
-                  padding: "5px",
-                }}
-              />
-            </div>
-            <br />
-            <TextBox onClick={handleSubmit} className="bg-retro-pale-green">
-              Rajoutez vos séances
-            </TextBox>
-            <BodyCopy className="pt-10px">{responseMessage}</BodyCopy>
-          </MiddleColumn>
-        </ThreeColumnPage>
+        <>
+          {isSubmitting ? (
+            <LoadingPage />
+          ) : (
+            <ThreeColumnPage>
+              {showSharePage ? (
+                <SharePage />
+              ) : (
+                <>
+                  <MiddleColumn>
+                    <strong>Cinema&nbsp;:</strong>
+                    <TheaterSearch
+                      allTheatersPromise={allTheatersPromise}
+                      onUpdate={setTheaterData}
+                    />
+                    <br />
+                  </MiddleColumn>
+                  <Breakout>
+                    <div className="py-6px text-17px uppercase text-retro-gray">
+                      <Row
+                        cell1={<div>Film</div>}
+                        cell2={<div>Date</div>}
+                        cell3={<div>Horaire</div>}
+                        cell4={<div>Notes</div>}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-y-5px">
+                      {rowsData.map((_, index) => (
+                        <ScreeningRow
+                          key={index}
+                          allMoviesPromise={allMoviesPromise}
+                          onUpdate={(data) => updateRowData(index, data)}
+                        />
+                      ))}
+                    </div>
+                  </Breakout>
+                  <MiddleColumn>
+                    <div className="flex flex-col">
+                      <BodyCopy className="pb-5px">
+                        Avez-vous autre chose à signaler&nbsp;?
+                      </BodyCopy>
+                      <textarea
+                        id="comments"
+                        placeholder={"Réponse facultative".toUpperCase()}
+                        value={comments}
+                        onChange={handleCommentsChange}
+                        className="h-[75px] resize-none p-10px"
+                      />
+                    </div>
+                    <br />
+                    <TextBox onClick={handleSubmit} className="bg-retro-green">
+                      Rajoutez vos séances
+                    </TextBox>
+                    <BodyCopy className="pt-10px">{responseMessage}</BodyCopy>
+                  </MiddleColumn>
+                </>
+              )}
+            </ThreeColumnPage>
+          )}
+        </>
       )}
     </>
   );
@@ -393,7 +385,7 @@ function ScreeningRow({
           type="time"
           id="time"
           name="time"
-          className="flex h-42px grow lg:h-48px"
+          className="h-42px lg:h-48px"
           value={time}
           onChange={(e) => {
             setTime(e.target.value);
@@ -411,7 +403,7 @@ function ScreeningRow({
         <input
           name="note"
           type="text"
-          className="flex h-42px grow lg:h-48px"
+          className="flex h-42px grow flex-col lg:h-48px"
           value={note}
           onChange={(e) => {
             setNote(e.target.value);
@@ -425,7 +417,6 @@ function ScreeningRow({
           }}
         />
       }
-      className="py-10px"
     />
   );
 }
