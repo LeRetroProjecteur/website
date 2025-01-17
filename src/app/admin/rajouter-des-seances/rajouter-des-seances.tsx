@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Fragment, ReactNode, useState } from "react";
+import React, { ReactNode, useState } from "react";
 
 import { SearchResults, TheaterSearchResults } from "@/app/recherche/recherche";
 import { Breakout, MiddleColumn } from "@/components/articles/articles";
@@ -27,35 +27,25 @@ function Row({
 }) {
   return (
     <div className="flex flex-wrap gap-x-10px">
-      <div className="w-42px lg:w-250px">{cell1}</div>
-      <div className="w-42px lg:w-165px">{cell2}</div>
-      <div className="w-42px lg:w-101px">{cell3}</div>
+      <div className="w-100px lg:w-250px">{cell1}</div>
+      <div className="w-167px">{cell2}</div>
+      <div className="w-103px">{cell3}</div>
       <div className="flex grow basis-0">{cell4}</div>
-    </div>
-  );
-}
-
-function ShareableContent() {
-  return (
-    <div className="max-w-700px rounded-lg border border-retro-gray bg-retro-green p-10px">
-      <SousTitre1>Merci d&apos;avoir rajouté vos séances !</SousTitre1>
     </div>
   );
 }
 
 function SharePage() {
   return (
-    <div className="flex flex-col items-center justify-center py-10">
-      <div className="flex grow pb-30px">
-        <ShareableContent />
-      </div>
-      <div className="flex gap-x-10px">
+    <MiddleColumn>
+      <BodyCopy>Merci d&apos;avoir rajouté vos séances&nbsp;!</BodyCopy>
+      <div className="flex flex-col gap-y-10px pt-30px">
         <TextBox onClick={() => window.location.reload()}>
           Rajouter des nouvelles séances
         </TextBox>
-        <TextBox link="/">Retour sur le site du Rétro Projecteur</TextBox>
+        <TextBox link="/">Retour sur le site principal</TextBox>
       </div>
-    </div>
+    </MiddleColumn>
   );
 }
 
@@ -103,20 +93,99 @@ export default function SubmitScreenings({
   };
 
   const handleSubmit = async () => {
-    if (isSubmitting) return;
-    await sendScreeningsToDatabase(
-      theaterData,
-      rowsData,
-      comments,
-      setResponseMessage,
-      setIsSubmitting,
-      setShowSharePage,
-    );
+    setIsSubmitting(true);
+    try {
+      const API_ENDPOINT =
+        "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_data_to_db";
+      // Transform the rowsData to the new format
+      const transformedData = rowsData.map((row) => {
+        const [year, month, day] = row.date.split("-").map(Number);
+        const [hour, minute] = row.time.split(":").map(Number);
+        // Check if any required field is missing or NaN
+        if (!(row.movie == "" || isNaN(year) || isNaN(month) || isNaN(day))) {
+          return {
+            movie: row.movie,
+            id: row.movie_id,
+            year: year,
+            month: month,
+            day: day,
+            hour: hour,
+            minute: minute,
+            notes: row.note,
+          };
+        }
+      });
+      const payload = {
+        collection_name: "raw-submit-screenings",
+        theater_name: theaterData.name,
+        theater_id: theaterData.theater_id,
+        include_time_in_doc_name: false,
+        key_for_doc_name: "theater_id",
+        showtimes: transformedData,
+        comments: comments,
+      };
+      console.log("Sending payload:", JSON.stringify(payload, null, 2));
+      const response = await fetch(API_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+        mode: "cors",
+      });
+      console.log("Response status:", response.status);
+      console.log(
+        "Response headers:",
+        JSON.stringify(Object.fromEntries(response.headers), null, 2),
+      );
+      const responseText = await response.text();
+      console.log("Raw response:", responseText);
+      if (!response.ok) {
+        throw new Error(
+          `HTTP error! status: ${response.status}, body: ${responseText}`,
+        );
+      }
+      // Format showtimes for Slack
+      const showtimesText = rowsData
+        .filter((row) => row.movie && row.date)
+        .map((row) => `${row.movie} - ${row.date} ${row.time}`)
+        .join("\n");
+      const warningMessage = `*Nouvelles séances ajoutées*\n\n*Cinéma:* ${
+        theaterData.name
+      }\n\n*Séances:*\n${showtimesText}\n\n*Commentaires:* ${
+        comments || "Aucun"
+      }`;
+      const slackEndpoint =
+        "https://europe-west1-website-cine.cloudfunctions.net/trigger_send_warning";
+      await fetch(
+        `${slackEndpoint}?warning=${encodeURIComponent(
+          warningMessage,
+        )}&type=submit_screenings`,
+        {
+          method: "GET",
+          mode: "cors",
+        },
+      );
+      setResponseMessage("Données envoyées avec succès!");
+      setShowSharePage(true);
+    } catch (error) {
+      console.error("Fetch error:", error);
+      if (error instanceof Error) {
+        setResponseMessage(
+          `Erreur de connexion: ${error.message}. Veuillez vérifier votre connexion internet et réessayer.`,
+        );
+      } else {
+        setResponseMessage(
+          "Une erreur inconnue est survenue. Veuillez vérifier votre connexion internet et réessayer.",
+        );
+      }
+    }
+    setIsSubmitting(false);
   };
   return (
     <>
-      <PageHeader text="Rajouter">
-        <SousTitre1>Votre salle</SousTitre1>
+      <PageHeader text="Portail séances">
+        <SousTitre1>Rajouter des séances à notre calendrier</SousTitre1>
       </PageHeader>
       {isSubmitting ? (
         <LoadingPage />
@@ -131,23 +200,40 @@ export default function SubmitScreenings({
               ) : (
                 <>
                   <MiddleColumn>
-                    <strong>Cinema&nbsp;:</strong>
-                    <TheaterSearch
-                      allTheatersPromise={allTheatersPromise}
-                      onUpdate={setTheaterData}
-                    />
-                    <br />
+                    <BodyCopy>
+                      Bienvenu sur notre portail de séances, utilisé par les
+                      ciné-clubs, exploitants, ou autres acteurs du cinéma pour
+                      rajouter des séances à notre calendrier. Si vous avez des
+                      questions, n&apos;hésitez pas à{" "}
+                      <a
+                        className="underline"
+                        href="mailto:contact@leretroprojecteur.com"
+                      >
+                        nous contacter
+                      </a>
+                      .
+                    </BodyCopy>
+                    <div className="py-10px">
+                      <BodyCopy className="pb-5px">
+                        Pour quelle salle souhaitez-vous renseigner des
+                        séances&nbsp;?
+                      </BodyCopy>
+                      <TheaterSearch
+                        allTheatersPromise={allTheatersPromise}
+                        onUpdate={setTheaterData}
+                      />
+                    </div>
                   </MiddleColumn>
                   <Breakout>
-                    <div className="py-6px text-17px uppercase text-retro-gray">
+                    <div className="border-y py-6px text-17px uppercase text-retro-gray">
                       <Row
                         cell1={<div>Film</div>}
                         cell2={<div>Date</div>}
                         cell3={<div>Horaire</div>}
-                        cell4={<div>Notes</div>}
+                        cell4={<div>Notes (séance spéciale)</div>}
                       />
                     </div>
-                    <div className="flex flex-col gap-y-5px">
+                    <div className="flex flex-col gap-y-5px pt-5px">
                       {rowsData.map((_, index) => (
                         <ScreeningRow
                           key={index}
@@ -158,7 +244,7 @@ export default function SubmitScreenings({
                     </div>
                   </Breakout>
                   <MiddleColumn>
-                    <div className="flex flex-col">
+                    <div className="flex flex-col pt-10px">
                       <BodyCopy className="pb-5px">
                         Avez-vous autre chose à signaler&nbsp;?
                       </BodyCopy>
@@ -184,118 +270,6 @@ export default function SubmitScreenings({
       )}
     </>
   );
-}
-
-async function sendScreeningsToDatabase(
-  theaterData: { name: string; theater_id: string },
-  rowsData: {
-    movie: string;
-    movie_id: string;
-    date: string;
-    time: string;
-    note: string;
-  }[],
-  comments: string,
-  setResponseMessage: (message: string) => void,
-  setIsSubmitting: (isSubmitting: boolean) => void,
-  setShowSharePage: (showSharePage: boolean) => void,
-) {
-  setIsSubmitting(true);
-  try {
-    const API_ENDPOINT =
-      "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_data_to_db";
-
-    // Transform the rowsData to the new format
-    const transformedData = rowsData.map((row) => {
-      const [year, month, day] = row.date.split("-").map(Number);
-      const [hour, minute] = row.time.split(":").map(Number);
-
-      // Check if any required field is missing or NaN
-      if (!(row.movie == "" || isNaN(year) || isNaN(month) || isNaN(day))) {
-        return {
-          movie: row.movie,
-          id: row.movie_id,
-          year: year,
-          month: month,
-          day: day,
-          hour: hour,
-          minute: minute,
-          notes: row.note,
-        };
-      }
-    });
-
-    const payload = {
-      collection_name: "raw-submit-screenings",
-      theater_name: theaterData.name,
-      theater_id: theaterData.theater_id,
-      include_time_in_doc_name: false,
-      key_for_doc_name: "theater_id",
-      showtimes: transformedData,
-      comments: comments,
-    };
-
-    console.log("Sending payload:", JSON.stringify(payload, null, 2));
-    const response = await fetch(API_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-      mode: "cors",
-    });
-    console.log("Response status:", response.status);
-    console.log(
-      "Response headers:",
-      JSON.stringify(Object.fromEntries(response.headers), null, 2),
-    );
-
-    const responseText = await response.text();
-    console.log("Raw response:", responseText);
-
-    if (!response.ok) {
-      throw new Error(
-        `HTTP error! status: ${response.status}, body: ${responseText}`,
-      );
-    }
-
-    // Format showtimes for Slack
-    const showtimesText = rowsData
-      .filter((row) => row.movie && row.date)
-      .map((row) => `${row.movie} - ${row.date} ${row.time}`)
-      .join("\n");
-    const warningMessage = `*Nouvelles séances ajoutées*\n\n*Cinéma:* ${
-      theaterData.name
-    }\n\n*Séances:*\n${showtimesText}\n\n*Commentaires:* ${
-      comments || "Aucun"
-    }`;
-    const slackEndpoint =
-      "https://europe-west1-website-cine.cloudfunctions.net/trigger_send_warning";
-    await fetch(
-      `${slackEndpoint}?warning=${encodeURIComponent(
-        warningMessage,
-      )}&type=submit_screenings`,
-      {
-        method: "GET",
-        mode: "cors",
-      },
-    );
-
-    setResponseMessage("Données envoyées avec succès!");
-    setShowSharePage(true);
-  } catch (error) {
-    console.error("Fetch error:", error);
-    if (error instanceof Error) {
-      setResponseMessage(
-        `Erreur de connexion: ${error.message}. Veuillez vérifier votre connexion internet et réessayer.`,
-      );
-    } else {
-      setResponseMessage(
-        "Une erreur inconnue est survenue. Veuillez vérifier votre connexion internet et réessayer.",
-      );
-    }
-    setIsSubmitting(false);
-  }
 }
 
 function ScreeningRow({
@@ -327,7 +301,7 @@ function ScreeningRow({
   return (
     <Row
       cell1={
-        <div className={"flex grow flex-col"}>
+        <div className="flex grow flex-col">
           <RetroInput
             value={searchTerm}
             setValue={(st) => setSearchFind(st)}
@@ -335,7 +309,6 @@ function ScreeningRow({
             customTypography
             placeholder="Recherchez un film..."
             transparentPlaceholder
-            className={"flex grow"}
           />
           <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
             {showResults && (
@@ -363,10 +336,9 @@ function ScreeningRow({
       }
       cell2={
         <input
-          type="date"
           id="date"
-          name="date"
-          className="flex h-42px grow lg:h-48px"
+          type="date"
+          className="flex w-167px grow border"
           value={date}
           onChange={(e) => {
             setDate(e.target.value);
@@ -382,10 +354,9 @@ function ScreeningRow({
       }
       cell3={
         <input
-          type="time"
           id="time"
-          name="time"
-          className="h-42px lg:h-48px"
+          type="time"
+          className="flex w-103px grow border"
           value={time}
           onChange={(e) => {
             setTime(e.target.value);
@@ -401,10 +372,11 @@ function ScreeningRow({
       }
       cell4={
         <input
-          name="note"
+          id="note"
           type="text"
-          className="flex h-42px grow flex-col lg:h-48px"
+          className="flex grow flex-col border"
           value={note}
+          placeholder="Facultatif"
           onChange={(e) => {
             setNote(e.target.value);
             onUpdate({
