@@ -17,7 +17,6 @@ import {
   MovieDetail,
   MovieWithScreeningsOneDay,
   MovieWithScreeningsSeveralDays,
-  ReducedMovie,
   Review,
   SearchMovie,
 } from "./types";
@@ -103,7 +102,14 @@ export const getMovies = unstable_cache(
     const searchMovies = querySnapshot.docs.flatMap(
       (doc) => doc.data().elements,
     ) as SearchMovie[];
-    return searchMovies;
+    return orderBy(
+      searchMovies.map<[SearchMovie, string[]]>((elem) => [
+        elem,
+        getFields(getMovieInfoString(elem)),
+      ]),
+      ([elem]) => elem.relevance_score,
+      "desc",
+    );
   },
   ["all-movies"],
   { revalidate: 10 },
@@ -112,24 +118,12 @@ export const getMovies = unstable_cache(
 export const getSearchMovies = memoize(
   async () => {
     const { db } = getFirebase();
-    const collectionRef = collection(db, "website-all-movies-list");
-    const query_docs = query(collectionRef, where("s", "==", true));
+    const collectionRef = collection(db, "website-extra-docs");
+    const query_docs = query(collectionRef, where("search", "==", true));
     const querySnapshot = await getDocs(query_docs);
-
-    const searchMovies = querySnapshot.docs.flatMap((doc) => {
-      const reducedMovies = doc.data().e as ReducedMovie[];
-
-      return reducedMovies.map(
-        (reduced): SearchMovie => ({
-          id: reduced.i,
-          directors: reduced.d,
-          title: reduced.t,
-          year: reduced.y,
-          original_title: reduced.o || undefined,
-          relevance_score: reduced.r,
-        }),
-      );
-    });
+    const searchMovies = querySnapshot.docs.flatMap(
+      (doc) => doc.data().elements,
+    ) as SearchMovie[];
 
     return orderBy(
       searchMovies.map<[SearchMovie, string[]]>((elem) => [

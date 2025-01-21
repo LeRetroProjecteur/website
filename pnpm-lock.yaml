@@ -54,6 +54,9 @@ importers:
       framer-motion:
         specifier: ^12.0.1
         version: 12.0.1(@emotion/is-prop-valid@0.8.8)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+      lodash:
+        specifier: ^4.17.21
+        version: 4.17.21
       lodash-es:
         specifier: ^4.17.21
         version: 4.17.21
@@ -97,6 +100,9 @@ importers:
       '@tailwindcss/forms':
         specifier: ^0.5.7
         version: 0.5.7(tailwindcss@3.3.5)
+      '@types/lodash':
+        specifier: ^4.17.14
+        version: 4.17.14
       '@types/lodash-es':
         specifier: ^4.17.11
         version: 4.17.11
@@ -859,8 +865,8 @@ packages:
   '@types/lodash-es@4.17.11':
     resolution: {integrity: sha512-eCw8FYAWHt2DDl77s+AMLLzPn310LKohruumpucZI4oOFJkIgnlaJcy23OKMJxx4r9PeTF13Gv6w+jqjWQaYUg==}
 
-  '@types/lodash@4.14.200':
-    resolution: {integrity: sha512-YI/M/4HRImtNf3pJgbF+W6FrXovqj+T+/HpENLTooK9PnkacBsDpeP3IpHab40CClUfhNmdM2WTNP2sa2dni5Q==}
+  '@types/lodash@4.17.14':
+    resolution: {integrity: sha512-jsxagdikDiDBeIRaPYtArcT8my4tN1og7MtMRquFT3XNA6axxyHDRUemqDz/taRDdOUn0GnGHRCuff4q48sW9A==}
 
   '@types/luxon@3.4.2':
     resolution: {integrity: sha512-TifLZlFudklWlMBfhubvgqTXRzLDI5pCbGa4P8a3wPyUQSW+1xQ5eDsreP9DWHX3tjq1ke96uYG/nwundroWcA==}
@@ -3849,9 +3855,9 @@ snapshots:
 
   '@types/lodash-es@4.17.11':
     dependencies:
-      '@types/lodash': 4.14.200
+      '@types/lodash': 4.17.14
 
-  '@types/lodash@4.14.200': {}
+  '@types/lodash@4.17.14': {}
 
   '@types/luxon@3.4.2': {}
 
