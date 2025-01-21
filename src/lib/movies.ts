@@ -6,8 +6,9 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { keyBy, uniq } from "lodash-es";
+import { keyBy, orderBy, uniq } from "lodash-es";
 import { DateTime } from "luxon";
+import memoize from "memoizee";
 import { unstable_cache } from "next/cache";
 import "server-only";
 
@@ -24,6 +25,8 @@ import {
   checkNotNull,
   formatYYYYMMDD,
   formatYYYY_MM_DD,
+  getFields,
+  getMovieInfoString,
   getNextMovieWeek,
 } from "./util";
 
@@ -106,14 +109,14 @@ export const getMovies = unstable_cache(
   { revalidate: 10 },
 );
 
-export const getAllMovies = unstable_cache(
+export const getSearchMovies = memoize(
   async () => {
     const { db } = getFirebase();
     const collectionRef = collection(db, "website-all-movies-list");
     const query_docs = query(collectionRef, where("s", "==", true));
     const querySnapshot = await getDocs(query_docs);
 
-    return querySnapshot.docs.flatMap((doc) => {
+    const searchMovies = querySnapshot.docs.flatMap((doc) => {
       const reducedMovies = doc.data().e as ReducedMovie[];
 
       return reducedMovies.map(
@@ -127,9 +130,17 @@ export const getAllMovies = unstable_cache(
         }),
       );
     });
+
+    return orderBy(
+      searchMovies.map<[SearchMovie, string[]]>((elem) => [
+        elem,
+        getFields(getMovieInfoString(elem)),
+      ]),
+      ([elem]) => elem.relevance_score,
+      "desc",
+    );
   },
-  ["all-movies"],
-  { revalidate: 180 },
+  { primitive: true, promise: true, maxAge: 1000 * 60 * 5, preFetch: true },
 );
 
 export const getReviewedMovies = unstable_cache(

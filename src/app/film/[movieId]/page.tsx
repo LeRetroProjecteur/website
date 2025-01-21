@@ -4,11 +4,13 @@ import { getMovie } from "@/lib/movies";
 
 import Film from "./film";
 
-export async function generateMetadata({
-  params: { movieId },
-}: {
-  params: { movieId: string };
+export async function generateMetadata(props: {
+  params: Promise<{ movieId: string }>;
 }): Promise<Metadata> {
+  const params = await props.params;
+
+  const { movieId } = params;
+
   return {
     title: `${(await getMovie(movieId)).title}`,
     description: `Prochaines séances à Paris de ${
@@ -17,11 +19,13 @@ export async function generateMetadata({
   };
 }
 
-export default function FilmPage({
-  params: { movieId },
-}: {
-  params: { movieId: string };
+export default async function FilmPage(props: {
+  params: Promise<{ movieId: string }>;
 }) {
+  const params = await props.params;
+
+  const { movieId } = params;
+
   return <FilmPageLoader movieId={movieId} />;
 }
 

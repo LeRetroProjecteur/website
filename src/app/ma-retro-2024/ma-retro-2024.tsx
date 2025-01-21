@@ -1,6 +1,7 @@
 "use client";
 
 import clsx from "clsx";
+import Image from "next/image";
 import Link from "next/link";
 import React, { ReactNode, useState } from "react";
 
@@ -16,9 +17,9 @@ import {
   SousTitre1,
   SousTitre2,
 } from "@/components/typography/typography";
-import { SearchMovie } from "@/lib/types";
 
 import LoadingPage from "../loading";
+import logoBlue from "./logo-blue.png";
 
 function OpenQuestion({
   question,
@@ -79,11 +80,9 @@ function SondageRow({ cell1, cell2 }: { cell1: ReactNode; cell2: ReactNode }) {
 
 function MovieRow({
   index,
-  allMoviesPromise,
   onUpdate,
 }: {
   index: number;
-  allMoviesPromise: Promise<SearchMovie[]>;
   onUpdate: (data: { movie: string; id: string }) => void;
 }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -121,7 +120,6 @@ function MovieRow({
                 className="border-x px-5px py-2px"
                 nbResults={5}
                 searchTerm={searchTerm}
-                allDataPromise={allMoviesPromise}
                 noResultsText="Nous ne trouvons pas votre film, mais vous pouvez le renseigner manuellement."
                 noResultsTextSize="small"
                 lowercase={true}
@@ -202,8 +200,8 @@ function ShareableContent({ rowsData }: ShareableContentProps) {
             <div className="text-30px leading-15px">•</div>
           </div>
           <div className="flex grow items-center justify-center">
-            <img
-              src="/img/logo-blue.png"
+            <Image
+              src={logoBlue}
               alt="Logo"
               className="h-auto w-157px max-w-[50%]"
             />
@@ -236,11 +234,7 @@ function SharePage({ rowsData }: ShareableContentProps) {
   );
 }
 
-export default function MaRetro2024({
-  allMoviesPromise,
-}: {
-  allMoviesPromise: Promise<SearchMovie[]>;
-}) {
+export default function MaRetro2024() {
   const numSubmissions = 10;
   const [responseMessage, setResponseMessage] = useState("");
   const [rowsData, setRowsData] = useState(
@@ -375,7 +369,6 @@ export default function MaRetro2024({
                     <MovieRow
                       key={index}
                       index={index}
-                      allMoviesPromise={allMoviesPromise}
                       onUpdate={(data) => updateRowData(index, data)}
                     />
                   ))}

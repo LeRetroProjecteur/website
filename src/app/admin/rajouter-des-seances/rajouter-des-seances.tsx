@@ -7,7 +7,7 @@ import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
-import { SearchMovie, SearchTheater } from "@/lib/types";
+import { SearchTheater } from "@/lib/types";
 
 import LoadingPage from "../../loading";
 
@@ -64,10 +64,8 @@ function SharePage() {
 }
 
 export default function SubmitScreenings({
-  allMoviesPromise,
   allTheatersPromise,
 }: {
-  allMoviesPromise: Promise<SearchMovie[]>;
   allTheatersPromise: Promise<SearchTheater[]>;
 }) {
   const numSubmissions = 5;
@@ -153,7 +151,6 @@ export default function SubmitScreenings({
                   {rowsData.map((_, index) => (
                     <Fragment key={index}>
                       <ScreeningRow
-                        allMoviesPromise={allMoviesPromise}
                         onUpdate={(data) => updateRowData(index, data)}
                       />
                     </Fragment>
@@ -312,10 +309,8 @@ async function sendScreeningsToDatabase(
 }
 
 function ScreeningRow({
-  allMoviesPromise,
   onUpdate,
 }: {
-  allMoviesPromise: Promise<SearchMovie[]>;
   onUpdate: (data: {
     movie: string;
     movie_id: string;
@@ -357,7 +352,6 @@ function ScreeningRow({
                 className="border-x px-5px py-2px"
                 nbResults={5}
                 searchTerm={searchTerm}
-                allDataPromise={allMoviesPromise}
                 onClick={(movie) => {
                   setSearchFind(
                     movie.title +
