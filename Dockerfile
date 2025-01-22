@@ -66,4 +66,4 @@ ENV PORT 3000
 # set hostname to localhost
 ENV HOSTNAME "0.0.0.0"
 
-CMD ["node", "--max-old-space-size=196608", "server.js"]
+CMD ["node", "server.js"]
