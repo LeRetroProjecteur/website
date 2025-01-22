@@ -93,32 +93,10 @@ export const getDayMovies = unstable_cache(
   { revalidate: 60 },
 );
 
-export const getMovies = unstable_cache(
-  async () => {
-    const { db } = getFirebase();
-    const collectionRef = collection(db, "website-extra-docs");
-    const query_docs = query(collectionRef, where("search", "==", true));
-    const querySnapshot = await getDocs(query_docs);
-    const searchMovies = querySnapshot.docs.flatMap(
-      (doc) => doc.data().elements,
-    ) as SearchMovie[];
-    return orderBy(
-      searchMovies.map<[SearchMovie, string[]]>((elem) => [
-        elem,
-        getFields(getMovieInfoString(elem)),
-      ]),
-      ([elem]) => elem.relevance_score,
-      "desc",
-    );
-  },
-  ["all-movies"],
-  { revalidate: 10 },
-);
-
 export const getSearchMovies = memoize(
   async () => {
     const { db } = getFirebase();
-    const collectionRef = collection(db, "website-extra-docs");
+    const collectionRef = collection(db, "website-all-movies-list-all");
     const query_docs = query(collectionRef, where("search", "==", true));
     const querySnapshot = await getDocs(query_docs);
     const searchMovies = querySnapshot.docs.flatMap(

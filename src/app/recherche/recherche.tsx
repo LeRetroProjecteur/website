@@ -5,7 +5,7 @@ import { every, orderBy, take, toPairs, without } from "lodash-es";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { RefObject, use, useCallback, useEffect, useMemo, useRef } from "react";
-import useSWR from "swr";
+import useSWRImmutable from "swr/immutable";
 import { create } from "zustand";
 
 import RetroInput from "@/components/forms/retro-input";
@@ -117,7 +117,7 @@ export function SearchResults({
   lowercase?: boolean;
   altColor?: boolean;
 }) {
-  const { data: filtered, isLoading } = useSWR(
+  const { data: filtered, isLoading } = useSWRImmutable(
     searchTerm,
     () => search({ searchTerm, nbResults }),
     { fallbackData: [] },

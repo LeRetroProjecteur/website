@@ -12,7 +12,6 @@ export async function search({
   searchTerm: string;
   nbResults: number;
 }) {
-  "use server";
   const searchMovies = await getSearchMovies();
   const keywords = getFields(searchTerm);
 
