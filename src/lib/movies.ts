@@ -1,14 +1,18 @@
 import {
+  DocumentData,
+  Query,
+  QueryDocumentSnapshot,
   collection,
   doc,
   getDoc,
   getDocs,
+  limit,
   query,
+  startAt,
   where,
 } from "firebase/firestore";
 import { keyBy, orderBy, uniq } from "lodash-es";
 import { DateTime } from "luxon";
-import memoize from "memoizee";
 import { unstable_cache } from "next/cache";
 import "server-only";
 
@@ -96,7 +100,7 @@ export const getDayMovies = unstable_cache(
 export const getMovies = unstable_cache(
   async () => {
     const { db } = getFirebase();
-    const collectionRef = collection(db, "website-extra-docs");
+    const collectionRef = collection(db, "website-all-movies-list-all");
     const query_docs = query(collectionRef, where("search", "==", true));
     const querySnapshot = await getDocs(query_docs);
     const searchMovies = querySnapshot.docs.flatMap(
@@ -115,27 +119,35 @@ export const getMovies = unstable_cache(
   { revalidate: 10 },
 );
 
-export const getSearchMovies = memoize(
-  async () => {
-    const { db } = getFirebase();
-    const collectionRef = collection(db, "website-extra-docs");
-    const query_docs = query(collectionRef, where("search", "==", true));
-    const querySnapshot = await getDocs(query_docs);
-    const searchMovies = querySnapshot.docs.flatMap(
-      (doc) => doc.data().elements,
-    ) as SearchMovie[];
+export const getSearchMoviesIterator = async () => {
+  const { db } = getFirebase();
+  const collectionRef = collection(db, "website-extra-docs");
+  let lastDoc: QueryDocumentSnapshot<DocumentData, DocumentData> | undefined =
+    undefined;
+  let firstIteration = true;
 
-    return orderBy(
-      searchMovies.map<[SearchMovie, string[]]>((elem) => [
-        elem,
-        getFields(getMovieInfoString(elem)),
-      ]),
-      ([elem]) => elem.relevance_score,
-      "desc",
+  return async () => {
+    if (lastDoc == null && !firstIteration) {
+      return [];
+    }
+
+    firstIteration = false;
+
+    const query_docs: Query<DocumentData, DocumentData> = query(
+      collectionRef,
+      where("search", "==", true),
+      limit(2),
+      ...(lastDoc != null ? [startAt(lastDoc)] : []),
     );
-  },
-  { primitive: true, promise: true, maxAge: 1000 * 60 * 5, preFetch: true },
-);
+    const querySnapshot = await getDocs(query_docs);
+
+    lastDoc = querySnapshot.docs[1];
+
+    return querySnapshot.docs[0] != null
+      ? (querySnapshot.docs[0].data().elements as SearchMovie[])
+      : [];
+  };
+};
 
 export const getReviewedMovies = unstable_cache(
   async () => {

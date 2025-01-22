@@ -2,8 +2,7 @@
 
 import _ from "lodash";
 
-import { getSearchMovies } from "@/lib/movies";
-import { getFields, stringMatchFields } from "@/lib/util";
+import { searchInDb } from "@/lib/search-db";
 
 export async function search({
   searchTerm,
@@ -13,14 +12,5 @@ export async function search({
   nbResults: number;
 }) {
   "use server";
-  const searchMovies = await getSearchMovies();
-  const keywords = getFields(searchTerm);
-
-  return searchTerm.length > 0
-    ? _(searchMovies)
-        .filter(([_, fields]) => stringMatchFields(keywords, fields))
-        .map(([elem]) => elem)
-        .take(nbResults)
-        .value()
-    : [];
+  return searchInDb(searchTerm, nbResults);
 }
