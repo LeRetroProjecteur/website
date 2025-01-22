@@ -3,6 +3,7 @@
 
 app = "leretroprojecteur"
 primary_region = "cdg"
+swap_size_mb = 512
 
 [build]
 
