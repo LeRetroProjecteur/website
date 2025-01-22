@@ -17,6 +17,7 @@ import {
   MovieDetail,
   MovieWithScreeningsOneDay,
   MovieWithScreeningsSeveralDays,
+  ReducedMovie,
   Review,
   SearchMovie,
 } from "./types";
@@ -97,11 +98,22 @@ export const getSearchMovies = memoize(
   async () => {
     const { db } = getFirebase();
     const collectionRef = collection(db, "website-all-movies-list-all");
-    const query_docs = query(collectionRef, where("search", "==", true));
+    const query_docs = query(collectionRef, where("s", "==", true));
     const querySnapshot = await getDocs(query_docs);
-    const searchMovies = querySnapshot.docs.flatMap(
-      (doc) => doc.data().elements,
-    ) as SearchMovie[];
+    const searchMovies = querySnapshot.docs.flatMap((doc) => {
+      const reducedMovies = doc.data().e as ReducedMovie[];
+
+      return reducedMovies.map(
+        (reduced): SearchMovie => ({
+          id: reduced.i,
+          directors: reduced.d,
+          title: reduced.t,
+          year: reduced.y,
+          original_title: reduced.o || undefined,
+          relevance_score: reduced.r,
+        }),
+      );
+    });
 
     return orderBy(
       searchMovies.map<[SearchMovie, string[]]>((elem) => [
