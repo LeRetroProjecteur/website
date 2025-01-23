@@ -1,10 +1,13 @@
-// app/director/[directorId]/page.tsx
 import { Metadata } from "next";
 import { getMovie } from "@/lib/movies";
 import { doc, getDoc } from 'firebase/firestore';
 import { getFirebase } from '@/lib/firebase';
 import PageHeader from "@/components/layout/page-header";
-import { useRouter } from "next/navigation";
+import { filterDates } from "@/lib/util";
+import { size } from "lodash-es";
+import { BodyCopy, SectionTitle } from "@/components/typography/typography";
+import MultiDaySeances from "@/components/seances/multiday-seances";
+import { TwoColumnPage } from "@/components/layout/page";
 import Link from "next/link";
 
 interface DirectorInfo {
@@ -50,26 +53,41 @@ export default async function DirectorPage({
  return (
    <>
      <PageHeader text={directorInfo.director_name} />
-     <div className="flex grow flex-col">
-       {movies.map(movie => (
-         <Link
-           key={movie.id}
-           href={`/film/${movie.id}`}
-           className="border-b even:bg-retro-pale-green lg:hover:bg-retro-pale-green py-10px pl-5px text-15px font-medium uppercase leading-20px lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em]"
-         >
-           <u>{movie.title}</u>, {movie.directors} ({movie.year})
-           {movie.screenings && movie.screenings.length > 0 && (
-             <div className="text-sm mt-2">
-               {movie.screenings.map((screening, index) => (
-                 <p key={index} className="text-gray-600">
-                   {screening.theater} - {screening.date}
-                 </p>
-               ))}
-             </div>
-           )}
-         </Link>
-       ))}
-     </div>
+     <TwoColumnPage
+       narrow
+       left={
+         <div className="flex flex-col">
+           {movies.map(movie => (
+             <Link
+               key={movie.id}
+               href={`/film/${movie.id}`}
+               className="border-b py-12px lg:py-16px lg:hover:bg-retro-pale-green"
+             >
+               <u>{movie.title}</u>, {movie.directors} ({movie.year})
+             </Link>
+           ))}
+         </div>
+       }
+       right={
+         <>
+           <SectionTitle>Prochaines séances à Paris</SectionTitle>
+           <div className="flex flex-col">
+             {movies.map(movie => {
+               const screenings = movie?.screenings ? filterDates(movie.screenings) : {};
+               return size(screenings) > 0 ? (
+                 <div key={movie.id} className="border-b">
+                     <div className="py-12px text-16px lg:text-20px font-bold tracking-tight">{movie.title}</div>
+                     <MultiDaySeances
+                         screenings={screenings}
+                         groupClassName="py-8px lg:py-12px"
+                     />
+                 </div>
+               ) : null;
+             })}
+           </div>
+         </>
+       }
+     />
    </>
  );
 }
