@@ -201,7 +201,7 @@ export default function SubmitScreenings({
                 <>
                   <MiddleColumn>
                     <BodyCopy>
-                      Bienvenu sur notre portail de séances, utilisé par les
+                      Bienvenue sur notre portail de séances, utilisé par les
                       ciné-clubs, exploitants, ou autres acteurs du cinéma pour
                       rajouter des séances à notre calendrier. Si vous avez des
                       questions, n&apos;hésitez pas à{" "}
