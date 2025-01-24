@@ -11,11 +11,18 @@ export function TextBox({
 }: {
   children: ReactNode;
   className?: string;
-  link?: string;
+  link?: {
+    url: string;
+    newTab?: boolean;
+  };
   onClick?: () => void;
 }) {
   if (!onClick && link) {
-    onClick = () => (window.location.href = link);
+    if (link.newTab) {
+      onClick = () => window.open(link.url, "_blank");
+    } else {
+      onClick = () => (window.location.href = link.url);
+    }
   }
   return (
     <div

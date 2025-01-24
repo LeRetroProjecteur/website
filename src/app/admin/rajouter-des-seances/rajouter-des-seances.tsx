@@ -43,7 +43,7 @@ function SharePage() {
         <TextBox onClick={() => window.location.reload()}>
           Rajouter des nouvelles séances
         </TextBox>
-        <TextBox link="/">Retour sur le site principal</TextBox>
+        <TextBox link={{ url: "/" }}>Retour sur le site principal</TextBox>
       </div>
     </MiddleColumn>
   );
