@@ -1,4 +1,3 @@
-// [directorId]/director.tsx
 "use client";
 
 import { size } from "lodash-es";
@@ -10,10 +9,6 @@ import MultiDaySeances from "@/components/seances/multiday-seances";
 import { SectionTitle } from "@/components/typography/typography";
 import { MovieDetail } from "@/lib/types";
 import { filterDates } from "@/lib/util";
-
-// [directorId]/director.tsx
-
-// [directorId]/director.tsx
 
 export default function DirectorView({
   movies,
