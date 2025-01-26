@@ -230,7 +230,9 @@ function SharePage({ rowsData }: ShareableContentProps) {
         autant&nbsp;!
       </BodyCopy>
       <div className="flex flex-col gap-y-10px">
-        <TextBox link="/ma-retro-2024">Recomposer ma rétrospective</TextBox>
+        <TextBox onClick={() => window.location.reload()}>
+          Recomposer ma rétrospective
+        </TextBox>
       </div>
     </>
   );
