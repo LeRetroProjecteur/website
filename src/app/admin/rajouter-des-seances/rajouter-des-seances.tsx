@@ -26,10 +26,10 @@ function Row({
   cell4: ReactNode;
 }) {
   return (
-    <div className="flex flex-wrap gap-x-10px">
-      <div className="w-100px lg:w-250px">{cell1}</div>
-      <div className="w-167px">{cell2}</div>
-      <div className="w-103px">{cell3}</div>
+    <div className="flex flex-nowrap gap-x-5px">
+      <div className="w-125px lg:w-225px 3col:w-250px">{cell1}</div>
+      <div className="w-147px">{cell2}</div>
+      <div className="w-97px">{cell3}</div>
       <div className="flex grow basis-0">{cell4}</div>
     </div>
   );
@@ -230,7 +230,14 @@ export default function SubmitScreenings({
                         cell1={<div>Film</div>}
                         cell2={<div>Date</div>}
                         cell3={<div>Horaire</div>}
-                        cell4={<div>Notes (séance spéciale)</div>}
+                        cell4={
+                          <>
+                            <div className="lg:hidden">Notes</div>
+                            <div className="hidden lg:block">
+                              Notes (séance spéciale)
+                            </div>
+                          </>
+                        }
                       />
                     </div>
                     <div className="flex flex-col gap-y-5px pt-5px">
@@ -307,8 +314,18 @@ function ScreeningRow({
             setValue={(st) => setSearchFind(st)}
             leftAlignPlaceholder
             customTypography
-            placeholder="Recherchez un film..."
+            placeholder="Rechercher un film..."
             transparentPlaceholder
+            className="hidden lg:block"
+          />
+          <RetroInput
+            value={searchTerm}
+            setValue={(st) => setSearchFind(st)}
+            leftAlignPlaceholder
+            customTypography
+            placeholder="Rechercher..."
+            transparentPlaceholder
+            className="lg:hidden"
           />
           <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
             {showResults && (
@@ -338,7 +355,7 @@ function ScreeningRow({
         <input
           id="date"
           type="date"
-          className="flex w-167px grow border"
+          className="flex w-147px grow border [&::-webkit-calendar-picker-indicator]:ml-[-20px]"
           value={date}
           onChange={(e) => {
             setDate(e.target.value);
@@ -356,7 +373,7 @@ function ScreeningRow({
         <input
           id="time"
           type="time"
-          className="flex w-103px grow border"
+          className="flex w-97px grow border [&::-webkit-calendar-picker-indicator]:ml-0"
           value={time}
           onChange={(e) => {
             setTime(e.target.value);
@@ -374,7 +391,7 @@ function ScreeningRow({
         <input
           id="note"
           type="text"
-          className="flex grow flex-col border"
+          className="flex w-full min-w-0 grow flex-col border"
           value={note}
           placeholder="Facultatif"
           onChange={(e) => {
@@ -416,7 +433,7 @@ function TheaterSearch({
         setValue={(st) => setSearchFind({ name: st, theater_id: "" })}
         leftAlignPlaceholder
         customTypography
-        placeholder="Recherchez un cinéma..."
+        placeholder="Rechercher un cinéma..."
         transparentPlaceholder
         className="flex grow"
       />
