@@ -124,7 +124,7 @@ export const getSearchMovies = memoize(
       "desc",
     );
   },
-  { primitive: true, promise: true, maxAge: 1000 * 60 * 5, preFetch: true },
+  { primitive: true, promise: true, maxAge: 1000 * 60 * 5 },
 );
 
 export const getReviewedMovies = unstable_cache(

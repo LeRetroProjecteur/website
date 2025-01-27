@@ -8,7 +8,6 @@ import React, { ReactNode, useState } from "react";
 import { SearchResults } from "@/app/recherche/recherche";
 import { MiddleColumn } from "@/components/articles/articles";
 import RetroInput from "@/components/forms/retro-input";
-import { SuspenseWithLoading } from "@/components/icons/loading";
 import { ThreeColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
@@ -113,29 +112,27 @@ function MovieRow({
             placeholder={"Rechercher un film...".toUpperCase()}
             transparentPlaceholder
           />
-          <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
-            {showResults && (
-              <SearchResults
-                altColor={true}
-                className="border-x px-5px py-2px"
-                nbResults={5}
-                searchTerm={searchTerm}
-                noResultsText="Nous ne trouvons pas votre film, mais vous pouvez le renseigner manuellement."
-                noResultsTextSize="small"
-                lowercase={true}
-                onClick={(movie) => {
-                  setSearchFind(
-                    `${movie.title}, ${movie.directors} (${movie.year})`,
-                    movie.id,
-                  );
-                  setShowResults(false);
-                }}
-                onClose={() => {
-                  setShowResults(false);
-                }}
-              />
-            )}
-          </SuspenseWithLoading>
+          {showResults && (
+            <SearchResults
+              altColor={true}
+              className="border-x px-5px py-2px"
+              nbResults={5}
+              searchTerm={searchTerm}
+              noResultsText="Nous ne trouvons pas votre film, mais vous pouvez le renseigner manuellement."
+              noResultsTextSize="small"
+              lowercase={true}
+              onClick={(movie) => {
+                setSearchFind(
+                  `${movie.title}, ${movie.directors} (${movie.year})`,
+                  movie.id,
+                );
+                setShowResults(false);
+              }}
+              onClose={() => {
+                setShowResults(false);
+              }}
+            />
+          )}
         </div>
       }
     />

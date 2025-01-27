@@ -9,7 +9,7 @@ import useSWR from "swr";
 import { create } from "zustand";
 
 import RetroInput from "@/components/forms/retro-input";
-import { SuspenseWithLoading } from "@/components/icons/loading";
+import { Loading } from "@/components/icons/loading";
 import PageHeader, { FixedHeader } from "@/components/layout/page-header";
 import { MetaCopy } from "@/components/typography/typography";
 import { SearchMovie, SearchTheater } from "@/lib/types";
@@ -73,22 +73,18 @@ export default function Recherche() {
             <Tag key={tag} {...{ tag, displayTag }} />
           ))}
         </div>
-        <SuspenseWithLoading
-          hideLoading={searchTerm.length === 0}
-          className="flex grow items-center justify-center pt-15px"
-        >
-          <SearchResults
-            nbResults={50}
-            className={
-              "py-10px pl-5px text-15px font-medium uppercase leading-20px lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0"
-            }
-            searchTerm={searchTerm}
-            verticalFooter
-            onClick={(movie) => {
-              router.push(`/film/${movie.id}`);
-            }}
-          />
-        </SuspenseWithLoading>
+        <SearchResults
+          nbResults={50}
+          className={
+            "py-10px pl-5px text-15px font-medium uppercase leading-20px lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0"
+          }
+          loadingClassName="flex grow items-center justify-center pt-15px"
+          searchTerm={searchTerm}
+          verticalFooter
+          onClick={(movie) => {
+            router.push(`/film/${movie.id}`);
+          }}
+        />
       </div>
     </>
   );
@@ -103,6 +99,7 @@ export function SearchResults({
   noResultsText = "Désolé, nous n'avons rien trouvé qui corresponde à votre recherche !",
   noResultsTextSize = "default",
   className,
+  loadingClassName,
   lowercase = false,
   altColor = false,
 }: {
@@ -113,13 +110,15 @@ export function SearchResults({
   onClose?: () => void;
   noResultsText?: string;
   noResultsTextSize?: "default" | "small" | "large";
+  loadingClassName?: string;
   className?: string;
   lowercase?: boolean;
   altColor?: boolean;
 }) {
   const { data: filtered, isLoading } = useSWR(
     searchTerm,
-    (searchTerm) => search({ searchTerm, nbResults }),
+    (searchTerm) =>
+      searchTerm.length > 0 ? search({ searchTerm, nbResults }) : [],
     { fallbackData: [] },
   );
 
@@ -173,6 +172,11 @@ export function SearchResults({
       removeEventListener("mousedown", clickOutside); // Changed to mousedown
     };
   }, [filtered, onClick, onClose]);
+
+  if (isLoading) {
+    return <Loading className={loadingClassName} />;
+  }
+
   return (
     searchTerm.length > 0 &&
     !isLoading && (

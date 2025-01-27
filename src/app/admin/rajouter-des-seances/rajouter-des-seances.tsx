@@ -305,27 +305,25 @@ function ScreeningRow({
             placeholder="Recherchez un film..."
             transparentPlaceholder
           />
-          <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
-            {showResults && (
-              <SearchResults
-                className="border-x px-5px py-2px"
-                nbResults={5}
-                searchTerm={searchTerm}
-                onClick={(movie) => {
-                  setSearchFind(
-                    movie.title +
-                      ", " +
-                      movie.directors +
-                      " (" +
-                      movie.year +
-                      ")",
-                    movie.id,
-                  );
-                  setShowResults(false);
-                }}
-              />
-            )}
-          </SuspenseWithLoading>
+          {showResults && (
+            <SearchResults
+              className="border-x px-5px py-2px"
+              nbResults={5}
+              searchTerm={searchTerm}
+              onClick={(movie) => {
+                setSearchFind(
+                  movie.title +
+                    ", " +
+                    movie.directors +
+                    " (" +
+                    movie.year +
+                    ")",
+                  movie.id,
+                );
+                setShowResults(false);
+              }}
+            />
+          )}
         </div>
       }
       cell2={
