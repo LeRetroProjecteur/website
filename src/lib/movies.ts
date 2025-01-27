@@ -8,7 +8,6 @@ import {
 } from "firebase/firestore";
 import { keyBy, orderBy, uniq } from "lodash-es";
 import { DateTime } from "luxon";
-import memoize from "memoizee";
 import { unstable_cache } from "next/cache";
 import "server-only";
 
@@ -28,6 +27,7 @@ import {
   getFields,
   getMovieInfoString,
   getNextMovieWeek,
+  staleWhileRevalidate,
 } from "./util";
 
 export const getWeekMovies = async () => {
@@ -94,7 +94,7 @@ export const getDayMovies = unstable_cache(
   { revalidate: 60 },
 );
 
-export const getSearchMovies = memoize(
+export const getSearchMovies = staleWhileRevalidate(
   async () => {
     const { db } = getFirebase();
     const collectionRef = collection(db, "website-all-movies-list-all");
@@ -124,7 +124,7 @@ export const getSearchMovies = memoize(
       "desc",
     );
   },
-  { primitive: true, promise: true, maxAge: 1000 * 60 * 5 },
+  { maxAgeMs: 1000 * 60 * 5 },
 );
 
 export const getReviewedMovies = unstable_cache(

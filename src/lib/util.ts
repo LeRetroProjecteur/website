@@ -246,3 +246,29 @@ export function filterDates(showtimes: {
       safeDate(date) >= getStartOfTodayInParis() && screenings.length > 0,
   );
 }
+
+export function staleWhileRevalidate<T>(
+  fn: () => Promise<T>,
+  { maxAgeMs }: { maxAgeMs: number },
+) {
+  let cache: { time: number; data?: Promise<T> } = { time: 0 };
+
+  const refresh = async (now: number) => {
+    const data = fn();
+    cache = { time: now, data };
+    return data;
+  };
+
+  return async () => {
+    const now = new Date().getTime();
+    if (cache.data == null) {
+      return refresh(now);
+    } else if (now - maxAgeMs > cache.time) {
+      const data = cache.data;
+      void refresh(now);
+      return data;
+    } else {
+      return cache.data;
+    }
+  };
+}
