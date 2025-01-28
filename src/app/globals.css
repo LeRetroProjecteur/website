@@ -1,7 +1,3 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
-.atcb-button {
-    @apply h-42px grow cursor-pointer border bg-retro-gray text-center text-20px font-medium uppercase text-retro-blue hover:bg-retro-blue hover:text-retro-gray lg:h-48px
-}
