@@ -3,11 +3,13 @@
 import { AddToCalendarButton } from "add-to-calendar-button-react";
 import { DateTime } from "luxon";
 import { createContext, useContext, useState } from "react";
+import resolveConfig from "tailwindcss/resolveConfig";
 import { StoreApi, createStore, useStore } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
 import { checkNotNull } from "@/lib/util";
 
+import tailwindConfig from "../../../tailwind.config";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -17,6 +19,28 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
+
+const fullConfig = resolveConfig(tailwindConfig);
+
+const addToCalendarStyleOverride = `
+  --base-font-size-l: 20px;
+  --base-font-size-m: 20px;
+  --base-font-size-s: 20px;
+  --font: ${fullConfig.theme?.fontFamily?.suisse};
+  --wrapper-padding: 0px;
+  --btn-background: ${fullConfig.theme?.colors?.["retro-blue"]};
+  --btn-hover-background: ${fullConfig.theme?.colors?.["retro-blue"]};
+  --btn-border: ${fullConfig.theme?.colors?.["retro-gray"]};
+  --btn-border-radius: 0;
+  --btn-padding-x: 1em;
+  --btn-padding-y: .65em;
+  --btn-font-weight: ${fullConfig.theme?.fontWeight?.medium};
+  --btn-text: ${fullConfig.theme?.colors?.["retro-gray"]};
+  --btn-hover-text: ${fullConfig.theme?.colors?.["retro-gray"]};
+  --btn-shadow: none;
+  --btn-hover-shadow: none;
+  --btn-active-shadow: none;
+`;
 
 export type DialogSeance = {
   movieTitle: string;
@@ -88,7 +112,6 @@ export function SeanceDialog() {
             startTime={seance.movieDate.toFormat("HH:mm")}
             endTime={seance.movieDate.plus({ hours: 2 }).toFormat("HH:mm")}
             options={[
-              "Apple",
               "Google",
               "iCal",
               "Microsoft365",
@@ -101,15 +124,22 @@ export function SeanceDialog() {
             iCalFileName={`${seance.movieTitle}-${checkNotNull(
               seance.movieTheater,
             )}`}
+            styleLight={addToCalendarStyleOverride}
             buttonsList={true}
             language="fr"
+            customLabels={{
+              google: "GOOGLE CALENDAR",
+              outlookcom: "OUTLOOK",
+              ms365: "MICROSFT 365",
+              msteams: "MICROSOFT TEAMS",
+              yahoo: "YAHOO",
+              ical: "ICAL",
+            }}
             hideBranding={true}
           />
           <DialogFooter className="sm:justify-end">
             <DialogClose asChild>
-              <Button type="button" variant="secondary">
-                Retour
-              </Button>
+              <Button type="button">Retour</Button>
             </DialogClose>
           </DialogFooter>
         </DialogContent>

@@ -6,6 +6,7 @@ const ALL_PX = Object.fromEntries(
 );
 
 const config: Config = {
+  safelist: ["atcb-button"],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
