@@ -6,9 +6,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  JSX,
   MouseEvent,
-  MutableRefObject,
   ReactNode,
+  RefObject,
   useCallback,
   useEffect,
   useRef,
@@ -72,7 +73,7 @@ export default function Menu() {
     closeMenu();
   }, []);
 
-  const logo: MutableRefObject<HTMLImageElement | null> = useRef(null);
+  const logo: RefObject<HTMLImageElement | null> = useRef(null);
 
   const playLogo = useCallback(() => {
     if (logo.current != null) {

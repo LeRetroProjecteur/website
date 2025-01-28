@@ -1,6 +1,6 @@
 "use client";
 
-import { MutableRefObject, ReactNode, useEffect, useRef } from "react";
+import { ReactNode, RefObject, useEffect, useRef } from "react";
 
 export default function GetHTML({
   children,
@@ -9,7 +9,7 @@ export default function GetHTML({
   children: ReactNode;
   onChange: (html: string) => void;
 }) {
-  const div: MutableRefObject<HTMLDivElement | null> = useRef(null);
+  const div: RefObject<HTMLDivElement | null> = useRef(null);
 
   useEffect(() => {
     if (div.current != null) {

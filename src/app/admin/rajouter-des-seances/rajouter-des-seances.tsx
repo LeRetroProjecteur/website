@@ -10,7 +10,7 @@ import { ThreeColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
 import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
-import { SearchMovie, SearchTheater } from "@/lib/types";
+import { SearchTheater } from "@/lib/types";
 
 import LoadingPage from "../../loading";
 
@@ -50,10 +50,8 @@ function SharePage() {
 }
 
 export default function SubmitScreenings({
-  allMoviesPromise,
   allTheatersPromise,
 }: {
-  allMoviesPromise: Promise<SearchMovie[]>;
   allTheatersPromise: Promise<SearchTheater[]>;
 }) {
   const numSubmissions = 5;
@@ -244,7 +242,6 @@ export default function SubmitScreenings({
                       {rowsData.map((_, index) => (
                         <ScreeningRow
                           key={index}
-                          allMoviesPromise={allMoviesPromise}
                           onUpdate={(data) => updateRowData(index, data)}
                         />
                       ))}
@@ -280,10 +277,8 @@ export default function SubmitScreenings({
 }
 
 function ScreeningRow({
-  allMoviesPromise,
   onUpdate,
 }: {
-  allMoviesPromise: Promise<SearchMovie[]>;
   onUpdate: (data: {
     movie: string;
     movie_id: string;
@@ -327,28 +322,25 @@ function ScreeningRow({
             transparentPlaceholder
             className="lg:hidden"
           />
-          <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
-            {showResults && (
-              <SearchResults
-                className="border-x px-5px py-2px"
-                nbResults={5}
-                searchTerm={searchTerm}
-                allDataPromise={allMoviesPromise}
-                onClick={(movie) => {
-                  setSearchFind(
-                    movie.title +
-                      ", " +
-                      movie.directors +
-                      " (" +
-                      movie.year +
-                      ")",
-                    movie.id,
-                  );
-                  setShowResults(false);
-                }}
-              />
-            )}
-          </SuspenseWithLoading>
+          {showResults && (
+            <SearchResults
+              className="border-x px-5px py-2px"
+              nbResults={5}
+              searchTerm={searchTerm}
+              onClick={(movie) => {
+                setSearchFind(
+                  movie.title +
+                    ", " +
+                    movie.directors +
+                    " (" +
+                    movie.year +
+                    ")",
+                  movie.id,
+                );
+                setShowResults(false);
+              }}
+            />
+          )}
         </div>
       }
       cell2={

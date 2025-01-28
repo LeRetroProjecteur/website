@@ -961,9 +961,9 @@ export default function Page() {
             l&apos;arbre qui cachait la forêt en cette année 2023 (réalisatrice
             la plus citée mais seule femme du top 10). En 2022, nous découvrions
             en salles l&apos;extraordinaire{" "}
-            <a className="underline" href="/film/variety-1983">
+            <Link className="underline" href="/film/variety-1983">
               <i>Variety</i> de Bette Gordon
-            </a>
+            </Link>
             , ou encore l&apos;œuvre de Kinuyo Tanako, confirmant que le manque
             de représentation de femmes dans le canon traditionnel résulte à la
             fois des obstacles infligés aux femmes cinéastes et du fait que leur
