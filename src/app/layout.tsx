@@ -114,6 +114,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           )}
         >
           <SeanceDialogStoreProvider>
+            <SeanceDialog />
             <MenuWrapper>
               <Newsletter />
               <div className="flex grow flex-col pt-20px lg:pt-0">
@@ -121,10 +122,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                   <TopBar />
                 </div>
                 <div className="flex grow flex-col justify-between">
-                  <div className="flex grow flex-col">
-                    <SeanceDialog />
-                    {children}
-                  </div>
+                  <div className="flex grow flex-col">{children}</div>
                   <div className="flex pt-20px lg:pb-20px lg:pl-20px lg:pt-30px">
                     <Footer />
                   </div>

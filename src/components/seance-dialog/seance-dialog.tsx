@@ -97,7 +97,7 @@ export function SeanceDialog() {
   const clearSeance = useSeanceDialogStore((s) => s.clearSeance);
 
   return (
-    <Dialog open={seance != null} onOpenChange={clearSeance}>
+    <Dialog modal={false} open={seance != null} onOpenChange={clearSeance}>
       {seance == null ? null : (
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
