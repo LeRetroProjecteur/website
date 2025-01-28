@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { MutableRefObject, useEffect, useRef } from "react";
+import { RefObject, useEffect, useRef } from "react";
 
 export default function IFrame({
   html,
@@ -10,7 +10,7 @@ export default function IFrame({
   html: string;
   className?: string;
 }) {
-  const ref: MutableRefObject<HTMLIFrameElement | null> = useRef(null);
+  const ref: RefObject<HTMLIFrameElement | null> = useRef(null);
 
   useEffect(() => {
     if (ref.current?.contentWindow != null) {
