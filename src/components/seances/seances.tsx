@@ -168,10 +168,7 @@ function SeancesTheater({
             })}
           >
             <CalendrierCopy className="text-right lg:text-left">
-              <button
-                className="underline"
-                onClick={() => showDialog({ time: screening.time })}
-              >
+              <button onClick={() => showDialog({ time: screening.time })}>
                 {floatHourToString(screening.time)}
               </button>
               {screening.notes != null && (
