@@ -5,8 +5,16 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "h-42px grow cursor-pointer border bg-retro-gray text-center text-20px font-medium uppercase text-retro-blue hover:bg-retro-blue hover:text-retro-gray lg:h-48px",
-  { variants: {}, defaultVariants: {} },
+  "h-42px grow cursor-pointer border text-center text-20px font-medium uppercase hover:bg-retro-blue hover:text-retro-gray lg:h-48px flex items-center justify-center",
+  {
+    variants: {
+      variant: {
+        default: "bg-retro-gray text-retro-blue",
+        outline: "bg-transparent border-retro-gray text-retro-gray",
+      },
+    },
+    defaultVariants: { variant: "default" },
+  },
 );
 
 export interface ButtonProps
@@ -16,11 +24,11 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, asChild = false, ...props }, ref) => {
+  ({ className, variant, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
-        className={cn(buttonVariants({ className }))}
+        className={cn(buttonVariants({ className, variant }))}
         ref={ref}
         {...props}
       />

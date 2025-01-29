@@ -1,7 +1,15 @@
 "use client";
 
-import { AddToCalendarButton } from "add-to-calendar-button-react";
+import {
+  CalendarEvent,
+  google,
+  ics,
+  office365,
+  outlook,
+  yahoo,
+} from "calendar-link";
 import { DateTime } from "luxon";
+import Link from "next/link";
 import { createContext, useContext, useState } from "react";
 import resolveConfig from "tailwindcss/resolveConfig";
 import { StoreApi, createStore, useStore } from "zustand";
@@ -98,52 +106,43 @@ export function SeanceDialog() {
 
   return (
     <Dialog modal={false} open={seance != null} onOpenChange={clearSeance}>
-      {seance == null ? null : (
-        <DialogContent className="sm:max-w-md">
-          <DialogHeader>
-            <DialogTitle>Ajouter à votre calendrier</DialogTitle>
-          </DialogHeader>
-          <AddToCalendarButton
-            name={seance.movieTitle}
-            startDate={checkNotNull(seance.movieDate.toISODate())}
-            endDate={checkNotNull(
-              seance.movieDate.plus({ hours: 2 }).toISODate(),
-            )}
-            startTime={seance.movieDate.toFormat("HH:mm")}
-            endTime={seance.movieDate.plus({ hours: 2 }).toFormat("HH:mm")}
-            options={[
-              "Google",
-              "iCal",
-              "Microsoft365",
-              "MicrosoftTeams",
-              "Outlook.com",
-              "Yahoo",
-            ]}
-            timeZone="Europe/Paris"
-            location={seance.movieTheater}
-            iCalFileName={`${seance.movieTitle}-${checkNotNull(
-              seance.movieTheater,
-            )}`}
-            styleLight={addToCalendarStyleOverride}
-            buttonsList={true}
-            language="fr"
-            customLabels={{
-              google: "GOOGLE CALENDAR",
-              outlookcom: "OUTLOOK",
-              ms365: "MICROSFT 365",
-              msteams: "MICROSOFT TEAMS",
-              yahoo: "YAHOO",
-              ical: "ICAL",
-            }}
-            hideBranding={true}
-          />
-          <DialogFooter className="sm:justify-end">
-            <DialogClose asChild>
-              <Button type="button">Retour</Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      )}
+      {seance == null
+        ? null
+        : (function SeanceDialogBody() {
+            const calendarEvent: CalendarEvent = {
+              title: seance.movieTitle,
+              start: seance.movieDate.toISO(),
+              end: seance.movieDate.plus({ hours: 2 }).toISO(),
+              duration: [2, "hours"],
+              location: seance.movieTheater,
+            };
+
+            const links = {
+              google: google(calendarEvent),
+              ical: ics(calendarEvent),
+              office365: office365(calendarEvent),
+              outlook: outlook(calendarEvent),
+              yahoo: yahoo(calendarEvent),
+            };
+
+            return (
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Ajouter à votre calendrier</DialogTitle>
+                </DialogHeader>
+                {Object.entries(links).map(([type, link]) => (
+                  <Button variant="outline" asChild key={type}>
+                    <Link href={link}>{type}</Link>
+                  </Button>
+                ))}
+                <DialogFooter className="sm:justify-end">
+                  <DialogClose asChild>
+                    <Button type="button">Retour</Button>
+                  </DialogClose>
+                </DialogFooter>
+              </DialogContent>
+            );
+          })()}
     </Dialog>
   );
 }
