@@ -146,12 +146,17 @@ export default function SubmitScreenings({
       // Format showtimes for Slack
       const showtimesText = rowsData
         .filter((row) => row.movie && row.date)
-        .map((row) => `${row.movie} - ${row.date} ${row.time}`)
-        .join("\n");
+        .map(
+          (row) =>
+            `${row.movie} - ${row.date} ${row.time}${
+              row.note ? `\n_${row.note}_` : ""
+            }`,
+        )
+        .join("\n\n");
       const warningMessage = `*Nouvelles séances ajoutées*\n\n*Cinéma:* ${
         theaterData.name
-      }\n\n*Séances:*\n${showtimesText}\n\n*Commentaires:* ${
-        comments || "Aucun"
+      }\n\n*Séances:*\n${showtimesText}${
+        comments ? `\n\n*Commentaires:* ${comments}` : ""
       }`;
       const slackEndpoint =
         "https://europe-west1-website-cine.cloudfunctions.net/trigger_send_warning";
