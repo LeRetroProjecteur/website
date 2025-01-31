@@ -74,7 +74,7 @@ const externalIdsSchema = z.object({
   wikidata_id: z.string().nullable(),
 });
 
-const TMDB_API_KEY = checkNotNull(process.env.TMDB_API_KEY);
+const TMDB_API_KEY = () => checkNotNull(process.env.TMDB_API_KEY);
 const TMDB_BASE = "https://api.themoviedb.org/3";
 const CONFIGURATION_PATH = "/configuration";
 const SEARCH_MOVIES_PATH = "/search/movie";
@@ -96,7 +96,7 @@ async function tmdbRequest(
   Object.entries(params).forEach(([key, value]) => {
     query.set(key, `${value}`);
   });
-  query.set("api_key", TMDB_API_KEY);
+  query.set("api_key", TMDB_API_KEY());
 
   const url = new URL(`${TMDB_BASE}${path}`);
   url.search = query.toString();
