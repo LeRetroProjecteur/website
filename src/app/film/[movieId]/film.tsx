@@ -1,10 +1,9 @@
 import { size } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
-import React, { use, useMemo } from "react";
+import React, { useMemo } from "react";
 
 import coupDeCoeur from "@/assets/coup-de-coeur.png";
-import { SuspenseWithLoading } from "@/components/icons/loading";
 import { TwoColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
 import MultiDaySeances from "@/components/seances/multiday-seances";
@@ -14,8 +13,8 @@ import {
   SectionTitle,
   SousTitre1,
 } from "@/components/typography/typography";
-import { EmptyErrorBoundary } from "@/components/util/empty-error-boundary";
-import { getMovieDetailsFromTmdb } from "@/lib/tmdb";
+import { Button } from "@/components/ui/button";
+import { TmdbMovie } from "@/lib/tmdb";
 import { MovieDetail } from "@/lib/types";
 import {
   TAG_MAP,
@@ -29,10 +28,10 @@ import {
 
 export default function Film({
   movie,
-  movieDetails,
+  tmdbMovie,
 }: {
   movie: MovieDetail;
-  movieDetails: ReturnType<typeof getMovieDetailsFromTmdb>;
+  tmdbMovie?: TmdbMovie;
 }) {
   return (
     <>
@@ -43,13 +42,8 @@ export default function Film({
         narrow
         left={
           <>
-            <MovieReview movie={movie} />
-            <MovieInformation movie={movie} />
-            <EmptyErrorBoundary>
-              <SuspenseWithLoading className="pt-20px">
-                <MovieDetails movieDetails={movieDetails} />
-              </SuspenseWithLoading>
-            </EmptyErrorBoundary>
+            <MovieReview movie={movie} tmdbMovie={tmdbMovie} />
+            <MovieInformation movie={movie} tmdbMovie={tmdbMovie} />
           </>
         }
         right={
@@ -71,22 +65,41 @@ function MovieHeader({ movie }: { movie: MovieDetail }) {
   );
 }
 
-function MovieReview({ movie }: { movie: MovieDetail }) {
+function MovieReview({
+  movie,
+  tmdbMovie,
+}: {
+  movie: MovieDetail;
+  tmdbMovie?: TmdbMovie;
+}) {
+  const tmdbImage = tmdbMovie?.image;
   return (
     <>
-      {movie.review && movie.review_date && (
+      {(movie.review != null && movie.review_date != null) ||
+      tmdbImage != null ? (
         <div className="flex flex-col pb-20px">
           <div className="flex grow basis-0">
-            <Image
-              width={1200}
-              height={675}
-              className="h-auto w-full"
-              src={getImageUrl(movie)}
-              alt="movie-screenshot"
-              {...blurProps}
-            />
+            {movie.review != null && movie.review_date != null ? (
+              <Image
+                width={1200}
+                height={675}
+                className="h-auto w-full"
+                src={getImageUrl(movie)}
+                alt="movie-screenshot"
+                {...blurProps}
+              />
+            ) : tmdbImage != null ? (
+              <Image
+                alt="movie-screenshot"
+                width={tmdbImage.width}
+                height={tmdbImage.height}
+                src={tmdbImage.url}
+              />
+            ) : null}
           </div>
-          {movie.review_category == "COUP DE CŒUR" && (
+          {movie.review_category == "COUP DE CŒUR" &&
+          movie.review != null &&
+          movie.review_date != null ? (
             <BodyCopy className="border-b pb-20px pt-15px lg:border-0 lg:pb-0 lg:pt-20px">
               <div dangerouslySetInnerHTML={{ __html: movie.review }}></div>
               <br />
@@ -104,107 +117,123 @@ function MovieReview({ movie }: { movie: MovieDetail }) {
                 </MetaCopy>
               </div>
             </BodyCopy>
-          )}
+          ) : null}
         </div>
-      )}
+      ) : null}
     </>
   );
 }
 
-function MovieInformation({ movie }: { movie: MovieDetail }) {
+function MovieInformation({
+  movie,
+  tmdbMovie,
+}: {
+  movie: MovieDetail;
+  tmdbMovie?: TmdbMovie;
+}) {
   return (
     <>
-      <div className="flex pb-20px lg:border-y lg:py-20px">
-        <MetaCopy lowercase>
-          {movie.duration == null ? (
-            "Durée inconnue"
-          ) : (
-            <div>
-              DURÉE&nbsp;: {Math.floor(parseInt(movie.duration) / 60)} minutes
-            </div>
-          )}
-          {movie.language != null &&
-            movie.language != "-" &&
-            (movie.language == "Silencieux" || movie.language == "Muet" ? (
-              <div>Film muet</div>
+      <div className="flex flex-col gap-20px pb-20px">
+        <div className="flex pb-20px lg:border-y lg:py-20px">
+          <MetaCopy lowercase>
+            {movie.duration == null ? (
+              "Durée inconnue"
             ) : (
-              <div>LANGUE&nbsp;: {movie.language}</div>
-            ))}
-          <br />
-          {movie.original_title != null &&
-            movie.original_title != movie.title && (
               <div>
-                TITRE ORIGINAL&nbsp;:{" "}
-                <i className={"uppercase"}>{movie.original_title}</i>
+                DURÉE&nbsp;: {Math.floor(parseInt(movie.duration) / 60)} minutes
               </div>
             )}
-          {movie.countries != null &&
-            movie.countries != "inconnue" &&
-            (movie.countries == "U.S.A." ? (
-              <div>PAYS&nbsp;: États-Unis</div>
-            ) : (
-              <div>PAYS&nbsp;: {movie.countries}</div>
-            ))}
-          {movie.distributor != null && (
-            <div>DISTRIBUTION&nbsp;: {movie.distributor}</div>
-          )}
-        </MetaCopy>
+            {movie.language != null &&
+              movie.language != "-" &&
+              (movie.language == "Silencieux" || movie.language == "Muet" ? (
+                <div>Film muet</div>
+              ) : (
+                <div>LANGUE&nbsp;: {movie.language}</div>
+              ))}
+            <br />
+            {movie.original_title != null &&
+              movie.original_title != movie.title && (
+                <div>
+                  TITRE ORIGINAL&nbsp;:{" "}
+                  <i className={"uppercase"}>{movie.original_title}</i>
+                </div>
+              )}
+            {movie.countries != null &&
+              movie.countries != "inconnue" &&
+              (movie.countries == "U.S.A." ? (
+                <div>PAYS&nbsp;: États-Unis</div>
+              ) : (
+                <div>PAYS&nbsp;: {movie.countries}</div>
+              ))}
+            {movie.distributor != null && (
+              <div>DISTRIBUTION&nbsp;: {movie.distributor}</div>
+            )}
+            {tmdbMovie?.movie.genres != null ? (
+              <div>
+                GENRE{tmdbMovie.movie.genres.length > 1 ? "S" : ""}&nbsp;:{" "}
+                {tmdbMovie?.movie.genres.join(", ")}
+              </div>
+            ) : null}
+          </MetaCopy>
+        </div>
+        {tmdbMovie != null ? (
+          <div className="flex flex-col gap-20px">
+            <div className="flex flex-col border-b pb-10px">
+              <BodyCopy className="text-retro-gray">
+                {tmdbMovie.movie.overview}
+              </BodyCopy>{" "}
+              <BodyCopy className="text-right text-10px italic text-retro-gray lg:text-12px">
+                (source:{" "}
+                <Link
+                  href="https://www.themoviedb.org/"
+                  target="_blank"
+                  className="hover:underline"
+                >
+                  TMDB
+                </Link>
+                )
+              </BodyCopy>
+            </div>
+            <div className="grid-cols-fillMin300 grid gap-x-8px gap-y-10px">
+              <div className="grid-cols-fillMinHalf grid gap-x-8px gap-y-10px">
+                <Button variant="outline" asChild>
+                  <Link
+                    target="_blank"
+                    href={`https://www.themoviedb.org/movie/${tmdbMovie.movie.id}`}
+                  >
+                    TMDB
+                  </Link>
+                </Button>
+                <Button variant="outline" asChild>
+                  <Link
+                    target="_blank"
+                    href={`https://letterboxd.com/tmdb/${tmdbMovie.movie.id}`}
+                  >
+                    letterboxd
+                  </Link>
+                </Button>
+              </div>
+              <div className="grid-cols-fillMinHalf grid gap-x-8px gap-y-10px">
+                {tmdbMovie.wikipediaFrUrl != null ? (
+                  <Button variant="outline" asChild>
+                    <Link target="_blank" href={tmdbMovie.wikipediaFrUrl}>
+                      Wikipedia
+                    </Link>
+                  </Button>
+                ) : null}
+                {tmdbMovie.wikipediaEnUrl != null ? (
+                  <Button variant="outline" asChild>
+                    <Link target="_blank" href={tmdbMovie.wikipediaEnUrl}>
+                      Wikipedia (EN)
+                    </Link>
+                  </Button>
+                ) : null}
+              </div>
+            </div>{" "}
+          </div>
+        ) : null}
       </div>
     </>
-  );
-}
-
-function MovieDetails({
-  movieDetails: movieDetailsPromise,
-}: {
-  movieDetails: ReturnType<typeof getMovieDetailsFromTmdb>;
-}) {
-  const movieDetails = use(movieDetailsPromise);
-
-  if (movieDetails == null) {
-    return null;
-  }
-
-  const { wikipediaFrUrl, wikipediaEnUrl, image, movie } = movieDetails;
-
-  return (
-    <div className="flex flex-col gap-20px">
-      {image != null ? (
-        <Image
-          alt="movie-screenshot"
-          width={image.width}
-          height={image.height}
-          src={image.url}
-        />
-      ) : null}
-
-      <div className="flex items-center justify-around gap-10px uppercase">
-        {movie.genres.map((genre) => (
-          <div key={genre}>{genre}</div>
-        ))}
-      </div>
-      <div>
-        <i>{movie.overview}</i>
-      </div>
-      <div className="flex items-center justify-around gap-10px">
-        <Link
-          target="_blank"
-          href={`https://www.themoviedb.org/movie/${movie.id}`}
-        >
-          TMDB
-        </Link>
-        {wikipediaFrUrl != null ? (
-          <Link target="_blank" href={wikipediaFrUrl}>
-            Wikipedia
-          </Link>
-        ) : null}
-        {wikipediaEnUrl != null ? (
-          <Link target="_blank" href={wikipediaEnUrl}>
-            Wikipedia (EN)
-          </Link>
-        ) : null}
-      </div>
-    </div>
   );
 }
 

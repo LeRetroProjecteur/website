@@ -32,5 +32,7 @@ export default async function FilmPage(props: {
 
 async function FilmPageLoader({ movieId }: { movieId: string }) {
   const movie = await getMovie(movieId);
-  return <Film movie={movie} movieDetails={getMovieDetailsFromTmdb(movie)} />;
+  return (
+    <Film movie={movie} tmdbMovie={await getMovieDetailsFromTmdb(movie)} />
+  );
 }

@@ -5,6 +5,8 @@ import { z } from "zod";
 import { checkNotNull } from "./util";
 import { getWikipediaUrls } from "./wikimedia";
 
+export type TmdbMovie = Awaited<ReturnType<typeof getMovieDetailsFromTmdb>>;
+
 type QueryInput = {
   title: string;
   originalTitle?: string;
@@ -140,75 +142,80 @@ function getAsImageWithUrl(
 
 export const getMovieDetailsFromTmdb = unstable_cache(
   async ({ title, originalTitle, year }: QueryInput) => {
-    const genresPromise = getGenres();
-    const configuration = getConfiguration();
+    try {
+      const genresPromise = getGenres();
+      const configuration = getConfiguration();
 
-    const movie = searchResponseSchema
-      .parse(
-        await tmdbRequest(SEARCH_MOVIES_PATH, {
-          year,
-          language: "fr-FR",
-          query: `${originalTitle ?? title}`,
-        }),
-      )
-      .results.at(0);
+      const movie = searchResponseSchema
+        .parse(
+          await tmdbRequest(SEARCH_MOVIES_PATH, {
+            year,
+            language: "fr-FR",
+            query: `${originalTitle ?? title}`,
+          }),
+        )
+        .results.at(0);
 
-    if (movie == null) {
-      return undefined;
-    }
-
-    const image = await (async function getImage() {
-      const images = await getMovieImages({ movieId: movie.id });
-
-      const isWide169BackdropWithNoText = ({
-        width,
-        aspect_ratio,
-        iso_639_1,
-      }: z.infer<typeof imagesResponseSchema>["backdrops"][number]) =>
-        width > 640 && 16 / 9 - aspect_ratio < 0.01 && iso_639_1 == null;
-
-      const bestImage =
-        filter(images.backdrops, isWide169BackdropWithNoText).at(0) ??
-        images.backdrops.at(0);
-
-      if (bestImage == null) {
+      if (movie == null) {
         return undefined;
       }
 
-      return getAsImageWithUrl(bestImage, await configuration);
-    })();
+      const image = await (async function getImage() {
+        const images = await getMovieImages({ movieId: movie.id });
 
-    const { wikipediaFrUrl, wikipediaEnUrl } =
-      await (async function _getWikipediaUrls() {
-        const { wikidata_id } = await getExternalIds({ movieId: movie.id });
-        if (wikidata_id == null) {
-          return { wikipediaFrUrl: undefined, wikipediaEnUrl: undefined };
+        const isWide169BackdropWithNoText = ({
+          width,
+          aspect_ratio,
+          iso_639_1,
+        }: z.infer<typeof imagesResponseSchema>["backdrops"][number]) =>
+          width > 640 && 16 / 9 - aspect_ratio < 0.01 && iso_639_1 == null;
+
+        const bestImage =
+          filter(images.backdrops, isWide169BackdropWithNoText).at(0) ??
+          images.backdrops.at(0);
+
+        if (bestImage == null) {
+          return undefined;
         }
 
-        const wikipediaUrls = await getWikipediaUrls({
-          wikidataId: wikidata_id,
-        });
-
-        return {
-          wikipediaFrUrl: wikipediaUrls?.frwiki?.url,
-          wikipediaEnUrl: wikipediaUrls?.enwiki?.url,
-        };
+        return getAsImageWithUrl(bestImage, await configuration);
       })();
 
-    const genres = await genresPromise;
-    const movieWithGenreNames = {
-      ...omit(movie, "genre_ids"),
-      genres: movie.genre_ids.map(
-        (id) => checkNotNull(genres.genres.find((g) => g.id === id)).name,
-      ),
-    };
+      const { wikipediaFrUrl, wikipediaEnUrl } =
+        await (async function _getWikipediaUrls() {
+          const { wikidata_id } = await getExternalIds({ movieId: movie.id });
+          if (wikidata_id == null) {
+            return { wikipediaFrUrl: undefined, wikipediaEnUrl: undefined };
+          }
 
-    return {
-      movie: movieWithGenreNames,
-      image,
-      wikipediaEnUrl,
-      wikipediaFrUrl,
-    };
+          const wikipediaUrls = await getWikipediaUrls({
+            wikidataId: wikidata_id,
+          });
+
+          return {
+            wikipediaFrUrl: wikipediaUrls?.frwiki?.url,
+            wikipediaEnUrl: wikipediaUrls?.enwiki?.url,
+          };
+        })();
+
+      const genres = await genresPromise;
+      const movieWithGenreNames = {
+        ...omit(movie, "genre_ids"),
+        genres: movie.genre_ids.map(
+          (id) => checkNotNull(genres.genres.find((g) => g.id === id)).name,
+        ),
+      };
+
+      return {
+        movie: movieWithGenreNames,
+        image,
+        wikipediaEnUrl,
+        wikipediaFrUrl,
+      };
+    } catch (e) {
+      console.error(e);
+      return undefined;
+    }
   },
   ["tmdb"],
   { revalidate: 60 },
