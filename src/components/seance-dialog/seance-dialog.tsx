@@ -102,13 +102,15 @@ export function SeanceDialog() {
             };
 
             return (
-              <DialogContent className="sm:max-w-md">
+              <DialogContent>
                 <DialogHeader>
                   <DialogTitle>Ajouter à votre calendrier</DialogTitle>
                 </DialogHeader>
                 {Object.entries(links).map(([type, link]) => (
                   <Button variant="outline" asChild key={type}>
-                    <Link href={link}>{type}</Link>
+                    <Link target="_blank" href={link}>
+                      {type}
+                    </Link>
                   </Button>
                 ))}
                 <DialogFooter className="sm:justify-end">
