@@ -178,6 +178,11 @@ function MovieDetails({
         />
       ) : null}
 
+      <div className="flex items-center justify-around gap-10px uppercase">
+        {movie.genres.map((genre) => (
+          <div key={genre}>{genre}</div>
+        ))}
+      </div>
       <div>
         <i>{movie.overview}</i>
       </div>
