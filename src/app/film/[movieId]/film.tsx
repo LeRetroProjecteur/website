@@ -1,8 +1,10 @@
 import { size } from "lodash-es";
 import Image from "next/image";
-import React, { useMemo } from "react";
+import Link from "next/link";
+import React, { use, useMemo } from "react";
 
 import coupDeCoeur from "@/assets/coup-de-coeur.png";
+import { SuspenseWithLoading } from "@/components/icons/loading";
 import { TwoColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
 import MultiDaySeances from "@/components/seances/multiday-seances";
@@ -12,6 +14,8 @@ import {
   SectionTitle,
   SousTitre1,
 } from "@/components/typography/typography";
+import { EmptyErrorBoundary } from "@/components/util/empty-error-boundary";
+import { getMovieDetailsFromTmdb } from "@/lib/tmdb";
 import { MovieDetail } from "@/lib/types";
 import {
   TAG_MAP,
@@ -23,7 +27,13 @@ import {
   safeDate,
 } from "@/lib/util";
 
-export default function Film({ movie }: { movie: MovieDetail }) {
+export default function Film({
+  movie,
+  movieDetails,
+}: {
+  movie: MovieDetail;
+  movieDetails: ReturnType<typeof getMovieDetailsFromTmdb>;
+}) {
   return (
     <>
       <PageHeader text={"Film"}>
@@ -35,6 +45,11 @@ export default function Film({ movie }: { movie: MovieDetail }) {
           <>
             <MovieReview movie={movie} />
             <MovieInformation movie={movie} />
+            <EmptyErrorBoundary>
+              <SuspenseWithLoading className="pt-20px">
+                <MovieDetails movieDetails={movieDetails} />
+              </SuspenseWithLoading>
+            </EmptyErrorBoundary>
           </>
         }
         right={
@@ -139,11 +154,59 @@ function MovieInformation({ movie }: { movie: MovieDetail }) {
   );
 }
 
+function MovieDetails({
+  movieDetails: movieDetailsPromise,
+}: {
+  movieDetails: ReturnType<typeof getMovieDetailsFromTmdb>;
+}) {
+  const movieDetails = use(movieDetailsPromise);
+
+  if (movieDetails == null) {
+    return null;
+  }
+
+  const { wikipediaFrUrl, wikipediaEnUrl, image, movie } = movieDetails;
+
+  return (
+    <div className="flex flex-col gap-20px">
+      {image != null ? (
+        <Image
+          alt="movie-screenshot"
+          width={image.width}
+          height={image.height}
+          src={image.url}
+        />
+      ) : null}
+
+      <div>
+        <i>{movie.overview}</i>
+      </div>
+      <div className="flex items-center justify-around gap-10px">
+        <Link
+          target="_blank"
+          href={`https://www.themoviedb.org/movie/${movie.id}`}
+        >
+          TMDB
+        </Link>
+        {wikipediaFrUrl != null ? (
+          <Link target="_blank" href={wikipediaFrUrl}>
+            Wikipedia
+          </Link>
+        ) : null}
+        {wikipediaEnUrl != null ? (
+          <Link target="_blank" href={wikipediaEnUrl}>
+            Wikipedia (EN)
+          </Link>
+        ) : null}
+      </div>
+    </div>
+  );
+}
+
 function MovieScreenings({ movie }: { movie: MovieDetail }) {
   let screenings = {};
   try {
     screenings = movie?.screenings ? filterDates(movie.screenings) : {};
-    console.log("screenings after filter:", screenings);
   } catch (error) {
     console.error("Error in filterDates:", error);
   }
