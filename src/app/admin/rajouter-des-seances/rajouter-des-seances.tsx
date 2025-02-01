@@ -320,7 +320,9 @@ export default function SubmitScreenings({
 
       const warningMessage = `*Nouvelles séances ajoutées*\n\n*Cinéma:* ${
         theaterData.name
-      }\n\n*Séances:*\n${showtimesText}${
+      }\n_THEATER_ID: ${
+        theaterData.theater_id
+      }_\n\n*Séances:*\n${showtimesText}${
         comments ? `\n\n*Commentaires:* ${comments}` : ""
       }`;
       const slackEndpoint =
