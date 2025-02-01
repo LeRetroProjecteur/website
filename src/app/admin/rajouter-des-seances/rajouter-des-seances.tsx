@@ -293,7 +293,6 @@ export default function SubmitScreenings({
         showtimes: transformedData,
         comments: comments,
       };
-      console.log("Sending payload:", JSON.stringify(payload, null, 2));
       const response = await fetch(API_ENDPOINT, {
         method: "POST",
         headers: {
@@ -302,13 +301,7 @@ export default function SubmitScreenings({
         body: JSON.stringify(payload),
         mode: "cors",
       });
-      console.log("Response status:", response.status);
-      console.log(
-        "Response headers:",
-        JSON.stringify(Object.fromEntries(response.headers), null, 2),
-      );
       const responseText = await response.text();
-      console.log("Raw response:", responseText);
       if (!response.ok) {
         throw new Error(
           `HTTP error! status: ${response.status}, body: ${responseText}`,
@@ -320,10 +313,11 @@ export default function SubmitScreenings({
         .map(
           (row) =>
             `${row.movie} - ${row.date} ${row.time}${
-              row.note ? `\n_${row.note}_` : ""
-            }`,
+              row.note ? `\n_NOTE:${row.note}_` : ""
+            }\n_ID: ${row.movie_id}_`,
         )
         .join("\n\n");
+
       const warningMessage = `*Nouvelles séances ajoutées*\n\n*Cinéma:* ${
         theaterData.name
       }\n\n*Séances:*\n${showtimesText}${
