@@ -277,7 +277,7 @@ export default function SubmitScreenings({
         )
         .join("|||");
 
-      const warningMessage = `*Nouvelles séances ajoutées*\n\n*Cinéma:*${
+      const warningMessage = `*Nouvelles séances ajoutées*\n\n*Cinéma:* ${
         theaterData.name
       }\n_THEATER_ID: ${theaterData.theater_id}_\n\n*Séances: *\n${rowsData
         .filter((row) => row.movie && row.date)
