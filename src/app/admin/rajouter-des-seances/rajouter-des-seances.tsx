@@ -269,6 +269,7 @@ export default function SubmitScreenings({
         .filter((row) => row.movie && row.date)
         .map((row) =>
           JSON.stringify({
+            theater_id: theaterData.theater_id,
             movie_id: row.movie_id,
             date: row.date,
             time: row.time,
@@ -279,17 +280,19 @@ export default function SubmitScreenings({
 
       const warningMessage = `*Nouvelles séances ajoutées*\n\n*Cinéma:* ${
         theaterData.name
-      }\n_THEATER_ID: ${theaterData.theater_id}_\n\n*Séances: *\n${rowsData
+      }\n\n*Séances: *\n${rowsData
         .filter((row) => row.movie && row.date)
         .map(
           (row) =>
-            `${row.movie} - ${row.date} ${row.time}${
+            `<https://leretroprojecteur.com/film/${row.movie_id}|${
+              row.movie
+            }> - ${row.date} ${row.time}${
               row.note ? `\n_NOTE: ${row.note}_` : ""
-            }\n_ID: ${row.movie_id}_`,
+            }`,
         )
-        .join("\n\n")}\n\nDATA:${showtimesText}${
+        .join("\n\n")}${
         comments ? `\n\n*Commentaires: *${comments}` : ""
-      }`;
+      }\n\nDATA:${showtimesText}`;
       const slackEndpoint =
         "https://europe-west1-website-cine.cloudfunctions.net/trigger_send_interactive_warning";
       await fetch(
