@@ -130,6 +130,9 @@ function ScreeningRow({
                 className="border-x px-5px py-2px"
                 nbResults={5}
                 searchTerm={searchTerm}
+                noResultsText="Nous ne trouvons pas votre film, mais vous pouvez le renseigner manuellement."
+                noResultsTextSize="small"
+                lowercase
                 onClick={(m) => {
                   setSearchFind(
                     m.title + ", " + m.directors + " (" + m.year + ")",
@@ -399,7 +402,7 @@ export default function SubmitScreenings({
                 <div className="pb-25px pt-25px">
                   <BodyCopy className="pb-5px">
                     Dans quelle salle se déroule la ou les séances que vous
-                    souhaitez renseigner ?
+                    souhaitez renseigner&nbsp;?
                   </BodyCopy>
                   <TheaterSearch
                     allTheatersPromise={allTheatersPromise}
