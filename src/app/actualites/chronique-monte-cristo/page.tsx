@@ -21,9 +21,8 @@ export default function Page() {
             autres se r&eacute;jouissent&nbsp;: il y en a d&rsquo;autres&nbsp;!
             beaucoup d&rsquo;autres&nbsp;!
           </b>
-        </BodyCopy>
-        <br />
-        <BodyCopy>
+          <br />
+          <br />
           Si la litt&eacute;rature a toujours constitu&eacute; un
           pr&eacute;cieux fond d&rsquo;histoires pour le cin&eacute;ma,
           l&rsquo;&oelig;uvre d&rsquo;Alexandre Dumas est une vraie mine
@@ -51,9 +50,8 @@ export default function Page() {
           Alexandre De La Patelli&egrave;re offre l&rsquo;occasion de se
           replonger dans les aventures d&rsquo;Edmond Dant&egrave;s sur le grand
           &eacute;cran.
-        </BodyCopy>
-        <br />
-        <BodyCopy>
+          <br />
+          <br />
           L&rsquo;histoire du cin&eacute;ma et celle du{" "}
           <em>Comte de Monte-Cristo</em> sont plus intimement li&eacute;es
           qu&rsquo;on ne pourrait le croire ; l&rsquo;une retrace l&rsquo;autre
@@ -71,9 +69,8 @@ export default function Page() {
           consid&eacute;r&eacute; comme l&rsquo;un des tous premiers films
           produits en Californie, marquait le commencement de la grande histoire
           d&rsquo;Hollywood.
-        </BodyCopy>
-        <br />
-        <BodyCopy>
+          <br />
+          <br />
           Quatre ans plus tard, Selig produit un remake&nbsp;; le r&ocirc;le
           d&rsquo;Edmond Dant&egrave;s est tenu par le m&ecirc;me acteur, Hobart
           Bosworth. Seulement, entre-temps, un certain Adolph Zukor a acquis les
@@ -100,9 +97,8 @@ export default function Page() {
           mais, selon les mots de son propre fils, le c&eacute;l&egrave;bre
           dramaturge Eugene O&rsquo;Neill, &ldquo;bris&eacute;, malheureux et
           terriblement amer&rdquo;.
-        </BodyCopy>
-        <br />
-        <BodyCopy>
+          <br />
+          <br />
           Pendant ce temps-l&agrave;, Edmond Dant&egrave;s commen&ccedil;ait sa
           carri&egrave;re cin&eacute;matographique en France. Apr&egrave;s une
           toute premi&egrave;re version datant de 1908, dans laquelle il
@@ -123,9 +119,8 @@ export default function Page() {
           fran&ccedil;ais, que Henri Langlois consid&eacute;rait comme
           l&rsquo;un des films qu&rsquo;enfant il avait
           pr&eacute;f&eacute;r&eacute;s.
-        </BodyCopy>
-        <br />
-        <BodyCopy>
+          <br />
+          <br />
           Jusqu&rsquo;en 1968, les adaptations cin&eacute;matographiques se
           multiplient. Les deux versions de Robert Vernay, qui datent de 1943 et
           1954, m&eacute;ritent d&rsquo;&ecirc;tre mentionn&eacute;es&nbsp;: la
@@ -136,9 +131,8 @@ export default function Page() {
           incarn&eacute; par Jean Marais, parce qu&rsquo;elle offre au roman
           d&rsquo;Alexandre Dumas son plus grand succ&egrave;s populaire sur le
           grand &eacute;cran (pr&egrave;s de 8 millions d&rsquo;entr&eacute;es).
-        </BodyCopy>
-        <br />
-        <BodyCopy>
+          <br />
+          <br />
           Puis, petit &agrave; petit, la t&eacute;l&eacute;vision faisant son
           apparition dans les foyers fran&ccedil;ais, vient l&rsquo;heure des
           feuilletons&nbsp;; leur format est particuli&egrave;rement propice aux

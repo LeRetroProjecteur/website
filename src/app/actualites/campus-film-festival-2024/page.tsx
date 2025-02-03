@@ -35,8 +35,6 @@ export default function Page() {
             L’occasion de s’interroger sur les enjeux liés à la tenue d’un
             festival de cinéma de patrimoine en salles de nos jours…
           </i>
-        </BodyCopy>
-        <BodyCopy>
           <Question>Qu’est-ce que le Campus Film Festival&nbsp;?</Question>
           <Answer>
             Le Campus Film Festival est un festival de cinéma organisé par des

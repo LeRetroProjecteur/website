@@ -38,8 +38,6 @@ export default function Page() {
             Achard, de la restauration du film et de la manière dont celui-ci
             parle à notre actualité politique.
           </i>
-        </BodyCopy>
-        <BodyCopy>
           <Question>
             À quand remonte votre collaboration avec Laurent Achard&nbsp;?
           </Question>
