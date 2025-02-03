@@ -72,8 +72,8 @@ function Row({
   return (
     <div className="flex flex-nowrap gap-x-5px">
       <div className="flex grow basis-0">{cell1}</div>
-      <div className="w-147px">{cell2}</div>
-      <div className="w-97px">{cell3}</div>
+      <div>{cell2}</div>
+      <div>{cell3}</div>
     </div>
   );
 }
@@ -148,7 +148,7 @@ function ScreeningRow({
           <input
             id="date"
             type="date"
-            className="flex w-147px grow border [&::-webkit-calendar-picker-indicator]:ml-[-20px]"
+            className="flex grow border [&::-webkit-calendar-picker-indicator]:ml-[-20px]"
             value={date}
             onChange={(e) => {
               setDate(e.target.value);
@@ -166,7 +166,7 @@ function ScreeningRow({
           <input
             id="time"
             type="time"
-            className="flex w-97px grow border [&::-webkit-calendar-picker-indicator]:ml-0"
+            className="flex grow border [&::-webkit-calendar-picker-indicator]:ml-0"
             value={time}
             onChange={(e) => {
               setTime(e.target.value);
