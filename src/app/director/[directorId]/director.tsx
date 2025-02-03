@@ -36,7 +36,9 @@ export default function DirectorView({
   movies: MovieDetail[];
   directorName: string;
 }) {
-  const sortedMovies = [...movies].sort((a, b) => a.year - b.year);
+  const sortedMovies = [...movies].sort(
+    (a, b) => (Number(a.year) || 0) - (Number(b.year) || 0),
+  );
 
   return (
     <>
@@ -84,9 +86,14 @@ export default function DirectorView({
                         if (!screenings || !size(screenings)) return acc;
 
                         Object.entries(screenings).forEach(([date, times]) => {
-                          if (!acc[date]) acc[date] = [];
-                          acc[date].push({ ...movie, times });
-                        });
+  if (!acc[date]) acc[date] = [];
+  // Ensure times is an array of Screening objects
+  const validTimes = Array.isArray(times) ? times as Screening[] : [];
+  acc[date].push({
+    ...movie,
+    times: validTimes
+  });
+});
                         return acc;
                       } catch (error) {
                         return acc;
@@ -98,7 +105,7 @@ export default function DirectorView({
                     >,
                   ),
                 )
-                  .sort(([dateA], [dateB]) => dateA.localeCompare(dateB))
+                  .sort((a, b) => a[0].localeCompare(b[0]))
                   .map(([date, moviesForDay]) => (
                     <div key={date}>
                       <h2 className="my-4 bg-retro-pale-green p-2 text-20px font-bold uppercase">
