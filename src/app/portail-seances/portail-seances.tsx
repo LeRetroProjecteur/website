@@ -10,7 +10,11 @@ import { SuspenseWithLoading } from "@/components/icons/loading";
 import { ThreeColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
-import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
+import {
+  BodyCopy,
+  BodyParagraphs,
+  SousTitre1,
+} from "@/components/typography/typography";
 import { SearchTheater } from "@/lib/types";
 
 function TheaterSearch({
@@ -369,28 +373,33 @@ export default function SubmitScreenings({
                 <>
                   <MiddleColumn>
                     <BodyCopy>
-                      Bienvenue sur notre portail de rajout de séances&nbsp;! Si
-                      vous êtes exploitant.e, ciné-club, ou autre organisation
-                      impliquée dans la programmation de projections, vous
-                      pouvez utiliser cette page pour rajouter vos séances à
-                      notre calendrier.
-                      <br />
-                      <br />
-                      Si vous ne trouvez pas le film que vous programmez dans
-                      nos propositions, merci d&apos;entrer ses informations
-                      manuellement &ndash; dans le format «&nbsp;Nom du film,
-                      Cinéaste (Année)&nbsp;» &ndash; et de passer à la case
-                      suivante. S&apos;il s&apos;agit d&apos;une séance
-                      spéciale, merci de renseigner les informations relatives à
-                      la séance dans le champ «&nbsp;Note&nbsp;» en dessous. Si
-                      vous avez des questions, n&apos;hésitez pas à{" "}
-                      <a
-                        className="underline"
-                        href="mailto:contact@leretroprojecteur.com"
-                      >
-                        nous contacter
-                      </a>
-                      .
+                      <BodyParagraphs>
+                        <p>
+                          Bienvenue sur notre portail de rajout de
+                          séances&nbsp;! Si vous êtes exploitant.e, ciné-club,
+                          ou autre organisation impliquée dans la programmation
+                          de projections, vous pouvez utiliser cette page pour
+                          rajouter vos séances à notre calendrier.
+                        </p>
+                        <p>
+                          Si vous ne trouvez pas le film que vous programmez
+                          dans nos propositions, merci d&apos;entrer ses
+                          informations manuellement &ndash; dans le format
+                          «&nbsp;Nom du film, Cinéaste (Année)&nbsp;» &ndash; et
+                          de passer à la case suivante. S&apos;il s&apos;agit
+                          d&apos;une séance spéciale, merci de renseigner les
+                          informations relatives à la séance dans le champ
+                          «&nbsp;Note&nbsp;» en dessous. Si vous avez des
+                          questions, n&apos;hésitez pas à{" "}
+                          <a
+                            className="underline"
+                            href="mailto:contact@leretroprojecteur.com"
+                          >
+                            nous contacter
+                          </a>
+                          .
+                        </p>
+                      </BodyParagraphs>
                     </BodyCopy>
                     <div className="pb-25px pt-25px">
                       <BodyCopy className="pb-5px">
