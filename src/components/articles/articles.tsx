@@ -34,14 +34,6 @@ export function ArticleLayout({
   );
 }
 
-export function Breakout({ children }: { children: ReactNode }) {
-  return (
-    <div className="breakout-section py-10px lg:col-span-3 3col:pl-20px">
-      {children}
-    </div>
-  );
-}
-
 export function MiddleColumn({ children }: { children: ReactNode }) {
   return (
     <>
@@ -114,14 +106,10 @@ export function SectionHeader({ children }: { children: ReactNode }) {
 }
 
 export function Question({ children }: { children: ReactNode }) {
-  return (
-    <div className="pt-20px">
-      <strong>{children}</strong>
-    </div>
-  );
+  return <div className="pt-20px font-bold">{children}</div>;
 }
 export function Answer({ children }: { children: ReactNode }) {
-  return <div className="space-y-5px pt-5px">{children}</div>;
+  return <div className="pt-5px">{children}</div>;
 }
 
 export function CTAs({ ctas }: { ctas: { link: string; text: ReactNode }[] }) {
