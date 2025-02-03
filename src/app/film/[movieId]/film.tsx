@@ -90,6 +90,7 @@ function MovieReview({
               />
             ) : tmdbImage != null ? (
               <Image
+                unoptimized
                 alt="movie-screenshot"
                 width={tmdbImage.width}
                 height={tmdbImage.height}
@@ -194,8 +195,8 @@ function MovieInformation({
                 )
               </BodyCopy>
             </div>
-            <div className="grid grid-cols-fillMin300 gap-x-8px gap-y-10px">
-              <div className="grid grid-cols-fillMinHalf gap-x-8px gap-y-10px">
+            <div className="grid-cols-fillMin300 grid gap-x-8px gap-y-10px">
+              <div className="grid-cols-fillMinHalf grid gap-x-8px gap-y-10px">
                 <Button variant="outline" asChild>
                   <Link
                     target="_blank"
@@ -213,7 +214,7 @@ function MovieInformation({
                   </Link>
                 </Button>
               </div>
-              <div className="grid grid-cols-fillMinHalf gap-x-8px gap-y-10px">
+              <div className="grid-cols-fillMinHalf grid gap-x-8px gap-y-10px">
                 {tmdbMovie.wikipediaFrUrl != null ? (
                   <Button variant="outline" asChild>
                     <Link target="_blank" href={tmdbMovie.wikipediaFrUrl}>
