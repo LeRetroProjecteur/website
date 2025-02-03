@@ -9,13 +9,8 @@ import { SearchResults } from "@/app/recherche/recherche";
 import { MiddleColumn } from "@/components/articles/articles";
 import RetroInput from "@/components/forms/retro-input";
 import { ThreeColumnPage } from "@/components/layout/page";
-import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
-import {
-  BodyCopy,
-  SousTitre1,
-  SousTitre2,
-} from "@/components/typography/typography";
+import { BodyCopy, SousTitre2 } from "@/components/typography/typography";
 
 import LoadingPage from "../loading";
 import logoBlue from "./logo-blue.png";
@@ -310,9 +305,6 @@ export default function MaRetro2024() {
   };
   return (
     <>
-      <PageHeader text="Ma Rétro 2024">
-        <SousTitre1>Votez pour vos plus belles découvertes&nbsp;!</SousTitre1>
-      </PageHeader>
       {isSubmitting ? (
         <LoadingPage />
       ) : (

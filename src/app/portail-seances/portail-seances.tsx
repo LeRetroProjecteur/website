@@ -8,9 +8,8 @@ import { MiddleColumn } from "@/components/articles/articles";
 import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import { ThreeColumnPage } from "@/components/layout/page";
-import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
-import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
+import { BodyCopy } from "@/components/typography/typography";
 import { SearchTheater } from "@/lib/types";
 
 function TheaterSearch({
@@ -352,9 +351,6 @@ export default function SubmitScreenings({
   };
   return (
     <>
-      <PageHeader text="Portail séances">
-        <SousTitre1>Rajouter des séances à notre calendrier</SousTitre1>
-      </PageHeader>
       {isSubmitting ? (
         <LoadingPage />
       ) : (

@@ -7,9 +7,8 @@ import { useForm } from "react-hook-form";
 
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import { TwoColumnPage } from "@/components/layout/page";
-import PageHeader from "@/components/layout/page-header";
 import { transformZipcode } from "@/components/theaters/theaters";
-import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
+import { BodyCopy } from "@/components/typography/typography";
 import GetHTML from "@/components/util/get-html";
 import IFrame from "@/components/util/iframe";
 import { MovieWithScreeningsSeveralDays, TheaterScreenings } from "@/lib/types";
@@ -32,19 +31,74 @@ interface Inputs {
   mardi: string;
 }
 
-export default function GenerateurSemaine({
-  movies,
+export function DayMovie({
+  movie,
+  day,
+  showtimesTheaters,
+  isLast,
 }: {
-  movies: Promise<MovieWithScreeningsSeveralDays[]>;
+  movie: MovieWithScreeningsSeveralDays;
+  day: DateTime;
+  showtimesTheaters: TheaterScreenings[];
+  isLast: boolean;
 }) {
   return (
     <>
-      <PageHeader text="El Generator">
-        <SousTitre1>Générateur de la Semaine Cinéma</SousTitre1>
-      </PageHeader>
-      <SuspenseWithLoading>
-        <SemaineCinema movies={movies} />
-      </SuspenseWithLoading>
+      <div style={{ fontWeight: 700, textDecoration: "underline" }}>
+        {capitalize(formatLundi1Janvier(day))}
+      </div>
+      <div style={{ fontWeight: 700 }}>
+        <i style={{ textTransform: "uppercase" }}>{movie.title}</i>,{" "}
+        {movie.directors} ({movie.year})
+      </div>
+      {showtimesTheaters.map((showtimesTheater) => (
+        <div key={showtimesTheater.name}>
+          {showtimesTheater.name} ({transformZipcode(showtimesTheater.zipcode)}
+          )&nbsp;:{" "}
+          {Object.values(showtimesTheater.seances)
+            .map((screening) => floatHourToString(screening.time))
+            .join(", ")}
+        </div>
+      ))}
+      {!isLast && <div>•</div>}
+    </>
+  );
+}
+
+export function DaysMovies({
+  week,
+  dayValues,
+  moviesById,
+}: {
+  week: DateTime[];
+  dayValues: string[];
+  moviesById: { [key: string]: MovieWithScreeningsSeveralDays };
+}) {
+  return (
+    <>
+      {week.map((day, i) => {
+        if (dayValues[i] == null || dayValues[i] === "") {
+          return null;
+        } else {
+          const movie = checkNotNull(moviesById[dayValues[i]]);
+          const showtimesTheaters = sortBy(
+            uniqBy(
+              movie.showtimes_by_day[formatYYYYMMDD(day)],
+              (showtimesTheater) => showtimesTheater.name,
+            ),
+            (showtimesTheater) => showtimesTheater.name,
+          );
+          return (
+            <DayMovie
+              key={i}
+              movie={movie}
+              showtimesTheaters={showtimesTheaters}
+              day={day}
+              isLast={i == week.length - 1}
+            />
+          );
+        }
+      })}
     </>
   );
 }
@@ -132,74 +186,14 @@ export function SemaineCinema({
   );
 }
 
-export function DaysMovies({
-  week,
-  dayValues,
-  moviesById,
+export default function GenerateurSemaine({
+  movies,
 }: {
-  week: DateTime[];
-  dayValues: string[];
-  moviesById: { [key: string]: MovieWithScreeningsSeveralDays };
+  movies: Promise<MovieWithScreeningsSeveralDays[]>;
 }) {
   return (
-    <>
-      {week.map((day, i) => {
-        if (dayValues[i] == null || dayValues[i] === "") {
-          return null;
-        } else {
-          const movie = checkNotNull(moviesById[dayValues[i]]);
-          const showtimesTheaters = sortBy(
-            uniqBy(
-              movie.showtimes_by_day[formatYYYYMMDD(day)],
-              (showtimesTheater) => showtimesTheater.name,
-            ),
-            (showtimesTheater) => showtimesTheater.name,
-          );
-          return (
-            <DayMovie
-              key={i}
-              movie={movie}
-              showtimesTheaters={showtimesTheaters}
-              day={day}
-              isLast={i == week.length - 1}
-            />
-          );
-        }
-      })}
-    </>
-  );
-}
-
-export function DayMovie({
-  movie,
-  day,
-  showtimesTheaters,
-  isLast,
-}: {
-  movie: MovieWithScreeningsSeveralDays;
-  day: DateTime;
-  showtimesTheaters: TheaterScreenings[];
-  isLast: boolean;
-}) {
-  return (
-    <>
-      <div style={{ fontWeight: 700, textDecoration: "underline" }}>
-        {capitalize(formatLundi1Janvier(day))}
-      </div>
-      <div style={{ fontWeight: 700 }}>
-        <i style={{ textTransform: "uppercase" }}>{movie.title}</i>,{" "}
-        {movie.directors} ({movie.year})
-      </div>
-      {showtimesTheaters.map((showtimesTheater) => (
-        <div key={showtimesTheater.name}>
-          {showtimesTheater.name} ({transformZipcode(showtimesTheater.zipcode)}
-          )&nbsp;:{" "}
-          {Object.values(showtimesTheater.seances)
-            .map((screening) => floatHourToString(screening.time))
-            .join(", ")}
-        </div>
-      ))}
-      {!isLast && <div>•</div>}
-    </>
+    <SuspenseWithLoading>
+      <SemaineCinema movies={movies} />
+    </SuspenseWithLoading>
   );
 }
