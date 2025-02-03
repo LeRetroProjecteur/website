@@ -2,6 +2,7 @@
 
 import React, { ReactNode, useState } from "react";
 
+import LoadingPage from "@/app/loading";
 import { SearchResults, TheaterSearchResults } from "@/app/recherche/recherche";
 import { MiddleColumn } from "@/components/articles/articles";
 import RetroInput from "@/components/forms/retro-input";
@@ -11,8 +12,6 @@ import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
 import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 import { SearchTheater } from "@/lib/types";
-
-import LoadingPage from "../../loading";
 
 function TheaterSearch({
   allTheatersPromise,
@@ -88,7 +87,7 @@ function ScreeningRow({
     movie_id: string;
     date: string;
     time: string;
-    note: string;
+    notes: string;
   }) => void;
 }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -96,12 +95,12 @@ function ScreeningRow({
   const [showResults, setShowResults] = useState(false);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
-  const [note, setNote] = useState("");
+  const [notes, setNotes] = useState("");
   const setSearchFind = (st: string, id: string = "") => {
     setSearchTerm(st);
     setMovieId(id);
     setShowResults(true);
-    onUpdate({ movie: st, movie_id: id, date, time, note });
+    onUpdate({ movie: st, movie_id: id, date, time, notes });
   };
 
   return (
@@ -132,15 +131,10 @@ function ScreeningRow({
                 className="border-x px-5px py-2px"
                 nbResults={5}
                 searchTerm={searchTerm}
-                onClick={(movie) => {
+                onClick={(m) => {
                   setSearchFind(
-                    movie.title +
-                      ", " +
-                      movie.directors +
-                      " (" +
-                      movie.year +
-                      ")",
-                    movie.id,
+                    m.title + ", " + m.directors + " (" + m.year + ")",
+                    m.id,
                   );
                   setShowResults(false);
                 }}
@@ -161,7 +155,7 @@ function ScreeningRow({
                 movie_id: movieId,
                 date: e.target.value,
                 time,
-                note,
+                notes,
               });
             }}
           />
@@ -179,26 +173,26 @@ function ScreeningRow({
                 movie_id: movieId,
                 date,
                 time: e.target.value,
-                note,
+                notes,
               });
             }}
           />
         }
       />
       <input
-        id="note"
+        id="notes"
         type="text"
         className="flex grow flex-col border"
-        value={note}
+        value={notes}
         placeholder="Note (facultatif)"
         onChange={(e) => {
-          setNote(e.target.value);
+          setNotes(e.target.value);
           onUpdate({
             movie: searchTerm,
             movie_id: movieId,
             date,
             time,
-            note: e.target.value,
+            notes: e.target.value,
           });
         }}
       />
@@ -240,7 +234,7 @@ export default function SubmitScreenings({
       movie_id: "",
       date: "",
       time: "",
-      note: "",
+      notes: "",
     }),
   );
   const [comments, setComments] = useState("");
@@ -253,7 +247,7 @@ export default function SubmitScreenings({
       movie_id: string;
       date: string;
       time: string;
-      note: string;
+      notes: string;
     },
   ) => {
     const newRowsData = [...rowsData];
@@ -280,7 +274,7 @@ export default function SubmitScreenings({
             day: day,
             hour: hour,
             minute: minute,
-            notes: row.note,
+            notes: row.notes,
           };
         }
       });
@@ -320,7 +314,7 @@ export default function SubmitScreenings({
         .map(
           (row) =>
             `${row.movie} - ${row.date} ${row.time}${
-              row.note ? `\n_${row.note}_` : ""
+              row.notes ? `\n_${row.notes}_` : ""
             }`,
         )
         .join("\n\n");
@@ -375,10 +369,21 @@ export default function SubmitScreenings({
                 <>
                   <MiddleColumn>
                     <BodyCopy>
-                      Bienvenue sur notre portail de séances, utilisé par les
-                      ciné-clubs, exploitants, ou autres acteurs du cinéma pour
-                      rajouter des séances à notre calendrier. Si vous avez des
-                      questions, n&apos;hésitez pas à{" "}
+                      Bienvenue sur notre portail de rajout de séances&nbsp;! Si
+                      vous êtes exploitant.e, ciné-club, ou autre organisation
+                      impliquée dans la programmation de projections, vous
+                      pouvez utiliser cette page pour rajouter vos séances à
+                      notre calendrier.
+                      <br />
+                      <br />
+                      Si vous ne trouvez pas le film que vous programmez dans
+                      nos propositions, merci d&apos;entrer ses informations
+                      manuellement &ndash; dans le format «&nbsp;Nom du film,
+                      Cinéaste (Année)&nbsp;» &ndash; et de passer à la case
+                      suivante. S&apos;il s&apos;agit d&apos;une séance
+                      spéciale, merci de renseigner les informations relatives à
+                      la séance dans le champ «&nbsp;Note&nbsp;» en dessous. Si
+                      vous avez des questions, n&apos;hésitez pas à{" "}
                       <a
                         className="underline"
                         href="mailto:contact@leretroprojecteur.com"
@@ -387,7 +392,7 @@ export default function SubmitScreenings({
                       </a>
                       .
                     </BodyCopy>
-                    <div className="pb-25px pt-10px">
+                    <div className="pb-25px pt-25px">
                       <BodyCopy className="pb-5px">
                         Pour quelle salle souhaitez-vous renseigner des
                         séances&nbsp;?

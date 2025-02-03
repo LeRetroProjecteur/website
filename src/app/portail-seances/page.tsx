@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 import { getTheaters } from "@/lib/theaters";
 
-import SubmitScreenings from "./rajouter-des-seances";
+import SubmitScreenings from "./portail-seances";
 
 export const dynamic = "force-dynamic";
 
