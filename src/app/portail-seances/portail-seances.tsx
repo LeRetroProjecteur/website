@@ -9,7 +9,10 @@ import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import { ThreeColumnPage } from "@/components/layout/page";
 import { TextBox } from "@/components/layout/text-boxes";
-import { BodyCopy } from "@/components/typography/typography";
+import {
+  BodyCopy,
+  BodyParagraphs,
+} from "@/components/typography/typography";
 import { SearchTheater } from "@/lib/types";
 
 function TheaterSearch({
@@ -354,32 +357,38 @@ export default function SubmitScreenings({
       {isSubmitting ? (
         <LoadingPage />
       ) : (
-        <>
-          {isSubmitting ? (
-            <LoadingPage />
+        <ThreeColumnPage>
+          {showSharePage ? (
+            <SharePage />
           ) : (
-            <ThreeColumnPage>
-              {showSharePage ? (
-                <SharePage />
-              ) : (
-                <>
-                  <MiddleColumn>
-                    <BodyCopy>
-                      Bienvenue sur notre portail de rajout de séances&nbsp;! Si
-                      vous êtes exploitant.e, ciné-club, ou autre organisation
-                      impliquée dans la programmation de projections, vous
-                      pouvez utiliser cette page pour rajouter vos séances à
-                      notre calendrier.
-                      <br />
-                      <br />
-                      Si vous ne trouvez pas le film que vous programmez dans
-                      nos propositions, merci d&apos;entrer ses informations
-                      manuellement &ndash; dans le format «&nbsp;Nom du film,
-                      Cinéaste (Année)&nbsp;» &ndash; et de passer à la case
-                      suivante. S&apos;il s&apos;agit d&apos;une séance
+            <>
+              <MiddleColumn>
+                <BodyCopy>
+                  <BodyParagraphs>
+                    <p>
+                      Bienvenue sur notre portail de rajout de séances&nbsp;!
+                    </p>
+                    <p>
+                      Si vous gérez un cinéma, un ciné-club ou participez à la
+                      programmation de films en salles, vous pouvez utiliser
+                      cette page pour rajouter des séances à notre calendrier.
+                    </p>
+                    <p>
+                      Nous n&apos;indiquons sur notre site web que les séances
+                      de films qui ont été produits il y a plus de trois ans.
+                      Veuillez s&apos;il vous plaît ne pas rajouter de séances
+                      de films plus récents.
+                    </p>
+                    <p>
+                      Si vous ne trouvez pas le film recherché dans nos
+                      propositions, merci d&apos;entrer les informations
+                      manuellement &ndash; en reprenant le format «&nbsp;Nom du
+                      film, Cinéaste (Année)&nbsp;» &ndash; et de passer à la
+                      case suivante. S&apos;il s&apos;agit d&apos;une séance
                       spéciale, merci de renseigner les informations relatives à
-                      la séance dans le champ «&nbsp;Note&nbsp;» en dessous. Si
-                      vous avez des questions, n&apos;hésitez pas à{" "}
+                      la séance (e.g., «&nbsp;En présence de la
+                      réalisatrice.&nbsp;») dans le champ «&nbsp;Note&nbsp;» en
+                      dessous. Si vous avez des questions, n&apos;hésitez pas à{" "}
                       <a
                         className="underline"
                         href="mailto:contact@leretroprojecteur.com"
@@ -387,55 +396,55 @@ export default function SubmitScreenings({
                         nous contacter
                       </a>
                       .
-                    </BodyCopy>
-                    <div className="pb-25px pt-25px">
-                      <BodyCopy className="pb-5px">
-                        Pour quelle salle souhaitez-vous renseigner des
-                        séances&nbsp;?
-                      </BodyCopy>
-                      <TheaterSearch
-                        allTheatersPromise={allTheatersPromise}
-                        onUpdate={setTheaterData}
-                      />
-                    </div>
-                    <div className="flex flex-col gap-y-15px">
-                      <div className="border-y py-6px text-17px uppercase text-retro-gray">
-                        <Row
-                          cell1={<div>Film</div>}
-                          cell2={<div>Date</div>}
-                          cell3={<div>Horaire</div>}
-                        />
-                      </div>
-                      {rowsData.map((_, index) => (
-                        <ScreeningRow
-                          key={index}
-                          onUpdate={(data) => updateRowData(index, data)}
-                        />
-                      ))}
-                    </div>
-                    <div className="flex flex-col pt-25px">
-                      <BodyCopy className="pb-5px">
-                        Avez-vous autre chose à signaler&nbsp;?
-                      </BodyCopy>
-                      <textarea
-                        id="comments"
-                        placeholder={"Réponse facultative".toUpperCase()}
-                        value={comments}
-                        onChange={handleCommentsChange}
-                        className="h-[75px] resize-none p-10px"
-                      />
-                    </div>
-                    <br />
-                    <TextBox onClick={handleSubmit} className="bg-retro-green">
-                      Rajoutez vos séances
-                    </TextBox>
-                    <BodyCopy className="pt-10px">{responseMessage}</BodyCopy>
-                  </MiddleColumn>
-                </>
-              )}
-            </ThreeColumnPage>
+                    </p>
+                  </BodyParagraphs>
+                </BodyCopy>
+                <div className="pb-25px pt-25px">
+                  <BodyCopy className="pb-5px">
+                    Dans quelle salle se déroule la ou les séances que vous
+                    souhaitez renseigner ?
+                  </BodyCopy>
+                  <TheaterSearch
+                    allTheatersPromise={allTheatersPromise}
+                    onUpdate={setTheaterData}
+                  />
+                </div>
+                <div className="flex flex-col gap-y-15px">
+                  <div className="border-y py-6px text-17px uppercase text-retro-gray">
+                    <Row
+                      cell1={<div>Film</div>}
+                      cell2={<div>Date</div>}
+                      cell3={<div>Horaire</div>}
+                    />
+                  </div>
+                  {rowsData.map((_, index) => (
+                    <ScreeningRow
+                      key={index}
+                      onUpdate={(data) => updateRowData(index, data)}
+                    />
+                  ))}
+                </div>
+                <div className="flex flex-col pt-25px">
+                  <BodyCopy className="pb-5px">
+                    Avez-vous autre chose à signaler&nbsp;?
+                  </BodyCopy>
+                  <textarea
+                    id="comments"
+                    placeholder={"Réponse facultative".toUpperCase()}
+                    value={comments}
+                    onChange={handleCommentsChange}
+                    className="h-[75px] resize-none p-10px"
+                  />
+                </div>
+                <br />
+                <TextBox onClick={handleSubmit} className="bg-retro-green">
+                  Rajoutez vos séances
+                </TextBox>
+                <BodyCopy className="pt-10px">{responseMessage}</BodyCopy>
+              </MiddleColumn>
+            </>
           )}
-        </>
+        </ThreeColumnPage>
       )}
     </>
   );
