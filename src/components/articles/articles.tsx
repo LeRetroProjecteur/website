@@ -108,6 +108,7 @@ export function SectionHeader({ children }: { children: ReactNode }) {
 export function Question({ children }: { children: ReactNode }) {
   return <div className="pt-20px font-bold">{children}</div>;
 }
+
 export function Answer({ children }: { children: ReactNode }) {
   return <div className="pt-5px">{children}</div>;
 }
