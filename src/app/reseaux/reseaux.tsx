@@ -22,15 +22,22 @@ function Description() {
 function Links() {
   return (
     <div className="flex grow flex-col gap-y-12px pb-10px lg:gap-y-10px lg:pb-0">
-      <TextBox link="https://www.instagram.com/leretroprojecteur">
-        <div>instagram</div>
-      </TextBox>
-      <TextBox link="https://twitter.com/RetroProjecteur">
-        <div>twitter</div>
-      </TextBox>
-      <TextBox link="https://www.facebook.com/profile.php?id=100086988852803">
-        <div>Facebook</div>
-      </TextBox>
+      {[
+        { url: "https://letterboxd.com/retroprojecteur", text: "Letterboxd" },
+        {
+          url: "https://www.instagram.com/leretroprojecteur",
+          text: "Instagram",
+        },
+        { url: "https://twitter.com/RetroProjecteur", text: "Twitter" },
+        {
+          url: "https://www.facebook.com/profile.php?id=100086988852803",
+          text: "Facebook",
+        },
+      ].map((social) => (
+        <TextBox key={social.url} link={{ url: social.url, newTab: true }}>
+          <div>{social.text}</div>
+        </TextBox>
+      ))}
     </div>
   );
 }

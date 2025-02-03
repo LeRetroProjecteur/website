@@ -4,8 +4,9 @@ import { safeDate } from "@/lib/util";
 
 export async function GET(
   request: Request,
-  { params }: { params: { day: string } },
+  props: { params: Promise<{ day: string }> },
 ) {
+  const params = await props.params;
   const dateRequested = safeDate(params.day);
   const dayMovies = await getDayMovies(dateRequested, {
     collectionBase: "website-by-date-screenings-all-marseille",

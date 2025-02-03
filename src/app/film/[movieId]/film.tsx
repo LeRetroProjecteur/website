@@ -61,7 +61,7 @@ function MovieReview({ movie }: { movie: MovieDetail }) {
     <>
       {movie.review && movie.review_date && (
         <div className="flex flex-col pb-20px">
-          <div className="flex grow basis-0 pb-15px lg:pb-20px">
+          <div className="flex grow basis-0">
             <Image
               width={1200}
               height={675}
@@ -71,22 +71,25 @@ function MovieReview({ movie }: { movie: MovieDetail }) {
               {...blurProps}
             />
           </div>
-          <BodyCopy className="border-b pb-20px lg:border-0 lg:pb-0">
-            <div dangerouslySetInnerHTML={{ __html: movie.review }}></div>
-            <br />
-            <div className="flex items-center pt-6px">
-              <div className="pr-6px">
-                <Image
-                  className="w-25px"
-                  alt="coup de coeur"
-                  src={coupDeCoeur}
-                />
+          {movie.review_category == "COUP DE CŒUR" && (
+            <BodyCopy className="border-b pb-20px pt-15px lg:border-0 lg:pb-0 lg:pt-20px">
+              <div dangerouslySetInnerHTML={{ __html: movie.review }}></div>
+              <br />
+              <div className="flex items-center pt-6px">
+                <div className="pr-6px">
+                  <Image
+                    className="w-25px"
+                    alt="coup de coeur"
+                    src={coupDeCoeur}
+                  />
+                </div>
+                <MetaCopy>
+                  Texte du{" "}
+                  {formatDDMMYYWithSlashes(safeDate(movie.review_date))}
+                </MetaCopy>
               </div>
-              <MetaCopy>
-                Texte du {formatDDMMYYWithSlashes(safeDate(movie.review_date))}
-              </MetaCopy>
-            </div>
-          </BodyCopy>
+            </BodyCopy>
+          )}
         </div>
       )}
     </>

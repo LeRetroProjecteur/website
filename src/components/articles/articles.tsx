@@ -34,6 +34,14 @@ export function ArticleLayout({
   );
 }
 
+export function Breakout({ children }: { children: ReactNode }) {
+  return (
+    <div className="breakout-section py-10px lg:col-span-3 3col:pl-20px">
+      {children}
+    </div>
+  );
+}
+
 export function MiddleColumn({ children }: { children: ReactNode }) {
   return (
     <>
@@ -124,7 +132,7 @@ export function CTAs({ ctas }: { ctas: { link: string; text: ReactNode }[] }) {
       </div>
       <div className="mx-auto flex w-[75%] flex-col gap-y-10px lg:w-[50%]">
         {ctas.map((cta, i) => (
-          <TextBox key={i} className="bg-retro-blue" link={cta.link}>
+          <TextBox key={i} className="bg-retro-blue" link={{ url: cta.link }}>
             {cta.text}
           </TextBox>
         ))}

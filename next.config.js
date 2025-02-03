@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: "standalone",
+  experimental: {
+    reactCompiler: true,
+  },
   images: {
     minimumCacheTTL: 60 * 60 * 24 * 365,
     remotePatterns: [

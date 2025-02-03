@@ -6,7 +6,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { keyBy, uniq } from "lodash-es";
+import { keyBy, orderBy, uniq } from "lodash-es";
 import { DateTime } from "luxon";
 import { unstable_cache } from "next/cache";
 import "server-only";
@@ -24,7 +24,10 @@ import {
   checkNotNull,
   formatYYYYMMDD,
   formatYYYY_MM_DD,
+  getFields,
+  getMovieInfoString,
   getNextMovieWeek,
+  staleWhileRevalidate,
 } from "./util";
 
 export const getWeekMovies = async () => {
@@ -91,29 +94,13 @@ export const getDayMovies = unstable_cache(
   { revalidate: 60 },
 );
 
-export const getMovies = unstable_cache(
+export const getSearchMovies = staleWhileRevalidate(
   async () => {
     const { db } = getFirebase();
-    const collectionRef = collection(db, "website-extra-docs");
-    const query_docs = query(collectionRef, where("search", "==", true));
-    const querySnapshot = await getDocs(query_docs);
-    const searchMovies = querySnapshot.docs.flatMap(
-      (doc) => doc.data().elements,
-    ) as SearchMovie[];
-    return searchMovies;
-  },
-  ["all-movies"],
-  { revalidate: 10 },
-);
-
-export const getAllMovies = unstable_cache(
-  async () => {
-    const { db } = getFirebase();
-    const collectionRef = collection(db, "website-all-movies-list");
+    const collectionRef = collection(db, "website-all-movies-list-all");
     const query_docs = query(collectionRef, where("s", "==", true));
     const querySnapshot = await getDocs(query_docs);
-
-    return querySnapshot.docs.flatMap((doc) => {
+    const searchMovies = querySnapshot.docs.flatMap((doc) => {
       const reducedMovies = doc.data().e as ReducedMovie[];
 
       return reducedMovies.map(
@@ -127,9 +114,17 @@ export const getAllMovies = unstable_cache(
         }),
       );
     });
+
+    return orderBy(
+      searchMovies.map<[SearchMovie, string[]]>((elem) => [
+        elem,
+        getFields(getMovieInfoString(elem)),
+      ]),
+      ([elem]) => elem.relevance_score,
+      "desc",
+    );
   },
-  ["all-movies"],
-  { revalidate: 180 },
+  { maxAgeMs: 1000 * 60 * 5 },
 );
 
 export const getReviewedMovies = unstable_cache(

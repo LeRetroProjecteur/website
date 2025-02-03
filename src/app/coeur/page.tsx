@@ -11,11 +11,10 @@ export const metadata: Metadata = {
 
 export const dynamic = "force-dynamic";
 
-export default function CoupsDeCoeurPage() {
+export default async function CoupsDeCoeurPage() {
   const reviews = getReviewedMovies();
-  const cdcDisplay = (cookies().get("cdc-display")?.value ?? "thumbnails") as
-    | "thumbnails"
-    | "list";
+  const cdcDisplay = ((await cookies()).get("cdc-display")?.value ??
+    "thumbnails") as "thumbnails" | "list";
 
   return (
     <CoupsDeCoeur fetchedReviews={reviews} displayPreference={cdcDisplay} />
