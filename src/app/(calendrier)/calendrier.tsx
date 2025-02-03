@@ -17,7 +17,7 @@ export default function Calendrier({
   title?: string;
 }) {
   return (
-    <div className="flex grow flex-col">
+    <>
       <PageHeader text={title ?? "calendrier"} className="group/date">
         <div className="flex grow items-center justify-center">
           <DateSelector />
@@ -29,6 +29,6 @@ export default function Calendrier({
           <MovieTable serverMovies={serverMovies} allMovies={allMovies} />
         </div>
       </div>
-    </div>
+    </>
   );
 }

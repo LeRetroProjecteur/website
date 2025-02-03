@@ -1,5 +1,8 @@
 import { Metadata } from "next";
 
+import PageHeader from "@/components/layout/page-header";
+import { SousTitre1 } from "@/components/typography/typography";
+
 import MaRetro2024 from "./ma-retro-2024";
 
 export const dynamic = "force-dynamic";
@@ -10,5 +13,12 @@ export const metadata: Metadata = {
 };
 
 export default function SubmitScreeningsPage() {
-  return <MaRetro2024 />;
+  return (
+    <>
+      <PageHeader text="Ma Rétro 2024">
+        <SousTitre1>Votez pour vos plus belles découvertes&nbsp;!</SousTitre1>
+      </PageHeader>
+      <MaRetro2024 />
+    </>
+  );
 }
