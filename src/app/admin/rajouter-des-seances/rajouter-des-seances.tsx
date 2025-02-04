@@ -11,6 +11,10 @@ import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
 import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 import { SearchTheater } from "@/lib/types";
+import {
+    formatLundi1Janvier,
+    safeDate,
+} from "@/lib/util";
 
 import LoadingPage from "../../loading";
 
@@ -278,7 +282,7 @@ export default function SubmitScreenings({
         )
         .join("|||");
 
-      const warningMessage = `*Nouvelles séances ajoutées*\n\n*Cinéma:* ${
+      const warningMessage = `*Cinéma:* ${
         theaterData.name
       }\n\n*Séances: *\n${rowsData
         .filter((row) => row.movie && row.date)
@@ -286,8 +290,8 @@ export default function SubmitScreenings({
           (row) =>
             `<https://leretroprojecteur.com/film/${row.movie_id}|${
               row.movie
-            }> - ${row.date} ${row.time}${
-              row.note ? `\n_NOTE: ${row.note}_` : ""
+            }> - ${formatLundi1Janvier(safeDate(row.date))} ${row.time}${
+              row.note ? `\n_${row.note}_` : ""
             }`,
         )
         .join("\n\n")}${
