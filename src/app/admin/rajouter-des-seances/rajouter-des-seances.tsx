@@ -11,10 +11,7 @@ import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
 import { BodyCopy, SousTitre1 } from "@/components/typography/typography";
 import { SearchTheater } from "@/lib/types";
-import {
-    formatLundi1Janvier,
-    safeDate,
-} from "@/lib/util";
+import { formatLundi1Janvier, safeDate } from "@/lib/util";
 
 import LoadingPage from "../../loading";
 
