@@ -179,22 +179,26 @@ function MovieInformation({
         </div>
         {tmdbMovie != null ? (
           <div className="flex flex-col gap-20px">
-            <div className="flex flex-col border-b pb-10px">
-              <BodyCopy className="text-retro-gray">
-                {tmdbMovie.movie.overview}
-              </BodyCopy>{" "}
-              <BodyCopy className="text-right text-10px italic text-retro-gray lg:text-12px">
-                (source:{" "}
-                <Link
-                  href="https://www.themoviedb.org/"
-                  target="_blank"
-                  className="hover:underline"
-                >
-                  TMDB
-                </Link>
-                )
-              </BodyCopy>
-            </div>
+            {movie.review_category !== "COUP DE CŒUR" ||
+            movie.review == null ||
+            movie.review_date == null ? (
+              <div className="flex flex-col border-b pb-10px">
+                <BodyCopy className="text-retro-gray">
+                  {tmdbMovie.movie.overview}
+                </BodyCopy>{" "}
+                <BodyCopy className="text-right text-10px italic text-retro-gray lg:text-12px">
+                  (source:{" "}
+                  <Link
+                    href="https://www.themoviedb.org/"
+                    target="_blank"
+                    className="hover:underline"
+                  >
+                    TMDB
+                  </Link>
+                  )
+                </BodyCopy>
+              </div>
+            ) : null}
             <div className="grid-cols-fillMin300 grid gap-x-8px gap-y-10px">
               <div className="grid-cols-fillMinHalf grid gap-x-8px gap-y-10px">
                 <Button variant="outline" asChild>
