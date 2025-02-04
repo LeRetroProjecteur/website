@@ -23,6 +23,7 @@
     "clsx": "^2.0.0",
     "dayjs": "^1.11.10",
     "fast-json-stable-stringify": "^2.1.0",
+    "fastest-levenshtein": "^1.0.16",
     "firebase": "^10.5.2",
     "framer-motion": "^12.0.1",
     "immer": "^10.1.1",
