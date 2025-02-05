@@ -8,6 +8,9 @@ import { getWikipediaUrls } from "./wikimedia";
 
 export type TmdbMovie = Awaited<ReturnType<typeof getMovieDetailsFromTmdb>>;
 
+const MAXIMUM_TITLE_DISTANCE = 5;
+const MAXIMUM_TOTAL_DISTANCE = 8;
+
 type QueryInput = {
   title: string;
   originalTitle?: string;
@@ -170,10 +173,9 @@ function getAsImageWithUrl(
   };
 }
 
-type MovieWithCredits = [
-  z.infer<typeof searchResponseSchema>["results"][number],
-  z.infer<typeof creditsSchema>,
-];
+type SearchMovie = z.infer<typeof searchResponseSchema>["results"][number];
+
+type MovieWithCredits = [SearchMovie, z.infer<typeof creditsSchema>];
 
 function getLikeliestMovie({
   title,
@@ -186,25 +188,39 @@ function getLikeliestMovie({
 }) {
   const inputDirectors = _directors.split(", ");
 
-  const moviesSortedByScore = sortBy(movies, ([movie, credits]) => {
-    const directorPairs = inputDirectors.flatMap((inputDirector) =>
-      credits.crew
-        .filter((c) => c.job === "Director")
-        .map<[string, string]>((c) => [inputDirector, c.name]),
-    );
-    const directorScore =
-      min(directorPairs.map(([a, b]) => distance(a, b))) ?? 0;
-    const titleScore = distance(title, movie.title);
-    const originalTitleScore =
-      originalTitle != null ? distance(originalTitle, movie.original_title) : 0;
-    const yearScore = Math.abs(
-      Number(year) - Number(movie.release_date.slice(0, 4)),
-    );
+  const moviesSortedByScore = sortBy(
+    movies.map<[SearchMovie, number]>(([movie, credits]) => {
+      const directorPairs = inputDirectors.flatMap((inputDirector) =>
+        credits.crew
+          .filter((c) => c.job === "Director")
+          .map<[string, string]>((c) => [inputDirector, c.name]),
+      );
+      const directorScore =
+        min(directorPairs.map(([a, b]) => distance(a, b))) ?? 0;
+      const titleScore = distance(title, movie.title);
+      const originalTitleScore =
+        originalTitle != null
+          ? distance(originalTitle, movie.original_title)
+          : 0;
+      const yearScore = Math.abs(
+        Number(year) - Number(movie.release_date.slice(0, 4)),
+      );
 
-    return directorScore + titleScore + originalTitleScore + yearScore;
-  });
+      return [
+        movie,
+        directorScore + titleScore + originalTitleScore + yearScore,
+      ];
+    }),
+    ([_, score]) => score,
+  );
 
-  return checkNotNull(moviesSortedByScore.at(0))[0];
+  const [movie, score] = moviesSortedByScore[0];
+
+  if (score >= MAXIMUM_TOTAL_DISTANCE) {
+    return undefined;
+  }
+
+  return movie;
 }
 
 export async function _getMovieDetailsFromTmdb({
