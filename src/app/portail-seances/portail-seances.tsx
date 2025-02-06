@@ -11,6 +11,7 @@ import { ThreeColumnPage } from "@/components/layout/page";
 import { TextBox } from "@/components/layout/text-boxes";
 import { BodyCopy, BodyParagraphs } from "@/components/typography/typography";
 import { SearchTheater } from "@/lib/types";
+import { formatLundi1Janvier, safeDate } from "@/lib/util";
 
 function TheaterSearch({
   allTheatersPromise,
@@ -260,73 +261,37 @@ export default function SubmitScreenings({
   const handleSubmit = async () => {
     setIsSubmitting(true);
     try {
-      const API_ENDPOINT =
-        "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_data_to_db";
-      // Transform the rowsData to the new format
-      const transformedData = rowsData.map((row) => {
-        const [year, month, day] = row.date.split("-").map(Number);
-        const [hour, minute] = row.time.split(":").map(Number);
-        // Check if any required field is missing or NaN
-        if (!(row.movie == "" || isNaN(year) || isNaN(month) || isNaN(day))) {
-          return {
-            movie: row.movie,
-            id: row.movie_id,
-            year: year,
-            month: month,
-            day: day,
-            hour: hour,
-            minute: minute,
-            notes: row.notes,
-          };
-        }
-      });
-      const payload = {
-        collection_name: "raw-submit-screenings",
-        theater_name: theaterData.name,
-        theater_id: theaterData.theater_id,
-        include_time_in_doc_name: false,
-        key_for_doc_name: "theater_id",
-        showtimes: transformedData,
-        comments: comments,
-      };
-      console.log("Sending payload:", JSON.stringify(payload, null, 2));
-      const response = await fetch(API_ENDPOINT, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-        mode: "cors",
-      });
-      console.log("Response status:", response.status);
-      console.log(
-        "Response headers:",
-        JSON.stringify(Object.fromEntries(response.headers), null, 2),
-      );
-      const responseText = await response.text();
-      console.log("Raw response:", responseText);
-      if (!response.ok) {
-        throw new Error(
-          `HTTP error! status: ${response.status}, body: ${responseText}`,
-        );
-      }
       // Format showtimes for Slack
       const showtimesText = rowsData
         .filter((row) => row.movie && row.date)
+        .map((row) =>
+          JSON.stringify({
+            theater_id: theaterData.theater_id,
+            movie_id: row.movie_id,
+            date: row.date,
+            time: row.time,
+            note: row.note || "",
+          }),
+        )
+        .join("|||");
+
+      const warningMessage = `*Cinéma:* ${
+        theaterData.name
+      }\n\n*Séances: *\n${rowsData
+        .filter((row) => row.movie && row.date)
         .map(
           (row) =>
-            `${row.movie} - ${row.date} ${row.time}${
-              row.notes ? `\n_${row.notes}_` : ""
+            `<https://leretroprojecteur.com/film/${row.movie_id}|${
+              row.movie
+            }> - ${formatLundi1Janvier(safeDate(row.date))} ${row.time}${
+              row.note ? `\n_${row.note}_` : ""
             }`,
         )
-        .join("\n\n");
-      const warningMessage = `*Nouvelles séances ajoutées*\n\n*Cinéma:* ${
-        theaterData.name
-      }\n\n*Séances:*\n${showtimesText}${
-        comments ? `\n\n*Commentaires:* ${comments}` : ""
-      }`;
+        .join("\n\n")}${
+        comments ? `\n\n*Commentaires: *${comments}` : ""
+      }\n\nDATA:${showtimesText}`;
       const slackEndpoint =
-        "https://europe-west1-website-cine.cloudfunctions.net/trigger_send_warning";
+        "https://europe-west1-website-cine.cloudfunctions.net/trigger_send_interactive_warning";
       await fetch(
         `${slackEndpoint}?warning=${encodeURIComponent(
           warningMessage,
