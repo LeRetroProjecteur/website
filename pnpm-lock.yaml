@@ -95,7 +95,7 @@ importers:
         version: 3.1.0(react@19.0.0)
       zustand:
         specifier: ^4.4.7
-        version: 4.4.7(@types/react@19.0.7)(react@19.0.0)
+        version: 4.4.7(@types/react@19.0.7)(immer@10.1.1)(react@19.0.0)
     devDependencies:
       '@tailwindcss/forms':
         specifier: ^0.5.7
@@ -1794,6 +1794,9 @@ packages:
   ignore@5.2.4:
     resolution: {integrity: sha512-MAb38BcSbH0eHNBxn7ql2NH/kX33OkB3lZ1BNdh7ENeRChHTYsTvWrMubiIAMNS2llXEEgZ1MUOBtXChP3kaFQ==}
     engines: {node: '>= 4'}
+
+  immer@10.1.1:
+    resolution: {integrity: sha512-s2MPrmjovJcoMaHtx6K11Ra7oD05NT97w1IC5zpMkT6Atjr7H8LjaDd81iIxUYpMKSRRNMJE703M1Fhr/TctHw==}
 
   import-fresh@3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
@@ -5097,6 +5100,9 @@ snapshots:
 
   ignore@5.2.4: {}
 
+  immer@10.1.1:
+    optional: true
+
   import-fresh@3.3.0:
     dependencies:
       parent-module: 1.0.1
@@ -6418,9 +6424,10 @@ snapshots:
 
   zod@3.24.1: {}
 
-  zustand@4.4.7(@types/react@19.0.7)(react@19.0.0):
+  zustand@4.4.7(@types/react@19.0.7)(immer@10.1.1)(react@19.0.0):
     dependencies:
       use-sync-external-store: 1.2.0(react@19.0.0)
     optionalDependencies:
       '@types/react': 19.0.7
+      immer: 10.1.1
       react: 19.0.0
