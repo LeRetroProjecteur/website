@@ -8,7 +8,7 @@ import { TwoColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
 import MultiDaySeances from "@/components/seances/multiday-seances";
 import { SectionTitle } from "@/components/typography/typography";
-import { MovieDetail, Screening } from "@/lib/types";
+import { MovieDetail, TheaterScreenings } from "@/lib/types";
 import { filterDates } from "@/lib/util";
 
 const formatDate = (dateStr: string) => {
@@ -87,23 +87,33 @@ export default function DirectorView({
 
                         Object.entries(screenings).forEach(([date, times]) => {
                           if (!acc[date]) acc[date] = [];
-                          // Ensure times is an array of Screening objects
-                          const validTimes = Array.isArray(times)
-                            ? (times as Screening[])
-                            : [];
-                          acc[date].push({
-                            ...movie,
-                            times: validTimes,
-                          });
+
+                          if (Array.isArray(times)) {
+                            const theaterScreenings: TheaterScreenings[] =
+                              times.map((theater) => ({
+                                name: theater.name || "",
+                                neighborhood: theater.neighborhood || "",
+                                zipcode: theater.zipcode || "",
+                                preposition_and_name:
+                                  theater.preposition_and_name || "",
+                                seances: theater.seances || {},
+                              }));
+
+                            acc[date].push({
+                              ...movie,
+                              theaters: theaterScreenings,
+                            });
+                          }
                         });
                         return acc;
                       } catch (error) {
+                        console.error("Error processing screenings:", error);
                         return acc;
                       }
                     },
                     {} as Record<
                       string,
-                      Array<MovieDetail & { times: Screening[] }>
+                      Array<MovieDetail & { theaters: TheaterScreenings[] }>
                     >,
                   ),
                 )
@@ -123,7 +133,7 @@ export default function DirectorView({
                               {movie.title}
                             </div>
                             <MultiDaySeances
-                              screenings={{ [date]: movie.times }}
+                              screenings={{ [date]: movie.theaters }}
                               groupClassName="flex items-center gap-4"
                               hideDate={true}
                             />
