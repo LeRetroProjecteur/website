@@ -86,14 +86,16 @@ export default function DirectorView({
                         if (!screenings || !size(screenings)) return acc;
 
                         Object.entries(screenings).forEach(([date, times]) => {
-  if (!acc[date]) acc[date] = [];
-  // Ensure times is an array of Screening objects
-  const validTimes = Array.isArray(times) ? times as Screening[] : [];
-  acc[date].push({
-    ...movie,
-    times: validTimes
-  });
-});
+                          if (!acc[date]) acc[date] = [];
+                          // Ensure times is an array of Screening objects
+                          const validTimes = Array.isArray(times)
+                            ? (times as Screening[])
+                            : [];
+                          acc[date].push({
+                            ...movie,
+                            times: validTimes,
+                          });
+                        });
                         return acc;
                       } catch (error) {
                         return acc;
