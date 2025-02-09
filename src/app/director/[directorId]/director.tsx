@@ -2,12 +2,16 @@
 
 import { size } from "lodash-es";
 import Link from "next/link";
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 
 import { TwoColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
 import MultiDaySeances from "@/components/seances/multiday-seances";
-import { SectionTitle } from "@/components/typography/typography";
+import {
+  SectionTitle,
+  SousTitre1,
+  SubsectionTitle,
+} from "@/components/typography/typography";
 import { MovieDetail, TheaterScreenings } from "@/lib/types";
 import { filterDates } from "@/lib/util";
 
@@ -42,21 +46,23 @@ export default function DirectorView({
 
   return (
     <>
-      <PageHeader text={directorName} />
+      <PageHeader text={"Cinéaste"}>
+        <SousTitre1>{directorName}</SousTitre1>
+      </PageHeader>
       <TwoColumnPage
         narrow
         left={
           (
             <div className="flex flex-col">
-              <h2 className="mb-4 bg-retro-pale-green p-2 text-24px uppercase">
+              <SectionTitle color="bg-retro-pale-green">
                 Filmographie
-              </h2>
+              </SectionTitle>
               <div>
                 {sortedMovies.map((movie) => (
                   <Link
                     key={movie.id}
                     href={`/film/${movie.id}`}
-                    className="block border-b py-12px lg:py-16px lg:hover:bg-retro-pale-green"
+                    className="block border-b py-12px font-semibold lg:py-16px lg:hover:bg-retro-pale-green"
                   >
                     <div>
                       <u className="uppercase">{movie.title}</u> ({movie.year})
@@ -120,9 +126,9 @@ export default function DirectorView({
                   .sort((a, b) => a[0].localeCompare(b[0]))
                   .map(([date, moviesForDay]) => (
                     <div key={date}>
-                      <h2 className="my-4 bg-retro-pale-green p-2 text-20px font-bold uppercase">
-                        {formatDate(date)}
-                      </h2>
+                      <SubsectionTitle align="text-left">
+                        <span className="uppercase">{formatDate(date)}</span>
+                      </SubsectionTitle>
                       <div className="space-y-2">
                         {moviesForDay.map((movie) => (
                           <div
