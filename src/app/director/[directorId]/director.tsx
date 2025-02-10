@@ -141,6 +141,7 @@ export default function DirectorView({
                             <MultiDaySeances
                               screenings={{ [date]: movie.theaters }}
                               groupClassName="flex items-center gap-4"
+                              theaterAlign={"text-right"}
                               hideDate={true}
                             />
                           </div>

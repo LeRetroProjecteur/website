@@ -14,11 +14,13 @@ export default function MultiDaySeances({
   className,
   groupClassName,
   hideDate = false,
+  theaterAlign = "text-left",
 }: {
   screenings: { [day: string]: TheaterScreenings[] };
   className?: string;
   groupClassName?: string;
   hideDate?: boolean;
+  theaterAlign?: "text-left" | "text-right";
 }) {
   return (
     <div
@@ -44,7 +46,10 @@ export default function MultiDaySeances({
             <BodyCopy>{capitalize(formatMerJJMM(safeDate(day)))}</BodyCopy>
           )}
           <div className="flex flex-col">
-            <Seances screenings={screeningsTheaters} />
+            <Seances
+              screenings={screeningsTheaters}
+              theaterAlign={theaterAlign}
+            />
           </div>
         </div>
       ))}
