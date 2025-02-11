@@ -54,9 +54,9 @@ export default function Seances({
     >
       {(isExpanded ? sortedTheaters : unexpandedTheaters).map((theater) => (
         <SeancesTheater
+          key={theater.name}
           showtimesTheater={theater}
           isExpanded={isExpanded}
-          key={theater.name}
           theaterAlign={theaterAlign}
         />
       ))}
@@ -117,7 +117,7 @@ export function FormatNotes({
 export function SeancesTheater({
   showtimesTheater,
   isExpanded,
-  theaterAlign = "text-left", // default to left
+  theaterAlign = "text-left",
 }: {
   showtimesTheater: TheaterScreenings;
   isExpanded: boolean;

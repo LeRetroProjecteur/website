@@ -54,9 +54,7 @@ export default function DirectorView({
         left={
           (
             <div className="flex flex-col">
-              <SectionTitle color="bg-retro-pale-green">
-                Filmographie
-              </SectionTitle>
+              <SectionTitle color="bg-retro-green">Filmographie</SectionTitle>
               <div>
                 {sortedMovies.map((movie) => (
                   <Link
@@ -129,24 +127,16 @@ export default function DirectorView({
                       <SubsectionTitle align="text-left">
                         <span className="uppercase">{formatDate(date)}</span>
                       </SubsectionTitle>
-                      <div className="space-y-2">
-                        {moviesForDay.map((movie) => (
-                          <div
-                            key={`${date}-${movie.id}`}
-                            className="flex items-center justify-between border-b py-2"
-                          >
-                            <div className="uppercase italic">
-                              {movie.title}
-                            </div>
-                            <MultiDaySeances
-                              screenings={{ [date]: movie.theaters }}
-                              groupClassName="flex items-center gap-4"
-                              theaterAlign={"text-right"}
-                              hideDate={true}
-                            />
-                          </div>
-                        ))}
-                      </div>
+                      {moviesForDay.map((movie) => (
+                        <MultiDaySeances
+                          key={movie.id}
+                          screenings={{ [date]: movie.theaters }}
+                          groupClassName="flex items-center justify-between border-b py-2"
+                          hideDate={true}
+                          theaterAlign="text-right"
+                          title={movie.title}
+                        />
+                      ))}
                     </div>
                   ))}
               </div>

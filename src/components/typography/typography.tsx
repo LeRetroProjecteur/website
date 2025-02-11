@@ -83,7 +83,8 @@ export function SubsectionTitle({
       className={clsx(
         className,
         align,
-        "flex flex-col border-y bg-retro-pale-green px-10px py-10px text-20px font-semibold leading-25px tracking-[-0.01em] text-retro-gray",
+        "flex flex-col border-b bg-retro-pale-green px-10px py-10px text-20px" +
+          " font-semibold leading-25px tracking-[-0.01em] text-retro-gray",
       )}
     >
       <div>{children}</div>
