@@ -13,7 +13,7 @@ import {
   SubsectionTitle,
 } from "@/components/typography/typography";
 import { MovieDetail, TheaterScreenings } from "@/lib/types";
-import { filterDates } from "@/lib/util";
+import { filterByDay } from "@/lib/util";
 
 const formatDate = (dateStr: string) => {
   try {
@@ -86,7 +86,7 @@ export default function DirectorView({
                         return acc;
 
                       try {
-                        const screenings = filterDates(movie.screenings);
+                        const screenings = filterByDay(movie.screenings, 8);
                         if (!screenings || !size(screenings)) return acc;
 
                         Object.entries(screenings).forEach(([date, times]) => {
