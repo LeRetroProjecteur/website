@@ -131,7 +131,7 @@ export default function DirectorView({
                         <MultiDaySeances
                           key={movie.id}
                           screenings={{ [date]: movie.theaters }}
-                          groupClassName="flex items-center justify-between border-b py-2"
+                          groupClassName="flex items-center justify-between border-b py-12px"
                           hideDate={true}
                           theaterAlign="text-right"
                           title={movie.title}
