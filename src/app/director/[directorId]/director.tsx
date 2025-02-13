@@ -86,7 +86,7 @@ export default function DirectorView({
                         return acc;
 
                       try {
-                        const screenings = filterByDay(movie.screenings, 8);
+                        const screenings = filterByDay(movie.screenings, 7);
                         if (!screenings || !size(screenings)) return acc;
 
                         Object.entries(screenings).forEach(([date, times]) => {
