@@ -161,6 +161,18 @@ export function BodyCopy({
   );
 }
 
+export function BodyParagraphs({
+  children,
+  className,
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={clsx(className, "flex flex-col gap-y-8px")}>{children}</div>
+  );
+}
+
 export function CalendrierCopy({
   children,
   className,

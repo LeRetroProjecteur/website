@@ -21,9 +21,8 @@ export default function Page() {
           sélection de films récemment restaurés ainsi que d’honneurs rendus à
           l’actrice japonaise Machiko Kyō, à la cinéaste new-yorkaise Nancy
           Savoca ou encore à la réalisatrice hongroise Judit Elek.
-        </BodyCopy>
-        <br />
-        <BodyCopy>
+          <br />
+          <br />
           Malheureusement, le lancement de cette édition est entaché par de
           vives tensions entre la Cinémathèque et certaines salles de proche
           banlieue qui n’ont pas été invitées à participer à l’événement. Dans
@@ -38,9 +37,8 @@ export default function Page() {
           , le président du Méliès à Montreuil dénonce un repli sur soi de la
           vénérable institution qui ne semble plus souhaiter valoriser ses
           ressources incroyables en dehors de ses murs.
-        </BodyCopy>
-        <br />
-        <BodyCopy>
+          <br />
+          <br />
           Que les salles de la proche banlieue soient les premières à être
           touchées par une telle évolution est particulièrement regrettable,
           accentuant l’impression d’élitisme et d’aristocratisme que donne

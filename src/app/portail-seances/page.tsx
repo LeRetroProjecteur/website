@@ -2,23 +2,25 @@ import { Metadata } from "next";
 
 import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
+import { getTheaters } from "@/lib/theaters";
 
-import MaRetro2024 from "./ma-retro-2024";
+import SubmitScreenings from "./portail-seances";
 
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Ma Rétrospective 2024",
-  description: "Votez pour vos plus belles découvertes cinéma de l'année !",
+  title: "Portail Séances",
 };
 
 export default function SubmitScreeningsPage() {
+  const allTheaters = getTheaters();
+
   return (
     <>
-      <PageHeader text="Ma Rétro 2024">
-        <SousTitre1>Votez pour vos plus belles découvertes&nbsp;!</SousTitre1>
+      <PageHeader text="Portail séances">
+        <SousTitre1>Rajouter des séances à notre calendrier</SousTitre1>
       </PageHeader>
-      <MaRetro2024 />
+      <SubmitScreenings allTheatersPromise={allTheaters} />
     </>
   );
 }

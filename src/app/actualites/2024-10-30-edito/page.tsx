@@ -32,9 +32,8 @@ export default function Page() {
           Que cette pression du grand groupe ait aussi rapidement abouti à la
           mise à pied de salariés révèle la profonde asymétrie à l’œuvre dans la
           relation entre UGC et les salles indépendantes.
-        </BodyCopy>
-        <br />
-        <BodyCopy>
+          <br />
+          <br />
           Paris est riche d’un maillage de petites salles de cinéma absolument
           unique au monde, salles dont la stimulante programmation est la raison
           d’être d’un projet comme <em>Le Rétro Projecteur</em>. S’il ne s’agit
