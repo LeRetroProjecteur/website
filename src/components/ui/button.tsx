@@ -12,8 +12,12 @@ const buttonVariants = cva(
         default: "bg-retro-gray text-retro-blue",
         outline: "bg-transparent border-retro-gray text-retro-gray",
       },
+      iconStyle: {
+        noIcon: "",
+        iconOnly: "w-42px lg:w-48px",
+      },
     },
-    defaultVariants: { variant: "default" },
+    defaultVariants: { variant: "default", iconStyle: "noIcon" },
   },
 );
 
@@ -24,11 +28,11 @@ export interface ButtonProps
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, asChild = false, ...props }, ref) => {
+  ({ className, variant, iconStyle, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
-        className={cn(buttonVariants({ className, variant }))}
+        className={cn(buttonVariants({ className, variant, iconStyle }))}
         ref={ref}
         {...props}
       />

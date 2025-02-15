@@ -216,14 +216,14 @@ function MovieRows({
         <div className="py-12px lg:py-17px">
           {isMovieWithShowtimesSeveralDays(movie) ? (
             <MultiDaySeances
-              title={movie.title}
+              movie={movie}
               screenings={movie.showtimes_by_day}
               className="gap-y-10px"
             />
           ) : (
             <Seances
               day={checkNotNull(date?.toISODate())}
-              title={movie.title}
+              movie={movie}
               screenings={movie.showtimes_theater}
             />
           )}

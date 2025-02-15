@@ -9,13 +9,15 @@ import { BodyCopy } from "@/components/typography/typography";
 import { TheaterScreenings } from "@/lib/types";
 import { formatMerJJMM, safeDate } from "@/lib/util";
 
+import { DialogMovie } from "../seance-dialog/seance-dialog";
+
 export default function MultiDaySeances({
-  title,
+  movie,
   screenings,
   className,
   groupClassName,
 }: {
-  title: string;
+  movie: DialogMovie;
   screenings: { [day: string]: TheaterScreenings[] };
   className?: string;
   groupClassName?: string;
@@ -42,7 +44,7 @@ export default function MultiDaySeances({
         >
           <BodyCopy>{capitalize(formatMerJJMM(safeDate(day)))}</BodyCopy>
           <div className="flex flex-col">
-            <Seances day={day} screenings={screeningsTheaters} title={title} />
+            <Seances day={day} screenings={screeningsTheaters} movie={movie} />
           </div>
         </div>
       ))}
