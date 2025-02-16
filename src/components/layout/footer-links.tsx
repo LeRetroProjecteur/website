@@ -30,19 +30,22 @@ export default function FooterLinks({
         <TextBox
           className={`text-${color}`}
           link={{
-            url: "https://www.instagram.com/leretroprojecteur",
+            url: "https://letterboxd.com/retroprojecteur/",
             newTab: true,
           }}
         >
-          <div>instagram</div>
+          <div>Letterboxd</div>
         </TextBox>
       </div>
       <div className="hidden lg:block">
         <TextBox
           className={`text-${color}`}
-          link={{ url: "https://twitter.com/RetroProjecteur", newTab: true }}
+          link={{
+            url: "https://www.instagram.com/leretroprojecteur",
+            newTab: true,
+          }}
         >
-          <div>twitter</div>
+          <div>Instagram</div>
         </TextBox>
       </div>
       <div className="lg:hidden">
