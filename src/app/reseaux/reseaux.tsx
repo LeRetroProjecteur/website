@@ -30,8 +30,8 @@ function Links() {
         },
         { url: "https://twitter.com/RetroProjecteur", text: "Twitter" },
         {
-          url: "https://www.facebook.com/profile.php?id=100086988852803",
-          text: "Facebook",
+          url: "https://bsky.app/profile/leretroprojecteur.bsky.social",
+          text: "BlueSky",
         },
       ].map((social) => (
         <TextBox key={social.url} link={{ url: social.url, newTab: true }}>
