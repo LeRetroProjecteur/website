@@ -61,31 +61,23 @@ export function getStartOfTodayInParis() {
   return nowInParis().startOf("day");
 }
 
-export function cleanString(str: string) {
+export function cleanStringForSearch(str: string) {
   return str
     .normalize("NFD")
     .replaceAll("&", " and ")
     .replaceAll("’", "'")
     .replaceAll("'", " ")
+    .replaceAll("-", " ")
     .replaceAll(/[^a-zA-Z0-9 #]|[\u0300-\u036f]/g, "")
     .toLowerCase();
 }
 
-function atLeastOneWordStartsWithSubstring(list: string[], substring: string) {
-  return some(list, (word) => word.startsWith(substring));
-}
-
-export function stringMatch(term: string, searchField: string) {
-  return stringMatchFields(getFields(term), getFields(searchField));
-}
-
-export function getFields(searchField: string) {
-  return cleanString(searchField).split(" ");
-}
-
-export function stringMatchFields(keywords: string[], searchFields: string[]) {
+export function stringMatch(query: string, records: string) {
+  const keywords = cleanStringForSearch(query).split(" ");
+  const recordTerms = cleanStringForSearch(records).split(" ");
+  // At least one word in record terms starts with one of keywords:
   return every(keywords, (keyword) =>
-    atLeastOneWordStartsWithSubstring(searchFields, keyword),
+    some(recordTerms, (term) => term.startsWith(keyword)),
   );
 }
 
