@@ -3,7 +3,7 @@
 import _ from "lodash";
 
 import { getSearchMovies } from "@/lib/movies";
-import { getFields, stringMatchFields } from "@/lib/util";
+import { stringMatch } from "@/lib/util";
 
 export async function search({
   searchTerm,
@@ -13,11 +13,9 @@ export async function search({
   nbResults: number;
 }) {
   const searchMovies = await getSearchMovies();
-  const keywords = getFields(searchTerm);
-
   return searchTerm.length > 0
     ? _(searchMovies)
-        .filter(([_, fields]) => stringMatchFields(keywords, fields))
+        .filter(([_, fields]) => stringMatch(searchTerm, fields))
         .map(([elem]) => elem)
         .take(nbResults)
         .value()

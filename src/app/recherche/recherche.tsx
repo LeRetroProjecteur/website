@@ -13,7 +13,7 @@ import { Loading } from "@/components/icons/loading";
 import PageHeader, { FixedHeader } from "@/components/layout/page-header";
 import { MetaCopy } from "@/components/typography/typography";
 import { SearchMovie, SearchTheater } from "@/lib/types";
-import { TAG_MAP, getFields, stringMatchFields } from "@/lib/util";
+import { TAG_MAP, stringMatch } from "@/lib/util";
 
 import { search } from "./actions";
 
@@ -267,15 +267,11 @@ export function TheaterSearchResults({
   const allData = use(allDataPromise);
   const allDataFields = useMemo(() => {
     return orderBy(
-      allData.map<[SearchTheater, string[]]>((elem) => [
-        elem,
-        getFields(elem.name),
-      ]),
+      allData.map<[SearchTheater, string]>((elem) => [elem, elem.name]),
       ([theater]) => theater.name,
       "desc",
     );
   }, [allData]);
-  const keywords = useMemo(() => getFields(searchTerm), [searchTerm]);
   const selectedRef: RefObject<HTMLAnchorElement | null> = useRef(null);
   useEffect(() => {
     const curr = selectedRef.current;
@@ -294,14 +290,14 @@ export function TheaterSearchResults({
             allDataFields
               .filter(
                 ([_, fields]) =>
-                  stringMatchFields(keywords, fields) &&
+                  stringMatch(searchTerm, fields) &&
                   (tags.length === 0 || every(tags, () => true)),
               )
               .map(([elem]) => elem),
             nbResults,
           )
         : [],
-    [allDataFields, searchTerm, keywords, tags, nbResults],
+    [allDataFields, searchTerm, tags, nbResults],
   );
   useEffect(() => {
     const keydown = (ev: KeyboardEvent) => {
