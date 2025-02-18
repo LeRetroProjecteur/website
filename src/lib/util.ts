@@ -67,6 +67,7 @@ export function cleanString(str: string) {
     .replaceAll("&", " and ")
     .replaceAll("’", "'")
     .replaceAll("'", " ")
+    .replaceAll("-", " ")
     .replaceAll(/[^a-zA-Z0-9 #]|[\u0300-\u036f]/g, "")
     .toLowerCase();
 }
