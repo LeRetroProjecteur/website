@@ -72,7 +72,7 @@ export function cleanStringForSearch(str: string) {
     .toLowerCase();
 }
 
-export function stringMatch(query: string, record: string) {
+export function isSearchMatch(query: string, record: string) {
   const queryTerms = cleanStringForSearch(query).split(" ");
   const recordTerms = cleanStringForSearch(record).split(" ");
   // At least one word in record terms starts with one of keywords:
@@ -87,7 +87,9 @@ export function isMovieFilterMatch(movie: MovieInfo, filterQuery: string) {
   }
   const movieInfo = getMovieInfoString(movie);
   const filterTerms = filterQuery.split("|");
-  return some(filterTerms, (filterTerm) => stringMatch(filterTerm, movieInfo));
+  return some(filterTerms, (filterTerm) =>
+    isSearchMatch(filterTerm, movieInfo),
+  );
 }
 
 export function getMovieInfoString(info: MovieInfo) {

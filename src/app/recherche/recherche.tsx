@@ -13,7 +13,7 @@ import { Loading } from "@/components/icons/loading";
 import PageHeader, { FixedHeader } from "@/components/layout/page-header";
 import { MetaCopy } from "@/components/typography/typography";
 import { SearchMovie, SearchTheater } from "@/lib/types";
-import { TAG_MAP, stringMatch } from "@/lib/util";
+import { TAG_MAP, isSearchMatch } from "@/lib/util";
 
 import { search } from "./actions";
 
@@ -287,7 +287,7 @@ export function TheaterSearchResults({
             allDataFields
               .filter(
                 ([_, record]) =>
-                  stringMatch(query, record) &&
+                  isSearchMatch(query, record) &&
                   (tags.length === 0 || every(tags, () => true)),
               )
               .map(([elem]) => elem),
