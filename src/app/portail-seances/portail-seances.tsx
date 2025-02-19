@@ -90,14 +90,14 @@ function ScreeningRow({
     notes: string;
   }) => void;
 }) {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [query, setQuery] = useState("");
   const [movieId, setMovieId] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [notes, setNotes] = useState("");
   const setSearchFind = (st: string, id: string = "") => {
-    setSearchTerm(st);
+    setQuery(st);
     setMovieId(id);
     setShowResults(true);
     onUpdate({ movie: st, movie_id: id, date, time, notes });
@@ -109,7 +109,7 @@ function ScreeningRow({
         cell1={
           <div className="flex grow flex-col">
             <RetroInput
-              value={searchTerm}
+              value={query}
               setValue={(st) => setSearchFind(st)}
               leftAlignPlaceholder
               customTypography
@@ -118,7 +118,7 @@ function ScreeningRow({
               className="hidden lg:block"
             />
             <RetroInput
-              value={searchTerm}
+              value={query}
               setValue={(st) => setSearchFind(st)}
               leftAlignPlaceholder
               customTypography
@@ -130,7 +130,7 @@ function ScreeningRow({
               <SearchResults
                 className="border-x px-5px py-2px"
                 nbResults={5}
-                searchTerm={searchTerm}
+                query={query}
                 noResultsText="Nous ne trouvons pas votre film, mais vous pouvez le renseigner manuellement."
                 noResultsTextSize="small"
                 lowercase
@@ -154,7 +154,7 @@ function ScreeningRow({
             onChange={(e) => {
               setDate(e.target.value);
               onUpdate({
-                movie: searchTerm,
+                movie: query,
                 movie_id: movieId,
                 date: e.target.value,
                 time,
@@ -172,7 +172,7 @@ function ScreeningRow({
             onChange={(e) => {
               setTime(e.target.value);
               onUpdate({
-                movie: searchTerm,
+                movie: query,
                 movie_id: movieId,
                 date,
                 time: e.target.value,
@@ -191,7 +191,7 @@ function ScreeningRow({
         onChange={(e) => {
           setNotes(e.target.value);
           onUpdate({
-            movie: searchTerm,
+            movie: query,
             movie_id: movieId,
             date,
             time,
