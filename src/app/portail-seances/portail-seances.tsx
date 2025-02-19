@@ -270,7 +270,7 @@ export default function SubmitScreenings({
             movie_id: row.movie_id,
             date: row.date,
             time: row.time,
-            note: row.note || "",
+            note: row.notes || "",
           }),
         )
         .join("|||");
