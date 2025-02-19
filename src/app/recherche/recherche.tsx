@@ -19,18 +19,17 @@ import { search } from "./actions";
 
 const useRechercheStore = create<{
   tags: string[];
+  query: string;
   selected: number | undefined;
-  searchTerm: string;
 }>()(() => ({
   tags: Object.keys(TAG_MAP),
-  searchTerm: "",
+  query: "",
   selected: undefined,
 }));
 
 const setSelected = (selected: number | undefined) =>
   useRechercheStore.setState({ selected });
-const setSearchTerm = (searchTerm: string) =>
-  useRechercheStore.setState({ searchTerm });
+const setQuery = (query: string) => useRechercheStore.setState({ query });
 
 const toggleTag = (tag: string) =>
   useRechercheStore.setState((s) => ({
@@ -40,13 +39,13 @@ const toggleTag = (tag: string) =>
 export default function Recherche() {
   useEffect(() => {
     setSelected(undefined);
-    setSearchTerm("");
+    setQuery("");
   }, []);
   const onChangeSearchTerm = useCallback((s: string) => {
     setSelected(undefined);
-    setSearchTerm(s);
+    setQuery(s);
   }, []);
-  const searchTerm = useRechercheStore((s) => s.searchTerm);
+  const searchTerm = useRechercheStore((s) => s.query);
   const router = useRouter();
   return (
     <>
@@ -79,7 +78,7 @@ export default function Recherche() {
             "py-10px pl-5px text-15px font-medium uppercase leading-20px lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0"
           }
           loadingClassName="flex grow items-center justify-center pt-15px"
-          searchTerm={searchTerm}
+          query={searchTerm}
           verticalFooter
           onClick={(movie) => {
             router.push(`/film/${movie.id}`);
@@ -91,7 +90,7 @@ export default function Recherche() {
 }
 
 export function SearchResults({
-  searchTerm,
+  query,
   nbResults,
   verticalFooter,
   onClick,
@@ -103,7 +102,7 @@ export function SearchResults({
   lowercase = false,
   altColor = false,
 }: {
-  searchTerm: string;
+  query: string;
   nbResults: number;
   verticalFooter?: boolean;
   onClick?: (movie: SearchMovie) => void;
@@ -116,12 +115,10 @@ export function SearchResults({
   altColor?: boolean;
 }) {
   const { data: filtered, isLoading } = useSWR(
-    searchTerm,
-    (searchTerm) =>
-      searchTerm.length > 0 ? search({ searchTerm, nbResults }) : [],
+    query,
+    (query) => (query.length > 0 ? search({ query, nbResults }) : []),
     { fallbackData: [] },
   );
-
   const containerRef = useRef<HTMLDivElement>(null);
   const selected = useRechercheStore((s) => s.selected);
   const selectedRef: RefObject<HTMLAnchorElement | null> = useRef(null);
@@ -178,7 +175,7 @@ export function SearchResults({
   }
 
   return (
-    searchTerm.length > 0 &&
+    query.length > 0 &&
     !isLoading && (
       <div ref={containerRef} className="flex grow flex-col">
         {filtered.length > 0 ? (
@@ -251,13 +248,13 @@ function Tag({ tag, displayTag }: { tag: string; displayTag: string }) {
 
 export function TheaterSearchResults({
   allDataPromise,
-  searchTerm,
+  query,
   nbResults,
   extraClass,
   onClick,
 }: {
   allDataPromise: Promise<SearchTheater[]>;
-  searchTerm: string;
+  query: string;
   nbResults: number;
   extraClass?: string;
   onClick?: (theater: SearchTheater) => void;
@@ -285,19 +282,19 @@ export function TheaterSearchResults({
   }, [selected]);
   const filtered = useMemo(
     () =>
-      searchTerm.length > 0
+      query.length > 0
         ? take(
             allDataFields
               .filter(
-                ([_, fields]) =>
-                  stringMatch(searchTerm, fields) &&
+                ([_, record]) =>
+                  stringMatch(query, record) &&
                   (tags.length === 0 || every(tags, () => true)),
               )
               .map(([elem]) => elem),
             nbResults,
           )
         : [],
-    [allDataFields, searchTerm, tags, nbResults],
+    [allDataFields, query, tags, nbResults],
   );
   useEffect(() => {
     const keydown = (ev: KeyboardEvent) => {
@@ -318,7 +315,7 @@ export function TheaterSearchResults({
     return () => removeEventListener("keydown", keydown);
   }, [filtered, onClick]);
   return (
-    searchTerm.length > 0 && (
+    query.length > 0 && (
       <div className="flex grow flex-col">
         {filtered.length > 0 ? (
           <>

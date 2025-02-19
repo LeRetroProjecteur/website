@@ -72,27 +72,22 @@ export function cleanStringForSearch(str: string) {
     .toLowerCase();
 }
 
-export function stringMatch(query: string, records: string) {
-  const keywords = cleanStringForSearch(query).split(" ");
-  const recordTerms = cleanStringForSearch(records).split(" ");
+export function stringMatch(query: string, record: string) {
+  const queryTerms = cleanStringForSearch(query).split(" ");
+  const recordTerms = cleanStringForSearch(record).split(" ");
   // At least one word in record terms starts with one of keywords:
-  return every(keywords, (keyword) =>
-    some(recordTerms, (term) => term.startsWith(keyword)),
+  return every(queryTerms, (queryTerm) =>
+    some(recordTerms, (recordTerm) => recordTerm.startsWith(queryTerm)),
   );
 }
 
-export function movieInfoContainsFilteringTerm(
-  movie: MovieInfo,
-  filteringTerm: string,
-) {
-  if (filteringTerm.slice(-1) === "|") {
-    filteringTerm = filteringTerm.slice(0, -1);
+export function isMovieFilterMatch(movie: MovieInfo, filterQuery: string) {
+  if (filterQuery.slice(-1) === "|") {
+    filterQuery = filterQuery.slice(0, -1);
   }
-  const filteringField = getMovieInfoString(movie);
-  const filteringTerms = filteringTerm.split("|");
-  return some(filteringTerms, (filteringTerm) =>
-    stringMatch(filteringTerm, filteringField),
-  );
+  const movieInfo = getMovieInfoString(movie);
+  const filterTerms = filterQuery.split("|");
+  return some(filterTerms, (filterTerm) => stringMatch(filterTerm, movieInfo));
 }
 
 export function getMovieInfoString(info: MovieInfo) {

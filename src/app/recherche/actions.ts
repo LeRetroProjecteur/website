@@ -6,16 +6,16 @@ import { getSearchMovies } from "@/lib/movies";
 import { stringMatch } from "@/lib/util";
 
 export async function search({
-  searchTerm,
+  query,
   nbResults,
 }: {
-  searchTerm: string;
+  query: string;
   nbResults: number;
 }) {
   const searchMovies = await getSearchMovies();
-  return searchTerm.length > 0
+  return query.length > 0
     ? _(searchMovies)
-        .filter(([_, fields]) => stringMatch(searchTerm, fields))
+        .filter(([_, record]) => stringMatch(query, record))
         .map(([elem]) => elem)
         .take(nbResults)
         .value()

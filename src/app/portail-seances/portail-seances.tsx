@@ -20,11 +20,11 @@ function TheaterSearch({
   allTheatersPromise: Promise<SearchTheater[]>;
   onUpdate: (data: { name: string; theater_id: string }) => void;
 }) {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [query, setQuery] = useState("");
   const [showResults, setShowResults] = useState(false);
 
   const setSearchFind = (theater: { name: string; theater_id: string }) => {
-    setSearchTerm(theater.name);
+    setQuery(theater.name);
     setShowResults(true);
     onUpdate(theater);
   };
@@ -32,7 +32,7 @@ function TheaterSearch({
   return (
     <div className="flex grow flex-col">
       <RetroInput
-        value={searchTerm}
+        value={query}
         setValue={(st) => setSearchFind({ name: st, theater_id: "" })}
         leftAlignPlaceholder
         customTypography
@@ -40,12 +40,12 @@ function TheaterSearch({
         transparentPlaceholder
         className="flex grow"
       />
-      <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
+      <SuspenseWithLoading hideLoading={query.length === 0}>
         {showResults && (
           <TheaterSearchResults
             extraClass="text-left px-5px py-2px border-x border-b"
             nbResults={5}
-            searchTerm={searchTerm}
+            query={query}
             allDataPromise={allTheatersPromise}
             onClick={(theater) => {
               setSearchFind({
