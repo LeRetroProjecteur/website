@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { size } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,6 +15,11 @@ import {
   SousTitre1,
 } from "@/components/typography/typography";
 import { Button } from "@/components/ui/button";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { TmdbMovie } from "@/lib/tmdb";
 import { MovieDetail } from "@/lib/types";
 import {
@@ -136,7 +142,7 @@ function MovieInformation({
     <>
       <div className="flex flex-col gap-20px pb-20px">
         <div className="flex pb-20px lg:border-y lg:py-20px">
-          <MetaCopy lowercase>
+          <MetaCopy size="smallBiggerLh" lowercase>
             {movie.duration == null ? (
               "Durée inconnue"
             ) : (
@@ -175,30 +181,31 @@ function MovieInformation({
                 {tmdbMovie?.movie.genres.join(", ")}
               </div>
             ) : null}
+            <br />
+            {tmdbMovie?.movie.overview != null
+              ? (function () {
+                  const words = tmdbMovie.movie.overview.split(". ");
+                  const firstPart = words.slice(0, 1);
+                  const secondPart = words.slice(1).join(". ");
+                  return (
+                    <div>
+                      SYNOPSIS&nbsp;: {firstPart}.&nbsp;
+                      <Collapsible className="inline">
+                        <CollapsibleTrigger className="data-[state=open]:hidden">
+                          [...]
+                        </CollapsibleTrigger>
+                        <CollapsibleContent className="inline">
+                          {secondPart}
+                        </CollapsibleContent>
+                      </Collapsible>
+                    </div>
+                  );
+                })()
+              : null}
           </MetaCopy>
         </div>
         {tmdbMovie != null ? (
           <div className="flex flex-col gap-20px">
-            {movie.review_category !== "COUP DE CŒUR" ||
-            movie.review == null ||
-            movie.review_date == null ? (
-              <div className="flex flex-col border-b pb-10px">
-                <BodyCopy className="text-retro-gray">
-                  {tmdbMovie.movie.overview}
-                </BodyCopy>{" "}
-                <BodyCopy className="text-right text-10px italic text-retro-gray lg:text-12px">
-                  (source:{" "}
-                  <Link
-                    href="https://www.themoviedb.org/"
-                    target="_blank"
-                    className="hover:underline"
-                  >
-                    TMDB
-                  </Link>
-                  )
-                </BodyCopy>
-              </div>
-            ) : null}
             <div className="grid grid-cols-fillMin300 gap-x-8px gap-y-10px">
               <div className="grid grid-cols-fillMinHalf gap-x-8px gap-y-10px">
                 <Button variant="outline" asChild>

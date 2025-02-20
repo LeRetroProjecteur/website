@@ -112,12 +112,13 @@ export function MetaCopy({
 }: {
   children: ReactNode;
   lowercase?: boolean;
-  size?: "default" | "small" | "large";
+  size?: "default" | "small" | "large" | "smallBiggerLh";
   className?: string;
 }) {
   const sizeClasses = {
     default: "text-19px lg:text-20px lg:leading-22px",
     small: "text-16px lg:text-17px lg:leading-19px",
+    smallBiggerLh: "text-16px lg:text-17px lg:leading-23px",
     large: "text-22px lg:text-23px lg:leading-25px",
   };
 
