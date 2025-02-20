@@ -14,10 +14,8 @@ import { SearchMovie, SearchTheater } from "@/lib/types";
 import { formatLundi1Janvier, safeDate } from "@/lib/util";
 
 function TheaterSearch({
-  allTheatersPromise,
   onUpdate,
 }: {
-  allTheatersPromise: Promise<SearchTheater[]>;
   onUpdate: (data: { name: string; theater_id: string }) => void;
 }) {
   const [query, setQuery] = useState("");
@@ -47,7 +45,6 @@ function TheaterSearch({
             className="border-x border-b px-5px py-2px text-left"
             nbResults={5}
             query={query}
-            allDataPromise={allTheatersPromise}
             onClick={(theater) => {
               setSearchFind({
                 name: (theater as SearchTheater).name,
@@ -223,11 +220,7 @@ function SharePage() {
   );
 }
 
-export default function SubmitScreenings({
-  allTheatersPromise,
-}: {
-  allTheatersPromise: Promise<SearchTheater[]>;
-}) {
+export default function SubmitScreenings() {
   const numSubmissions = 5;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSharePage, setShowSharePage] = useState(false);
@@ -375,10 +368,7 @@ export default function SubmitScreenings({
                     Dans quelle salle se déroule la ou les séances que vous
                     souhaitez renseigner&nbsp;?
                   </BodyCopy>
-                  <TheaterSearch
-                    allTheatersPromise={allTheatersPromise}
-                    onUpdate={setTheaterData}
-                  />
+                  <TheaterSearch onUpdate={setTheaterData} />
                 </div>
                 <div className="flex flex-col gap-y-15px">
                   <div className="border-y py-6px text-17px uppercase text-retro-gray">

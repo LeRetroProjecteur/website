@@ -1,7 +1,7 @@
 "use client";
 
 import clsx from "clsx";
-import { filter, toPairs, without } from "lodash-es";
+import { toPairs, without } from "lodash-es";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { RefObject, useCallback, useEffect, useRef } from "react";
@@ -13,9 +13,9 @@ import { Loading } from "@/components/icons/loading";
 import PageHeader, { FixedHeader } from "@/components/layout/page-header";
 import { MetaCopy } from "@/components/typography/typography";
 import { SearchMovie, SearchTheater } from "@/lib/types";
-import { TAG_MAP, isSearchMatch } from "@/lib/util";
+import { TAG_MAP } from "@/lib/util";
 
-import { search } from "./actions";
+import { searchMovies, searchTheaters } from "./actions";
 
 const useRechercheStore = create<{
   tags: string[];
@@ -91,7 +91,6 @@ export default function Recherche() {
 
 export function SearchResults({
   mode,
-  allDataPromise,
   query,
   nbResults,
   verticalFooter,
@@ -105,7 +104,6 @@ export function SearchResults({
   altColor = false,
 }: {
   mode?: "movie" | "theater";
-  allDataPromise?: Promise<SearchTheater[]>;
   query: string;
   nbResults: number;
   verticalFooter?: boolean;
@@ -121,19 +119,10 @@ export function SearchResults({
   const { data: filtered, isLoading } = useSWR(
     query,
     async (query) => {
-      if (mode === "theater") {
-        if (query.length > 0) {
-          const data = await allDataPromise;
-          return filter(data, (theater) =>
-            isSearchMatch(query, theater.name),
-          ).slice(0, nbResults);
-        }
-      } else {
-        if (query.length > 0) {
-          return search({ query, nbResults });
-        }
-      }
-      return [];
+      if (query.length === 0) return [];
+      return mode === "theater"
+        ? searchTheaters({ query, nbResults })
+        : searchMovies({ query, nbResults });
     },
     { fallbackData: [] },
   );
