@@ -13,7 +13,6 @@ import { Check, Copy } from "lucide-react";
 import { DateTime } from "luxon";
 import Link from "next/link";
 import { createContext, useContext, useState, useTransition } from "react";
-import useSWR from "swr";
 import { StoreApi, createStore, useStore } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
@@ -129,7 +128,7 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
           case "add-to-calendar":
             return <AddToCalendar seance={seance} />;
           case "share":
-            return <ShareSeance seance={seance} />;
+            return <ShareSeance />;
         }
       })()}
     </DialogContent>
@@ -221,40 +220,35 @@ function AddToCalendar({
   );
 }
 
-function ShareSeance({ seance }: { seance: DialogSeance }) {
-  const { data: hash } = useSWR(seance, (s) => hashSeance(s));
+function ShareSeance() {
   const [showCopied, startShowingCopied] = useTransition();
-
-  const url = `${window.location.href}#${hash}`;
 
   return (
     <>
-      {hash != null ? (
-        <div className="flex gap-8px">
-          <RetroInput
-            lowercase
-            blue
-            setValue={() => {}}
-            placeholder=""
-            value={url}
-          />
-          <div className="justify-end">
-            <Button
-              iconStyle="iconOnly"
-              variant="default"
-              asChild
-              onClick={() => {
-                navigator.clipboard.writeText(url);
-                startShowingCopied(async () => {
-                  await new Promise((resolve) => setTimeout(resolve, 1000));
-                });
-              }}
-            >
-              <div>{showCopied ? <Check /> : <Copy />}</div>
-            </Button>
-          </div>
+      <div className="flex gap-8px">
+        <RetroInput
+          lowercase
+          blue
+          setValue={() => {}}
+          placeholder=""
+          value={window.location.href}
+        />
+        <div className="justify-end">
+          <Button
+            iconStyle="iconOnly"
+            variant="default"
+            asChild
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href);
+              startShowingCopied(async () => {
+                await new Promise((resolve) => setTimeout(resolve, 1000));
+              });
+            }}
+          >
+            <div>{showCopied ? <Check /> : <Copy />}</div>
+          </Button>
         </div>
-      ) : null}
+      </div>
     </>
   );
 }

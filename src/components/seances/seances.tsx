@@ -37,7 +37,7 @@ export default function Seances({
     if (hash === "") {
       clearSeance();
     }
-  });
+  }, [hash, clearSeance]);
 
   const [isExpanded, setIsExpanded] = useState(false);
 
@@ -165,7 +165,7 @@ function useHash() {
       return () => removeEventListener("hashchange", callback);
     },
     () => window.location.hash.slice(1),
-    () => "",
+    () => undefined,
   );
 }
 
