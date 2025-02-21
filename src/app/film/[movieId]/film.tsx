@@ -140,7 +140,7 @@ function MovieInformation({
   return (
     <>
       <div className="flex flex-col gap-20px pb-20px">
-        <div className="flex pb-20px lg:border-y lg:py-20px">
+        <div className="flex lg:border-y lg:py-20px">
           <MetaCopy size="smallBiggerLh" lowercase>
             {movie.duration == null ? (
               "Durée inconnue"
@@ -212,7 +212,7 @@ function MovieInformation({
           </MetaCopy>
         </div>
         {tmdbMovie != null ? (
-          <div className="flex flex-col gap-20px">
+          <div className="flex flex-col gap-20px border-t pt-20px lg:border-0 lg:pt-0">
             <div className="grid grid-cols-fillMin300 gap-x-8px gap-y-10px">
               <div className="grid grid-cols-fillMinHalf gap-x-8px gap-y-10px">
                 <Button variant="outline" asChild>
