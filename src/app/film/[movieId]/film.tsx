@@ -180,24 +180,32 @@ function MovieInformation({
                 {tmdbMovie?.movie.genres.join(", ")}
               </div>
             ) : null}
-            <br />
             {tmdbMovie?.movie.overview != null
               ? (function () {
                   const words = tmdbMovie.movie.overview.split(". ");
                   const firstPart = words.slice(0, 1);
                   const secondPart = words.slice(1).join(". ");
                   return (
-                    <div>
-                      SYNOPSIS&nbsp;: {firstPart}.&nbsp;
-                      <Collapsible className="inline">
-                        <CollapsibleTrigger className="data-[state=open]:hidden">
-                          [...]
-                        </CollapsibleTrigger>
-                        <CollapsibleContent className="inline">
-                          {secondPart}
-                        </CollapsibleContent>
-                      </Collapsible>
-                    </div>
+                    <>
+                      {" "}
+                      <br />
+                      <div>
+                        SYNOPSIS&nbsp;: {firstPart}
+                        {secondPart !== "" ? (
+                          <>
+                            <span>. </span>
+                            <Collapsible className="inline">
+                              <CollapsibleTrigger className="data-[state=open]:hidden">
+                                [...]
+                              </CollapsibleTrigger>
+                              <CollapsibleContent className="inline">
+                                {secondPart}
+                              </CollapsibleContent>
+                            </Collapsible>
+                          </>
+                        ) : null}
+                      </div>
+                    </>
                   );
                 })()
               : null}
