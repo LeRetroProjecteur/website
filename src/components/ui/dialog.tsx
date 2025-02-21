@@ -1,6 +1,7 @@
 "use client";
 
 import * as DialogPrimitive from "@radix-ui/react-dialog";
+import { VariantProps, cva } from "class-variance-authority";
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
@@ -25,23 +26,30 @@ const DialogOverlay = React.forwardRef<
 ));
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
+const dialogContentVariants = cva(
+  "flex grow flex-col gap-4 bg-retro-blue p-20px pt-0 drop-shadow-[0_1px_3px_rgba(0,0,0,0.15)]",
+  {
+    variants: {},
+    defaultVariants: {},
+  },
+);
+
 const DialogContent = React.forwardRef<
   React.ComponentRef<typeof DialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> &
+    VariantProps<typeof dialogContentVariants>
 >(({ className, children, ...props }, ref) => (
   <DialogPortal>
     <DialogOverlay />
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed left-[50%] top-[50%] z-50 flex max-w-[50vw] translate-x-[-50%] translate-y-[-50%] items-center justify-center bg-transparent p-20px",
+        "justify-cente-transparent fixed left-[50%] top-[50%] z-50 flex max-w-[50vw] translate-x-[-50%] translate-y-[-50%] items-center p-20px",
         className,
       )}
       {...props}
     >
-      <div className="flex grow flex-col gap-4 bg-retro-blue p-20px pt-0 drop-shadow-[0_1px_3px_rgba(0,0,0,0.15)]">
-        {children}
-      </div>
+      <div className={dialogContentVariants()}>{children}</div>
     </DialogPrimitive.Content>
   </DialogPortal>
 ));
@@ -54,13 +62,13 @@ const DialogHeader = ({
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
     className={cn(
-      "relative mt-20px flex items-center justify-center border-y px-40px py-20px",
+      "relative flex items-center justify-center border-b px-20px py-10px",
       className,
     )}
     {...props}
   >
-    {children}{" "}
-    <DialogPrimitive.Close className="absolute right-0 top-[-2px] bg-retro-blue pl-16px disabled:pointer-events-none">
+    {children}
+    <DialogPrimitive.Close className="absolute right-0 top-1/2 -translate-y-1/2 bg-retro-blue focus-visible:outline-none disabled:pointer-events-none">
       <svg
         className="h-22px w-22px fill-retro-gray stroke-retro-blue"
         viewBox="0 0 22 22"
@@ -110,7 +118,7 @@ const DialogTitle = React.forwardRef<
   <DialogPrimitive.Title
     ref={ref}
     className={cn(
-      "text-center font-degular text-71px font-black uppercase leading-58px tracking-[0.01em] text-retro-gray",
+      "px-10px text-center text-22px font-medium uppercase text-retro-gray",
       className,
     )}
     {...props}

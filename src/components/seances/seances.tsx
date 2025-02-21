@@ -31,6 +31,14 @@ export default function Seances({
   day: string;
   screenings: TheaterScreenings[];
 }) {
+  const clearSeance = useSeanceDialogStore((s) => s.clearSeance);
+  const hash = useHash();
+  useEffect(() => {
+    if (hash === "") {
+      clearSeance();
+    }
+  });
+
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpanded = useCallback(
@@ -176,13 +184,12 @@ function SeancesTheater({
     Object.values(showtimesTheater.seances),
     (screening) => screening.time,
   );
+  const setSeance = useSeanceDialogStore((s) => s.setSeance);
   const hash = useHash();
 
-  const setSeance = useSeanceDialogStore((s) => s.setSeance);
-
   const showDialog = useCallback(
-    ({ time }: { time: number }) => {
-      setSeance(
+    async ({ time }: { time: number }) => {
+      window.location.hash = await hashSeance(
         toSeance({
           movie,
           day,
@@ -191,7 +198,7 @@ function SeancesTheater({
         }),
       );
     },
-    [day, movie, setSeance, showtimesTheater.name],
+    [day, movie, showtimesTheater.name],
   );
 
   useEffect(() => {
@@ -200,17 +207,17 @@ function SeancesTheater({
     }
 
     screenings.forEach(async ({ time }) => {
-      if (
-        (await hashSeance(
-          toSeance({ day, movie, time, theaterName: showtimesTheater.name }),
-        )) === hash
-      ) {
-        const urlWithoutHash = window.location.href.split("#")[0];
-        window.history.replaceState({}, document.title, urlWithoutHash);
-        showDialog({ time });
+      const seance = toSeance({
+        day,
+        movie,
+        time,
+        theaterName: showtimesTheater.name,
+      });
+      if ((await hashSeance(seance)) === hash) {
+        setSeance(seance);
       }
     });
-  }, [day, hash, movie, screenings, showDialog, showtimesTheater.name]);
+  }, [day, hash, movie, screenings, setSeance, showtimesTheater.name]);
 
   return (
     <div

@@ -22,14 +22,7 @@ import { checkNotNull, formatLundi1Janvier } from "@/lib/util";
 import RetroInput from "../forms/retro-input";
 import { MetaCopy } from "../typography/typography";
 import { Button } from "../ui/button";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
 export type DialogMovie = {
   title: string;
@@ -77,10 +70,13 @@ function createDialogStore() {
           set((s) => {
             s.seance = seance;
           }),
-        clearSeance: () =>
+        clearSeance: () => {
+          const urlWithoutHash = window.location.href.split("#")[0];
+          window.history.replaceState({}, document.title, urlWithoutHash);
           set((s) => {
             s.seance = undefined;
-          }),
+          });
+        },
       };
     }),
   );
@@ -119,12 +115,12 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
     "initial",
   );
 
-  hashSeance(seance).then((hash) => console.log({ hash }));
-
   return (
-    <DialogContent>
+    <DialogContent aria-describedby={undefined}>
       <DialogHeader>
-        <DialogTitle>Séance</DialogTitle>
+        <DialogTitle>
+          <u>{seance.movie.title}</u> ({seance.movie.year})
+        </DialogTitle>
       </DialogHeader>
       {(function () {
         switch (state) {
@@ -136,18 +132,13 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
             return <ShareSeance seance={seance} />;
         }
       })()}
-      <DialogFooter className="sm:justify-end">
-        <DialogClose asChild>
-          <Button type="button">Fermer</Button>
-        </DialogClose>
-      </DialogFooter>
     </DialogContent>
   );
 }
 
 function SeanceInitialDialog({
   seance: {
-    movie: { title, directors, year },
+    movie: { directors },
     movieTheater,
     movieDate,
   },
@@ -161,7 +152,6 @@ function SeanceInitialDialog({
       <div className="border-b pb-16px">
         <MetaCopy>
           <div className="text-center leading-[26px]">
-            <u>{title}</u> ({year})<br />
             {directors}
             <br />
             Le {formatLundi1Janvier(movieDate)} à{" "}
@@ -171,11 +161,19 @@ function SeanceInitialDialog({
           </div>
         </MetaCopy>
       </div>
-      <div className="flex flex-col gap-10px border-b pb-16px">
-        <Button variant="outline" onClick={() => setState("share")}>
+      <div className="flex flex-col gap-10px pb-16px">
+        <Button
+          padding="padded"
+          variant="default"
+          onClick={() => setState("share")}
+        >
           Partager cette séance
         </Button>
-        <Button variant="outline" onClick={() => setState("add-to-calendar")}>
+        <Button
+          padding="padded"
+          variant="default"
+          onClick={() => setState("add-to-calendar")}
+        >
           Exporter à mon calendrier
         </Button>
       </div>
@@ -210,17 +208,9 @@ function AddToCalendar({
 
   return (
     <>
-      <div className="border-b px-10px pb-24px pt-8px">
-        <MetaCopy>
-          <div className="text-center leading-[26px]">
-            Ajouter la séance à votre <br />
-            calendrier
-          </div>
-        </MetaCopy>
-      </div>
       <div className="grid grid-cols-2 grid-cols-[1fr,1fr] gap-14px">
         {Object.entries(links).map(([type, link]) => (
-          <Button variant="outline" asChild key={type}>
+          <Button padding="padded" variant="default" asChild key={type}>
             <Link target="_blank" href={link}>
               {type}
             </Link>
@@ -239,11 +229,6 @@ function ShareSeance({ seance }: { seance: DialogSeance }) {
 
   return (
     <>
-      <div className="border-b px-10px pb-24px pt-8px">
-        <MetaCopy>
-          <div className="text-center leading-[26px]">Partager la séance</div>
-        </MetaCopy>
-      </div>
       {hash != null ? (
         <div className="flex gap-8px">
           <RetroInput
@@ -256,7 +241,7 @@ function ShareSeance({ seance }: { seance: DialogSeance }) {
           <div className="justify-end">
             <Button
               iconStyle="iconOnly"
-              variant="outline"
+              variant="default"
               asChild
               onClick={() => {
                 navigator.clipboard.writeText(url);
