@@ -10,6 +10,7 @@ import { TheaterScreenings } from "@/lib/types";
 import { useHash } from "@/lib/useHash";
 import { floatHourToString, safeDate } from "@/lib/util";
 
+import { useIsBetaMode } from "../beta/beta-context";
 import {
   DialogMovie,
   hashSeance,
@@ -195,6 +196,8 @@ function SeancesTheater({
     });
   }, [day, hash, movie, screenings, setSeance, showtimesTheater.name]);
 
+  const isBetaMode = useIsBetaMode();
+
   return (
     <div
       className="group/cinema flex items-start justify-between lg:col-span-full lg:grid lg:grid-cols-[subgrid]"
@@ -216,9 +219,13 @@ function SeancesTheater({
             })}
           >
             <CalendrierCopy className="text-right lg:text-left">
-              <button onClick={() => showDialog({ time: screening.time })}>
-                {floatHourToString(screening.time)}
-              </button>
+              {isBetaMode ? (
+                <button onClick={() => showDialog({ time: screening.time })}>
+                  {floatHourToString(screening.time)}
+                </button>
+              ) : (
+                floatHourToString(screening.time)
+              )}
               {screening.notes != null && (
                 <span className="text-retro-gray">
                   &nbsp;

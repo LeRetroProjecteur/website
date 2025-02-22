@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 import Script from "next/script";
 import { ReactNode, StrictMode } from "react";
 
+import { BetaHandler } from "@/components/beta/beta-handler";
 import Footer from "@/components/layout/footer";
 import Newsletter from "@/components/layout/newsletter";
 import TopBar from "@/components/layout/top-bar";
@@ -12,6 +13,7 @@ import {
   SeanceDialog,
   SeanceDialogStoreProvider,
 } from "@/components/seance-dialog/seance-dialog";
+import { Toaster } from "@/components/ui/sonner";
 
 import "./globals.css";
 
@@ -113,23 +115,26 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             "font-suisse text-retro-black",
           )}
         >
-          <SeanceDialogStoreProvider>
-            <SeanceDialog />
-            <MenuWrapper>
-              <Newsletter />
-              <div className="flex grow flex-col pt-20px lg:pt-0">
-                <div className="flex pb-20px lg:hidden">
-                  <TopBar />
-                </div>
-                <div className="flex grow flex-col justify-between">
-                  <div className="flex grow flex-col">{children}</div>
-                  <div className="flex pt-20px lg:pb-20px lg:pl-20px lg:pt-30px">
-                    <Footer />
+          <BetaHandler>
+            <SeanceDialogStoreProvider>
+              <SeanceDialog />
+              <MenuWrapper>
+                <Newsletter />
+                <div className="flex grow flex-col pt-20px lg:pt-0">
+                  <div className="flex pb-20px lg:hidden">
+                    <TopBar />
+                  </div>
+                  <div className="flex grow flex-col justify-between">
+                    <div className="flex grow flex-col">{children}</div>
+                    <div className="flex pt-20px lg:pb-20px lg:pl-20px lg:pt-30px">
+                      <Footer />
+                    </div>
                   </div>
                 </div>
-              </div>
-            </MenuWrapper>
-          </SeanceDialogStoreProvider>
+              </MenuWrapper>
+            </SeanceDialogStoreProvider>
+          </BetaHandler>
+          <Toaster />
         </body>
       </html>
     </StrictMode>
