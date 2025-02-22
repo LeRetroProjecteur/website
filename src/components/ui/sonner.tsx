@@ -15,7 +15,7 @@ const Toaster = ({ ...props }: ToasterProps) => {
       toastOptions={{
         classNames: {
           toast:
-            "group toast group-[.toaster]:font-suisse group-[.toaster]:w-max group-[.toaster]:rounded-full group-[.toaster]:text-retro-black group-[.toaster]:bg-retro-blue group-[.toaster]:border-0 group-[.toaster]:rounded-none",
+            "group toast group-[.toaster]:font-suisse group-[.toaster]:w-max group-[.toaster]:rounded-full group-[.toaster]:text-retro-black group-[.toaster]:bg-retro-blue group-[.toaster]:border-0",
         },
       }}
       {...props}
