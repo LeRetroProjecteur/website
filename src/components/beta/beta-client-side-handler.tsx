@@ -28,7 +28,6 @@ function useToggleBeta(onToggleBeta: () => void) {
         step.current = 0;
       }
     },
-    { target: document },
   );
 }
 
@@ -36,15 +35,20 @@ export function BetaClientSideHandler() {
   const isBeta = useIsBetaMode();
 
   useEffect(() => {
-    if (isBeta) {
-      toast.message("BETA", {
-        id: "beta-toast",
-        dismissible: true,
-        duration: Infinity,
-      });
-    } else {
-      toast.dismiss("beta-toast");
-    }
+    (async () => {
+      console.log({ isBeta });
+      if (isBeta) {
+        await new Promise((resolve) => setTimeout(resolve));
+        toast.message("BETA", {
+          id: "beta-toast",
+          dismissible: false,
+          duration: Infinity,
+        });
+      } else {
+        console.log("dismissing");
+        toast.dismiss("beta-toast");
+      }
+    })();
   }, [isBeta]);
 
   const router = useRouter();

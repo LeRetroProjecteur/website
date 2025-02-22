@@ -5,7 +5,6 @@ import React from "react";
 
 import { BetaClientSideHandler } from "./beta-client-side-handler";
 
-export const BETA_COOKIE = "beta";
 const BetaContext = createContext<boolean>(false);
 
 export function useIsBetaMode() {
@@ -21,7 +20,7 @@ export function BetaContextProvider({
 }) {
   return (
     <BetaContext.Provider value={isBeta}>
-      {global.document != null ? <BetaClientSideHandler /> : null}
+      <BetaClientSideHandler />
       {children}
     </BetaContext.Provider>
   );
