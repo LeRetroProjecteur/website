@@ -5,7 +5,7 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "h-42px grow cursor-pointer border text-center text-20px font-medium uppercase hover:bg-retro-blue hover:text-retro-gray lg:h-48px flex items-center justify-center",
+  "py-4px leading-31px lg:py-8px grow cursor-pointer border text-center text-20px font-medium uppercase hover:bg-retro-blue hover:text-retro-gray lg:h-48px flex items-center justify-center",
   {
     variants: {
       variant: {
@@ -14,7 +14,7 @@ const buttonVariants = cva(
       },
       iconStyle: {
         noIcon: "",
-        iconOnly: "w-42px lg:w-48px",
+        iconOnly: "w-42px h-42px lg:h-48px lg:w-48px",
       },
       padding: {
         default: "",

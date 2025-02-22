@@ -40,7 +40,7 @@ export default function RetroInput({
         {
           "bg-retro-pale-green": !(blue ?? false),
           "bg-retro-pale-blue": blue,
-          "text-17px font-medium leading-25px lg:text-20px lg:leading-21px":
+          "text-17px font-medium leading-22px lg:text-20px lg:leading-21px":
             !customTypography,
           uppercase: !lowercase && !customTypography,
           "placeholder:text-center": !(leftAlignPlaceholder ?? false),

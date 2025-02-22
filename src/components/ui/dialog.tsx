@@ -27,7 +27,7 @@ const DialogOverlay = React.forwardRef<
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName;
 
 const dialogContentVariants = cva(
-  "flex grow flex-col gap-4 bg-retro-blue p-20px pt-0 drop-shadow-[0_1px_3px_rgba(0,0,0,0.15)]",
+  "flex grow flex-col gap-[20px] bg-retro-blue p-20px drop-shadow-[0_1px_3px_rgba(0,0,0,0.15)]",
   {
     variants: {},
     defaultVariants: {},
@@ -44,7 +44,7 @@ const DialogContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        "justify-cente-transparent fixed left-[50%] top-[50%] z-50 flex max-w-[50vw] translate-x-[-50%] translate-y-[-50%] items-center p-20px",
+        "fixed left-[50%] top-[50%] z-50 flex w-screen translate-x-[-50%] translate-y-[-50%] items-center justify-center p-20px lg:w-[50vw]",
         className,
       )}
       {...props}
@@ -61,38 +61,37 @@ const DialogHeader = ({
   ...props
 }: React.HTMLAttributes<HTMLDivElement>) => (
   <div
-    className={cn(
-      "relative flex items-center justify-center border-b px-20px py-10px",
-      className,
-    )}
+    className={cn("flex items-center border-b pb-20px", className)}
     {...props}
   >
-    {children}
-    <DialogPrimitive.Close className="absolute right-0 top-1/2 -translate-y-1/2 bg-retro-blue focus-visible:outline-none disabled:pointer-events-none">
-      <svg
-        className="h-22px w-22px fill-retro-gray stroke-retro-blue"
-        viewBox="0 0 22 22"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <rect width="22" height="22" />
-        <line
-          x1="4.79289"
-          y1="16.8929"
-          x2="16.793"
-          y2="4.89282"
-          strokeWidth="2"
-        />
-        <line
-          x1="16.7931"
-          y1="17.1072"
-          x2="4.79306"
-          y2="5.10712"
-          strokeWidth="2"
-        />
-      </svg>
-      <span className="sr-only">Close</span>
-    </DialogPrimitive.Close>
+    <div className="min-h-v relative flex grow items-center justify-center px-20px">
+      {children}
+      <DialogPrimitive.Close className="absolute right-0 top-1/2 -translate-y-1/2 bg-retro-blue focus-visible:outline-none disabled:pointer-events-none">
+        <svg
+          className="h-22px w-22px fill-retro-gray stroke-retro-blue"
+          viewBox="0 0 22 22"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <rect width="22" height="22" />
+          <line
+            x1="4.79289"
+            y1="16.8929"
+            x2="16.793"
+            y2="4.89282"
+            strokeWidth="2"
+          />
+          <line
+            x1="16.7931"
+            y1="17.1072"
+            x2="4.79306"
+            y2="5.10712"
+            strokeWidth="2"
+          />
+        </svg>
+        <span className="sr-only">Close</span>
+      </DialogPrimitive.Close>
+    </div>
   </div>
 );
 DialogHeader.displayName = "DialogHeader";
@@ -118,7 +117,7 @@ const DialogTitle = React.forwardRef<
   <DialogPrimitive.Title
     ref={ref}
     className={cn(
-      "px-10px text-center text-22px font-medium uppercase text-retro-gray",
+      "text-center text-22px font-medium uppercase text-retro-gray",
       className,
     )}
     {...props}

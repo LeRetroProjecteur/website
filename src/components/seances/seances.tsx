@@ -2,17 +2,12 @@
 
 import clsx from "clsx";
 import { min, sortBy, take } from "lodash-es";
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-  useSyncExternalStore,
-} from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import React from "react";
 
 import { transformZipcode } from "@/components/theaters/theaters";
 import { TheaterScreenings } from "@/lib/types";
+import { useHash } from "@/lib/useHash";
 import { floatHourToString, safeDate } from "@/lib/util";
 
 import {
@@ -31,14 +26,6 @@ export default function Seances({
   day: string;
   screenings: TheaterScreenings[];
 }) {
-  const clearSeance = useSeanceDialogStore((s) => s.clearSeance);
-  const hash = useHash();
-  useEffect(() => {
-    if (hash === "") {
-      clearSeance();
-    }
-  }, [hash, clearSeance]);
-
   const [isExpanded, setIsExpanded] = useState(false);
 
   const toggleExpanded = useCallback(
@@ -156,17 +143,6 @@ function toSeance({
     movieTheater: theaterName,
     movie,
   };
-}
-
-function useHash() {
-  return useSyncExternalStore(
-    (callback) => {
-      addEventListener("hashchange", callback);
-      return () => removeEventListener("hashchange", callback);
-    },
-    () => window.location.hash.slice(1),
-    () => undefined,
-  );
 }
 
 function SeancesTheater({

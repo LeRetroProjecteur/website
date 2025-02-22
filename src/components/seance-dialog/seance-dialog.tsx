@@ -16,6 +16,7 @@ import { createContext, useContext, useState, useTransition } from "react";
 import { StoreApi, createStore, useStore } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
+import { MANUAL_HASH_CHANGE_EVENT } from "@/lib/useHash";
 import { checkNotNull, formatLundi1Janvier } from "@/lib/util";
 
 import RetroInput from "../forms/retro-input";
@@ -70,8 +71,12 @@ function createDialogStore() {
             s.seance = seance;
           }),
         clearSeance: () => {
-          const urlWithoutHash = window.location.href.split("#")[0];
-          window.history.replaceState({}, document.title, urlWithoutHash);
+          history.replaceState(
+            null,
+            "",
+            window.location.pathname + window.location.search,
+          );
+          window.dispatchEvent(new Event(MANUAL_HASH_CHANGE_EVENT));
           set((s) => {
             s.seance = undefined;
           });
@@ -114,17 +119,34 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
     "initial",
   );
 
+  const {
+    movie: { title, year, directors },
+    movieDate,
+    movieTheater,
+  } = seance;
+
   return (
     <DialogContent aria-describedby={undefined}>
       <DialogHeader>
-        <DialogTitle>
-          <u>{seance.movie.title}</u> ({seance.movie.year})
-        </DialogTitle>
+        <DialogTitle>Séance</DialogTitle>
       </DialogHeader>
+      <div className="border-b pb-16px">
+        <MetaCopy>
+          <div className="text-center leading-[26px]">
+            <u>{title}</u> ({year})<br />
+            {directors}
+            <br />
+            Le {formatLundi1Janvier(movieDate)} à{" "}
+            {movieDate.toLocaleString(DateTime.TIME_SIMPLE)}
+            <br />
+            {movieTheater}
+          </div>
+        </MetaCopy>
+      </div>
       {(function () {
         switch (state) {
           case "initial":
-            return <SeanceInitialDialog setState={setState} seance={seance} />;
+            return <SeanceInitialDialog setState={setState} />;
           case "add-to-calendar":
             return <AddToCalendar seance={seance} />;
           case "share":
@@ -136,31 +158,13 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
 }
 
 function SeanceInitialDialog({
-  seance: {
-    movie: { directors },
-    movieTheater,
-    movieDate,
-  },
   setState,
 }: {
-  seance: DialogSeance;
   setState: (state: "initial" | "add-to-calendar" | "share") => void;
 }) {
   return (
     <>
-      <div className="border-b pb-16px">
-        <MetaCopy>
-          <div className="text-center leading-[26px]">
-            {directors}
-            <br />
-            Le {formatLundi1Janvier(movieDate)} à{" "}
-            {movieDate.toLocaleString(DateTime.TIME_SIMPLE)}
-            <br />
-            {movieTheater}
-          </div>
-        </MetaCopy>
-      </div>
-      <div className="flex flex-col gap-10px pb-16px">
+      <div className="flex flex-col gap-10px">
         <Button
           padding="padded"
           variant="default"
