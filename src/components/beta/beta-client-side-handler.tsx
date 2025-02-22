@@ -36,7 +36,6 @@ export function BetaClientSideHandler() {
 
   useEffect(() => {
     (async () => {
-      console.log({ isBeta });
       if (isBeta) {
         await new Promise((resolve) => setTimeout(resolve));
         toast.message("BETA", {
@@ -45,7 +44,6 @@ export function BetaClientSideHandler() {
           duration: Infinity,
         });
       } else {
-        console.log("dismissing");
         toast.dismiss("beta-toast");
       }
     })();
