@@ -140,7 +140,7 @@ function MovieInformation({
   return (
     <>
       <div className="flex flex-col gap-20px pb-20px">
-        <div className="flex lg:border-y lg:py-20px">
+        <div className="flex border-t pt-20px lg:border-y lg:py-20px">
           <MetaCopy size="smallBiggerLh" lowercase>
             {movie.duration == null ? (
               "Durée inconnue"
