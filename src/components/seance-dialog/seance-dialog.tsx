@@ -136,7 +136,8 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
             <u>{title}</u> ({year})<br />
             {directors}
             <br />
-            Le {formatLundi1Janvier(movieDate)} à{" "}
+            <br />
+            {formatLundi1Janvier(movieDate)} à{" "}
             {movieDate.toLocaleString(DateTime.TIME_SIMPLE)}
             <br />
             {movieTheater}
