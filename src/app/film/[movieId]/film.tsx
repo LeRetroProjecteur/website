@@ -154,6 +154,7 @@ function MovieScreenings({ movie }: { movie: MovieDetail }) {
       <div className="flex flex-col">
         {size(screenings) > 0 ? (
           <MultiDaySeances
+            movie={movie}
             screenings={screenings}
             groupClassName="border-b py-12px lg:py-16px lg:hover:bg-retro-pale-green"
           />
