@@ -13,10 +13,16 @@ export default function MultiDaySeances({
   screenings,
   className,
   groupClassName,
+  hideDate = false,
+  theaterAlign = "text-left",
+  title,
 }: {
   screenings: { [day: string]: TheaterScreenings[] };
   className?: string;
   groupClassName?: string;
+  hideDate?: boolean;
+  theaterAlign?: "text-left" | "text-right";
+  title?: string; // The ? makes it optional
 }) {
   return (
     <div
@@ -38,9 +44,15 @@ export default function MultiDaySeances({
             groupClassName,
           )}
         >
-          <BodyCopy>{capitalize(formatMerJJMM(safeDate(day)))}</BodyCopy>
+          {title && <div className="uppercase italic">{title}</div>}
+          {!hideDate && (
+            <BodyCopy>{capitalize(formatMerJJMM(safeDate(day)))}</BodyCopy>
+          )}
           <div className="flex flex-col">
-            <Seances screenings={screeningsTheaters} />
+            <Seances
+              screenings={screeningsTheaters}
+              theaterAlign={theaterAlign}
+            />
           </div>
         </div>
       ))}
