@@ -79,11 +79,11 @@ function MovieRow({
   index: number;
   onUpdate: (data: { movie: string; id: string }) => void;
 }) {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [query, setQuery] = useState("");
   const [_, setMovieId] = useState("");
   const [showResults, setShowResults] = useState(false);
   const setSearchFind = (st: string, id: string = "") => {
-    setSearchTerm(st);
+    setQuery(st);
     setMovieId(id);
     setShowResults(true);
     onUpdate({ movie: st, id: id });
@@ -99,7 +99,7 @@ function MovieRow({
       cell2={
         <div className="flex grow flex-col">
           <RetroInput
-            value={searchTerm}
+            value={query}
             setValue={(st) => setSearchFind(st)}
             blue={true}
             leftAlignPlaceholder
@@ -112,7 +112,7 @@ function MovieRow({
               altColor={true}
               className="border-x px-5px py-2px"
               nbResults={5}
-              searchTerm={searchTerm}
+              query={query}
               noResultsText="Nous ne trouvons pas votre film, mais vous pouvez le renseigner manuellement."
               noResultsTextSize="small"
               lowercase={true}

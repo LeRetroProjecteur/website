@@ -24,7 +24,6 @@ import {
   checkNotNull,
   formatYYYYMMDD,
   formatYYYY_MM_DD,
-  getFields,
   getMovieInfoString,
   getNextMovieWeek,
   staleWhileRevalidate,
@@ -116,9 +115,9 @@ export const getSearchMovies = staleWhileRevalidate(
     });
 
     return orderBy(
-      searchMovies.map<[SearchMovie, string[]]>((elem) => [
+      searchMovies.map<[SearchMovie, string]>((elem) => [
         elem,
-        getFields(getMovieInfoString(elem)),
+        getMovieInfoString(elem),
       ]),
       ([elem]) => elem.relevance_score,
       "desc",

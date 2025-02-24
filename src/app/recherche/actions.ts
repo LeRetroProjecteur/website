@@ -3,21 +3,19 @@
 import _ from "lodash";
 
 import { getSearchMovies } from "@/lib/movies";
-import { getFields, stringMatchFields } from "@/lib/util";
+import { isSearchMatch } from "@/lib/util";
 
 export async function search({
-  searchTerm,
+  query,
   nbResults,
 }: {
-  searchTerm: string;
+  query: string;
   nbResults: number;
 }) {
   const searchMovies = await getSearchMovies();
-  const keywords = getFields(searchTerm);
-
-  return searchTerm.length > 0
+  return query.length > 0
     ? _(searchMovies)
-        .filter(([_, fields]) => stringMatchFields(keywords, fields))
+        .filter(([_, record]) => isSearchMatch(query, record))
         .map(([elem]) => elem)
         .take(nbResults)
         .value()
