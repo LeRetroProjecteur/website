@@ -139,9 +139,9 @@ function MovieInformation({
 }) {
   return (
     <>
-      <div className="flex flex-col gap-20px pb-20px">
+      <div className="flex flex-col pb-20px">
         <div
-          className={`flex pt-20px lg:py-20px ${
+          className={`flex pb-20px pt-20px lg:py-20px ${
             tmdbMovie ? "border-t lg:border-t" : ""
           }`}
         >
@@ -216,7 +216,7 @@ function MovieInformation({
           </MetaCopy>
         </div>
         {tmdbMovie != null ? (
-          <div className="flex flex-col gap-20px border-0 pt-0 pt-20px">
+          <div className="className=flex flex-col">
             <div className="grid grid-cols-fillMin300 gap-x-8px gap-y-10px">
               <div className="grid grid-cols-fillMinHalf gap-x-8px gap-y-10px">
                 <Button variant="outline" asChild>
