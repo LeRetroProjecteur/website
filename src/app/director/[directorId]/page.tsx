@@ -9,8 +9,8 @@ import DirectorView from "./director";
 export async function generateMetadata(props: {
   params: Promise<{ directorId: string }>;
 }): Promise<Metadata> {
-  const params = await props.params;
-  const directorInfo = await getDirectorMovies(params.directorId);
+  const { directorId } = await props.params;
+  const directorInfo = await getDirectorMovies(directorId);
   return {
     title: `Films by ${directorInfo.director_name}`,
     description: `Movies by ${directorInfo.director_name}`,
@@ -20,11 +20,14 @@ export async function generateMetadata(props: {
 export default async function DirectorPage(props: {
   params: Promise<{ directorId: string }>;
 }) {
-  const params = await props.params;
-  const directorInfo = await getDirectorMovies(params.directorId);
-  const movies = await Promise.all(
-    directorInfo.director_movies.map((movieId) => getMovie(movieId)),
-  );
+  const { directorId } = await props.params;
+  const directorInfo = await getDirectorMovies(directorId);
+  const movies = (
+    await Promise.all(
+      directorInfo.director_movies.map((movieId) => getMovie(movieId)),
+    )
+  ).filter((movie) => movie !== null && movie !== undefined);
+
   return (
     <DirectorView movies={movies} directorName={directorInfo.director_name} />
   );

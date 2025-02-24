@@ -86,27 +86,48 @@ export default function DirectorView({
                         return acc;
 
                       try {
-                        const screenings = filterByDay(movie.screenings, 7);
+                        const validScreenings =
+                          movie?.screenings &&
+                          Object.values(movie.screenings).every(
+                            (theaters) =>
+                              Array.isArray(theaters) &&
+                              theaters.every(
+                                (theater) =>
+                                  theater &&
+                                  theater.seances &&
+                                  typeof theater.seances === "object",
+                              ),
+                          )
+                            ? movie.screenings
+                            : null;
+
+                        if (!validScreenings) return acc;
+
+                        const screenings = filterByDay(validScreenings, 7);
                         if (!screenings || !size(screenings)) return acc;
 
                         Object.entries(screenings).forEach(([date, times]) => {
                           if (!acc[date]) acc[date] = [];
 
                           if (Array.isArray(times)) {
-                            const theaterScreenings: TheaterScreenings[] =
-                              times.map((theater) => ({
+                            const theaterScreenings: TheaterScreenings[] = times
+                              .filter((theater) => theater && theater.seances) // Filter out invalid theaters
+                              .map((theater) => ({
                                 name: theater.name || "",
                                 neighborhood: theater.neighborhood || "",
                                 zipcode: theater.zipcode || "",
                                 preposition_and_name:
                                   theater.preposition_and_name || "",
-                                seances: theater.seances || {},
+                                seances: theater.seances || {}, // Provide empty object as fallback
                               }));
 
-                            acc[date].push({
-                              ...movie,
-                              theaters: theaterScreenings,
-                            });
+                            if (theaterScreenings.length > 0) {
+                              // Only add if we have valid screenings
+                              acc[date].push({
+                                ...movie,
+                                theaters: theaterScreenings,
+                              });
+                            }
                           }
                         });
                         return acc;
@@ -131,9 +152,9 @@ export default function DirectorView({
                         <MultiDaySeances
                           key={movie.id}
                           screenings={{ [date]: movie.theaters }}
-                          groupClassName="flex items-center justify-between border-b py-12px"
+                          groupClassName="flex items-center border-b py-12px [&>div:first-child]:w-40 [&>div:first-child]:shrink-0"
                           hideDate={true}
-                          theaterAlign="text-right"
+                          theaterAlign="text-left"
                           title={movie.title}
                         />
                       ))}
