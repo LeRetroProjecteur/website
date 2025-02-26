@@ -242,6 +242,7 @@ export default function SubmitScreenings({
   );
   const [comments, setComments] = useState("");
   const [theaterData, setTheaterData] = useState({ name: "", theater_id: "" });
+  const [organization, setOrganization] = useState("");
 
   const updateRowData = (
     index: number,
@@ -275,8 +276,8 @@ export default function SubmitScreenings({
         )
         .join("|||");
 
-      const warningMessage = `*Cinéma:* ${
-        theaterData.name
+      const warningMessage = `*Cinéma:* ${theaterData.name}${
+        organization ? ` (${organization})` : ""
       }\n\n*Séances: *\n${rowsData
         .filter((row) => row.movie && row.date)
         .map(
@@ -372,6 +373,18 @@ export default function SubmitScreenings({
                   <TheaterSearch
                     allTheatersPromise={allTheatersPromise}
                     onUpdate={setTheaterData}
+                  />
+                </div>
+                <div className="pb-25px">
+                  <BodyCopy className="pb-5px">
+                    Quelle organisation/ciné-club représentez-vous&nbsp;?
+                  </BodyCopy>
+                  <input
+                    type="text"
+                    className="flex w-full grow border p-10px"
+                    value={organization}
+                    onChange={(e) => setOrganization(e.target.value)}
+                    placeholder="Nom de votre organisation"
                   />
                 </div>
                 <div className="flex flex-col gap-y-15px">
