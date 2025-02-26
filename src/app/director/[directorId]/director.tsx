@@ -154,7 +154,6 @@ export default function DirectorView({
                           screenings={{ [date]: movie.theaters }}
                           groupClassName="flex items-center border-b py-12px [&>div:first-child]:w-40 [&>div:first-child]:shrink-0"
                           hideDate={true}
-                          theaterAlign="text-left"
                           title={movie.title}
                         />
                       ))}
