@@ -1,8 +1,8 @@
 "use client";
 
-import { size } from "lodash-es";
+import { groupBy, size, sortBy } from "lodash-es";
 import Link from "next/link";
-import React, { ReactNode } from "react";
+import React from "react";
 
 import { TwoColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
@@ -12,7 +12,7 @@ import {
   SousTitre1,
   SubsectionTitle,
 } from "@/components/typography/typography";
-import { MovieDetail, TheaterScreenings } from "@/lib/types";
+import { MovieDetail } from "@/lib/types";
 import { filterByDay } from "@/lib/util";
 
 const formatDate = (dateStr: string) => {
@@ -33,6 +33,81 @@ const formatDate = (dateStr: string) => {
   }
 };
 
+const processMovieScreenings = (movie: MovieDetail, dayWindow = 7) => {
+  try {
+    // Skip if no screenings
+    if (!movie?.screenings || !Object.keys(movie.screenings).length) {
+      return [];
+    }
+
+    // Sanitize data to avoid errors in filterByDay
+    const safeScreenings = Object.fromEntries(
+      Object.entries(movie.screenings)
+        .map(([date, theaters]) => {
+          if (!Array.isArray(theaters)) return [date, []];
+
+          const validTheaters = theaters.filter(
+            (theater) =>
+              theater && theater.seances && typeof theater.seances === "object",
+          );
+
+          return [date, validTheaters];
+        })
+        .filter(([_, theaters]) => theaters.length > 0),
+    );
+
+    if (Object.keys(safeScreenings).length === 0) return [];
+
+    // Safely apply filterByDay
+    let filteredScreenings;
+    try {
+      filteredScreenings = filterByDay(safeScreenings, dayWindow);
+    } catch (error) {
+      return [];
+    }
+
+    if (!filteredScreenings || !size(filteredScreenings)) return [];
+
+    // Format the results
+    return Object.entries(filteredScreenings).flatMap(([date, theaters]) => {
+      if (!Array.isArray(theaters)) return [];
+
+      const normalizedTheaters = theaters.map((theater) => ({
+        name: theater.name || "",
+        neighborhood: theater.neighborhood || "",
+        zipcode: theater.zipcode || "",
+        preposition_and_name: theater.preposition_and_name || "",
+        seances: theater.seances || {},
+      }));
+
+      return normalizedTheaters.length > 0
+        ? [{ date, movie, theaters: normalizedTheaters }]
+        : [];
+    });
+  } catch (error) {
+    return [];
+  }
+};
+
+const getScreeningsByDate = (movies: MovieDetail[], dayWindow = 7) => {
+  // Process movies safely with error handling for each movie
+  const allScreenings = movies.flatMap((movie) => {
+    return processMovieScreenings(movie, dayWindow);
+  });
+  // Group by date
+  const screeningsByDate = groupBy(allScreenings, "date");
+  // Format results
+  return Object.entries(screeningsByDate)
+    .sort(([dateA], [dateB]) => dateA.localeCompare(dateB))
+    .map(([date, screenings]) => ({
+      date,
+      moviesForDay: screenings.map(({ movie, theaters }) => ({
+        ...movie,
+        theaters,
+      })),
+    }));
+};
+
 export default function DirectorView({
   movies,
   directorName,
@@ -40,9 +115,8 @@ export default function DirectorView({
   movies: MovieDetail[];
   directorName: string;
 }) {
-  const sortedMovies = [...movies].sort(
-    (a, b) => (Number(a.year) || 0) - (Number(b.year) || 0),
-  );
+  const sortedMovies = sortBy(movies, [(movie) => Number(movie.year) || 0]);
+  const screeningsByDate = getScreeningsByDate(movies);
 
   return (
     <>
@@ -52,116 +126,45 @@ export default function DirectorView({
       <TwoColumnPage
         narrow
         left={
-          (
-            <div className="flex flex-col">
-              <SectionTitle color="bg-retro-green">Filmographie</SectionTitle>
-              <div>
-                {sortedMovies.map((movie) => (
-                  <Link
-                    key={movie.id}
-                    href={`/film/${movie.id}`}
-                    className="block border-b py-12px font-semibold lg:py-16px lg:hover:bg-retro-pale-green"
-                  >
-                    <div>
-                      <u className="uppercase">{movie.title}</u> ({movie.year})
-                    </div>
-                  </Link>
-                ))}
-              </div>
+          <div className="flex flex-col">
+            <SectionTitle color="bg-retro-green">Filmographie</SectionTitle>
+            <div>
+              {sortedMovies.map((movie) => (
+                <Link
+                  key={movie.id}
+                  href={`/film/${movie.id}`}
+                  className="block border-b py-12px font-semibold lg:py-16px lg:hover:bg-retro-pale-green"
+                >
+                  <div>
+                    <u className="uppercase">{movie.title}</u> ({movie.year})
+                  </div>
+                </Link>
+              ))}
             </div>
-          ) as ReactNode
+          </div>
         }
         right={
-          (
-            <>
-              <SectionTitle>Prochaines séances à Paris</SectionTitle>
-              <div className="flex flex-col">
-                {Object.entries(
-                  movies.reduce(
-                    (acc, movie) => {
-                      if (
-                        !movie?.screenings ||
-                        !Object.keys(movie.screenings).length
-                      )
-                        return acc;
-
-                      try {
-                        const validScreenings =
-                          movie?.screenings &&
-                          Object.values(movie.screenings).every(
-                            (theaters) =>
-                              Array.isArray(theaters) &&
-                              theaters.every(
-                                (theater) =>
-                                  theater &&
-                                  theater.seances &&
-                                  typeof theater.seances === "object",
-                              ),
-                          )
-                            ? movie.screenings
-                            : null;
-
-                        if (!validScreenings) return acc;
-
-                        const screenings = filterByDay(validScreenings, 7);
-                        if (!screenings || !size(screenings)) return acc;
-
-                        Object.entries(screenings).forEach(([date, times]) => {
-                          if (!acc[date]) acc[date] = [];
-
-                          if (Array.isArray(times)) {
-                            const theaterScreenings: TheaterScreenings[] = times
-                              .filter((theater) => theater && theater.seances) // Filter out invalid theaters
-                              .map((theater) => ({
-                                name: theater.name || "",
-                                neighborhood: theater.neighborhood || "",
-                                zipcode: theater.zipcode || "",
-                                preposition_and_name:
-                                  theater.preposition_and_name || "",
-                                seances: theater.seances || {}, // Provide empty object as fallback
-                              }));
-
-                            if (theaterScreenings.length > 0) {
-                              // Only add if we have valid screenings
-                              acc[date].push({
-                                ...movie,
-                                theaters: theaterScreenings,
-                              });
-                            }
-                          }
-                        });
-                        return acc;
-                      } catch (error) {
-                        console.error("Error processing screenings:", error);
-                        return acc;
-                      }
-                    },
-                    {} as Record<
-                      string,
-                      Array<MovieDetail & { theaters: TheaterScreenings[] }>
-                    >,
-                  ),
-                )
-                  .sort((a, b) => a[0].localeCompare(b[0]))
-                  .map(([date, moviesForDay]) => (
-                    <div key={date}>
-                      <SubsectionTitle align="text-left">
-                        <span className="uppercase">{formatDate(date)}</span>
-                      </SubsectionTitle>
-                      {moviesForDay.map((movie) => (
-                        <MultiDaySeances
-                          key={movie.id}
-                          screenings={{ [date]: movie.theaters }}
-                          groupClassName="flex items-center border-b py-12px [&>div:first-child]:w-40 [&>div:first-child]:shrink-0"
-                          hideDate={true}
-                          title={movie.title}
-                        />
-                      ))}
-                    </div>
+          <>
+            <SectionTitle>Prochaines séances à Paris</SectionTitle>
+            <div className="flex flex-col">
+              {screeningsByDate.map(({ date, moviesForDay }) => (
+                <div key={date}>
+                  <SubsectionTitle align="text-left">
+                    <span className="uppercase">{formatDate(date)}</span>
+                  </SubsectionTitle>
+                  {moviesForDay.map((movie) => (
+                    <MultiDaySeances
+                      key={movie.id}
+                      screenings={{ [date]: movie.theaters }}
+                      groupClassName="flex items-center border-b py-12px [&>div:first-child]:w-40 [&>div:first-child]:shrink-0"
+                      hideDate={true}
+                      title={movie.title}
+                    />
                   ))}
-              </div>
-            </>
-          ) as ReactNode
+                </div>
+              ))}
+            </div>
+          </>
         }
       />
     </>

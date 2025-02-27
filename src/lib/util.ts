@@ -257,9 +257,7 @@ export function filterByDay(
   const maxDate = startDate.plus({ days: day_window });
 
   return pickBy(
-    mapValues(showtimes, (times, date) =>
-      filterTimes(times, getRealMinHour(safeDate(date), 0), 24),
-    ),
+    showtimes, // Use showtimes directly instead of mapping with filterTimes
     (screenings, date) => {
       const currentDate = safeDate(date);
       return (
