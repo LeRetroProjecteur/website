@@ -3,28 +3,26 @@
 import React, { ReactNode, useState } from "react";
 
 import LoadingPage from "@/app/loading";
-import { SearchResults, TheaterSearchResults } from "@/app/recherche/recherche";
+import { SearchResults } from "@/app/recherche/recherche";
 import { MiddleColumn } from "@/components/articles/articles";
 import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import { ThreeColumnPage } from "@/components/layout/page";
 import { TextBox } from "@/components/layout/text-boxes";
 import { BodyCopy, BodyParagraphs } from "@/components/typography/typography";
-import { SearchTheater } from "@/lib/types";
+import { SearchMovie, SearchTheater } from "@/lib/types";
 import { formatLundi1Janvier, safeDate } from "@/lib/util";
 
 function TheaterSearch({
-  allTheatersPromise,
   onUpdate,
 }: {
-  allTheatersPromise: Promise<SearchTheater[]>;
   onUpdate: (data: { name: string; theater_id: string }) => void;
 }) {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [query, setQuery] = useState("");
   const [showResults, setShowResults] = useState(false);
 
   const setSearchFind = (theater: { name: string; theater_id: string }) => {
-    setSearchTerm(theater.name);
+    setQuery(theater.name);
     setShowResults(true);
     onUpdate(theater);
   };
@@ -32,7 +30,7 @@ function TheaterSearch({
   return (
     <div className="flex grow flex-col">
       <RetroInput
-        value={searchTerm}
+        value={query}
         setValue={(st) => setSearchFind({ name: st, theater_id: "" })}
         leftAlignPlaceholder
         customTypography
@@ -40,17 +38,17 @@ function TheaterSearch({
         transparentPlaceholder
         className="flex grow"
       />
-      <SuspenseWithLoading hideLoading={searchTerm.length === 0}>
+      <SuspenseWithLoading hideLoading={query.length === 0}>
         {showResults && (
-          <TheaterSearchResults
-            extraClass="text-left px-5px py-2px border-x border-b"
+          <SearchResults
+            mode="theater"
+            className="border-x border-b px-5px py-2px text-left"
             nbResults={5}
-            searchTerm={searchTerm}
-            allDataPromise={allTheatersPromise}
+            query={query}
             onClick={(theater) => {
               setSearchFind({
-                name: theater.name,
-                theater_id: theater.theater_id,
+                name: (theater as SearchTheater).name,
+                theater_id: (theater as SearchTheater).theater_id,
               });
               setShowResults(false);
             }}
@@ -90,14 +88,14 @@ function ScreeningRow({
     notes: string;
   }) => void;
 }) {
-  const [searchTerm, setSearchTerm] = useState("");
+  const [query, setQuery] = useState("");
   const [movieId, setMovieId] = useState("");
   const [showResults, setShowResults] = useState(false);
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [notes, setNotes] = useState("");
   const setSearchFind = (st: string, id: string = "") => {
-    setSearchTerm(st);
+    setQuery(st);
     setMovieId(id);
     setShowResults(true);
     onUpdate({ movie: st, movie_id: id, date, time, notes });
@@ -109,7 +107,7 @@ function ScreeningRow({
         cell1={
           <div className="flex grow flex-col">
             <RetroInput
-              value={searchTerm}
+              value={query}
               setValue={(st) => setSearchFind(st)}
               leftAlignPlaceholder
               customTypography
@@ -118,7 +116,7 @@ function ScreeningRow({
               className="hidden lg:block"
             />
             <RetroInput
-              value={searchTerm}
+              value={query}
               setValue={(st) => setSearchFind(st)}
               leftAlignPlaceholder
               customTypography
@@ -130,14 +128,19 @@ function ScreeningRow({
               <SearchResults
                 className="border-x px-5px py-2px"
                 nbResults={5}
-                searchTerm={searchTerm}
+                query={query}
                 noResultsText="Nous ne trouvons pas votre film, mais vous pouvez le renseigner manuellement."
                 noResultsTextSize="small"
                 lowercase
                 onClick={(m) => {
                   setSearchFind(
-                    m.title + ", " + m.directors + " (" + m.year + ")",
-                    m.id,
+                    (m as SearchMovie).title +
+                      ", " +
+                      (m as SearchMovie).directors +
+                      " (" +
+                      (m as SearchMovie).year +
+                      ")",
+                    (m as SearchMovie).id,
                   );
                   setShowResults(false);
                 }}
@@ -154,7 +157,7 @@ function ScreeningRow({
             onChange={(e) => {
               setDate(e.target.value);
               onUpdate({
-                movie: searchTerm,
+                movie: query,
                 movie_id: movieId,
                 date: e.target.value,
                 time,
@@ -172,7 +175,7 @@ function ScreeningRow({
             onChange={(e) => {
               setTime(e.target.value);
               onUpdate({
-                movie: searchTerm,
+                movie: query,
                 movie_id: movieId,
                 date,
                 time: e.target.value,
@@ -191,7 +194,7 @@ function ScreeningRow({
         onChange={(e) => {
           setNotes(e.target.value);
           onUpdate({
-            movie: searchTerm,
+            movie: query,
             movie_id: movieId,
             date,
             time,
@@ -217,11 +220,7 @@ function SharePage() {
   );
 }
 
-export default function SubmitScreenings({
-  allTheatersPromise,
-}: {
-  allTheatersPromise: Promise<SearchTheater[]>;
-}) {
+export default function SubmitScreenings() {
   const numSubmissions = 5;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSharePage, setShowSharePage] = useState(false);
@@ -370,10 +369,7 @@ export default function SubmitScreenings({
                     Dans quelle salle se déroule la ou les séances que vous
                     souhaitez renseigner&nbsp;?
                   </BodyCopy>
-                  <TheaterSearch
-                    allTheatersPromise={allTheatersPromise}
-                    onUpdate={setTheaterData}
-                  />
+                  <TheaterSearch onUpdate={setTheaterData} />
                 </div>
                 <div className="pb-25px">
                   <BodyCopy className="pb-5px">

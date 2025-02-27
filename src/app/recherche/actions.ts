@@ -3,22 +3,37 @@
 import _ from "lodash";
 
 import { getSearchMovies } from "@/lib/movies";
-import { getFields, stringMatchFields } from "@/lib/util";
+import { getTheaters } from "@/lib/theaters";
+import { isSearchMatch } from "@/lib/util";
 
-export async function search({
-  searchTerm,
+export async function searchMovies({
+  query,
   nbResults,
 }: {
-  searchTerm: string;
+  query: string;
   nbResults: number;
 }) {
   const searchMovies = await getSearchMovies();
-  const keywords = getFields(searchTerm);
-
-  return searchTerm.length > 0
+  return query.length > 0
     ? _(searchMovies)
-        .filter(([_, fields]) => stringMatchFields(keywords, fields))
+        .filter(([_, record]) => isSearchMatch(query, record))
         .map(([elem]) => elem)
+        .take(nbResults)
+        .value()
+    : [];
+}
+
+export async function searchTheaters({
+  query,
+  nbResults,
+}: {
+  query: string;
+  nbResults: number;
+}) {
+  const searchTheaters = await getTheaters();
+  return query.length > 0
+    ? _(searchTheaters)
+        .filter((theater) => isSearchMatch(query, theater.name))
         .take(nbResults)
         .value()
     : [];
