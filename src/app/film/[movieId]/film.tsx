@@ -106,7 +106,7 @@ function MovieReview({
           {movie.review_category == "COUP DE CŒUR" &&
           movie.review != null &&
           movie.review_date != null ? (
-            <BodyCopy className="border-b pb-20px pt-15px lg:border-0 lg:pb-0 lg:pt-20px">
+            <BodyCopy className="pt-15px lg:pt-20px">
               <div dangerouslySetInnerHTML={{ __html: movie.review }}></div>
               <br />
               <div className="flex items-center pt-6px">
