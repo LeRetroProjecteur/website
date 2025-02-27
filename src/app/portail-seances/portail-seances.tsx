@@ -3,21 +3,19 @@
 import React, { ReactNode, useState } from "react";
 
 import LoadingPage from "@/app/loading";
-import { SearchResults, TheaterSearchResults } from "@/app/recherche/recherche";
+import { SearchResults } from "@/app/recherche/recherche";
 import { MiddleColumn } from "@/components/articles/articles";
 import RetroInput from "@/components/forms/retro-input";
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import { ThreeColumnPage } from "@/components/layout/page";
 import { TextBox } from "@/components/layout/text-boxes";
 import { BodyCopy, BodyParagraphs } from "@/components/typography/typography";
-import { SearchTheater } from "@/lib/types";
+import { SearchMovie, SearchTheater } from "@/lib/types";
 import { formatLundi1Janvier, safeDate } from "@/lib/util";
 
 function TheaterSearch({
-  allTheatersPromise,
   onUpdate,
 }: {
-  allTheatersPromise: Promise<SearchTheater[]>;
   onUpdate: (data: { name: string; theater_id: string }) => void;
 }) {
   const [query, setQuery] = useState("");
@@ -42,15 +40,15 @@ function TheaterSearch({
       />
       <SuspenseWithLoading hideLoading={query.length === 0}>
         {showResults && (
-          <TheaterSearchResults
-            extraClass="text-left px-5px py-2px border-x border-b"
+          <SearchResults
+            mode="theater"
+            className="border-x border-b px-5px py-2px text-left"
             nbResults={5}
             query={query}
-            allDataPromise={allTheatersPromise}
             onClick={(theater) => {
               setSearchFind({
-                name: theater.name,
-                theater_id: theater.theater_id,
+                name: (theater as SearchTheater).name,
+                theater_id: (theater as SearchTheater).theater_id,
               });
               setShowResults(false);
             }}
@@ -136,8 +134,13 @@ function ScreeningRow({
                 lowercase
                 onClick={(m) => {
                   setSearchFind(
-                    m.title + ", " + m.directors + " (" + m.year + ")",
-                    m.id,
+                    (m as SearchMovie).title +
+                      ", " +
+                      (m as SearchMovie).directors +
+                      " (" +
+                      (m as SearchMovie).year +
+                      ")",
+                    (m as SearchMovie).id,
                   );
                   setShowResults(false);
                 }}
@@ -217,11 +220,7 @@ function SharePage() {
   );
 }
 
-export default function SubmitScreenings({
-  allTheatersPromise,
-}: {
-  allTheatersPromise: Promise<SearchTheater[]>;
-}) {
+export default function SubmitScreenings() {
   const numSubmissions = 5;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSharePage, setShowSharePage] = useState(false);
@@ -369,10 +368,7 @@ export default function SubmitScreenings({
                     Dans quelle salle se déroule la ou les séances que vous
                     souhaitez renseigner&nbsp;?
                   </BodyCopy>
-                  <TheaterSearch
-                    allTheatersPromise={allTheatersPromise}
-                    onUpdate={setTheaterData}
-                  />
+                  <TheaterSearch onUpdate={setTheaterData} />
                 </div>
                 <div className="flex flex-col gap-y-15px">
                   <div className="border-y py-6px text-17px uppercase text-retro-gray">
