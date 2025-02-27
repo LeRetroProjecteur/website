@@ -236,6 +236,28 @@ export function filterDates(showtimes: {
   );
 }
 
+export function filterByDay(
+  showtimes: {
+    [date: string]: TheaterScreenings[];
+  },
+  day_window = Infinity,
+) {
+  const startDate = getStartOfTodayInParis();
+  const maxDate = startDate.plus({ days: day_window });
+
+  return pickBy(
+    showtimes, // Use showtimes directly instead of mapping with filterTimes
+    (screenings, date) => {
+      const currentDate = safeDate(date);
+      return (
+        currentDate >= startDate &&
+        currentDate < maxDate &&
+        screenings.length > 0
+      );
+    },
+  );
+}
+
 export function staleWhileRevalidate<T>(
   fn: () => Promise<T>,
   { maxAgeMs }: { maxAgeMs: number },
