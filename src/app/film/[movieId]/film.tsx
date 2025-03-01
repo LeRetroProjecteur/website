@@ -184,7 +184,7 @@ function MovieInformation({
             {movie.distributor != null && (
               <div>DISTRIBUTION&nbsp;: {movie.distributor}</div>
             )}
-            {tmdbMovie?.movie.genres != null ? (
+            {tmdbMovie?.movie?.genres && tmdbMovie.movie.genres.length > 0 ? (
               <div>
                 GENRE{tmdbMovie.movie.genres.length > 1 ? "S" : ""}&nbsp;:{" "}
                 {tmdbMovie?.movie.genres.join(", ")}
