@@ -1,3 +1,4 @@
+import clsx from "clsx";
 import { size } from "lodash-es";
 import Image from "next/image";
 import Link from "next/link";
@@ -140,16 +141,15 @@ function MovieInformation({
   return (
     <>
       <div
-        className={`flex flex-col pb-20px ${
-          !tmdbMovie ? "lg:border-b lg:py-0px" : ""
-        }`}
+        className={clsx("flex flex-col pb-20px", {
+          "lg:border-b lg:py-0px": !tmdbMovie,
+        })}
       >
         <div
-          className={
-            tmdbMovie
-              ? "flex border-t pt-20px lg:py-20px"
-              : "flex pt-0px lg:border-t lg:py-20px"
-          }
+          className={clsx("flex lg:py-20px", {
+            "border-t pt-20px": tmdbMovie,
+            "pt-0px lg:border-t": !tmdbMovie,
+          })}
         >
           <MetaCopy size="smallBiggerLh" lowercase>
             {movie.duration == null ? (
@@ -184,7 +184,8 @@ function MovieInformation({
             {movie.distributor != null && (
               <div>DISTRIBUTION&nbsp;: {movie.distributor}</div>
             )}
-            {tmdbMovie?.movie?.genres && tmdbMovie.movie.genres.length > 0 ? (
+            {tmdbMovie?.movie.genres != null &&
+            tmdbMovie.movie.genres.length > 0 ? (
               <div>
                 GENRE{tmdbMovie.movie.genres.length > 1 ? "S" : ""}&nbsp;:{" "}
                 {tmdbMovie?.movie.genres.join(", ")}
