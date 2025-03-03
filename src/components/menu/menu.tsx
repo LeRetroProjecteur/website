@@ -18,7 +18,7 @@ import { useCalendrierStore } from "@/lib/calendrier-store";
 import { closeMenu } from "@/lib/menu-store";
 
 import logoCarre from "../../assets/logo-carre.gif";
-import { usePrevious } from "../../lib/utils";
+import { usePrevious } from "../../lib/client-utils";
 import FooterLinks from "../layout/footer-links";
 import { CoeurWithSpacing } from "../typography/typography";
 
