@@ -1,10 +1,10 @@
 "use client";
 
 import clsx from "clsx";
-import { every, orderBy, take, toPairs, without } from "lodash-es";
+import { toPairs, without } from "lodash-es";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { RefObject, use, useCallback, useEffect, useMemo, useRef } from "react";
+import { RefObject, useCallback, useEffect, useRef } from "react";
 import useSWR from "swr";
 import { create } from "zustand";
 
@@ -13,24 +13,23 @@ import { Loading } from "@/components/icons/loading";
 import PageHeader, { FixedHeader } from "@/components/layout/page-header";
 import { MetaCopy } from "@/components/typography/typography";
 import { SearchMovie, SearchTheater } from "@/lib/types";
-import { TAG_MAP, getFields, stringMatchFields } from "@/lib/util";
+import { TAG_MAP } from "@/lib/util";
 
-import { search } from "./actions";
+import { searchMovies, searchTheaters } from "./actions";
 
 const useRechercheStore = create<{
   tags: string[];
+  query: string;
   selected: number | undefined;
-  searchTerm: string;
 }>()(() => ({
   tags: Object.keys(TAG_MAP),
-  searchTerm: "",
+  query: "",
   selected: undefined,
 }));
 
 const setSelected = (selected: number | undefined) =>
   useRechercheStore.setState({ selected });
-const setSearchTerm = (searchTerm: string) =>
-  useRechercheStore.setState({ searchTerm });
+const setQuery = (query: string) => useRechercheStore.setState({ query });
 
 const toggleTag = (tag: string) =>
   useRechercheStore.setState((s) => ({
@@ -40,13 +39,13 @@ const toggleTag = (tag: string) =>
 export default function Recherche() {
   useEffect(() => {
     setSelected(undefined);
-    setSearchTerm("");
+    setQuery("");
   }, []);
   const onChangeSearchTerm = useCallback((s: string) => {
     setSelected(undefined);
-    setSearchTerm(s);
+    setQuery(s);
   }, []);
-  const searchTerm = useRechercheStore((s) => s.searchTerm);
+  const searchTerm = useRechercheStore((s) => s.query);
   const router = useRouter();
   return (
     <>
@@ -79,10 +78,10 @@ export default function Recherche() {
             "py-10px pl-5px text-15px font-medium uppercase leading-20px lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] lg:first:border-t-0"
           }
           loadingClassName="flex grow items-center justify-center pt-15px"
-          searchTerm={searchTerm}
+          query={searchTerm}
           verticalFooter
           onClick={(movie) => {
-            router.push(`/film/${movie.id}`);
+            router.push(`/film/${(movie as SearchMovie).id}`);
           }}
         />
       </div>
@@ -91,7 +90,8 @@ export default function Recherche() {
 }
 
 export function SearchResults({
-  searchTerm,
+  mode,
+  query,
   nbResults,
   verticalFooter,
   onClick,
@@ -103,10 +103,11 @@ export function SearchResults({
   lowercase = false,
   altColor = false,
 }: {
-  searchTerm: string;
+  mode?: "movie" | "theater";
+  query: string;
   nbResults: number;
   verticalFooter?: boolean;
-  onClick?: (movie: SearchMovie) => void;
+  onClick?: (elem: SearchMovie | SearchTheater) => void;
   onClose?: () => void;
   noResultsText?: string;
   noResultsTextSize?: "default" | "small" | "large";
@@ -116,12 +117,15 @@ export function SearchResults({
   altColor?: boolean;
 }) {
   const { data: filtered, isLoading } = useSWR(
-    searchTerm,
-    (searchTerm) =>
-      searchTerm.length > 0 ? search({ searchTerm, nbResults }) : [],
+    query,
+    async (query) => {
+      if (query.length === 0) return [];
+      return mode === "theater"
+        ? searchTheaters({ query, nbResults })
+        : searchMovies({ query, nbResults });
+    },
     { fallbackData: [] },
   );
-
   const containerRef = useRef<HTMLDivElement>(null);
   const selected = useRechercheStore((s) => s.selected);
   const selectedRef: RefObject<HTMLAnchorElement | null> = useRef(null);
@@ -164,7 +168,6 @@ export function SearchResults({
         onClose();
       }
     };
-
     addEventListener("keydown", keydown);
     addEventListener("mousedown", clickOutside); // Changed to mousedown
     return () => {
@@ -173,12 +176,23 @@ export function SearchResults({
     };
   }, [filtered, onClick, onClose]);
 
+  const getID = (elem: SearchMovie | SearchTheater) =>
+    "theater_id" in elem ? elem.theater_id : elem.id;
+  const displayText = (elem: SearchMovie | SearchTheater) =>
+    mode === "theater" ? (
+      (elem as SearchTheater).name
+    ) : (
+      <>
+        <u>{(elem as SearchMovie).title}</u>, {(elem as SearchMovie).directors}{" "}
+        ({(elem as SearchMovie).year})
+      </>
+    );
+
   if (isLoading) {
     return <Loading className={loadingClassName} />;
   }
-
   return (
-    searchTerm.length > 0 &&
+    query.length > 0 &&
     !isLoading && (
       <div ref={containerRef} className="flex grow flex-col">
         {filtered.length > 0 ? (
@@ -194,7 +208,7 @@ export function SearchResults({
                     : undefined
                 }
                 ref={selected === i ? selectedRef : null}
-                key={elem.id}
+                key={getID(elem)}
                 href=""
                 className={clsx(
                   altColor
@@ -214,7 +228,7 @@ export function SearchResults({
                   className,
                 )}
               >
-                <u>{elem.title}</u>, {elem.directors} ({elem.year})
+                {displayText(elem)}
               </Link>
             ))}
             {verticalFooter && (
@@ -246,122 +260,5 @@ function Tag({ tag, displayTag }: { tag: string; displayTag: string }) {
     >
       {displayTag}
     </div>
-  );
-}
-
-export function TheaterSearchResults({
-  allDataPromise,
-  searchTerm,
-  nbResults,
-  extraClass,
-  onClick,
-}: {
-  allDataPromise: Promise<SearchTheater[]>;
-  searchTerm: string;
-  nbResults: number;
-  extraClass?: string;
-  onClick?: (theater: SearchTheater) => void;
-}) {
-  const selected = useRechercheStore((s) => s.selected);
-  const tags = useRechercheStore((s) => s.tags);
-  const allData = use(allDataPromise);
-  const allDataFields = useMemo(() => {
-    return orderBy(
-      allData.map<[SearchTheater, string[]]>((elem) => [
-        elem,
-        getFields(elem.name),
-      ]),
-      ([theater]) => theater.name,
-      "desc",
-    );
-  }, [allData]);
-  const keywords = useMemo(() => getFields(searchTerm), [searchTerm]);
-  const selectedRef: RefObject<HTMLAnchorElement | null> = useRef(null);
-  useEffect(() => {
-    const curr = selectedRef.current;
-    if (
-      curr != null &&
-      (curr.getBoundingClientRect().bottom + 100 > window.innerHeight ||
-        curr.getBoundingClientRect().top - 100 < 0)
-    ) {
-      curr.scrollIntoView({ block: "center" });
-    }
-  }, [selected]);
-  const filtered = useMemo(
-    () =>
-      searchTerm.length > 0
-        ? take(
-            allDataFields
-              .filter(
-                ([_, fields]) =>
-                  stringMatchFields(keywords, fields) &&
-                  (tags.length === 0 || every(tags, () => true)),
-              )
-              .map(([elem]) => elem),
-            nbResults,
-          )
-        : [],
-    [allDataFields, searchTerm, keywords, tags, nbResults],
-  );
-  useEffect(() => {
-    const keydown = (ev: KeyboardEvent) => {
-      const selected = useRechercheStore.getState().selected;
-      if (ev.key === "ArrowDown") {
-        setSelected(Math.min((selected ?? -1) + 1, filtered.length - 1));
-      } else if (ev.key === "ArrowUp") {
-        setSelected(Math.max((selected ?? filtered.length) - 1, 0));
-      } else if (ev.key === "Enter" && selected != null) {
-        if (filtered[selected]) {
-          if (onClick) {
-            onClick(filtered[selected]);
-          }
-        }
-      }
-    };
-    addEventListener("keydown", keydown);
-    return () => removeEventListener("keydown", keydown);
-  }, [filtered, onClick]);
-  return (
-    searchTerm.length > 0 && (
-      <div className="flex grow flex-col">
-        {filtered.length > 0 ? (
-          <>
-            {filtered.map((elem, i) => (
-              <Link
-                onClick={
-                  onClick != null
-                    ? (e) => {
-                        onClick(elem);
-                        e.preventDefault();
-                      }
-                    : undefined
-                }
-                ref={selected === i ? selectedRef : null}
-                key={elem.theater_id}
-                href=""
-                className={clsx(
-                  {
-                    "lg:bg-retro-pale-green": i === selected,
-                    "lg:even:bg-white": i !== selected,
-                  },
-                  "even:bg-retro-pale-green lg:hover:bg-retro-pale-green",
-                  extraClass,
-                )}
-              >
-                {elem.name}
-              </Link>
-            ))}
-            <div className="min-h-100px w-1/2 grow border-r lg:hidden" />
-          </>
-        ) : (
-          <div className="pt-15px lg:pt-20px">
-            <MetaCopy>
-              Désolé, nous n&apos;avons rien trouvé qui corresponde à votre
-              recherche !
-            </MetaCopy>
-          </div>
-        )}
-      </div>
-    )
   );
 }

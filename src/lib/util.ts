@@ -61,45 +61,34 @@ export function getStartOfTodayInParis() {
   return nowInParis().startOf("day");
 }
 
-export function cleanString(str: string) {
+export function cleanStringForSearch(str: string) {
   return str
     .normalize("NFD")
     .replaceAll("&", " and ")
     .replaceAll("’", "'")
     .replaceAll("'", " ")
+    .replaceAll("-", " ")
     .replaceAll(/[^a-zA-Z0-9 #]|[\u0300-\u036f]/g, "")
     .toLowerCase();
 }
 
-function atLeastOneWordStartsWithSubstring(list: string[], substring: string) {
-  return some(list, (word) => word.startsWith(substring));
-}
-
-export function stringMatch(term: string, searchField: string) {
-  return stringMatchFields(getFields(term), getFields(searchField));
-}
-
-export function getFields(searchField: string) {
-  return cleanString(searchField).split(" ");
-}
-
-export function stringMatchFields(keywords: string[], searchFields: string[]) {
-  return every(keywords, (keyword) =>
-    atLeastOneWordStartsWithSubstring(searchFields, keyword),
+export function isSearchMatch(query: string, record: string) {
+  const queryTerms = cleanStringForSearch(query).split(" ");
+  const recordTerms = cleanStringForSearch(record).split(" ");
+  // At least one word in record terms starts with one of keywords:
+  return every(queryTerms, (queryTerm) =>
+    some(recordTerms, (recordTerm) => recordTerm.startsWith(queryTerm)),
   );
 }
 
-export function movieInfoContainsFilteringTerm(
-  movie: MovieInfo,
-  filteringTerm: string,
-) {
-  if (filteringTerm.slice(-1) === "|") {
-    filteringTerm = filteringTerm.slice(0, -1);
+export function isMovieFilterMatch(movie: MovieInfo, filterQuery: string) {
+  if (filterQuery.slice(-1) === "|") {
+    filterQuery = filterQuery.slice(0, -1);
   }
-  const filteringField = getMovieInfoString(movie);
-  const filteringTerms = filteringTerm.split("|");
-  return some(filteringTerms, (filteringTerm) =>
-    stringMatch(filteringTerm, filteringField),
+  const movieInfo = getMovieInfoString(movie);
+  const filterTerms = filterQuery.split("|");
+  return some(filterTerms, (filterTerm) =>
+    isSearchMatch(filterTerm, movieInfo),
   );
 }
 
@@ -245,6 +234,23 @@ export function filterDates(showtimes: {
     (screenings, date) =>
       safeDate(date) >= getStartOfTodayInParis() && screenings.length > 0,
   );
+}
+
+export function filterByDay(
+  showtimes: {
+    [date: string]: TheaterScreenings[];
+  },
+  day_window = Infinity,
+) {
+  const startDate = getStartOfTodayInParis();
+  const maxDate = startDate.plus({ days: day_window });
+
+  return pickBy(showtimes, (screenings, date) => {
+    const currentDate = safeDate(date);
+    return (
+      currentDate >= startDate && currentDate < maxDate && screenings.length > 0
+    );
+  });
 }
 
 export function staleWhileRevalidate<T>(

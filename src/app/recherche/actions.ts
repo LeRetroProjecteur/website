@@ -1,26 +1,36 @@
 "use server";
 
-import { filter, flow, map, take } from "lodash-es";
-
 import { getSearchMovies } from "@/lib/movies";
-import { getFields, stringMatchFields } from "@/lib/util";
+import { getTheaters } from "@/lib/theaters";
+import { isSearchMatch } from "@/lib/util";
 
-export async function search({
-  searchTerm,
+export async function searchMovies({
+  query,
   nbResults,
 }: {
-  searchTerm: string;
+  query: string;
   nbResults: number;
 }) {
   const searchMovies = await getSearchMovies();
-  const keywords = getFields(searchTerm);
+  return query.length > 0
+    ? searchMovies
+        .filter(([_, record]) => isSearchMatch(query, record))
+        .map(([movie]) => movie)
+        .slice(0, nbResults)
+    : [];
+}
 
-  return searchTerm.length > 0
-    ? flow(
-        (sm) =>
-          filter(sm, ([_, fields]) => stringMatchFields(keywords, fields)),
-        (sm) => map(sm, ([elem]) => elem),
-        (sm) => take(sm, nbResults),
-      )(searchMovies)
+export async function searchTheaters({
+  query,
+  nbResults,
+}: {
+  query: string;
+  nbResults: number;
+}) {
+  const searchTheaters = await getTheaters();
+  return query.length > 0
+    ? searchTheaters
+        .filter((theater) => isSearchMatch(query, theater.name))
+        .slice(0, nbResults)
     : [];
 }

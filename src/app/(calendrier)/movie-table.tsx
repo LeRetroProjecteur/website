@@ -27,9 +27,9 @@ import {
   getRealMinHour,
   getStartOfTodayInParis,
   isCoupDeCoeur,
+  isMovieFilterMatch,
   isMovieWithShowtimesSeveralDays,
   isMoviesWithShowtimesSeveralDays,
-  movieInfoContainsFilteringTerm,
 } from "@/lib/util";
 
 import coupDeCoeur from "../../assets/coup-de-coeur.png";
@@ -297,7 +297,7 @@ function filterAndSortMovies(
   minHourFilteringTodaysMissedFilms: number,
   maxHour: number,
   quartiers: Quartier[],
-  filter: string,
+  filterQuery: string,
   events: boolean,
 ) {
   const moviesWithFilteredShowtimes = isMoviesWithShowtimesSeveralDays(movies)
@@ -341,7 +341,7 @@ function filterAndSortMovies(
         .filter((movie) => movie.showtimes_theater.length > 0);
 
   const filteredMovies = moviesWithFilteredShowtimes.filter(
-    (movie) => filter == "" || movieInfoContainsFilteringTerm(movie, filter),
+    (movie) => filterQuery == "" || isMovieFilterMatch(movie, filterQuery),
   );
 
   const sortedFilteredMovies = sortBy(filteredMovies, (movie) => [
