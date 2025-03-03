@@ -1,7 +1,5 @@
 "use server";
 
-import _ from "lodash";
-
 import { getSearchMovies } from "@/lib/movies";
 import { getTheaters } from "@/lib/theaters";
 import { isSearchMatch } from "@/lib/util";
@@ -15,11 +13,10 @@ export async function searchMovies({
 }) {
   const searchMovies = await getSearchMovies();
   return query.length > 0
-    ? _(searchMovies)
+    ? searchMovies
         .filter(([_, record]) => isSearchMatch(query, record))
-        .map(([elem]) => elem)
-        .take(nbResults)
-        .value()
+        .map(([movie]) => movie)
+        .slice(0, nbResults)
     : [];
 }
 
@@ -32,9 +29,8 @@ export async function searchTheaters({
 }) {
   const searchTheaters = await getTheaters();
   return query.length > 0
-    ? _(searchTheaters)
+    ? searchTheaters
         .filter((theater) => isSearchMatch(query, theater.name))
-        .take(nbResults)
-        .value()
+        .slice(0, nbResults)
     : [];
 }

@@ -125,7 +125,11 @@ export default function DirectorView({
                           {movie.title}
                         </div>
                         <div className="flex flex-1 justify-end">
-                          <Seances screenings={movie.theaters} />
+                          <Seances
+                            movie={movie}
+                            screenings={movie.theaters}
+                            day={date}
+                          />
                         </div>
                       </div>
                     ))}
