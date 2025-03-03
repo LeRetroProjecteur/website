@@ -1,12 +1,16 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useKey } from "react-use";
 import { toast } from "sonner";
 
-import { useIsBetaMode } from "./beta-context";
-import { setBetaMode } from "./toggle-beta";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Label } from "../ui/label";
+import { Switch } from "../ui/switch";
+import { useBeta } from "./beta-context";
+import { Feature } from "./beta-handler";
+import { toggleBetaMode, toggleFeature } from "./toggle-beta";
 
 const password = "betamax";
 
@@ -32,29 +36,64 @@ function useToggleBeta(onToggleBeta: () => void) {
 }
 
 export function BetaClientSideHandler() {
-  const isBeta = useIsBetaMode();
+  const beta = useBeta();
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
     (async () => {
-      if (isBeta) {
+      if (beta.showBetaUi) {
         await new Promise((resolve) => setTimeout(resolve));
-        toast.message("BETA", {
-          id: "beta-toast",
-          dismissible: false,
-          duration: Infinity,
-        });
+        toast.message(
+          () => (
+            <span
+              className="cursor-pointer"
+              onClick={() => setDialogOpen(true)}
+            >
+              BETA
+            </span>
+          ),
+          {
+            id: "beta-toast",
+            dismissible: false,
+            duration: Infinity,
+          },
+        );
       } else {
         toast.dismiss("beta-toast");
       }
     })();
-  }, [isBeta]);
+  }, [beta]);
 
   const router = useRouter();
 
+  console.log(beta);
   useToggleBeta(async () => {
-    await setBetaMode();
+    await toggleBetaMode();
     router.refresh();
   });
 
-  return null;
+  return (
+    <Dialog modal={false} open={dialogOpen} onOpenChange={setDialogOpen}>
+      <DialogContent aria-describedby={undefined}>
+        <DialogHeader>
+          <DialogTitle>Features</DialogTitle>
+        </DialogHeader>
+        <div>
+          {Object.entries(beta.features).map(([feature, isActivated]) => (
+            <div key={feature} className="flex justify-between">
+              <Label htmlFor={feature}>{feature}</Label>
+              <Switch
+                id={feature}
+                checked={isActivated}
+                onCheckedChange={async () => {
+                  await toggleFeature(feature as Feature);
+                  router.refresh();
+                }}
+              />
+            </div>
+          ))}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
 }

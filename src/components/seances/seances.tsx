@@ -10,7 +10,7 @@ import { TheaterScreenings } from "@/lib/types";
 import { useHash } from "@/lib/useHash";
 import { floatHourToString, safeDate } from "@/lib/util";
 
-import { useIsBetaMode } from "../beta/beta-context";
+import { useBeta } from "../beta/beta-context";
 import {
   DialogMovie,
   hashSeance,
@@ -196,7 +196,7 @@ function SeancesTheater({
     });
   }, [day, hash, movie, screenings, setSeance, showtimesTheater.name]);
 
-  const isBetaMode = useIsBetaMode();
+  const seanceDialogEnabled = useBeta().features.seanceDialog;
 
   return (
     <div
@@ -219,7 +219,7 @@ function SeancesTheater({
             })}
           >
             <CalendrierCopy className="text-right lg:text-left">
-              {isBetaMode ? (
+              {seanceDialogEnabled ? (
                 <button onClick={() => showDialog({ time: screening.time })}>
                   {floatHourToString(screening.time)}
                 </button>
