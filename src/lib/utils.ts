@@ -1,3 +1,5 @@
+"use client";
+
 import { type ClassValue, clsx } from "clsx";
 import { useEffect, useState } from "react";
 
