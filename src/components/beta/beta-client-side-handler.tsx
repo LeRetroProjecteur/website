@@ -66,7 +66,6 @@ export function BetaClientSideHandler() {
 
   const router = useRouter();
 
-  console.log(beta);
   useToggleBeta(async () => {
     await toggleBetaMode();
     router.refresh();
