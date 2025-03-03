@@ -1,3 +1,4 @@
+import clsx, { ClassValue } from "clsx";
 import { every, mapValues, padStart, pickBy, some } from "lodash-es";
 import { DateTime } from "luxon";
 import Image from "next/image";
@@ -19,6 +20,10 @@ export function isCoupDeCoeur({
   review_category?: string;
 }) {
   return review_category === "COUP DE CŒUR";
+}
+
+export function cn(...inputs: ClassValue[]) {
+  return clsx(inputs);
 }
 
 export function getNextMovieWeek() {

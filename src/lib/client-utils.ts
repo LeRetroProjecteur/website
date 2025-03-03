@@ -1,11 +1,6 @@
 "use client";
 
-import { type ClassValue, clsx } from "clsx";
 import { useEffect, useState } from "react";
-
-export function cn(...inputs: ClassValue[]) {
-  return clsx(inputs);
-}
 
 export function usePrevious<T>(value: T) {
   const [{ curr, prev }, setCurrAndPrev] = useState<{ curr: T; prev: T }>({
