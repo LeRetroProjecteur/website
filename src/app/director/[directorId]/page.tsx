@@ -22,11 +22,9 @@ export default async function DirectorPage(props: {
 }) {
   const { directorId } = await props.params;
   const directorInfo = await getDirectorMovies(directorId);
-  const movies = (
-    await Promise.all(
-      directorInfo.director_movies.map((movieId) => getMovie(movieId)),
-    )
-  ).filter((movie) => movie != null);
+  const movies = await Promise.all(
+    directorInfo.director_movies.map((movieId) => getMovie(movieId)),
+  );
 
   return (
     <DirectorView movies={movies} directorName={directorInfo.director_name} />

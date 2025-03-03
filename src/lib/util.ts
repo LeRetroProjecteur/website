@@ -256,17 +256,12 @@ export function filterByDay(
   const startDate = getStartOfTodayInParis();
   const maxDate = startDate.plus({ days: day_window });
 
-  return pickBy(
-    showtimes, // Use showtimes directly instead of mapping with filterTimes
-    (screenings, date) => {
-      const currentDate = safeDate(date);
-      return (
-        currentDate >= startDate &&
-        currentDate < maxDate &&
-        screenings.length > 0
-      );
-    },
-  );
+  return pickBy(showtimes, (screenings, date) => {
+    const currentDate = safeDate(date);
+    return (
+      currentDate >= startDate && currentDate < maxDate && screenings.length > 0
+    );
+  });
 }
 
 export function staleWhileRevalidate<T>(

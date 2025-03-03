@@ -6,87 +6,47 @@ import React from "react";
 
 import { TwoColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
-import MultiDaySeances from "@/components/seances/multiday-seances";
+import Seances from "@/components/seances/seances";
 import {
+  BodyCopy,
   SectionTitle,
   SousTitre1,
   SubsectionTitle,
 } from "@/components/typography/typography";
 import { MovieDetail } from "@/lib/types";
-import { filterByDay } from "@/lib/util";
-
-const formatDate = (dateStr: string) => {
-  try {
-    const [year, month, day] = dateStr.split("_").map(Number);
-    const date = new Date(year, month - 1, day);
-
-    return new Intl.DateTimeFormat("fr-FR", {
-      weekday: "long",
-      day: "numeric",
-      month: "long",
-    })
-      .format(date)
-      .toUpperCase();
-  } catch (error) {
-    console.error("Error formatting date:", error);
-    return dateStr;
-  }
-};
+import { filterByDay, formatLundi1Janvier, safeDate } from "@/lib/util";
 
 const processMovieScreenings = (movie: MovieDetail, dayWindow = 7) => {
+  // Skip if no screenings
+  if (!movie?.screenings || !Object.keys(movie.screenings).length) {
+    return [];
+  }
+
+  if (Object.keys(movie.screenings).length === 0) return [];
+  let filteredScreenings;
   try {
-    // Skip if no screenings
-    if (!movie?.screenings || !Object.keys(movie.screenings).length) {
-      return [];
-    }
-
-    // Sanitize data to avoid errors in filterByDay
-    const safeScreenings = Object.fromEntries(
-      Object.entries(movie.screenings)
-        .map(([date, theaters]) => {
-          if (!Array.isArray(theaters)) return [date, []];
-
-          const validTheaters = theaters.filter(
-            (theater) =>
-              theater && theater.seances && typeof theater.seances === "object",
-          );
-
-          return [date, validTheaters];
-        })
-        .filter(([_, theaters]) => theaters.length > 0),
-    );
-
-    if (Object.keys(safeScreenings).length === 0) return [];
-
-    // Safely apply filterByDay
-    let filteredScreenings;
-    try {
-      filteredScreenings = filterByDay(safeScreenings, dayWindow);
-    } catch (error) {
-      return [];
-    }
-
-    if (!filteredScreenings || !size(filteredScreenings)) return [];
-
-    // Format the results
-    return Object.entries(filteredScreenings).flatMap(([date, theaters]) => {
-      if (!Array.isArray(theaters)) return [];
-
-      const normalizedTheaters = theaters.map((theater) => ({
-        name: theater.name || "",
-        neighborhood: theater.neighborhood || "",
-        zipcode: theater.zipcode || "",
-        preposition_and_name: theater.preposition_and_name || "",
-        seances: theater.seances || {},
-      }));
-
-      return normalizedTheaters.length > 0
-        ? [{ date, movie, theaters: normalizedTheaters }]
-        : [];
-    });
+    filteredScreenings = filterByDay(movie.screenings, dayWindow);
   } catch (error) {
     return [];
   }
+  if (!filteredScreenings || !size(filteredScreenings)) return [];
+
+  // Format the results
+  return Object.entries(filteredScreenings).flatMap(([date, theaters]) => {
+    if (!Array.isArray(theaters)) return [];
+
+    const normalizedTheaters = theaters.map((theater) => ({
+      name: theater.name || "",
+      neighborhood: theater.neighborhood || "",
+      zipcode: theater.zipcode || "",
+      preposition_and_name: theater.preposition_and_name || "",
+      seances: theater.seances || {},
+    }));
+
+    return normalizedTheaters.length > 0
+      ? [{ date, movie, theaters: normalizedTheaters }]
+      : [];
+  });
 };
 
 const getScreeningsByDate = (movies: MovieDetail[], dayWindow = 7) => {
@@ -115,7 +75,7 @@ export default function DirectorView({
   movies: MovieDetail[];
   directorName: string;
 }) {
-  const sortedMovies = sortBy(movies, [(movie) => Number(movie.year) || 0]);
+  const sortedMovies = sortBy(movies, (movie) => Number(movie.year) || 0);
   const screeningsByDate = getScreeningsByDate(movies);
 
   return (
@@ -145,24 +105,38 @@ export default function DirectorView({
         }
         right={
           <>
+            <div className="mb-12 block md:hidden"></div>
             <SectionTitle>Prochaines séances à Paris</SectionTitle>
             <div className="flex flex-col">
-              {screeningsByDate.map(({ date, moviesForDay }) => (
-                <div key={date}>
-                  <SubsectionTitle align="text-left">
-                    <span className="uppercase">{formatDate(date)}</span>
-                  </SubsectionTitle>
-                  {moviesForDay.map((movie) => (
-                    <MultiDaySeances
-                      key={movie.id}
-                      screenings={{ [date]: movie.theaters }}
-                      groupClassName="flex items-center border-b py-12px [&>div:first-child]:w-40 [&>div:first-child]:shrink-0"
-                      hideDate={true}
-                      title={movie.title}
-                    />
-                  ))}
+              {size(screeningsByDate) > 0 ? (
+                screeningsByDate.map(({ date, moviesForDay }) => (
+                  <div key={date}>
+                    <SubsectionTitle align="text-left">
+                      <span>
+                        {formatLundi1Janvier(safeDate(date)).toUpperCase()}
+                      </span>
+                    </SubsectionTitle>
+                    {moviesForDay.map((movie) => (
+                      <div
+                        key={movie.id}
+                        className="flex items-start border-b py-12px"
+                      >
+                        <div className="w-60 shrink-0 pr-6 uppercase italic">
+                          {movie.title}
+                        </div>
+                        <div className="flex flex-1 justify-end">
+                          <Seances screenings={movie.theaters} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ))
+              ) : (
+                // Pas de séances
+                <div className="border-b py-12px text-center lg:grow lg:py-16px">
+                  <BodyCopy>Pas de séances prévues pour le moment</BodyCopy>
                 </div>
-              ))}
+              )}
             </div>
           </>
         }
