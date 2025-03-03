@@ -200,22 +200,19 @@ function MovieInformation({
                     <>
                       {" "}
                       <br />
-                      <div>
-                        SYNOPSIS&nbsp;: {firstPart}
-                        {secondPart !== "" ? (
-                          <>
-                            <span>. </span>
-                            <Collapsible className="inline">
-                              <CollapsibleTrigger className="data-[state=open]:hidden">
-                                [...]
-                              </CollapsibleTrigger>
+                      <Collapsible disabled={secondPart === ""}>
+                        <CollapsibleTrigger className="text-left data-[state=closed]:after:content-['[...]']">
+                          SYNOPSIS&nbsp;: {firstPart}
+                          {secondPart !== "" ? (
+                            <>
+                              <span>. </span>
                               <CollapsibleContent className="inline">
                                 {secondPart}
                               </CollapsibleContent>
-                            </Collapsible>
-                          </>
-                        ) : null}
-                      </div>
+                            </>
+                          ) : null}
+                        </CollapsibleTrigger>
+                      </Collapsible>
                     </>
                   );
                 })()
