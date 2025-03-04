@@ -4,7 +4,7 @@ import { Metadata } from "next";
 import { getDirectorMovies } from "@/lib/directors";
 import { getMovie } from "@/lib/movies";
 
-import DirectorView from "./director";
+import DirectorView from "./cineaste";
 
 export async function generateMetadata(props: {
   params: Promise<{ directorId: string }>;

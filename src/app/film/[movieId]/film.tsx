@@ -64,9 +64,14 @@ export default function Film({
 }
 
 function MovieHeader({ movie }: { movie: MovieDetail }) {
+  const formattedDirectorName = movie.directors
+    .toLowerCase()
+    .replace(/\s+/g, "-");
   return (
     <SousTitre1>
-      <u>{movie.title}</u>, {movie.directors} ({movie.year})
+      <u>{movie.title}</u>,{" "}
+      <Link href={`/cineaste/${formattedDirectorName}`}>{movie.directors}</Link>{" "}
+      ({movie.year})
     </SousTitre1>
   );
 }
