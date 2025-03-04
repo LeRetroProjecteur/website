@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 
 import { MetaCopy } from "@/components/typography/typography";
-import { blurProps } from "@/lib/util";
+import { blurProps } from "@/lib/utils";
 
 export function ThumbnailWithBlurb({
   link,

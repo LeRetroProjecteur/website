@@ -17,7 +17,7 @@ import { StoreApi, createStore, useStore } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
 import { MANUAL_HASH_CHANGE_EVENT } from "@/lib/useHash";
-import { checkNotNull, formatLundi1Janvier } from "@/lib/util";
+import { checkNotNull, formatLundi1Janvier } from "@/lib/utils";
 
 import RetroInput from "../forms/retro-input";
 import { MetaCopy } from "../typography/typography";

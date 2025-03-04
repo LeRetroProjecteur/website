@@ -4,7 +4,7 @@ import ReactSlider from "react-slider";
 
 import { ButtonCopy } from "@/components/typography/typography";
 import { useCalendrierStore } from "@/lib/calendrier-store";
-import { checkNotNull } from "@/lib/util";
+import { checkNotNull } from "@/lib/utils";
 
 export default function TimeSlider() {
   const minHour = useCalendrierStore((s) => s.minHour);

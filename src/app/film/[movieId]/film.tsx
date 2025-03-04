@@ -30,7 +30,7 @@ import {
   getImageUrl,
   getMovieTags,
   safeDate,
-} from "@/lib/util";
+} from "@/lib/utils";
 
 export default function Film({
   movie,

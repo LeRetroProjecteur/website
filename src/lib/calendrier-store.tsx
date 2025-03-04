@@ -2,7 +2,7 @@ import { without } from "lodash-es";
 import { DateTime } from "luxon";
 import { StoreApi, UseBoundStore, create } from "zustand";
 
-import { getStartOfTodayInParis } from "./util";
+import { getStartOfTodayInParis } from "./utils";
 
 export enum Quartier {
   RG = "rg",

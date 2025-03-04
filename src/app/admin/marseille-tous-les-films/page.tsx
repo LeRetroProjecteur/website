@@ -1,6 +1,6 @@
 import MarseilleCalendrier from "@/app/admin/marseille/marseille";
 import { getDayMovies } from "@/lib/movies";
-import { getStartOfTodayInParis } from "@/lib/util";
+import { getStartOfTodayInParis } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 

@@ -7,7 +7,7 @@ import React from "react";
 import Seances from "@/components/seances/seances";
 import { BodyCopy } from "@/components/typography/typography";
 import { TheaterScreenings } from "@/lib/types";
-import { formatMerJJMM, safeDate } from "@/lib/util";
+import { formatMerJJMM, safeDate } from "@/lib/utils";
 
 import { DialogMovie } from "../seance-dialog/seance-dialog";
 

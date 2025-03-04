@@ -19,7 +19,7 @@ import {
   formatLundi1Janvier,
   formatYYYYMMDD,
   getNextMovieWeek,
-} from "@/lib/util";
+} from "@/lib/utils";
 
 interface Inputs {
   mercredi: string;
