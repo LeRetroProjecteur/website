@@ -1,6 +1,6 @@
 import { handleIfNoneMatch } from "@/lib/etag";
 import { getDayMovies } from "@/lib/movies";
-import { safeDate } from "@/lib/util";
+import { safeDate } from "@/lib/utils";
 
 export async function GET(
   request: Request,

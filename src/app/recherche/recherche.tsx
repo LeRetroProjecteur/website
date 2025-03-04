@@ -13,7 +13,7 @@ import { Loading } from "@/components/icons/loading";
 import PageHeader, { FixedHeader } from "@/components/layout/page-header";
 import { MetaCopy } from "@/components/typography/typography";
 import { SearchMovie, SearchTheater } from "@/lib/types";
-import { TAG_MAP } from "@/lib/util";
+import { TAG_MAP } from "@/lib/utils";
 
 import { searchMovies, searchTheaters } from "./actions";
 

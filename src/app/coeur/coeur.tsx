@@ -23,7 +23,7 @@ import {
   getImageUrl,
   isCoupDeCoeur,
   safeDate,
-} from "@/lib/util";
+} from "@/lib/utils";
 
 import { clearCoeurCache } from "../actions/cache";
 

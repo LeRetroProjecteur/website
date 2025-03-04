@@ -6,7 +6,7 @@ import { useCallback } from "react";
 import { LeftArrow, RightArrow } from "@/components/icons/arrows";
 import { SousTitre1 } from "@/components/typography/typography";
 import { useCalendrierStore } from "@/lib/calendrier-store";
-import { formatLundi1Janvier, getStartOfTodayInParis } from "@/lib/util";
+import { formatLundi1Janvier, getStartOfTodayInParis } from "@/lib/utils";
 
 export default function DateSelector() {
   const date = useCalendrierStore((s) => s.date);

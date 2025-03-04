@@ -8,7 +8,7 @@ import React from "react";
 import { transformZipcode } from "@/components/theaters/theaters";
 import { TheaterScreenings } from "@/lib/types";
 import { useHash } from "@/lib/useHash";
-import { floatHourToString, safeDate } from "@/lib/util";
+import { floatHourToString, safeDate } from "@/lib/utils";
 
 import { useBeta } from "../beta/beta-context";
 import {

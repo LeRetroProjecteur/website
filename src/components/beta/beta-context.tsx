@@ -3,7 +3,7 @@
 import { createContext, useContext } from "react";
 import React from "react";
 
-import { checkNotNull } from "@/lib/util";
+import { checkNotNull } from "@/lib/utils";
 
 import { BetaClientSideHandler } from "./beta-client-side-handler";
 import { Beta } from "./beta-handler";

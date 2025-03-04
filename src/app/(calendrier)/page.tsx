@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import { getDayMovies } from "@/lib/movies";
-import { getStartOfTodayInParis } from "@/lib/util";
+import { getStartOfTodayInParis } from "@/lib/utils";
 
 import Calendrier from "./calendrier";
 

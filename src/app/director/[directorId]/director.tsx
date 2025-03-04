@@ -14,7 +14,7 @@ import {
   SubsectionTitle,
 } from "@/components/typography/typography";
 import { MovieDetail } from "@/lib/types";
-import { filterByDay, formatLundi1Janvier, safeDate } from "@/lib/util";
+import { filterByDay, formatLundi1Janvier, safeDate } from "@/lib/utils";
 
 const processMovieScreenings = (movie: MovieDetail, dayWindow = 7) => {
   // Skip if no screenings

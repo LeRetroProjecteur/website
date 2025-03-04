@@ -3,7 +3,7 @@ import { filter, memoize, min, omit, sortBy } from "lodash-es";
 import { unstable_cache } from "next/cache";
 import { z } from "zod";
 
-import { checkNotNull } from "./util";
+import { checkNotNull } from "./utils";
 import { getWikipediaUrls } from "./wikimedia";
 
 export type TmdbMovie = Awaited<ReturnType<typeof getMovieDetailsFromTmdb>>;

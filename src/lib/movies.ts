@@ -27,7 +27,7 @@ import {
   getMovieInfoString,
   getNextMovieWeek,
   staleWhileRevalidate,
-} from "./util";
+} from "./utils";
 
 export const getWeekMovies = async () => {
   const nextMovieWeek = getNextMovieWeek();

@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 
 import Menu from "@/components/menu/menu";
 import { useMenuStore } from "@/lib/menu-store";
-import { useIsMobile } from "@/lib/util";
+import { useIsMobile } from "@/lib/utils";
 
 export default function MenuWrapper({
   children,
