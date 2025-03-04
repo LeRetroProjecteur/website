@@ -45,8 +45,8 @@ const DialogContent = React.forwardRef<
       ref={ref}
       className={cn(
         "fixed left-[50%] top-[50%] z-50 flex w-screen translate-x-[-50%]" +
-          " translate-y-[-50%] items-center justify-center p-20px lg:w-[30vw]" +
-          " lg:min-w-[410px]",
+          " translate-y-[-50%] items-center justify-center p-20px lg:w-[25vw]" +
+          " lg:min-w-[440px]",
         className,
       )}
       {...props}
