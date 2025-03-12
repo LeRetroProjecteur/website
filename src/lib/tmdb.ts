@@ -197,10 +197,19 @@ function getLikeliestMovie({
       );
       const directorScore =
         min(directorPairs.map(([a, b]) => distance(a, b))) ?? 0;
-      const titleScore = distance(title, movie.title);
+      const titleScore = Math.min(
+        distance(title, movie.title),
+        distance(title, movie.title.substring(0, title.length)),
+      );
       const originalTitleScore =
         originalTitle != null
-          ? distance(originalTitle, movie.original_title)
+          ? Math.min(
+              distance(originalTitle, movie.original_title),
+              distance(
+                originalTitle,
+                movie.original_title.substring(0, originalTitle.length),
+              ),
+            )
           : 0;
       const yearScore = Math.abs(
         Number(year) - Number(movie.release_date.slice(0, 4)),
@@ -237,7 +246,11 @@ export async function _getMovieDetailsFromTmdb({
       const searchResults = (await searchMovie({ title, year })).results;
       const moviesWithCredits = await Promise.all(
         searchResults
-          .filter((movie) => distance(movie.title, title) < 5)
+          .filter(
+            (movie) =>
+              distance(movie.title, title) < 5 ||
+              distance(movie.title.substring(0, title.length), title) < 5,
+          )
           .map<Promise<MovieWithCredits>>(async (movie) => [
             movie,
             await getMovieCredits({ movieId: movie.id }),
