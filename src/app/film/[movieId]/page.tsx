@@ -1,7 +1,9 @@
+import { cloneDeep } from "lodash-es";
 import { Metadata } from "next";
 
 import { getMovie } from "@/lib/movies";
 import { getMovieDetailsFromTmdb } from "@/lib/tmdb";
+import { MovieDetail } from "@/lib/types";
 
 import Film from "./film";
 
@@ -30,9 +32,22 @@ export default async function FilmPage(props: {
   return <FilmPageLoader movieId={movieId} />;
 }
 
+function applyHardcodedEdits(movie_: MovieDetail): MovieDetail {
+  const movie = cloneDeep(movie_);
+
+  if (movie.id === "recreations-1992") {
+    movie.year = "1993";
+  }
+
+  return movie;
+}
+
 async function FilmPageLoader({ movieId }: { movieId: string }) {
   const movie = await getMovie(movieId);
   return (
-    <Film movie={movie} tmdbMovie={await getMovieDetailsFromTmdb(movie)} />
+    <Film
+      movie={movie}
+      tmdbMovie={await getMovieDetailsFromTmdb(applyHardcodedEdits(movie))}
+    />
   );
 }
