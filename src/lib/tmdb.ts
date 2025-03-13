@@ -16,6 +16,7 @@ type QueryInput = {
   originalTitle?: string;
   directors: string;
   year: string;
+  tmdb_id?: number;
 };
 
 const searchResponseSchema = z.object({
@@ -160,6 +161,34 @@ const getConfiguration = memoize(async () => {
   return configurationSchema.parse(response);
 });
 
+async function getMovieDetailsfromTmdbId({ tmdb_id }: { tmdb_id: number }) {
+  // Fetch movie details in French
+  const response = await tmdbRequest(`/movie/${tmdb_id}`, {
+    language: "fr-FR",
+  });
+
+  // Try English version if overview is missing
+  let overview = response.overview || "";
+  if (!overview && response.original_language !== "fr") {
+    const enResponse = await tmdbRequest(`/movie/${tmdb_id}`, {
+      language: "en-US",
+    });
+    overview = enResponse.overview || "";
+  }
+
+  // Return formatted movie data
+  return {
+    id: tmdb_id,
+    original_language: response.original_language || "",
+    original_title: response.original_title || "",
+    overview: overview,
+    release_date:
+      response.release_date || new Date().toISOString().split("T")[0],
+    title: response.title || "",
+    genre_ids: response.genre_ids || [],
+  };
+}
+
 function getAsImageWithUrl(
   image: z.infer<typeof imagesResponseSchema>["backdrops"][number],
   config: z.infer<typeof configurationSchema>,
@@ -237,12 +266,17 @@ export async function _getMovieDetailsFromTmdb({
   originalTitle,
   directors,
   year,
+  tmdb_id,
 }: QueryInput) {
   try {
     const genresPromise = getGenres();
     const configuration = getConfiguration();
 
     const movie = await (async function searchAndPickClosestMatch() {
+      if (tmdb_id) {
+        return await getMovieDetailsfromTmdbId({ tmdb_id: tmdb_id });
+      }
+
       const searchResults = (await searchMovie({ title, year })).results;
       const moviesWithCredits = await Promise.all(
         searchResults
