@@ -350,7 +350,7 @@ export async function _getMovieDetailsFromTmdb({
     const movieWithGenreNames = {
       ...omit(movie, "genre_ids"),
       genres: movie.genre_ids.map(
-        (id) => checkNotNull(genres.genres.find((g) => g.id === id)).name,
+        (id: number) => checkNotNull(genres.genres.find((g) => g.id === id)).name,
       ),
     };
 
