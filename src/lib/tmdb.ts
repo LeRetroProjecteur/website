@@ -277,7 +277,6 @@ export async function _getMovieDetailsFromTmdb({
 
     const movie = await (async function searchAndPickClosestMatch() {
       if (tmdb_id != null) {
-        console.log("tmdb_id", tmdb_id);
         return await getMovieDetailsfromTmdbId({ tmdb_id: tmdb_id });
       }
 
