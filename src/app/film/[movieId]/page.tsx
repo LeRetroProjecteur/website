@@ -9,7 +9,6 @@ export async function generateMetadata(props: {
   params: Promise<{ movieId: string }>;
 }): Promise<Metadata> {
   const params = await props.params;
-
   const { movieId } = params;
 
   return {
@@ -24,7 +23,6 @@ export default async function FilmPage(props: {
   params: Promise<{ movieId: string }>;
 }) {
   const params = await props.params;
-
   const { movieId } = params;
 
   return <FilmPageLoader movieId={movieId} />;
@@ -32,13 +30,7 @@ export default async function FilmPage(props: {
 
 async function FilmPageLoader({ movieId }: { movieId: string }) {
   const movie = await getMovie(movieId);
-  const tmdbParams = {
-    ...movie,
-  };
-  if (movie.tmdb_id) {
-    tmdbParams.tmdb_id = movie.tmdb_id;
-  }
   return (
-    <Film movie={movie} tmdbMovie={await getMovieDetailsFromTmdb(tmdbParams)} />
+    <Film movie={movie} tmdbMovie={await getMovieDetailsFromTmdb(movie)} />
   );
 }
