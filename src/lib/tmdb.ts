@@ -16,6 +16,7 @@ type QueryInput = {
   originalTitle?: string;
   directors: string;
   year: string;
+  tmdb_id?: number;
 };
 
 const searchResponseSchema = z.object({
@@ -89,6 +90,16 @@ const creditsSchema = z.object({
   ),
 });
 
+const movieByIdResponseSchema = z.object({
+  genres: z.array(z.object({ id: z.number() })),
+  id: z.number(),
+  original_language: z.string(),
+  original_title: z.string(),
+  overview: z.string(),
+  release_date: z.string().date(),
+  title: z.string(),
+});
+
 const TMDB_API_KEY = () => checkNotNull(process.env.TMDB_API_KEY);
 const TMDB_BASE = "https://api.themoviedb.org/3";
 const CONFIGURATION_PATH = "/configuration";
@@ -159,6 +170,23 @@ const getConfiguration = memoize(async () => {
   const response = await tmdbRequest(CONFIGURATION_PATH);
   return configurationSchema.parse(response);
 });
+
+async function getMovieDetailsfromTmdbId({
+  tmdb_id,
+}: {
+  tmdb_id: number;
+}): Promise<SearchMovie> {
+  const response = movieByIdResponseSchema.parse(
+    await tmdbRequest(`/movie/${tmdb_id}`, {
+      language: "fr-FR",
+    }),
+  );
+
+  return {
+    ...response,
+    genre_ids: response.genres.map(({ id }) => id),
+  };
+}
 
 function getAsImageWithUrl(
   image: z.infer<typeof imagesResponseSchema>["backdrops"][number],
@@ -237,12 +265,17 @@ export async function _getMovieDetailsFromTmdb({
   originalTitle,
   directors,
   year,
+  tmdb_id,
 }: QueryInput) {
   try {
     const genresPromise = getGenres();
     const configuration = getConfiguration();
 
     const movie = await (async function searchAndPickClosestMatch() {
+      if (tmdb_id != null) {
+        return await getMovieDetailsfromTmdbId({ tmdb_id: tmdb_id });
+      }
+
       const searchResults = (await searchMovie({ title, year })).results;
       const moviesWithCredits = await Promise.all(
         searchResults
@@ -313,13 +346,13 @@ export async function _getMovieDetailsFromTmdb({
       })();
 
     const genres = await genresPromise;
+
     const movieWithGenreNames = {
       ...omit(movie, "genre_ids"),
       genres: movie.genre_ids.map(
         (id) => checkNotNull(genres.genres.find((g) => g.id === id)).name,
       ),
     };
-
     return {
       movie: movieWithGenreNames,
       image,

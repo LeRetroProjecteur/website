@@ -21,6 +21,7 @@ export interface MovieDetail extends MovieInfo {
   review?: string;
   review_category?: string;
   review_date?: string;
+  tmdb_id?: number;
 }
 
 export interface Review extends MovieInfo {
