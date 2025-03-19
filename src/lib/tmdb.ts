@@ -90,6 +90,16 @@ const creditsSchema = z.object({
   ),
 });
 
+const movieByIdResponseSchema = z.object({
+  genres: z.array(z.object({ id: z.number() })),
+  id: z.number(),
+  original_language: z.string(),
+  original_title: z.string(),
+  overview: z.string(),
+  release_date: z.string().date(),
+  title: z.string(),
+});
+
 const TMDB_API_KEY = () => checkNotNull(process.env.TMDB_API_KEY);
 const TMDB_BASE = "https://api.themoviedb.org/3";
 const CONFIGURATION_PATH = "/configuration";
@@ -161,34 +171,20 @@ const getConfiguration = memoize(async () => {
   return configurationSchema.parse(response);
 });
 
-async function getMovieDetailsfromTmdbId({ tmdb_id }: { tmdb_id: number }) {
-  console.log("getMovieDetailsfromTmdbId", tmdb_id);
-  // Fetch movie details in French
-  const response = await tmdbRequest(`/movie/${tmdb_id}`, {
-    language: "fr-FR",
-  });
+async function getMovieDetailsfromTmdbId({
+  tmdb_id,
+}: {
+  tmdb_id: number;
+}): Promise<SearchMovie> {
+  const response = movieByIdResponseSchema.parse(
+    await tmdbRequest(`/movie/${tmdb_id}`, {
+      language: "fr-FR",
+    }),
+  );
 
-  // Try English version if overview is missing
-  let overview = response.overview || "";
-  if (!overview && response.original_language !== "fr") {
-    const enResponse = await tmdbRequest(`/movie/${tmdb_id}`, {
-      language: "en-US",
-    });
-    overview = enResponse.overview || "";
-  }
-  console.log("overview", overview);
-  console.log("response", response);
-
-  // Return formatted movie data
   return {
-    id: tmdb_id,
-    original_language: response.original_language || "",
-    original_title: response.original_title || "",
-    overview: overview,
-    release_date:
-      response.release_date || new Date().toISOString().split("T")[0],
-    title: response.title || "",
-    genre_ids: response.genres || [],
+    ...response,
+    genre_ids: response.genres.map(({ id }) => id),
   };
 }
 
@@ -350,25 +346,13 @@ export async function _getMovieDetailsFromTmdb({
       })();
 
     const genres = await genresPromise;
-    let movieWithGenreNames;
 
-    if (tmdb_id != null) {
-      movieWithGenreNames = {
-        ...omit(movie, "genre_ids"),
-        genres: movie.genre_ids.map(
-          (genre: { id: number; name: string }) => genre.name,
-        ),
-      };
-    } else {
-      movieWithGenreNames = {
-        ...omit(movie, "genre_ids"),
-        genres: movie.genre_ids.map(
-          (id: number) =>
-            checkNotNull(genres.genres.find((g) => g.id === id)).name,
-        ),
-      };
-    }
-
+    const movieWithGenreNames = {
+      ...omit(movie, "genre_ids"),
+      genres: movie.genre_ids.map(
+        (id) => checkNotNull(genres.genres.find((g) => g.id === id)).name,
+      ),
+    };
     return {
       movie: movieWithGenreNames,
       image,

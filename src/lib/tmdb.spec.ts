@@ -69,4 +69,36 @@ describe("tmdb", () => {
       },
     });
   });
+
+  it("should work by id", async () => {
+    expect(
+      await _getMovieDetailsFromTmdb({
+        title: "Frankenstein",
+        year: "1931",
+        directors: "James Whale",
+        tmdb_id: 3035,
+      }),
+    ).toEqual({
+      wikipediaEnUrl: "https://en.wikipedia.org/wiki/Frankenstein_(1931_film)",
+      wikipediaFrUrl: "https://fr.wikipedia.org/wiki/Frankenstein_(film,_1931)",
+      image: {
+        aspect_ratio: 1.778,
+        file_path: "/wFbPbJ9uRDpjY7micBTeolgkOA4.jpg",
+        height: 1080,
+        iso_639_1: null,
+        url: "https://image.tmdb.org/t/p/w780/wFbPbJ9uRDpjY7micBTeolgkOA4.jpg",
+        width: 1920,
+      },
+      movie: {
+        genres: ["Drame", "Horreur", "Science-Fiction"],
+        id: 3035,
+        original_language: "en",
+        original_title: "Frankenstein",
+        overview:
+          "Le jeune savant Henry Frankenstein parvient, à partir de restes humains assemblés, à donner vie à une créature.",
+        release_date: "1931-11-21",
+        title: "Frankenstein",
+      },
+    });
+  });
 });
