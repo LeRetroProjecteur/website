@@ -124,7 +124,6 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
     movieDate,
     movieTheater,
   } = seance;
-
   return (
     <DialogContent aria-describedby={undefined}>
       <DialogHeader>
@@ -151,7 +150,7 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
           case "add-to-calendar":
             return <AddToCalendar seance={seance} />;
           case "share":
-            return <ShareSeance />;
+            return <ShareSeance seance={seance} />;
         }
       })()}
     </DialogContent>
@@ -225,8 +224,20 @@ function AddToCalendar({
   );
 }
 
-function ShareSeance() {
+function ShareSeance({
+  seance: {
+    movie: { id },
+  },
+}: {
+  seance: DialogSeance;
+}) {
   const [showCopied, startShowingCopied] = useTransition();
+  const shareUrl = () => {
+    const baseUrl = window.location.origin;
+    const hashPart = window.location.hash;
+    return `${baseUrl}/film/${id}${hashPart}`;
+  };
+  const url = shareUrl();
 
   return (
     <>
@@ -236,7 +247,7 @@ function ShareSeance() {
           blue
           setValue={() => {}}
           placeholder=""
-          value={window.location.href}
+          value={url}
         />
         <div className="justify-end">
           <Button
@@ -244,7 +255,7 @@ function ShareSeance() {
             variant="default"
             asChild
             onClick={() => {
-              navigator.clipboard.writeText(window.location.href);
+              navigator.clipboard.writeText(url);
               startShowingCopied(async () => {
                 await new Promise((resolve) => setTimeout(resolve, 1000));
               });
