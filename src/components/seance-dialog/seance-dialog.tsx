@@ -132,8 +132,12 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
       <div className="border-b pb-16px">
         <MetaCopy>
           <div className="text-center leading-[26px]">
-            <u>{title}</u> ({year})<br />
-            {directors}
+            <span className="whitespace-nowrap">
+              <u>{title}</u>,
+            </span>{" "}
+            <span className="whitespace-nowrap">
+              {directors} ({year})
+            </span>
             <br />
             <br />
             {formatLundi1Janvier(movieDate)} à{" "}
