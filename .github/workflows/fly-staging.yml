@@ -2,7 +2,7 @@ name: Fly Deploy (staging)
 on:
   push:
     branches:
-      - nico/poll-banner
+      - remove-popup
 jobs:
   deploy:
     name: Deploy app
