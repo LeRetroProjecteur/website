@@ -218,7 +218,13 @@ function AddToCalendar({
       <div className="grid grid-cols-2 grid-cols-[1fr,1fr] gap-14px">
         {Object.entries(links).map(([type, link]) => (
           <Button padding="padded" variant="default" asChild key={type}>
-            <Link target="_blank" href={link}>
+            <Link
+              target="_blank"
+              href={link}
+              {...(type === "ical"
+                ? { download: `${title} (${movieTheater}).ics` }
+                : {})}
+            >
               {type}
             </Link>
           </Button>
