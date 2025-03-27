@@ -35,6 +35,7 @@ export type DialogSeance = {
   movie: DialogMovie;
   movieDate: DateTime;
   movieTheater: string;
+  movieNote: string;
 };
 
 export async function hashSeance(seance: DialogSeance) {
@@ -106,7 +107,6 @@ export function useSeanceDialogStore<T>(selector: (s: DialogStore) => T): T {
 export function SeanceDialog() {
   const seance = useSeanceDialogStore((s) => s.seance);
   const clearSeance = useSeanceDialogStore((s) => s.clearSeance);
-
   return (
     <Dialog modal={false} open={seance != null} onOpenChange={clearSeance}>
       {seance == null ? null : <SeanceDialogBody seance={seance} />}
@@ -123,7 +123,9 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
     movie: { title, year, directors },
     movieDate,
     movieTheater,
+    movieNote,
   } = seance;
+  console.log(movieNote);
   return (
     <DialogContent aria-describedby={undefined}>
       <DialogHeader>
@@ -133,7 +135,10 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
         <MetaCopy>
           <div className="text-center leading-[26px]">
             <span className="whitespace-nowrap">
-              <u>{title}</u>,
+              <i>
+                <u>{title}</u>
+              </i>
+              ,
             </span>{" "}
             <span className="whitespace-nowrap">
               {directors} ({year})
@@ -144,6 +149,8 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
             {movieDate.toLocaleString(DateTime.TIME_SIMPLE)}
             <br />
             {movieTheater}
+            <br />
+            {movieNote}
           </div>
         </MetaCopy>
       </div>

@@ -129,11 +129,13 @@ function toSeance({
   movie,
   time,
   theaterName,
+  notes,
 }: {
   day: string;
   movie: DialogMovie;
   time: number;
   theaterName: string;
+  notes?: string;
 }) {
   const date = safeDate(day).set({
     hour: Math.floor(time),
@@ -143,6 +145,7 @@ function toSeance({
     movieDate: date,
     movieTheater: theaterName,
     movie,
+    movieNote: notes || "",
   };
 }
 
@@ -183,12 +186,13 @@ function SeancesTheater({
       return;
     }
 
-    screenings.forEach(async ({ time }) => {
+    screenings.forEach(async ({ time, notes }) => {
       const seance = toSeance({
         day,
         movie,
         time,
         theaterName: showtimesTheater.name,
+        notes,
       });
       if ((await hashSeance(seance)) === hash) {
         setSeance(seance);
