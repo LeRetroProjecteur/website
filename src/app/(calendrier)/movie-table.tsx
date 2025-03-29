@@ -30,7 +30,7 @@ import {
   isMovieFilterMatch,
   isMovieWithShowtimesSeveralDays,
   isMoviesWithShowtimesSeveralDays,
-} from "@/lib/util";
+} from "@/lib/utils";
 
 import coupDeCoeur from "../../assets/coup-de-coeur.png";
 
@@ -112,7 +112,7 @@ export default function MovieTable({
               filter,
               events,
             }}
-            date={allMovies ? undefined : date}
+            date={date}
           />
         )}
       </SuspenseWithLoading>

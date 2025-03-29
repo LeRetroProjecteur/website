@@ -8,7 +8,7 @@ import {
   SousTitre1,
   SubsectionTitle,
 } from "@/components/typography/typography";
-import { blurProps } from "@/lib/util";
+import { blurProps } from "@/lib/utils";
 
 import { ThreeColumnPage } from "../layout/page";
 

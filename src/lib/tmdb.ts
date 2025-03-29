@@ -3,7 +3,7 @@ import { filter, memoize, min, omit, sortBy } from "lodash-es";
 import { unstable_cache } from "next/cache";
 import { z } from "zod";
 
-import { checkNotNull } from "./util";
+import { checkNotNull } from "./utils";
 import { getWikipediaUrls } from "./wikimedia";
 
 export type TmdbMovie = Awaited<ReturnType<typeof getMovieDetailsFromTmdb>>;
@@ -16,6 +16,7 @@ type QueryInput = {
   originalTitle?: string;
   directors: string;
   year: string;
+  tmdb_id?: number;
 };
 
 const searchResponseSchema = z.object({
@@ -89,6 +90,16 @@ const creditsSchema = z.object({
   ),
 });
 
+const movieByIdResponseSchema = z.object({
+  genres: z.array(z.object({ id: z.number() })),
+  id: z.number(),
+  original_language: z.string(),
+  original_title: z.string(),
+  overview: z.string(),
+  release_date: z.string().date(),
+  title: z.string(),
+});
+
 const TMDB_API_KEY = () => checkNotNull(process.env.TMDB_API_KEY);
 const TMDB_BASE = "https://api.themoviedb.org/3";
 const CONFIGURATION_PATH = "/configuration";
@@ -160,6 +171,23 @@ const getConfiguration = memoize(async () => {
   return configurationSchema.parse(response);
 });
 
+async function getMovieDetailsfromTmdbId({
+  tmdb_id,
+}: {
+  tmdb_id: number;
+}): Promise<SearchMovie> {
+  const response = movieByIdResponseSchema.parse(
+    await tmdbRequest(`/movie/${tmdb_id}`, {
+      language: "fr-FR",
+    }),
+  );
+
+  return {
+    ...response,
+    genre_ids: response.genres.map(({ id }) => id),
+  };
+}
+
 function getAsImageWithUrl(
   image: z.infer<typeof imagesResponseSchema>["backdrops"][number],
   config: z.infer<typeof configurationSchema>,
@@ -197,10 +225,19 @@ function getLikeliestMovie({
       );
       const directorScore =
         min(directorPairs.map(([a, b]) => distance(a, b))) ?? 0;
-      const titleScore = distance(title, movie.title);
+      const titleScore = Math.min(
+        distance(title, movie.title),
+        distance(title, movie.title.substring(0, title.length)),
+      );
       const originalTitleScore =
         originalTitle != null
-          ? distance(originalTitle, movie.original_title)
+          ? Math.min(
+              distance(originalTitle, movie.original_title),
+              distance(
+                originalTitle,
+                movie.original_title.substring(0, originalTitle.length),
+              ),
+            )
           : 0;
       const yearScore = Math.abs(
         Number(year) - Number(movie.release_date.slice(0, 4)),
@@ -228,16 +265,25 @@ export async function _getMovieDetailsFromTmdb({
   originalTitle,
   directors,
   year,
+  tmdb_id,
 }: QueryInput) {
   try {
     const genresPromise = getGenres();
     const configuration = getConfiguration();
 
     const movie = await (async function searchAndPickClosestMatch() {
+      if (tmdb_id != null) {
+        return await getMovieDetailsfromTmdbId({ tmdb_id: tmdb_id });
+      }
+
       const searchResults = (await searchMovie({ title, year })).results;
       const moviesWithCredits = await Promise.all(
         searchResults
-          .filter((movie) => distance(movie.title, title) < 5)
+          .filter(
+            (movie) =>
+              distance(movie.title, title) < 5 ||
+              distance(movie.title.substring(0, title.length), title) < 5,
+          )
           .map<Promise<MovieWithCredits>>(async (movie) => [
             movie,
             await getMovieCredits({ movieId: movie.id }),
@@ -300,13 +346,13 @@ export async function _getMovieDetailsFromTmdb({
       })();
 
     const genres = await genresPromise;
+
     const movieWithGenreNames = {
       ...omit(movie, "genre_ids"),
       genres: movie.genre_ids.map(
         (id) => checkNotNull(genres.genres.find((g) => g.id === id)).name,
       ),
     };
-
     return {
       movie: movieWithGenreNames,
       image,

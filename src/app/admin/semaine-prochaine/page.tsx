@@ -5,7 +5,7 @@ import {
 import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
 import { getWeekMovies } from "@/lib/movies";
-import { formatLundi1Janvier, getNextMovieWeek } from "@/lib/util";
+import { formatLundi1Janvier, getNextMovieWeek } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 

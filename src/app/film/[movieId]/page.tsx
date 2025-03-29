@@ -9,14 +9,30 @@ export async function generateMetadata(props: {
   params: Promise<{ movieId: string }>;
 }): Promise<Metadata> {
   const params = await props.params;
-
   const { movieId } = params;
+  const movie = await getMovie(movieId);
+  const tmdbMovie = await getMovieDetailsFromTmdb(movie);
 
   return {
-    title: `${(await getMovie(movieId)).title}`,
-    description: `Prochaines séances à Paris de ${
-      (await getMovie(movieId)).title
-    }`,
+    title: `${movie.title}`,
+    description: `Prochaines séances à Paris de ${movie.title}`,
+    ...(tmdbMovie?.image != null
+      ? {
+          openGraph: {
+            type: "video.movie",
+            title: `${movie.title}`,
+            description: `Prochaines séances à Paris de ${movie.title}`,
+            url: `https://leretroprojecteur.com/film/${movie.id}`,
+            images: [
+              {
+                url: tmdbMovie?.image?.url,
+                height: tmdbMovie?.image?.height,
+                width: tmdbMovie?.image?.width,
+              },
+            ],
+          },
+        }
+      : {}),
   };
 }
 
@@ -24,7 +40,6 @@ export default async function FilmPage(props: {
   params: Promise<{ movieId: string }>;
 }) {
   const params = await props.params;
-
   const { movieId } = params;
 
   return <FilmPageLoader movieId={movieId} />;

@@ -11,7 +11,7 @@ import { ThreeColumnPage } from "@/components/layout/page";
 import { TextBox } from "@/components/layout/text-boxes";
 import { BodyCopy, BodyParagraphs } from "@/components/typography/typography";
 import { SearchMovie, SearchTheater } from "@/lib/types";
-import { formatLundi1Janvier, safeDate } from "@/lib/util";
+import { formatLundi1Janvier, safeDate } from "@/lib/utils";
 
 function TheaterSearch({
   onUpdate,

@@ -2,7 +2,7 @@
 
 import { getSearchMovies } from "@/lib/movies";
 import { getTheaters } from "@/lib/theaters";
-import { isSearchMatch } from "@/lib/util";
+import { isSearchMatch } from "@/lib/utils";
 
 export async function searchMovies({
   query,

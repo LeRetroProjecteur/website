@@ -2,7 +2,7 @@ import clsx from "clsx";
 import Image, { StaticImageData } from "next/image";
 import { ReactNode } from "react";
 
-import { blurProps } from "@/lib/util";
+import { blurProps } from "@/lib/utils";
 
 export function TwoColumnPage({
   left,

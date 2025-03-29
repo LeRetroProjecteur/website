@@ -30,7 +30,7 @@ import {
   getImageUrl,
   getMovieTags,
   safeDate,
-} from "@/lib/util";
+} from "@/lib/utils";
 
 export default function Film({
   movie,
@@ -206,7 +206,12 @@ function MovieInformation({
                       {" "}
                       <br />
                       <Collapsible disabled={secondPart === ""}>
-                        <CollapsibleTrigger className="text-left data-[state=closed]:after:content-['[...]']">
+                        <CollapsibleTrigger
+                          className={clsx("text-left", {
+                            "data-[state=closed]:after:content-['[...]']":
+                              secondPart !== "",
+                          })}
+                        >
                           SYNOPSIS&nbsp;: {firstPart}
                           {secondPart !== "" ? (
                             <>

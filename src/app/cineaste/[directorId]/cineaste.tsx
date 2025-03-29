@@ -14,7 +14,7 @@ import {
   SubsectionTitle,
 } from "@/components/typography/typography";
 import { MovieDetail } from "@/lib/types";
-import { filterByDay, formatLundi1Janvier, safeDate } from "@/lib/util";
+import { filterByDay, formatLundi1Janvier, safeDate } from "@/lib/utils";
 
 const processMovieScreenings = (movie: MovieDetail, dayWindow = 7) => {
   // Skip if no screenings
@@ -75,6 +75,7 @@ export default function DirectorView({
   movies: MovieDetail[];
   directorName: string;
 }) {
+  movies = movies.filter((movie) => movie && Object.keys(movie).length > 0);
   const sortedMovies = sortBy(movies, (movie) => Number(movie.year) || 0);
   const screeningsByDate = getScreeningsByDate(movies);
 

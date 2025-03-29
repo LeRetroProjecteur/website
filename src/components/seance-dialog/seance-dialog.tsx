@@ -17,7 +17,7 @@ import { StoreApi, createStore, useStore } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
 import { MANUAL_HASH_CHANGE_EVENT } from "@/lib/useHash";
-import { checkNotNull, formatLundi1Janvier } from "@/lib/util";
+import { checkNotNull, formatLundi1Janvier } from "@/lib/utils";
 
 import RetroInput from "../forms/retro-input";
 import { MetaCopy } from "../typography/typography";
@@ -35,6 +35,7 @@ export type DialogSeance = {
   movie: DialogMovie;
   movieDate: DateTime;
   movieTheater: string;
+  movieNote: string;
 };
 
 export async function hashSeance(seance: DialogSeance) {
@@ -106,7 +107,6 @@ export function useSeanceDialogStore<T>(selector: (s: DialogStore) => T): T {
 export function SeanceDialog() {
   const seance = useSeanceDialogStore((s) => s.seance);
   const clearSeance = useSeanceDialogStore((s) => s.clearSeance);
-
   return (
     <Dialog modal={false} open={seance != null} onOpenChange={clearSeance}>
       {seance == null ? null : <SeanceDialogBody seance={seance} />}
@@ -123,8 +123,9 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
     movie: { title, year, directors },
     movieDate,
     movieTheater,
+    movieNote,
   } = seance;
-
+  console.log(movieNote);
   return (
     <DialogContent aria-describedby={undefined}>
       <DialogHeader>
@@ -133,14 +134,23 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
       <div className="border-b pb-16px">
         <MetaCopy>
           <div className="text-center leading-[26px]">
-            <u>{title}</u> ({year})<br />
-            {directors}
+            <span className="whitespace-nowrap">
+              <i>
+                <u>{title}</u>
+              </i>
+              ,
+            </span>{" "}
+            <span className="whitespace-nowrap">
+              {directors} ({year})
+            </span>
             <br />
             <br />
             {formatLundi1Janvier(movieDate)} à{" "}
             {movieDate.toLocaleString(DateTime.TIME_SIMPLE)}
             <br />
             {movieTheater}
+            <br />
+            {movieNote}
           </div>
         </MetaCopy>
       </div>
@@ -151,7 +161,7 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
           case "add-to-calendar":
             return <AddToCalendar seance={seance} />;
           case "share":
-            return <ShareSeance />;
+            return <ShareSeance seance={seance} />;
         }
       })()}
     </DialogContent>
@@ -215,7 +225,13 @@ function AddToCalendar({
       <div className="grid grid-cols-2 grid-cols-[1fr,1fr] gap-14px">
         {Object.entries(links).map(([type, link]) => (
           <Button padding="padded" variant="default" asChild key={type}>
-            <Link target="_blank" href={link}>
+            <Link
+              target="_blank"
+              href={link}
+              {...(type === "ical"
+                ? { download: `${title} (${movieTheater}).ics` }
+                : {})}
+            >
               {type}
             </Link>
           </Button>
@@ -225,8 +241,20 @@ function AddToCalendar({
   );
 }
 
-function ShareSeance() {
+function ShareSeance({
+  seance: {
+    movie: { id },
+  },
+}: {
+  seance: DialogSeance;
+}) {
   const [showCopied, startShowingCopied] = useTransition();
+  const shareUrl = () => {
+    const baseUrl = window.location.origin;
+    const hashPart = window.location.hash;
+    return `${baseUrl}/film/${id}${hashPart}`;
+  };
+  const url = shareUrl();
 
   return (
     <>
@@ -236,7 +264,7 @@ function ShareSeance() {
           blue
           setValue={() => {}}
           placeholder=""
-          value={window.location.href}
+          value={url}
         />
         <div className="justify-end">
           <Button
@@ -244,7 +272,7 @@ function ShareSeance() {
             variant="default"
             asChild
             onClick={() => {
-              navigator.clipboard.writeText(window.location.href);
+              navigator.clipboard.writeText(url);
               startShowingCopied(async () => {
                 await new Promise((resolve) => setTimeout(resolve, 1000));
               });
