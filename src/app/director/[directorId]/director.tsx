@@ -75,6 +75,7 @@ export default function DirectorView({
   movies: MovieDetail[];
   directorName: string;
 }) {
+  movies = movies.filter((movie) => movie && Object.keys(movie).length > 0);
   const sortedMovies = sortBy(movies, (movie) => Number(movie.year) || 0);
   const screeningsByDate = getScreeningsByDate(movies);
 
