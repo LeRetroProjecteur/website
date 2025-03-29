@@ -125,18 +125,17 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
     movieTheater,
     movieNote,
   } = seance;
-  console.log(movieNote);
   return (
     <DialogContent aria-describedby={undefined}>
       <DialogHeader>
         <DialogTitle>Séance</DialogTitle>
       </DialogHeader>
       <div className="border-b pb-16px">
-        <MetaCopy>
+        <MetaCopy lowercase={true}>
           <div className="text-center leading-[26px]">
             <span className="whitespace-nowrap">
               <i>
-                <u>{title}</u>
+                <u>{title.toUpperCase()}</u>
               </i>
               ,
             </span>{" "}
@@ -145,12 +144,19 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
             </span>
             <br />
             <br />
-            {formatLundi1Janvier(movieDate)} à{" "}
-            {movieDate.toLocaleString(DateTime.TIME_SIMPLE)}
+            <span className="capitalize">
+              {formatLundi1Janvier(movieDate)}
+            </span>{" "}
+            à {movieDate.toLocaleString(DateTime.TIME_SIMPLE)}
             <br />
             {movieTheater}
-            <br />
-            {movieNote}
+            {movieNote ? (
+              <>
+                <br />
+                <br />
+                {movieNote}
+              </>
+            ) : null}
           </div>
         </MetaCopy>
       </div>
