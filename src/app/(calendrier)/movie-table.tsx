@@ -271,6 +271,32 @@ function MovieCell({
 }: {
   movie: MovieWithScreeningsOneDay | MovieWithScreeningsSeveralDays;
 }) {
+  // Function to format director name for URL
+  const formatDirectorNameForUrl = (directorName: string) => {
+    return directorName.trim().toLowerCase().replace(/\s+/g, "-");
+  };
+
+  // Split directors by comma and render links
+  const renderDirectors = () => {
+    if (!movie.directors) return null;
+
+    const directorsArray = movie.directors.split(",");
+
+    return directorsArray.map((director, index) => {
+      const trimmedDirector = director.trim();
+      const formattedDirectorName = formatDirectorNameForUrl(trimmedDirector);
+
+      return (
+        <React.Fragment key={`${movie.id}-director-${index}`}>
+          {index > 0 && ", "}
+          <Link href={`/cineaste/${formattedDirectorName}`}>
+            {trimmedDirector}
+          </Link>
+        </React.Fragment>
+      );
+    });
+  };
+
   return (
     <Link href={`/film/${movie.id}`} className="block cursor-pointer">
       <div className="flex items-center">
@@ -284,7 +310,7 @@ function MovieCell({
             <i className="font-semibold uppercase group-hover:underline">
               {movie.title}
             </i>
-            , {movie.directors} ({movie.year})
+            , {renderDirectors()} ({movie.year})
           </CalendrierCopy>
         </div>
       </div>

@@ -64,9 +64,35 @@ export default function Film({
 }
 
 function MovieHeader({ movie }: { movie: MovieDetail }) {
+  // Function to format director name for URL
+  const formatDirectorNameForUrl = (directorName: string) => {
+    return directorName.trim().toLowerCase().replace(/\s+/g, "-");
+  };
+
+  // Split directors by comma and render links
+  const renderDirectors = () => {
+    if (!movie.directors) return null;
+
+    const directorsArray = movie.directors.split(",");
+
+    return directorsArray.map((director, index) => {
+      const trimmedDirector = director.trim();
+      const formattedDirectorName = formatDirectorNameForUrl(trimmedDirector);
+
+      return (
+        <React.Fragment key={`director-${index}`}>
+          {index > 0 && ", "}
+          <Link href={`/cineaste/${formattedDirectorName}`}>
+            {trimmedDirector}
+          </Link>
+        </React.Fragment>
+      );
+    });
+  };
+
   return (
     <SousTitre1>
-      <u>{movie.title}</u>, {movie.directors} ({movie.year})
+      <u>{movie.title}</u>, {renderDirectors()} ({movie.year})
     </SousTitre1>
   );
 }
