@@ -2,7 +2,7 @@ name: Fly Deploy (staging)
 on:
   push:
     branches:
-      - remove-popup
+      - ugo/directors-links
 jobs:
   deploy:
     name: Deploy app
