@@ -101,8 +101,17 @@ export function FormatNotes({
     () => setIsExpanded(!isExpanded),
     [isExpanded, setIsExpanded],
   );
-  const needsExpanding = notes.length > maxLength;
 
+  if (maxLength === 0) {
+    return (
+      <span className="-mx-2 -my-1 cursor-pointer px-2 py-1">
+        <span onClick={toggleExpanded}>[...]</span>
+        {isExpanded && <span className="mt-1 block">{notes}</span>}
+      </span>
+    );
+  }
+
+  const needsExpanding = notes.length > maxLength;
   return (
     <>
       {needsExpanding ? (
