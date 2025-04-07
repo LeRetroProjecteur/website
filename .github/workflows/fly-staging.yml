@@ -2,7 +2,7 @@ name: Fly Deploy (staging)
 on:
   push:
     branches:
-      - remove-popup
+      - ugo/fix-note-seance-speciale
 jobs:
   deploy:
     name: Deploy app

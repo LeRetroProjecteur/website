@@ -102,20 +102,22 @@ export function FormatNotes({
     [isExpanded, setIsExpanded],
   );
   const needsExpanding = notes.length > maxLength;
-
+  const expandedClassName = maxLength === 0 && isExpanded ? "block" : "";
   return (
     <>
       {needsExpanding ? (
         <span
-          className="-mx-2 -my-1 cursor-pointer px-2 py-1"
+          className={`-mx-2 -my-1 cursor-pointer px-2 py-1 ${expandedClassName}`}
           onClick={toggleExpanded}
         >
           {isExpanded
             ? notes
-            : notes.substring(
-                0,
-                notes.substring(0, maxLength).lastIndexOf(" ") + 1,
-              ) + "[...]"}
+            : maxLength === 0
+              ? "[...]"
+              : notes.substring(
+                  0,
+                  notes.substring(0, maxLength).lastIndexOf(" ") + 1,
+                ) + "[...]"}
         </span>
       ) : (
         notes
