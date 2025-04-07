@@ -1,10 +1,10 @@
 "use client";
 
 import clsx from "clsx";
-import { toPairs, without } from "lodash-es";
+import { debounce, toPairs, without } from "lodash-es";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { RefObject, useCallback, useEffect, useRef } from "react";
+import { RefObject, useCallback, useEffect, useRef, useState } from "react";
 import useSWR from "swr";
 import { create } from "zustand";
 
@@ -29,7 +29,10 @@ const useRechercheStore = create<{
 
 const setSelected = (selected: number | undefined) =>
   useRechercheStore.setState({ selected });
-const setQuery = (query: string) => useRechercheStore.setState({ query });
+const setQueryForSwr = debounce(
+  (query: string) => useRechercheStore.setState({ query }),
+  200,
+);
 
 const toggleTag = (tag: string) =>
   useRechercheStore.setState((s) => ({
@@ -37,14 +40,25 @@ const toggleTag = (tag: string) =>
   }));
 
 export default function Recherche() {
+  const [queryInternal, setQueryInternal] = useState("");
+  const setQuery = useCallback(
+    (query: string) => {
+      setQueryInternal(query);
+      setQueryForSwr(query);
+    },
+    [setQueryInternal],
+  );
   useEffect(() => {
     setSelected(undefined);
     setQuery("");
-  }, []);
-  const onChangeSearchTerm = useCallback((s: string) => {
-    setSelected(undefined);
-    setQuery(s);
-  }, []);
+  }, [setQuery]);
+  const onChangeSearchTerm = useCallback(
+    (s: string) => {
+      setSelected(undefined);
+      setQuery(s);
+    },
+    [setQuery],
+  );
   const searchTerm = useRechercheStore((s) => s.query);
   const router = useRouter();
   return (
@@ -56,7 +70,7 @@ export default function Recherche() {
         <div className="flex flex-col lg:pl-20px">
           <RetroInput
             customTypography
-            value={searchTerm}
+            value={queryInternal}
             setValue={onChangeSearchTerm}
             placeholder="Recherchez un film"
             leftAlignPlaceholder
