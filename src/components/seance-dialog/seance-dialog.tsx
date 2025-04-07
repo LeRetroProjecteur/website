@@ -182,22 +182,24 @@ function SeanceInitialDialog({
   setState: (state: "initial" | "add-to-calendar" | "share") => void;
 }) {
   return (
-    <div className="flex flex-col gap-17px">
-      <Button
-        padding="padded"
-        variant="default"
-        onClick={() => setState("share")}
-      >
-        Partager cette séance
-      </Button>
-      <Button
-        padding="padded"
-        variant="default"
-        onClick={() => setState("add-to-calendar")}
-      >
-        Exporter à mon calendrier
-      </Button>
-    </div>
+    <>
+      <div className="flex flex-col gap-17px">
+        <Button
+          padding="padded"
+          variant="default"
+          onClick={() => setState("share")}
+        >
+          Partager cette séance
+        </Button>
+        <Button
+          padding="padded"
+          variant="default"
+          onClick={() => setState("add-to-calendar")}
+        >
+          Exporter à mon calendrier
+        </Button>
+      </div>
+    </>
   );
 }
 
