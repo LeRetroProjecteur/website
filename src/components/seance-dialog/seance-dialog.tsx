@@ -130,7 +130,7 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
       <DialogHeader>
         <DialogTitle>Séance</DialogTitle>
       </DialogHeader>
-      <div className="border-b pb-16px">
+      <div className="border-b pb-17px">
         <MetaCopy lowercase={true}>
           <div className="text-center leading-[26px]">
             <span className="whitespace-nowrap">
@@ -160,16 +160,18 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
           </div>
         </MetaCopy>
       </div>
-      {(function () {
-        switch (state) {
-          case "initial":
-            return <SeanceInitialDialog setState={setState} />;
-          case "add-to-calendar":
-            return <AddToCalendar seance={seance} />;
-          case "share":
-            return <ShareSeance seance={seance} />;
-        }
-      })()}
+      <div className="gap-17px">
+        {(function () {
+          switch (state) {
+            case "initial":
+              return <SeanceInitialDialog setState={setState} />;
+            case "add-to-calendar":
+              return <AddToCalendar seance={seance} />;
+            case "share":
+              return <ShareSeance seance={seance} />;
+          }
+        })()}
+      </div>
     </DialogContent>
   );
 }
@@ -180,24 +182,22 @@ function SeanceInitialDialog({
   setState: (state: "initial" | "add-to-calendar" | "share") => void;
 }) {
   return (
-    <>
-      <div className="flex flex-col gap-10px">
-        <Button
-          padding="padded"
-          variant="default"
-          onClick={() => setState("share")}
-        >
-          Partager cette séance
-        </Button>
-        <Button
-          padding="padded"
-          variant="default"
-          onClick={() => setState("add-to-calendar")}
-        >
-          Exporter à mon calendrier
-        </Button>
-      </div>
-    </>
+    <div className="flex flex-col gap-17px">
+      <Button
+        padding="padded"
+        variant="default"
+        onClick={() => setState("share")}
+      >
+        Partager cette séance
+      </Button>
+      <Button
+        padding="padded"
+        variant="default"
+        onClick={() => setState("add-to-calendar")}
+      >
+        Exporter à mon calendrier
+      </Button>
+    </div>
   );
 }
 
