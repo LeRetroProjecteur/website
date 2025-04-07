@@ -12,10 +12,10 @@ import RetroInput from "@/components/forms/retro-input";
 import { Loading } from "@/components/icons/loading";
 import PageHeader, { FixedHeader } from "@/components/layout/page-header";
 import { MetaCopy } from "@/components/typography/typography";
-import { SearchMovie, SearchTheater } from "@/lib/types";
+import { SearchMovie, SearchTheater, searchResultsSchema } from "@/lib/types";
 import { TAG_MAP } from "@/lib/utils";
 
-import { searchMovies, searchTheaters } from "./actions";
+import { searchTheaters } from "./actions";
 
 const useRechercheStore = create<{
   tags: string[];
@@ -122,7 +122,16 @@ export function SearchResults({
       if (query.length === 0) return [];
       return mode === "theater"
         ? searchTheaters({ query, nbResults })
-        : searchMovies({ query, nbResults });
+        : searchResultsSchema.parse(
+            await (
+              await fetch(
+                `/api/movies/search?${new URLSearchParams({
+                  query,
+                  nbResults: String(nbResults),
+                }).toString()}`,
+              )
+            ).json(),
+          );
     },
     { fallbackData: [] },
   );

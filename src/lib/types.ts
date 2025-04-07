@@ -1,3 +1,5 @@
+import { ZodSchema, z } from "zod";
+
 export interface MovieInfo {
   id: string;
   title: string;
@@ -70,3 +72,16 @@ export interface SearchTheater {
   theater_id: string;
   name: string;
 }
+
+export const searchResultsSchema: ZodSchema<SearchMovie[]> = z.array(
+  z.object({
+    id: z.string(),
+    title: z.string(),
+    directors: z.string(),
+    year: z.coerce.string(),
+    original_title: z.string().optional(),
+    countries: z.string().optional(),
+    tags: z.string().optional(),
+    relevance_score: z.number(),
+  }),
+);
