@@ -2,7 +2,7 @@ name: Fly Deploy (staging)
 on:
   push:
     branches:
-      - remove-popup
+      - faster-search
 jobs:
   deploy:
     name: Deploy app
