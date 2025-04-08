@@ -125,18 +125,17 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
     movieTheater,
     movieNote,
   } = seance;
-  console.log(movieNote);
   return (
     <DialogContent aria-describedby={undefined}>
       <DialogHeader>
         <DialogTitle>Séance</DialogTitle>
       </DialogHeader>
-      <div className="border-b pb-16px">
-        <MetaCopy>
+      <div className="border-b pb-17px">
+        <MetaCopy lowercase={true}>
           <div className="text-center leading-[26px]">
             <span className="whitespace-nowrap">
               <i>
-                <u>{title}</u>
+                <u>{title.toUpperCase()}</u>
               </i>
               ,
             </span>{" "}
@@ -145,25 +144,34 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
             </span>
             <br />
             <br />
-            {formatLundi1Janvier(movieDate)} à{" "}
-            {movieDate.toLocaleString(DateTime.TIME_SIMPLE)}
+            <span className="capitalize">
+              {formatLundi1Janvier(movieDate)}
+            </span>{" "}
+            à {movieDate.toLocaleString(DateTime.TIME_SIMPLE)}
             <br />
             {movieTheater}
-            <br />
-            {movieNote}
+            {movieNote ? (
+              <>
+                <br />
+                <br />
+                {movieNote}
+              </>
+            ) : null}
           </div>
         </MetaCopy>
       </div>
-      {(function () {
-        switch (state) {
-          case "initial":
-            return <SeanceInitialDialog setState={setState} />;
-          case "add-to-calendar":
-            return <AddToCalendar seance={seance} />;
-          case "share":
-            return <ShareSeance seance={seance} />;
-        }
-      })()}
+      <div className="gap-17px">
+        {(function () {
+          switch (state) {
+            case "initial":
+              return <SeanceInitialDialog setState={setState} />;
+            case "add-to-calendar":
+              return <AddToCalendar seance={seance} />;
+            case "share":
+              return <ShareSeance seance={seance} />;
+          }
+        })()}
+      </div>
     </DialogContent>
   );
 }
@@ -175,7 +183,7 @@ function SeanceInitialDialog({
 }) {
   return (
     <>
-      <div className="flex flex-col gap-10px">
+      <div className="flex flex-col gap-17px">
         <Button
           padding="padded"
           variant="default"
