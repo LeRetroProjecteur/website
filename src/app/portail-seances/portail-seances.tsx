@@ -190,7 +190,7 @@ function ScreeningRow({
         type="text"
         className="flex grow flex-col border"
         value={notes}
-        placeholder="Note (facultatif)"
+        placeholder="Note concernant la séance (facultatif)"
         onChange={(e) => {
           setNotes(e.target.value);
           onUpdate({
@@ -224,11 +224,6 @@ export default function SubmitScreenings() {
   const numSubmissions = 5;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSharePage, setShowSharePage] = useState(false);
-  const handleCommentsChange = (
-    event: React.ChangeEvent<{ value: string }>,
-  ) => {
-    setComments(event.target.value);
-  };
   const [responseMessage, setResponseMessage] = useState("");
   const [rowsData, setRowsData] = useState(
     Array(numSubmissions).fill({
@@ -239,7 +234,6 @@ export default function SubmitScreenings() {
       notes: "",
     }),
   );
-  const [comments, setComments] = useState("");
   const [theaterData, setTheaterData] = useState({ name: "", theater_id: "" });
   const [organization, setOrganization] = useState("");
 
@@ -287,9 +281,7 @@ export default function SubmitScreenings() {
               row.note ? `\n_${row.note}_` : ""
             }`,
         )
-        .join("\n\n")}${
-        comments ? `\n\n*Commentaires: *${comments}` : ""
-      }\n\nDATA:${showtimesText}`;
+        .join("\n\n")}\n\nDATA:${showtimesText}`;
       const slackEndpoint =
         "https://europe-west1-website-cine.cloudfunctions.net/trigger_send_interactive_warning";
       await fetch(
@@ -397,18 +389,6 @@ export default function SubmitScreenings() {
                       onUpdate={(data) => updateRowData(index, data)}
                     />
                   ))}
-                </div>
-                <div className="flex flex-col pt-25px">
-                  <BodyCopy className="pb-5px">
-                    Avez-vous autre chose à signaler&nbsp;?
-                  </BodyCopy>
-                  <textarea
-                    id="comments"
-                    placeholder={"Réponse facultative".toUpperCase()}
-                    value={comments}
-                    onChange={handleCommentsChange}
-                    className="h-[75px] resize-none p-10px"
-                  />
                 </div>
                 <br />
                 <TextBox onClick={handleSubmit} className="bg-retro-green">
