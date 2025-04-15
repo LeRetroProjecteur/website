@@ -35,6 +35,7 @@ export type DialogSeance = {
   movie: DialogMovie;
   movieDate: DateTime;
   movieTheater: string;
+  movieTheaterArdmt: string;
   movieNote: string;
 };
 
@@ -123,6 +124,7 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
     movie: { title, year, directors },
     movieDate,
     movieTheater,
+    movieTheaterArdmt,
     movieNote,
   } = seance;
   return (
@@ -149,7 +151,7 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
             </span>{" "}
             à {movieDate.toLocaleString(DateTime.TIME_SIMPLE)}
             <br />
-            {movieTheater}
+            {movieTheater} {movieTheaterArdmt ? `(${movieTheaterArdmt})` : ""}
             {movieNote ? (
               <>
                 <br />
