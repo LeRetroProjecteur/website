@@ -5,7 +5,10 @@ import { min, sortBy, take } from "lodash-es";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import React from "react";
 
-import { transformZipcode } from "@/components/theaters/theaters";
+import {
+  transformZipcode,
+  transformZipcodeToString,
+} from "@/components/theaters/theaters";
 import { TheaterScreenings } from "@/lib/types";
 import { useHash } from "@/lib/useHash";
 import { floatHourToString, safeDate } from "@/lib/utils";
@@ -131,12 +134,14 @@ function toSeance({
   movie,
   time,
   theaterName,
+  theaterArdmt,
   notes,
 }: {
   day: string;
   movie: DialogMovie;
   time: number;
   theaterName: string;
+  theaterArdmt: string;
   notes?: string;
 }) {
   const date = safeDate(day).set({
@@ -146,6 +151,7 @@ function toSeance({
   return {
     movieDate: date,
     movieTheater: theaterName,
+    movieTheaterArdmt: theaterArdmt,
     movie,
     movieNote: notes || "",
   };
@@ -177,10 +183,11 @@ function SeancesTheater({
           day,
           time,
           theaterName: showtimesTheater.name,
+          theaterArdmt: transformZipcodeToString(showtimesTheater.zipcode),
         }),
       );
     },
-    [day, movie, showtimesTheater.name],
+    [day, movie, showtimesTheater.name, showtimesTheater.zipcode],
   );
 
   useEffect(() => {
@@ -194,13 +201,22 @@ function SeancesTheater({
         movie,
         time,
         theaterName: showtimesTheater.name,
+        theaterArdmt: transformZipcodeToString(showtimesTheater.zipcode),
         notes,
       });
       if ((await hashSeance(seance)) === hash) {
         setSeance(seance);
       }
     });
-  }, [day, hash, movie, screenings, setSeance, showtimesTheater.name]);
+  }, [
+    day,
+    hash,
+    movie,
+    screenings,
+    setSeance,
+    showtimesTheater.name,
+    showtimesTheater.zipcode,
+  ]);
 
   const seanceDialogEnabled = useBeta().features.seanceDialog;
 
