@@ -19,7 +19,7 @@ const defaultBeta: Beta =
     ? { features: { seanceDialog: true }, showBetaUi: true }
     : {
         features: { seanceDialog: false },
-        showBetaUi: false,
+        showBetaUi: true,
       };
 
 export function getBeta(cookieStore: ReadonlyRequestCookies) {
