@@ -106,21 +106,48 @@ export function FormatNotes({
   );
   const needsExpanding = notes.length > maxLength;
   const expandedClassName = maxLength === 0 && isExpanded ? "block" : "";
+
+  // Function to handle specific word formatting
+  const formatNotes = (text: string) => {
+    if (maxLength === 50) {
+      return text;
+    }
+    return text
+      .split(/\s+/)
+      .map((word) => {
+        if (maxLength === 0 && word.length > 13) {
+          const splitIndex = Math.floor(word.length / 2);
+          return `${word.slice(0, splitIndex)}-\n${word.slice(splitIndex)}`;
+        }
+        return word;
+      })
+      .join(" ");
+  };
+
   return (
     <>
       {needsExpanding ? (
         <span
-          className={`-mx-2 -my-1 cursor-pointer px-2 py-1 ${expandedClassName}`}
+          className={`
+            -mx-2 -my-1 
+            cursor-pointer 
+            px-2 
+            py-1 
+            ${expandedClassName}
+            whitespace-pre-wrap
+          `}
           onClick={toggleExpanded}
         >
           {isExpanded
-            ? notes
+            ? formatNotes(notes)
             : maxLength === 0
               ? "[...]"
-              : notes.substring(
-                  0,
-                  notes.substring(0, maxLength).lastIndexOf(" ") + 1,
-                ) + "[...]"}
+              : formatNotes(
+                  notes.substring(
+                    0,
+                    notes.substring(0, maxLength).lastIndexOf(" ") + 1,
+                  ) + "[...]",
+                )}
         </span>
       ) : (
         notes

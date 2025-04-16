@@ -18,7 +18,7 @@ const defaultBeta: Beta =
   process.env.NODE_ENV === "development"
     ? { features: { seanceDialog: true }, showBetaUi: true }
     : {
-        features: { seanceDialog: false },
+        features: { seanceDialog: true },
         showBetaUi: false,
       };
 
