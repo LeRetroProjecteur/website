@@ -129,7 +129,7 @@ export function FormatNotes({
       {needsExpanding ? (
         <span
           className={`
-            -mx-3 -my-1 
+            -mx-2 -my-1 
             cursor-pointer 
             px-2 
             py-1 
