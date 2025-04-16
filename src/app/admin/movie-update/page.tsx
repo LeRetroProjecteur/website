@@ -50,33 +50,38 @@ export default function DocumentUpdatePage() {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
 
-  // Define searchMovies with useCallback to prevent it from being recreated
+  // Define the search function without debounce first
+  const performSearch = useCallback(async (query: string) => {
+    if (query.length < 2) {
+      setSearchResults([]);
+      return;
+    }
+
+    setIsSearching(true);
+    try {
+      const response = await fetch(
+        `/api/movies/search?${new URLSearchParams({
+          query,
+          nbResults: "10",
+        }).toString()}`,
+      );
+
+      const results = await response.json();
+      setSearchResults(searchResultsSchema.parse(results));
+    } catch (error) {
+      console.error("Error searching movies:", error);
+      setMessage({ text: "Error searching for movies", type: "error" });
+    } finally {
+      setIsSearching(false);
+    }
+  }, []);
+
+  // Now create the debounced version
   const searchMovies = useCallback(
-    debounce(async (query: string) => {
-      if (query.length < 2) {
-        setSearchResults([]);
-        return;
-      }
-
-      setIsSearching(true);
-      try {
-        const response = await fetch(
-          `/api/movies/search?${new URLSearchParams({
-            query,
-            nbResults: "10",
-          }).toString()}`,
-        );
-
-        const results = await response.json();
-        setSearchResults(searchResultsSchema.parse(results));
-      } catch (error) {
-        console.error("Error searching movies:", error);
-        setMessage({ text: "Error searching for movies", type: "error" });
-      } finally {
-        setIsSearching(false);
-      }
+    debounce((query: string) => {
+      performSearch(query);
     }, 300),
-    [], // No dependencies so this won't re-create
+    [performSearch],
   );
 
   // Effect to trigger search when the search term changes
@@ -456,6 +461,7 @@ export default function DocumentUpdatePage() {
                             : formatValue(documentData[field])
                         }
                         setValue={(value) => updateFieldValue(field, value)}
+                        placeholder={`Enter new value for ${field}`}
                         className="h-35px"
                       />
                     )}
