@@ -1,4 +1,4 @@
-export const marseille_zip_to_city = {
+export const marseille_zip_to_city: Record<string, string> = {
   13001: "Marseille 1er",
   13002: "Marseille 2e",
   13003: "Marseille 3e",
