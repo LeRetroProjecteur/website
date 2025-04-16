@@ -191,14 +191,14 @@ function SeanceInitialDialog({
           variant="default"
           onClick={() => setState("share")}
         >
-          Partager cette séance
+          Partager la séance
         </Button>
         <Button
           padding="padded"
           variant="default"
           onClick={() => setState("add-to-calendar")}
         >
-          Exporter à mon calendrier
+          Rajouter au calendrier
         </Button>
       </div>
     </>
