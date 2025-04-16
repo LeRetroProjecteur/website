@@ -111,7 +111,7 @@ export function FormatNotes({
   const formatNotes = (text: string) => {
     return text
       .split(/\s+/)
-      .map((word) => (word === "Accompagnement" ? "Accompa-\n gnement" : word))
+      .map((word) => (word === "Accompagnement" ? "Accom-\n pagnement" : word))
       .join(" ");
   };
 
@@ -243,7 +243,7 @@ function SeancesTheater({
       className="group/cinema flex items-start justify-between lg:col-span-full lg:grid lg:grid-cols-[subgrid]"
       key={showtimesTheater.name}
     >
-      <div className="grow pr-10px pr-7 lg:pr-0px">
+      <div className="grow pr-10px pr-8 lg:pr-0px">
         <CalendrierCopy
           className={clsx({ "group-hover/cinema:underline": isExpanded })}
         >
@@ -258,7 +258,7 @@ function SeancesTheater({
               "group-hover/cinema:underline": isExpanded,
             })}
           >
-            <CalendrierCopy className="-ml-7 text-right lg:text-left">
+            <CalendrierCopy className="-ml-8 text-right lg:text-left">
               {seanceDialogEnabled ? (
                 <button onClick={() => showDialog({ time: screening.time })}>
                   {floatHourToString(screening.time)}

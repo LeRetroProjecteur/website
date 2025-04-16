@@ -18,8 +18,8 @@ const defaultBeta: Beta =
   process.env.NODE_ENV === "development"
     ? { features: { seanceDialog: true }, showBetaUi: true }
     : {
-        features: { seanceDialog: false },
-        showBetaUi: true,
+        features: { seanceDialog: true },
+        showBetaUi: false,
       };
 
 export function getBeta(cookieStore: ReadonlyRequestCookies) {
