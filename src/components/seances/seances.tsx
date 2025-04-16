@@ -225,7 +225,7 @@ function SeancesTheater({
       className="group/cinema flex items-start justify-between lg:col-span-full lg:grid lg:grid-cols-[subgrid]"
       key={showtimesTheater.name}
     >
-      <div className="grow pr-10px pr-7 lg:pr-0px">
+      <div className="grow pr-10px lg:pr-0px">
         <CalendrierCopy
           className={clsx({ "group-hover/cinema:underline": isExpanded })}
         >
@@ -240,7 +240,7 @@ function SeancesTheater({
               "group-hover/cinema:underline": isExpanded,
             })}
           >
-            <CalendrierCopy className="-ml-7 text-right lg:text-left">
+            <CalendrierCopy className="text-right lg:text-left">
               {seanceDialogEnabled ? (
                 <button onClick={() => showDialog({ time: screening.time })}>
                   {floatHourToString(screening.time)}
