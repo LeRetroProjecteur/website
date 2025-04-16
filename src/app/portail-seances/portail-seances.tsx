@@ -264,7 +264,7 @@ export default function SubmitScreenings() {
             movie_id: row.movie_id,
             date: row.date,
             time: row.time,
-            note: row.notes || "",
+            notes: row.notes || "",
           }),
         )
         .join("|||");
@@ -278,7 +278,7 @@ export default function SubmitScreenings() {
             `<https://leretroprojecteur.com/film/${row.movie_id}|${
               row.movie
             }> - ${formatLundi1Janvier(safeDate(row.date))} ${row.time}${
-              row.note ? `\n_${row.note}_` : ""
+              row.notes ? `\n_${row.notes}_` : ""
             }`,
         )
         .join("\n\n")}\n\nDATA:${showtimesText}`;
