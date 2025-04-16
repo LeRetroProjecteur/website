@@ -33,7 +33,7 @@ const menu: [JSX.Element, string][] = [
   ],
   [<>à propos</>, "/a-propos"],
   [<>recherche</>, "/recherche"],
-  [<>pro</>, "/portail-seances"],
+  [<>espace pro</>, "/portail-seances"],
 ];
 
 export default function Menu() {
