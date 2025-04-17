@@ -233,12 +233,15 @@ function AddToCalendar({
         {Object.entries(links).map(([type, link]) => (
           <TextBox
             key={type}
-            link={{
-              url: link,
-              newTab: true,
-              ...(type === "ical"
-                ? { download: `${title} (${movieTheater}).ics` }
-                : {}),
+            onClick={() => {
+              if (type === "ical") {
+                const a = document.createElement("a");
+                a.href = link;
+                a.download = `${title} (${movieTheater}).ics`;
+                a.click();
+              } else {
+                window.open(link, "_blank");
+              }
             }}
             className="bg-retro-gray text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
           >
