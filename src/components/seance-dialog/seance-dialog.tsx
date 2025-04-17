@@ -22,6 +22,7 @@ import RetroInput from "../forms/retro-input";
 import { TextBox } from "../layout/text-boxes";
 import { MetaCopy } from "../typography/typography";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { capitalize } from "lodash-es";
 
 export type DialogMovie = {
   title: string;
@@ -145,9 +146,7 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
             </span>
             <br />
             <br />
-            <span className="capitalize">
-              {formatLundi1Janvier(movieDate)}
-            </span>{" "}
+            <span>{capitalize(formatLundi1Janvier(movieDate))}</span>{" "}
             à {movieDate.toLocaleString(DateTime.TIME_SIMPLE)}
             <br />
             {movieTheater} {movieTheaterArdmt ? `(${movieTheaterArdmt})` : ""}
