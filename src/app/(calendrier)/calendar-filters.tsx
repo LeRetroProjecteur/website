@@ -2,6 +2,7 @@ import { useCallback, useState } from "react";
 
 import Events from "./events";
 import FilterBar from "./filter-bar";
+import { QUARTIERS } from "./quartier-constants";
 import QuartierSelector from "./quartier-selector";
 import QuartierSelectorToggler from "./quartier-selector-toggler";
 import TimeSlider from "./time-slider";
@@ -9,9 +10,11 @@ import TimeSlider from "./time-slider";
 export default function CalendarFilters({
   withTimeSlider = true,
   withQuartierSelector = true,
+  quartierOptions = QUARTIERS,
 }: {
   withTimeSlider?: boolean;
   withQuartierSelector?: boolean;
+  quartierOptions?: typeof QUARTIERS;
 }) {
   const [isQuartierSelectorOpen, setQuartierSelectorOpen] = useState(false);
   const toggleQuartierSelectorOpen = useCallback(
@@ -40,7 +43,7 @@ export default function CalendarFilters({
             </div>
             {isQuartierSelectorOpen && (
               <div className="pt-20px">
-                <QuartierSelector />
+                <QuartierSelector quartiersOptions={quartierOptions} />
               </div>
             )}
           </div>
@@ -58,7 +61,7 @@ export default function CalendarFilters({
             </div>
             {isQuartierSelectorOpen && (
               <div className="flex pt-8px">
-                <QuartierSelector />{" "}
+                <QuartierSelector quartiersOptions={quartierOptions} />
               </div>
             )}
             <div className="flex grow pt-15px">
