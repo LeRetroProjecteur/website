@@ -12,13 +12,11 @@ export default function Footer() {
       <div className="flex flex-col lg:grow lg:justify-between">
         <div className="hidden text-center lg:block lg:text-left">
           <FooterCopy>
-            Un problème sur le site ?<span className="hidden lg:inline"> </span>
+            Vous voulez rajouter une séance ?
+            <span className="hidden lg:inline"> </span>
             <br className="lg:hidden" />{" "}
-            <a
-              href="mailto:contact@leretroprojecteur.com"
-              className="underline"
-            >
-              Signalez-le nous&nbsp;!
+            <a href="./portail-seances" className="underline">
+              Utilisez notre portail&nbsp;!
             </a>
           </FooterCopy>
         </div>
