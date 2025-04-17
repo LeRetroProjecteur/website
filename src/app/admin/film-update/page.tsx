@@ -249,8 +249,8 @@ export default function DocumentUpdatePage() {
 
   return (
     <>
-      <PageHeader text="Admin Tools">
-        <SousTitre1>Document Update Tool</SousTitre1>
+      <PageHeader text="FILM UPDATE">
+        <SousTitre1>Mise à jour des infos d&apos;un film</SousTitre1>
       </PageHeader>
 
       {/* Mode Selection */}
