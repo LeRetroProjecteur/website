@@ -11,7 +11,6 @@ import {
 } from "calendar-link";
 import { Check, Copy } from "lucide-react";
 import { DateTime } from "luxon";
-import Link from "next/link";
 import { createContext, useContext, useState, useTransition } from "react";
 import { StoreApi, createStore, useStore } from "zustand";
 import { immer } from "zustand/middleware/immer";
@@ -20,8 +19,8 @@ import { MANUAL_HASH_CHANGE_EVENT } from "@/lib/useHash";
 import { checkNotNull, formatLundi1Janvier } from "@/lib/utils";
 
 import RetroInput from "../forms/retro-input";
+import { TextBox } from "../layout/text-boxes";
 import { MetaCopy } from "../typography/typography";
-import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
 
 export type DialogMovie = {
@@ -186,20 +185,18 @@ function SeanceInitialDialog({
   return (
     <>
       <div className="flex flex-col gap-17px">
-        <Button
-          padding="padded"
-          variant="default"
+        <TextBox
           onClick={() => setState("share")}
+          className="bg-retro-gray text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
         >
           Partager la séance
-        </Button>
-        <Button
-          padding="padded"
-          variant="default"
+        </TextBox>
+        <TextBox
           onClick={() => setState("add-to-calendar")}
+          className="bg-retro-gray text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
         >
           Rajouter au calendrier
-        </Button>
+        </TextBox>
       </div>
     </>
   );
@@ -234,17 +231,19 @@ function AddToCalendar({
     <>
       <div className="grid grid-cols-2 grid-cols-[1fr,1fr] gap-14px">
         {Object.entries(links).map(([type, link]) => (
-          <Button padding="padded" variant="default" asChild key={type}>
-            <Link
-              target="_blank"
-              href={link}
-              {...(type === "ical"
+          <TextBox
+            key={type}
+            link={{
+              url: link,
+              newTab: true,
+              ...(type === "ical"
                 ? { download: `${title} (${movieTheater}).ics` }
-                : {})}
-            >
-              {type}
-            </Link>
-          </Button>
+                : {}),
+            }}
+            className="bg-retro-gray text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
+          >
+            {type}
+          </TextBox>
         ))}
       </div>
     </>
@@ -277,19 +276,17 @@ function ShareSeance({
           value={url}
         />
         <div className="justify-end">
-          <Button
-            iconStyle="iconOnly"
-            variant="default"
-            asChild
+          <TextBox
             onClick={() => {
               navigator.clipboard.writeText(url);
               startShowingCopied(async () => {
                 await new Promise((resolve) => setTimeout(resolve, 1000));
               });
             }}
+            className="bg-retro-gray text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
           >
             <div>{showCopied ? <Check /> : <Copy />}</div>
-          </Button>
+          </TextBox>
         </div>
       </div>
     </>
