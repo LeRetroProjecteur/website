@@ -10,7 +10,7 @@ export enum Quartier {
   EM = "em",
   Marseille = "Marseille",
   Aix_en_Provence = "Aix-en-Provence",
-  Etang_de_Berre = "Etang-de-Berre",
+  Etang_de_Berre = "Étang de Berre",
   Aubagne = "Aubagne",
 }
 

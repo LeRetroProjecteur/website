@@ -14,18 +14,12 @@ export default function QuartierSelector({
 }: {
   quartiersOptions?: QuartierPair[];
 }) {
+  const isGridOfFour = quartiersOptions.length === 4;
+  const gridClasses = isGridOfFour
+    ? "grid grow grid-cols-[repeat(auto-fill,_minmax(40%,_1fr))] gap-x-8px gap-y-8px lg:grid-cols-[repeat(auto-fill,_minmax(20%,_1fr))] lg:gap-x-10px lg:gap-y-10px"
+    : "grid grow grid-cols-[repeat(auto-fill,_minmax(40%,_1fr))] gap-x-8px gap-y-8px lg:grid-cols-[repeat(auto-fill,_minmax(25%,_1fr))] lg:gap-x-20px lg:gap-y-10px";
   return (
-    <div
-      className={
-        quartiersOptions.length === 3
-          ? "grid grow grid-cols-[repeat(auto-fill,_minmax(40%,_1fr))] gap-x-8px gap-y-8px lg:grid-cols-[repeat(auto-fill,_minmax(25%,_1fr))] lg:gap-x-20px lg:gap-y-10px"
-          : quartiersOptions.length === 4
-            ? "grid grow grid-cols-[repeat(auto-fill,_minmax(40%,_1fr))] gap-x-8px" +
-              " gap-y-8px lg:grid-cols-[repeat(auto-fill,_minmax(20%,_1fr))] lg:gap-x-10px" +
-              " lg:gap-y-10px"
-            : "grid grow grid-cols-[repeat(auto-fill,_minmax(40%,_1fr))] gap-x-8px gap-y-8px lg:grid-cols-[repeat(auto-fill,_minmax(25%,_1fr))] lg:gap-x-20px lg:gap-y-10px"
-      }
-    >
+    <div className={gridClasses}>
       {quartiersOptions.map(([quartierName, quartier]) => (
         <QuartierToggler
           key={String(quartier)}
