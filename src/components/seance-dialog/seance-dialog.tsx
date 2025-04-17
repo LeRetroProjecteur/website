@@ -184,7 +184,7 @@ function SeanceInitialDialog({
 }) {
   return (
     <>
-      <div className="flex flex-col gap-17px">
+      <div className="flex flex-col gap-y-12px">
         <TextBox
           onClick={() => setState("share")}
           className="bg-retro-gray text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
@@ -229,7 +229,7 @@ function AddToCalendar({
 
   return (
     <>
-      <div className="grid grid-cols-2 grid-cols-[1fr,1fr] gap-14px">
+      <div className="grid grid-cols-2 grid-cols-[1fr,1fr] gap-12px">
         {Object.entries(links).map(([type, link]) => (
           <TextBox
             key={type}
