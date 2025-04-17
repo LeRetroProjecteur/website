@@ -1,12 +1,12 @@
 import clsx from "clsx";
 import { size } from "lodash-es";
 import Image from "next/image";
-import Link from "next/link";
 import React, { useMemo } from "react";
 
 import coupDeCoeur from "@/assets/coup-de-coeur.png";
 import { TwoColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
+import { TextBox } from "@/components/layout/text-boxes";
 import MultiDaySeances from "@/components/seances/multiday-seances";
 import {
   BodyCopy,
@@ -14,7 +14,6 @@ import {
   SectionTitle,
   SousTitre1,
 } from "@/components/typography/typography";
-import { Button } from "@/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
@@ -228,37 +227,41 @@ function MovieInformation({
           <div className="flex flex-col gap-20px pt-20px lg:border-0 lg:pt-0">
             <div className="grid grid-cols-fillMin300 gap-x-8px gap-y-10px">
               <div className="grid grid-cols-fillMinHalf gap-x-8px gap-y-10px">
-                <Button variant="outline" asChild>
-                  <Link
-                    target="_blank"
-                    href={`https://www.themoviedb.org/movie/${tmdbMovie.movie.id}`}
-                  >
-                    TMDB
-                  </Link>
-                </Button>
-                <Button variant="outline" asChild>
-                  <Link
-                    target="_blank"
-                    href={`https://letterboxd.com/tmdb/${tmdbMovie.movie.id}`}
-                  >
-                    letterboxd
-                  </Link>
-                </Button>
+                <TextBox
+                  className="border-retro-gray bg-transparent text-retro-gray hover:bg-retro-blue hover:text-retro-gray"
+                  link={{
+                    url: `https://www.themoviedb.org/movie/${tmdbMovie.movie.id}`,
+                    newTab: true,
+                  }}
+                >
+                  TMDB
+                </TextBox>
+                <TextBox
+                  className="border-retro-gray bg-transparent text-retro-gray hover:bg-retro-blue hover:text-retro-gray"
+                  link={{
+                    url: `https://letterboxd.com/tmdb/${tmdbMovie.movie.id}`,
+                    newTab: true,
+                  }}
+                >
+                  letterboxd
+                </TextBox>
               </div>
               <div className="grid grid-cols-fillMinHalf gap-x-8px gap-y-10px">
                 {tmdbMovie.wikipediaFrUrl != null ? (
-                  <Button variant="outline" asChild>
-                    <Link target="_blank" href={tmdbMovie.wikipediaFrUrl}>
-                      Wikipedia
-                    </Link>
-                  </Button>
+                  <TextBox
+                    className="border-retro-gray bg-transparent text-retro-gray hover:bg-retro-blue hover:text-retro-gray"
+                    link={{ url: tmdbMovie.wikipediaFrUrl, newTab: true }}
+                  >
+                    Wikipedia
+                  </TextBox>
                 ) : null}
                 {tmdbMovie.wikipediaEnUrl != null ? (
-                  <Button variant="outline" asChild>
-                    <Link target="_blank" href={tmdbMovie.wikipediaEnUrl}>
-                      Wikipedia (EN)
-                    </Link>
-                  </Button>
+                  <TextBox
+                    className="border-retro-gray bg-transparent text-retro-gray hover:bg-retro-blue hover:text-retro-gray"
+                    link={{ url: tmdbMovie.wikipediaEnUrl, newTab: true }}
+                  >
+                    Wikipedia (EN)
+                  </TextBox>
                 ) : null}
               </div>
             </div>{" "}
