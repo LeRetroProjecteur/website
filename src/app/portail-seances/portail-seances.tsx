@@ -122,7 +122,7 @@ function ScreeningRow({
               customTypography
               placeholder="Rechercher..."
               transparentPlaceholder
-              className="w-full max-w-[100%] text-xs sm:text-sm lg:hidden"
+              className="w-full lg:hidden"
             />
             {showResults && (
               <SearchResults
