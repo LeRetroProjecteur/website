@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useKey } from "react-use";
 import { toast } from "sonner";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader } from "../ui/dialog";
 import { Label } from "../ui/label";
 import { Switch } from "../ui/switch";
 import { useBeta } from "./beta-context";
@@ -74,9 +74,7 @@ export function BetaClientSideHandler() {
   return (
     <Dialog modal={false} open={dialogOpen} onOpenChange={setDialogOpen}>
       <DialogContent aria-describedby={undefined}>
-        <DialogHeader>
-          <DialogTitle>Features</DialogTitle>
-        </DialogHeader>
+        <DialogHeader>Features</DialogHeader>
         <div>
           {Object.entries(beta.features).map(([feature, isActivated]) => (
             <div key={feature} className="flex justify-between">
