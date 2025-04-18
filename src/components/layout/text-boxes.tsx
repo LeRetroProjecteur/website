@@ -27,8 +27,7 @@ export function TextBox({
   return (
     <div
       className={clsx(
-        "flex grow items-center justify-center whitespace-break-spaces border px-10px py-9px text-center text-20px font-medium uppercase leading-21px text-retro-gray",
-        onClick && "cursor-pointer",
+        "flex grow cursor-pointer items-center justify-center whitespace-break-spaces border px-8px py-9px text-center text-20px font-medium uppercase leading-21px",
         className,
       )}
       onClick={onClick}

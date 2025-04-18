@@ -1,5 +1,6 @@
 "use client";
 
+import { TextBox } from "@/components/layout/text-boxes";
 import { ButtonCopy } from "@/components/typography/typography";
 
 export default function QuartierSelectorToggler({
@@ -10,17 +11,12 @@ export default function QuartierSelectorToggler({
   toggleOpen: () => void;
 }) {
   return (
-    <div
-      className="flex h-42px grow cursor-pointer items-center justify-center border lg:h-48px"
-      onClick={toggleOpen}
-    >
-      <div className="flex items-center pr-6px">
+    <TextBox className="h-42px lg:h-48px" onClick={toggleOpen}>
+      <div className="pr-6px">
         <ButtonCopy>Quartiers</ButtonCopy>
       </div>
-      <div className="flex items-center">
-        {isOpen ? <ArrowUp /> : <ArrowDown />}
-      </div>
-    </div>
+      <div>{isOpen ? <ArrowUp /> : <ArrowDown />}</div>
+    </TextBox>
   );
 }
 function ArrowUp() {
