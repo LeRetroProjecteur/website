@@ -38,11 +38,6 @@ export default function Footer() {
             Développement par jroitgrund.
           </FooterCopy>
         </div>
-        <div className="py-20px text-center lg:py-0 lg:text-left">
-          <FooterCopy>
-            «&nbsp;Pour le grand écran, pas la p&apos;tite lucarne&nbsp;!&nbsp;»
-          </FooterCopy>
-        </div>
       </div>
     </div>
   );
