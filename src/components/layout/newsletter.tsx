@@ -10,7 +10,7 @@ import {
 } from "@/lib/newsletter-store";
 
 import RetroInput from "../forms/retro-input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader } from "../ui/dialog";
 import { TextBox } from "./text-boxes";
 
 export default function Newsletter() {
@@ -35,9 +35,7 @@ export default function Newsletter() {
       onOpenChange={(open) => (open ? openNewsLetter() : closeNewsLetter())}
     >
       <DialogContent aria-describedby={undefined}>
-        <DialogHeader>
-          <DialogTitle>« Up Close »</DialogTitle>
-        </DialogHeader>
+        <DialogHeader>« Up Close »</DialogHeader>
         <div className="border-b pb-20px text-center font-degular text-71px font-black uppercase leading-58px tracking-[0.01em] text-retro-gray">
           S&apos;inscire
           <br />à notre

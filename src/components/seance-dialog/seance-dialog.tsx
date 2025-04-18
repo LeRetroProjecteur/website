@@ -22,7 +22,7 @@ import { checkNotNull, formatLundi1Janvier } from "@/lib/utils";
 import RetroInput from "../forms/retro-input";
 import { TextBox } from "../layout/text-boxes";
 import { MetaCopy } from "../typography/typography";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader } from "../ui/dialog";
 
 export type DialogMovie = {
   title: string;
@@ -129,12 +129,10 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
   } = seance;
   return (
     <DialogContent aria-describedby={undefined}>
-      <DialogHeader>
-        <DialogTitle>Séance</DialogTitle>
-      </DialogHeader>
+      <DialogHeader>Séance</DialogHeader>
       <MetaCopy
         lowercase
-        className="flex flex-col gap-y-30px border-b pb-17px text-center"
+        className="flex flex-col gap-y-20px border-b pb-17px text-center"
       >
         <div>
           <span className="whitespace-nowrap">
