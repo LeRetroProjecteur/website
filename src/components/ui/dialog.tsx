@@ -44,7 +44,7 @@ const DialogContent = React.forwardRef<
     <DialogPrimitive.Content
       ref={ref}
       className={cn(
-        "fixed left-[50%] top-[50%] z-50 flex w-screen translate-x-[-50%]" +
+        "fixed left-[50%] top-[50%] z-50 flex w-[90vw] translate-x-[-50%]" +
           " translate-y-[-50%] items-center justify-center p-20px lg:w-[25vw]" +
           " lg:min-w-[440px]",
         className,
@@ -67,7 +67,7 @@ const DialogHeader = ({
     {...props}
   >
     <div className="min-h-v relative flex grow items-center justify-center px-20px">
-      {children}
+      <DialogTitle>{children}</DialogTitle>
       <DialogPrimitive.Close className="absolute right-0 top-1/2 -translate-y-1/2 bg-retro-blue focus-visible:outline-none disabled:pointer-events-none">
         <svg
           className="h-22px w-22px fill-retro-gray stroke-retro-blue"

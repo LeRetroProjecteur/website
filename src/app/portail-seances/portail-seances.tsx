@@ -122,7 +122,7 @@ function ScreeningRow({
               customTypography
               placeholder="Rechercher..."
               transparentPlaceholder
-              className="lg:hidden"
+              className="w-full lg:hidden"
             />
             {showResults && (
               <SearchResults
@@ -190,7 +190,7 @@ function ScreeningRow({
         type="text"
         className="flex grow flex-col border"
         value={notes}
-        placeholder="Note (facultatif)"
+        placeholder="Note concernant la séance (facultatif)"
         onChange={(e) => {
           setNotes(e.target.value);
           onUpdate({
@@ -211,10 +211,15 @@ function SharePage() {
     <MiddleColumn>
       <BodyCopy>Merci d&apos;avoir rajouté vos séances&nbsp;!</BodyCopy>
       <div className="flex flex-col gap-y-10px pt-30px">
-        <TextBox onClick={() => window.location.reload()}>
+        <TextBox
+          onClick={() => window.location.reload()}
+          className="text-retro-gray"
+        >
           Rajouter des nouvelles séances
         </TextBox>
-        <TextBox link={{ url: "/" }}>Retour sur le site principal</TextBox>
+        <TextBox link={{ url: "/" }} className="text-retro-gray">
+          Retour sur le site principal
+        </TextBox>
       </div>
     </MiddleColumn>
   );
@@ -224,11 +229,6 @@ export default function SubmitScreenings() {
   const numSubmissions = 5;
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSharePage, setShowSharePage] = useState(false);
-  const handleCommentsChange = (
-    event: React.ChangeEvent<{ value: string }>,
-  ) => {
-    setComments(event.target.value);
-  };
   const [responseMessage, setResponseMessage] = useState("");
   const [rowsData, setRowsData] = useState(
     Array(numSubmissions).fill({
@@ -239,7 +239,6 @@ export default function SubmitScreenings() {
       notes: "",
     }),
   );
-  const [comments, setComments] = useState("");
   const [theaterData, setTheaterData] = useState({ name: "", theater_id: "" });
   const [organization, setOrganization] = useState("");
 
@@ -270,7 +269,7 @@ export default function SubmitScreenings() {
             movie_id: row.movie_id,
             date: row.date,
             time: row.time,
-            note: row.notes || "",
+            notes: row.notes || "",
           }),
         )
         .join("|||");
@@ -284,12 +283,10 @@ export default function SubmitScreenings() {
             `<https://leretroprojecteur.com/film/${row.movie_id}|${
               row.movie
             }> - ${formatLundi1Janvier(safeDate(row.date))} ${row.time}${
-              row.note ? `\n_${row.note}_` : ""
+              row.notes ? `\n_${row.notes}_` : ""
             }`,
         )
-        .join("\n\n")}${
-        comments ? `\n\n*Commentaires: *${comments}` : ""
-      }\n\nDATA:${showtimesText}`;
+        .join("\n\n")}\n\nDATA:${showtimesText}`;
       const slackEndpoint =
         "https://europe-west1-website-cine.cloudfunctions.net/trigger_send_interactive_warning";
       await fetch(
@@ -398,20 +395,11 @@ export default function SubmitScreenings() {
                     />
                   ))}
                 </div>
-                <div className="flex flex-col pt-25px">
-                  <BodyCopy className="pb-5px">
-                    Avez-vous autre chose à signaler&nbsp;?
-                  </BodyCopy>
-                  <textarea
-                    id="comments"
-                    placeholder={"Réponse facultative".toUpperCase()}
-                    value={comments}
-                    onChange={handleCommentsChange}
-                    className="h-[75px] resize-none p-10px"
-                  />
-                </div>
                 <br />
-                <TextBox onClick={handleSubmit} className="bg-retro-green">
+                <TextBox
+                  onClick={handleSubmit}
+                  className="bg-retro-green text-retro-gray"
+                >
                   Rajoutez vos séances
                 </TextBox>
                 <BodyCopy className="pt-10px">{responseMessage}</BodyCopy>

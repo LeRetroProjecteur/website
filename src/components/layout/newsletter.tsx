@@ -10,7 +10,8 @@ import {
 } from "@/lib/newsletter-store";
 
 import RetroInput from "../forms/retro-input";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader } from "../ui/dialog";
+import { TextBox } from "./text-boxes";
 
 export default function Newsletter() {
   const isOpen = useNewsletterStore((s) => s.isOpen);
@@ -34,9 +35,7 @@ export default function Newsletter() {
       onOpenChange={(open) => (open ? openNewsLetter() : closeNewsLetter())}
     >
       <DialogContent aria-describedby={undefined}>
-        <DialogHeader>
-          <DialogTitle>« Up Close »</DialogTitle>
-        </DialogHeader>
+        <DialogHeader>« Up Close »</DialogHeader>
         <div className="border-b pb-20px text-center font-degular text-71px font-black uppercase leading-58px tracking-[0.01em] text-retro-gray">
           S&apos;inscire
           <br />à notre
@@ -48,7 +47,7 @@ export default function Newsletter() {
           method="post"
           target="_blank"
         >
-          <div className="flex flex-col justify-center gap-10px pb-10px pt-20px">
+          <div className="flex flex-col justify-center gap-10px">
             <RetroInput
               blue
               value={email}
@@ -64,14 +63,12 @@ export default function Newsletter() {
               name="MMERGE1"
               placeholder="Comment nous connaissez-vous ?"
             />
-          </div>
-          <div className="flex">
-            <input
-              type="submit"
-              value="s'inscrire"
-              className="h-42px grow cursor-pointer border bg-retro-gray text-center text-20px font-medium uppercase text-retro-blue hover:bg-retro-blue hover:text-retro-gray lg:h-48px"
+            <TextBox
+              className="bg-retro-gray text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
               onClick={closeNewsLetter}
-            />
+            >
+              S&apos;inscrire
+            </TextBox>
           </div>
           <div className="pt-15px text-center text-20px font-medium uppercase leading-25px text-retro-gray underline">
             <Link href="/newsletter" onClick={closeNewsLetter}>

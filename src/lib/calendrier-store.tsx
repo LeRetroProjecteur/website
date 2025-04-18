@@ -8,6 +8,10 @@ export enum Quartier {
   RG = "rg",
   RD = "rd",
   EM = "em",
+  Marseille = "Marseille",
+  Aix_en_Provence = "Aix-en-Provence",
+  Etang_de_Berre = "Étang de Berre",
+  Aubagne = "Aubagne",
 }
 
 export type CalendrierStore = UseBoundStore<StoreApi<CalendrierState>>;

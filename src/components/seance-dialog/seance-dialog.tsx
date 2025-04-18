@@ -9,9 +9,9 @@ import {
   outlook,
   yahoo,
 } from "calendar-link";
+import { capitalize } from "lodash-es";
 import { Check, Copy } from "lucide-react";
 import { DateTime } from "luxon";
-import Link from "next/link";
 import { createContext, useContext, useState, useTransition } from "react";
 import { StoreApi, createStore, useStore } from "zustand";
 import { immer } from "zustand/middleware/immer";
@@ -20,9 +20,9 @@ import { MANUAL_HASH_CHANGE_EVENT } from "@/lib/useHash";
 import { checkNotNull, formatLundi1Janvier } from "@/lib/utils";
 
 import RetroInput from "../forms/retro-input";
+import { TextBox } from "../layout/text-boxes";
 import { MetaCopy } from "../typography/typography";
-import { Button } from "../ui/button";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
+import { Dialog, DialogContent, DialogHeader } from "../ui/dialog";
 
 export type DialogMovie = {
   title: string;
@@ -35,6 +35,7 @@ export type DialogSeance = {
   movie: DialogMovie;
   movieDate: DateTime;
   movieTheater: string;
+  movieTheaterArdmt: string;
   movieNote: string;
 };
 
@@ -123,55 +124,45 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
     movie: { title, year, directors },
     movieDate,
     movieTheater,
+    movieTheaterArdmt,
     movieNote,
   } = seance;
   return (
     <DialogContent aria-describedby={undefined}>
-      <DialogHeader>
-        <DialogTitle>Séance</DialogTitle>
-      </DialogHeader>
-      <div className="border-b pb-17px">
-        <MetaCopy lowercase={true}>
-          <div className="text-center leading-[26px]">
-            <span className="whitespace-nowrap">
-              <i>
-                <u>{title.toUpperCase()}</u>
-              </i>
-              ,
-            </span>{" "}
-            <span className="whitespace-nowrap">
-              {directors} ({year})
-            </span>
-            <br />
-            <br />
-            <span className="capitalize">
-              {formatLundi1Janvier(movieDate)}
-            </span>{" "}
-            à {movieDate.toLocaleString(DateTime.TIME_SIMPLE)}
-            <br />
-            {movieTheater}
-            {movieNote ? (
-              <>
-                <br />
-                <br />
-                {movieNote}
-              </>
-            ) : null}
-          </div>
-        </MetaCopy>
-      </div>
-      <div className="gap-17px">
-        {(function () {
-          switch (state) {
-            case "initial":
-              return <SeanceInitialDialog setState={setState} />;
-            case "add-to-calendar":
-              return <AddToCalendar seance={seance} />;
-            case "share":
-              return <ShareSeance seance={seance} />;
-          }
-        })()}
-      </div>
+      <DialogHeader>Séance</DialogHeader>
+      <MetaCopy
+        lowercase
+        className="flex flex-col gap-y-20px border-b pb-17px text-center"
+      >
+        <div>
+          <span className="whitespace-nowrap">
+            <i>
+              <u>{title.toUpperCase()}</u>
+            </i>
+            ,
+          </span>{" "}
+          <span className="whitespace-nowrap">
+            {directors} ({year})
+          </span>
+        </div>
+        <div>
+          {capitalize(formatLundi1Janvier(movieDate))} à{" "}
+          {movieDate.toFormat("HH'h'mm")}
+          <br />
+          {movieTheater} {movieTheaterArdmt ? `(${movieTheaterArdmt})` : ""}
+        </div>
+        {movieNote ? <div>{movieNote}</div> : null}
+      </MetaCopy>
+      {(function () {
+        switch (state) {
+          case "initial":
+            return <SeanceInitialDialog setState={setState} />;
+          case "add-to-calendar":
+            return <AddToCalendar seance={seance} />;
+          case "share":
+            return <ShareSeance seance={seance} />;
+        }
+      })()}
     </DialogContent>
   );
 }
@@ -183,21 +174,19 @@ function SeanceInitialDialog({
 }) {
   return (
     <>
-      <div className="flex flex-col gap-17px">
-        <Button
-          padding="padded"
-          variant="default"
+      <div className="flex flex-col gap-y-12px">
+        <TextBox
           onClick={() => setState("share")}
+          className="bg-retro-gray text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
         >
-          Partager cette séance
-        </Button>
-        <Button
-          padding="padded"
-          variant="default"
+          Partager la séance
+        </TextBox>
+        <TextBox
           onClick={() => setState("add-to-calendar")}
+          className="bg-retro-gray text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
         >
-          Exporter à mon calendrier
-        </Button>
+          Rajouter au calendrier
+        </TextBox>
       </div>
     </>
   );
@@ -230,19 +219,24 @@ function AddToCalendar({
 
   return (
     <>
-      <div className="grid grid-cols-2 grid-cols-[1fr,1fr] gap-14px">
+      <div className="grid grid-cols-2 grid-cols-[1fr,1fr] gap-12px">
         {Object.entries(links).map(([type, link]) => (
-          <Button padding="padded" variant="default" asChild key={type}>
-            <Link
-              target="_blank"
-              href={link}
-              {...(type === "ical"
-                ? { download: `${title} (${movieTheater}).ics` }
-                : {})}
-            >
-              {type}
-            </Link>
-          </Button>
+          <TextBox
+            key={type}
+            onClick={() => {
+              if (type === "ical") {
+                const a = document.createElement("a");
+                a.href = link;
+                a.download = `${title} (${movieTheater}).ics`;
+                a.click();
+              } else {
+                window.open(link, "_blank");
+              }
+            }}
+            className="bg-retro-gray text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
+          >
+            {type}
+          </TextBox>
         ))}
       </div>
     </>
@@ -275,19 +269,17 @@ function ShareSeance({
           value={url}
         />
         <div className="justify-end">
-          <Button
-            iconStyle="iconOnly"
-            variant="default"
-            asChild
+          <TextBox
             onClick={() => {
               navigator.clipboard.writeText(url);
               startShowingCopied(async () => {
                 await new Promise((resolve) => setTimeout(resolve, 1000));
               });
             }}
+            className="bg-retro-gray text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
           >
             <div>{showCopied ? <Check /> : <Copy />}</div>
-          </Button>
+          </TextBox>
         </div>
       </div>
     </>

@@ -3,21 +3,27 @@
 import clsx from "clsx";
 import { useCallback, useMemo } from "react";
 
+import { QUARTIERS } from "@/app/(calendrier)/quartier-constants";
+import { TextBox } from "@/components/layout/text-boxes";
 import { ButtonCopy } from "@/components/typography/typography";
 import { Quartier, useCalendrierStore } from "@/lib/calendrier-store";
 
-const QUARTIERS: [string, Quartier][] = [
-  ["rive gauche", Quartier.RG],
-  ["rive droite", Quartier.RD],
-  ["extramuros", Quartier.EM],
-];
+type QuartierPair = [string, Quartier];
 
-export default function QuartierSelector() {
+export default function QuartierSelector({
+  quartiersOptions = QUARTIERS as QuartierPair[],
+}: {
+  quartiersOptions?: QuartierPair[];
+}) {
+  const isGridOfFour = quartiersOptions.length === 4;
+  const gridClasses = isGridOfFour
+    ? "grid grow grid-cols-[repeat(auto-fill,_minmax(40%,_1fr))] gap-x-8px gap-y-8px lg:grid-cols-[repeat(auto-fill,_minmax(20%,_1fr))] lg:gap-x-10px lg:gap-y-10px"
+    : "grid grow grid-cols-[repeat(auto-fill,_minmax(40%,_1fr))] gap-x-8px gap-y-8px lg:grid-cols-[repeat(auto-fill,_minmax(25%,_1fr))] lg:gap-x-20px lg:gap-y-10px";
   return (
-    <div className="grid grow grid-cols-[repeat(auto-fill,_minmax(40%,_1fr))] gap-x-8px gap-y-8px lg:grid-cols-[repeat(auto-fill,_minmax(25%,_1fr))] lg:gap-x-20px lg:gap-y-10px">
-      {QUARTIERS.map(([quartierName, quartier]) => (
+    <div className={gridClasses}>
+      {quartiersOptions.map(([quartierName, quartier]) => (
         <QuartierToggler
-          key={quartier}
+          key={String(quartier)}
           quartierName={quartierName}
           quartier={quartier}
         />
@@ -45,7 +51,7 @@ function QuartierToggler({
   );
 
   return (
-    <div
+    <TextBox
       onClick={onClick}
       className={clsx(
         {
@@ -56,10 +62,10 @@ function QuartierToggler({
           "bg-retro-gray": present,
           "text-white": present,
         },
-        "flex h-42px cursor-pointer items-center justify-center border border-retro-gray lg:h-48px",
+        "h-42px lg:h-48px",
       )}
     >
       <ButtonCopy>{quartierName}</ButtonCopy>
-    </div>
+    </TextBox>
   );
 }
