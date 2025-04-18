@@ -122,7 +122,7 @@ function ScreeningRow({
               customTypography
               placeholder="Rechercher..."
               transparentPlaceholder
-              className="lg:hidden"
+              className="w-full lg:hidden"
             />
             {showResults && (
               <SearchResults
@@ -211,10 +211,15 @@ function SharePage() {
     <MiddleColumn>
       <BodyCopy>Merci d&apos;avoir rajouté vos séances&nbsp;!</BodyCopy>
       <div className="flex flex-col gap-y-10px pt-30px">
-        <TextBox onClick={() => window.location.reload()}>
+        <TextBox
+          onClick={() => window.location.reload()}
+          className="text-retro-gray"
+        >
           Rajouter des nouvelles séances
         </TextBox>
-        <TextBox link={{ url: "/" }}>Retour sur le site principal</TextBox>
+        <TextBox link={{ url: "/" }} className="text-retro-gray">
+          Retour sur le site principal
+        </TextBox>
       </div>
     </MiddleColumn>
   );
@@ -391,7 +396,10 @@ export default function SubmitScreenings() {
                   ))}
                 </div>
                 <br />
-                <TextBox onClick={handleSubmit} className="bg-retro-green">
+                <TextBox
+                  onClick={handleSubmit}
+                  className="bg-retro-green text-retro-gray"
+                >
                   Rajoutez vos séances
                 </TextBox>
                 <BodyCopy className="pt-10px">{responseMessage}</BodyCopy>

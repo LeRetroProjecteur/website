@@ -25,7 +25,7 @@ export default function Footer() {
         <div className="pt-20px text-center lg:pt-0 lg:text-left">
           <FooterCopy>
             <Link href="/admin/tous-les-films">©</Link> Le Rétro Projecteur
-            2021–2024
+            2021–2025
             <br />
             Graphisme par{" "}
             <a
