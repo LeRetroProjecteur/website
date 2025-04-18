@@ -2,7 +2,7 @@ name: Fly Deploy (staging)
 on:
   push:
     branches:
-      - ugo/activate-feature
+      - staging/beta
 jobs:
   deploy:
     name: Deploy app
