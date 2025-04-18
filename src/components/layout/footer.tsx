@@ -12,7 +12,7 @@ export default function Footer() {
       <div className="flex flex-col lg:grow lg:justify-between">
         <div className="hidden text-center lg:block lg:text-left">
           <FooterCopy>
-            Vous voulez rajouter une séance ?
+            Vous souhaitez rajouter un événement ?
             <span className="hidden lg:inline"> </span>
             <br className="lg:hidden" />{" "}
             <a href="./portail-seances" className="underline">
@@ -36,6 +36,11 @@ export default function Footer() {
             .<span className="hidden lg:inline"> </span>
             <br className="lg:hidden" />
             Développement par jroitgrund.
+          </FooterCopy>
+        </div>
+        <div className="py-20px text-center lg:py-0 lg:text-left">
+          <FooterCopy>
+            «&nbsp;Pour le grand écran, pas la p&apos;tite lucarne&nbsp;!&nbsp;»
           </FooterCopy>
         </div>
       </div>
