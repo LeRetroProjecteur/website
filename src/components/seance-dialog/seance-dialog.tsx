@@ -9,6 +9,7 @@ import {
   outlook,
   yahoo,
 } from "calendar-link";
+import { capitalize } from "lodash-es";
 import { Check, Copy } from "lucide-react";
 import { DateTime } from "luxon";
 import { createContext, useContext, useState, useTransition } from "react";
@@ -22,7 +23,6 @@ import RetroInput from "../forms/retro-input";
 import { TextBox } from "../layout/text-boxes";
 import { MetaCopy } from "../typography/typography";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import { capitalize } from "lodash-es";
 
 export type DialogMovie = {
   title: string;
@@ -132,46 +132,39 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
       <DialogHeader>
         <DialogTitle>Séance</DialogTitle>
       </DialogHeader>
-      <div className="border-b pb-17px">
-        <MetaCopy lowercase={true}>
-          <div className="text-center leading-[26px]">
-            <span className="whitespace-nowrap">
-              <i>
-                <u>{title.toUpperCase()}</u>
-              </i>
-              ,
-            </span>{" "}
-            <span className="whitespace-nowrap">
-              {directors} ({year})
-            </span>
-            <br />
-            <br />
-            <span>{capitalize(formatLundi1Janvier(movieDate))}</span>{" "}
-            à {movieDate.toLocaleString(DateTime.TIME_SIMPLE)}
-            <br />
-            {movieTheater} {movieTheaterArdmt ? `(${movieTheaterArdmt})` : ""}
-            {movieNote ? (
-              <>
-                <br />
-                <br />
-                {movieNote}
-              </>
-            ) : null}
-          </div>
-        </MetaCopy>
-      </div>
-      <div className="gap-17px">
-        {(function () {
-          switch (state) {
-            case "initial":
-              return <SeanceInitialDialog setState={setState} />;
-            case "add-to-calendar":
-              return <AddToCalendar seance={seance} />;
-            case "share":
-              return <ShareSeance seance={seance} />;
-          }
-        })()}
-      </div>
+      <MetaCopy
+        lowercase
+        className="flex flex-col gap-y-30px border-b pb-17px text-center"
+      >
+        <div>
+          <span className="whitespace-nowrap">
+            <i>
+              <u>{title.toUpperCase()}</u>
+            </i>
+            ,
+          </span>{" "}
+          <span className="whitespace-nowrap">
+            {directors} ({year})
+          </span>
+        </div>
+        <div>
+          {capitalize(formatLundi1Janvier(movieDate))} à{" "}
+          {movieDate.toFormat("HH'h'mm")}
+          <br />
+          {movieTheater} {movieTheaterArdmt ? `(${movieTheaterArdmt})` : ""}
+        </div>
+        {movieNote ? <div>{movieNote}</div> : null}
+      </MetaCopy>
+      {(function () {
+        switch (state) {
+          case "initial":
+            return <SeanceInitialDialog setState={setState} />;
+          case "add-to-calendar":
+            return <AddToCalendar seance={seance} />;
+          case "share":
+            return <ShareSeance seance={seance} />;
+        }
+      })()}
     </DialogContent>
   );
 }
