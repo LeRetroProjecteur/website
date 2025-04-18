@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { useCallback, useMemo } from "react";
 
 import { QUARTIERS } from "@/app/(calendrier)/quartier-constants";
+import { TextBox } from "@/components/layout/text-boxes";
 import { ButtonCopy } from "@/components/typography/typography";
 import { Quartier, useCalendrierStore } from "@/lib/calendrier-store";
 
@@ -50,7 +51,7 @@ function QuartierToggler({
   );
 
   return (
-    <div
+    <TextBox
       onClick={onClick}
       className={clsx(
         {
@@ -61,10 +62,10 @@ function QuartierToggler({
           "bg-retro-gray": present,
           "text-white": present,
         },
-        "flex h-42px cursor-pointer items-center justify-center border border-retro-gray lg:h-48px",
+        "h-42px lg:h-48px",
       )}
     >
       <ButtonCopy>{quartierName}</ButtonCopy>
-    </div>
+    </TextBox>
   );
 }
