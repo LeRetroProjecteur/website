@@ -190,7 +190,7 @@ function MovieInformation({
                 {tmdbMovie?.movie.genres.join(", ")}
               </div>
             ) : null}
-            {tmdbMovie?.movie.overview != null
+            {!!tmdbMovie?.movie.overview
               ? (function () {
                   const words = tmdbMovie.movie.overview.split(". ");
                   const firstPart = words.slice(0, 1);
