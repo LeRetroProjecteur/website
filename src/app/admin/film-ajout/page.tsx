@@ -96,7 +96,7 @@ export default function AddMoviePage() {
 
   return (
     <>
-      <PageHeader text="ADD MOVIE">
+      <PageHeader text="FILM AJOUT">
         <SousTitre1>Ajouter un nouveau film</SousTitre1>
       </PageHeader>
 
