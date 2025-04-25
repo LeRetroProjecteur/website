@@ -363,22 +363,22 @@ export default function SubmitScreenings() {
                 </BodyCopy>
                 <div className="pb-25px pt-25px">
                   <BodyCopy className="pb-5px">
-                    Dans quelle salle se déroulent les séances que vous souhaitez
-                    renseigner&nbsp;?
-                  </BodyCopy>
-                  <TheaterSearch onUpdate={setTheaterData} />
-                </div>
-                <div className="pb-25px">
-                  <BodyCopy className="pb-5px">
-                    Quelle organisation/ciné-club représentez-vous&nbsp;?
+                    Quelle organisation représentez-vous&nbsp;?
                   </BodyCopy>
                   <input
                     type="text"
-                    className="flex w-full grow border p-10px"
+                    className="flex w-full grow border"
                     value={organization}
                     onChange={(e) => setOrganization(e.target.value)}
-                    placeholder="Nom de votre organisation"
+                    placeholder="Cinéma, ciné-club, festival, ..."
                   />
+                </div>
+                <div className="pb-25px">
+                  <BodyCopy className="pb-5px">
+                    Dans quelle salle se déroulent les séances que vous
+                    souhaitez renseigner&nbsp;?
+                  </BodyCopy>
+                  <TheaterSearch onUpdate={setTheaterData} />
                 </div>
                 <div className="flex flex-col gap-y-15px">
                   <div className="border-y py-6px text-17px uppercase text-retro-gray">
