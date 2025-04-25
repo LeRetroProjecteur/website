@@ -462,8 +462,10 @@ export default function DocumentUpdatePage() {
                             : formatValue(documentData[field])
                         }
                         setValue={(value) => updateFieldValue(field, value)}
-                        placeholder={`Enter new value for ${field}`}
-                        className="h-35px"
+                        placeholder={`Enter new value`}
+                        className="h-40px"
+                        leftAlignPlaceholder={true}
+                        lowercase={true}
                       />
                     )}
                   </div>

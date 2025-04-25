@@ -113,6 +113,7 @@ export default function AddMoviePage() {
               placeholder="Entrez le titre du film"
               className="h-40px w-full"
               leftAlignPlaceholder={true}
+              lowercase={true}
             />
           </div>
 
@@ -126,6 +127,7 @@ export default function AddMoviePage() {
               placeholder="Nom du réalisateur"
               className="h-40px w-full"
               leftAlignPlaceholder={true}
+              lowercase={true}
             />
           </div>
 
@@ -139,6 +141,7 @@ export default function AddMoviePage() {
               placeholder="Année de sortie (ex: 1997)"
               className="h-40px w-full"
               leftAlignPlaceholder={true}
+              lowercase={true}
             />
           </div>
 
@@ -152,6 +155,7 @@ export default function AddMoviePage() {
               placeholder="Durée en minutes (ex: 120)"
               className="h-40px w-full"
               leftAlignPlaceholder={true}
+              lowercase={true}
             />
           </div>
 
@@ -165,6 +169,7 @@ export default function AddMoviePage() {
               placeholder="Langue originale (ex: français)"
               className="h-40px w-full"
               leftAlignPlaceholder={true}
+              lowercase={true}
             />
           </div>
         </div>

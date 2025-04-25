@@ -363,8 +363,8 @@ export default function SubmitScreenings() {
                 </BodyCopy>
                 <div className="pb-25px pt-25px">
                   <BodyCopy className="pb-5px">
-                    Dans quelle salle se déroule la ou les séances que vous
-                    souhaitez renseigner&nbsp;?
+                    Dans quelle salle se déroule les séances que vous souhaitez
+                    renseigner&nbsp;?
                   </BodyCopy>
                   <TheaterSearch onUpdate={setTheaterData} />
                 </div>
@@ -377,7 +377,7 @@ export default function SubmitScreenings() {
                     className="flex w-full grow border p-10px"
                     value={organization}
                     onChange={(e) => setOrganization(e.target.value)}
-                    placeholder="Nom de votre organisation"
+                    placeholder="Nom de votre organisation (facultatif)"
                   />
                 </div>
                 <div className="flex flex-col gap-y-15px">
