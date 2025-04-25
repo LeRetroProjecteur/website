@@ -180,6 +180,7 @@ export default function DocumentUpdatePage() {
     return {
       document_name: documentId,
       data_to_upload: updateFields,
+      status: "update",
     };
   };
 

@@ -51,6 +51,16 @@ export default function Admin() {
           Rajouter des séances
         </Link>
       </SousTitre1>
+      <SousTitre1>
+        <Link className="underline" href="/admin/film-ajout">
+          Ajouter un film
+        </Link>
+      </SousTitre1>
+      <SousTitre1>
+        <Link className="underline" href="/admin/film-update">
+          Updater les infos d`&apos;un film
+        </Link>
+      </SousTitre1>
     </div>
   );
 }
