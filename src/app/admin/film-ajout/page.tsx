@@ -15,6 +15,7 @@ export default function AddMoviePage() {
     year: "",
     duration: "",
     language: "",
+    allocine_id: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
@@ -29,10 +30,13 @@ export default function AddMoviePage() {
 
   // Add new movie
   const addNewMovie = async () => {
-    // Validate required fields
-    if (!formData.title || !formData.director || !formData.year) {
+    // Validate required fields - if allocine_id is provided, other fields aren't required
+    if (
+      !formData.allocine_id &&
+      (!formData.title || !formData.director || !formData.year)
+    ) {
       setMessage({
-        text: "Title, director, and year are required",
+        text: "Either Allocine ID or Title, Director, and Year are required",
         type: "error",
       });
       return;
@@ -51,6 +55,7 @@ export default function AddMoviePage() {
           ? parseInt(formData.duration, 10) * 60 || formData.duration
           : "",
         language: formData.language,
+        allocine_id: formData.allocine_id,
         status: "add",
       };
 
@@ -82,6 +87,7 @@ export default function AddMoviePage() {
         year: "",
         duration: "",
         language: "",
+        allocine_id: "",
       });
     } catch (error) {
       console.error("Error adding new movie:", error);
@@ -101,6 +107,27 @@ export default function AddMoviePage() {
       </PageHeader>
 
       <div className="max-w-2xl">
+        {/* Allocine ID Field */}
+        <div className="mb-6 border-b pb-4">
+          <div className="flex items-center gap-4">
+            <label className="block w-32 text-15px font-medium uppercase">
+              Allocine ID
+            </label>
+            <RetroInput
+              value={formData.allocine_id}
+              setValue={(value) => handleInputChange("allocine_id", value)}
+              placeholder="ID Allocine (ex: 123456)"
+              className="h-40px w-full"
+              leftAlignPlaceholder={true}
+              lowercase={true}
+            />
+          </div>
+          <p className="mt-2 pl-36 text-sm text-gray-600">
+            Si vous fournissez l&apos;ID Allocine, les autres champs sont
+            facultatifs
+          </p>
+        </div>
+
         {/* Form Fields */}
         <div className="space-y-5">
           <div className="flex items-center gap-4">
