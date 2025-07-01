@@ -33,24 +33,25 @@ function getSortedTheaters(screenings: TheaterScreenings[]) {
 }
 
 export default function Seances({
-  screenings,
   movie,
   day,
+  screenings,
 }: {
-  screenings: TheaterScreenings[];
   movie: DialogMovie;
   day: string;
+  screenings: TheaterScreenings[];
 }) {
-  const sortedTheaters = useMemo(
-    () => getSortedTheaters(screenings),
-    [screenings],
-  );
-
   const [isExpanded, setIsExpanded] = useState(false);
   const toggleExpanded = useCallback(
     () => setIsExpanded(!isExpanded),
     [isExpanded, setIsExpanded],
   );
+
+  const sortedTheaters = useMemo(
+    () => getSortedTheaters(screenings),
+    [screenings],
+  );
+
   const unexpandedTheaters = useMemo(
     () => take(sortedTheaters, 3),
     [sortedTheaters],
@@ -183,7 +184,7 @@ function toSeance({
   };
 }
 
-export function SeancesTheater({
+function SeancesTheater({
   movie,
   day,
   showtimesTheater,
