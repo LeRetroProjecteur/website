@@ -7,14 +7,13 @@ import { useForm } from "react-hook-form";
 
 import { SuspenseWithLoading } from "@/components/icons/loading";
 import { TwoColumnPage } from "@/components/layout/page";
-import { transformZipcode } from "@/components/theaters/theaters";
+import { SeancesGenerator } from "@/components/seances/seances";
 import { BodyCopy } from "@/components/typography/typography";
 import GetHTML from "@/components/util/get-html";
 import IFrame from "@/components/util/iframe";
 import { MovieWithScreeningsSeveralDays, TheaterScreenings } from "@/lib/types";
 import {
   checkNotNull,
-  floatHourToString,
   formatLundi,
   formatLundi1Janvier,
   formatYYYYMMDD,
@@ -35,7 +34,6 @@ export function DayMovie({
   movie,
   day,
   showtimesTheaters,
-  isLast,
 }: {
   movie: MovieWithScreeningsSeveralDays;
   day: DateTime;
@@ -51,40 +49,7 @@ export function DayMovie({
         <i style={{ textTransform: "uppercase" }}>{movie.title}</i>,{" "}
         {movie.directors} ({movie.year})
       </div>
-      {showtimesTheaters
-        .slice()
-        .sort((a, b) => {
-          // Get earliest screening time for each theater
-          const aEarliest = Math.min(
-            ...Object.values(a.seances).map((s) => s.time),
-          );
-          const bEarliest = Math.min(
-            ...Object.values(b.seances).map((s) => s.time),
-          );
-          return aEarliest - bEarliest;
-        })
-        .map((showtimesTheater) => (
-          <div key={showtimesTheater.name}>
-            {showtimesTheater.name} (
-            {transformZipcode(showtimesTheater.zipcode)}
-            )&nbsp;:{" "}
-            {Object.values(showtimesTheater.seances)
-              .sort((a, b) => a.time - b.time)
-              .map((screening, idx, arr) => (
-                <span key={idx}>
-                  {floatHourToString(screening.time)}
-                  {screening.notes && (
-                    <>
-                      {" "}
-                      (<i>{screening.notes}</i>)
-                    </>
-                  )}
-                  {idx < arr.length - 1 && ", "}
-                </span>
-              ))}
-          </div>
-        ))}
-      {!isLast && <div>•</div>}
+      <SeancesGenerator screenings={showtimesTheaters} />
     </>
   );
 }
