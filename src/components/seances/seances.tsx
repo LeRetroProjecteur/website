@@ -108,29 +108,24 @@ export function FormatNotes({
   let firstPart = notes;
   if (notes.length > maxLength) {
     const cutoff = notes.slice(0, maxLength).lastIndexOf(" ");
-    if (cutoff !== -1) {
-      firstPart = notes.slice(0, cutoff);
-    }
+    firstPart = cutoff === -1 ? "" : notes.slice(0, cutoff + 1);
+  }
+  // Exception: don't collapse if barely longer
+  if (notes.length - firstPart.length < 10) {
+    firstPart = notes;
   }
 
-  const needsExpanding = firstPart.length > notes.length;
+  const needsExpanding = firstPart.length < notes.length;
   const expandedClassName = maxLength === 0 && isExpanded ? "block" : "";
 
   return (
     <>
       {needsExpanding ? (
         <span
-          className={`
-            -mx-2 -my-1 
-            cursor-pointer 
-            px-2 
-            py-1 
-            ${expandedClassName}
-            whitespace-pre-wrap
-          `}
+          className={`cursor-pointer ${expandedClassName}`}
           onClick={toggleExpanded}
         >
-          {isExpanded ? notes : firstPart + " [...]"}
+          {isExpanded ? notes : firstPart + "[...]"}
         </span>
       ) : (
         <span>{notes}</span>
