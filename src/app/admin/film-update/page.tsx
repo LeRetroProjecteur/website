@@ -2,7 +2,6 @@
 
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
-import { debounce } from "lodash-es";
 import { useCallback, useEffect, useState } from "react";
 
 import RetroInput from "@/components/forms/retro-input";
@@ -76,19 +75,23 @@ export default function DocumentUpdatePage() {
     }
   }, []);
 
-  // Now create the debounced version
+  // Create debounced search function using useCallback with inline function
   const searchMovies = useCallback(
-    debounce((query: string) => {
-      performSearch(query);
-    }, 300),
+    (query: string) => {
+      const timeoutId = setTimeout(() => {
+        performSearch(query);
+      }, 300);
+
+      return () => clearTimeout(timeoutId);
+    },
     [performSearch],
   );
 
   // Effect to trigger search when the search term changes
   useEffect(() => {
-    searchMovies(searchTerm);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchTerm]); // Only depend on searchTerm, not searchMovies
+    const cleanup = searchMovies(searchTerm);
+    return cleanup;
+  }, [searchTerm, searchMovies]);
 
   // Handle search result selection
   const handleSelectMovie = (movie: SearchMovie) => {
