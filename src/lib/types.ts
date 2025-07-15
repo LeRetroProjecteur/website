@@ -60,6 +60,10 @@ export interface Screening {
   notes?: string;
 }
 
+export interface ScreeningWithDate extends Screening {
+  date: string;
+}
+
 export interface TheaterScreenings {
   seances: { [time: string]: Screening };
   neighborhood: string;
