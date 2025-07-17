@@ -21,6 +21,17 @@ import {
 } from "../seance-dialog/seance-dialog";
 import { CalendrierCopy } from "../typography/typography";
 
+function getSortedTheaters(screenings: TheaterScreenings[]) {
+  return sortBy(screenings, (theater) =>
+    min(Object.values(theater.seances).map((s) => s.time)),
+  ).map((theater) => ({
+    ...theater,
+    seances: Object.fromEntries(
+      Object.entries(theater.seances).sort(([, a], [, b]) => a.time - b.time),
+    ),
+  }));
+}
+
 export default function Seances({
   movie,
   day,
@@ -31,23 +42,13 @@ export default function Seances({
   screenings: TheaterScreenings[];
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
-
   const toggleExpanded = useCallback(
     () => setIsExpanded(!isExpanded),
     [isExpanded, setIsExpanded],
   );
 
   const sortedTheaters = useMemo(
-    () =>
-      sortBy(screenings, [
-        function (screeningsTheaters) {
-          return min(
-            Object.values(screeningsTheaters.seances).map(
-              (screening) => screening.time,
-            ),
-          );
-        },
-      ]),
+    () => getSortedTheaters(screenings),
     [screenings],
   );
 
@@ -55,7 +56,6 @@ export default function Seances({
     () => take(sortedTheaters, 3),
     [sortedTheaters],
   );
-
   const needsExpanding = sortedTheaters.length !== unexpandedTheaters.length;
 
   return (
@@ -173,10 +173,7 @@ function SeancesTheater({
   showtimesTheater: TheaterScreenings;
   isExpanded: boolean;
 }) {
-  const screenings = sortBy(
-    Object.values(showtimesTheater.seances),
-    (screening) => screening.time,
-  );
+  const screenings = Object.values(showtimesTheater.seances);
   const setSeance = useSeanceDialogStore((s) => s.setSeance);
   const hash = useHash();
 
@@ -272,5 +269,40 @@ function SeancesTheater({
         ))}
       </div>
     </div>
+  );
+}
+
+export function SeancesGenerator({
+  screenings,
+}: {
+  screenings: TheaterScreenings[];
+}) {
+  const sortedTheaters = useMemo(
+    () => getSortedTheaters(screenings),
+    [screenings],
+  );
+  return (
+    <>
+      {sortedTheaters.map((theater) => {
+        const screenings = Object.values(theater.seances);
+        return (
+          <div key={theater.name}>
+            {theater.name} ({transformZipcode(theater.zipcode)})&nbsp;:{" "}
+            {screenings.map((screening, i) => (
+              <span key={screening.time}>
+                {floatHourToString(screening.time)}
+                {screening.notes && (
+                  <>
+                    {" "}
+                    (<i>{screening.notes}</i>)
+                  </>
+                )}
+                {i < screenings.length - 1 && " • "}
+              </span>
+            ))}
+          </div>
+        );
+      })}
+    </>
   );
 }
