@@ -34,8 +34,6 @@ export default function Footer() {
               claire malot
             </a>
             .<span className="hidden lg:inline"> </span>
-            <br className="lg:hidden" />
-            Développement par jroitgrund.
           </FooterCopy>
         </div>
         <div className="py-20px text-center lg:py-0 lg:text-left">
