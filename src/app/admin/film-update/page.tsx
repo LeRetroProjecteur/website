@@ -2,14 +2,16 @@
 
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
-import { debounce } from "lodash-es";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 
+import { SearchResults } from "@/app/recherche/recherche";
 import RetroInput from "@/components/forms/retro-input";
-import { Loading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
-import { MetaCopy, SousTitre1 } from "@/components/typography/typography";
-import { SearchMovie, searchResultsSchema } from "@/lib/types";
+import { TextBox } from "@/components/layout/text-boxes";
+import { SousTitre1 } from "@/components/typography/typography";
+import { SearchMovie } from "@/lib/types";
+import { MiddleColumn } from "@/components/articles/articles";
+import { ThreeColumnPage } from "@/components/layout/page";
 
 // Firebase config for client-side
 const firebaseConfig = {
@@ -34,12 +36,22 @@ interface DocumentData {
 }
 
 export default function DocumentUpdatePage() {
-  const [mode, setMode] = useState<"direct" | "search">("direct");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState<SearchMovie[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
-  const [documentId, setDocumentId] = useState("");
-  const [collection, setCollection] = useState("movie-info");
+  return (
+    <>
+      <PageHeader text="Modifier un film">
+        <SousTitre1>Mise à jour manuelle des infos d&apos;un film</SousTitre1>
+      </PageHeader>
+      <ThreeColumnPage>
+        <DocumentUpdate />
+      </ThreeColumnPage>
+    </>
+  );
+}
+
+function DocumentUpdate() {
+  const [query, setQuery] = useState("");
+  const [movieId, setMovieId] = useState("");
+  const [showResults, setShowResults] = useState(false);
   const [documentData, setDocumentData] = useState<DocumentData | null>(null);
   const [selectedFields, setSelectedFields] = useState<Record<string, boolean>>(
     {},
@@ -49,76 +61,30 @@ export default function DocumentUpdatePage() {
   );
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
-
-  // Define the search function without debounce first
-  const performSearch = useCallback(async (query: string) => {
-    if (query.length < 2) {
-      setSearchResults([]);
-      return;
-    }
-
-    setIsSearching(true);
-    try {
-      const response = await fetch(
-        `/api/movies/search?${new URLSearchParams({
-          query,
-          nbResults: "10",
-        }).toString()}`,
-      );
-
-      const results = await response.json();
-      setSearchResults(searchResultsSchema.parse(results));
-    } catch (error) {
-      console.error("Error searching movies:", error);
-      setMessage({ text: "Error searching for movies", type: "error" });
-    } finally {
-      setIsSearching(false);
-    }
-  }, []);
-
-  // Now create the debounced version
-  const searchMovies = useCallback(
-    debounce((query: string) => {
-      performSearch(query);
-    }, 300),
-    [performSearch],
-  );
-
-  // Effect to trigger search when the search term changes
-  useEffect(() => {
-    searchMovies(searchTerm);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchTerm]); // Only depend on searchTerm, not searchMovies
-
-  // Handle search result selection
-  const handleSelectMovie = (movie: SearchMovie) => {
-    setDocumentId(movie.id);
-    loadDocument();
+  const setSearchFind = (st: string, id: string = "") => {
+    setQuery(st);
+    setMovieId(id);
+    setShowResults(true);
   };
+  const collection = "movie-info";
 
   // Load document directly from Firestore
   const loadDocument = async () => {
-    if (!documentId.trim()) {
-      setMessage({ text: "Please enter a document ID", type: "error" });
+    if (!movieId.trim()) {
+      setMessage({ text: "Veuillez choisir un film", type: "error" });
       return;
     }
-
     setIsLoading(true);
     setMessage({ text: "", type: "" });
-
     try {
       const { db } = getClientFirebase();
-      const docRef = doc(db, collection, documentId);
+      const docRef = doc(db, collection, movieId);
       const docSnap = await getDoc(docRef);
-
       if (docSnap.exists()) {
         const data = docSnap.data() as DocumentData;
         setDocumentData(data);
-
-        // Reset selections and updates
         setSelectedFields({});
         setUpdatedValues({});
-
         setMessage({ text: "Document loaded successfully", type: "success" });
       } else {
         setMessage({ text: "Document not found", type: "error" });
@@ -139,14 +105,12 @@ export default function DocumentUpdatePage() {
     setSelectedFields((prev) => {
       const newState = { ...prev };
       newState[field] = !prev[field];
-
       // If unchecking, remove from updatedValues
       if (!newState[field] && field in updatedValues) {
         const newValues = { ...updatedValues };
         delete newValues[field];
         setUpdatedValues(newValues);
       }
-
       return newState;
     });
   };
@@ -170,15 +134,13 @@ export default function DocumentUpdatePage() {
   // Generate the update payload
   const generateUpdatePayload = () => {
     const updateFields: Record<string, unknown> = {};
-
     Object.keys(selectedFields).forEach((field) => {
       if (selectedFields[field] && updatedValues[field] !== undefined) {
         updateFields[field] = updatedValues[field];
       }
     });
-
     return {
-      document_name: documentId,
+      document_name: movieId,
       data_to_upload: updateFields,
       status: "update",
     };
@@ -187,22 +149,19 @@ export default function DocumentUpdatePage() {
   // Update document
   const updateDocument = async () => {
     if (
-      !documentId.trim() ||
+      !movieId.trim() ||
       !documentData ||
       Object.keys(updatedValues).length === 0
     ) {
       setMessage({ text: "No changes to update", type: "error" });
       return;
     }
-
     setIsLoading(true);
     setMessage({ text: "", type: "" });
-
     try {
       const API_ENDPOINT =
         "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_document_to_db";
       const payload = generateUpdatePayload();
-
       const response = await fetch(API_ENDPOINT, {
         method: "POST",
         headers: {
@@ -211,17 +170,14 @@ export default function DocumentUpdatePage() {
         body: JSON.stringify(payload),
         mode: "cors",
       });
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
       const responseData = await response.json();
       setMessage({
         text: responseData.message || "Document updated successfully",
         type: "success",
       });
-
       // Reload the document to show updated values
       await loadDocument();
     } catch (error) {
@@ -249,168 +205,56 @@ export default function DocumentUpdatePage() {
   };
 
   return (
-    <>
-      <PageHeader text="FILM UPDATE">
-        <SousTitre1>Mise à jour des infos d&apos;un film</SousTitre1>
-      </PageHeader>
-
-      {/* Mode Selection */}
-      <div className="mb-6 flex space-x-2">
-        <button
-          onClick={() => setMode("direct")}
-          className={`px-3 py-1.5 text-sm ${
-            mode === "direct" ? "bg-retro-gray text-white" : "bg-gray-200"
-          }`}
-        >
-          Direct ID Lookup
-        </button>
-        <button
-          onClick={() => setMode("search")}
-          className={`px-3 py-1.5 text-sm ${
-            mode === "search" ? "bg-retro-gray text-white" : "bg-gray-200"
-          }`}
-        >
-          Search Movie
-        </button>
+    <MiddleColumn>
+      {/* FILM SELECTION */}
+      <div className="flex flex-col gap-y-10px">
+        <div className="flex grow flex-col">
+          <RetroInput
+            value={query}
+            setValue={(st) => setSearchFind(st)}
+            placeholder="Recherchez un film"
+            leftAlignPlaceholder
+          />
+          {showResults && (
+            <SearchResults
+              className="border-x px-5px py-2px"
+              nbResults={5}
+              query={query}
+              onClick={(m) => {
+                setSearchFind(
+                  (m as SearchMovie).title +
+                    ", " +
+                    (m as SearchMovie).directors +
+                    " (" +
+                    (m as SearchMovie).year +
+                    ")",
+                  (m as SearchMovie).id,
+                );
+                setShowResults(false);
+              }}
+            />
+          )}
+        </div>
+        <TextBox onClick={loadDocument} className="bg-retro-gray text-white">
+          Modifier les informations de ce film
+        </TextBox>
+        {message.text && (
+          <div
+            className={`${
+              message.type === "success"
+                ? "bg-retro-green"
+                : "bg-retro-red"
+            }`}
+          >
+            {message.text}
+          </div>
+        )}
       </div>
 
-      {/* Direct ID Mode */}
-      {mode === "direct" && (
-        <div className="mb-6">
-          <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-3">
-            <div className="md:col-span-2">
-              <label className="mb-2 block text-15px font-medium uppercase">
-                Document ID
-              </label>
-              <RetroInput
-                value={documentId}
-                setValue={setDocumentId}
-                placeholder="Enter document ID (e.g., sauve-peut-vie-1979)"
-                className="h-40px"
-              />
-            </div>
-
-            <div>
-              <label className="mb-2 block text-15px font-medium uppercase">
-                Collection
-              </label>
-              <RetroInput
-                value={collection}
-                setValue={setCollection}
-                placeholder="Collection name"
-                className="h-40px"
-              />
-            </div>
-          </div>
-
-          <button
-            onClick={loadDocument}
-            className="bg-retro-gray px-5 py-2 text-15px font-medium uppercase text-white"
-          >
-            Load Document
-          </button>
-        </div>
-      )}
-
-      {/* Search Mode */}
-      {mode === "search" && (
-        <div className="mb-6">
-          <div className="mb-4">
-            <RetroInput
-              customTypography
-              value={searchTerm}
-              setValue={setSearchTerm}
-              placeholder="Recherchez un film"
-              leftAlignPlaceholder
-              transparentPlaceholder
-              grayText
-              className="h-50px text-21px font-medium uppercase lg:h-57px lg:text-29px lg:tracking-[-0.01em]"
-            />
-          </div>
-
-          {/* Search Results */}
-          {isSearching ? (
-            <div className="flex justify-center py-6">
-              <Loading />
-            </div>
-          ) : (
-            searchTerm.length > 0 && (
-              <div className="border-t">
-                {searchResults.length > 0 ? (
-                  searchResults.map((movie, i) => (
-                    <div
-                      key={movie.id}
-                      onClick={() => handleSelectMovie(movie)}
-                      className={`cursor-pointer border-b py-10px pl-5px text-15px font-medium uppercase leading-20px lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] ${
-                        i % 2 === 1 ? "bg-retro-pale-green" : ""
-                      }`}
-                    >
-                      <u>{movie.title}</u>, {movie.directors} ({movie.year})
-                    </div>
-                  ))
-                ) : (
-                  <div className="pt-11px lg:pt-13px">
-                    <MetaCopy>
-                      Désolé, nous n&apos;avons rien trouvé qui corresponde à
-                      votre recherche !
-                    </MetaCopy>
-                  </div>
-                )}
-              </div>
-            )
-          )}
-
-          {/* Collection Selection */}
-          {documentId && (
-            <div className="mt-4">
-              <label className="mb-2 block text-15px font-medium uppercase">
-                Collection
-              </label>
-              <div className="flex gap-2">
-                <RetroInput
-                  value={collection}
-                  setValue={setCollection}
-                  placeholder="Collection name"
-                  className="h-40px"
-                />
-                <button
-                  onClick={loadDocument}
-                  className="bg-retro-gray px-5 py-2 text-15px font-medium uppercase text-white"
-                >
-                  Load
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Loading State */}
-      {isLoading && (
-        <div className="flex justify-center py-6">
-          <Loading />
-        </div>
-      )}
-
-      {/* Message Display */}
-      {message.text && (
-        <div
-          className={`my-4 p-4 ${
-            message.type === "success"
-              ? "bg-green-100 text-green-800"
-              : "bg-red-100 text-red-800"
-          }`}
-        >
-          {message.text}
-        </div>
-      )}
-
-      {/* Document Content */}
+      {/* UPDATE METADATA */}
       {documentData && !isLoading && (
-        <div className="mt-6 border-t pt-6">
-          <SousTitre1>Document Fields ({documentId})</SousTitre1>
-
-          <div className="mt-4 rounded-md border">
+        <div className="flex flex-col gap-y-20px">
+          <div className="flex flex-col gap-y-10px rounded-md border">
             {getSortedFieldNames().map((field) => (
               <div
                 key={field}
@@ -473,8 +317,6 @@ export default function DocumentUpdatePage() {
               </div>
             ))}
           </div>
-
-          {/* Update Preview */}
           {Object.keys(updatedValues).length > 0 && (
             <div className="mt-6">
               <SousTitre1>Update Preview</SousTitre1>
@@ -485,20 +327,16 @@ export default function DocumentUpdatePage() {
               </div>
             </div>
           )}
-
-          {/* Update Button */}
           {Object.keys(updatedValues).length > 0 && (
-            <div className="mt-6">
-              <button
-                onClick={updateDocument}
-                className="bg-retro-gray px-5 py-2 text-15px font-medium uppercase text-white"
-              >
-                Update Document
-              </button>
-            </div>
+            <TextBox
+              onClick={updateDocument}
+              className="bg-retro-gray px-5 py-2 text-15px font-medium uppercase text-white"
+            >
+              Update Document
+            </TextBox>
           )}
         </div>
       )}
-    </>
+    </MiddleColumn>
   );
 }
