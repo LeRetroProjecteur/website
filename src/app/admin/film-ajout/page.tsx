@@ -7,8 +7,25 @@ import { Loading } from "@/components/icons/loading";
 import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
 import { SousTitre1 } from "@/components/typography/typography";
+import { ThreeColumnPage } from "@/components/layout/page";
+import { MiddleColumn } from "@/components/articles/articles";
 
 export default function AddMoviePage() {
+  return (
+    <>
+      <PageHeader text="Ajout de film">
+        <SousTitre1>Ajouter un nouveau film</SousTitre1>
+      </PageHeader>
+      <ThreeColumnPage>
+        <MiddleColumn>
+        <AddMovie/>
+        </MiddleColumn>
+      </ThreeColumnPage>
+    </>
+  )
+}
+
+function AddMovie() {
   const [formData, setFormData] = useState({
     title: "",
     director: "",
@@ -101,14 +118,9 @@ export default function AddMoviePage() {
   };
 
   return (
-    <>
-      <PageHeader text="FILM AJOUT">
-        <SousTitre1>Ajouter un nouveau film</SousTitre1>
-      </PageHeader>
-
-      <div className="max-w-2xl">
-        {/* Allocine ID Field */}
-        <div className="mb-6 border-b pb-4">
+    <div className="flex flex-col gap-y-20px">
+      {/* Avec un ID */}
+      <div className="flex flex-col gap-y-10px">
           <div className="flex items-center gap-4">
             <label className="block w-32 text-15px font-medium uppercase">
               Allocine ID
@@ -122,85 +134,98 @@ export default function AddMoviePage() {
               lowercase={true}
             />
           </div>
-          <p className="mt-2 pl-36 text-sm text-gray-600">
-            Si vous fournissez l&apos;ID Allocine, les autres champs sont
-            facultatifs
-          </p>
+      </div>
+
+      <div>
+        <p className="border-y text-sm text-gray-600 py-10px">
+          Si vous avez fourni un ID au dessus, les autres champs sont
+          facultatifs
+        </p>
+      </div>
+
+      {/* Form Fields */}
+      <div className="flex flex-col gap-y-10px">
+        <div className="flex items-center gap-4">
+          <label className="block w-32 text-16px font-medium uppercase">
+            Titre *
+          </label>
+          <RetroInput
+            value={formData.title}
+            setValue={(value) => handleInputChange("title", value)}
+            placeholder="Entrez le titre du film"
+            className="h-40px w-full"
+            leftAlignPlaceholder={true}
+            lowercase={true}
+          />
         </div>
 
-        {/* Form Fields */}
-        <div className="space-y-5">
-          <div className="flex items-center gap-4">
-            <label className="block w-32 text-16px font-medium uppercase">
-              Titre *
-            </label>
-            <RetroInput
-              value={formData.title}
-              setValue={(value) => handleInputChange("title", value)}
-              placeholder="Entrez le titre du film"
-              className="h-40px w-full"
-              leftAlignPlaceholder={true}
-              lowercase={true}
-            />
-          </div>
-
-          <div className="flex items-center gap-4">
-            <label className="block w-32 text-16px font-medium uppercase">
-              Réal. *
-            </label>
-            <RetroInput
-              value={formData.director}
-              setValue={(value) => handleInputChange("director", value)}
-              placeholder="Nom du réalisateur"
-              className="h-40px w-full"
-              leftAlignPlaceholder={true}
-              lowercase={true}
-            />
-          </div>
-
-          <div className="flex items-center gap-4">
-            <label className="block w-32 text-15px font-medium uppercase">
-              Année *
-            </label>
-            <RetroInput
-              value={formData.year}
-              setValue={(value) => handleInputChange("year", value)}
-              placeholder="Année de sortie (ex: 1997)"
-              className="h-40px w-full"
-              leftAlignPlaceholder={true}
-              lowercase={true}
-            />
-          </div>
-
-          <div className="flex items-center gap-4">
-            <label className="block w-32 text-15px font-medium uppercase">
-              Durée
-            </label>
-            <RetroInput
-              value={formData.duration}
-              setValue={(value) => handleInputChange("duration", value)}
-              placeholder="Durée en minutes (ex: 120)"
-              className="h-40px w-full"
-              leftAlignPlaceholder={true}
-              lowercase={true}
-            />
-          </div>
-
-          <div className="flex items-center gap-4">
-            <label className="block w-32 text-15px font-medium uppercase">
-              Langue
-            </label>
-            <RetroInput
-              value={formData.language}
-              setValue={(value) => handleInputChange("language", value)}
-              placeholder="Langue originale (ex: français)"
-              className="h-40px w-full"
-              leftAlignPlaceholder={true}
-              lowercase={true}
-            />
-          </div>
+        <div className="flex items-center gap-4">
+          <label className="block w-32 text-16px font-medium uppercase">
+            Réal. *
+          </label>
+          <RetroInput
+            value={formData.director}
+            setValue={(value) => handleInputChange("director", value)}
+            placeholder="Nom du réalisateur"
+            className="h-40px w-full"
+            leftAlignPlaceholder={true}
+            lowercase={true}
+          />
         </div>
 
+        <div className="flex items-center gap-4">
+          <label className="block w-32 text-15px font-medium uppercase">
+            Année *
+          </label>
+          <RetroInput
+            value={formData.year}
+            setValue={(value) => handleInputChange("year", value)}
+            placeholder="Année de sortie (ex: 1997)"
+            className="h-40px w-full"
+            leftAlignPlaceholder={true}
+            lowercase={true}
+          />
+        </div>
+
+        <div className="flex items-center gap-4">
+          <label className="block w-32 text-15px font-medium uppercase">
+            Durée
+          </label>
+          <RetroInput
+            value={formData.duration}
+            setValue={(value) => handleInputChange("duration", value)}
+            placeholder="Durée en minutes (ex: 120)"
+            className="h-40px w-full"
+            leftAlignPlaceholder={true}
+            lowercase={true}
+          />
+        </div>
+
+        <div className="flex items-center gap-4">
+          <label className="block w-32 text-15px font-medium uppercase">
+            Langue
+          </label>
+          <RetroInput
+            value={formData.language}
+            setValue={(value) => handleInputChange("language", value)}
+            placeholder="Langue originale (ex: français)"
+            className="h-40px w-full"
+            leftAlignPlaceholder={true}
+            lowercase={true}
+          />
+        </div>
+      </div>
+
+      {/* Submit Button */}
+      <div>
+        <TextBox
+          onClick={!isLoading ? addNewMovie : undefined}
+          className={`bg-retro-gray text-white ${
+            isLoading ? "opacity-50" : ""
+          }`}
+        >
+          {isLoading ? "En attente..." : "Rajouter le film"}
+        </TextBox>
         {/* Message Display */}
         {message.text && (
           <div
@@ -213,26 +238,14 @@ export default function AddMoviePage() {
             {message.text}
           </div>
         )}
-
-        {/* Submit Button */}
-        <div className="mt-6">
-          <TextBox
-            onClick={!isLoading ? addNewMovie : undefined}
-            className={`w-full max-w-xs bg-retro-gray text-white ${
-              isLoading ? "opacity-50" : ""
-            }`}
-          >
-            {isLoading ? "Adding..." : "Add Movie"}
-          </TextBox>
-        </div>
-
-        {/* Loading Indicator */}
-        {isLoading && (
-          <div className="mt-4 flex justify-center">
-            <Loading />
-          </div>
-        )}
       </div>
-    </>
+
+      {/* Loading Indicator */}
+      {isLoading && (
+        <div className="mt-4 flex justify-center">
+          <Loading />
+        </div>
+      )}
+    </div>
   );
 }
