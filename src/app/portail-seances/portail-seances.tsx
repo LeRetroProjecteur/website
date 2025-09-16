@@ -258,11 +258,22 @@ export default function SubmitScreenings() {
   };
 
   const handleSubmit = async () => {
+    // If a movie is provided, both date and time must be provided
+    const invalidRows = rowsData.filter(
+      (row) => row.movie && (!row.date || !row.time),
+    );
+    if (invalidRows.length > 0) {
+      setResponseMessage(
+        "Veuillez renseigner une date et un horaire pour chaque film.",
+      );
+      return;
+    }
+
     setIsSubmitting(true);
     try {
       // Format showtimes for Slack
       const showtimesText = rowsData
-        .filter((row) => row.movie && row.date)
+        .filter((row) => row.movie && row.date && row.time)
         .map((row) =>
           JSON.stringify({
             theater_id: theaterData.theater_id,
@@ -277,7 +288,7 @@ export default function SubmitScreenings() {
       const warningMessage = `*Cinéma:* ${theaterData.name}${
         organization ? ` (${organization})` : ""
       }\n\n*Séances: *\n${rowsData
-        .filter((row) => row.movie && row.date)
+        .filter((row) => row.movie && row.date && row.time)
         .map(
           (row) =>
             `<https://leretroprojecteur.com/film/${row.movie_id}|${

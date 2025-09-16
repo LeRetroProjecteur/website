@@ -5,13 +5,13 @@ import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { useState } from "react";
 
 import { SearchResults } from "@/app/recherche/recherche";
+import { MiddleColumn } from "@/components/articles/articles";
 import RetroInput from "@/components/forms/retro-input";
+import { ThreeColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
 import { SousTitre1 } from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
-import { MiddleColumn } from "@/components/articles/articles";
-import { ThreeColumnPage } from "@/components/layout/page";
 
 // Firebase config for client-side
 const firebaseConfig = {
@@ -241,9 +241,7 @@ function DocumentUpdate() {
         {message.text && (
           <div
             className={`${
-              message.type === "success"
-                ? "bg-retro-green"
-                : "bg-retro-red"
+              message.type === "success" ? "bg-retro-green" : "bg-retro-red"
             }`}
           >
             {message.text}
