@@ -21,6 +21,17 @@ import {
 } from "../seance-dialog/seance-dialog";
 import { CalendrierCopy } from "../typography/typography";
 
+function getSortedTheaters(screenings: TheaterScreenings[]) {
+  return sortBy(screenings, (theater) =>
+    min(Object.values(theater.seances).map((s) => s.time)),
+  ).map((theater) => ({
+    ...theater,
+    seances: Object.fromEntries(
+      Object.entries(theater.seances).sort(([, a], [, b]) => a.time - b.time),
+    ),
+  }));
+}
+
 export default function Seances({
   movie,
   day,
@@ -31,23 +42,13 @@ export default function Seances({
   screenings: TheaterScreenings[];
 }) {
   const [isExpanded, setIsExpanded] = useState(false);
-
   const toggleExpanded = useCallback(
     () => setIsExpanded(!isExpanded),
     [isExpanded, setIsExpanded],
   );
 
   const sortedTheaters = useMemo(
-    () =>
-      sortBy(screenings, [
-        function (screeningsTheaters) {
-          return min(
-            Object.values(screeningsTheaters.seances).map(
-              (screening) => screening.time,
-            ),
-          );
-        },
-      ]),
+    () => getSortedTheaters(screenings),
     [screenings],
   );
 
@@ -55,7 +56,6 @@ export default function Seances({
     () => take(sortedTheaters, 3),
     [sortedTheaters],
   );
-
   const needsExpanding = sortedTheaters.length !== unexpandedTheaters.length;
 
   return (
@@ -104,53 +104,31 @@ export function FormatNotes({
     () => setIsExpanded(!isExpanded),
     [isExpanded, setIsExpanded],
   );
-  const needsExpanding = notes.length > maxLength;
-  const expandedClassName = maxLength === 0 && isExpanded ? "block" : "";
 
-  // Function to handle specific word formatting
-  const formatNotes = (text: string) => {
-    if (maxLength === 50) {
-      return text;
-    }
-    return text
-      .split(/\s+/)
-      .map((word) => {
-        if (maxLength === 0 && word.length > 13) {
-          const splitIndex = Math.floor(word.length / 2);
-          return `${word.slice(0, splitIndex)}-\n${word.slice(splitIndex)}`;
-        }
-        return word;
-      })
-      .join(" ");
-  };
+  let firstPart = notes;
+  if (notes.length > maxLength) {
+    const cutoff = notes.slice(0, maxLength).lastIndexOf(" ");
+    firstPart = cutoff === -1 ? "" : notes.slice(0, cutoff + 1);
+  }
+  // Exception: don't collapse if barely longer
+  if (notes.length - firstPart.length < 10) {
+    firstPart = notes;
+  }
+
+  const needsExpanding = firstPart.length < notes.length;
+  const expandedClassName = maxLength === 0 && isExpanded ? "block" : "";
 
   return (
     <>
       {needsExpanding ? (
         <span
-          className={`
-            -mx-2 -my-1 
-            cursor-pointer 
-            px-2 
-            py-1 
-            ${expandedClassName}
-            whitespace-pre-wrap
-          `}
+          className={`cursor-pointer ${expandedClassName}`}
           onClick={toggleExpanded}
         >
-          {isExpanded
-            ? formatNotes(notes)
-            : maxLength === 0
-              ? "[...]"
-              : formatNotes(
-                  notes.substring(
-                    0,
-                    notes.substring(0, maxLength).lastIndexOf(" ") + 1,
-                  ) + "[...]",
-                )}
+          {isExpanded ? notes : firstPart + "[...]"}
         </span>
       ) : (
-        notes
+        <span>{notes}</span>
       )}
     </>
   );
@@ -195,10 +173,7 @@ function SeancesTheater({
   showtimesTheater: TheaterScreenings;
   isExpanded: boolean;
 }) {
-  const screenings = sortBy(
-    Object.values(showtimesTheater.seances),
-    (screening) => screening.time,
-  );
+  const screenings = Object.values(showtimesTheater.seances);
   const setSeance = useSeanceDialogStore((s) => s.setSeance);
   const hash = useHash();
 
@@ -294,5 +269,40 @@ function SeancesTheater({
         ))}
       </div>
     </div>
+  );
+}
+
+export function SeancesGenerator({
+  screenings,
+}: {
+  screenings: TheaterScreenings[];
+}) {
+  const sortedTheaters = useMemo(
+    () => getSortedTheaters(screenings),
+    [screenings],
+  );
+  return (
+    <>
+      {sortedTheaters.map((theater) => {
+        const screenings = Object.values(theater.seances);
+        return (
+          <div key={theater.name}>
+            {theater.name} ({transformZipcode(theater.zipcode)})&nbsp;:{" "}
+            {screenings.map((screening, i) => (
+              <span key={screening.time}>
+                {floatHourToString(screening.time)}
+                {screening.notes && (
+                  <>
+                    {" "}
+                    (<i>{screening.notes}</i>)
+                  </>
+                )}
+                {i < screenings.length - 1 && " • "}
+              </span>
+            ))}
+          </div>
+        );
+      })}
+    </>
   );
 }
