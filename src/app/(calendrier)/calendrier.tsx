@@ -23,12 +23,15 @@ export default function Calendrier({
           <DateSelector />
         </div>
       </PageHeader>
-      <div className="flex grow flex-col lg:pl-20px">
+      <div style={{ padding: "2rem", textAlign: "center", fontSize: "1.2rem" }}>
+        Notre site est actuellement en cours de maintenance. Nous serons de retour demain&nbsp;! Veuillez nous excuser pour la gêne occasionnée.
+      </div>
+      {/* <div className="flex grow flex-col lg:pl-20px">
         <CalendarFilters />
         <div className="flex grow pt-18px lg:pt-28px">
           <MovieTable serverMovies={serverMovies} allMovies={allMovies} />
         </div>
-      </div>
+      </div> */}
     </>
   );
 }
