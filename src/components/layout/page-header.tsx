@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { ReactNode } from "react";
 
 import { Titre } from "../typography/typography";
+import { hasBanner } from "./banner";
 
 export default function PageHeader({
   children,
@@ -46,7 +47,9 @@ export function FixedHeader({
         {
           "pb-20px": !(disableBelowPadding ?? false),
         },
-        "z-20 flex flex-col bg-white lg:sticky lg:top-0 lg:pt-20px",
+        `z-20 flex flex-col bg-white lg:sticky lg:top-[${
+          hasBanner ? "40.5px" : "0px"
+        }] lg:pt-20px`,
       )}
     >
       {children}
