@@ -281,7 +281,7 @@ export default function MaRetro2025() {
           id: row.id,
         }));
       const payload = {
-        collection_name: "sondage-2025",
+        collection_name: "ma-retro-2025",
         votes: transformedData,
         director_requests: real,
         cinema_visits: nombreDeFois,
