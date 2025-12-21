@@ -322,11 +322,8 @@ export default function MaRetro2025() {
               <>
                 <BodyCopy className="flex flex-col gap-y-10px">
                   <div>
-                    L&apos;année 2025 a été{" "}
-                    <Link href="/coeur" className="underline">
-                      riche en ressorties cinéma
-                    </Link>
-                    . Et vous, quels ont été vos coups de cœur de
+                    L&apos;année 2025 a été riche en ressorties cinéma. 
+                    Et vous, quels ont été vos coups de cœur de
                     l&apos;année&nbsp;? En cette saison des tops à-tout-va, Le
                     Rétro Projecteur vous propose de concocter un petit
                     classement de vos plus belles découvertes&nbsp;!

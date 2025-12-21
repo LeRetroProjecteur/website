@@ -72,4 +72,4 @@ const Banner: React.FC<BannerProps> = ({ children, speed = 50 }) => {
 
 export default Banner;
 
-export const hasBanner = false;
+export const hasBanner = true;
