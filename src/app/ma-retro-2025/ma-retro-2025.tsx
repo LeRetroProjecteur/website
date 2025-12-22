@@ -122,10 +122,11 @@ function MovieRow({
   );
 
   const handleResultClick = useCallback(
-    (m: SearchMovie) => {
+    (elem: SearchMovie | SearchTheater) => {
+      const m = elem as SearchMovie;
       const movieString = `${m.title}, ${m.directors} (${m.year})`;
-      setQuery(movieString); // Update UI immediately
-      setDebouncedQuery(movieString); // Set debounced to prevent new search
+      setQuery(movieString);
+      setDebouncedQuery(movieString);
       setShowResults(false);
       onUpdate({ movie: movieString, id: m.id });
     },
