@@ -85,7 +85,7 @@ function MovieRow({
   const setSearchFind = (st: string, id: string = "") => {
     setQuery(st);
     setMovieId(id);
-    setShowResults(true);
+    setShowResults(st.length >= 2);
     onUpdate({ movie: st, id: id });
   };
 
@@ -118,7 +118,7 @@ function MovieRow({
             placeholder={"Rechercher un film...".toUpperCase()}
             transparentPlaceholder
           />
-          {showResults && (
+          {showResults && query.length >= 2 && (
             <SearchResults
               altColor={true}
               className="border-x px-5px py-2px"
