@@ -83,24 +83,27 @@ function MovieRow({
   const [debouncedQuery, setDebouncedQuery] = useState("");
   const [_, setMovieId] = useState("");
   const [showResults, setShowResults] = useState(false);
+  const [isSelected, setIsSelected] = useState(false); // Add this flag
 
   // Debounce the search query - wait 1 second after user stops typing
   useEffect(() => {
+    if (isSelected) return; // Don't debounce if user just selected something
+
     const timer = setTimeout(() => {
       setDebouncedQuery(query);
-    }, 1000); // Wait 1 second
+    }, 1000);
 
-    return () => clearTimeout(timer); // Clear timer if user types again
-  }, [query]);
+    return () => clearTimeout(timer);
+  }, [query, isSelected]); // Add isSelected to dependency
 
   // Only show results when we have a debounced query with 2+ characters
   useEffect(() => {
-    if (debouncedQuery.length >= 2) {
+    if (debouncedQuery.length >= 2 && !isSelected) {
       setShowResults(true);
     } else {
       setShowResults(false);
     }
-  }, [debouncedQuery]);
+  }, [debouncedQuery, isSelected]);
 
   // Auto-close results after 10 seconds
   useEffect(() => {
@@ -114,8 +117,9 @@ function MovieRow({
 
   const setSearchFind = useCallback(
     (st: string, id: string = "") => {
-      setQuery(st); // Update immediately for UI
+      setQuery(st);
       setMovieId(id);
+      setIsSelected(false); // Reset selection flag when typing
       onUpdate({ movie: st, id: id });
     },
     [onUpdate],
@@ -126,7 +130,8 @@ function MovieRow({
       const m = elem as SearchMovie;
       const movieString = `${m.title}, ${m.directors} (${m.year})`;
       setQuery(movieString);
-      setDebouncedQuery(movieString);
+      setDebouncedQuery(""); // Clear debounced query
+      setIsSelected(true); // Set selection flag
       setShowResults(false);
       onUpdate({ movie: movieString, id: m.id });
     },
