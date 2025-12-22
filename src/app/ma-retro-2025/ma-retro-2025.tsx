@@ -83,21 +83,6 @@ function MovieRow({
   const [_, setMovieId] = useState("");
   const [showResults, setShowResults] = useState(false);
 
-  const debouncedQuery = useMemo(() => {
-    if (query.length < 3) return ""; // Don't search until 3+ characters
-    return query;
-  }, [query]);
-
-  const setSearchFind = useCallback(
-    (st: string, id: string = "") => {
-      setQuery(st);
-      setMovieId(id);
-      setShowResults(st.length >= 3); // Only show results for meaningful searches
-      onUpdate({ movie: st, id: id });
-    },
-    [onUpdate],
-  );
-
   // Fix 3: Auto-close results after 10 seconds to free memory
   useEffect(() => {
     if (showResults) {
@@ -127,12 +112,12 @@ function MovieRow({
             placeholder={"Rechercher un film...".toUpperCase()}
             transparentPlaceholder
           />
-          {showResults && debouncedQuery && (
+          {showResults && (
             <SearchResults
               altColor={true}
               className="border-x px-5px py-2px"
-              nbResults={3} // Reduced from 5 to save memory
-              query={debouncedQuery} // Use debounced query
+              nbResults={5}
+              query={query}
               noResultsText="Nous ne trouvons pas votre film, mais vous pouvez le renseigner manuellement."
               noResultsTextSize="small"
               lowercase={true}
