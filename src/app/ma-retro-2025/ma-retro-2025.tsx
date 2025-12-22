@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import Image from "next/image";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 
 import LoadingPage from "@/app/loading";
 import { SearchResults } from "@/app/recherche/recherche";
