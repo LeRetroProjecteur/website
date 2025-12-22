@@ -11,7 +11,7 @@ import RetroInput from "@/components/forms/retro-input";
 import { ThreeColumnPage } from "@/components/layout/page";
 import { TextBox } from "@/components/layout/text-boxes";
 import { BodyCopy, SousTitre2 } from "@/components/typography/typography";
-import { SearchMovie } from "@/lib/types";
+import { SearchMovie, SearchTheater } from "@/lib/types";
 
 import logoBlue from "./logo-blue.png";
 
