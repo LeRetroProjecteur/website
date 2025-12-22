@@ -82,6 +82,12 @@ function MovieRow({
   const [query, setQuery] = useState("");
   const [_, setMovieId] = useState("");
   const [showResults, setShowResults] = useState(false);
+  const setSearchFind = (st: string, id: string = "") => {
+    setQuery(st);
+    setMovieId(id);
+    setShowResults(true);
+    onUpdate({ movie: st, id: id });
+  };
 
   // Fix 3: Auto-close results after 10 seconds to free memory
   useEffect(() => {
