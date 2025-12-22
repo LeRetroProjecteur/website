@@ -38,7 +38,7 @@ const Banner: React.FC<BannerProps> = ({ children, speed = 50 }) => {
 
   return (
     <Link
-      href={"/ma-retro-2024"}
+      href={"/ma-retro-2025"}
       className="absolute top-0 z-50 w-full lg:fixed"
     >
       <div
