@@ -72,7 +72,6 @@ function SondageRow({ cell1, cell2 }: { cell1: ReactNode; cell2: ReactNode }) {
   );
 }
 
-
 function MovieRow({
   index,
   onUpdate,
@@ -83,19 +82,22 @@ function MovieRow({
   const [query, setQuery] = useState("");
   const [_, setMovieId] = useState("");
   const [showResults, setShowResults] = useState(false);
-  
+
   const debouncedQuery = useMemo(() => {
     if (query.length < 3) return ""; // Don't search until 3+ characters
     return query;
   }, [query]);
-  
-  const setSearchFind = useCallback((st: string, id: string = "") => {
-    setQuery(st);
-    setMovieId(id);
-    setShowResults(st.length >= 3); // Only show results for meaningful searches
-    onUpdate({ movie: st, id: id });
-  }, [onUpdate]);
-  
+
+  const setSearchFind = useCallback(
+    (st: string, id: string = "") => {
+      setQuery(st);
+      setMovieId(id);
+      setShowResults(st.length >= 3); // Only show results for meaningful searches
+      onUpdate({ movie: st, id: id });
+    },
+    [onUpdate],
+  );
+
   // Fix 3: Auto-close results after 10 seconds to free memory
   useEffect(() => {
     if (showResults) {
@@ -105,7 +107,7 @@ function MovieRow({
       return () => clearTimeout(timer);
     }
   }, [showResults]);
-  
+
   return (
     <SondageRow
       cell1={
@@ -280,64 +282,64 @@ export default function MaRetro2025() {
     setRowsData(newRowsData);
   };
   const handleSubmit = async () => {
-  const hasAtLeastTwoMovies =
-    rowsData.filter((row) => row.movie.trim() !== "").length >= 2;
-  if (!hasAtLeastTwoMovies) {
-    setResponseMessage("Veuillez sélectionner au moins cinq films.");
-    return;
-  }
-  setIsSubmitting(true);
-  
-  try {
-    const API_ENDPOINT =
-      "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_poll_data_to_db";
-    
-    const transformedData = rowsData
-      .filter((row) => row.movie !== "")
-      .map((row) => ({
-        movie: row.movie,
-        id: row.id,
-      }));
-      
-    const payload = {
-      collection_name: "ma-retro-2025",
-      votes: transformedData,
-      director_requests: real,
-      cinema_visits: nombreDeFois,
-      additional_feedback: autreInformation,
-      full_name: fullName,
-      email: email,
-      newsletter_signup: newsletter,
-    };
-    
-    // Add timeout to prevent hanging requests
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
-    
-    const response = await fetch(API_ENDPOINT, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(payload),
-      mode: "cors",
-      signal: controller.signal, // Add abort signal
-    });
-    
-    clearTimeout(timeoutId);
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    const hasAtLeastTwoMovies =
+      rowsData.filter((row) => row.movie.trim() !== "").length >= 2;
+    if (!hasAtLeastTwoMovies) {
+      setResponseMessage("Veuillez sélectionner au moins cinq films.");
+      return;
     }
-    
-    setResponseMessage("Données envoyées avec succès!");
-    setShowSharePage(true);
-  } catch (error) {
-    console.error("Error:", error);
-    setResponseMessage("Erreur lors de l'envoi. Veuillez réessayer.");
-  }
-  setIsSubmitting(false);
-};
+    setIsSubmitting(true);
+
+    try {
+      const API_ENDPOINT =
+        "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_poll_data_to_db";
+
+      const transformedData = rowsData
+        .filter((row) => row.movie !== "")
+        .map((row) => ({
+          movie: row.movie,
+          id: row.id,
+        }));
+
+      const payload = {
+        collection_name: "ma-retro-2025",
+        votes: transformedData,
+        director_requests: real,
+        cinema_visits: nombreDeFois,
+        additional_feedback: autreInformation,
+        full_name: fullName,
+        email: email,
+        newsletter_signup: newsletter,
+      };
+
+      // Add timeout to prevent hanging requests
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
+
+      const response = await fetch(API_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+        mode: "cors",
+        signal: controller.signal, // Add abort signal
+      });
+
+      clearTimeout(timeoutId);
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      setResponseMessage("Données envoyées avec succès!");
+      setShowSharePage(true);
+    } catch (error) {
+      console.error("Error:", error);
+      setResponseMessage("Erreur lors de l'envoi. Veuillez réessayer.");
+    }
+    setIsSubmitting(false);
+  };
   return (
     <>
       {isSubmitting ? (
