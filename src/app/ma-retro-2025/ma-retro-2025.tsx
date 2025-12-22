@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import Image from "next/image";
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 
 import LoadingPage from "@/app/loading";
 import { SearchResults } from "@/app/recherche/recherche";
@@ -85,9 +85,20 @@ function MovieRow({
   const setSearchFind = (st: string, id: string = "") => {
     setQuery(st);
     setMovieId(id);
-    setShowResults(true);
+    setShowResults(st.length >= 2);
     onUpdate({ movie: st, id: id });
   };
+
+  // Fix 3: Auto-close results after 10 seconds to free memory
+  useEffect(() => {
+    if (showResults) {
+      const timer = setTimeout(() => {
+        setShowResults(false);
+      }, 10000);
+      return () => clearTimeout(timer);
+    }
+  }, [showResults]);
+
   return (
     <SondageRow
       cell1={
@@ -107,7 +118,7 @@ function MovieRow({
             placeholder={"Rechercher un film...".toUpperCase()}
             transparentPlaceholder
           />
-          {showResults && (
+          {showResults && query.length >= 2 && (
             <SearchResults
               altColor={true}
               className="border-x px-5px py-2px"
@@ -262,7 +273,6 @@ export default function MaRetro2025() {
     setRowsData(newRowsData);
   };
   const handleSubmit = async () => {
-    // Check if at least one movie has been filled
     const hasAtLeastTwoMovies =
       rowsData.filter((row) => row.movie.trim() !== "").length >= 2;
     if (!hasAtLeastTwoMovies) {
@@ -270,15 +280,18 @@ export default function MaRetro2025() {
       return;
     }
     setIsSubmitting(true);
+
     try {
       const API_ENDPOINT =
         "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_poll_data_to_db";
+
       const transformedData = rowsData
         .filter((row) => row.movie !== "")
         .map((row) => ({
           movie: row.movie,
           id: row.id,
         }));
+
       const payload = {
         collection_name: "ma-retro-2025",
         votes: transformedData,
@@ -289,6 +302,11 @@ export default function MaRetro2025() {
         email: email,
         newsletter_signup: newsletter,
       };
+
+      // Add timeout to prevent hanging requests
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 15000); // 15s timeout
+
       const response = await fetch(API_ENDPOINT, {
         method: "POST",
         headers: {
@@ -296,10 +314,15 @@ export default function MaRetro2025() {
         },
         body: JSON.stringify(payload),
         mode: "cors",
+        signal: controller.signal, // Add abort signal
       });
+
+      clearTimeout(timeoutId);
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
+
       setResponseMessage("Données envoyées avec succès!");
       setShowSharePage(true);
     } catch (error) {
