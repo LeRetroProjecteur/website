@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import Image from "next/image";
-import React, { ReactNode, useEffect, useState } from "react";
+import React, { ReactNode, useCallback, useEffect, useState } from "react";
 
 import LoadingPage from "@/app/loading";
 import { SearchResults } from "@/app/recherche/recherche";
@@ -11,7 +11,7 @@ import RetroInput from "@/components/forms/retro-input";
 import { ThreeColumnPage } from "@/components/layout/page";
 import { TextBox } from "@/components/layout/text-boxes";
 import { BodyCopy, SousTitre2 } from "@/components/typography/typography";
-import { SearchMovie } from "@/lib/types";
+import { SearchMovie, SearchTheater } from "@/lib/types";
 
 import logoBlue from "./logo-blue.png";
 
@@ -80,16 +80,29 @@ function MovieRow({
   onUpdate: (data: { movie: string; id: string }) => void;
 }) {
   const [query, setQuery] = useState("");
+  const [debouncedQuery, setDebouncedQuery] = useState("");
   const [_, setMovieId] = useState("");
   const [showResults, setShowResults] = useState(false);
-  const setSearchFind = (st: string, id: string = "") => {
-    setQuery(st);
-    setMovieId(id);
-    setShowResults(st.length >= 2);
-    onUpdate({ movie: st, id: id });
-  };
 
-  // Fix 3: Auto-close results after 10 seconds to free memory
+  // Debounce the search query - wait 1 second after user stops typing
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedQuery(query);
+    }, 1000); // Wait 1 second
+
+    return () => clearTimeout(timer); // Clear timer if user types again
+  }, [query]);
+
+  // Only show results when we have a debounced query with 2+ characters
+  useEffect(() => {
+    if (debouncedQuery.length >= 2) {
+      setShowResults(true);
+    } else {
+      setShowResults(false);
+    }
+  }, [debouncedQuery]);
+
+  // Auto-close results after 10 seconds
   useEffect(() => {
     if (showResults) {
       const timer = setTimeout(() => {
@@ -98,6 +111,27 @@ function MovieRow({
       return () => clearTimeout(timer);
     }
   }, [showResults]);
+
+  const setSearchFind = useCallback(
+    (st: string, id: string = "") => {
+      setQuery(st); // Update immediately for UI
+      setMovieId(id);
+      onUpdate({ movie: st, id: id });
+    },
+    [onUpdate],
+  );
+
+  const handleResultClick = useCallback(
+    (elem: SearchMovie | SearchTheater) => {
+      const m = elem as SearchMovie;
+      const movieString = `${m.title}, ${m.directors} (${m.year})`;
+      setQuery(movieString);
+      setDebouncedQuery(movieString);
+      setShowResults(false);
+      onUpdate({ movie: movieString, id: m.id });
+    },
+    [onUpdate],
+  );
 
   return (
     <SondageRow
@@ -111,34 +145,24 @@ function MovieRow({
         <div className="flex grow flex-col">
           <RetroInput
             value={query}
-            setValue={(st) => setSearchFind(st)}
+            setValue={setSearchFind}
             blue={true}
             leftAlignPlaceholder
             customTypography
             placeholder={"Rechercher un film...".toUpperCase()}
             transparentPlaceholder
           />
-          {showResults && query.length >= 2 && (
+          {showResults && debouncedQuery.length >= 2 && (
             <SearchResults
               altColor={true}
               className="border-x px-5px py-2px"
               nbResults={5}
-              query={query}
+              query={debouncedQuery} // Use debounced query for actual search
               noResultsText="Nous ne trouvons pas votre film, mais vous pouvez le renseigner manuellement."
               noResultsTextSize="small"
               lowercase={true}
-              onClick={(m) => {
-                setSearchFind(
-                  `${(m as SearchMovie).title}, ${
-                    (m as SearchMovie).directors
-                  } (${(m as SearchMovie).year})`,
-                  (m as SearchMovie).id,
-                );
-                setShowResults(false);
-              }}
-              onClose={() => {
-                setShowResults(false);
-              }}
+              onClick={handleResultClick}
+              onClose={() => setShowResults(false)}
             />
           )}
         </div>
