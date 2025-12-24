@@ -1,3 +1,5 @@
+"use client";
+
 import { motion, useAnimationControls } from "framer-motion";
 import Link from "next/link";
 import React, { ReactNode, useEffect, useRef, useState } from "react";
@@ -36,7 +38,7 @@ const Banner: React.FC<BannerProps> = ({ children, speed = 50 }) => {
 
   return (
     <Link
-      href={"/ma-retro-2024"}
+      href={"/ma-retro-2025"}
       className="absolute top-0 z-50 w-full lg:fixed"
     >
       <div
@@ -69,3 +71,5 @@ const Banner: React.FC<BannerProps> = ({ children, speed = 50 }) => {
 };
 
 export default Banner;
+
+export const hasBanner = true;

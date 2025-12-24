@@ -1,7 +1,9 @@
+"use client";
+
 import clsx from "clsx";
 import { size } from "lodash-es";
 import Image from "next/image";
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 
 import coupDeCoeur from "@/assets/coup-de-coeur.png";
 import { TwoColumnPage } from "@/components/layout/page";
@@ -14,11 +16,6 @@ import {
   SectionTitle,
   SousTitre1,
 } from "@/components/typography/typography";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
 import { TmdbMovie } from "@/lib/tmdb";
 import { MovieDetail } from "@/lib/types";
 import {
@@ -190,37 +187,15 @@ function MovieInformation({
                 {tmdbMovie?.movie.genres.join(", ")}
               </div>
             ) : null}
-            {!!tmdbMovie?.movie.overview
-              ? (function () {
-                  const words = tmdbMovie.movie.overview.split(". ");
-                  const firstPart = words.slice(0, 1);
-                  const secondPart = words.slice(1).join(". ");
-                  return (
-                    <>
-                      {" "}
-                      <br />
-                      <Collapsible disabled={secondPart === ""}>
-                        <CollapsibleTrigger
-                          className={clsx("text-left", {
-                            "data-[state=closed]:after:content-['[...]']":
-                              secondPart !== "",
-                          })}
-                        >
-                          SYNOPSIS&nbsp;: {firstPart}
-                          {secondPart !== "" ? (
-                            <>
-                              <span>. </span>
-                              <CollapsibleContent className="inline">
-                                {secondPart}
-                              </CollapsibleContent>
-                            </>
-                          ) : null}
-                        </CollapsibleTrigger>
-                      </Collapsible>
-                    </>
-                  );
-                })()
-              : null}
+            {!!tmdbMovie?.movie.overview ? (
+              <>
+                <br />
+                <div>
+                  SYNOPSIS&nbsp;:{" "}
+                  <FormatSynopsis overview={tmdbMovie.movie.overview} />
+                </div>
+              </>
+            ) : null}
           </MetaCopy>
         </div>
         {tmdbMovie != null ? (
@@ -268,6 +243,37 @@ function MovieInformation({
           </div>
         ) : null}
       </div>
+    </>
+  );
+}
+
+export function FormatSynopsis({ overview }: { overview: string }) {
+  const [isExpanded, setIsExpanded] = useState(false);
+  const toggleExpanded = useCallback(
+    () => setIsExpanded(!isExpanded),
+    [isExpanded, setIsExpanded],
+  );
+
+  const regex =
+    /(?<!\b(?:M|Mr|Mrs|Ms|Dr|Prof|Sr|Jr|St|vs|U\.S\.A|U\.K|e\.g|i\.e|etc))\.(\s)/i;
+  const match = overview.match(regex);
+  let firstPart = overview;
+  if (match) {
+    const splitIndex = match.index! + 1; // include the period
+    firstPart = overview.slice(0, splitIndex);
+  }
+
+  const needsExpanding = firstPart.length > overview.length;
+
+  return (
+    <>
+      {needsExpanding ? (
+        <span className="cursor-pointer" onClick={toggleExpanded}>
+          {isExpanded ? overview : firstPart + " [...]"}
+        </span>
+      ) : (
+        <span>{overview}</span>
+      )}
     </>
   );
 }
