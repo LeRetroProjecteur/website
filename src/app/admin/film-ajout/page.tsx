@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 
+import { MiddleColumn } from "@/components/articles/articles";
 import RetroInput from "@/components/forms/retro-input";
 import { Loading } from "@/components/icons/loading";
+import { ThreeColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
 import { SousTitre1 } from "@/components/typography/typography";
-import { ThreeColumnPage } from "@/components/layout/page";
-import { MiddleColumn } from "@/components/articles/articles";
 
 export default function AddMoviePage() {
   return (
@@ -18,11 +18,11 @@ export default function AddMoviePage() {
       </PageHeader>
       <ThreeColumnPage>
         <MiddleColumn>
-        <AddMovie/>
+          <AddMovie />
         </MiddleColumn>
       </ThreeColumnPage>
     </>
-  )
+  );
 }
 
 function AddMovie() {
@@ -121,23 +121,23 @@ function AddMovie() {
     <div className="flex flex-col gap-y-20px">
       {/* Avec un ID */}
       <div className="flex flex-col gap-y-10px">
-          <div className="flex items-center gap-4">
-            <label className="block w-32 text-15px font-medium uppercase">
-              Allocine ID
-            </label>
-            <RetroInput
-              value={formData.allocine_id}
-              setValue={(value) => handleInputChange("allocine_id", value)}
-              placeholder="ID Allocine (ex: 123456)"
-              className="h-40px w-full"
-              leftAlignPlaceholder={true}
-              lowercase={true}
-            />
-          </div>
+        <div className="flex items-center gap-4">
+          <label className="block w-32 text-15px font-medium uppercase">
+            Allocine ID
+          </label>
+          <RetroInput
+            value={formData.allocine_id}
+            setValue={(value) => handleInputChange("allocine_id", value)}
+            placeholder="ID Allocine (ex: 123456)"
+            className="h-40px w-full"
+            leftAlignPlaceholder={true}
+            lowercase={true}
+          />
+        </div>
       </div>
 
       <div>
-        <p className="border-y text-sm text-gray-600 py-10px">
+        <p className="border-y py-10px text-sm text-gray-600">
           Si vous avez fourni un ID au dessus, les autres champs sont
           facultatifs
         </p>
