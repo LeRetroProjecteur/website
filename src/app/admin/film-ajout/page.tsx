@@ -54,7 +54,6 @@ function AddMovie() {
     director: "",
     year: "",
     duration: "",
-    language: "",
     allocine_id: "",
   });
   const [isLoading, setIsLoading] = useState(false);
@@ -94,7 +93,6 @@ function AddMovie() {
         duration: formData.duration
           ? parseInt(formData.duration, 10) * 60 || formData.duration
           : "",
-        language: formData.language,
         allocine_id: formData.allocine_id,
         status: "add",
       };
@@ -126,7 +124,6 @@ function AddMovie() {
         director: "",
         year: "",
         duration: "",
-        language: "",
         allocine_id: "",
       });
     } catch (error) {
@@ -191,12 +188,6 @@ function AddMovie() {
           formData.duration,
           (value) => handleInputChange("duration", value),
           "Durée en minutes (e.g., 120)",
-        )}
-        {renderInput(
-          "Langue",
-          formData.language,
-          (value) => handleInputChange("language", value),
-          "Langue originale (e.g., français)",
         )}
       </div>
 
