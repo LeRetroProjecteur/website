@@ -10,6 +10,29 @@ import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
 import { SousTitre1 } from "@/components/typography/typography";
 
+function renderInput(
+  label: string,
+  value: string,
+  setValue: (value: string) => void,
+  placeholder: string,
+) {
+  return (
+    <div className="flex items-center gap-4">
+      <label className="block w-32 text-16px font-medium uppercase">
+        {label}
+      </label>
+      <RetroInput
+        value={value}
+        setValue={setValue}
+        placeholder={placeholder}
+        className="h-40px w-full"
+        leftAlignPlaceholder={true}
+        lowercase={true}
+      />
+    </div>
+  );
+}
+
 export default function AddMoviePage() {
   return (
     <>
@@ -145,75 +168,36 @@ function AddMovie() {
 
       {/* Form Fields */}
       <div className="flex flex-col gap-y-10px">
-        <div className="flex items-center gap-4">
-          <label className="block w-32 text-16px font-medium uppercase">
-            Titre *
-          </label>
-          <RetroInput
-            value={formData.title}
-            setValue={(value) => handleInputChange("title", value)}
-            placeholder="Entrez le titre du film"
-            className="h-40px w-full"
-            leftAlignPlaceholder={true}
-            lowercase={true}
-          />
-        </div>
-
-        <div className="flex items-center gap-4">
-          <label className="block w-32 text-16px font-medium uppercase">
-            Réal. *
-          </label>
-          <RetroInput
-            value={formData.director}
-            setValue={(value) => handleInputChange("director", value)}
-            placeholder="Nom du réalisateur"
-            className="h-40px w-full"
-            leftAlignPlaceholder={true}
-            lowercase={true}
-          />
-        </div>
-
-        <div className="flex items-center gap-4">
-          <label className="block w-32 text-15px font-medium uppercase">
-            Année *
-          </label>
-          <RetroInput
-            value={formData.year}
-            setValue={(value) => handleInputChange("year", value)}
-            placeholder="Année de sortie (ex: 1997)"
-            className="h-40px w-full"
-            leftAlignPlaceholder={true}
-            lowercase={true}
-          />
-        </div>
-
-        <div className="flex items-center gap-4">
-          <label className="block w-32 text-15px font-medium uppercase">
-            Durée
-          </label>
-          <RetroInput
-            value={formData.duration}
-            setValue={(value) => handleInputChange("duration", value)}
-            placeholder="Durée en minutes (ex: 120)"
-            className="h-40px w-full"
-            leftAlignPlaceholder={true}
-            lowercase={true}
-          />
-        </div>
-
-        <div className="flex items-center gap-4">
-          <label className="block w-32 text-15px font-medium uppercase">
-            Langue
-          </label>
-          <RetroInput
-            value={formData.language}
-            setValue={(value) => handleInputChange("language", value)}
-            placeholder="Langue originale (ex: français)"
-            className="h-40px w-full"
-            leftAlignPlaceholder={true}
-            lowercase={true}
-          />
-        </div>
+        {renderInput(
+          "Titre *",
+          formData.title,
+          (value) => handleInputChange("title", value),
+          "Entrez le titre du film",
+        )}
+        {renderInput(
+          "Cinéaste *",
+          formData.director,
+          (value) => handleInputChange("director", value),
+          "Cinéaste (e.g., Jean-Luc Godard)",
+        )}
+        {renderInput(
+          "Année *",
+          formData.year,
+          (value) => handleInputChange("year", value),
+          "Année de sortie (e.g., 1997)",
+        )}
+        {renderInput(
+          "Durée",
+          formData.duration,
+          (value) => handleInputChange("duration", value),
+          "Durée en minutes (e.g., 120)",
+        )}
+        {renderInput(
+          "Langue",
+          formData.language,
+          (value) => handleInputChange("language", value),
+          "Langue originale (e.g., français)",
+        )}
       </div>
 
       {/* Submit Button */}
