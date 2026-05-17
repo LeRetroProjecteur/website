@@ -37,3 +37,6 @@ next-env.d.ts
 
 # IntelliJ
 /.idea/
+
+# Memory
+MEMORY.md
