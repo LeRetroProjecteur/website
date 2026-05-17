@@ -66,6 +66,7 @@ export interface TheaterScreenings {
   zipcode: string;
   name: string;
   preposition_and_name: string;
+  isPathe?: boolean;
 }
 
 export interface SearchTheater {

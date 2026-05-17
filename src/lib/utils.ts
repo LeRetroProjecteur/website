@@ -229,6 +229,91 @@ export function filterNeighborhoods(
   );
 }
 
+export const CINEPASS_THEATERS = [
+  "3 Cinés Robespierre",
+  "4 Delta",
+  "5 Caumartin",
+  "7 Batignolles",
+  "Sept Parnassiens",
+  "Le Balzac", // Confirmé fonctionnel + vérifié sur leur site
+  "Chaplin Denfert",
+  "Cinéma Chaplin Saint Lambert", // Confirmé fonctionnel + vérifié sur leur site
+  "Christine Cinéma Club", // Confirmé fonctionnel + vérifié sur leur site
+  "Cinémassy", // Confirmé fonctionnel + vérifié sur leur site
+  "Le Cinéma des Cinéastes",
+  "Cinéma du Panthéon", // Confirmé fonctionnel + vérifié sur leur site
+  "Cinéma Landowski",
+  "Mac-Mahon", // Confirmé fonctionnel + vérifié sur leur site
+  "Écoles 21",
+  "Elysées Lincoln",
+  "Épée de Bois", // Confirmé fonctionnel + vérifié sur leur site
+  "Espace 1789", // Vérifié sur leur site
+  "Espace Saint-Michel", // Confirmé fonctionnel + vérifié sur leur site
+  "Écoles Cinéma Club", // Confirmé fonctionnel + vérifié sur leur site
+  "Filmothèque du Quartier Latin", // Confirmé fonctionnel + vérifié sur leur site
+  "Gaumont Disney Village",
+  "La Géode",
+  "La Pléiade",
+  "Le Brady",
+  "Le Capitole",
+  "Le Grand Action", // Confirmé fonctionnel + vérifié sur leur site
+  "Le Jeu de Paume",
+  "Le Lido",
+  "Le Lucernaire",
+  "Saint-André des Arts", // Confirmé fonctionnel + vérifié sur leur site
+  "L'Ecran",
+  "L'Entrepôt", // Confirmé fonctionnel + vérifié sur leur site
+  "Les 3 Luxembourg", // Confirmé fonctionnel + vérifié sur leur site
+  "Les 3 Pierrots - St Cloud",
+  "Les Capucins",
+  "Luminor Hôtel de Ville", // Confirmé fonctionnel mais pas présent sur leur site : https://www.luminor-hoteldeville.com/
+  "Max Linder Panorama", // Confirmé fonctionnel + vérifié sur leur site
+  "Nouvel Odéon", // Confirmé fonctionnel + vérifié sur leur site
+  "Pathé Aéroville",
+  "Gaumont Alésia",
+  "Pathé Aquaboulevard",
+  "Pathé Beaugrenelle",
+  "Pathé Belle Epine",
+  "Pathé BNP Paribas",
+  "Pathé Boulogne",
+  "Pathé Carré Sénart",
+  "Pathé Conflans",
+  "Pathé Convention",
+  "Pathé Dammarie",
+  "Pathé La villette",
+  "Pathé Les Fauvettes",
+  "Pathé Levallois",
+  "Pathé Massy",
+  "Pathé Montparnos",
+  "Pathé Palace",
+  "Pathé Parnasse",
+  "Pathé Quai d'Ivry",
+  "Pathé Saint Denis",
+  "Pathé Wepler",
+  "Publicis Cinémas", // Confirmé fonctionnel + vérifié sur leur site
+  "Studio des Ursulines",
+  "L'Archipel", // Confirmé fonctionnel + vérifié sur leur site
+  "Majestic Bastille",
+  "Majestic Passy",
+  "L'Escurial Panorama",
+  // "Reflet Médicis",                 // Confirmé fonctionnel mais pas présent sur leur site : https://dulaccinemas.com/infos-pratiques
+  "L'Arlequin",
+];
+
+export function filterCinepass(
+  showtimes: TheaterScreenings[],
+  cinepassOnly: boolean,
+) {
+  if (!cinepassOnly) return showtimes;
+  return showtimes.filter((theater) =>
+    some(
+      CINEPASS_THEATERS,
+      (cinepassTheater) =>
+        cinepassTheater.toLowerCase() === theater.name.toLowerCase(),
+    ),
+  );
+}
+
 export function filterDates(showtimes: {
   [date: string]: TheaterScreenings[];
 }) {

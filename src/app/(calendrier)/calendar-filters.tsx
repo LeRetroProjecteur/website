@@ -34,7 +34,7 @@ export default function CalendarFilters({
                   isOpen={isQuartierSelectorOpen}
                 />
               </div>
-              <div className="flex w-225px">
+              <div className="flex w-[465px] gap-x-15px">
                 <Events />
               </div>
               <div className="flex grow">
@@ -48,16 +48,14 @@ export default function CalendarFilters({
             )}
           </div>
           <div className="lg:hidden">
-            <div className="grid grow grid-cols-[repeat(auto-fill,_minmax(40%,_1fr))] gap-x-15px">
+            <div className="grid grow grid-cols-[repeat(auto-fill,_minmax(40%,_1fr))] gap-x-15px gap-y-10px">
               <div className="flex">
                 <QuartierSelectorToggler
                   toggleOpen={toggleQuartierSelectorOpen}
                   isOpen={isQuartierSelectorOpen}
                 />
               </div>
-              <div className="flex">
-                <Events />
-              </div>
+              <Events />
             </div>
             {isQuartierSelectorOpen && (
               <div className="flex pt-8px">
@@ -70,8 +68,8 @@ export default function CalendarFilters({
           </div>
         </>
       ) : (
-        <div className="flex flex-col gap-x-15px lg:flex-row">
-          <div className="flex w-225px">
+        <div className="flex flex-col gap-15px lg:flex-row">
+          <div className="flex w-[465px] gap-x-15px">
             <Events />
           </div>
           <div className="flex grow pt-15px lg:pt-0">
