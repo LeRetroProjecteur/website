@@ -26,20 +26,7 @@ export default function Calendrier({
       <div className="flex grow flex-col lg:pl-20px">
         <CalendarFilters />
         <div className="flex grow pt-18px lg:pt-28px">
-          {(() => {
-            const calendarBug = true;
-            if (calendarBug) {
-              return (
-                <div className="flex h-full justify-center">
-                  Le calendrier des scéances est momentanément indisponible.
-                  Veuillez nous excuser pour le désagrément.
-                </div>
-              );
-            }
-            return (
-              <MovieTable serverMovies={serverMovies} allMovies={allMovies} />
-            );
-          })()}
+          <MovieTable serverMovies={serverMovies} allMovies={allMovies} />
         </div>
       </div>
     </>
