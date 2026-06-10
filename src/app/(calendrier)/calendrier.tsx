@@ -27,7 +27,7 @@ export default function Calendrier({
         <CalendarFilters />
         <div className="flex grow pt-18px lg:pt-28px">
           {(() => {
-            const calendarBug = true;
+            const calendarBug = false;
             if (calendarBug) {
               return (
                 <div className="flex h-full justify-center">
