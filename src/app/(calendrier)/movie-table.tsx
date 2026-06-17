@@ -20,6 +20,7 @@ import {
 import {
   checkNotNull,
   fetcher,
+  filterCinepass,
   filterDates,
   filterNeighborhoods,
   filterTimes,
@@ -53,6 +54,7 @@ export default function MovieTable({
   const filter = useCalendrierStore((s) => s.filter);
   const quartiers = useCalendrierStore((s) => s.quartiers);
   const events = useCalendrierStore((s) => s.events);
+  const cinepassOnly = useCalendrierStore((s) => s.cinepassOnly);
 
   const url = marseille
     ? allMovies
@@ -111,6 +113,7 @@ export default function MovieTable({
               quartiers,
               filter,
               events,
+              cinepassOnly,
             }}
             date={date}
           />
@@ -130,6 +133,7 @@ function LoadedTable({
   quartiers,
   filter,
   events,
+  cinepassOnly,
   date,
 }: {
   serverMovies: Promise<
@@ -142,6 +146,7 @@ function LoadedTable({
   quartiers: Quartier[];
   filter: string;
   events: boolean;
+  cinepassOnly: boolean;
   date?: DateTime;
 }) {
   const serverMovies = use(serverMoviesPromise);
@@ -159,6 +164,7 @@ function LoadedTable({
         quartiers,
         filter,
         events,
+        cinepassOnly,
       ),
     [
       movies,
@@ -167,6 +173,7 @@ function LoadedTable({
       quartiers,
       filter,
       events,
+      cinepassOnly,
     ],
   );
 
@@ -299,6 +306,7 @@ function filterAndSortMovies(
   quartiers: Quartier[],
   filterQuery: string,
   events: boolean,
+  cinepassOnly: boolean,
 ) {
   const moviesWithFilteredShowtimes = isMoviesWithShowtimesSeveralDays(movies)
     ? movies
@@ -308,9 +316,12 @@ function filterAndSortMovies(
             Object.entries(movie.showtimes_by_day)
               .map(([day, showtimes]) => [
                 day,
-                filterNeighborhoods(
-                  filterTimes(showtimes, 0, 24, events),
-                  quartiers,
+                filterCinepass(
+                  filterNeighborhoods(
+                    filterTimes(showtimes, 0, 24, events),
+                    quartiers,
+                  ),
+                  cinepassOnly,
                 ),
               ])
               .filter(([_, showtimes]) => showtimes.length > 0),
@@ -328,14 +339,17 @@ function filterAndSortMovies(
     : movies
         .map<MovieWithScreeningsOneDay>((movie) => ({
           ...movie,
-          showtimes_theater: filterNeighborhoods(
-            filterTimes(
-              movie.showtimes_theater,
-              minHourFilteringTodaysMissedFilms,
-              maxHour,
-              events,
+          showtimes_theater: filterCinepass(
+            filterNeighborhoods(
+              filterTimes(
+                movie.showtimes_theater,
+                minHourFilteringTodaysMissedFilms,
+                maxHour,
+                events,
+              ),
+              quartiers,
             ),
-            quartiers,
+            cinepassOnly,
           ),
         }))
         .filter((movie) => movie.showtimes_theater.length > 0);

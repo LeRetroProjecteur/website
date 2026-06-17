@@ -24,12 +24,14 @@ interface CalendrierState {
   filter: string;
   quartiers: Quartier[];
   events: boolean;
+  cinepassOnly: boolean;
   setDate: (date: DateTime) => void;
   setMinHour: (minHour: number) => void;
   setMaxHour: (maxHour: number) => void;
   setFilter: (filter: string) => void;
   toggleQuartier: (quartier: Quartier) => void;
   toggleEvents: (events: boolean) => void;
+  toggleCinepassOnly: () => void;
   reset: () => void;
 }
 
@@ -42,6 +44,7 @@ export function getUseCalendrierStore() {
     filter: "",
     quartiers: [],
     events: false,
+    cinepassOnly: false,
     setDate: (date: DateTime) => {
       set({ date, dateChanged: true });
     },
@@ -57,6 +60,8 @@ export function getUseCalendrierStore() {
       }
     },
     toggleEvents: (events: boolean) => set({ events: !events }),
+    toggleCinepassOnly: () =>
+      set((state) => ({ cinepassOnly: !state.cinepassOnly })),
     reset: () => {
       set({
         date: getStartOfTodayInParis(),
@@ -66,6 +71,7 @@ export function getUseCalendrierStore() {
         filter: "",
         quartiers: [],
         events: false,
+        cinepassOnly: false,
       });
     },
   }));
