@@ -9,13 +9,16 @@ export default function Footer() {
       <div className="flex lg:hidden">
         <FooterLinks color="retro-gray" />
       </div>
-      <div className="flex flex-col py-20px gap-y-20px lg:py-0 lg:grow lg:justify-between">
+      <div className="flex flex-col gap-y-20px py-20px lg:grow lg:justify-between lg:py-0">
         <div className="text-center lg:text-left">
           <FooterCopy>
             Un problème à signaler&nbsp;? Des suggestions&nbsp;?
             <span className="hidden lg:inline"> </span>
             <br className="lg:hidden" />{" "}
-            <a href="mailto:contact@leretroprojecteur.com" className="underline">
+            <a
+              href="mailto:contact@leretroprojecteur.com"
+              className="underline"
+            >
               Contactez-nous&nbsp;!
             </a>
           </FooterCopy>
