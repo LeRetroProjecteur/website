@@ -9,21 +9,28 @@ export default function Footer() {
       <div className="flex lg:hidden">
         <FooterLinks color="retro-gray" />
       </div>
-      <div className="flex flex-col lg:grow lg:justify-between">
-        <div className="hidden text-center lg:block lg:text-left">
+      <div className="flex flex-col py-20px gap-y-20px lg:py-0 lg:grow lg:justify-between">
+        <div className="text-center lg:text-left">
           <FooterCopy>
-            Vous souhaitez rajouter un événement ?
+            Un problème à signaler&nbsp;? Des suggestions&nbsp;?
             <span className="hidden lg:inline"> </span>
             <br className="lg:hidden" />{" "}
-            <a href="./portail-seances" className="underline">
-              Utilisez notre portail&nbsp;!
+            <a href="mailto:contact@leretroprojecteur.com" className="underline">
+              Contactez-nous&nbsp;!
             </a>
           </FooterCopy>
         </div>
-        <div className="pt-20px text-center lg:pt-0 lg:text-left">
+        <div className="hidden text-center lg:block lg:text-left">
+          <FooterCopy>
+            <a href="./portail-seances" className="underline">
+              Utilisez notre portail
+            </a>{" "}
+            pour rajouter des séances à notre calendrier
+          </FooterCopy>
+        </div>
+        <div className="text-center lg:text-left">
           <FooterCopy>
             <Link href="/admin/tous-les-films">©</Link> Le Rétro Projecteur
-            2021–2025
             <br />
             Graphisme par{" "}
             <a
@@ -33,12 +40,6 @@ export default function Footer() {
             >
               claire malot
             </a>
-            .<span className="hidden lg:inline"> </span>
-          </FooterCopy>
-        </div>
-        <div className="py-20px text-center lg:py-0 lg:text-left">
-          <FooterCopy>
-            «&nbsp;Pour le grand écran, pas la p&apos;tite lucarne&nbsp;!&nbsp;»
           </FooterCopy>
         </div>
       </div>
