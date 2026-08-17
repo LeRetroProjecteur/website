@@ -16,6 +16,6 @@ swap_size_mb = 1024
   processes = ["app"]
   
 [[vm]]
-  memory = "2gb"
+  memory = "1gb"
   cpu_kind = "shared"
   cpus = 2
