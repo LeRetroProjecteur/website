@@ -6,14 +6,16 @@ import { ButtonCopy } from "@/components/typography/typography";
 export default function QuartierSelectorToggler({
   isOpen,
   toggleOpen,
+  label = "Quartiers",
 }: {
   isOpen: boolean;
   toggleOpen: () => void;
+  label?: string;
 }) {
   return (
     <TextBox className="h-42px lg:h-48px" onClick={toggleOpen}>
       <div className="pr-6px">
-        <ButtonCopy>Quartiers</ButtonCopy>
+        <ButtonCopy>{label}</ButtonCopy>
       </div>
       <div>{isOpen ? <ArrowUp /> : <ArrowDown />}</div>
     </TextBox>

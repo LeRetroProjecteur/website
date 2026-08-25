@@ -18,7 +18,7 @@ export default function MarseilleCalendrier({
 }) {
   return (
     <div className="flex grow flex-col">
-      <PageHeader text={title ?? "marseille"} className="group/date">
+      <PageHeader text={title ?? "calendrier"} className="group/date">
         <div className="flex grow items-center justify-center">
           <DateSelector />
         </div>
@@ -27,6 +27,7 @@ export default function MarseilleCalendrier({
         <CalendarFilters
           withQuartierSelector={true}
           quartierOptions={QUARTIERS_MARSEILLE}
+          quartierLabel="Zones"
         />
         <div className="flex grow pt-18px lg:pt-28px">
           <MovieTable
