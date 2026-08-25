@@ -1,6 +1,6 @@
 import {
   CalendrierSemaineProchaine,
-  Retrospectives,
+  Evenements,
 } from "@/app/admin/semaine-prochaine/semaine-prochaine";
 import PageHeader from "@/components/layout/page-header";
 import { SousTitre1 } from "@/components/typography/typography";
@@ -26,7 +26,7 @@ export default function SemainePage() {
         <CalendrierSemaineProchaine serverMovies={serverMovies} />
         <div className="flex grow flex-col">
           <div className="flex flex-col pt-44px">
-            <Retrospectives movies={serverMovies} />
+            <Evenements movies={serverMovies} />
           </div>
         </div>
       </div>
