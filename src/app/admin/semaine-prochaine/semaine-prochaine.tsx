@@ -152,7 +152,15 @@ export function Evenements({
         const screeningLines = item.screenings
           .map(
             (s) =>
-              `<a href="https://leretroprojecteur.com/film/${item.movie.id}"><u><em>${item.movie.title}</em></u></a> (${item.movie.year}) de ${item.movie.directors} — ${formatDay(s.day)}, ${floatHourToString(s.time)} ${s.cinema} (${transformZipcodeToString(s.zipcode)}) — ${s.notes}`,
+              `<a href="https://leretroprojecteur.com/film/${
+                item.movie.id
+              }"><u><em>${item.movie.title}</em></u></a> (${
+                item.movie.year
+              }) de ${item.movie.directors} — ${formatDay(
+                s.day,
+              )}, ${floatHourToString(s.time)} ${
+                s.cinema
+              } (${transformZipcodeToString(s.zipcode)}) — ${s.notes}`,
           )
           .join("<br/>");
         return `<p style="text-align: center;">${screeningLines}</p>`;
