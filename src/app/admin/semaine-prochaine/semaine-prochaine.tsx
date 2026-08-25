@@ -204,8 +204,7 @@ export function Evenements({
           {seancesSpeciales.map((item, i) =>
             item.screenings.map((s, j) => (
               <div key={`${i}-${j}`}>
-                &bull;{" "}
-                <i>{item.movie.title}</i> ({item.movie.year}) de{" "}
+                &bull; <i>{item.movie.title}</i> ({item.movie.year}) de{" "}
                 {item.movie.directors} — {formatDay(s.day)},{" "}
                 {floatHourToString(s.time)} {s.cinema} (
                 {transformZipcode(s.zipcode)}) — {s.notes}
