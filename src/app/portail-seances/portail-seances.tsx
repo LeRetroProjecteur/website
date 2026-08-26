@@ -101,11 +101,30 @@ function ScreeningRow({
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [notes, setNotes] = useState("");
+  const notifyUpdate = (
+    overrides: Partial<{
+      movie: string;
+      movie_id: string;
+      date: string;
+      time: string;
+      notes: string;
+    }> = {},
+  ) => {
+    onUpdate({
+      movie: query,
+      movie_id: movieId,
+      date,
+      time,
+      notes,
+      ...overrides,
+    });
+  };
+
   const setSearchFind = (st: string, id: string = "") => {
     setQuery(st);
     setMovieId(id);
     setShowResults(true);
-    onUpdate({ movie: st, movie_id: id, date, time, notes });
+    notifyUpdate({ movie: st, movie_id: id });
   };
 
   const [screenings, setScreenings] = useState<ScreeningWithDate[]>([]);
@@ -191,13 +210,7 @@ function ScreeningRow({
             value={date}
             onChange={(e) => {
               setDate(e.target.value);
-              onUpdate({
-                movie: query,
-                movie_id: movieId,
-                date: e.target.value,
-                time,
-                notes,
-              });
+              notifyUpdate({ date: e.target.value });
             }}
           />
         }
@@ -209,13 +222,7 @@ function ScreeningRow({
             value={time}
             onChange={(e) => {
               setTime(e.target.value);
-              onUpdate({
-                movie: query,
-                movie_id: movieId,
-                date,
-                time: e.target.value,
-                notes,
-              });
+              notifyUpdate({ time: e.target.value });
             }}
           />
         }
@@ -227,10 +234,17 @@ function ScreeningRow({
               key={idx}
               className="cursor-pointer"
               onClick={() => {
-                setTime(floatHourToString(screening.time).replaceAll("h", ":"));
-                setDate(screening.date.replaceAll("_", "-"));
-                setNotes(screening.notes || "");
+                const newTime = floatHourToString(screening.time).replaceAll(
+                  "h",
+                  ":",
+                );
+                const newDate = screening.date.replaceAll("_", "-");
+                const newNotes = screening.notes || "";
+                setTime(newTime);
+                setDate(newDate);
+                setNotes(newNotes);
                 setScreenings([]);
+                notifyUpdate({ date: newDate, time: newTime, notes: newNotes });
               }}
             >
               {formatLundi1Janvier(safeDate(screening.date))} à{" "}
@@ -248,13 +262,7 @@ function ScreeningRow({
         placeholder="Note concernant la séance (facultatif)"
         onChange={(e) => {
           setNotes(e.target.value);
-          onUpdate({
-            movie: query,
-            movie_id: movieId,
-            date,
-            time,
-            notes: e.target.value,
-          });
+          notifyUpdate({ notes: e.target.value });
         }}
       />
     </div>
