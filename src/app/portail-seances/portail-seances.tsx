@@ -219,30 +219,28 @@ function ScreeningRow({
           />
         }
       />
-      <>
-        {movieId && (
-          <div>
-            {screenings.map((screening, idx) => (
-              <div
-                key={idx}
-                className="cursor-pointer"
-                onClick={() => {
-                  setTime(
-                    floatHourToString(screening.time).replaceAll("h", ":"),
-                  );
-                  setDate(screening.date.replaceAll("_", "-"));
-                  setNotes(screening.notes || "");
-                  setScreenings([]);
-                }}
-              >
-                {formatLundi1Janvier(safeDate(screening.date))} à{" "}
-                {floatHourToString(screening.time)}
-                {screening.notes && ` (${screening.notes})`}
-              </div>
-            ))}
-          </div>
-        )}
-      </>
+      {movieId && (
+        <div>
+          {screenings.map((screening, idx) => (
+            <div
+              key={idx}
+              className="cursor-pointer"
+              onClick={() => {
+                setTime(
+                  floatHourToString(screening.time).replaceAll("h", ":"),
+                );
+                setDate(screening.date.replaceAll("_", "-"));
+                setNotes(screening.notes || "");
+                setScreenings([]);
+              }}
+            >
+              {formatLundi1Janvier(safeDate(screening.date))} à{" "}
+              {floatHourToString(screening.time)}
+              {screening.notes && ` (${screening.notes})`}
+            </div>
+          ))}
+        </div>
+      )}
       <input
         id="notes"
         type="text"
