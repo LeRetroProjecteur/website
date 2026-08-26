@@ -110,6 +110,7 @@ function ScreeningRow({
 
   const [screenings, setScreenings] = useState<ScreeningWithDate[]>([]);
   useEffect(() => {
+    setScreenings([]);
     if (!movieId || !selectedTheater) return;
     const fetchScreenings = async () => {
       const response = await fetch(`/api/movies/by-id/${movieId}`);
