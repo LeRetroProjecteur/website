@@ -11,10 +11,12 @@ export default function CalendarFilters({
   withTimeSlider = true,
   withQuartierSelector = true,
   quartierOptions = QUARTIERS,
+  quartierLabel,
 }: {
   withTimeSlider?: boolean;
   withQuartierSelector?: boolean;
   quartierOptions?: typeof QUARTIERS;
+  quartierLabel?: string;
 }) {
   const [isQuartierSelectorOpen, setQuartierSelectorOpen] = useState(false);
   const toggleQuartierSelectorOpen = useCallback(
@@ -32,6 +34,7 @@ export default function CalendarFilters({
                 <QuartierSelectorToggler
                   toggleOpen={toggleQuartierSelectorOpen}
                   isOpen={isQuartierSelectorOpen}
+                  label={quartierLabel}
                 />
               </div>
               <div className="flex w-225px">
@@ -53,6 +56,7 @@ export default function CalendarFilters({
                 <QuartierSelectorToggler
                   toggleOpen={toggleQuartierSelectorOpen}
                   isOpen={isQuartierSelectorOpen}
+                  label={quartierLabel}
                 />
               </div>
               <div className="flex">
