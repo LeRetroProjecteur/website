@@ -34,6 +34,7 @@ export function DayMovie({
   movie,
   day,
   showtimesTheaters,
+  isLast,
 }: {
   movie: MovieWithScreeningsSeveralDays;
   day: DateTime;
@@ -50,6 +51,7 @@ export function DayMovie({
         {movie.directors} ({movie.year})
       </div>
       <SeancesGenerator screenings={showtimesTheaters} />
+      {!isLast && <div>&bull;</div>}
     </>
   );
 }
