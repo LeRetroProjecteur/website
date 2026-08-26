@@ -226,9 +226,7 @@ function ScreeningRow({
               key={idx}
               className="cursor-pointer"
               onClick={() => {
-                setTime(
-                  floatHourToString(screening.time).replaceAll("h", ":"),
-                );
+                setTime(floatHourToString(screening.time).replaceAll("h", ":"));
                 setDate(screening.date.replaceAll("_", "-"));
                 setNotes(screening.notes || "");
                 setScreenings([]);
