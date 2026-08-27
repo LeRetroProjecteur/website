@@ -18,9 +18,7 @@ function renderInput(
 ) {
   return (
     <div className="flex items-center gap-4">
-      <label className="block w-32 text-16px font-medium uppercase">
-        {label}
-      </label>
+      <label className="block w-32 font-medium uppercase">{label}</label>
       <RetroInput
         value={value}
         setValue={setValue}
@@ -59,23 +57,20 @@ function AddMovie() {
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
 
-  // Handle form field changes
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field: keyof typeof formData, value: string) => {
     setFormData((prev) => ({
       ...prev,
       [field]: value,
     }));
   };
 
-  // Add new movie
   const addNewMovie = async () => {
-    // Validate required fields - if allocine_id is provided, other fields aren't required
     if (
       !formData.allocine_id &&
       (!formData.title || !formData.director || !formData.year)
     ) {
       setMessage({
-        text: "Either Allocine ID or Title, Director, and Year are required",
+        text: "Veuillez renseigner soit un ID Allocine, soit les informations du film",
         type: "error",
       });
       return;
@@ -85,7 +80,6 @@ function AddMovie() {
     setMessage({ text: "", type: "" });
 
     try {
-      // Create payload
       const payload = {
         title: formData.title,
         directors: formData.director,
@@ -114,11 +108,10 @@ function AddMovie() {
       }
 
       setMessage({
-        text: `Movie added successfully`,
+        text: `Film ajouté avec succès`,
         type: "success",
       });
 
-      // Reset form
       setFormData({
         title: "",
         director: "",
@@ -139,31 +132,20 @@ function AddMovie() {
 
   return (
     <div className="flex flex-col gap-y-20px">
-      {/* Avec un ID */}
       <div className="flex flex-col gap-y-10px">
-        <div className="flex items-center gap-4">
-          <label className="block w-32 text-15px font-medium uppercase">
-            Allocine ID
-          </label>
-          <RetroInput
-            value={formData.allocine_id}
-            setValue={(value) => handleInputChange("allocine_id", value)}
-            placeholder="ID Allocine (ex: 123456)"
-            className="h-40px w-full"
-            leftAlignPlaceholder={true}
-            lowercase={true}
-          />
-        </div>
+        {renderInput(
+          "Allocine",
+          formData.allocine_id,
+          (value) => handleInputChange("allocine_id", value),
+          "ID Allocine (ex: 123456)",
+        )}
       </div>
 
-      <div>
-        <p className="border-y py-10px text-sm text-gray-600">
-          Si vous avez fourni un ID au dessus, les autres champs sont
-          facultatifs
-        </p>
+      <div className="border-y py-10px text-sm text-gray-600">
+        Si vous avez renseigné un ID au dessus, les autres champs sont
+        facultatifs
       </div>
 
-      {/* Form Fields */}
       <div className="flex flex-col gap-y-10px">
         {renderInput(
           "Titre *",
@@ -175,23 +157,22 @@ function AddMovie() {
           "Cinéaste *",
           formData.director,
           (value) => handleInputChange("director", value),
-          "Cinéaste (e.g., Jean-Luc Godard)",
+          "Cinéaste",
         )}
         {renderInput(
           "Année *",
           formData.year,
           (value) => handleInputChange("year", value),
-          "Année de sortie (e.g., 1997)",
+          "Année de sortie",
         )}
         {renderInput(
           "Durée",
           formData.duration,
           (value) => handleInputChange("duration", value),
-          "Durée en minutes (e.g., 120)",
+          "Durée (en minutes)",
         )}
       </div>
 
-      {/* Submit Button */}
       <div>
         <TextBox
           onClick={!isLoading ? addNewMovie : undefined}
@@ -201,7 +182,6 @@ function AddMovie() {
         >
           {isLoading ? "En attente..." : "Rajouter le film"}
         </TextBox>
-        {/* Message Display */}
         {message.text && (
           <div
             className={`my-4 p-4 ${
@@ -215,7 +195,6 @@ function AddMovie() {
         )}
       </div>
 
-      {/* Loading Indicator */}
       {isLoading && (
         <div className="mt-4 flex justify-center">
           <Loading />
