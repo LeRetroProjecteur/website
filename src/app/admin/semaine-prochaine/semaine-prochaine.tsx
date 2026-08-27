@@ -12,6 +12,20 @@ import {
 } from "@/components/theaters/theaters";
 import { SousTitre2 } from "@/components/typography/typography";
 import { MovieWithScreeningsSeveralDays } from "@/lib/types";
+import { floatHourToString, safeDate } from "@/lib/utils";
+
+type SeanceSpeciale = {
+  cinema: string;
+  zipcode: string;
+  day: string;
+  time: number;
+  notes: string;
+};
+
+type SeanceSpecialeItem = {
+  movie: MovieWithScreeningsSeveralDays;
+  screenings: SeanceSpeciale[];
+};
 
 type RetrospectiveItem = {
   director: string;
@@ -37,15 +51,47 @@ export function CalendrierSemaineProchaine({
   );
 }
 
-export function Retrospectives({
+export function Evenements({
   movies: moviesPromise,
 }: {
   movies: Promise<MovieWithScreeningsSeveralDays[]>;
 }) {
   const movies = use(moviesPromise);
 
+  const formatDay = (day: string) => safeDate(day).toFormat("EEEE d MMMM");
+
+  const seancesSpeciales = useMemo(() => {
+    const items: SeanceSpecialeItem[] = [];
+
+    for (const movie of movies) {
+      const screenings: SeanceSpeciale[] = [];
+      for (const [day, theaters] of Object.entries(movie.showtimes_by_day)) {
+        for (const theater of theaters) {
+          for (const seance of Object.values(theater.seances)) {
+            if (seance.notes != null) {
+              screenings.push({
+                cinema: theater.preposition_and_name,
+                zipcode: theater.zipcode,
+                day,
+                time: seance.time,
+                notes: seance.notes,
+              });
+            }
+          }
+        }
+      }
+      if (screenings.length > 0) {
+        items.push({
+          movie,
+          screenings: sortBy(screenings, ["day", "time"]),
+        });
+      }
+    }
+
+    return sortBy(items, (item) => item.movie.title);
+  }, [movies]);
+
   const retrospectives = useMemo(() => {
-    // First, create movie-cinema pairs with zipcode
     const movieCinemaPairs = flatten(
       movies.map((movie) =>
         flatten(Object.values(movie.showtimes_by_day)).map(
@@ -58,13 +104,11 @@ export function Retrospectives({
       ),
     );
 
-    // Group by director, cinema and zipcode
     const groupedByCinemaAndDirector = groupBy(
       movieCinemaPairs,
       (item) => `${item.movie.directors}|||${item.cinema}|||${item.zipcode}`,
     );
 
-    // Filter groups with at least 5 movies and transform into intermediate format
     const filteredGroups = Object.entries(groupedByCinemaAndDirector)
       .filter(([_, items]) => {
         const uniqueMovies = uniq(items.map((item) => item.movie.title));
@@ -81,7 +125,6 @@ export function Retrospectives({
         };
       });
 
-    // Group by director to merge cinemas.
     const groupedByDirector = groupBy(filteredGroups, "director");
 
     return sortBy(
@@ -99,7 +142,34 @@ export function Retrospectives({
     );
   }, [movies]);
 
-  const html = retrospectives
+  const bullet = `\n<h2 class="null" style="text-align: center;"><span style="font-size:Default Size">&bull;</span></h2>`;
+
+  const seancesSpecialesHtml = (() => {
+    if (seancesSpeciales.length === 0) return "";
+    const header = `\n<h2 class="null" style="text-align: center;">\n<strong>Séances spéciales</strong>\n</h2>`;
+    const items = seancesSpeciales
+      .map((item) => {
+        const screeningLines = item.screenings
+          .map(
+            (s) =>
+              `<a href="https://leretroprojecteur.com/film/${
+                item.movie.id
+              }"><u><em>${item.movie.title}</em></u></a> (${
+                item.movie.year
+              }) de ${item.movie.directors} — ${formatDay(
+                s.day,
+              )}, ${floatHourToString(s.time)} ${
+                s.cinema
+              } (${transformZipcodeToString(s.zipcode)}) — ${s.notes}`,
+          )
+          .join("<br/>");
+        return `<p style="text-align: center;">${screeningLines}</p>`;
+      })
+      .join("");
+    return header + items;
+  })();
+
+  const retrospectivesHtml = retrospectives
     .map((retro, index) => {
       const movieLinks = sortBy(retro.movies, (movie) => [
         movie.year,
@@ -125,20 +195,35 @@ export function Retrospectives({
 <strong>Rétrospective ${retro.director} ${cinemaList}</strong>
 </h2>
 <p style="text-align: center;">${movieLinks}</p>`;
-      const bullet = `
-<h2 class="null" style="text-align: center;"><span style="font-size:Default Size">&bull;</span></h2>`;
       return template + (index < retrospectives.length - 1 ? bullet : "");
     })
     .join("\n");
 
+  const combinedHtml = [seancesSpecialesHtml, retrospectivesHtml]
+    .filter(Boolean)
+    .join(bullet);
+
   return (
     <>
-      <SousTitre2>Rétrospectives</SousTitre2>
+      <SousTitre2>Événements</SousTitre2>
       <div className="flex flex-col gap-y-10px py-20px">
+        <div>
+          <div className="font-bold">Séances spéciales</div>
+          {seancesSpeciales.map((item, i) =>
+            item.screenings.map((s, j) => (
+              <div key={`${i}-${j}`}>
+                &bull; <i>{item.movie.title}</i> ({item.movie.year}) de{" "}
+                {item.movie.directors} — {formatDay(s.day)},{" "}
+                {floatHourToString(s.time)} {s.cinema} (
+                {transformZipcode(s.zipcode)}) — {s.notes}
+              </div>
+            )),
+          )}
+        </div>
         {retrospectives.map((retro, i) => (
           <div key={i}>
             <div className="font-bold">
-              {retro.director}{" "}
+              Rétrospective {retro.director}{" "}
               {retro.cinemas.map((cinema, j) => (
                 <span key={j}>
                   {j === 0
@@ -166,7 +251,7 @@ export function Retrospectives({
       <TextBox
         className="bg-retro-pale-green"
         onClick={() => {
-          navigator.clipboard.writeText(html);
+          navigator.clipboard.writeText(combinedHtml);
         }}
       >
         Copier le code HTML pour le MailChimp
