@@ -141,13 +141,11 @@ export function Evenements({
         (s) =>
           `<p style="text-align: center;"><a href="https://leretroprojecteur.com/film/${
             s.movie.id
-          }"><u><em>${s.movie.title}</em></u></a> (${
-            s.movie.year
-          }) de ${s.movie.directors} — <strong>${
-            s.notes
-          }</strong> (${formatDay(s.day)} ${floatHourToString(s.time)} ${
-            s.cinema
-          })</p>`,
+          }"><u><em>${s.movie.title}</em></u></a> (${s.movie.year}) de ${
+            s.movie.directors
+          } — <strong>${s.notes}</strong> (${formatDay(
+            s.day,
+          )} ${floatHourToString(s.time)} ${s.cinema})</p>`,
       )
       .join("");
     return header + items;
