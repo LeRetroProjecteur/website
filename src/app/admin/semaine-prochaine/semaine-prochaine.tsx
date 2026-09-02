@@ -15,16 +15,11 @@ import { MovieWithScreeningsSeveralDays } from "@/lib/types";
 import { floatHourToString, safeDate } from "@/lib/utils";
 
 type SeanceSpeciale = {
+  movie: MovieWithScreeningsSeveralDays;
   cinema: string;
-  zipcode: string;
   day: string;
   time: number;
   notes: string;
-};
-
-type SeanceSpecialeItem = {
-  movie: MovieWithScreeningsSeveralDays;
-  screenings: SeanceSpeciale[];
 };
 
 type RetrospectiveItem = {
@@ -58,20 +53,20 @@ export function Evenements({
 }) {
   const movies = use(moviesPromise);
 
-  const formatDay = (day: string) => safeDate(day).toFormat("EEEE d MMMM");
+  const formatDay = (day: string) =>
+    safeDate(day).toFormat("ccc d MMM").replaceAll(".", "");
 
   const seancesSpeciales = useMemo(() => {
-    const items: SeanceSpecialeItem[] = [];
+    const items: SeanceSpeciale[] = [];
 
     for (const movie of movies) {
-      const screenings: SeanceSpeciale[] = [];
       for (const [day, theaters] of Object.entries(movie.showtimes_by_day)) {
         for (const theater of theaters) {
           for (const seance of Object.values(theater.seances)) {
             if (seance.notes != null) {
-              screenings.push({
+              items.push({
+                movie,
                 cinema: theater.preposition_and_name,
-                zipcode: theater.zipcode,
                 day,
                 time: seance.time,
                 notes: seance.notes,
@@ -80,15 +75,9 @@ export function Evenements({
           }
         }
       }
-      if (screenings.length > 0) {
-        items.push({
-          movie,
-          screenings: sortBy(screenings, ["day", "time"]),
-        });
-      }
     }
 
-    return sortBy(items, (item) => item.movie.title);
+    return sortBy(items, ["day", "time"]);
   }, [movies]);
 
   const retrospectives = useMemo(() => {
@@ -148,23 +137,18 @@ export function Evenements({
     if (seancesSpeciales.length === 0) return "";
     const header = `\n<h2 class="null" style="text-align: center;">\n<strong>Séances spéciales</strong>\n</h2>`;
     const items = seancesSpeciales
-      .map((item) => {
-        const screeningLines = item.screenings
-          .map(
-            (s) =>
-              `<a href="https://leretroprojecteur.com/film/${
-                item.movie.id
-              }"><u><em>${item.movie.title}</em></u></a> (${
-                item.movie.year
-              }) de ${item.movie.directors} — ${formatDay(
-                s.day,
-              )}, ${floatHourToString(s.time)} ${
-                s.cinema
-              } (${transformZipcodeToString(s.zipcode)}) — ${s.notes}`,
-          )
-          .join("<br/>");
-        return `<p style="text-align: center;">${screeningLines}</p>`;
-      })
+      .map(
+        (s) =>
+          `<p style="text-align: center;"><a href="https://leretroprojecteur.com/film/${
+            s.movie.id
+          }"><u><em>${s.movie.title}</em></u></a> (${
+            s.movie.year
+          }) de ${s.movie.directors} — <strong>${
+            s.notes
+          }</strong> (${formatDay(s.day)} ${floatHourToString(s.time)} ${
+            s.cinema
+          })</p>`,
+      )
       .join("");
     return header + items;
   })();
@@ -209,16 +193,13 @@ export function Evenements({
       <div className="flex flex-col gap-y-10px py-20px">
         <div>
           <div className="font-bold">Séances spéciales</div>
-          {seancesSpeciales.map((item, i) =>
-            item.screenings.map((s, j) => (
-              <div key={`${i}-${j}`}>
-                &bull; <i>{item.movie.title}</i> ({item.movie.year}) de{" "}
-                {item.movie.directors} — {formatDay(s.day)},{" "}
-                {floatHourToString(s.time)} {s.cinema} (
-                {transformZipcode(s.zipcode)}) — {s.notes}
-              </div>
-            )),
-          )}
+          {seancesSpeciales.map((s, i) => (
+            <div key={i}>
+              &bull; <i>{s.movie.title}</i> ({s.movie.year}) de{" "}
+              {s.movie.directors} — <b>{s.notes}</b> ({formatDay(s.day)}{" "}
+              {floatHourToString(s.time)} {s.cinema})
+            </div>
+          ))}
         </div>
         {retrospectives.map((retro, i) => (
           <div key={i}>
