@@ -1,6 +1,6 @@
 "use client";
 
-import React, { ReactNode, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 
 import LoadingPage from "@/app/loading";
 import { SearchResults } from "@/app/recherche/recherche";
@@ -10,8 +10,13 @@ import { SuspenseWithLoading } from "@/components/icons/loading";
 import { ThreeColumnPage } from "@/components/layout/page";
 import { TextBox } from "@/components/layout/text-boxes";
 import { BodyCopy, BodyParagraphs } from "@/components/typography/typography";
-import { SearchMovie, SearchTheater } from "@/lib/types";
-import { formatLundi1Janvier, safeDate } from "@/lib/utils";
+import { ScreeningWithDate, SearchMovie, SearchTheater } from "@/lib/types";
+import {
+  filterDates,
+  floatHourToString,
+  formatLundi1Janvier,
+  safeDate,
+} from "@/lib/utils";
 
 function TheaterSearch({
   onUpdate,
@@ -78,8 +83,10 @@ function Row({
 }
 
 function ScreeningRow({
+  selectedTheater,
   onUpdate,
 }: {
+  selectedTheater: string;
   onUpdate: (data: {
     movie: string;
     movie_id: string;
@@ -94,12 +101,59 @@ function ScreeningRow({
   const [date, setDate] = useState("");
   const [time, setTime] = useState("");
   const [notes, setNotes] = useState("");
+  const notifyUpdate = (
+    overrides: Partial<{
+      movie: string;
+      movie_id: string;
+      date: string;
+      time: string;
+      notes: string;
+    }> = {},
+  ) => {
+    onUpdate({
+      movie: query,
+      movie_id: movieId,
+      date,
+      time,
+      notes,
+      ...overrides,
+    });
+  };
+
   const setSearchFind = (st: string, id: string = "") => {
     setQuery(st);
     setMovieId(id);
     setShowResults(true);
-    onUpdate({ movie: st, movie_id: id, date, time, notes });
+    notifyUpdate({ movie: st, movie_id: id });
   };
+
+  const [screenings, setScreenings] = useState<ScreeningWithDate[]>([]);
+  useEffect(() => {
+    setScreenings([]);
+    if (!movieId || !selectedTheater) return;
+    const fetchScreenings = async () => {
+      const response = await fetch(`/api/movies/by-id/${movieId}`);
+      const movie = await response.json();
+      const outScreenings = Object.entries(filterDates(movie.screenings) || {})
+        .sort(([dateA], [dateB]) => {
+          if (dateA < dateB) return -1;
+          if (dateA > dateB) return 1;
+          return 0;
+        })
+        .flatMap(([date, theaters]) =>
+          theaters
+            .filter((theater) => theater.name === selectedTheater)
+            .flatMap((theater) =>
+              Object.values(theater.seances).map((seance) => ({
+                ...seance,
+                date,
+              })),
+            ),
+        );
+      setScreenings(outScreenings);
+    };
+    fetchScreenings();
+  }, [movieId, selectedTheater]);
 
   return (
     <div className="flex flex-col gap-y-5px">
@@ -156,13 +210,7 @@ function ScreeningRow({
             value={date}
             onChange={(e) => {
               setDate(e.target.value);
-              onUpdate({
-                movie: query,
-                movie_id: movieId,
-                date: e.target.value,
-                time,
-                notes,
-              });
+              notifyUpdate({ date: e.target.value });
             }}
           />
         }
@@ -174,17 +222,38 @@ function ScreeningRow({
             value={time}
             onChange={(e) => {
               setTime(e.target.value);
-              onUpdate({
-                movie: query,
-                movie_id: movieId,
-                date,
-                time: e.target.value,
-                notes,
-              });
+              notifyUpdate({ time: e.target.value });
             }}
           />
         }
       />
+      {movieId && (
+        <div>
+          {screenings.map((screening, idx) => (
+            <div
+              key={idx}
+              className="cursor-pointer"
+              onClick={() => {
+                const newTime = floatHourToString(screening.time).replaceAll(
+                  "h",
+                  ":",
+                );
+                const newDate = screening.date.replaceAll("_", "-");
+                const newNotes = screening.notes || "";
+                setTime(newTime);
+                setDate(newDate);
+                setNotes(newNotes);
+                setScreenings([]);
+                notifyUpdate({ date: newDate, time: newTime, notes: newNotes });
+              }}
+            >
+              {formatLundi1Janvier(safeDate(screening.date))} à{" "}
+              {floatHourToString(screening.time)}
+              {screening.notes && ` (${screening.notes})`}
+            </div>
+          ))}
+        </div>
+      )}
       <input
         id="notes"
         type="text"
@@ -193,13 +262,7 @@ function ScreeningRow({
         placeholder="Note concernant la séance (facultatif)"
         onChange={(e) => {
           setNotes(e.target.value);
-          onUpdate({
-            movie: query,
-            movie_id: movieId,
-            date,
-            time,
-            notes: e.target.value,
-          });
+          notifyUpdate({ notes: e.target.value });
         }}
       />
     </div>
@@ -402,6 +465,7 @@ export default function SubmitScreenings() {
                   {rowsData.map((_, index) => (
                     <ScreeningRow
                       key={index}
+                      selectedTheater={theaterData.name}
                       onUpdate={(data) => updateRowData(index, data)}
                     />
                   ))}
