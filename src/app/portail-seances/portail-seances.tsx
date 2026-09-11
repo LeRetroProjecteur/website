@@ -76,7 +76,7 @@ function Row({
   return (
     <div className="flex flex-nowrap gap-x-5px">
       <div className="flex grow basis-0">{cell1}</div>
-      <div className="w-150px shrink-0">{cell2}</div>
+      <div className="w-160px shrink-0">{cell2}</div>
       <div className="w-100px shrink-0">{cell3}</div>
     </div>
   );
