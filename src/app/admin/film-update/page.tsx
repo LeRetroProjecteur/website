@@ -2,15 +2,19 @@
 
 import { getApp, getApps, initializeApp } from "firebase/app";
 import { doc, getDoc, getFirestore } from "firebase/firestore";
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 
+import { SearchResults } from "@/app/recherche/recherche";
+import { MiddleColumn } from "@/components/articles/articles";
 import RetroInput from "@/components/forms/retro-input";
 import { Loading } from "@/components/icons/loading";
+import { ThreeColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
-import { MetaCopy, SousTitre1 } from "@/components/typography/typography";
-import { SearchMovie, searchResultsSchema } from "@/lib/types";
+import { TextBox } from "@/components/layout/text-boxes";
+import { FormatNotes } from "@/components/seances/seances";
+import { SousTitre1 } from "@/components/typography/typography";
+import { SearchMovie } from "@/lib/types";
 
-// Firebase config for client-side
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
   authDomain: "website-cine.firebaseapp.com",
@@ -20,111 +24,76 @@ const firebaseConfig = {
   appId: "1:1060388636946:web:ea3752ae94d0ab56e68bcb",
 };
 
-// Initialize Firebase (safely)
 const getClientFirebase = () => {
   const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
   const db = getFirestore(app);
   return { app, db };
 };
 
-// Type for document data
-interface DocumentData {
-  [key: string]: unknown;
-}
+type DocumentData = Record<string, unknown>;
 
 export default function DocumentUpdatePage() {
-  const [mode, setMode] = useState<"direct" | "search">("direct");
-  const [searchTerm, setSearchTerm] = useState("");
-  const [searchResults, setSearchResults] = useState<SearchMovie[]>([]);
-  const [isSearching, setIsSearching] = useState(false);
-  const [documentId, setDocumentId] = useState("");
-  const [collection, setCollection] = useState("movie-info");
-  const [documentData, setDocumentData] = useState<DocumentData | null>(null);
-  const [selectedFields, setSelectedFields] = useState<Record<string, boolean>>(
-    {},
+  return (
+    <>
+      <PageHeader text="Modifier un film">
+        <SousTitre1>Mise à jour manuelle des infos d&apos;un film</SousTitre1>
+      </PageHeader>
+      <ThreeColumnPage>
+        <MiddleColumn>
+          <DocumentUpdate />
+        </MiddleColumn>
+      </ThreeColumnPage>
+    </>
   );
+}
+
+function DocumentUpdate() {
+  const [query, setQuery] = useState("");
+  const [movieId, setMovieId] = useState("");
+  const [showResults, setShowResults] = useState(false);
+  const [documentData, setDocumentData] = useState<DocumentData | null>(null);
+  const [selectedFields, setSelectedFields] = useState<Set<string>>(new Set());
   const [updatedValues, setUpdatedValues] = useState<Record<string, unknown>>(
     {},
   );
   const [isLoading, setIsLoading] = useState(false);
   const [message, setMessage] = useState({ text: "", type: "" });
-
-  // Define the search function without debounce first
-  const performSearch = useCallback(async (query: string) => {
-    if (query.length < 2) {
-      setSearchResults([]);
-      return;
-    }
-
-    setIsSearching(true);
-    try {
-      const response = await fetch(
-        `/api/movies/search?${new URLSearchParams({
-          query,
-          nbResults: "10",
-        }).toString()}`,
-      );
-
-      const results = await response.json();
-      setSearchResults(searchResultsSchema.parse(results));
-    } catch (error) {
-      console.error("Error searching movies:", error);
-      setMessage({ text: "Error searching for movies", type: "error" });
-    } finally {
-      setIsSearching(false);
-    }
-  }, []);
-
-  // Create debounced search function using useCallback with inline function
-  const searchMovies = useCallback(
-    (query: string) => {
-      const timeoutId = setTimeout(() => {
-        performSearch(query);
-      }, 300);
-
-      return () => clearTimeout(timeoutId);
-    },
-    [performSearch],
-  );
-
-  // Effect to trigger search when the search term changes
-  useEffect(() => {
-    const cleanup = searchMovies(searchTerm);
-    return cleanup;
-  }, [searchTerm, searchMovies]);
-
-  // Handle search result selection
-  const handleSelectMovie = (movie: SearchMovie) => {
-    setDocumentId(movie.id);
-    loadDocument();
+  const setSearchFind = (st: string, id: string = "") => {
+    setQuery(st);
+    setMovieId(id);
+    setShowResults(true);
   };
 
-  // Load document directly from Firestore
   const loadDocument = async () => {
-    if (!documentId.trim()) {
-      setMessage({ text: "Please enter a document ID", type: "error" });
+    if (!movieId.trim()) {
+      setMessage({ text: "Veuillez choisir un film", type: "error" });
       return;
     }
-
     setIsLoading(true);
     setMessage({ text: "", type: "" });
-
     try {
       const { db } = getClientFirebase();
-      const docRef = doc(db, collection, documentId);
+      const docRef = doc(db, "movie-info", movieId);
       const docSnap = await getDoc(docRef);
-
       if (docSnap.exists()) {
         const data = docSnap.data() as DocumentData;
         setDocumentData(data);
-
-        // Reset selections and updates
-        setSelectedFields({});
-        setUpdatedValues({});
-
-        setMessage({ text: "Document loaded successfully", type: "success" });
+        setSelectedFields(new Set());
+        const manualValues: Record<string, unknown> = {};
+        for (const key of Object.keys(data)) {
+          if (
+            key.endsWith("_manual") &&
+            data[key] !== "" &&
+            data[key] !== null &&
+            data[key] !== undefined
+          ) {
+            manualValues[key.replace(/_manual$/, "")] = data[key];
+          }
+        }
+        setUpdatedValues(manualValues);
+        setMessage({ text: "Document chargé avec succès", type: "success" });
       } else {
-        setMessage({ text: "Document not found", type: "error" });
+        setMessage({ text: "Document introuvable", type: "error" });
       }
     } catch (error) {
       console.error("Error loading document:", error);
@@ -137,27 +106,25 @@ export default function DocumentUpdatePage() {
     }
   };
 
-  // Toggle field selection
   const toggleField = (field: string) => {
     setSelectedFields((prev) => {
-      const newState = { ...prev };
-      newState[field] = !prev[field];
-
-      // If unchecking, remove from updatedValues
-      if (!newState[field] && field in updatedValues) {
-        const newValues = { ...updatedValues };
-        delete newValues[field];
-        setUpdatedValues(newValues);
+      const next = new Set(prev);
+      if (next.has(field)) {
+        next.delete(field);
+        setUpdatedValues((v) => {
+          const { [field]: _, ...rest } = v;
+          return rest;
+        });
+      } else {
+        next.add(field);
       }
-
-      return newState;
+      return next;
     });
   };
 
-  // Update value for a field
   const updateFieldValue = (field: string, value: unknown) => {
+    setSelectedFields((prev) => new Set(prev).add(field));
     setUpdatedValues((prev) => {
-      // Try to parse numbers if the original field is a number
       if (
         documentData &&
         typeof documentData[field] === "number" &&
@@ -170,42 +137,29 @@ export default function DocumentUpdatePage() {
     });
   };
 
-  // Generate the update payload
   const generateUpdatePayload = () => {
     const updateFields: Record<string, unknown> = {};
-
-    Object.keys(selectedFields).forEach((field) => {
-      if (selectedFields[field] && updatedValues[field] !== undefined) {
-        updateFields[field] = updatedValues[field];
-      }
+    Array.from(selectedFields).forEach((field) => {
+      updateFields[field] = updatedValues[field] ?? "";
     });
-
     return {
-      document_name: documentId,
+      document_name: movieId,
       data_to_upload: updateFields,
       status: "update",
     };
   };
 
-  // Update document
   const updateDocument = async () => {
-    if (
-      !documentId.trim() ||
-      !documentData ||
-      Object.keys(updatedValues).length === 0
-    ) {
-      setMessage({ text: "No changes to update", type: "error" });
+    if (!movieId.trim() || !documentData || selectedFields.size === 0) {
+      setMessage({ text: "Aucune modification à appliquer", type: "error" });
       return;
     }
-
     setIsLoading(true);
     setMessage({ text: "", type: "" });
-
     try {
       const API_ENDPOINT =
         "https://europe-west1-website-cine.cloudfunctions.net/trigger_upload_document_to_db";
       const payload = generateUpdatePayload();
-
       const response = await fetch(API_ENDPOINT, {
         method: "POST",
         headers: {
@@ -214,19 +168,19 @@ export default function DocumentUpdatePage() {
         body: JSON.stringify(payload),
         mode: "cors",
       });
-
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
-      const responseData = await response.json();
       setMessage({
-        text: responseData.message || "Document updated successfully",
+        text: "Film mis à jour avec succès",
         type: "success",
       });
-
-      // Reload the document to show updated values
-      await loadDocument();
+      setQuery("");
+      setMovieId("");
+      setShowResults(false);
+      setDocumentData(null);
+      setSelectedFields(new Set());
+      setUpdatedValues({});
     } catch (error) {
       console.error("Error updating document:", error);
       setMessage({
@@ -238,204 +192,106 @@ export default function DocumentUpdatePage() {
     }
   };
 
-  // Format value for display
   const formatValue = (value: unknown): string => {
     if (value === null || value === undefined) return "null";
     if (typeof value === "object") return JSON.stringify(value);
     return String(value);
   };
 
-  // Get sorted field names
   const getSortedFieldNames = () => {
     if (!documentData) return [];
-    return Object.keys(documentData).sort((a, b) => a.localeCompare(b));
+    return Object.keys(documentData)
+      .filter((k) => !k.endsWith("_manual"))
+      .sort((a, b) => a.localeCompare(b));
   };
 
   return (
-    <>
-      <PageHeader text="FILM UPDATE">
-        <SousTitre1>Mise à jour des infos d&apos;un film</SousTitre1>
-      </PageHeader>
-
-      {/* Mode Selection */}
-      <div className="mb-6 flex space-x-2">
-        <button
-          onClick={() => setMode("direct")}
-          className={`px-3 py-1.5 text-sm ${
-            mode === "direct" ? "bg-retro-gray text-white" : "bg-gray-200"
+    <div className="flex flex-col gap-y-20px">
+      <div className="flex flex-col gap-y-10px">
+        <div className="flex grow flex-col">
+          <RetroInput
+            value={query}
+            setValue={(st) => setSearchFind(st)}
+            placeholder="Recherchez un film"
+            leftAlignPlaceholder
+          />
+          {showResults && (
+            <SearchResults
+              className="border-x px-5px py-2px"
+              nbResults={5}
+              query={query}
+              onClick={(m) => {
+                setSearchFind(
+                  (m as SearchMovie).title +
+                    ", " +
+                    (m as SearchMovie).directors +
+                    " (" +
+                    (m as SearchMovie).year +
+                    ")",
+                  (m as SearchMovie).id,
+                );
+                setShowResults(false);
+              }}
+            />
+          )}
+        </div>
+        <TextBox
+          onClick={!isLoading ? loadDocument : undefined}
+          className={`bg-retro-gray text-white ${
+            isLoading ? "opacity-50" : ""
           }`}
         >
-          Direct ID Lookup
-        </button>
-        <button
-          onClick={() => setMode("search")}
-          className={`px-3 py-1.5 text-sm ${
-            mode === "search" ? "bg-retro-gray text-white" : "bg-gray-200"
-          }`}
-        >
-          Search Movie
-        </button>
+          {isLoading ? "En attente..." : "Modifier les informations de ce film"}
+        </TextBox>
+        {message.text && (
+          <div
+            className={`my-4 p-4 ${
+              message.type === "success"
+                ? "bg-green-100 text-green-800"
+                : "bg-red-100 text-red-800"
+            }`}
+          >
+            {message.text}
+          </div>
+        )}
       </div>
 
-      {/* Direct ID Mode */}
-      {mode === "direct" && (
-        <div className="mb-6">
-          <div className="mb-4 grid grid-cols-1 gap-4 md:grid-cols-3">
-            <div className="md:col-span-2">
-              <label className="mb-2 block text-15px font-medium uppercase">
-                Document ID
-              </label>
-              <RetroInput
-                value={documentId}
-                setValue={setDocumentId}
-                placeholder="Enter document ID (e.g., sauve-peut-vie-1979)"
-                className="h-40px"
-              />
-            </div>
-
-            <div>
-              <label className="mb-2 block text-15px font-medium uppercase">
-                Collection
-              </label>
-              <RetroInput
-                value={collection}
-                setValue={setCollection}
-                placeholder="Collection name"
-                className="h-40px"
-              />
-            </div>
-          </div>
-
-          <button
-            onClick={loadDocument}
-            className="bg-retro-gray px-5 py-2 text-15px font-medium uppercase text-white"
-          >
-            Load Document
-          </button>
-        </div>
-      )}
-
-      {/* Search Mode */}
-      {mode === "search" && (
-        <div className="mb-6">
-          <div className="mb-4">
-            <RetroInput
-              customTypography
-              value={searchTerm}
-              setValue={setSearchTerm}
-              placeholder="Recherchez un film"
-              leftAlignPlaceholder
-              transparentPlaceholder
-              grayText
-              className="h-50px text-21px font-medium uppercase lg:h-57px lg:text-29px lg:tracking-[-0.01em]"
-            />
-          </div>
-
-          {/* Search Results */}
-          {isSearching ? (
-            <div className="flex justify-center py-6">
-              <Loading />
-            </div>
-          ) : (
-            searchTerm.length > 0 && (
-              <div className="border-t">
-                {searchResults.length > 0 ? (
-                  searchResults.map((movie, i) => (
-                    <div
-                      key={movie.id}
-                      onClick={() => handleSelectMovie(movie)}
-                      className={`cursor-pointer border-b py-10px pl-5px text-15px font-medium uppercase leading-20px lg:py-18px lg:pl-10px lg:text-18px lg:leading-21px lg:tracking-[0.01em] ${
-                        i % 2 === 1 ? "bg-retro-pale-green" : ""
-                      }`}
-                    >
-                      <u>{movie.title}</u>, {movie.directors} ({movie.year})
-                    </div>
-                  ))
-                ) : (
-                  <div className="pt-11px lg:pt-13px">
-                    <MetaCopy>
-                      Désolé, nous n&apos;avons rien trouvé qui corresponde à
-                      votre recherche !
-                    </MetaCopy>
-                  </div>
-                )}
-              </div>
-            )
-          )}
-
-          {/* Collection Selection */}
-          {documentId && (
-            <div className="mt-4">
-              <label className="mb-2 block text-15px font-medium uppercase">
-                Collection
-              </label>
-              <div className="flex gap-2">
-                <RetroInput
-                  value={collection}
-                  setValue={setCollection}
-                  placeholder="Collection name"
-                  className="h-40px"
-                />
-                <button
-                  onClick={loadDocument}
-                  className="bg-retro-gray px-5 py-2 text-15px font-medium uppercase text-white"
-                >
-                  Load
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Loading State */}
       {isLoading && (
-        <div className="flex justify-center py-6">
+        <div className="flex justify-center">
           <Loading />
         </div>
       )}
 
-      {/* Message Display */}
-      {message.text && (
-        <div
-          className={`my-4 p-4 ${
-            message.type === "success"
-              ? "bg-green-100 text-green-800"
-              : "bg-red-100 text-red-800"
-          }`}
-        >
-          {message.text}
-        </div>
-      )}
-
-      {/* Document Content */}
       {documentData && !isLoading && (
-        <div className="mt-6 border-t pt-6">
-          <SousTitre1>Document Fields ({documentId})</SousTitre1>
-
-          <div className="mt-4 rounded-md border">
+        <div className="flex flex-col gap-y-20px">
+          <div className="flex flex-col">
+            <div className="border-y py-6px text-13px uppercase text-retro-gray">
+              <div className="flex flex-nowrap items-center gap-x-5px">
+                <div className="w-[16px] shrink-0" />
+                <div className="w-[120px] shrink-0">Champ</div>
+                <div className="flex grow basis-0">Donnée brute</div>
+                <div className="flex grow basis-0">Correction manuelle</div>
+              </div>
+            </div>
             {getSortedFieldNames().map((field) => (
-              <div
-                key={field}
-                className="flex flex-col items-start gap-2 border-b p-3 md:flex-row"
-              >
-                <div className="min-w-48 flex items-center md:w-1/3">
+              <div key={field} className="border-b py-6px">
+                <div className="flex flex-nowrap items-start gap-x-5px">
                   <input
                     type="checkbox"
-                    checked={selectedFields[field] || false}
+                    checked={selectedFields.has(field)}
                     onChange={() => toggleField(field)}
-                    className="mr-3 h-4 w-4"
+                    className="mt-[3px] h-[14px] w-[16px] shrink-0"
                   />
-                  <div>
-                    <div className="font-medium">{field}</div>
-                    <div className="max-w-64 truncate text-sm text-gray-600">
-                      {formatValue(documentData[field])}
-                    </div>
+                  <div className="w-[120px] shrink-0 text-13px font-medium">
+                    {field}
                   </div>
-                </div>
-
-                {selectedFields[field] && (
-                  <div className="flex-1">
+                  <div className="flex grow basis-0 break-all text-13px">
+                    <FormatNotes
+                      notes={formatValue(documentData[field])}
+                      maxLength={80}
+                    />
+                  </div>
+                  <div className="flex grow basis-0">
                     {typeof documentData[field] === "object" ? (
                       <textarea
                         value={
@@ -443,65 +299,59 @@ export default function DocumentUpdatePage() {
                             ? typeof updatedValues[field] === "object"
                               ? JSON.stringify(updatedValues[field], null, 2)
                               : String(updatedValues[field])
-                            : JSON.stringify(documentData[field], null, 2)
+                            : ""
                         }
                         onChange={(e) => {
                           try {
-                            // Try to parse as JSON if it's an object
                             const parsed = JSON.parse(e.target.value);
                             updateFieldValue(field, parsed);
                           } catch {
-                            // If not valid JSON, store as string
                             updateFieldValue(field, e.target.value);
                           }
                         }}
-                        className="min-h-20 w-full border p-2"
+                        className="min-h-20 w-full border text-13px"
                       />
                     ) : (
-                      <RetroInput
+                      <input
+                        type="text"
                         value={
                           updatedValues[field] !== undefined
                             ? String(updatedValues[field])
-                            : formatValue(documentData[field])
+                            : ""
                         }
-                        setValue={(value) => updateFieldValue(field, value)}
-                        placeholder={`Enter new value`}
-                        className="h-40px"
-                        leftAlignPlaceholder={true}
-                        lowercase={true}
+                        onChange={(e) =>
+                          updateFieldValue(field, e.target.value)
+                        }
+                        className="flex w-full grow border text-13px"
                       />
                     )}
                   </div>
-                )}
+                </div>
               </div>
             ))}
           </div>
-
-          {/* Update Preview */}
-          {Object.keys(updatedValues).length > 0 && (
-            <div className="mt-6">
-              <SousTitre1>Update Preview</SousTitre1>
-              <div className="mt-4 rounded-md bg-gray-100 p-4">
-                <pre className="overflow-x-auto font-mono text-xs">
-                  {JSON.stringify(generateUpdatePayload(), null, 2)}
-                </pre>
+          {selectedFields.size > 0 && (
+            <div>
+              <div className="border-y py-6px text-13px uppercase text-retro-gray">
+                Aperçu des modifications
               </div>
+              <pre className="overflow-x-auto border-b bg-retro-pale-green p-4 font-mono text-xs">
+                {JSON.stringify(generateUpdatePayload(), null, 2)}
+              </pre>
             </div>
           )}
-
-          {/* Update Button */}
-          {Object.keys(updatedValues).length > 0 && (
-            <div className="mt-6">
-              <button
-                onClick={updateDocument}
-                className="bg-retro-gray px-5 py-2 text-15px font-medium uppercase text-white"
-              >
-                Update Document
-              </button>
-            </div>
+          {selectedFields.size > 0 && (
+            <TextBox
+              onClick={!isLoading ? updateDocument : undefined}
+              className={`bg-retro-gray text-white ${
+                isLoading ? "opacity-50" : ""
+              }`}
+            >
+              {isLoading ? "En attente..." : "Appliquer les modifications"}
+            </TextBox>
           )}
         </div>
       )}
-    </>
+    </div>
   );
 }
