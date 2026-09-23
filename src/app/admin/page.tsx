@@ -58,7 +58,7 @@ export default function Admin() {
       </SousTitre1>
       <SousTitre1>
         <Link className="underline" href="/admin/film-update">
-          Updater les infos d`&apos;un film
+          Modifier un film
         </Link>
       </SousTitre1>
     </div>
