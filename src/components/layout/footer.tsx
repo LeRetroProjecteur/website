@@ -25,9 +25,9 @@ export default function Footer() {
         </div>
         <div className="hidden text-center lg:block lg:text-left">
           <FooterCopy>
-            <a href="./portail-seances" className="underline">
+            <Link href="/portail-seances" className="underline">
               Utilisez notre portail
-            </a>{" "}
+            </Link>{" "}
             pour rajouter des séances à notre calendrier
           </FooterCopy>
         </div>
