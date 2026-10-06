@@ -135,11 +135,6 @@ function ScreeningRow({
       const response = await fetch(`/api/movies/by-id/${movieId}`);
       const movie = await response.json();
       const outScreenings = Object.entries(filterDates(movie.screenings) || {})
-        .sort(([dateA], [dateB]) => {
-          if (dateA < dateB) return -1;
-          if (dateA > dateB) return 1;
-          return 0;
-        })
         .flatMap(([date, theaters]) =>
           theaters
             .filter((theater) => theater.name === selectedTheater)
@@ -149,7 +144,8 @@ function ScreeningRow({
                 date,
               })),
             ),
-        );
+        )
+        .sort((a, b) => a.date.localeCompare(b.date) || a.time - b.time);
       setScreenings(outScreenings);
     };
     fetchScreenings();
