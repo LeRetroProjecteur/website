@@ -9,6 +9,7 @@ import coupDeCoeur from "@/assets/coup-de-coeur.png";
 import { TwoColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
+import MovieAlertDialog from "@/components/movie-alert/movie-alert-dialog";
 import MultiDaySeances from "@/components/seances/multiday-seances";
 import {
   BodyCopy,
@@ -297,8 +298,9 @@ function MovieScreenings({ movie }: { movie: MovieDetail }) {
             groupClassName="border-b py-12px lg:py-16px lg:hover:bg-retro-pale-green"
           />
         ) : (
-          <div className="border-b py-12px text-center lg:grow lg:py-16px">
+          <div className="flex flex-col items-center gap-y-12px border-b py-12px text-center lg:grow lg:py-16px">
             <BodyCopy>Pas de séances prévues pour le moment</BodyCopy>
+            <MovieAlertDialog movie={movie} />
           </div>
         )}
       </div>
