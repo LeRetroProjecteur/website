@@ -76,7 +76,7 @@ function Row({
   return (
     <div className="flex flex-nowrap gap-x-5px">
       <div className="flex grow basis-0">{cell1}</div>
-      <div className="w-160px shrink-0">{cell2}</div>
+      <div className="w-150px shrink-0">{cell2}</div>
       <div className="w-100px shrink-0">{cell3}</div>
     </div>
   );
@@ -200,9 +200,8 @@ function ScreeningRow({
         }
         cell2={
           <input
-            id="date"
             type="date"
-            className="w-full border [&::-webkit-calendar-picker-indicator]:ml-[-20px]"
+            className="w-full border px-6px [&::-webkit-calendar-picker-indicator]:ml-[-20px]"
             value={date}
             onChange={(e) => {
               setDate(e.target.value);
@@ -212,9 +211,8 @@ function ScreeningRow({
         }
         cell3={
           <input
-            id="time"
             type="time"
-            className="w-full border [&::-webkit-calendar-picker-indicator]:ml-0"
+            className="w-full border px-6px [&::-webkit-calendar-picker-indicator]:ml-0"
             value={time}
             onChange={(e) => {
               setTime(e.target.value);
@@ -230,10 +228,9 @@ function ScreeningRow({
               key={idx}
               className="cursor-pointer"
               onClick={() => {
-                const newTime = floatHourToString(screening.time).replaceAll(
-                  "h",
-                  ":",
-                );
+                const newTime = floatHourToString(screening.time)
+                  .replaceAll("h", ":")
+                  .padStart(5, "0");
                 const newDate = screening.date.replaceAll("_", "-");
                 const newNotes = screening.notes || "";
                 setTime(newTime);
@@ -251,7 +248,6 @@ function ScreeningRow({
         </div>
       )}
       <input
-        id="notes"
         type="text"
         className="flex grow flex-col border"
         value={notes}
@@ -285,19 +281,17 @@ function SharePage() {
 }
 
 export default function SubmitScreenings() {
-  const numSubmissions = 5;
+  const emptyRow = {
+    movie: "",
+    movie_id: "",
+    date: "",
+    time: "",
+    notes: "",
+  };
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showSharePage, setShowSharePage] = useState(false);
   const [responseMessage, setResponseMessage] = useState("");
-  const [rowsData, setRowsData] = useState(
-    Array(numSubmissions).fill({
-      movie: "",
-      movie_id: "",
-      date: "",
-      time: "",
-      notes: "",
-    }),
-  );
+  const [rowsData, setRowsData] = useState(Array(5).fill(emptyRow));
   const [theaterData, setTheaterData] = useState({ name: "", theater_id: "" });
   const [organization, setOrganization] = useState("");
 
@@ -465,6 +459,20 @@ export default function SubmitScreenings() {
                       onUpdate={(data) => updateRowData(index, data)}
                     />
                   ))}
+                  <div>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setRowsData((prev) => [
+                          ...prev,
+                          ...Array(5).fill(emptyRow),
+                        ])
+                      }
+                      className="uppercase text-retro-gray underline"
+                    >
+                      + Plus de séances
+                    </button>
+                  </div>
                 </div>
                 <br />
                 <TextBox
