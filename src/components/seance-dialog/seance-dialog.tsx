@@ -48,6 +48,12 @@ export async function hashSeance(seance: DialogSeance) {
   );
 }
 
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
 type DialogState = "initial" | "add-to-calendar" | "share";
 
 type DialogStore = {
@@ -218,6 +224,7 @@ function AddToCalendar({
         <TextBox
           key={type}
           onClick={() => {
+            window.gtag?.("event", "add_to_calendar", { method: type });
             if (type === "ical") {
               const a = document.createElement("a");
               a.href = link;
