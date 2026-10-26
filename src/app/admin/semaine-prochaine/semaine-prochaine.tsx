@@ -2,14 +2,12 @@
 
 import { flatten, groupBy, sortBy, uniq } from "lodash-es";
 import { use, useMemo } from "react";
+import { renderToStaticMarkup } from "react-dom/server";
 
 import CalendarFilters from "@/app/(calendrier)/calendar-filters";
 import MovieTable from "@/app/(calendrier)/movie-table";
 import { TextBox } from "@/components/layout/text-boxes";
-import {
-  transformZipcode,
-  transformZipcodeToString,
-} from "@/components/theaters/theaters";
+import { transformZipcode } from "@/components/theaters/theaters";
 import { SousTitre2 } from "@/components/typography/typography";
 import { MovieWithScreeningsSeveralDays } from "@/lib/types";
 import { floatHourToString, safeDate } from "@/lib/utils";
@@ -160,7 +158,9 @@ export function Evenements({
                 s.day,
               )}, ${floatHourToString(s.time)} ${
                 s.cinema
-              } (${transformZipcodeToString(s.zipcode)}) — ${s.notes}`,
+              } (${renderToStaticMarkup(transformZipcode(s.zipcode))}) — ${
+                s.notes
+              }`,
           )
           .join("<br/>");
         return `<p style="text-align: center;">${screeningLines}</p>`;
@@ -187,7 +187,9 @@ export function Evenements({
         .map(
           (cinema, i) =>
             `${i === 0 ? "" : i === retro.cinemas.length - 1 ? " et " : ", "}` +
-            `${cinema.name} (${transformZipcodeToString(cinema.zipcode)})`,
+            `${cinema.name} (${renderToStaticMarkup(
+              transformZipcode(cinema.zipcode),
+            )})`,
         )
         .join("");
       const template = `
