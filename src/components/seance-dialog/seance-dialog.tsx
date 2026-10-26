@@ -1,14 +1,7 @@
 "use client";
 
 import bs58 from "bs58";
-import {
-  CalendarEvent,
-  google,
-  ics,
-  office365,
-  outlook,
-  yahoo,
-} from "calendar-link";
+import { CalendarEvent, google, ics, office365, outlook } from "calendar-link";
 import { capitalize } from "lodash-es";
 import { Check, Copy } from "lucide-react";
 import { DateTime } from "luxon";
@@ -29,6 +22,7 @@ export type DialogMovie = {
   id: string;
   directors: string;
   year: string;
+  duration?: string;
 };
 
 export type DialogSeance = {
@@ -53,6 +47,14 @@ export async function hashSeance(seance: DialogSeance) {
     ),
   );
 }
+
+declare global {
+  interface Window {
+    gtag?: (...args: unknown[]) => void;
+  }
+}
+
+type DialogState = "initial" | "add-to-calendar" | "share";
 
 type DialogStore = {
   seance?: DialogSeance;
@@ -116,9 +118,7 @@ export function SeanceDialog() {
 }
 
 function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
-  const [state, setState] = useState<"initial" | "add-to-calendar" | "share">(
-    "initial",
-  );
+  const [state, setState] = useState<DialogState>("initial");
 
   const {
     movie: { title, year, directors },
@@ -135,21 +135,21 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
         className="flex flex-col gap-y-20px border-b pb-17px text-center"
       >
         <div>
-          <span className="whitespace-nowrap">
+          <span className="break-words">
             <i>
               <u>{title.toUpperCase()}</u>
             </i>
             ,
           </span>{" "}
-          <span className="whitespace-nowrap">
-            {directors} ({year})
+          <span className="break-words">
+            {directors}&nbsp;({year})
           </span>
         </div>
         <div>
           {capitalize(formatLundi1Janvier(movieDate))} à{" "}
           {movieDate.toFormat("HH'h'mm")}
           <br />
-          {movieTheater} {movieTheaterArdmt ? `(${movieTheaterArdmt})` : ""}
+          {movieTheater} ({movieTheaterArdmt})
         </div>
         {movieNote ? <div>{movieNote}</div> : null}
       </MetaCopy>
@@ -170,43 +170,45 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
 function SeanceInitialDialog({
   setState,
 }: {
-  setState: (state: "initial" | "add-to-calendar" | "share") => void;
+  setState: (state: DialogState) => void;
 }) {
   return (
-    <>
-      <div className="flex flex-col gap-y-12px">
-        <TextBox
-          onClick={() => setState("share")}
-          className="bg-retro-gray text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
-        >
-          Partager la séance
-        </TextBox>
-        <TextBox
-          onClick={() => setState("add-to-calendar")}
-          className="bg-retro-gray text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
-        >
-          Rajouter au calendrier
-        </TextBox>
-      </div>
-    </>
+    <div className="flex flex-col gap-y-12px">
+      <TextBox
+        onClick={() => setState("share")}
+        className="bg-retro-gray text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
+      >
+        Partager la séance
+      </TextBox>
+      <TextBox
+        onClick={() => setState("add-to-calendar")}
+        className="bg-retro-gray text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
+      >
+        Rajouter au calendrier
+      </TextBox>
+    </div>
   );
 }
 
 function AddToCalendar({
   seance: {
-    movie: { title },
+    movie: { id, title, directors, year, duration },
     movieDate,
     movieTheater,
   },
 }: {
   seance: DialogSeance;
 }) {
+  const durationSeconds = parseInt(duration ?? "");
+  const eventMinutes = isNaN(durationSeconds)
+    ? 120
+    : Math.round(durationSeconds / 60) + 15;
   const calendarEvent: CalendarEvent = {
-    title,
+    title: `${title}, ${directors} (${year})`,
     start: movieDate.toISO(),
-    end: movieDate.plus({ hours: 2 }).toISO(),
-    duration: [2, "hours"],
+    end: movieDate.plus({ minutes: eventMinutes }).toISO(),
     location: movieTheater,
+    description: `https://leretroprojecteur.com/film/${id}`,
   };
 
   const links = {
@@ -214,32 +216,30 @@ function AddToCalendar({
     ical: ics(calendarEvent),
     office365: office365(calendarEvent),
     outlook: outlook(calendarEvent),
-    yahoo: yahoo(calendarEvent),
   };
 
   return (
-    <>
-      <div className="grid grid-cols-2 grid-cols-[1fr,1fr] gap-12px">
-        {Object.entries(links).map(([type, link]) => (
-          <TextBox
-            key={type}
-            onClick={() => {
-              if (type === "ical") {
-                const a = document.createElement("a");
-                a.href = link;
-                a.download = `${title} (${movieTheater}).ics`;
-                a.click();
-              } else {
-                window.open(link, "_blank");
-              }
-            }}
-            className="bg-retro-gray text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
-          >
-            {type}
-          </TextBox>
-        ))}
-      </div>
-    </>
+    <div className="grid grid-cols-2 gap-12px">
+      {Object.entries(links).map(([type, link]) => (
+        <TextBox
+          key={type}
+          onClick={() => {
+            window.gtag?.("event", "add_to_calendar", { method: type });
+            if (type === "ical") {
+              const a = document.createElement("a");
+              a.href = link;
+              a.download = `${title} (${movieTheater}).ics`;
+              a.click();
+            } else {
+              window.open(link, "_blank");
+            }
+          }}
+          className="bg-retro-gray text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
+        >
+          {type}
+        </TextBox>
+      ))}
+    </div>
   );
 }
 
@@ -251,37 +251,30 @@ function ShareSeance({
   seance: DialogSeance;
 }) {
   const [showCopied, startShowingCopied] = useTransition();
-  const shareUrl = () => {
-    const baseUrl = window.location.origin;
-    const hashPart = window.location.hash;
-    return `${baseUrl}/film/${id}${hashPart}`;
-  };
-  const url = shareUrl();
+  const url = `https://leretroprojecteur.com/film/${id}${window.location.hash}`;
 
   return (
-    <>
-      <div className="flex gap-8px">
-        <RetroInput
-          lowercase
-          blue
-          setValue={() => {}}
-          placeholder=""
-          value={url}
-        />
-        <div className="justify-end">
-          <TextBox
-            onClick={() => {
-              navigator.clipboard.writeText(url);
-              startShowingCopied(async () => {
-                await new Promise((resolve) => setTimeout(resolve, 1000));
-              });
-            }}
-            className="bg-retro-gray text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
-          >
-            <div>{showCopied ? <Check /> : <Copy />}</div>
-          </TextBox>
-        </div>
+    <div className="flex gap-8px">
+      <RetroInput
+        lowercase
+        blue
+        setValue={() => {}}
+        placeholder=""
+        value={url}
+      />
+      <div>
+        <TextBox
+          onClick={() => {
+            navigator.clipboard.writeText(url);
+            startShowingCopied(async () => {
+              await new Promise((resolve) => setTimeout(resolve, 1000));
+            });
+          }}
+          className="bg-retro-gray text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
+        >
+          <div>{showCopied ? <Check /> : <Copy />}</div>
+        </TextBox>
       </div>
-    </>
+    </div>
   );
 }
