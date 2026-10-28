@@ -58,23 +58,3 @@ export function transformZipcode(inZip: string) {
     return <span>{inZip}</span>;
   }
 }
-
-export function transformZipcodeToString(inZip: string): string {
-  // Check for Paris arrondissements
-  if (inZip.startsWith("75")) {
-    const arrNum = inZip.substring(3, 5);
-    if (arrNum === "01") {
-      return "1<sup>er</sup>";
-    } else if (arrNum.startsWith("0")) {
-      return `${arrNum.substring(1)}e`;
-    }
-    return `${arrNum}e`;
-  }
-
-  // Check for Marseille
-  if (marseille_zip_to_city[inZip]) {
-    return marseille_zip_to_city[inZip];
-  }
-
-  return inZip;
-}

@@ -14,6 +14,7 @@ import { checkNotNull, formatLundi1Janvier } from "@/lib/utils";
 
 import RetroInput from "../forms/retro-input";
 import { TextBox } from "../layout/text-boxes";
+import { transformZipcode } from "../theaters/theaters";
 import { MetaCopy } from "../typography/typography";
 import { Dialog, DialogContent, DialogHeader } from "../ui/dialog";
 
@@ -29,7 +30,7 @@ export type DialogSeance = {
   movie: DialogMovie;
   movieDate: DateTime;
   movieTheater: string;
-  movieTheaterArdmt: string;
+  movieTheaterZipcode: string;
   movieNote: string;
 };
 
@@ -118,7 +119,7 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
     movie: { title, year, directors },
     movieDate,
     movieTheater,
-    movieTheaterArdmt,
+    movieTheaterZipcode,
     movieNote,
   } = seance;
   return (
@@ -143,7 +144,7 @@ function SeanceDialogBody({ seance }: { seance: DialogSeance }) {
           {capitalize(formatLundi1Janvier(movieDate))} à{" "}
           {movieDate.toFormat("HH'h'mm")}
           <br />
-          {movieTheater} ({movieTheaterArdmt})
+          {movieTheater} ({transformZipcode(movieTheaterZipcode)})
         </div>
         {movieNote ? <div>{movieNote}</div> : null}
       </MetaCopy>

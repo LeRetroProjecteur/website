@@ -5,10 +5,7 @@ import { min, sortBy, take } from "lodash-es";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import React from "react";
 
-import {
-  transformZipcode,
-  transformZipcodeToString,
-} from "@/components/theaters/theaters";
+import { transformZipcode } from "@/components/theaters/theaters";
 import { TheaterScreenings } from "@/lib/types";
 import { useHash } from "@/lib/useHash";
 import { floatHourToString, safeDate } from "@/lib/utils";
@@ -139,14 +136,14 @@ function toSeance({
   movie,
   time,
   theaterName,
-  theaterArdmt,
+  theaterZipcode,
   notes,
 }: {
   day: string;
   movie: DialogMovie;
   time: number;
   theaterName: string;
-  theaterArdmt: string;
+  theaterZipcode: string;
   notes?: string;
 }) {
   const date = safeDate(day).set({
@@ -156,7 +153,7 @@ function toSeance({
   return {
     movieDate: date,
     movieTheater: theaterName,
-    movieTheaterArdmt: theaterArdmt,
+    movieTheaterZipcode: theaterZipcode,
     movie,
     movieNote: notes || "",
   };
@@ -185,7 +182,7 @@ function SeancesTheater({
           day,
           time,
           theaterName: showtimesTheater.name,
-          theaterArdmt: transformZipcodeToString(showtimesTheater.zipcode),
+          theaterZipcode: showtimesTheater.zipcode,
         }),
       );
     },
@@ -203,7 +200,7 @@ function SeancesTheater({
         movie,
         time,
         theaterName: showtimesTheater.name,
-        theaterArdmt: transformZipcodeToString(showtimesTheater.zipcode),
+        theaterZipcode: showtimesTheater.zipcode,
         notes,
       });
       if ((await hashSeance(seance)) === hash) {
