@@ -15,7 +15,7 @@ export interface MovieDetail extends MovieInfo {
   actors?: string;
   language?: string;
   distributor?: string;
-  duration: string;
+  duration?: number;
   genre?: string;
   screenings: { [date: string]: TheaterScreenings[] };
   screenwriters: string;

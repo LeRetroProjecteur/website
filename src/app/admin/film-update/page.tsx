@@ -14,6 +14,7 @@ import { TextBox } from "@/components/layout/text-boxes";
 import { FormatNotes } from "@/components/seances/seances";
 import { SousTitre1 } from "@/components/typography/typography";
 import { SearchMovie } from "@/lib/types";
+import { getNonNumericFieldError } from "@/lib/utils";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -152,6 +153,17 @@ function DocumentUpdate() {
   const updateDocument = async () => {
     if (!movieId.trim() || !documentData || selectedFields.size === 0) {
       setMessage({ text: "Aucune modification à appliquer", type: "error" });
+      return;
+    }
+    const numericFieldError = getNonNumericFieldError(
+      Object.fromEntries(
+        Array.from(selectedFields)
+          .filter((field) => typeof documentData[field] === "number")
+          .map((field) => [field, updatedValues[field]]),
+      ),
+    );
+    if (numericFieldError) {
+      setMessage({ text: numericFieldError, type: "error" });
       return;
     }
     setIsLoading(true);
