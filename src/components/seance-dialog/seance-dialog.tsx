@@ -22,7 +22,7 @@ export type DialogMovie = {
   id: string;
   directors: string;
   year: string;
-  duration?: string;
+  duration?: number;
 };
 
 export type DialogSeance = {
@@ -193,10 +193,7 @@ function AddToCalendar({
 }: {
   seance: DialogSeance;
 }) {
-  const durationSeconds = parseInt(duration ?? "");
-  const eventMinutes = isNaN(durationSeconds)
-    ? 120
-    : Math.round(durationSeconds / 60) + 15;
+  const eventMinutes = duration == null ? 120 : Math.round(duration / 60) + 15;
   const calendarEvent: CalendarEvent = {
     title: `${title}, ${directors} (${year})`,
     start: movieDate.toISO(),

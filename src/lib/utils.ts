@@ -283,3 +283,8 @@ export function staleWhileRevalidate<T>(
     }
   };
 }
+
+export function getNonNumericFieldError(values: Record<string, unknown>) {
+  const field = Object.keys(values).find((key) => isNaN(Number(values[key])));
+  return field && `Le champ « ${field} » doit être un nombre`;
+}

@@ -9,6 +9,7 @@ import { ThreeColumnPage } from "@/components/layout/page";
 import PageHeader from "@/components/layout/page-header";
 import { TextBox } from "@/components/layout/text-boxes";
 import { SousTitre1 } from "@/components/typography/typography";
+import { getNonNumericFieldError } from "@/lib/utils";
 
 function renderInput(
   label: string,
@@ -76,6 +77,15 @@ function AddMovie() {
       return;
     }
 
+    const numericFieldError = getNonNumericFieldError({
+      year: formData.year,
+      duration: formData.duration,
+    });
+    if (numericFieldError) {
+      setMessage({ text: numericFieldError, type: "error" });
+      return;
+    }
+
     setIsLoading(true);
     setMessage({ text: "", type: "" });
 
@@ -83,10 +93,10 @@ function AddMovie() {
       const payload = {
         title: formData.title,
         directors: formData.director,
-        year: parseInt(formData.year, 10) || formData.year,
+        year: formData.year ? Number(formData.year) : undefined,
         duration: formData.duration
-          ? parseInt(formData.duration, 10) * 60 || formData.duration
-          : "",
+          ? Number(formData.duration) * 60
+          : undefined,
         allocine_id: formData.allocine_id,
         status: "add",
       };
