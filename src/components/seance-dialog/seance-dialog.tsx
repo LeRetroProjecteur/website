@@ -1,7 +1,7 @@
 "use client";
 
 import bs58 from "bs58";
-import { CalendarEvent, google, office365, outlook } from "calendar-link";
+import { google, office365, outlook } from "calendar-link";
 import { capitalize } from "lodash-es";
 import { Check, Copy } from "lucide-react";
 import { DateTime } from "luxon";
@@ -9,6 +9,7 @@ import { createContext, useContext, useState, useTransition } from "react";
 import { StoreApi, createStore, useStore } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
+import { getSeanceCalendarEvent, getSeanceIcsPath } from "@/lib/calendar";
 import { MANUAL_HASH_CHANGE_EVENT } from "@/lib/useHash";
 import { checkNotNull, formatLundi1Janvier } from "@/lib/utils";
 
@@ -184,33 +185,16 @@ function SeanceInitialDialog({
   );
 }
 
-function AddToCalendar({
-  seance: {
-    movie: { id, title, directors, year, duration },
-    movieDate,
-    movieTheater,
-  },
-}: {
-  seance: DialogSeance;
-}) {
-  const durationSeconds = parseInt(duration ?? "");
-  const eventMinutes = isNaN(durationSeconds)
-    ? 120
-    : Math.round(durationSeconds / 60) + 15;
-  const calendarEvent: CalendarEvent = {
-    title: `${title}, ${directors} (${year})`,
-    start: movieDate.toISO(),
-    end: movieDate.plus({ minutes: eventMinutes }).toISO(),
-    location: movieTheater,
-    description: `https://leretroprojecteur.com/film/${id}`,
-  };
+function AddToCalendar({ seance }: { seance: DialogSeance }) {
+  const calendarEvent = getSeanceCalendarEvent(seance);
 
   const links = {
     google: google(calendarEvent),
-    ical: `/api/ics/${encodeURIComponent(id)}?${new URLSearchParams({
-      start: checkNotNull(movieDate.toISO()),
-      theater: movieTheater,
-    })}`,
+    ical: getSeanceIcsPath({
+      movieId: seance.movie.id,
+      movieDate: seance.movieDate,
+      movieTheater: seance.movieTheater,
+    }),
     office365: office365(calendarEvent),
     outlook: outlook(calendarEvent),
   };
