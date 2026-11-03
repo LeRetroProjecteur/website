@@ -1,7 +1,7 @@
 "use client";
 
 import bs58 from "bs58";
-import { CalendarEvent, google, ics, office365, outlook } from "calendar-link";
+import { CalendarEvent, google, office365, outlook } from "calendar-link";
 import { capitalize } from "lodash-es";
 import { Check, Copy } from "lucide-react";
 import { DateTime } from "luxon";
@@ -207,7 +207,10 @@ function AddToCalendar({
 
   const links = {
     google: google(calendarEvent),
-    ical: ics(calendarEvent),
+    ical: `/api/ics/${encodeURIComponent(id)}?${new URLSearchParams({
+      start: checkNotNull(movieDate.toISO()),
+      theater: movieTheater,
+    })}`,
     office365: office365(calendarEvent),
     outlook: outlook(calendarEvent),
   };
@@ -219,10 +222,7 @@ function AddToCalendar({
           key={type}
           onClick={() => {
             if (type === "ical") {
-              const a = document.createElement("a");
-              a.href = link;
-              a.download = `${title} (${movieTheater}).ics`;
-              a.click();
+              window.location.href = link;
             } else {
               window.open(link, "_blank");
             }
