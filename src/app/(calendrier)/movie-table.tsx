@@ -3,7 +3,6 @@
 import clsx from "clsx";
 import { sortBy } from "lodash-es";
 import { DateTime } from "luxon";
-import Image from "next/image";
 import Link from "next/link";
 import React, { ReactNode, use, useEffect, useMemo } from "react";
 import useSWR from "swr";
@@ -26,13 +25,10 @@ import {
   formatYYYYMMDD,
   getRealMinHour,
   getStartOfTodayInParis,
-  isCoupDeCoeur,
   isMovieFilterMatch,
   isMovieWithShowtimesSeveralDays,
   isMoviesWithShowtimesSeveralDays,
 } from "@/lib/utils";
-
-import coupDeCoeur from "../../assets/coup-de-coeur.png";
 
 export default function MovieTable({
   serverMovies,
@@ -274,11 +270,6 @@ function MovieCell({
   return (
     <Link href={`/film/${movie.id}`} className="block cursor-pointer">
       <div className="flex items-center">
-        {isCoupDeCoeur(movie) && (
-          <div className="shrink-0 pr-10px">
-            <Image className="w-25px" alt="coup de coeur" src={coupDeCoeur} />
-          </div>
-        )}
         <div className="grow py-12px lg:py-17px">
           <CalendrierCopy>
             <i className="font-semibold uppercase group-hover:underline">
