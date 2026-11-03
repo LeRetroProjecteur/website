@@ -151,9 +151,7 @@ function MovieInformation({
             {movie.duration == null ? (
               "Durée inconnue"
             ) : (
-              <div>
-                DURÉE&nbsp;: {Math.floor(parseInt(movie.duration) / 60)} minutes
-              </div>
+              <div>DURÉE&nbsp;: {Math.floor(movie.duration / 60)} minutes</div>
             )}
             {movie.language != null &&
               movie.language != "-" &&
