@@ -229,7 +229,7 @@ function AddToCalendar({
           }}
           className="bg-retro-gray text-retro-blue hover:bg-retro-blue hover:text-retro-gray"
         >
-          {type}
+          {type === "ical" ? "ICS (Apple)" : type}
         </TextBox>
       ))}
     </div>
